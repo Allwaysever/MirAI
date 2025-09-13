@@ -4,6 +4,7 @@
 ### v1.5.1
 - UI Update: The ``input-container`` section has a transparent background.
 - Adding info text: "MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya" (In Indonesian)
+- Changing the color palette
 
 ---
 
