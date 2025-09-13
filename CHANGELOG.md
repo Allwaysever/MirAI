@@ -1,12 +1,19 @@
 # Changelogs
 
 ## What's new?
+### v2.0
+- Secondary Update
+- UI overhaul to modern
+- Added features: Settings/"Pengaturan" in Indonesian
+- Features of settings: change theme (Dark/Light), MirAI Persona can be changed into 3 (Formal & Serious, Relaxed and a bit funny, Imaginative)
+- New look for light theme
+
+---
+
 ### v1.5.1
 - UI Update: The ``input-container`` section has a transparent background.
 - Adding info text: "MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya" (In Indonesian)
 - Changing the color palette
-
----
 
 ## Previous version:
 ### v1.5
