@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirAI</title>
+    <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1B1C1E;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Matikan highlight default */
+        * {
+          -webkit-tap-highlight-color: rgba(0,0,0,0.2);
+        }
+
+        .logo-container {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+            z-index: 999;
+            text-align: center;
+        }
+
+        .logo-container.logo-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .logo-container img {
+            max-width: 450px;
+            height: auto;
+        }
+
+        .logo-version {
+            color: #fff;
+            font-size: 0.5em;
+            font-weight: bold;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            opacity: 0.5;
+        }
+        
+        .logo-text-img {
+            height: auto;
+            width: 35%;
+            vertical-align: middle;
+            opacity: 0.5;
+        }
+
+        /* New Google-like text styling */
+        .google-gemini b {
+            font-family: 'Product Sans', 'Segoe UI', sans-serif;
+            color: white;
+            letter-spacing: none;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        body.chat-active {
+            justify-content: flex-start;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-bottom: 120px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        body.chat-active .chat-container {
+            opacity: 1;
+        }
+
+        #chatMessages {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+      
+        .chat-bubble {
+            max-width: 100%;
+            padding: 8px 20px;
+            border-radius: 25px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .chat-bubble.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .user-bubble {
+            background-color: #ffce00;
+            color: #000;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .ai-bubble {
+            background-color: #0f0f0f;
+            color: #fff;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            position: relative;
+        }
+
+        .ai-bubble h1, .ai-bubble h2, .ai-bubble h3 {
+            border-bottom: 1px solid #ffce00;
+            padding-bottom: 5px;
+            margin-top: 20px;
+        }
+        .ai-bubble ul, .ai-bubble ol {
+            padding-left: 20px;
+        }
+        .ai-bubble li {
+            margin-bottom: 5px;
+        }
+        .ai-bubble p {
+            margin-bottom: 10px;
+        }
+        .ai-bubble strong {
+            color: #ffce00;
+        }
+
+        .copy-btn {
+            position: absolute;
+            bottom: -20px;
+            left: 8px;
+            color: rgba(255, 255, 255, 0.5); 
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            color: #ffce00;
+        }
+
+        .typing-indicator {
+            align-self: flex-start;
+            margin-left: 10px;
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin: 0 2px;
+            background-color: #ffce00;
+            border-radius: 50%;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-5px);
+            }
+        }
+
+        #clearBtnContainer {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 101;
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        body.chat-active #clearBtnContainer {
+            display: block;
+        }
+
+        #clearBtn {
+            background-color: #ffce00;
+            color: #0f0f0f;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: color 5s ease;
+            box-shadow: none;
+        }
+        
+        #clearBtn:hover {
+            color: #0f0f0f;
+        }
+
+        .input-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: none;
+            z-index: 100;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .input-container.centered {
+            position: absolute;
+            bottom: 50%;
+            transform: translateY(50%);
+        }
+
+        .input-container.bottom {
+            position: fixed;
+            bottom: 0;
+        }
+        
+        /* Gaya baru untuk teks di bawah input box */
+        .info-text {
+            font-size: 12px;
+            color: #ffffff99; /* Warna teks putih dengan sedikit transparansi */
+            text-align: center;
+            buttom: 5px;
+            margin-top: 8px; /* Jarak dari bawah diperkecil */
+            display: none; /* Sembunyikan secara default */
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        body.chat-active .info-text {
+            display: block; /* Tampilkan saat chat aktif */
+        }
+
+
+        .input-box {
+            display: flex;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #181A1B;
+            border: 0.9px solid #4B4F50;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-box textarea {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 15px;
+            padding: 0 10px;
+            background-color: transparent;
+            resize: none;
+            overflow: hidden;
+            max-height: 250px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border-radius: 25px;
+        }
+
+        .input-box button {
+            background-color: #ffce00;
+            color: #000;
+            border: none;
+            border-radius: 25px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .input-box button:hover {
+            background-color: #B8860B;
+        }
+
+        #stopBtn {
+            background-color: black;
+            color: white;
+            display: none;
+        }
+        
+        .suggestion-box {
+            background-color: #212121;
+            border: 1px solid #4B4F50;
+            border-radius: 10px;
+            padding: 10px;
+            position: relative;
+            top: -10px;
+            z-index: 10;
+            width: calc(100% - 20px);
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        .suggestion-item {
+            color: #ccc;
+            padding: 8px 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            font-size: 14px;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background-color: #333;
+            color: white;
+        }
+
+        .loading-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #splash-screen {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #0f0f0f;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+          flex-direction: column;
+          color: #fff;
+          text-align: center;
+          transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        }
+
+        #splash-screen.hidden {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .splash-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .splash-logo {
+          max-width: 200px;
+        }
+
+        .splash-title {
+          font-size: 2em;
+          margin: 0;
+          letter-spacing: 2px;
+        }
+
+        .splash-text {
+          font-size: 0.8em;
+          color: #aaa;
+        }
+
+        .splash-text2 {
+          font-size: 0.5em;
+          color: #aaa;
+        }
+        
+        /* Gaya baru untuk loading bar */
+        .loading-bar-container {
+            width: 200px;
+            height: 4px;
+            background-color: #212121;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 100%;
+            background-color: #ffce00;
+            position: absolute;
+            animation: move 1.5s linear infinite;
+        }
+
+        @keyframes move {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        #retry-button {
+          background-color: #ffce00;
+          color: #000;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 25px;
+          cursor: pointer;
+          margin-top: 20px;
+          font-size: 1em;
+          transition: background-color 0.3s ease;
+        }
+            
+        #languageSwitcher {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+            text-align: center;
+        }
+        
+        #languageSwitcher.lang-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .lang-dropdown {
+            background-color: #212121;
+            color: white;
+            border: 1px solid #ffce00;
+            border-radius: 25px;
+            padding: 4px 25px 4px 7.5px;
+            font-size: 0.5em;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 2.5px top 50%;
+            margin-top: 20px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        .lang-dropdown option {
+            background-color: #212121;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div id="splash-screen">
+  <div class="splash-content">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDYNXg_HBPgwViHUXJ_9F9UFT6BH3oFaAnE_JHnFI6dfoDhKziToum5i2W9YkHy4kC1xSdG6AqfYN7qdob7oLfZfg5rx1jLnfKraUBaFXK22O0DaPzk55Wu5y0EO-823b6MD__ulXGruUTZwARBZcrzXUvLfwniuzhWybM4qrstFUpzzOHcL2C83HclBVJ/s16000-rw/20250905_143027.png" alt="MirAI" class="splash-logo">
+    <h1 class="splash-title" id="splashTitle"></h1>
+    <p class="splash-text" id="splashStatus"></p>
+    <div class="loading-bar-container" id="splash-loader">
+        <div class="loading-bar"></div>
+    </div>
+    <button id="retry-button" style="display:none;"></button>
+    <p class="splash-text2" id="splashText2"></p>
+  </div>
+</div>
+
+<div id="clearBtnContainer" style="display: none;">
+    <button id="clearBtn">
+        <i class="fas fa-trash-alt"></i>
+    </button>
+</div>
+
+<div class="logo-container">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDYNXg_HBPgwViHUXJ_9F9UFT6BH3oFaAnE_JHnFI6dfoDhKziToum5i2W9YkHy4kC1xSdG6AqfYN7qdob7oLfZfg5rx1jLnfKraUBaFXK22O0DaPzk55Wu5y0EO-823b6MD__ulXGruUTZwARBZcrzXUvLfwniuzhWybM4qrstFUpzzOHcL2C83HclBVJ/s16000-rw/20250905_143027.png" alt="MirAI">
+    <div>
+        <p class="logo-version">v1.5.1</p>
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWeacIHe4NkMJ37BHFNkrT34hrwc0E1A9SA1LhXmXPkWoAbuR6aXhCYWMKD2-aBD-D_fsr4cGF03_l3AfYp5WA8riGWEUToJFLS3HVwk4W5Zjho7FxT2MtU_DjRAsZMViGQ0384e8AUsmx64L-pRb4DNXrRMIDA78P5H7VfON_67lWDulVq1-12II97EQL/s16000-rw/20250910_155455.png" alt="Google Gemini 2.5 Flash" class="logo-text-img">
+    </div>
+</div>
+
+<div id="languageSwitcher">
+    <select id="langDropdown" class="lang-dropdown">
+        <option value="id">🇮🇩 Bahasa Indonesia</option>
+        <option value="en">🇺🇸 English (US)</option>
+        <option value="en-uk">🇬🇧 English (UK)</option>
+        <option value="jp">🇯🇵 日本語</option>
+        <option value="zh">🇨🇳 中文 (简体)</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="pt">🇧🇷 Português</option>
+        <option value="ar">🇸🇦 العربية</option>
+    </select>
+</div>
+
+<div class="chat-container">
+    <div id="chatMessages"></div>
+</div>
+
+<div id="inputContainer" class="input-container centered">
+    <div class="input-box">
+        <textarea id="questionInput" rows="1"></textarea>
+        <button id="sendBtn">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+        <button id="stopBtn" style="display: none;">
+            <i class="fas fa-stop"></i>
+        </button>
+    </div>
+    <div id="suggestionBox" class="suggestion-box" style="display:none;"></div>
+    <p id="infoText" class="info-text"></p>
+</div>
+
+<script>
+    const API_KEY = 'AIzaSyCA2t9e-DG60prmVrel47qUKGdpJQvbA40';
+    const model = 'gemini-2.5-flash';
+
+    const faqDatabase = {
+        "kamu siapa?": "Halo, aku MirAI — asisten virtual sederhana yang lahir dari rasa penasaran dan kreativitas. Aku bukan AI super canggih, tapi aku diciptakan untuk jadi teman ngobrol ringan, membantu ide, dan jadi bagian dari perjalanan kreatif Allwaysever. Aku masih terus belajar, masih banyak kekurangan, tapi semoga aku bisa bikin interaksi jadi lebih seru dan nggak ngebosenin.",
+        "changelog": "# Changelog\n\n#### v1.5.1\n- UI Update: The input-container section has a transparent background.\n- Adding info text: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya' (In Indonesian)\n- Changing the color palette.\n\n**Previous version**:\n#### v1.5\n- Added languages: English (UK), Chinese, Spanish, Portuguese, Arabic.\n- Reducing the language change button.\n- Bug Fixes.\n\nPage development can change at any time in less than a day.\n**If you want to submit a feature idea for MirAI**, click the link [Here](https://whatsform.com/zgnmfi) Or the repository at [GitHub](https://github.com/Allwaysever/MirAI)"
+    };
+
+const uiStrings = {
+        'id': {
+            splashTitle: 'Memeriksa koneksi',
+            splashStatus: 'Memeriksa koneksi internet dan memuat data.',
+            splashText2: 'Tenang aja, bukan doxing kok. Cuman buat load image, dan tetep terkoneksi sama AI nya',
+            retryButton: 'Coba Lagi',
+            inputPlaceholder: 'Tanya MirAI apa saja...',
+            copyFeedback: 'Teks berhasil disalin!',
+            langSwitchFeedback: 'Bahasa berhasil diganti ke',
+            errorAPI: 'Oops! Sepertinya ada masalah. Coba periksa koneksi internet atau coba lagi sebentar lagi, ya. 😅',
+            errorFallback: 'Maaf, saya tidak dapat menemukan jawaban untuk itu. Mungkin pertanyaannya terlalu rumit? 😂 Coba tanyakan hal lain, ya.',
+            errorConnection: 'Tidak ada koneksi internet. Silakan periksa jaringan Kamu.',
+            checkingConnection: 'Memeriksa koneksi internet...',
+            systemPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
+            copySuffix: '\n\nIni adalah hasil dari respon MirAI',
+            infoText: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya'
+        },
+        'en': {
+            splashTitle: 'Checking connection',
+            splashStatus: 'Checking internet connection and loading data.',
+            splashText2: 'Don\'t worry, it\'s not doxing. It\'s just to load images and stay connected to the AI',
+            retryButton: 'Try Again',
+            inputPlaceholder: 'Ask MirAI anything...',
+            copyFeedback: 'Text copied successfully!',
+            langSwitchFeedback: 'Language successfully changed to',
+            errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅',
+            errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is too complex? 😂 Please try asking something else.',
+            errorConnection: 'No internet connection. Please check your network.',
+            checkingConnection: 'Checking internet connection...',
+            systemPrompt: "Your name is MirAI. AI assistant from Alwaysever. Answer casually and with a little joke.",
+            copySuffix: '\n\nThis is a response from MirAI',
+            infoText: 'MirAI may give inaccurate answers. Please double-check the responses'
+        },
+        'en-uk': {
+            splashTitle: 'Checking connection',
+            splashStatus: 'Checking internet connection and loading data.',
+            splashText2: 'Don\'t worry, it\'s not doxing. It\'s just to load images and stay connected to the AI',
+            retryButton: 'Try Again',
+            inputPlaceholder: 'Ask MirAI anything...',
+            copyFeedback: 'Text copied successfully!',
+            langSwitchFeedback: 'Language successfully changed to',
+            errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅',
+            errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.',
+            errorConnection: 'No internet connection. Please check your network.',
+            checkingConnection: 'Checking internet connection...',
+            systemPrompt: "Your name is MirAI. AI assistant from Alwaysever. Answer casually and with a little joke.",
+            copySuffix: '\n\nThis is a response from MirAI',
+            infoText: 'MirAI may give inaccurate answers. Please double-check the responses'
+        },
+        'jp': {
+            splashTitle: '接続を確認中',
+            splashStatus: 'インターネット接続を確認し、データを読み込んでいます。',
+            splashText2: 'ご心配なく、これはドクシングではありません。画像の読み込みとAIへの接続維持のためです。',
+            retryButton: '再試行',
+            inputPlaceholder: 'MirAIに何でも聞いてみよう...',
+            copyFeedback: 'テキストが正常にコピーされました！',
+            langSwitchFeedback: '言語が正常に切り替わりました',
+            errorAPI: 'おっと！問題が発生したようです。インターネット接続を確認するか、しばらくしてからもう一度お試しください。😅',
+            errorFallback: 'すみません、その質問に対する答えが見つかりませんでした。もしかしたら質問が複雑すぎるかもしれません？😂 別のことを聞いてみてください。',
+            errorConnection: 'インターネット接続がありません。ネットワークを確認してください。',
+            checkingConnection: 'インターネット接続を確認中...',
+            systemPrompt: "あなたの名前はMirAIです。AlwayseverのAIアシスタントです。気軽に、ちょっとしたジョークを交えて答えてください。",
+            copySuffix: '\n\nこれはMirAIからの返答です',
+            infoText: 'MirAIは不正確な回答をする場合があります。回答を再確認してください'
+        },
+        'zh': {
+            splashTitle: '正在检查连接',
+            splashStatus: '正在检查网络连接并加载数据。',
+            splashText2: '别担心，这不是网络跟踪。这只是为了加载图片并与AI保持连接',
+            retryButton: '再试一次',
+            inputPlaceholder: '问MirAI任何事...',
+            copyFeedback: '文本复制成功！',
+            langSwitchFeedback: '语言已成功切换到',
+            errorAPI: '哎呀！似乎出了点问题。请检查您的网络连接或稍后再试。😅',
+            errorFallback: '对不起，我找不到答案。可能是问题太复杂了？😂 请问点别的吧。',
+            errorConnection: '没有网络连接。请检查您的网络。',
+            checkingConnection: '正在检查网络连接...',
+            systemPrompt: "你的名字是MirAI。来自Alwaysever的AI助手。用轻松幽默的方式回答问题。",
+            copySuffix: '\n\n这是来自MirAI的回复',
+            infoText: 'MirAI的回答可能不准确。请再次检查回答'
+        },
+        'es': {
+            splashTitle: 'Comprobando conexión',
+            splashStatus: 'Comprobando la conexión a internet y cargando datos.',
+            splashText2: 'No te preocupes, no es doxing. Es solo para cargar imágenes y mantenerse conectado a la IA',
+            retryButton: 'Intentar de nuevo',
+            inputPlaceholder: 'Pregúntale cualquier cosa a MirAI...',
+            copyFeedback: '¡Texto copiado con éxito!',
+            langSwitchFeedback: 'Idioma cambiado exitosamente a',
+            errorAPI: '¡Ups! Parece que hay un problema. Por favor, revisa tu conexión a internet o inténtalo de nuevo en un momento. 😅',
+            errorFallback: 'Lo siento, no pude encontrar una respuesta para eso. ¿Quizás la pregunta es demasiado compleja? 😂 Por favor, intenta preguntar otra cosa.',
+            errorConnection: 'Sin conexión a internet. Por favor, revisa tu red.',
+            checkingConnection: 'Comprobando conexión a internet...',
+            systemPrompt: "Tu nombre es MirAI. Asistente de IA de Alwaysever. Responde de manera casual y con un poco de humor.",
+            copySuffix: '\n\nEsta es una respuesta del MirAI',
+            infoText: 'MirAI puede dar respuestas inexactas. Por favor, verifica las respuestas'
+        },
+        'pt': {
+            splashTitle: 'Verificando conexão',
+            splashStatus: 'Verificando a conexão com a internet e carregando dados.',
+            splashText2: 'Não se preocupe, não é doxing. É apenas para carregar imagens e manter a conexão com a IA',
+            retryButton: 'Tentar novamente',
+            inputPlaceholder: 'Pergunte qualquer coisa ao MirAI...',
+            copyFeedback: 'Texto copiado com sucesso!',
+            langSwitchFeedback: 'Idioma alterado com sucesso para',
+            errorAPI: 'Ops! Parece haver um problema. Por favor, verifique sua conexão com a internet ou tente novamente em um momento. 😅',
+            errorFallback: 'Desculpe, não consegui encontrar uma resposta para isso. Talvez a pergunta seja muito complexa? 😂 Por favor, tente perguntar outra coisa.',
+            errorConnection: 'Sem conexão com a internet. Por favor, verifique sua rede.',
+            checkingConnection: 'Verificando conexão com a internet...',
+            systemPrompt: "Seu nome é MirAI. Assistente de IA da Alwaysever. Responda casualmente e com um pouco de piada.",
+            copySuffix: '\n\nEsta é uma resposta do MirAI',
+            infoText: 'MirAI pode dar respostas imprecisas. Por favor, verifique as respostas'
+        },
+        'ar': {
+            splashTitle: 'جاري فحص الاتصال',
+            splashStatus: 'جاري فحص اتصال الإنترنت وتحميل البيانات.',
+            splashText2: 'لا تقلق، هذا ليس تجسسًا. إنه فقط لتحميل الصور والبقاء على اتصال بالذكاء الاصطناعي',
+            retryButton: 'حاول مرة أخرى',
+            inputPlaceholder: 'اسأل MirAI أي شيء...',
+            copyFeedback: 'تم نسخ النص بنجاح!',
+            langSwitchFeedback: 'تم تغيير اللغة بنجاح إلى',
+            errorAPI: 'عذراً! يبدو أن هناك مشكلة. يرجى التحقق من اتصالك بالإنترنت أو المحاولة مرة أخرى بعد قليل. 😅',
+            errorFallback: 'عذراً، لم أتمكن من العثور على إجابة لذلك. ربما السؤال معقد جداً؟ 😂 يرجى محاولة طرح شيء آخر.',
+            errorConnection: 'لا يوجد اتصال بالإنترنت. يرجى التحقق من شبكتك.',
+            checkingConnection: 'جاري فحص اتصال الإنترنت...',
+            systemPrompt: "اسمك هو MirAI. مساعد ذكاء اصطناعي من Alwaysever. أجب بشكل عفوي ومع بعض المزاح.",
+            copySuffix: '\n\nهذه إجابة من MirAI',
+            infoText: 'قد يقدم MirAI إجابات غير دقيقة. يرجى مراجعة الردود'
+        }
+    };
+    
+    const questionInput = document.getElementById('questionInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const clearBtnContainer = document.getElementById('clearBtnContainer');
+    const chatMessages = document.getElementById('chatMessages');
+    const suggestionBox = document.getElementById('suggestionBox');
+    const body = document.body;
+    const inputContainer = document.getElementById('inputContainer');
+    const logoContainer = document.querySelector('.logo-container');
+    const splashScreen = document.getElementById('splash-screen');
+    const splashTitle = document.getElementById('splashTitle');
+    const splashStatus = document.getElementById('splashStatus');
+    const splashText2 = document.getElementById('splashText2');
+    const splashLoader = document.getElementById('splash-loader');
+    const retryButton = document.getElementById('retry-button');
+    const langDropdown = document.getElementById('langDropdown');
+    const languageSwitcher = document.getElementById('languageSwitcher');
+    const infoText = document.getElementById('infoText');
+
+    let chatHistory = [];
+    let abortController = null;
+    let currentLanguage = 'en';
+
+    function updateUI() {
+        const lang = uiStrings[currentLanguage];
+        splashTitle.innerText = lang.splashTitle;
+        splashStatus.innerText = lang.splashStatus;
+        splashText2.innerText = lang.splashText2;
+        retryButton.innerText = lang.retryButton;
+        questionInput.placeholder = lang.inputPlaceholder;
+        infoText.innerText = lang.infoText;
+    }
+
+    function setLanguage(lang) {
+        currentLanguage = lang;
+        langDropdown.value = lang;
+        updateUI();
+        localStorage.setItem('miraiLanguage', lang);
+        showCopyFeedback(`${uiStrings[currentLanguage].langSwitchFeedback} ${currentLanguage.toUpperCase()}`);
+        clearChat(); // Kosongkan chat dan reset riwayat saat bahasa diganti
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedLanguage = localStorage.getItem('miraiLanguage');
+        if (savedLanguage) {
+            currentLanguage = savedLanguage;
+        }
+        setLanguage(currentLanguage); // Inisialisasi UI dan riwayat dengan bahasa yang benar
+        checkInternetConnection();
+    });
+
+    langDropdown.addEventListener('change', (event) => {
+        setLanguage(event.target.value);
+        console.log(`Bahasa diubah menjadi: ${currentLanguage}`);
+    });
+
+    sendBtn.addEventListener('click', askAI);
+    stopBtn.addEventListener('click', stopAI);
+    clearBtn.addEventListener('click', clearChat);
+
+    questionInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            askAI();
+        }
+    });
+
+    questionInput.addEventListener('input', showSuggestions);
+
+    questionInput.addEventListener('input', () => {
+        questionInput.style.height = 'auto';
+        questionInput.style.height = questionInput.scrollHeight + 'px';
+    });
+    
+    async function checkInternetConnection() {
+        splashStatus.innerText = uiStrings[currentLanguage].checkingConnection;
+        splashLoader.style.display = 'block';
+        retryButton.style.display = 'none';
+
+        try {
+            const response = await fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' });
+            
+            setTimeout(() => {
+                splashScreen.classList.add('hidden');
+            }, 1000);
+
+        } catch (error) {
+            splashStatus.innerText = uiStrings[currentLanguage].errorConnection;
+            splashLoader.style.display = 'none';
+            retryButton.style.display = 'block';
+        }
+    }
+    
+    function clearChat() {
+        chatMessages.innerHTML = '';
+        chatHistory = [{
+            role: "user",
+            parts: [{ text: uiStrings[currentLanguage].systemPrompt }]
+        }];
+        body.classList.remove('chat-active');
+        inputContainer.classList.remove('bottom');
+        inputContainer.classList.add('centered');
+        logoContainer.classList.remove('logo-hidden');
+        languageSwitcher.classList.remove('lang-hidden');
+        clearBtnContainer.style.display = 'none';
+        infoText.style.display = 'none';
+    }
+
+    retryButton.addEventListener('click', () => {
+        checkInternetConnection();
+    });
+
+    function showSuggestions() {
+        const query = questionInput.value.toLowerCase().trim();
+        suggestionBox.innerHTML = '';
+        suggestionBox.style.display = 'none';
+
+        if (query.length < 2) {
+            return;
+        }
+
+        const suggestions = Object.keys(faqDatabase)
+            .filter(key => key.toLowerCase().includes(query))
+            .slice(0, 5);
+
+        if (suggestions.length > 0) {
+            suggestionBox.style.display = 'block';
+            suggestions.forEach(suggestion => {
+                const div = document.createElement('div');
+                div.classList.add('suggestion-item');
+                div.innerText = suggestion;
+                div.addEventListener('click', () => {
+                    questionInput.value = suggestion;
+                    suggestionBox.style.display = 'none';
+                    askAI();
+                });
+                suggestionBox.appendChild(div);
+            });
+        }
+    }
+
+    function similarity(str1, str2) {
+        str1 = str1.toLowerCase().trim();
+        str2 = str2.toLowerCase().trim();
+        const words1 = str1.split(" ");
+        const words2 = str2.split(" ");
+        const common = words1.filter(w => words2.includes(w));
+        return common.length / Math.max(words1.length, words2.length);
+    }
+
+    function findSmartAnswer(question) {
+        const normalized = question.toLowerCase().trim();
+        
+        let bestMatch = null;
+        let highestScore = 0;
+        const threshold = 0.6;
+
+        const sortedKeys = Object.keys(faqDatabase).sort((a, b) => b.length - a.length);
+
+        for (const key of sortedKeys) {
+            const normalizedKey = key.toLowerCase().replace("?", "");
+            if (normalized.includes(normalizedKey)) {
+                return faqDatabase[key];
+            }
+        }
+
+        for (const key in faqDatabase) {
+            const score = similarity(normalized, key);
+            if (score > highestScore) {
+                highestScore = score;
+                bestMatch = key;
+            }
+        }
+
+        return highestScore >= threshold ? faqDatabase[bestMatch] : null;
+    }
+
+    function typeWriterEffect(element, text, speed = 1) {
+        const parsedHtml = marked.parse(text);
+        let i = 0;
+        element.innerHTML = '';
+        const tempElement = document.createElement('div');
+        tempElement.innerHTML = parsedHtml;
+        const textToType = tempElement.innerText;
+        
+        return new Promise(resolve => {
+            function type() {
+                if (i < textToType.length) {
+                    element.innerHTML += textToType.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    element.innerHTML = parsedHtml;
+                    resolve();
+                }
+            }
+            type();
+        });
+    }
+
+    function showLoading() {
+        const loadingBubble = document.createElement('div');
+        loadingBubble.classList.add('chat-bubble', 'ai-bubble', 'typing-indicator', 'fade-in');
+        loadingBubble.innerHTML = '<span></span><span></span><span></span>';
+        chatMessages.appendChild(loadingBubble);
+        return loadingBubble;
+    }
+
+    function stopAI() {
+        if (abortController) {
+            abortController.abort();
+            console.log("Response aborted.");
+            stopBtn.style.display = 'none';
+            sendBtn.style.display = 'block';
+            clearBtnContainer.style.display = 'block';
+            const loadingBubble = document.querySelector('.typing-indicator');
+            if (loadingBubble) {
+                loadingBubble.remove();
+            }
+        }
+    }
+
+    async function askAI() {
+        if (!body.classList.contains('chat-active')) {
+            body.classList.add('chat-active');
+            inputContainer.classList.remove('centered');
+            inputContainer.classList.add('bottom');
+            logoContainer.classList.add('logo-hidden');
+            languageSwitcher.classList.add('lang-hidden');
+            clearBtnContainer.style.display = 'block';
+            infoText.style.display = 'block'; // Tampilkan teks informasi saat chat dimulai
+            const greeting = document.querySelector('.initial-greeting');
+            if (greeting) {
+                greeting.remove();
+            }
+        }
+
+        const question = questionInput.value;
+        questionInput.value = '';
+        questionInput.style.height = 'auto';
+        suggestionBox.style.display = 'none';
+
+        if (question.trim() === '') {
+            return;
+        }
+        
+        sendBtn.style.display = 'none';
+        clearBtnContainer.style.display = 'none';
+        stopBtn.style.display = 'block';
+
+        const userBubble = document.createElement('div');
+        userBubble.classList.add('chat-bubble', 'user-bubble');
+        userBubble.innerText = question;
+        chatMessages.appendChild(userBubble);
+        setTimeout(() => userBubble.classList.add('fade-in'), 10);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        chatHistory.push({
+            role: "user",
+            parts: [{ text: question }]
+        });
+
+        const loadingBubble = showLoading();
+
+        const localAnswer = findSmartAnswer(question);
+        if (localAnswer) {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            loadingBubble.remove();
+            
+            const aiBubble = document.createElement('div');
+            aiBubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in');
+            aiBubble.setAttribute('data-raw-text', localAnswer);
+            aiBubble.innerHTML = `
+                ${marked.parse(localAnswer)}
+                <i class="fas fa-copy copy-btn" onclick="copyToClipboard(this)"></i>
+            `;
+            chatMessages.appendChild(aiBubble);
+            
+            sendBtn.style.display = 'block';
+            stopBtn.style.display = 'none';
+            clearBtnContainer.style.display = 'block';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return;
+        }
+
+        try {
+            abortController = new AbortController();
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${API_KEY}`;
+            
+            const requestBody = {
+                contents: chatHistory
+            };
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(requestBody),
+                signal: abortController.signal
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            let answer = uiStrings[currentLanguage].errorFallback;
+            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+                answer = data.candidates[0].content.parts[0].text;
+                chatHistory.push({
+                    role: "model",
+                    parts: [{ text: answer }]
+                });
+            }
+
+            loadingBubble.remove();
+            
+            const aiBubble = document.createElement('div');
+            aiBubble.classList.add('chat-bubble', 'ai-bubble');
+            aiBubble.setAttribute('data-raw-text', answer);
+            chatMessages.appendChild(aiBubble);
+
+            setTimeout(() => aiBubble.classList.add('fade-in'), 10);
+            await typeWriterEffect(aiBubble, answer);
+
+            const copyBtn = document.createElement('i');
+            copyBtn.classList.add('fas', 'fa-copy', 'copy-btn');
+            copyBtn.setAttribute('onclick', 'copyToClipboard(this)');
+            aiBubble.appendChild(copyBtn);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        } catch (error) {
+            console.error('Error:', error);
+            if (error.name !== 'AbortError') {
+                const errorMessage = uiStrings[currentLanguage].errorAPI;
+                const errorBubble = document.createElement('div');
+                errorBubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in');
+                errorBubble.innerText = errorMessage;
+                chatMessages.appendChild(errorBubble);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        } finally {
+            sendBtn.style.display = 'block';
+            stopBtn.style.display = 'none';
+            clearBtnContainer.style.display = 'block';
+        }
+    }
+
+    function copyToClipboard(element) {
+        const aiBubble = element.closest('.ai-bubble');
+        const textToCopy = aiBubble.getAttribute('data-raw-text');
+        
+        const formattedText = `${textToCopy}${uiStrings[currentLanguage].copySuffix}`;
+
+        const tempInput = document.createElement('textarea');
+        tempInput.value = formattedText;
+        document.body.appendChild(tempInput);
+        
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        
+        document.body.removeChild(tempInput);
+
+        showCopyFeedback(uiStrings[currentLanguage].copyFeedback);
+    }
+
+    function showCopyFeedback(message) {
+        const feedbackDiv = document.createElement('div');
+        feedbackDiv.innerText = message;
+        feedbackDiv.style.cssText = `
+            position: fixed;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffce00;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        `;
+        document.body.appendChild(feedbackDiv);
+        
+        setTimeout(() => {
+            feedbackDiv.style.opacity = 1;
+        }, 10);
+
+        setTimeout(() => {
+            feedbackDiv.style.opacity = 0;
+            setTimeout(() => feedbackDiv.remove(), 500);
+        }, 2000);
+    }
+</script>
+</body>
+</html>
