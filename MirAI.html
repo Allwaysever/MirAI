@@ -19,7 +19,112 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: relative;
             transition: all 0.5s ease-in-out;
+            color: #fff;
         }
+        
+        /* Tema Gelap Default */
+        body {
+            background-color: #1B1C1E;
+            color: #fff;
+        }
+
+        .chat-bubble.ai-bubble {
+            background-color: #0f0f0f;
+            color: #fff;
+        }
+
+        .chat-bubble.user-bubble {
+            background-color: #ffce00;
+            color: #000;
+        }
+
+        .input-box {
+            background-color: #181A1B;
+            border: 0.9px solid #4B4F50;
+        }
+
+        .input-box textarea {
+            color: white;
+        }
+
+        .suggestion-box {
+            background-color: #212121;
+            border: 1px solid #4B4F50;
+        }
+        
+        .ai-bubble strong {
+            color: #ffce00;
+        }
+
+        .ai-bubble h1, .ai-bubble h2, .ai-bubble h3 {
+            border-bottom: 1px solid #ffce00;
+        }
+        
+        /* CSS yang sudah diperbaiki */
+        .logo-img {
+            max-width: 450px;
+            height: auto;
+            filter: none;
+        }
+
+        .gemini-logo {
+            max-width: 200px;
+            height: auto;
+            filter: none;
+        }
+
+.hi-img {
+    max-width: 1px;
+    max-height: auto;
+    filter: none;
+    z-index: 100;
+}
+
+        /* Tema Terang dengan Nuansa Gelap */
+        body.light-theme {
+            background-color: #e9e9e9;
+            color: #444;
+        }
+
+        body.light-theme .chat-bubble.ai-bubble {
+            background-color: #fff;
+            color: #444;
+        }
+
+        body.light-theme .chat-bubble.user-bubble {
+            background-color: #888;
+            color: #fff;
+        }
+        
+        body.light-theme .logo-version {
+            color: #000;
+        }
+
+        body.light-theme .input-box {
+            background-color: #d9d9d9;
+            border: 0.9px solid #b3b3b3;
+        }
+
+        body.light-theme .input-box textarea {
+            color: #222;
+        }
+
+        body.light-theme .suggestion-box {
+            background-color: #d9d9d9;
+            border: 1px solid #b3b3b3;
+        }
+        
+        body.light-theme .ai-bubble strong {
+            color: #222;
+        }
+
+        body.light-theme .ai-bubble h1, body.light-theme .ai-bubble h2, body.light-theme .ai-bubble h3 {
+            border-bottom: 1px solid #222;
+        }
+        
+body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-img {
+    filter: grayscale(100%) brightness(0.5);
+}
 
         /* Matikan highlight default */
         * {
@@ -32,8 +137,9 @@
             left: 50%;
             transform: translate(-50% , -50%);
             transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
-            z-index: 999;
+            z-index: 650;
             text-align: center;
+    pointer-events: none;
         }
 
         .logo-container.logo-hidden {
@@ -118,36 +224,14 @@
         }
 
         .user-bubble {
-            background-color: #ffce00;
-            color: #000;
             align-self: flex-end;
             border-bottom-right-radius: 5px;
         }
 
         .ai-bubble {
-            background-color: #0f0f0f;
-            color: #fff;
             align-self: flex-start;
             border-bottom-left-radius: 5px;
             position: relative;
-        }
-
-        .ai-bubble h1, .ai-bubble h2, .ai-bubble h3 {
-            border-bottom: 1px solid #ffce00;
-            padding-bottom: 5px;
-            margin-top: 20px;
-        }
-        .ai-bubble ul, .ai-bubble ol {
-            padding-left: 20px;
-        }
-        .ai-bubble li {
-            margin-bottom: 5px;
-        }
-        .ai-bubble p {
-            margin-bottom: 10px;
-        }
-        .ai-bubble strong {
-            color: #ffce00;
         }
 
         .copy-btn {
@@ -159,9 +243,17 @@
             font-size: 14px;
             transition: color 0.3s ease;
         }
+        
+        body.light-theme .copy-btn {
+            color: rgba(0,0,0,0.5);
+        }
 
         .copy-btn:hover {
             color: #ffce00;
+        }
+        
+        body.light-theme .copy-btn:hover {
+            color: #222;
         }
 
         .typing-indicator {
@@ -178,6 +270,11 @@
             border-radius: 50%;
             animation: bounce 0.6s infinite alternate;
         }
+        
+        body.light-theme .typing-indicator span {
+            background-color: #444;
+        }
+
 
         .typing-indicator span:nth-child(2) {
             animation-delay: 0.2s;
@@ -196,20 +293,27 @@
             }
         }
 
-        #clearBtnContainer {
+        #settingsBtnContainer, #clearBtnContainer {
             position: fixed;
-            top: 20px;
             left: 20px;
             z-index: 101;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        #settingsBtnContainer {
+            top: 20px;
+        }
+
+        #clearBtnContainer {
+            top: 70px;
             display: none;
-            transition: opacity 0.5s ease-in-out;
         }
 
         body.chat-active #clearBtnContainer {
             display: block;
         }
 
-        #clearBtn {
+        #clearBtn, #settingsBtn {
             background-color: #ffce00;
             color: #0f0f0f;
             border: none;
@@ -224,8 +328,17 @@
             box-shadow: none;
         }
         
-        #clearBtn:hover {
+        body.light-theme #clearBtn, body.light-theme #settingsBtn {
+            background-color: #444;
+            color: #e9e9e9;
+        }
+        
+        #clearBtn:hover, #settingsBtn:hover {
             color: #0f0f0f;
+        }
+
+        body.light-theme #clearBtn:hover, body.light-theme #settingsBtn:hover {
+            color: #fff;
         }
 
         .input-container {
@@ -261,6 +374,10 @@
             display: none; /* Sembunyikan secara default */
             transition: opacity 0.5s ease-in-out;
         }
+        
+        body.light-theme .info-text {
+            color: #00000099;
+        }
 
         body.chat-active .info-text {
             display: block; /* Tampilkan saat chat aktif */
@@ -273,8 +390,6 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 10px;
-            background-color: #181A1B;
-            border: 0.9px solid #4B4F50;
             border-radius: 25px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -283,7 +398,6 @@
             flex-grow: 1;
             border: none;
             outline: none;
-            color: white;
             font-size: 15px;
             padding: 0 10px;
             background-color: transparent;
@@ -308,8 +422,17 @@
             transition: background-color 0.3s ease;
         }
         
+        body.light-theme .input-box button {
+            background-color: #444;
+            color: #fff;
+        }
+
         .input-box button:hover {
             background-color: #B8860B;
+        }
+        
+        body.light-theme .input-box button:hover {
+            background-color: #222;
         }
 
         #stopBtn {
@@ -318,9 +441,12 @@
             display: none;
         }
         
+        body.light-theme #stopBtn {
+            background-color: #0f0f0f;
+            color: white;
+        }
+
         .suggestion-box {
-            background-color: #212121;
-            border: 1px solid #4B4F50;
             border-radius: 10px;
             padding: 10px;
             position: relative;
@@ -338,6 +464,11 @@
             border-bottom: 1px solid #333;
             font-size: 14px;
         }
+        
+        body.light-theme .suggestion-item {
+            color: #333;
+            border-bottom: 1px solid #aaa;
+        }
 
         .suggestion-item:last-child {
             border-bottom: none;
@@ -347,6 +478,12 @@
             background-color: #333;
             color: white;
         }
+        
+        body.light-theme .suggestion-item:hover {
+            background-color: #ccc;
+            color: black;
+        }
+
 
         .loading-text {
             display: flex;
@@ -369,6 +506,11 @@
           color: #fff;
           text-align: center;
           transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        }
+
+        body.light-theme #splash-screen {
+          background-color: #fff;
+          color: #000;
         }
 
         #splash-screen.hidden {
@@ -397,10 +539,18 @@
           font-size: 0.8em;
           color: #aaa;
         }
+        
+        body.light-theme .splash-text {
+            color: #666;
+        }
 
         .splash-text2 {
           font-size: 0.5em;
           color: #aaa;
+        }
+        
+        body.light-theme .splash-text2 {
+            color: #666;
         }
         
         /* Gaya baru untuk loading bar */
@@ -412,6 +562,10 @@
             overflow: hidden;
             position: relative;
         }
+        
+        body.light-theme .loading-bar-container {
+            background-color: #b3b3b3;
+        }
 
         .loading-bar {
             width: 100%;
@@ -419,6 +573,10 @@
             background-color: #ffce00;
             position: absolute;
             animation: move 1.5s linear infinite;
+        }
+        
+        body.light-theme .loading-bar {
+            background-color: #444;
         }
 
         @keyframes move {
@@ -437,6 +595,16 @@
           font-size: 1em;
           transition: background-color 0.3s ease;
         }
+            
+        body.light-theme #retry-button {
+            background-color: #444;
+            color: #fff;
+        }
+        
+        body.light-theme #retry-button:hover {
+            background-color: #222;
+        }
+
             
         #languageSwitcher {
             position: fixed;
@@ -473,28 +641,220 @@
             margin-right: auto;
             display: block;
         }
+        
+        body.light-theme .lang-dropdown {
+            background-color: #d9d9d9;
+            color: #444;
+            border: 1px solid #b3b3b3;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+        }
 
         .lang-dropdown option {
             background-color: #212121;
             color: white;
         }
+        
+        body.light-theme .lang-dropdown option {
+            background-color: #d9d9d9;
+            color: #444;
+        }
+
+        /* Gaya untuk halaman pengaturan */
+        #settingsPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1B1C1E;
+            color: #fff;
+            z-index: 750;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+        
+        body.light-theme #settingsPage {
+            background-color: #e9e9e9;
+            color: #444;
+        }
+
+        #settingsPage.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .settings-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #4B4F50;
+        }
+        
+        body.light-theme .settings-header {
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .settings-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .settings-header #backBtn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        
+        body.light-theme .settings-header #backBtn {
+            color: #444;
+        }
+        
+        .settings-content h3 {
+            color: #ffce00;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        body.light-theme .settings-content h3 {
+            color: #444;
+        }
+        .settings-option {
+            margin-bottom: 15px;
+        }
+        .settings-option p {
+            margin: 0 0 5px 0;
+        }
+        .settings-option select {
+            background-color: #212121;
+            color: white;
+            border: 1px solid #ffce00;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        
+        body.light-theme .settings-option select {
+            background-color: #d9d9d9;
+            color: #444;
+            border: 1px solid #b3b3b3;
+        }
+
+        .settings-about {
+            text-align: center;
+        }
+        
+        .settings-about p, .settings-about a {
+            font-size: 0.9em;
+            color: #aaa;
+            margin: 5px 0;
+        }
+        
+        body.light-theme .settings-about p, body.light-theme .settings-about a {
+            color: #666;
+        }
+        
+        .settings-about a {
+            color: #ffce00;
+            text-decoration: none;
+        }
+        
+        body.light-theme .settings-about a {
+            color: #222;
+        }
+        
+        .settings-about a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Start of new code */
+        .settings-credits-btn {
+            background-color: #212121;
+            color: #ffce00;
+            border: 1px solid #ffce00;
+            padding: 8px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme .settings-credits-btn {
+            background-color: #d9d9d9;
+            color: #222;
+            border: 1px solid #b3b3b3;
+        }
+
+        .settings-credits-btn:hover {
+            background-color: #ffce00;
+            color: #000;
+        }
+
+        body.light-theme .settings-credits-btn:hover {
+            background-color: #222;
+            color: #fff;
+        }
+        
+        #creditsPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1B1C1E;
+            color: #fff;
+            z-index: 760; /* Lebih tinggi dari settingsPage */
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        body.light-theme #creditsPage {
+            background-color: #e9e9e9;
+            color: #444;
+        }
+        
+        #creditsPage.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* End of new code */
+
+        .gemini-container {
+            margin-top: 20px;
+        }
     </style>
 </head>
-<body>
+<body class="light-theme">
 
 <div id="splash-screen">
   <div class="splash-content">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDYNXg_HBPgwViHUXJ_9F9UFT6BH3oFaAnE_JHnFI6dfoDhKziToum5i2W9YkHy4kC1xSdG6AqfYN7qdob7oLfZfg5rx1jLnfKraUBaFXK22O0DaPzk55Wu5y0EO-823b6MD__ulXGruUTZwARBZcrzXUvLfwniuzhWybM4qrstFUpzzOHcL2C83HclBVJ/s16000-rw/20250905_143027.png" alt="MirAI" class="splash-logo">
-    <h1 class="splash-title" id="splashTitle"></h1>
-    <p class="splash-text" id="splashStatus"></p>
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDYNXg_HBPgwViHUXJ_9F9UFT6BH3oFaAnE_JHnFI6dfoDhKziToum5i2W9YkHy4kC1xSdG6AqfYN7qdob7oLfZfg5rx1jLnfKraUBaFXK22O0DaPzk55Wu5y0EO-823b6MD__ulXGruUTZwARBZcrzXUvLfwniuzhWybM4qrstFUpzzOHcL2C83HclBVJ/s16000-rw/20250905_143027.png" alt="MirAI" class="splash-logo logo-img">
+    <h1 class="splash-title" id="splashTitle" style="display:none;"></h1>
+    <p class="splash-status" id="splashStatus" style="display:none;"></p>
     <div class="loading-bar-container" id="splash-loader">
         <div class="loading-bar"></div>
     </div>
     <button id="retry-button" style="display:none;"></button>
-    <p class="splash-text2" id="splashText2"></p>
+    <p class="splash-text2" id="splashText2" style="display:none;"></p>
   </div>
 </div>
 
+<div id="settingsBtnContainer">
+    <button id="settingsBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+</div>
 <div id="clearBtnContainer" style="display: none;">
     <button id="clearBtn">
         <i class="fas fa-trash-alt"></i>
@@ -502,11 +862,7 @@
 </div>
 
 <div class="logo-container">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDYNXg_HBPgwViHUXJ_9F9UFT6BH3oFaAnE_JHnFI6dfoDhKziToum5i2W9YkHy4kC1xSdG6AqfYN7qdob7oLfZfg5rx1jLnfKraUBaFXK22O0DaPzk55Wu5y0EO-823b6MD__ulXGruUTZwARBZcrzXUvLfwniuzhWybM4qrstFUpzzOHcL2C83HclBVJ/s16000-rw/20250905_143027.png" alt="MirAI">
-    <div>
-        <p class="logo-version">v1.5.1</p>
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWeacIHe4NkMJ37BHFNkrT34hrwc0E1A9SA1LhXmXPkWoAbuR6aXhCYWMKD2-aBD-D_fsr4cGF03_l3AfYp5WA8riGWEUToJFLS3HVwk4W5Zjho7FxT2MtU_DjRAsZMViGQ0384e8AUsmx64L-pRb4DNXrRMIDA78P5H7VfON_67lWDulVq1-12II97EQL/s16000-rw/20250910_155455.png" alt="Google Gemini 2.5 Flash" class="logo-text-img">
-    </div>
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi8zc5lKbqw6ALIqaK0FLqgNG7Jn2M7557Beh7FfayNFXpYceUDptfdWaGTwrAWVRGVs3YjcLCaO8ylx7XibVywxjEeI_CVkCsR8YIga9U06CwBDxfdaSWhMcVoaj5Tf9MNgdyYC__0MHLzK9SurbgtovXDbix1nH_PE-BhzYIr0dMAg78nX9r-EeXuldfH/s16000-rw/20250913_183341.png" alt="Hi! I'm MirAI! Nice to meet you. what are we discussing?" class="hi-img">
 </div>
 
 <div id="languageSwitcher">
@@ -540,20 +896,90 @@
     <p id="infoText" class="info-text"></p>
 </div>
 
+<div id="settingsPage">
+    <div class="settings-header">
+        <h2>Pengaturan</h2>
+        <button id="backBtn"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="settings-content">
+        <h3>Tampilan</h3>
+        <div class="settings-option">
+            <p>Pilih Tema:</p>
+            <select id="themeSelect">
+                <option value="light">Terang</option>
+                <option value="dark">Gelap</option>
+            </select>
+        </div>
+        
+        <h3>Kustomisasi AI</h3>
+        <div class="settings-option">
+            <p>Persona MirAI:</p>
+            <select id="personaSelect">
+                <option value="formal">Formal & Serius</option>
+                <option value="default">Santai & Bercanda</option>
+                <option value="creative">Kreatif & Imajinatif</option>
+            </select>
+        </div>
+
+        <h3>Tentang MirAI</h3>
+        <div class="settings-about">
+            <p>Versi: <span id="miraiVersion">v2.0</span></p>
+            <p>Dibuat oleh Allwaysever</p>
+            <p><a href="https://github.com/Allwaysever/MirAI" target="_blank">Repositori GitHub</a></p>
+            <p><a href="#" id="licenseLink">Lisensi Open Source</a></p>
+            <div class="gemini-container">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWeacIHe4NkMJ37BHFNkrT34hrwc0E1A9SA1LhXmXPkWoAbuR6aXhCYWMKD2-aBD-D_fsr4cGF03_l3AfYp5WA8riGWEUToJFLS3HVwk4W5Zjho7FxT2MtU_DjRAsZMViGQ0384e8AUsmx64L-pRb4DNXrRMIDA78P5H7VfON_67lWDulVq1-12II97EQL/s16000-rw/20250910_155455.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
+            </div>
+            <button id="creditsBtn" class="settings-credits-btn">Credits</button>
+            </div>
+    </div>
+</div>
+
+<div id="creditsPage">
+    <div class="settings-header">
+        <h2>Credits</h2>
+        <button id="backBtnCredits"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="settings-content">
+        <div class="settings-about">
+<h2>MirAI Project</h2><br><br>
+<p><b>Produced by</b> Allwaysever</p>
+<p><b>Starring by</b> MirAI, an AI model powered by Google</p>
+<p><b>Project Leader & Architect by</b> Allwaysever</p>
+<p><b>Back-End Development by</b> Google (via Gemini API)</p>
+<p><b>Front-End & UIUX Design by</b> Allwaysever</p>
+<p><b>Graphic & Visual Design by</b> Allwaysever & Google (for Gemini Logo)</p>
+<p><b>In Collaboration With</b> Model AI by Gemini 2.5 Flash by Google</p>
+<p><b>Fonts & Typography by</b> Egkoppel (Product Sans)</p>
+<p><b>Iconography by</b> Font Awesome</p>
+<p><b>In Association With</b> GitHub</p>
+<p><b>Special Thanks</b> To all the users who provided feedback, ideas, and support.
+This work would not have been possible without an amazing community.</p>
+        </div>
+    </div>
+</div>
 <script>
-    const API_KEY = 'YOUR_API_KEY_HERE';
+    const API_KEY = 'AIzaSyCA2t9e-DG60prmVrel47qUKGdpJQvbA40';
     const model = 'gemini-2.5-flash';
+    
+    const personas = {
+        'default': "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
+        'formal': "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.",
+        'creative': "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya."
+    };
 
     const faqDatabase = {
         "kamu siapa?": "Halo, aku MirAI — asisten virtual sederhana yang lahir dari rasa penasaran dan kreativitas. Aku bukan AI super canggih, tapi aku diciptakan untuk jadi teman ngobrol ringan, membantu ide, dan jadi bagian dari perjalanan kreatif Allwaysever. Aku masih terus belajar, masih banyak kekurangan, tapi semoga aku bisa bikin interaksi jadi lebih seru dan nggak ngebosenin.",
-        "changelog": "# Changelog\n\n#### v1.5.1\n- UI Update: The input-container section has a transparent background.\n- Adding info text: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya' (In Indonesian)\n- Changing the color palette.\n\n**Previous version**:\n#### v1.5\n- Added languages: English (UK), Chinese, Spanish, Portuguese, Arabic.\n- Reducing the language change button.\n- Bug Fixes.\n\nPage development can change at any time in less than a day.\n**If you want to submit a feature idea for MirAI**, click the link [Here](https://whatsform.com/zgnmfi) Or the repository at [GitHub](https://github.com/Allwaysever/MirAI)"
+        "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOGS.md) for changelogs information."
     };
 
-const uiStrings = {
+    const uiStrings = {
         'id': {
             splashTitle: 'Memeriksa koneksi',
             splashStatus: 'Memeriksa koneksi internet dan memuat data.',
             splashText2: 'Tenang aja, bukan doxing kok. Cuman buat load image, dan tetep terkoneksi sama AI nya',
+            offlineTitle: 'Kamu Offline',
+            offlineText: 'Periksa Internet kamu dan coba lagi',
             retryButton: 'Coba Lagi',
             inputPlaceholder: 'Tanya MirAI apa saja...',
             copyFeedback: 'Teks berhasil disalin!',
@@ -562,7 +988,6 @@ const uiStrings = {
             errorFallback: 'Maaf, saya tidak dapat menemukan jawaban untuk itu. Mungkin pertanyaannya terlalu rumit? 😂 Coba tanyakan hal lain, ya.',
             errorConnection: 'Tidak ada koneksi internet. Silakan periksa jaringan Kamu.',
             checkingConnection: 'Memeriksa koneksi internet...',
-            systemPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
             copySuffix: '\n\nIni adalah hasil dari respon MirAI',
             infoText: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya'
         },
@@ -570,22 +995,8 @@ const uiStrings = {
             splashTitle: 'Checking connection',
             splashStatus: 'Checking internet connection and loading data.',
             splashText2: 'Don\'t worry, it\'s not doxing. It\'s just to load images and stay connected to the AI',
-            retryButton: 'Try Again',
-            inputPlaceholder: 'Ask MirAI anything...',
-            copyFeedback: 'Text copied successfully!',
-            langSwitchFeedback: 'Language successfully changed to',
-            errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅',
-            errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is too complex? 😂 Please try asking something else.',
-            errorConnection: 'No internet connection. Please check your network.',
-            checkingConnection: 'Checking internet connection...',
-            systemPrompt: "Your name is MirAI. AI assistant from Alwaysever. Answer casually and with a little joke.",
-            copySuffix: '\n\nThis is a response from MirAI',
-            infoText: 'MirAI may give inaccurate answers. Please double-check the responses'
-        },
-        'en-uk': {
-            splashTitle: 'Checking connection',
-            splashStatus: 'Checking internet connection and loading data.',
-            splashText2: 'Don\'t worry, it\'s not doxing. It\'s just to load images and stay connected to the AI',
+            offlineTitle: 'You\'re Offline',
+            offlineText: 'Check your internet and try again',
             retryButton: 'Try Again',
             inputPlaceholder: 'Ask MirAI anything...',
             copyFeedback: 'Text copied successfully!',
@@ -594,7 +1005,23 @@ const uiStrings = {
             errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.',
             errorConnection: 'No internet connection. Please check your network.',
             checkingConnection: 'Checking internet connection...',
-            systemPrompt: "Your name is MirAI. AI assistant from Alwaysever. Answer casually and with a little joke.",
+            copySuffix: '\n\nThis is a response from MirAI',
+            infoText: 'MirAI may give inaccurate answers. Please double-check the responses'
+        },
+        'en-uk': {
+            splashTitle: 'Checking connection',
+            splashStatus: 'Checking internet connection and loading data.',
+            splashText2: 'Don\'t worry, it\'s not doxing. It\'s just to load images and stay connected to the AI',
+            offlineTitle: 'You\'re Offline',
+            offlineText: 'Check your internet and try again',
+            retryButton: 'Try Again',
+            inputPlaceholder: 'Ask MirAI anything...',
+            copyFeedback: 'Text copied successfully!',
+            langSwitchFeedback: 'Language successfully changed to',
+            errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅',
+            errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.',
+            errorConnection: 'No internet connection. Please check your network.',
+            checkingConnection: 'Checking internet connection...',
             copySuffix: '\n\nThis is a response from MirAI',
             infoText: 'MirAI may give inaccurate answers. Please double-check the responses'
         },
@@ -602,6 +1029,8 @@ const uiStrings = {
             splashTitle: '接続を確認中',
             splashStatus: 'インターネット接続を確認し、データを読み込んでいます。',
             splashText2: 'ご心配なく、これはドクシングではありません。画像の読み込みとAIへの接続維持のためです。',
+            offlineTitle: 'オフラインです',
+            offlineText: 'インターネットを確認して、もう一度お試しください',
             retryButton: '再試行',
             inputPlaceholder: 'MirAIに何でも聞いてみよう...',
             copyFeedback: 'テキストが正常にコピーされました！',
@@ -610,7 +1039,6 @@ const uiStrings = {
             errorFallback: 'すみません、その質問に対する答えが見つかりませんでした。もしかしたら質問が複雑すぎるかもしれません？😂 別のことを聞いてみてください。',
             errorConnection: 'インターネット接続がありません。ネットワークを確認してください。',
             checkingConnection: 'インターネット接続を確認中...',
-            systemPrompt: "あなたの名前はMirAIです。AlwayseverのAIアシスタントです。気軽に、ちょっとしたジョークを交えて答えてください。",
             copySuffix: '\n\nこれはMirAIからの返答です',
             infoText: 'MirAIは不正確な回答をする場合があります。回答を再確認してください'
         },
@@ -618,6 +1046,8 @@ const uiStrings = {
             splashTitle: '正在检查连接',
             splashStatus: '正在检查网络连接并加载数据。',
             splashText2: '别担心，这不是网络跟踪。这只是为了加载图片并与AI保持连接',
+            offlineTitle: '您已离线',
+            offlineText: '请检查您的网络并重试',
             retryButton: '再试一次',
             inputPlaceholder: '问MirAI任何事...',
             copyFeedback: '文本复制成功！',
@@ -626,7 +1056,6 @@ const uiStrings = {
             errorFallback: '对不起，我找不到答案。可能是问题太复杂了？😂 请问点别的吧。',
             errorConnection: '没有网络连接。请检查您的网络。',
             checkingConnection: '正在检查网络连接...',
-            systemPrompt: "你的名字是MirAI。来自Alwaysever的AI助手。用轻松幽默的方式回答问题。",
             copySuffix: '\n\n这是来自MirAI的回复',
             infoText: 'MirAI的回答可能不准确。请再次检查回答'
         },
@@ -634,6 +1063,8 @@ const uiStrings = {
             splashTitle: 'Comprobando conexión',
             splashStatus: 'Comprobando la conexión a internet y cargando datos.',
             splashText2: 'No te preocupes, no es doxing. Es solo para cargar imágenes y mantenerse conectado a la IA',
+            offlineTitle: 'Estás Desconectado',
+            offlineText: 'Revisa tu conexión a internet y vuelve a intentarlo',
             retryButton: 'Intentar de nuevo',
             inputPlaceholder: 'Pregúntale cualquier cosa a MirAI...',
             copyFeedback: '¡Texto copiado con éxito!',
@@ -642,7 +1073,6 @@ const uiStrings = {
             errorFallback: 'Lo siento, no pude encontrar una respuesta para eso. ¿Quizás la pregunta es demasiado compleja? 😂 Por favor, intenta preguntar otra cosa.',
             errorConnection: 'Sin conexión a internet. Por favor, revisa tu red.',
             checkingConnection: 'Comprobando conexión a internet...',
-            systemPrompt: "Tu nombre es MirAI. Asistente de IA de Alwaysever. Responde de manera casual y con un poco de humor.",
             copySuffix: '\n\nEsta es una respuesta del MirAI',
             infoText: 'MirAI puede dar respuestas inexactas. Por favor, verifica las respuestas'
         },
@@ -650,15 +1080,16 @@ const uiStrings = {
             splashTitle: 'Verificando conexão',
             splashStatus: 'Verificando a conexão com a internet e carregando dados.',
             splashText2: 'Não se preocupe, não é doxing. É apenas para carregar imagens e manter a conexão com a IA',
+            offlineTitle: 'Você está Offline',
+            offlineText: 'Verifique sua internet e tente novamente',
             retryButton: 'Tentar novamente',
             inputPlaceholder: 'Pergunte qualquer coisa ao MirAI...',
             copyFeedback: 'Texto copiado com sucesso!',
             langSwitchFeedback: 'Idioma alterado com sucesso para',
             errorAPI: 'Ops! Parece haver um problema. Por favor, verifique sua conexão com a internet ou tente novamente em um momento. 😅',
-            errorFallback: 'Desculpe, não consegui encontrar uma resposta para isso. Talvez a pergunta seja muito complexa? 😂 Por favor, tente perguntar outra coisa.',
+            errorFallback: 'Desculpe, não consegui encontrar uma resposta para isso. Tal vez a pergunta seja muito complexa? 😂 Por favor, tente perguntar outra coisa.',
             errorConnection: 'Sem conexão com a internet. Por favor, verifique sua rede.',
             checkingConnection: 'Verificando conexão com a internet...',
-            systemPrompt: "Seu nome é MirAI. Assistente de IA da Alwaysever. Responda casualmente e com um pouco de piada.",
             copySuffix: '\n\nEsta é uma resposta do MirAI',
             infoText: 'MirAI pode dar respostas imprecisas. Por favor, verifique as respostas'
         },
@@ -666,6 +1097,8 @@ const uiStrings = {
             splashTitle: 'جاري فحص الاتصال',
             splashStatus: 'جاري فحص اتصال الإنترنت وتحميل البيانات.',
             splashText2: 'لا تقلق، هذا ليس تجسسًا. إنه فقط لتحميل الصور والبقاء على اتصال بالذكاء الاصطناعي',
+            offlineTitle: 'أنت غير متصل',
+            offlineText: 'تحقق من اتصالك بالإنترنت وحاول مرة أخرى',
             retryButton: 'حاول مرة أخرى',
             inputPlaceholder: 'اسأل MirAI أي شيء...',
             copyFeedback: 'تم نسخ النص بنجاح!',
@@ -674,179 +1107,248 @@ const uiStrings = {
             errorFallback: 'عذراً، لم أتمكن من العثور على إجابة لذلك. ربما السؤال معقد جداً؟ 😂 يرجى محاولة طرح شيء آخر.',
             errorConnection: 'لا يوجد اتصال بالإنترنت. يرجى التحقق من شبكتك.',
             checkingConnection: 'جاري فحص اتصال الإنترنت...',
-            systemPrompt: "اسمك هو MirAI. مساعد ذكاء اصطناعي من Alwaysever. أجب بشكل عفوي ومع بعض المزاح.",
             copySuffix: '\n\nهذه إجابة من MirAI',
             infoText: 'قد يقدم MirAI إجابات غير دقيقة. يرجى مراجعة الردود'
         }
     };
     
-    const questionInput = document.getElementById('questionInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const clearBtnContainer = document.getElementById('clearBtnContainer');
-    const chatMessages = document.getElementById('chatMessages');
-    const suggestionBox = document.getElementById('suggestionBox');
-    const body = document.body;
-    const inputContainer = document.getElementById('inputContainer');
-    const logoContainer = document.querySelector('.logo-container');
-    const splashScreen = document.getElementById('splash-screen');
-    const splashTitle = document.getElementById('splashTitle');
-    const splashStatus = document.getElementById('splashStatus');
-    const splashText2 = document.getElementById('splashText2');
-    const splashLoader = document.getElementById('splash-loader');
-    const retryButton = document.getElementById('retry-button');
-    const langDropdown = document.getElementById('langDropdown');
-    const languageSwitcher = document.getElementById('languageSwitcher');
-    const infoText = document.getElementById('infoText');
-
+    // UI Elements
+    const elements = {
+        questionInput: document.getElementById('questionInput'),
+        sendBtn: document.getElementById('sendBtn'),
+        stopBtn: document.getElementById('stopBtn'),
+        clearBtn: document.getElementById('clearBtn'),
+        clearBtnContainer: document.getElementById('clearBtnContainer'),
+        settingsBtn: document.getElementById('settingsBtn'),
+        settingsBtnContainer: document.getElementById('settingsBtnContainer'),
+        chatMessages: document.getElementById('chatMessages'),
+        suggestionBox: document.getElementById('suggestionBox'),
+        body: document.body,
+        inputContainer: document.getElementById('inputContainer'),
+        logoContainer: document.querySelector('.logo-container'),
+        splashScreen: document.getElementById('splash-screen'),
+        splashTitle: document.getElementById('splashTitle'),
+        splashStatus: document.getElementById('splashStatus'),
+        splashText2: document.getElementById('splashText2'),
+        splashLoader: document.getElementById('splash-loader'),
+        retryButton: document.getElementById('retry-button'),
+        langDropdown: document.getElementById('langDropdown'),
+        languageSwitcher: document.getElementById('languageSwitcher'),
+        infoText: document.getElementById('infoText'),
+        settingsPage: document.getElementById('settingsPage'),
+        backBtn: document.getElementById('backBtn'),
+        themeSelect: document.getElementById('themeSelect'),
+        personaSelect: document.getElementById('personaSelect'),
+        // Start of new code
+        creditsBtn: document.getElementById('creditsBtn'),
+        creditsPage: document.getElementById('creditsPage'),
+        backBtnCredits: document.getElementById('backBtnCredits')
+        // End of new code
+    };
+    
+    // State Variables
     let chatHistory = [];
     let abortController = null;
     let currentLanguage = 'en';
+    let currentPersona = 'formal';
 
-    function updateUI() {
-        const lang = uiStrings[currentLanguage];
-        splashTitle.innerText = lang.splashTitle;
-        splashStatus.innerText = lang.splashStatus;
-        splashText2.innerText = lang.splashText2;
-        retryButton.innerText = lang.retryButton;
-        questionInput.placeholder = lang.inputPlaceholder;
-        infoText.innerText = lang.infoText;
-    }
-
-    function setLanguage(lang) {
-        currentLanguage = lang;
-        langDropdown.value = lang;
-        updateUI();
-        localStorage.setItem('miraiLanguage', lang);
-        showCopyFeedback(`${uiStrings[currentLanguage].langSwitchFeedback} ${currentLanguage.toUpperCase()}`);
-        clearChat(); // Kosongkan chat dan reset riwayat saat bahasa diganti
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const savedLanguage = localStorage.getItem('miraiLanguage');
-        if (savedLanguage) {
-            currentLanguage = savedLanguage;
-        }
-        setLanguage(currentLanguage); // Inisialisasi UI dan riwayat dengan bahasa yang benar
-        checkInternetConnection();
-    });
-
-    langDropdown.addEventListener('change', (event) => {
-        setLanguage(event.target.value);
-        console.log(`Bahasa diubah menjadi: ${currentLanguage}`);
-    });
-
-    sendBtn.addEventListener('click', askAI);
-    stopBtn.addEventListener('click', stopAI);
-    clearBtn.addEventListener('click', clearChat);
-
-    questionInput.addEventListener('keydown', (event) => {
+    // Event Listeners
+    elements.sendBtn.addEventListener('click', askAI);
+    elements.stopBtn.addEventListener('click', stopAI);
+    elements.clearBtn.addEventListener('click', clearChat);
+    elements.settingsBtn.addEventListener('click', showSettingsPage);
+    elements.backBtn.addEventListener('click', hideSettingsPage);
+    elements.themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
+    elements.personaSelect.addEventListener('change', (e) => setPersona(e.target.value));
+    elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value));
+    elements.questionInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
             askAI();
         }
     });
-
-    questionInput.addEventListener('input', showSuggestions);
-
-    questionInput.addEventListener('input', () => {
-        questionInput.style.height = 'auto';
-        questionInput.style.height = questionInput.scrollHeight + 'px';
+    elements.questionInput.addEventListener('input', showSuggestions);
+    elements.questionInput.addEventListener('input', () => {
+        elements.questionInput.style.height = 'auto';
+        elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px';
     });
+    elements.retryButton.addEventListener('click', checkInternetConnection);
+    // Start of new code
+    elements.creditsBtn.addEventListener('click', showCreditsPage);
+    elements.backBtnCredits.addEventListener('click', hideCreditsPage);
+    // End of new code
     
-    async function checkInternetConnection() {
-        splashStatus.innerText = uiStrings[currentLanguage].checkingConnection;
-        splashLoader.style.display = 'block';
-        retryButton.style.display = 'none';
+    // Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedLanguage = localStorage.getItem('miraiLanguage');
+        if (savedLanguage) {
+            currentLanguage = savedLanguage;
+        }
+        setLanguage(currentLanguage);
+        checkInternetConnection();
+        const savedTheme = localStorage.getItem('miraiTheme') || 'light';
+        setTheme(savedTheme);
+        const savedPersona = localStorage.getItem('miraiPersona') || 'formal';
+        setPersona(savedPersona);
+    });
 
-        try {
-            const response = await fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' });
-            
-            setTimeout(() => {
-                splashScreen.classList.add('hidden');
-            }, 1000);
+    // --- UI & State Management Functions ---
 
-        } catch (error) {
-            splashStatus.innerText = uiStrings[currentLanguage].errorConnection;
-            splashLoader.style.display = 'none';
-            retryButton.style.display = 'block';
+    function updateUI() {
+        const lang = uiStrings[currentLanguage];
+        elements.questionInput.placeholder = lang.inputPlaceholder;
+        elements.infoText.innerText = lang.infoText;
+    }
+    
+    function setLanguage(lang) {
+        currentLanguage = lang;
+        elements.langDropdown.value = lang;
+        updateUI();
+        localStorage.setItem('miraiLanguage', lang);
+        showCopyFeedback(`${uiStrings[currentLanguage].langSwitchFeedback} ${currentLanguage.toUpperCase()}`);
+        clearChat(); 
+    }
+    
+    function setPersona(persona) {
+        currentPersona = persona;
+        elements.personaSelect.value = persona;
+        localStorage.setItem('miraiPersona', persona);
+        clearChat(); 
+    }
+
+    function setTheme(theme) {
+        if (theme === 'light') {
+            elements.body.classList.add('light-theme');
+        } else {
+            elements.body.classList.remove('light-theme');
+        }
+        localStorage.setItem('miraiTheme', theme);
+        elements.themeSelect.value = theme;
+    }
+
+    
+    function showSettingsPage() {
+        elements.settingsPage.classList.add('active');
+        elements.body.classList.remove('chat-active');
+        // Start of new code
+        elements.creditsPage.classList.remove('active');
+        // End of new code
+    }
+
+    function hideSettingsPage() {
+        elements.settingsPage.classList.remove('active');
+        if (chatHistory.length > 1) {
+            elements.body.classList.add('chat-active');
         }
     }
     
+    // Start of new code
+    function showCreditsPage() {
+        elements.settingsPage.classList.remove('active');
+        elements.creditsPage.classList.add('active');
+    }
+
+    function hideCreditsPage() {
+        elements.creditsPage.classList.remove('active');
+        elements.settingsPage.classList.add('active');
+    }
+    // End of new code
+
     function clearChat() {
-        chatMessages.innerHTML = '';
+        elements.chatMessages.innerHTML = '';
         chatHistory = [{
             role: "user",
-            parts: [{ text: uiStrings[currentLanguage].systemPrompt }]
+            parts: [{ text: personas[currentPersona] }]
         }];
-        body.classList.remove('chat-active');
-        inputContainer.classList.remove('bottom');
-        inputContainer.classList.add('centered');
-        logoContainer.classList.remove('logo-hidden');
-        languageSwitcher.classList.remove('lang-hidden');
-        clearBtnContainer.style.display = 'none';
-        infoText.style.display = 'none';
+        elements.body.classList.remove('chat-active');
+        elements.inputContainer.classList.remove('bottom');
+        elements.inputContainer.classList.add('centered');
+        elements.logoContainer.classList.remove('logo-hidden');
+        elements.languageSwitcher.classList.remove('lang-hidden');
+        elements.clearBtnContainer.style.display = 'none';
+        elements.infoText.style.display = 'none';
     }
 
-    retryButton.addEventListener('click', () => {
-        checkInternetConnection();
-    });
-
-    function showSuggestions() {
-        const query = questionInput.value.toLowerCase().trim();
-        suggestionBox.innerHTML = '';
-        suggestionBox.style.display = 'none';
-
-        if (query.length < 2) {
-            return;
+    function toggleChatUI(active) {
+        if (active) {
+            elements.body.classList.add('chat-active');
+            elements.inputContainer.classList.remove('centered');
+            elements.inputContainer.classList.add('bottom');
+            elements.logoContainer.classList.add('logo-hidden');
+            elements.languageSwitcher.classList.add('lang-hidden');
+            elements.clearBtnContainer.style.display = 'block';
+            elements.infoText.style.display = 'block';
+        } else {
+            elements.body.classList.remove('chat-active');
+            elements.inputContainer.classList.remove('bottom');
+            elements.inputContainer.classList.add('centered');
+            elements.logoContainer.classList.remove('logo-hidden');
+            elements.languageSwitcher.classList.remove('lang-hidden');
+            elements.clearBtnContainer.style.display = 'none';
+            elements.infoText.style.display = 'none';
         }
+    }
 
+    // --- Core Chat Functions ---
+
+    async function checkInternetConnection() {
+        elements.splashTitle.style.display = 'none';
+        elements.splashStatus.style.display = 'none';
+        elements.splashText2.style.display = 'none';
+        elements.splashLoader.style.display = 'block';
+        elements.retryButton.style.display = 'none';
+        try {
+            const response = await fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' });
+            setTimeout(() => {
+                elements.splashScreen.classList.add('hidden');
+            }, 1000);
+        } catch (error) {
+            elements.splashTitle.style.display = 'block';
+            elements.splashStatus.style.display = 'block';
+            elements.splashText2.style.display = 'block';
+            elements.retryButton.style.display = 'block';
+            elements.splashLoader.style.display = 'none';
+            elements.splashTitle.innerText = uiStrings[currentLanguage].offlineTitle;
+            elements.splashStatus.innerText = uiStrings[currentLanguage].offlineText;
+            elements.splashText2.innerText = uiStrings[currentLanguage].errorConnection;
+            elements.retryButton.innerText = uiStrings[currentLanguage].retryButton;
+        }
+    }
+    
+    function showSuggestions() {
+        const query = elements.questionInput.value.toLowerCase().trim();
+        elements.suggestionBox.innerHTML = '';
+        elements.suggestionBox.style.display = 'none';
+        if (query.length < 2) return;
         const suggestions = Object.keys(faqDatabase)
             .filter(key => key.toLowerCase().includes(query))
             .slice(0, 5);
-
         if (suggestions.length > 0) {
-            suggestionBox.style.display = 'block';
+            elements.suggestionBox.style.display = 'block';
             suggestions.forEach(suggestion => {
                 const div = document.createElement('div');
                 div.classList.add('suggestion-item');
                 div.innerText = suggestion;
                 div.addEventListener('click', () => {
-                    questionInput.value = suggestion;
-                    suggestionBox.style.display = 'none';
+                    elements.questionInput.value = suggestion;
+                    elements.suggestionBox.style.display = 'none';
                     askAI();
                 });
-                suggestionBox.appendChild(div);
+                elements.suggestionBox.appendChild(div);
             });
         }
     }
 
-    function similarity(str1, str2) {
-        str1 = str1.toLowerCase().trim();
-        str2 = str2.toLowerCase().trim();
-        const words1 = str1.split(" ");
-        const words2 = str2.split(" ");
-        const common = words1.filter(w => words2.includes(w));
-        return common.length / Math.max(words1.length, words2.length);
-    }
-
     function findSmartAnswer(question) {
         const normalized = question.toLowerCase().trim();
-        
         let bestMatch = null;
         let highestScore = 0;
         const threshold = 0.6;
-
         const sortedKeys = Object.keys(faqDatabase).sort((a, b) => b.length - a.length);
-
         for (const key of sortedKeys) {
             const normalizedKey = key.toLowerCase().replace("?", "");
-            if (normalized.includes(normalizedKey)) {
-                return faqDatabase[key];
-            }
+            if (normalized.includes(normalizedKey)) return faqDatabase[key];
         }
-
         for (const key in faqDatabase) {
             const score = similarity(normalized, key);
             if (score > highestScore) {
@@ -854,8 +1356,16 @@ const uiStrings = {
                 bestMatch = key;
             }
         }
-
         return highestScore >= threshold ? faqDatabase[bestMatch] : null;
+    }
+    
+    function similarity(str1, str2) {
+        str1 = str1.toLowerCase().trim();
+        str2 = str2.toLowerCase().trim();
+        const words1 = str1.split(" ");
+        const words2 = str2.split(" ");
+        const common = words1.filter(w => words2.includes(w));
+        return common.length / Math.max(words1.length, words2.length);
     }
 
     function typeWriterEffect(element, text, speed = 1) {
@@ -885,7 +1395,7 @@ const uiStrings = {
         const loadingBubble = document.createElement('div');
         loadingBubble.classList.add('chat-bubble', 'ai-bubble', 'typing-indicator', 'fade-in');
         loadingBubble.innerHTML = '<span></span><span></span><span></span>';
-        chatMessages.appendChild(loadingBubble);
+        elements.chatMessages.appendChild(loadingBubble);
         return loadingBubble;
     }
 
@@ -893,50 +1403,33 @@ const uiStrings = {
         if (abortController) {
             abortController.abort();
             console.log("Response aborted.");
-            stopBtn.style.display = 'none';
-            sendBtn.style.display = 'block';
-            clearBtnContainer.style.display = 'block';
+            elements.stopBtn.style.display = 'none';
+            elements.sendBtn.style.display = 'block';
+            elements.clearBtnContainer.style.display = 'block';
             const loadingBubble = document.querySelector('.typing-indicator');
-            if (loadingBubble) {
-                loadingBubble.remove();
-            }
+            if (loadingBubble) loadingBubble.remove();
         }
     }
 
     async function askAI() {
-        if (!body.classList.contains('chat-active')) {
-            body.classList.add('chat-active');
-            inputContainer.classList.remove('centered');
-            inputContainer.classList.add('bottom');
-            logoContainer.classList.add('logo-hidden');
-            languageSwitcher.classList.add('lang-hidden');
-            clearBtnContainer.style.display = 'block';
-            infoText.style.display = 'block'; // Tampilkan teks informasi saat chat dimulai
-            const greeting = document.querySelector('.initial-greeting');
-            if (greeting) {
-                greeting.remove();
-            }
-        }
+        const question = elements.questionInput.value;
+        if (question.trim() === '') return;
 
-        const question = questionInput.value;
-        questionInput.value = '';
-        questionInput.style.height = 'auto';
-        suggestionBox.style.display = 'none';
-
-        if (question.trim() === '') {
-            return;
-        }
+        toggleChatUI(true);
+        elements.questionInput.value = '';
+        elements.questionInput.style.height = 'auto';
+        elements.suggestionBox.style.display = 'none';
         
-        sendBtn.style.display = 'none';
-        clearBtnContainer.style.display = 'none';
-        stopBtn.style.display = 'block';
+        elements.sendBtn.style.display = 'none';
+        elements.clearBtnContainer.style.display = 'none';
+        elements.stopBtn.style.display = 'block';
 
         const userBubble = document.createElement('div');
         userBubble.classList.add('chat-bubble', 'user-bubble');
         userBubble.innerText = question;
-        chatMessages.appendChild(userBubble);
+        elements.chatMessages.appendChild(userBubble);
         setTimeout(() => userBubble.classList.add('fade-in'), 10);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
 
         chatHistory.push({
             role: "user",
@@ -944,36 +1437,26 @@ const uiStrings = {
         });
 
         const loadingBubble = showLoading();
-
         const localAnswer = findSmartAnswer(question);
+
         if (localAnswer) {
             await new Promise(resolve => setTimeout(resolve, 500));
             loadingBubble.remove();
             
-            const aiBubble = document.createElement('div');
-            aiBubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in');
-            aiBubble.setAttribute('data-raw-text', localAnswer);
-            aiBubble.innerHTML = `
-                ${marked.parse(localAnswer)}
-                <i class="fas fa-copy copy-btn" onclick="copyToClipboard(this)"></i>
-            `;
-            chatMessages.appendChild(aiBubble);
+            const aiBubble = createAiBubble(localAnswer);
+            elements.chatMessages.appendChild(aiBubble);
             
-            sendBtn.style.display = 'block';
-            stopBtn.style.display = 'none';
-            clearBtnContainer.style.display = 'block';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            elements.sendBtn.style.display = 'block';
+            elements.stopBtn.style.display = 'none';
+            elements.clearBtnContainer.style.display = 'block';
+            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
             return;
         }
 
         try {
             abortController = new AbortController();
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${API_KEY}`;
-            
-            const requestBody = {
-                contents: chatHistory
-            };
-
+            const requestBody = { contents: chatHistory };
             const response = await fetch(url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -981,71 +1464,62 @@ const uiStrings = {
                 signal: abortController.signal
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const data = await response.json();
-
             let answer = uiStrings[currentLanguage].errorFallback;
-            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+            if (data.candidates?.[0]?.content?.parts?.[0]) {
                 answer = data.candidates[0].content.parts[0].text;
-                chatHistory.push({
-                    role: "model",
-                    parts: [{ text: answer }]
-                });
+                chatHistory.push({ role: "model", parts: [{ text: answer }] });
             }
 
             loadingBubble.remove();
-            
-            const aiBubble = document.createElement('div');
-            aiBubble.classList.add('chat-bubble', 'ai-bubble');
-            aiBubble.setAttribute('data-raw-text', answer);
-            chatMessages.appendChild(aiBubble);
-
-            setTimeout(() => aiBubble.classList.add('fade-in'), 10);
+            const aiBubble = createAiBubble(answer, false);
+            elements.chatMessages.appendChild(aiBubble);
             await typeWriterEffect(aiBubble, answer);
-
+            
             const copyBtn = document.createElement('i');
             copyBtn.classList.add('fas', 'fa-copy', 'copy-btn');
             copyBtn.setAttribute('onclick', 'copyToClipboard(this)');
             aiBubble.appendChild(copyBtn);
             
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
 
         } catch (error) {
             console.error('Error:', error);
             if (error.name !== 'AbortError') {
                 const errorMessage = uiStrings[currentLanguage].errorAPI;
-                const errorBubble = document.createElement('div');
-                errorBubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in');
-                errorBubble.innerText = errorMessage;
-                chatMessages.appendChild(errorBubble);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                const errorBubble = createAiBubble(errorMessage);
+                elements.chatMessages.appendChild(errorBubble);
+                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
             }
         } finally {
-            sendBtn.style.display = 'block';
-            stopBtn.style.display = 'none';
-            clearBtnContainer.style.display = 'block';
+            elements.sendBtn.style.display = 'block';
+            elements.stopBtn.style.display = 'none';
+            elements.clearBtnContainer.style.display = 'block';
         }
+    }
+
+    function createAiBubble(text, useInnerHTML = true) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in');
+        bubble.setAttribute('data-raw-text', text);
+        if (useInnerHTML) {
+            bubble.innerHTML = `${marked.parse(text)}<i class="fas fa-copy copy-btn" onclick="copyToClipboard(this)"></i>`;
+        }
+        return bubble;
     }
 
     function copyToClipboard(element) {
         const aiBubble = element.closest('.ai-bubble');
         const textToCopy = aiBubble.getAttribute('data-raw-text');
-        
         const formattedText = `${textToCopy}${uiStrings[currentLanguage].copySuffix}`;
-
         const tempInput = document.createElement('textarea');
         tempInput.value = formattedText;
         document.body.appendChild(tempInput);
-        
         tempInput.select();
         tempInput.setSelectionRange(0, 99999);
         document.execCommand('copy');
-        
         document.body.removeChild(tempInput);
-
         showCopyFeedback(uiStrings[currentLanguage].copyFeedback);
     }
 
@@ -1057,8 +1531,8 @@ const uiStrings = {
             bottom: 150px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #ffce00;
-            color: #000;
+            background-color: #444;
+            color: #fff;
             padding: 10px 20px;
             border-radius: 20px;
             font-size: 14px;
@@ -1067,11 +1541,7 @@ const uiStrings = {
             transition: opacity 0.5s ease-in-out;
         `;
         document.body.appendChild(feedbackDiv);
-        
-        setTimeout(() => {
-            feedbackDiv.style.opacity = 1;
-        }, 10);
-
+        setTimeout(() => { feedbackDiv.style.opacity = 1; }, 10);
         setTimeout(() => {
             feedbackDiv.style.opacity = 0;
             setTimeout(() => feedbackDiv.remove(), 500);
@@ -1079,5 +1549,4 @@ const uiStrings = {
     }
 </script>
 </body>
-
 </html>
