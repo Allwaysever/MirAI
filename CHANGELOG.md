@@ -1,16 +1,20 @@
 # Changelogs
 
 ## What's new?
-### v2.0
-- Secondary Update
+### v2.0.1
+- Fixed bug: ''Hi! I'm MirAl...'' image overlapped input box. Fixed
+- language expansion for settings and credits
+- removal of Chinese, Spanish, Portuguese and Arabic for code efficiency and the possibility that these languages will be rarely used by users
+
+---
+
+## Previous version:
+### v2.0 - Secondary Update
 - UI overhaul to modern
 - Added features: Settings/"Pengaturan" in Indonesian
 - Features of settings: change theme (Dark/Light), MirAI Persona can be changed into 3 (Formal & Serious, Relaxed and a bit funny, Imaginative)
 - New look for light theme
 
----
-
-## Previous version:
 ### v1.5.1
 - UI Update: The ``input-container`` section has a transparent background.
 - Adding info text: "MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya" (In Indonesian)
