@@ -137,7 +137,7 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             left: 50%;
             transform: translate(-50% , -50%);
             transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
-            z-index: 650;
+            z-index: 099;
             text-align: center;
     pointer-events: none;
         }
@@ -871,10 +871,6 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         <option value="en">🇺🇸 English (US)</option>
         <option value="en-uk">🇬🇧 English (UK)</option>
         <option value="jp">🇯🇵 日本語</option>
-        <option value="zh">🇨🇳 中文 (简体)</option>
-        <option value="es">🇪🇸 Español</option>
-        <option value="pt">🇧🇷 Português</option>
-        <option value="ar">🇸🇦 العربية</option>
     </select>
 </div>
 
@@ -898,69 +894,70 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
 
 <div id="settingsPage">
     <div class="settings-header">
-        <h2>Pengaturan</h2>
+        <h2 id="settingsHeaderTitle"></h2>
         <button id="backBtn"><i class="fas fa-times"></i></button>
     </div>
     <div class="settings-content">
-        <h3>Tampilan</h3>
+        <h3 id="settingsAppearanceTitle"></h3>
         <div class="settings-option">
-            <p>Pilih Tema:</p>
+            <p id="settingsThemeText"></p>
             <select id="themeSelect">
-                <option value="light">Terang</option>
-                <option value="dark">Gelap</option>
+                <option value="light" id="themeLightOption"></option>
+                <option value="dark" id="themeDarkOption"></option>
             </select>
         </div>
         
-        <h3>Kustomisasi AI</h3>
+        <h3 id="settingsAITitle"></h3>
         <div class="settings-option">
-            <p>Persona MirAI:</p>
+            <p id="settingsPersonaText"></p>
             <select id="personaSelect">
-                <option value="formal">Formal & Serius</option>
-                <option value="default">Santai & Bercanda</option>
-                <option value="creative">Kreatif & Imajinatif</option>
+                <option value="formal" id="personaFormalOption"></option>
+                <option value="default" id="personaDefaultOption"></option>
+                <option value="creative" id="personaCreativeOption"></option>
             </select>
         </div>
 
-        <h3>Tentang MirAI</h3>
+        <h3 id="settingsAboutTitle"></h3>
         <div class="settings-about">
-            <p>Versi: <span id="miraiVersion">v2.0</span></p>
-            <p>Dibuat oleh Allwaysever</p>
-            <p><a href="https://github.com/Allwaysever/MirAI" target="_blank">Repositori GitHub</a></p>
-            <p><a href="#" id="licenseLink">Lisensi Open Source</a></p>
+            <p id="settingsVersionText"></p>
+            <p id="settingsAuthorText"></p>
+            <p><a href="https://github.com/Allwaysever/MirAI" target="_blank" id="githubLink"></a></p>
+            <p><a href="#" id="licenseLink"></a></p>
             <div class="gemini-container">
                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWeacIHe4NkMJ37BHFNkrT34hrwc0E1A9SA1LhXmXPkWoAbuR6aXhCYWMKD2-aBD-D_fsr4cGF03_l3AfYp5WA8riGWEUToJFLS3HVwk4W5Zjho7FxT2MtU_DjRAsZMViGQ0384e8AUsmx64L-pRb4DNXrRMIDA78P5H7VfON_67lWDulVq1-12II97EQL/s16000-rw/20250910_155455.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
             </div>
-            <button id="creditsBtn" class="settings-credits-btn">Credits</button>
+            <button id="creditsBtn" class="settings-credits-btn"></button>
             </div>
     </div>
 </div>
 
 <div id="creditsPage">
     <div class="settings-header">
-        <h2>Credits</h2>
+        <h2 id="creditsHeaderTitle"></h2>
         <button id="backBtnCredits"><i class="fas fa-times"></i></button>
     </div>
     <div class="settings-content">
         <div class="settings-about">
-<h2>MirAI Project</h2><br><br>
-<p><b>Produced by</b> Allwaysever</p>
-<p><b>Starring by</b> MirAI, an AI model powered by Google</p>
-<p><b>Project Leader & Architect by</b> Allwaysever</p>
-<p><b>Back-End Development by</b> Google (via Gemini API)</p>
-<p><b>Front-End & UIUX Design by</b> Allwaysever</p>
-<p><b>Graphic & Visual Design by</b> Allwaysever & Google (for Gemini Logo)</p>
-<p><b>In Collaboration With</b> Model AI by Gemini 2.5 Flash by Google</p>
-<p><b>Fonts & Typography by</b> Egkoppel (Product Sans)</p>
-<p><b>Iconography by</b> Font Awesome</p>
-<p><b>In Association With</b> GitHub</p>
-<p><b>Special Thanks</b> To all the users who provided feedback, ideas, and support.
-This work would not have been possible without an amazing community.</p>
+            <h2 id="creditsProjectTitle"></h2><br><br>
+            <p><b id="creditsProducedBy"></b> Allwaysever</p>
+            <p><b id="creditsStarringBy"></b> MirAI, an AI model powered by Google</p>
+            <p><b id="creditsProjectLeader"></b> Allwaysever</p>
+            <p><b id="creditsBackendDev"></b> Google (via Gemini API)</p>
+            <p><b id="creditsFrontendDev"></b> Allwaysever</p>
+            <p><b id="creditsVisualDesign"></b> Allwaysever & Google (for Gemini Logo)</p>
+            <p><b id="creditsInCollaboration"></b> Model AI by Gemini 2.5 Flash by Google</p>
+            <p><b id="creditsFonts"></b> Egkoppel (Product Sans)</p>
+            <p><b id="creditsIconography"></b> Font Awesome</p>
+            <p><b id="creditsInAssociationWith"></b> GitHub</p>
+            <p><b id="creditsSpecialThanks"></b> To all the users who provided feedback, ideas, and support.
+            This work would not have been possible without an amazing community.</p>
         </div>
     </div>
 </div>
 <script>
-    const API_KEY = 'YOUR_API_KEY_HERE';
+    const API_KEY = 'AIzaSyCA2t9e-DG60prmVrel47qUKGdpJQvbA40';
     const model = 'gemini-2.5-flash';
+    const VERSION = 'v2.0.1';
     
     const personas = {
         'default': "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
@@ -989,7 +986,39 @@ This work would not have been possible without an amazing community.</p>
             errorConnection: 'Tidak ada koneksi internet. Silakan periksa jaringan Kamu.',
             checkingConnection: 'Memeriksa koneksi internet...',
             copySuffix: '\n\nIni adalah hasil dari respon MirAI',
-            infoText: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya'
+            infoText: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya',
+            // Tambahan untuk halaman Pengaturan
+            settingsHeaderTitle: 'Pengaturan',
+            settingsAppearanceTitle: 'Tampilan',
+            settingsThemeText: 'Pilih Tema:',
+            themeLightOption: 'Terang',
+            themeDarkOption: 'Gelap',
+            settingsAITitle: 'Kustomisasi AI',
+            settingsPersonaText: 'Persona MirAI:',
+            personaFormalOption: 'Formal & Serius',
+            personaDefaultOption: 'Santai & Bercanda',
+            personaCreativeOption: 'Kreatif & Imajinatif',
+            settingsAboutTitle: 'Tentang MirAI',
+            settingsVersionText: `Versi: ${VERSION}`,
+            settingsAuthorText: 'Dibuat oleh Allwaysever',
+            githubLink: 'Repositori GitHub',
+            licenseLink: 'Lisensi Open Source',
+            settingsCreditsBtn: 'Credits',
+            // Tambahan untuk halaman Credits
+            creditsHeaderTitle: 'Credits',
+            creditsProjectTitle: 'MirAI Project',
+            creditsProducedBy: 'Produced by',
+            creditsStarringBy: 'Starring by',
+            creditsProjectLeader: 'Project Leader & Architect by',
+            creditsBackendDev: 'Back-End Development by',
+            creditsFrontendDev: 'Front-End & UIUX Design by',
+            creditsVisualDesign: 'Graphic & Visual Design by',
+            creditsInCollaboration: 'In Collaboration With',
+            creditsFonts: 'Fonts & Typography by',
+            creditsIconography: 'Iconography by',
+            creditsInAssociationWith: 'In Association With',
+            creditsSpecialThanks: 'Special Thanks',
+            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.'
         },
         'en': {
             splashTitle: 'Checking connection',
@@ -1006,7 +1035,39 @@ This work would not have been possible without an amazing community.</p>
             errorConnection: 'No internet connection. Please check your network.',
             checkingConnection: 'Checking internet connection...',
             copySuffix: '\n\nThis is a response from MirAI',
-            infoText: 'MirAI may give inaccurate answers. Please double-check the responses'
+            infoText: 'MirAI may give inaccurate answers. Please double-check the responses',
+            // Tambahan untuk halaman Pengaturan
+            settingsHeaderTitle: 'Settings',
+            settingsAppearanceTitle: 'Appearance',
+            settingsThemeText: 'Choose Theme:',
+            themeLightOption: 'Light',
+            themeDarkOption: 'Dark',
+            settingsAITitle: 'AI Customization',
+            settingsPersonaText: 'MirAI Persona:',
+            personaFormalOption: 'Formal & Serious',
+            personaDefaultOption: 'Relaxed & Casual',
+            personaCreativeOption: 'Creative & Imaginative',
+            settingsAboutTitle: 'About MirAI',
+            settingsVersionText: `Version: ${VERSION}`,
+            settingsAuthorText: 'Created by Allwaysever',
+            githubLink: 'GitHub Repository',
+            licenseLink: 'Open Source License',
+            settingsCreditsBtn: 'Credits',
+            // Tambahan untuk halaman Credits
+            creditsHeaderTitle: 'Credits',
+            creditsProjectTitle: 'MirAI Project',
+            creditsProducedBy: 'Produced by',
+            creditsStarringBy: 'Starring by',
+            creditsProjectLeader: 'Project Leader & Architect by',
+            creditsBackendDev: 'Back-End Development by',
+            creditsFrontendDev: 'Front-End & UIUX Design by',
+            creditsVisualDesign: 'Graphic & Visual Design by',
+            creditsInCollaboration: 'In Collaboration With',
+            creditsFonts: 'Fonts & Typography by',
+            creditsIconography: 'Iconography by',
+            creditsInAssociationWith: 'In Association With',
+            creditsSpecialThanks: 'Special Thanks',
+            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.'
         },
         'en-uk': {
             splashTitle: 'Checking connection',
@@ -1023,7 +1084,39 @@ This work would not have been possible without an amazing community.</p>
             errorConnection: 'No internet connection. Please check your network.',
             checkingConnection: 'Checking internet connection...',
             copySuffix: '\n\nThis is a response from MirAI',
-            infoText: 'MirAI may give inaccurate answers. Please double-check the responses'
+            infoText: 'MirAI may give inaccurate answers. Please double-check the responses',
+            // Tambahan untuk halaman Pengaturan
+            settingsHeaderTitle: 'Settings',
+            settingsAppearanceTitle: 'Appearance',
+            settingsThemeText: 'Choose Theme:',
+            themeLightOption: 'Light',
+            themeDarkOption: 'Dark',
+            settingsAITitle: 'AI Customisation',
+            settingsPersonaText: 'MirAI Persona:',
+            personaFormalOption: 'Formal & Serious',
+            personaDefaultOption: 'Relaxed & Casual',
+            personaCreativeOption: 'Creative & Imaginative',
+            settingsAboutTitle: 'About MirAI',
+            settingsVersionText: `Version: ${VERSION}`,
+            settingsAuthorText: 'Created by Allwaysever',
+            githubLink: 'GitHub Repository',
+            licenseLink: 'Open Source Licence',
+            settingsCreditsBtn: 'Credits',
+            // Tambahan untuk halaman Credits
+            creditsHeaderTitle: 'Credits',
+            creditsProjectTitle: 'MirAI Project',
+            creditsProducedBy: 'Produced by',
+            creditsStarringBy: 'Starring by',
+            creditsProjectLeader: 'Project Leader & Architect by',
+            creditsBackendDev: 'Back-End Development by',
+            creditsFrontendDev: 'Front-End & UIUX Design by',
+            creditsVisualDesign: 'Graphic & Visual Design by',
+            creditsInCollaboration: 'In Collaboration With',
+            creditsFonts: 'Fonts & Typography by',
+            creditsIconography: 'Iconography by',
+            creditsInAssociationWith: 'In Association With',
+            creditsSpecialThanks: 'Special Thanks',
+            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.'
         },
         'jp': {
             splashTitle: '接続を確認中',
@@ -1040,76 +1133,40 @@ This work would not have been possible without an amazing community.</p>
             errorConnection: 'インターネット接続がありません。ネットワークを確認してください。',
             checkingConnection: 'インターネット接続を確認中...',
             copySuffix: '\n\nこれはMirAIからの返答です',
-            infoText: 'MirAIは不正確な回答をする場合があります。回答を再確認してください'
+            infoText: 'MirAIは不正確な回答をする場合があります。回答を再確認してください',
+            // Tambahan untuk halaman Pengaturan
+            settingsHeaderTitle: '設定',
+            settingsAppearanceTitle: '外観',
+            settingsThemeText: 'テーマを選択:',
+            themeLightOption: 'ライト',
+            themeDarkOption: 'ダーク',
+            settingsAITitle: 'AIのカスタマイズ',
+            settingsPersonaText: 'MirAIのペルソナ:',
+            personaFormalOption: 'フォーマル＆真面目',
+            personaDefaultOption: 'リラックス＆カジュアル',
+            personaCreativeOption: 'クリエイティブ＆想像力豊か',
+            settingsAboutTitle: 'MirAIについて',
+            settingsVersionText: `バージョン: ${VERSION}`,
+            settingsAuthorText: '作成者: Allwaysever',
+            githubLink: 'GitHubリポジトリ',
+            licenseLink: 'オープンソースライセンス',
+            settingsCreditsBtn: 'クレジット',
+            // Tambahan untuk halaman Credits
+            creditsHeaderTitle: 'クレジット',
+            creditsProjectTitle: 'MirAI プロジェクト',
+            creditsProducedBy: '制作',
+            creditsStarringBy: '主演',
+            creditsProjectLeader: 'プロジェクトリーダー＆アーキテクト',
+            creditsBackendDev: 'バックエンド開発',
+            creditsFrontendDev: 'フロントエンド＆UIUXデザイン',
+            creditsVisualDesign: 'グラフィック＆ビジュアルデザイン',
+            creditsInCollaboration: '協力',
+            creditsFonts: 'フォント＆タイポグラフィ',
+            creditsIconography: 'アイコン',
+            creditsInAssociationWith: '提携',
+            creditsSpecialThanks: 'スペシャルサンクス',
+            creditsSpecialThanksText: 'フィードバック、アイデア、サポートを提供してくれたすべてのユーザーに。この作品は素晴らしいコミュニティなくしては不可能でした。'
         },
-        'zh': {
-            splashTitle: '正在检查连接',
-            splashStatus: '正在检查网络连接并加载数据。',
-            splashText2: '别担心，这不是网络跟踪。这只是为了加载图片并与AI保持连接',
-            offlineTitle: '您已离线',
-            offlineText: '请检查您的网络并重试',
-            retryButton: '再试一次',
-            inputPlaceholder: '问MirAI任何事...',
-            copyFeedback: '文本复制成功！',
-            langSwitchFeedback: '语言已成功切换到',
-            errorAPI: '哎呀！似乎出了点问题。请检查您的网络连接或稍后再试。😅',
-            errorFallback: '对不起，我找不到答案。可能是问题太复杂了？😂 请问点别的吧。',
-            errorConnection: '没有网络连接。请检查您的网络。',
-            checkingConnection: '正在检查网络连接...',
-            copySuffix: '\n\n这是来自MirAI的回复',
-            infoText: 'MirAI的回答可能不准确。请再次检查回答'
-        },
-        'es': {
-            splashTitle: 'Comprobando conexión',
-            splashStatus: 'Comprobando la conexión a internet y cargando datos.',
-            splashText2: 'No te preocupes, no es doxing. Es solo para cargar imágenes y mantenerse conectado a la IA',
-            offlineTitle: 'Estás Desconectado',
-            offlineText: 'Revisa tu conexión a internet y vuelve a intentarlo',
-            retryButton: 'Intentar de nuevo',
-            inputPlaceholder: 'Pregúntale cualquier cosa a MirAI...',
-            copyFeedback: '¡Texto copiado con éxito!',
-            langSwitchFeedback: 'Idioma cambiado exitosamente a',
-            errorAPI: '¡Ups! Parece que hay un problema. Por favor, revisa tu conexión a internet o inténtalo de nuevo en un momento. 😅',
-            errorFallback: 'Lo siento, no pude encontrar una respuesta para eso. ¿Quizás la pregunta es demasiado compleja? 😂 Por favor, intenta preguntar otra cosa.',
-            errorConnection: 'Sin conexión a internet. Por favor, revisa tu red.',
-            checkingConnection: 'Comprobando conexión a internet...',
-            copySuffix: '\n\nEsta es una respuesta del MirAI',
-            infoText: 'MirAI puede dar respuestas inexactas. Por favor, verifica las respuestas'
-        },
-        'pt': {
-            splashTitle: 'Verificando conexão',
-            splashStatus: 'Verificando a conexão com a internet e carregando dados.',
-            splashText2: 'Não se preocupe, não é doxing. É apenas para carregar imagens e manter a conexão com a IA',
-            offlineTitle: 'Você está Offline',
-            offlineText: 'Verifique sua internet e tente novamente',
-            retryButton: 'Tentar novamente',
-            inputPlaceholder: 'Pergunte qualquer coisa ao MirAI...',
-            copyFeedback: 'Texto copiado com sucesso!',
-            langSwitchFeedback: 'Idioma alterado com sucesso para',
-            errorAPI: 'Ops! Parece haver um problema. Por favor, verifique sua conexão com a internet ou tente novamente em um momento. 😅',
-            errorFallback: 'Desculpe, não consegui encontrar uma resposta para isso. Tal vez a pergunta seja muito complexa? 😂 Por favor, tente perguntar outra coisa.',
-            errorConnection: 'Sem conexão com a internet. Por favor, verifique sua rede.',
-            checkingConnection: 'Verificando conexão com a internet...',
-            copySuffix: '\n\nEsta é uma resposta do MirAI',
-            infoText: 'MirAI pode dar respostas imprecisas. Por favor, verifique as respostas'
-        },
-        'ar': {
-            splashTitle: 'جاري فحص الاتصال',
-            splashStatus: 'جاري فحص اتصال الإنترنت وتحميل البيانات.',
-            splashText2: 'لا تقلق، هذا ليس تجسسًا. إنه فقط لتحميل الصور والبقاء على اتصال بالذكاء الاصطناعي',
-            offlineTitle: 'أنت غير متصل',
-            offlineText: 'تحقق من اتصالك بالإنترنت وحاول مرة أخرى',
-            retryButton: 'حاول مرة أخرى',
-            inputPlaceholder: 'اسأل MirAI أي شيء...',
-            copyFeedback: 'تم نسخ النص بنجاح!',
-            langSwitchFeedback: 'تم تغيير اللغة بنجاح إلى',
-            errorAPI: 'عذراً! يبدو أن هناك مشكلة. يرجى التحقق من اتصالك بالإنترنت أو المحاولة مرة أخرى بعد قليل. 😅',
-            errorFallback: 'عذراً، لم أتمكن من العثور على إجابة لذلك. ربما السؤال معقد جداً؟ 😂 يرجى محاولة طرح شيء آخر.',
-            errorConnection: 'لا يوجد اتصال بالإنترنت. يرجى التحقق من شبكتك.',
-            checkingConnection: 'جاري فحص اتصال الإنترنت...',
-            copySuffix: '\n\nهذه إجابة من MirAI',
-            infoText: 'قد يقدم MirAI إجابات غير دقيقة. يرجى مراجعة الردود'
-        }
     };
     
     // UI Elements
@@ -1142,7 +1199,36 @@ This work would not have been possible without an amazing community.</p>
         // Start of new code
         creditsBtn: document.getElementById('creditsBtn'),
         creditsPage: document.getElementById('creditsPage'),
-        backBtnCredits: document.getElementById('backBtnCredits')
+        backBtnCredits: document.getElementById('backBtnCredits'),
+        // Tambahan elemen untuk terjemahan
+        settingsHeaderTitle: document.getElementById('settingsHeaderTitle'),
+        settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'),
+        settingsThemeText: document.getElementById('settingsThemeText'),
+        themeLightOption: document.getElementById('themeLightOption'),
+        themeDarkOption: document.getElementById('themeDarkOption'),
+        settingsAITitle: document.getElementById('settingsAITitle'),
+        settingsPersonaText: document.getElementById('settingsPersonaText'),
+        personaFormalOption: document.getElementById('personaFormalOption'),
+        personaDefaultOption: document.getElementById('personaDefaultOption'),
+        personaCreativeOption: document.getElementById('personaCreativeOption'),
+        settingsAboutTitle: document.getElementById('settingsAboutTitle'),
+        settingsVersionText: document.getElementById('settingsVersionText'),
+        settingsAuthorText: document.getElementById('settingsAuthorText'),
+        githubLink: document.getElementById('githubLink'),
+        licenseLink: document.getElementById('licenseLink'),
+        creditsHeaderTitle: document.getElementById('creditsHeaderTitle'),
+        creditsProjectTitle: document.getElementById('creditsProjectTitle'),
+        creditsProducedBy: document.getElementById('creditsProducedBy'),
+        creditsStarringBy: document.getElementById('creditsStarringBy'),
+        creditsProjectLeader: document.getElementById('creditsProjectLeader'),
+        creditsBackendDev: document.getElementById('creditsBackendDev'),
+        creditsFrontendDev: document.getElementById('creditsFrontendDev'),
+        creditsVisualDesign: document.getElementById('creditsVisualDesign'),
+        creditsInCollaboration: document.getElementById('creditsInCollaboration'),
+        creditsFonts: document.getElementById('creditsFonts'),
+        creditsIconography: document.getElementById('creditsIconography'),
+        creditsInAssociationWith: document.getElementById('creditsInAssociationWith'),
+        creditsSpecialThanks: document.getElementById('creditsSpecialThanks')
         // End of new code
     };
     
@@ -1198,8 +1284,53 @@ This work would not have been possible without an amazing community.</p>
         const lang = uiStrings[currentLanguage];
         elements.questionInput.placeholder = lang.inputPlaceholder;
         elements.infoText.innerText = lang.infoText;
+        updateSettingsUI();
     }
     
+    // Fungsi baru untuk memperbarui UI halaman pengaturan dan credits
+    function updateSettingsUI() {
+        const lang = uiStrings[currentLanguage];
+        if (!lang) return; // Tambahkan cek untuk bahasa yang tidak didukung
+        
+        elements.settingsHeaderTitle.innerText = lang.settingsHeaderTitle;
+        elements.settingsAppearanceTitle.innerText = lang.settingsAppearanceTitle;
+        elements.settingsThemeText.innerText = lang.settingsThemeText;
+        elements.themeLightOption.innerText = lang.themeLightOption;
+        elements.themeDarkOption.innerText = lang.themeDarkOption;
+        elements.settingsAITitle.innerText = lang.settingsAITitle;
+        elements.settingsPersonaText.innerText = lang.settingsPersonaText;
+        elements.personaFormalOption.innerText = lang.personaFormalOption;
+        elements.personaDefaultOption.innerText = lang.personaDefaultOption;
+        elements.personaCreativeOption.innerText = lang.personaCreativeOption;
+        elements.settingsAboutTitle.innerText = lang.settingsAboutTitle;
+        elements.settingsVersionText.innerText = lang.settingsVersionText;
+        elements.settingsAuthorText.innerText = lang.settingsAuthorText;
+        elements.githubLink.innerText = lang.githubLink;
+        elements.licenseLink.innerText = lang.licenseLink;
+        elements.creditsBtn.innerText = lang.settingsCreditsBtn;
+        
+        // Update halaman Credits
+        elements.creditsHeaderTitle.innerText = lang.creditsHeaderTitle;
+        elements.creditsProjectTitle.innerText = lang.creditsProjectTitle;
+        elements.creditsProducedBy.innerText = lang.creditsProducedBy;
+        elements.creditsStarringBy.innerText = lang.creditsStarringBy;
+        elements.creditsProjectLeader.innerText = lang.creditsProjectLeader;
+        elements.creditsBackendDev.innerText = lang.creditsBackendDev;
+        elements.creditsFrontendDev.innerText = lang.creditsFrontendDev;
+        elements.creditsVisualDesign.innerText = lang.creditsVisualDesign;
+        elements.creditsInCollaboration.innerText = lang.creditsInCollaboration;
+        elements.creditsFonts.innerText = lang.creditsFonts;
+        elements.creditsIconography.innerText = lang.creditsIconography;
+        elements.creditsInAssociationWith.innerText = lang.creditsInAssociationWith;
+        elements.creditsSpecialThanks.innerText = lang.creditsSpecialThanks;
+
+        // Teks di dalam b
+        const specialThanksText = document.querySelector('#creditsSpecialThanks').nextSibling;
+        if (specialThanksText && lang.creditsSpecialThanksText) {
+          specialThanksText.textContent = lang.creditsSpecialThanksText;
+        }
+    }
+
     function setLanguage(lang) {
         currentLanguage = lang;
         elements.langDropdown.value = lang;
@@ -1246,6 +1377,7 @@ This work would not have been possible without an amazing community.</p>
     function showCreditsPage() {
         elements.settingsPage.classList.remove('active');
         elements.creditsPage.classList.add('active');
+        updateSettingsUI(); // Panggil lagi untuk update teks di halaman Credits
     }
 
     function hideCreditsPage() {
@@ -1550,4 +1682,3 @@ This work would not have been possible without an amazing community.</p>
 </script>
 </body>
 </html>
-
