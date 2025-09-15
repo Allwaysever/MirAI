@@ -1,15 +1,4 @@
-# MirAI: A Simple Gemini Chatbot
-
-MirAI is a minimalist and responsive web-based chatbot interface powered by **Google's Gemini 2.5 Flash** model. It's a simple, single-file HTML project designed for quick deployment and personal use. MirAI allows you to interact with an AI model through a clean, chat-like user interface.
-
-## 🌟 Features
-
-  * **Lightweight & Single File**: The entire application is contained within a single `MirAI.html` file, making it incredibly easy to use and share.
-  * **Intuitive UI**: A clean, modern chat interface with smooth animations and a responsive design that works well on both desktop and mobile devices.
-  * **Multilingual Support**: Switch between several languages, including Indonesian, English (US), English (UK), Japanese, Chinese, Spanish, Portuguese, and Arabic.
-  * **Direct & Fast Answers**: Provides quick, pre-defined answers for specific questions like "who are you?" and "changelog" without needing to call the API.
-  * **Typing Indicator**: Shows a simple "typing" animation while the AI is generating a response.
-  * **Copy & Clear**: Easily copy the AI's response or clear the entire chat history with a single click.
+<img src="Assets/Screenshot_20250915-213324.jpg" width="max" alt="Preview">
 
 ## 🛠️ How to Set Up
 
