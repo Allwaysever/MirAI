@@ -1,14 +1,17 @@
 # Changelogs
 
 ## What's new?
+### v2.0.2
+- Fixed bug: The AI's output from various languages was being displayed again.
+  
+---
+
+## Previous version:
 ### v2.0.1
 - Fixed bug: ''Hi! I'm MirAl...'' image overlapped input box. Fixed
 - language expansion for settings and credits
 - removal of Chinese, Spanish, Portuguese and Arabic for code efficiency and the possibility that these languages will be rarely used by users
 
----
-
-## Previous version:
 ### v2.0 - Secondary Update
 - UI overhaul to modern
 - Added features: Settings/"Pengaturan" in Indonesian
