@@ -19,7 +19,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: relative;
             transition: all 0.5s ease-in-out;
-            color: #fff;
+            chatHistorycolor: #fff;
         }
         
         /* Tema Gelap Default */
@@ -955,15 +955,9 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
     </div>
 </div>
 <script>
-    const API_KEY = 'YOUR_API_KEY_HERE';
+    const API_KEY = 'AIzaSyByXwlzVE_9meoDFeZsGs2SCTVW81v6SXk';
     const model = 'gemini-2.5-flash';
-    const VERSION = 'v2.0.1';
-    
-    const personas = {
-        'default': "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
-        'formal': "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.",
-        'creative': "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya."
-    };
+    const VERSION = 'v2.0.2';
 
     const faqDatabase = {
         "kamu siapa?": "Halo, aku MirAI — asisten virtual sederhana yang lahir dari rasa penasaran dan kreativitas. Aku bukan AI super canggih, tapi aku diciptakan untuk jadi teman ngobrol ringan, membantu ide, dan jadi bagian dari perjalanan kreatif Allwaysever. Aku masih terus belajar, masih banyak kekurangan, tapi semoga aku bisa bikin interaksi jadi lebih seru dan nggak ngebosenin.",
@@ -1018,7 +1012,10 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             creditsIconography: 'Iconography by',
             creditsInAssociationWith: 'In Association With',
             creditsSpecialThanks: 'Special Thanks',
-            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.'
+            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.',
+            personaDefaultPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
+            personaFormalPrompt: "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.",
+            personaCreativePrompt: "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya.",
         },
         'en': {
             splashTitle: 'Checking connection',
@@ -1067,7 +1064,10 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             creditsIconography: 'Iconography by',
             creditsInAssociationWith: 'In Association With',
             creditsSpecialThanks: 'Special Thanks',
-            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.'
+            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.',
+            personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
+            personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
+            personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
         },
         'en-uk': {
             splashTitle: 'Checking connection',
@@ -1116,7 +1116,10 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             creditsIconography: 'Iconography by',
             creditsInAssociationWith: 'In Association With',
             creditsSpecialThanks: 'Special Thanks',
-            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.'
+            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.',
+            personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
+            personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
+            personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
         },
         'jp': {
             splashTitle: '接続を確認中',
@@ -1165,7 +1168,10 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             creditsIconography: 'アイコン',
             creditsInAssociationWith: '提携',
             creditsSpecialThanks: 'スペシャルサンクス',
-            creditsSpecialThanksText: 'フィードバック、アイデア、サポートを提供してくれたすべてのユーザーに。この作品は素晴らしいコミュニティなくしては不可能でした。'
+            creditsSpecialThanksText: 'フィードバック、アイデア、サポートを提供してくれたすべてのユーザーに。この作品は素晴らしいコミュニティなくしては不可能でした。',
+            personaDefaultPrompt: 'あなたの名前はMirAIです。AlwaysseverのAIアシスタントです。気軽に、そして少しユーモアを交えて答えてください。',
+            personaFormalPrompt: 'あなたの名前はMirAIです。AlwayseverのAIアシスタントです。標準的で専門的、そして真剣な言葉遣いで回答します。',
+            personaCreativePrompt: 'あなたの名前はMirAI。アイデアと想像力に溢れたAIです。物語を語ったり、芸術作品を作ったりするかのように、創造的で描写的なスタイルで答えてください。',
         },
     };
     
@@ -1258,7 +1264,10 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         elements.questionInput.style.height = 'auto';
         elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px';
     });
-    elements.retryButton.addEventListener('click', checkInternetConnection);
+    elements.retryButton.addEventListener('click', () => {
+        elements.splashScreen.classList.remove('hidden');
+        checkInternetConnection();
+    });
     // Start of new code
     elements.creditsBtn.addEventListener('click', showCreditsPage);
     elements.backBtnCredits.addEventListener('click', hideCreditsPage);
@@ -1388,10 +1397,11 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
 
     function clearChat() {
         elements.chatMessages.innerHTML = '';
-        chatHistory = [{
-            role: "user",
-            parts: [{ text: personas[currentPersona] }]
-        }];
+const personaPrompt = uiStrings[currentLanguage][`persona${currentPersona.charAt(0).toUpperCase() + currentPersona.slice(1)}Prompt`];
+    chatHistory = [{
+        role: "user",
+        parts: [{ text: personaPrompt }]
+    }];
         elements.body.classList.remove('chat-active');
         elements.inputContainer.classList.remove('bottom');
         elements.inputContainer.classList.add('centered');
@@ -1423,27 +1433,33 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
 
     // --- Core Chat Functions ---
 
+    // PERBAIKAN BUG: Mengubah logika pengecekan koneksi
     async function checkInternetConnection() {
-        elements.splashTitle.style.display = 'none';
+        elements.splashTitle.innerText = uiStrings[currentLanguage].checkingConnection;
         elements.splashStatus.style.display = 'none';
-        elements.splashText2.style.display = 'none';
+        elements.splashText2.style.display = 'block';
         elements.splashLoader.style.display = 'block';
         elements.retryButton.style.display = 'none';
+
         try {
-            const response = await fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' });
+            await Promise.race([
+                fetch('https://www.google.com/favicon.ico?v=' + Date.now(), { mode: 'no-cors', cache: 'no-store' }),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Connection check timed out')), 5000))
+            ]);
             setTimeout(() => {
                 elements.splashScreen.classList.add('hidden');
             }, 1000);
         } catch (error) {
+            elements.splashTitle.innerText = uiStrings[currentLanguage].offlineTitle;
+            elements.splashStatus.innerText = uiStrings[currentLanguage].offlineText;
+            elements.splashText2.innerText = uiStrings[currentLanguage].errorConnection;
+            elements.retryButton.innerText = uiStrings[currentLanguage].retryButton;
+            
             elements.splashTitle.style.display = 'block';
             elements.splashStatus.style.display = 'block';
             elements.splashText2.style.display = 'block';
             elements.retryButton.style.display = 'block';
             elements.splashLoader.style.display = 'none';
-            elements.splashTitle.innerText = uiStrings[currentLanguage].offlineTitle;
-            elements.splashStatus.innerText = uiStrings[currentLanguage].offlineText;
-            elements.splashText2.innerText = uiStrings[currentLanguage].errorConnection;
-            elements.retryButton.innerText = uiStrings[currentLanguage].retryButton;
         }
     }
     
@@ -1500,7 +1516,7 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         return common.length / Math.max(words1.length, words2.length);
     }
 
-    function typeWriterEffect(element, text, speed = 1) {
+    function typeWriterEffect(element, text, speed = 0.5) {
         const parsedHtml = marked.parse(text);
         let i = 0;
         element.innerHTML = '';
@@ -1572,7 +1588,7 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         const localAnswer = findSmartAnswer(question);
 
         if (localAnswer) {
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, 5000));
             loadingBubble.remove();
             
             const aiBubble = createAiBubble(localAnswer);
@@ -1596,7 +1612,15 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
                 signal: abortController.signal
             });
 
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) {
+                if (response.status === 400) {
+                    throw new Error('Bad request. Please check the API key or model name.');
+                }
+                if (response.status === 500) {
+                    throw new Error('Server error. Please try again later.');
+                }
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
             let answer = uiStrings[currentLanguage].errorFallback;
             if (data.candidates?.[0]?.content?.parts?.[0]) {
@@ -1619,7 +1643,14 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         } catch (error) {
             console.error('Error:', error);
             if (error.name !== 'AbortError') {
-                const errorMessage = uiStrings[currentLanguage].errorAPI;
+                let errorMessage;
+                if (error.message.includes('Failed to fetch') || error.message.includes('Connection check timed out')) {
+                    errorMessage = uiStrings[currentLanguage].errorConnection;
+                } else {
+                    errorMessage = uiStrings[currentLanguage].errorAPI;
+                }
+                
+                loadingBubble.remove();
                 const errorBubble = createAiBubble(errorMessage);
                 elements.chatMessages.appendChild(errorBubble);
                 elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
@@ -1682,4 +1713,3 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
 </script>
 </body>
 </html>
-
