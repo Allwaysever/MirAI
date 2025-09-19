@@ -3,6 +3,7 @@
 ## What's new?
 ### v2.0.3
 - Adding blur effect in Input box
+- Changing the loading bar movement so that it shows the page loading percentage more
 - Fixed credits text position
 - Changing the source link of the image asset from usercontentblogger to Githubusercontent
 - Bug fixes
