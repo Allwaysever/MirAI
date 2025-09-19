@@ -8,14 +8,14 @@ To make MirAI work, you need to get your own API Key from Google AI Studio. Don'
 
 1.  Go to **Google AI Studio** at [https://aistudio.google.com/](https://aistudio.google.com/).
 3.  Sign in with your Google account.
-5.  Once you're in, click on **"Get API Key"** in the sidebar.
-6.  <img src="Assets/Tutorial/20250919_151650.jpg" width="max" alt="Step1.1">
+4.  Once you're in, click on **"Get API Key"** in the sidebar.
+   < img src="Assets/Tutorial/20250919_151650.jpg" width="max" alt="Step1.1">
 <img src="Assets/Tutorial/20250919_151833.jpg" width="max" alt="Step1.2">
-7.  Then, click **"Create API key"**.
+5.  Then, click **"Create API key"**.
 <img src="Assets/Tutorial/20250919_151923.jpg" width="max" alt="Step1.3">
-8. Type "Gemini API". and click "Create API key in exitsting project".
+6. Type "Gemini API". and click "Create API key in exitsting project".
 <img src="Assets/Tutorial/20250919_152023.jpg" width="max" alt="Step1.4">
-8.  Copy the generated API Key.
+7.  Copy the generated API Key.
 <img src="Assets/Tutorial/20250919_152101.jpg" width="max" alt="Step1.5">
 
 
