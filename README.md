@@ -41,5 +41,5 @@ That's it! Now you can open `MirAI.html` directly in your web browser and start 
 * **Features**:
     * Responsive chat interface
     * Light and dark mode support
-    * Support for multiple languages (Indonesian, English, Javanese)
+    * Support for multiple languages (Indonesian, English, Japanese)
     * Ability to copy text from AI chat bubbles
