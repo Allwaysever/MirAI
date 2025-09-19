@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MirAI</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250905_141718.png">
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -37,10 +38,13 @@
             background-color: #ffce00;
             color: #000;
         }
-
+        
+        /* New: Background blur effect for input box and suggestion box */
         .input-box {
-            background-color: #181A1B;
+            background-color: rgba(24, 26, 27, 0.7);
             border: 0.9px solid #4B4F50;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
         }
 
         .input-box textarea {
@@ -48,8 +52,10 @@
         }
 
         .suggestion-box {
-            background-color: #212121;
+            background-color: rgba(33, 33, 33, 0.7);
             border: 1px solid #4B4F50;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
         }
         
         .ai-bubble strong {
@@ -101,7 +107,7 @@
         }
 
         body.light-theme .input-box {
-            background-color: #d9d9d9;
+            background-color: rgba(217, 217, 217, 0.7);
             border: 0.9px solid #b3b3b3;
         }
 
@@ -110,7 +116,7 @@
         }
 
         body.light-theme .suggestion-box {
-            background-color: #d9d9d9;
+            background-color: rgba(217, 217, 217, 0.7);
             border: 1px solid #b3b3b3;
         }
         
@@ -568,21 +574,22 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         }
 
         .loading-bar {
-            width: 100%;
+            width: 0%; /* Start at 0% for the new animation */
             height: 100%;
             background-color: #ffce00;
             position: absolute;
-            animation: move 1.5s linear infinite;
+            transition: width 0.5s ease-in-out; /* Smooth transition for the bar fill */
         }
         
         body.light-theme .loading-bar {
             background-color: #444;
         }
-
-        @keyframes move {
+        
+        /* Remove the old animation */
+        /* @keyframes move {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
-        }
+        } */
 
         #retry-button {
           background-color: #ffce00;
@@ -833,13 +840,39 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         .gemini-container {
             margin-top: 20px;
         }
+        .credits-session {
+            text-align: left;
+        }
+        
+        .credits-session p, .credits-session a {
+            font-size: 0.9em;
+            color: #aaa;
+            margin: 5px 0;
+        }
+        
+        body.light-theme .credits-session p, body.light-theme .credits-session a {
+            color: #666;
+        }
+        
+        .credits-session a {
+            color: #ffce00;
+            text-decoration: none;
+        }
+        
+        body.light-theme .credits-session a {
+            color: #222;
+        }
+        
+        .credits-session a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body class="light-theme">
 
 <div id="splash-screen">
   <div class="splash-content">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDYNXg_HBPgwViHUXJ_9F9UFT6BH3oFaAnE_JHnFI6dfoDhKziToum5i2W9YkHy4kC1xSdG6AqfYN7qdob7oLfZfg5rx1jLnfKraUBaFXK22O0DaPzk55Wu5y0EO-823b6MD__ulXGruUTZwARBZcrzXUvLfwniuzhWybM4qrstFUpzzOHcL2C83HclBVJ/s16000-rw/20250905_143027.png" alt="MirAI" class="splash-logo logo-img">
+    <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250911_213445.png" alt="MirAI" class="splash-logo logo-img">
     <h1 class="splash-title" id="splashTitle" style="display:none;"></h1>
     <p class="splash-status" id="splashStatus" style="display:none;"></p>
     <div class="loading-bar-container" id="splash-loader">
@@ -862,7 +895,7 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
 </div>
 
 <div class="logo-container">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgFY_SeawSclX-KQQ6rjgnnakUp-y_Rp2syRpe0QLma5rht2XOngMyhM1Z6OIaCgu6UzqKSPhVjpRgZ5MB8IOf12DkaSmrQKK0alHtntrfF9AI4hMyWjh1OOVjN5iOKaXTX-YGDwZSjewgDUw_C2GqoQ8NHXASjyXVBuuUmCFA5kanygPiFTW0iIE7tK7TK/s16000-rw/20250913_184620.png" alt="Hi! I'm MirAI! Nice to meet you. what are we discussing?" class="hi-img">
+    <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250913_184620.png" alt="Hi! I'm MirAI! Nice to meet you. what are we discussing?" class="hi-img">
 </div>
 
 <div id="languageSwitcher">
@@ -919,14 +952,14 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
 
         <h3 id="settingsAboutTitle"></h3>
         <div class="settings-about">
-            <p id="settingsVersionText"></p>
             <p id="settingsAuthorText"></p>
             <p><a href="https://github.com/Allwaysever/MirAI" target="_blank" id="githubLink"></a></p>
-            <p><a href="#" id="licenseLink"></a></p>
-            <div class="gemini-container">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWeacIHe4NkMJ37BHFNkrT34hrwc0E1A9SA1LhXmXPkWoAbuR6aXhCYWMKD2-aBD-D_fsr4cGF03_l3AfYp5WA8riGWEUToJFLS3HVwk4W5Zjho7FxT2MtU_DjRAsZMViGQ0384e8AUsmx64L-pRb4DNXrRMIDA78P5H7VfON_67lWDulVq1-12II97EQL/s16000-rw/20250910_155455.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
-            </div>
+            <p><a href="https://github.com/Allwaysever/MirAI/blob/main/ACLICENSE_ID.md" id="licenseLink"></a></p>
             <button id="creditsBtn" class="settings-credits-btn"></button>
+            <p id="settingsVersionText"></p>
+            <div class="gemini-container">
+                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250910_155455.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
+            </div>
             </div>
     </div>
 </div>
@@ -937,7 +970,7 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         <button id="backBtnCredits"><i class="fas fa-times"></i></button>
     </div>
     <div class="settings-content">
-        <div class="settings-about">
+        <div class="credits-session">
             <h2 id="creditsProjectTitle"></h2><br><br>
             <p><b id="creditsProducedBy"></b> Allwaysever</p>
             <p><b id="creditsStarringBy"></b> MirAI, an AI model powered by Google</p>
@@ -955,9 +988,9 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
     </div>
 </div>
 <script>
-    const API_KEY = 'AIzaSyByXwlzVE_9meoDFeZsGs2SCTVW81v6SXk';
+    const API_KEY = 'YOUR_API_KEY_HERE';
     const model = 'gemini-2.5-flash';
-    const VERSION = 'v2.0.2';
+    const VERSION = 'v2.0.3';
 
     const faqDatabase = {
         "kamu siapa?": "Halo, aku MirAI — asisten virtual sederhana yang lahir dari rasa penasaran dan kreativitas. Aku bukan AI super canggih, tapi aku diciptakan untuk jadi teman ngobrol ringan, membantu ide, dan jadi bagian dari perjalanan kreatif Allwaysever. Aku masih terus belajar, masih banyak kekurangan, tapi semoga aku bisa bikin interaksi jadi lebih seru dan nggak ngebosenin.",
@@ -966,9 +999,6 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
 
     const uiStrings = {
         'id': {
-            splashTitle: 'Memeriksa koneksi',
-            splashStatus: 'Memeriksa koneksi internet dan memuat data.',
-            splashText2: 'Tenang aja, bukan doxing kok. Cuman buat load image, dan tetep terkoneksi sama AI nya',
             offlineTitle: 'Kamu Offline',
             offlineText: 'Periksa Internet kamu dan coba lagi',
             retryButton: 'Coba Lagi',
@@ -1018,9 +1048,6 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             personaCreativePrompt: "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya.",
         },
         'en': {
-            splashTitle: 'Checking connection',
-            splashStatus: 'Checking internet connection and loading data.',
-            splashText2: 'Don\'t worry, it\'s not doxing. It\'s just to load images and stay connected to the AI',
             offlineTitle: 'You\'re Offline',
             offlineText: 'Check your internet and try again',
             retryButton: 'Try Again',
@@ -1070,9 +1097,6 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
         },
         'en-uk': {
-            splashTitle: 'Checking connection',
-            splashStatus: 'Checking internet connection and loading data.',
-            splashText2: 'Don\'t worry, it\'s not doxing. It\'s just to load images and stay connected to the AI',
             offlineTitle: 'You\'re Offline',
             offlineText: 'Check your internet and try again',
             retryButton: 'Try Again',
@@ -1122,9 +1146,6 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
         },
         'jp': {
-            splashTitle: '接続を確認中',
-            splashStatus: 'インターネット接続を確認し、データを読み込んでいます。',
-            splashText2: 'ご心配なく、これはドクシングではありません。画像の読み込みとAIへの接続維持のためです。',
             offlineTitle: 'オフラインです',
             offlineText: 'インターネットを確認して、もう一度お試しください',
             retryButton: '再試行',
@@ -1433,22 +1454,70 @@ const personaPrompt = uiStrings[currentLanguage][`persona${currentPersona.charAt
 
     // --- Core Chat Functions ---
 
+    /**
+     * @description This function simulates a "real" loading process by incrementally updating
+     * the loading bar and status text over a set period. It's a visual trick since
+     * fetching from an API doesn't provide real-time progress events.
+     * @param {number} duration The total duration of the loading simulation in milliseconds.
+     */
+function simulateLoading(duration) {
+        const startTime = Date.now();
+        const splashBar = document.querySelector('.loading-bar');
+        const updateInterval = 50;
+        
+        // Hapus teks status pada setiap fase loading
+        const loadingPhases = [
+            { percentage: 25, status: '' },
+            { percentage: 60, status: '' },
+            { percentage: 95, status: '' }
+        ];
+
+        let currentPhase = 0;
+
+        function updateProgress() {
+            const elapsedTime = Date.now() - startTime;
+            let progress = (elapsedTime / duration) * 100;
+
+            if (currentPhase < loadingPhases.length && progress >= loadingPhases[currentPhase].percentage) {
+                elements.splashStatus.innerText = loadingPhases[currentPhase].status;
+                currentPhase++;
+            }
+
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(intervalId);
+                setTimeout(() => {
+                    elements.splashScreen.classList.add('hidden');
+                }, 500);
+            }
+            splashBar.style.width = `${progress}%`;
+        }
+        
+        elements.splashStatus.innerText = ''; // Pastikan teks status awal juga kosong
+        const intervalId = setInterval(updateProgress, updateInterval);
+    }
+    
     // PERBAIKAN BUG: Mengubah logika pengecekan koneksi
-    async function checkInternetConnection() {
+async function checkInternetConnection() {
         elements.splashTitle.innerText = uiStrings[currentLanguage].checkingConnection;
         elements.splashStatus.style.display = 'none';
         elements.splashText2.style.display = 'block';
         elements.splashLoader.style.display = 'block';
         elements.retryButton.style.display = 'none';
+        const splashBar = document.querySelector('.loading-bar');
+        splashBar.style.width = '0%';
 
         try {
             await Promise.race([
                 fetch('https://www.google.com/favicon.ico?v=' + Date.now(), { mode: 'no-cors', cache: 'no-store' }),
                 new Promise((_, reject) => setTimeout(() => reject(new Error('Connection check timed out')), 5000))
             ]);
-            setTimeout(() => {
-                elements.splashScreen.classList.add('hidden');
-            }, 1000);
+            
+            elements.splashTitle.style.display = 'none'; // Tambahkan baris ini
+            elements.splashStatus.style.display = 'none';
+            elements.splashText2.style.display = 'none';
+            simulateLoading(3000);
+            
         } catch (error) {
             elements.splashTitle.innerText = uiStrings[currentLanguage].offlineTitle;
             elements.splashStatus.innerText = uiStrings[currentLanguage].offlineText;
