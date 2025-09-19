@@ -13,6 +13,21 @@ To make MirAI work, you need to get your own API Key from Google AI Studio. Don'
 <img src="Assets/Tutorial/20250919_151833.jpg" width="max" alt="Step1.2">
 5.  Then, click **"Create API key"**.
 <img src="Assets/Tutorial/20250919_151923.jpg" width="max" alt="Step1.3">
+<img src="Assets/Screenshot_20250915-213324.jpg" width="max" alt="Intro">
+
+## 🛠️ How to Set Up
+
+To make MirAI work, you need to get your own API Key from Google AI Studio. Don't worry, it's pretty straightforward!
+
+### Step 1: Get Your API Key
+
+1.  Go to **Google AI Studio** at [https://aistudio.google.com/](https://aistudio.google.com/).
+3.  Sign in with your Google account.
+4.  Once you're in, click on **"Get API Key"** in the sidebar.
+<img src="Assets/Tutorial/20250919_151650.jpg" width="max" alt="Step1.1">
+<img src="Assets/Tutorial/20250919_151833.jpg" width="max" alt="Step1.2">
+5.  Then, click **"Create API key"**.
+<img src="Assets/Tutorial/20250919_151923.jpg" width="max" alt="Step1.3">
 6. Type "Gemini API". and click "Create API key in exitsting project".
 <img src="Assets/Tutorial/20250919_152023.jpg" width="max" alt="Step1.4">
 7.  Copy the generated API Key.
@@ -33,7 +48,7 @@ To make MirAI work, you need to get your own API Key from Google AI Studio. Don'
     ```
 4.  Save the `MirAI.html` file.
 
-That's it\! Now you can open the `MirAI.html` file directly in your web browser, and you're good to go.
+That's it! Now you can open the `MirAI.html` file directly in your web browser, and you're good to go.
 
 ## 📚 Technical Details
 
