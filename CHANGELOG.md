@@ -1,12 +1,18 @@
 # Changelogs
 
 ## What's new?
-### v2.0.2
-- Fixed bug: The AI's output from various languages was being displayed again.
+### v2.0.3
+- Adding blur effect in Input box
+- Fixed credits text position
+- Changing the source link of the image asset from usercontentblogger to Githubusercontent
+- Bug fixes
   
 ---
 
 ## Previous version:
+### v2.0.2
+- Fixed bug: The AI's output from various languages was being displayed again.
+
 ### v2.0.1
 - Fixed bug: ''Hi! I'm MirAl...'' image overlapped input box. Fixed
 - language expansion for settings and credits
