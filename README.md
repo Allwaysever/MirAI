@@ -1,28 +1,5 @@
 <img src="Assets/Screenshot_20250915-213324.jpg" width="max" alt="Intro">
 
-## 🛠️ How to Set Up
-
-To make MirAI work, you need to get your own API Key from Google AI Studio. Don't worry, it's pretty straightforward\!
-
-### Step 1: Get Your API Key
-
-1.  Go to **Google AI Studio** at [https://aistudio.google.com/](https://aistudio.google.com/).
-3.  Sign in with your Google account.
-4.  Once you're in, click on **"Get API Key"** in the sidebar.
-< img src="Assets/Tutorial/20250919_151650.jpg" width="max" alt="Step1.1">
-<img src="Assets/Tutorial/20250919_151833.jpg" width="max" alt="Step1.2">
-5.  Then, click **"Create API key"**.
-<img src="Assets/Tutorial/20250919_151923.jpg" width="max" alt="Step1.3">
-<img src="Assets/Screenshot_20250915-213324.jpg" width="max" alt="Intro">
-
-## 🛠️ How to Set Up
-
-To make MirAI work, you need to get your own API Key from Google AI Studio. Don't worry, it's pretty straightforward!
-
-### Step 1: Get Your API Key
-
-<img src="Assets/Screenshot_20250915-213324.jpg" width="max" alt="Intro">
-
 # 🚀 MirAI: Your Personal AI Chat Companion
 
 MirAI is a simple chat application powered by the Google Gemini API. It's a cool project that lets you chat directly with an AI. Let's get you set up!
@@ -68,10 +45,5 @@ That's it! Now you can open `MirAI.html` directly in your web browser and start 
 * **Features**:
     * Responsive chat interface
     * Light and dark mode support
-    * Support for multiple languages (Indonesian, English, Japanese)
+    * Support for multiple languages (Indonesian, English, Javanese)
     * Ability to copy text from AI chat bubbles
-
-## 📝 License
-
-This project is open-source. Feel free to fork, modify, and use it for your personal projects.
-Some things related to Google Gemini, will be redirected to Alwaysever Custom License v5.1
