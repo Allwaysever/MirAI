@@ -46,4 +46,4 @@ That's it! Now you can open `MirAI.html` directly in your web browser and start 
 
 ### License
 
-This project uses the ACL v5.1 license. For full details, please [read the license file here](Licenses/ACLICENSE_EN.md). if you are Indonesian, you can [read this license](Licenses/ACLICENSE_ID.md)
+This project uses the ACL v5.1 license. For full details, please [read the license file here](Licences/ACLICENSE_EN.md). if you are Indonesian, you can [read this license](Licences/ACLICENSE_ID.md)
