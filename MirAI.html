@@ -320,23 +320,31 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         }
         
         /* New: Connection Status Indicator */
-        #connectionStatus {
-            position: fixed;
-            right: 20px;
-            top: 20px;
-            display: flex;
-            align-items: center;
-            font-size: 0.8em;
-            font-weight: bold;
-            z-index: 101;
-        }
-        
-        #connectionStatus .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
+#connectionStatus {
+    background-color: rgba(24, 26, 27, 0.7);
+    border: 0.9px solid #4B4F50;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 8px 12px;
+    border-radius: 20px;
+    right: 20px;
+    top: 20px;
+    position: fixed;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #fff;
+    transition: all 0.5s ease-in-out;
+}
+
+#connectionStatus .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
         
         #connectionStatus .online {
             background-color: #4CAF50;
@@ -345,10 +353,12 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         #connectionStatus .offline {
             background-color: #F44336;
         }
-        
-        body.light-theme #connectionStatus .status-label {
-            color: #444;
-        }
+
+body.light-theme #connectionStatus {
+    background-color: rgba(217, 217, 217, 0.7);
+    border: 0.9px solid #b3b3b3;
+    color: #444;
+}
         
         #connectionStatus .status-label {
             color: #fff;
@@ -879,28 +889,38 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             text-align: left;
         }
         
-        .credits-session p {
-            font-size: 0.9em;
+        .credits-session p, .credits-session li {
+            font-size: 0.5em;
             color: #aaa;
             margin: 5px 0;
         }
 
-.credits-session b {
-font-size: 0.7em;
+.credits-session h2 {
+font-size: 0.3em;
 margin: 5px 0;
 }
         
-        body.light-theme .credits-session p, body.light-theme .credits-session b {
+        body.light-theme .credits-session p, body.light-theme .credits-session li, body.light-theme .credits-session h2 {
             color: #666;
         }
         
-        .credits-session b {
+        .credits-session h2 {
             color: #ffce00;
             text-decoration: none;
         }
         
-        body.light-theme .credits-session b {
+        body.light-theme .credits-session h2 {
             color: #222;
+        }
+
+        #creditsPage .credits-session ul {
+          list-style-type: none;
+          padding-left: 0;
+          margin-top: 5px;
+        }
+
+        #creditsPage .credits-session ul li {
+          margin-bottom: 2px;
         }
     </style>
 </head>
@@ -1012,26 +1032,66 @@ margin: 5px 0;
     </div>
     <div class="settings-content">
         <div class="credits-session">
-            <h2 id="creditsProjectTitle"></h2><br><br>
-            <p><b id="creditsProducedBy"></b> Allwaysever</p>
-            <p><b id="creditsStarringBy"></b> MirAI, an AI model powered by Google</p>
-            <p><b id="creditsProjectLeader"></b> Allwaysever</p>
-            <p><b id="creditsBackendDev"></b> Google (via Gemini API)</p>
-            <p><b id="creditsFrontendDev"></b> Allwaysever</p>
-            <p><b id="creditsVisualDesign"></b> Allwaysever & Google (for Gemini Logo)</p>
-            <p><b id="creditsInCollaboration"></b> Model AI by Gemini 2.5 Flash by Google</p>
-            <p><b id="creditsFonts"></b> Egkoppel (Product Sans)</p>
-            <p><b id="creditsIconography"></b> Font Awesome</p>
-            <p><b id="creditsInAssociationWith"></b> GitHub</p>
-            <p><b id="creditsSpecialThanks"></b> To all the users who provided feedback, ideas, and support.
-            This work would not have been possible without an amazing community.</p>
+            <h2>A Collaborative Creation By</h2>
+            <p>Allwaysever (Human Developer, Project Architect)</p>
+            <p>Google Gemini (AI Assistant, Suggestion, and Code Generation)</p>
+
+            <h2>Starring</h2>
+            <p>MirAI (The AI Personality)</p>
+
+            <h2>Project Leader & Architect</h2>
+            <p>Allwaysever</p>
+
+            <h2>Back-End Development</h2>
+            <p>Google (via Gemini API)</p>
+
+            <h2>Front-End & UI/UX Design</h2>
+            <p>Allwaysever</p>
+
+            <h2>AI Model & Collaboration</h2>
+            <p>Gemini 2.5 Flash by Google</p>
+            
+            <h2>Graphic & Visual Design</h2>
+            <p>Allwaysever (App Design)</p>
+            <p>Google (Gemini Logo)</p>
+
+            <h2>Fonts & Typography</h2>
+            <p>Egkoppel (Product Sans)</p>
+
+            <h2>Iconography</h2>
+            <p>Font Awesome (fontawesome.com)</p>
+
+            <h2>In Association With</h2>
+            <p>GitHub (github.com)</p>
+            <p>Google Developers (developers.google.com)</p>
+            <p>Google Gemini (gemini.google.com)</p>
+
+            <h2>Special Thanks</h2>
+            <ul>
+                <li>To everyone who gave feedback, suggestions, and support</li>
+                <li>The open source community</li>
+                <li>All users who tried and improved MirAI</li>
+            </ul>
+
+            <h2>Libraries & Tools Referenced</h2>
+            <ul>
+                <li>HTML, CSS, JavaScript (Core Technologies)</li>
+                <li>marked.js (for Markdown parsing)</li>
+                <li>Product Sans by Egkoppel</li>
+                <li>Font Awesome</li>
+                <li>Google Gemini API</li>
+                <li>GitHub for code hosting</li>
+            </ul>
+
+            <br>
+            <p>Copyright © 2025 Allwaysever Projects: MirAI</p>
         </div>
     </div>
 </div>
 <script>
     const API_KEY = 'YOUR_API_KEY_HERE';
     const model = 'gemini-2.5-flash';
-    const VERSION = 'v2.0.3';
+    const VERSION = 'v2.0.5';
 
     const faqDatabase = {
         "kamu siapa?": "Halo, aku MirAI — asisten virtual sederhana yang lahir dari rasa penasaran dan kreativitas. Aku bukan AI super canggih, tapi aku diciptakan untuk jadi teman ngobrol ringan, membantu ide, dan jadi bagian dari perjalanan kreatif Allwaysever. Aku masih terus belajar, masih banyak kekurangan, tapi semoga aku bisa bikin interaksi jadi lebih seru dan nggak ngebosenin.",
@@ -1071,19 +1131,6 @@ margin: 5px 0;
             settingsCreditsBtn: 'Credits',
             // Tambahan untuk halaman Credits
             creditsHeaderTitle: 'Credits',
-            creditsProjectTitle: 'MirAI Project',
-            creditsProducedBy: 'Produced by',
-            creditsStarringBy: 'Starring by',
-            creditsProjectLeader: 'Project Leader & Architect by',
-            creditsBackendDev: 'Back-End Development by',
-            creditsFrontendDev: 'Front-End & UIUX Design by',
-            creditsVisualDesign: 'Graphic & Visual Design by',
-            creditsInCollaboration: 'In Collaboration With',
-            creditsFonts: 'Fonts & Typography by',
-            creditsIconography: 'Iconography by',
-            creditsInAssociationWith: 'In Association With',
-            creditsSpecialThanks: 'Special Thanks',
-            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.',
             personaDefaultPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
             personaFormalPrompt: "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.",
             personaCreativePrompt: "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya.",
@@ -1129,19 +1176,6 @@ margin: 5px 0;
             settingsCreditsBtn: 'Credits',
             // Tambahan untuk halaman Credits
             creditsHeaderTitle: 'Credits',
-            creditsProjectTitle: 'MirAI Project',
-            creditsProducedBy: 'Produced by',
-            creditsStarringBy: 'Starring by',
-            creditsProjectLeader: 'Project Leader & Architect by',
-            creditsBackendDev: 'Back-End Development by',
-            creditsFrontendDev: 'Front-End & UIUX Design by',
-            creditsVisualDesign: 'Graphic & Visual Design by',
-            creditsInCollaboration: 'In Collaboration With',
-            creditsFonts: 'Fonts & Typography by',
-            creditsIconography: 'Iconography by',
-            creditsInAssociationWith: 'In Association With',
-            creditsSpecialThanks: 'Special Thanks',
-            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.',
             personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
             personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
             personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
@@ -1187,19 +1221,6 @@ margin: 5px 0;
             settingsCreditsBtn: 'Credits',
             // Tambahan untuk halaman Credits
             creditsHeaderTitle: 'Credits',
-            creditsProjectTitle: 'MirAI Project',
-            creditsProducedBy: 'Produced by',
-            creditsStarringBy: 'Starring by',
-            creditsProjectLeader: 'Project Leader & Architect by',
-            creditsBackendDev: 'Back-End Development by',
-            creditsFrontendDev: 'Front-End & UIUX Design by',
-            creditsVisualDesign: 'Graphic & Visual Design by',
-            creditsInCollaboration: 'In Collaboration With',
-            creditsFonts: 'Fonts & Typography by',
-            creditsIconography: 'Iconography by',
-            creditsInAssociationWith: 'In Association With',
-            creditsSpecialThanks: 'Special Thanks',
-            creditsSpecialThanksText: 'To all the users who provided feedback, ideas, and support. This work would not have been possible without an amazing community.',
             personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
             personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
             personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
@@ -1245,19 +1266,6 @@ margin: 5px 0;
             settingsCreditsBtn: 'クレジット',
             // Tambahan untuk halaman Credits
             creditsHeaderTitle: 'クレジット',
-            creditsProjectTitle: 'MirAI プロジェクト',
-            creditsProducedBy: '制作',
-            creditsStarringBy: '主演',
-            creditsProjectLeader: 'プロジェクトリーダー＆アーキテクト',
-            creditsBackendDev: 'バックエンド開発',
-            creditsFrontendDev: 'フロントエンド＆UIUXデザイン',
-            creditsVisualDesign: 'グラフィック＆ビジュアルデザイン',
-            creditsInCollaboration: '協力',
-            creditsFonts: 'フォント＆タイポグラフィ',
-            creditsIconography: 'アイコン',
-            creditsInAssociationWith: '提携',
-            creditsSpecialThanks: 'スペシャルサンクス',
-            creditsSpecialThanksText: 'フィードバック、アイデア、サポートを提供してくれたすべてのユーザーに。この作品は素晴らしいコミュニティなくしては不可能でした。',
             personaDefaultPrompt: 'あなたの名前はMirAIです。AlwaysseverのAIアシスタントです。気軽に、そして少しユーモアを交えて答えてください。',
             personaFormalPrompt: 'あなたの名前はMirAIです。AlwayseverのAIアシスタントです。標準的で専門的、そして真剣な言葉遣いで回答します。',
             personaCreativePrompt: 'あなたの名前はMirAI。アイデアと想像力に溢れたAIです。物語を語ったり、芸術作品を作ったりするかのように、創造的で描写的なスタイルで答えてください。',
@@ -1321,18 +1329,6 @@ margin: 5px 0;
         githubLink: document.getElementById('githubLink'),
         licenseLink: document.getElementById('licenseLink'),
         creditsHeaderTitle: document.getElementById('creditsHeaderTitle'),
-        creditsProjectTitle: document.getElementById('creditsProjectTitle'),
-        creditsProducedBy: document.getElementById('creditsProducedBy'),
-        creditsStarringBy: document.getElementById('creditsStarringBy'),
-        creditsProjectLeader: document.getElementById('creditsProjectLeader'),
-        creditsBackendDev: document.getElementById('creditsBackendDev'),
-        creditsFrontendDev: document.getElementById('creditsFrontendDev'),
-        creditsVisualDesign: document.getElementById('creditsVisualDesign'),
-        creditsInCollaboration: document.getElementById('creditsInCollaboration'),
-        creditsFonts: document.getElementById('creditsFonts'),
-        creditsIconography: document.getElementById('creditsIconography'),
-        creditsInAssociationWith: document.getElementById('creditsInAssociationWith'),
-        creditsSpecialThanks: document.getElementById('creditsSpecialThanks'),
         // New: Connection Status Elements
         statusDot: document.getElementById('statusDot'),
         statusLabel: document.getElementById('statusLabel'),
@@ -1448,24 +1444,6 @@ margin: 5px 0;
         
         // Update halaman Credits
         elements.creditsHeaderTitle.innerText = lang.creditsHeaderTitle;
-        elements.creditsProjectTitle.innerText = lang.creditsProjectTitle;
-        elements.creditsProducedBy.innerText = lang.creditsProducedBy;
-        elements.creditsStarringBy.innerText = lang.creditsStarringBy;
-        elements.creditsProjectLeader.innerText = lang.creditsProjectLeader;
-        elements.creditsBackendDev.innerText = lang.creditsBackendDev;
-        elements.creditsFrontendDev.innerText = lang.creditsFrontendDev;
-        elements.creditsVisualDesign.innerText = lang.creditsVisualDesign;
-        elements.creditsInCollaboration.innerText = lang.creditsInCollaboration;
-        elements.creditsFonts.innerText = lang.creditsFonts;
-        elements.creditsIconography.innerText = lang.creditsIconography;
-        elements.creditsInAssociationWith.innerText = lang.creditsInAssociationWith;
-        elements.creditsSpecialThanks.innerText = lang.creditsSpecialThanks;
-
-        // Teks di dalam b
-        const specialThanksText = document.querySelector('#creditsSpecialThanks').nextSibling;
-        if (specialThanksText && lang.creditsSpecialThanksText) {
-          specialThanksText.textContent = lang.creditsSpecialThanksText;
-        }
     }
 
     function setLanguage(lang) {
@@ -1890,4 +1868,3 @@ async function checkInternetConnection() {
 </script>
 </body>
 </html>
-
