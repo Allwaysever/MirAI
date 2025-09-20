@@ -1,8 +1,9 @@
 # ALLWAYSEVER CUSTOM LICENSE V5.1 - MirAI Edition (ACL v5.1)
 
-## Tanggal Efektif: 12 September 2025
+### Tanggal Efektif: 12 September 2025
 
-## Mukadimah: Filosofi MirAISelamat datang di MirAI, kecerdasan buatan dari Allwaysever yang dirancang untuk menjadi mitra kreatif Anda. Kami percaya bahwa AI adalah alat, bukan pengganti. MirAI hadir untuk membantu Anda mengeksplorasi ide, mengatasi blokir kreatif, dan menemukan cara baru untuk berekspresi. Lisensi ini dibuat untuk memastikan bahwa MirAI digunakan secara bertanggung jawab dan etis, demi menjaga integritas ekosistem kreatif kita bersama. Dengan menggunakan MirAI, Anda setuju untuk terikat dengan semua syarat dan ketentuan yang diuraikan di bawah ini. Jika Anda tidak setuju, silakan tutup aplikasi ini, jangan gunakan MirAI, dan lanjutkan hidup Anda tanpa kami—tetapi kami berharap Anda tetap bersama kami.
+### Mukadimah: Filosofi MirAI
+Selamat datang di MirAI, kecerdasan buatan dari Allwaysever yang dirancang untuk menjadi mitra kreatif Anda. Kami percaya bahwa AI adalah alat, bukan pengganti. MirAI hadir untuk membantu Anda mengeksplorasi ide, mengatasi blokir kreatif, dan menemukan cara baru untuk berekspresi. Lisensi ini dibuat untuk memastikan bahwa MirAI digunakan secara bertanggung jawab dan etis, demi menjaga integritas ekosistem kreatif kita bersama. Dengan menggunakan MirAI, Anda setuju untuk terikat dengan semua syarat dan ketentuan yang diuraikan di bawah ini. Jika Anda tidak setuju, silakan tutup aplikasi ini, jangan gunakan MirAI, dan lanjutkan hidup Anda tanpa kami—tetapi kami berharap Anda tetap bersama kami.
 
 ### Pasal 1: Ketentuan Umum
 1.1. Penerapan Lisensi: Lisensi ini mengatur penggunaan MirAI secara keseluruhan. Allwaysever berhak mengubah lisensi ini kapan saja tanpa pemberitahuan sebelumnya, meskipun kami akan berusaha sebaik mungkin untuk memberi tahu Anda, karena kami tidak ingin terlihat sebagai perusahaan yang tidak ramah.
