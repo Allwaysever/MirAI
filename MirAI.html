@@ -318,6 +318,41 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         body.chat-active #clearBtnContainer {
             display: block;
         }
+        
+        /* New: Connection Status Indicator */
+        #connectionStatus {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            z-index: 101;
+        }
+        
+        #connectionStatus .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        #connectionStatus .online {
+            background-color: #4CAF50;
+        }
+        
+        #connectionStatus .offline {
+            background-color: #F44336;
+        }
+        
+        body.light-theme #connectionStatus .status-label {
+            color: #444;
+        }
+        
+        #connectionStatus .status-label {
+            color: #fff;
+        }
 
         #clearBtn, #settingsBtn {
             background-color: #ffce00;
@@ -844,27 +879,28 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             text-align: left;
         }
         
-        .credits-session p, .credits-session a {
+        .credits-session p {
             font-size: 0.9em;
             color: #aaa;
             margin: 5px 0;
         }
+
+.credits-session b {
+font-size: 0.7em;
+margin: 5px 0;
+}
         
-        body.light-theme .credits-session p, body.light-theme .credits-session a {
+        body.light-theme .credits-session p, body.light-theme .credits-session b {
             color: #666;
         }
         
-        .credits-session a {
+        .credits-session b {
             color: #ffce00;
             text-decoration: none;
         }
         
-        body.light-theme .credits-session a {
+        body.light-theme .credits-session b {
             color: #222;
-        }
-        
-        .credits-session a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
@@ -892,6 +928,11 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
     <button id="clearBtn">
         <i class="fas fa-trash-alt"></i>
     </button>
+</div>
+
+<div id="connectionStatus">
+    <span id="statusDot" class="status-dot"></span>
+    <span id="statusLabel" class="status-label"></span>
 </div>
 
 <div class="logo-container">
@@ -988,13 +1029,13 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
     </div>
 </div>
 <script>
-    const API_KEY = 'YOUR_API_KEY_HERE';
+    const API_KEY = 'AIzaSyByXwlzVE_9meoDFeZsGs2SCTVW81v6SXk';
     const model = 'gemini-2.5-flash';
     const VERSION = 'v2.0.3';
 
     const faqDatabase = {
         "kamu siapa?": "Halo, aku MirAI — asisten virtual sederhana yang lahir dari rasa penasaran dan kreativitas. Aku bukan AI super canggih, tapi aku diciptakan untuk jadi teman ngobrol ringan, membantu ide, dan jadi bagian dari perjalanan kreatif Allwaysever. Aku masih terus belajar, masih banyak kekurangan, tapi semoga aku bisa bikin interaksi jadi lebih seru dan nggak ngebosenin.",
-        "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOGS.md) for changelogs information."
+        "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information."
     };
 
     const uiStrings = {
@@ -1046,6 +1087,15 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             personaDefaultPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
             personaFormalPrompt: "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.",
             personaCreativePrompt: "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya.",
+            placeholderMessages: [
+                'Tanya MirAI apa saja...',
+                'Butuh inspirasi? Coba tanya aku!',
+                'Bisa bantu translate atau kasih ide!',
+                'Mau cerita? Aku siap dengerin.',
+                'Coba ketik sesuatu, siapa tahu seru!'
+            ],
+            onlineStatus: 'Online',
+            offlineStatus: 'Offline',
         },
         'en': {
             offlineTitle: 'You\'re Offline',
@@ -1095,6 +1145,15 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
             personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
             personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
+            placeholderMessages: [
+                'Ask MirAI anything...',
+                'Need inspiration? Try asking me!',
+                'I can help translate or give ideas!',
+                'Want to tell a story? I\'m all ears.',
+                'Try typing something, who knows what will happen!'
+            ],
+            onlineStatus: 'Online',
+            offlineStatus: 'Offline',
         },
         'en-uk': {
             offlineTitle: 'You\'re Offline',
@@ -1144,6 +1203,15 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
             personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
             personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
+            placeholderMessages: [
+                'Ask MirAI anything...',
+                'Need inspiration? Try asking me!',
+                'I can help translate or give ideas!',
+                'Want to tell a story? I\'m all ears.',
+                'Try typing something, who knows what will happen!'
+            ],
+            onlineStatus: 'Online',
+            offlineStatus: 'Offline',
         },
         'jp': {
             offlineTitle: 'オフラインです',
@@ -1193,6 +1261,15 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             personaDefaultPrompt: 'あなたの名前はMirAIです。AlwaysseverのAIアシスタントです。気軽に、そして少しユーモアを交えて答えてください。',
             personaFormalPrompt: 'あなたの名前はMirAIです。AlwayseverのAIアシスタントです。標準的で専門的、そして真剣な言葉遣いで回答します。',
             personaCreativePrompt: 'あなたの名前はMirAI。アイデアと想像力に溢れたAIです。物語を語ったり、芸術作品を作ったりするかのように、創造的で描写的なスタイルで答えてください。',
+            placeholderMessages: [
+                'MirAIに何でも聞いてみよう...',
+                'インスピレーションが必要ですか？私に聞いてみてください！',
+                '翻訳やアイデア出しを手伝えます！',
+                '何か話したいことはありますか？いつでも聞きます。',
+                '何か入力してみてください。きっと楽しいことが起こります！'
+            ],
+            onlineStatus: 'オンライン',
+            offlineStatus: 'オフライン',
         },
     };
     
@@ -1255,7 +1332,10 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         creditsFonts: document.getElementById('creditsFonts'),
         creditsIconography: document.getElementById('creditsIconography'),
         creditsInAssociationWith: document.getElementById('creditsInAssociationWith'),
-        creditsSpecialThanks: document.getElementById('creditsSpecialThanks')
+        creditsSpecialThanks: document.getElementById('creditsSpecialThanks'),
+        // New: Connection Status Elements
+        statusDot: document.getElementById('statusDot'),
+        statusLabel: document.getElementById('statusLabel'),
         // End of new code
     };
     
@@ -1306,15 +1386,42 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
         setTheme(savedTheme);
         const savedPersona = localStorage.getItem('miraiPersona') || 'formal';
         setPersona(savedPersona);
+        updateConnectionStatus();
     });
+    
+    // New: Handle online/offline events
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
 
     // --- UI & State Management Functions ---
+    
+    // New: Update connection status UI
+    function updateConnectionStatus() {
+        if (navigator.onLine) {
+            elements.statusDot.classList.remove('offline');
+            elements.statusDot.classList.add('online');
+            elements.statusLabel.innerText = uiStrings[currentLanguage].onlineStatus;
+        } else {
+            elements.statusDot.classList.remove('online');
+            elements.statusDot.classList.add('offline');
+            elements.statusLabel.innerText = uiStrings[currentLanguage].offlineStatus;
+        }
+    }
 
     function updateUI() {
         const lang = uiStrings[currentLanguage];
-        elements.questionInput.placeholder = lang.inputPlaceholder;
+        // elements.questionInput.placeholder = lang.inputPlaceholder; // Removed for dynamic placeholder
         elements.infoText.innerText = lang.infoText;
         updateSettingsUI();
+        updateDynamicPlaceholder();
+        updateConnectionStatus(); // Added to update status when language changes
+    }
+    
+    // New: Dynamic Placeholder Function
+    function updateDynamicPlaceholder() {
+        const placeholders = uiStrings[currentLanguage].placeholderMessages;
+        const randomIndex = Math.floor(Math.random() * placeholders.length);
+        elements.questionInput.placeholder = placeholders[randomIndex];
     }
     
     // Fungsi baru untuk memperbarui UI halaman pengaturan dan credits
@@ -1430,6 +1537,7 @@ const personaPrompt = uiStrings[currentLanguage][`persona${currentPersona.charAt
         elements.languageSwitcher.classList.remove('lang-hidden');
         elements.clearBtnContainer.style.display = 'none';
         elements.infoText.style.display = 'none';
+        updateDynamicPlaceholder(); // New: Update placeholder on clear
     }
 
     function toggleChatUI(active) {
