@@ -3,7 +3,9 @@
 ## What's new?
 ### v2.0.4
 - Added status circle to indicate "Online" or "Offline"
+  <img src="Assets/Updates screenshot/v2.0.4/20250920_115105.jpg" width="max" alt="Indicator">
 - Added small detail: Dynamic input box placeholder.
+  <img src="Assets/Updates screenshot/v2.0.4/20250920_115136.jpg" width="max" alt="Intro">
   
 ---
 
