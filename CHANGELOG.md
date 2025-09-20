@@ -1,15 +1,17 @@
 # Changelogs
 
 ## What's new?
-### v2.0.4
-- Added status circle to indicate "Online" or "Offline"
-  <img src="Assets/Updates screenshot/v2.0.4/20250920_115105.jpg" width="max" alt="Indicator">
-- Added small detail: Dynamic input box placeholder.
-  <img src="Assets/Updates screenshot/v2.0.4/20250920_115136.jpg" width="max" alt="Intro">
+### v2.0.5
+- Retyping and restyle For the credits section<br><img src="Assets/Updates screenshot/v2.0.5/20250920_215522.png" width="250px" alt="retyping and restyle">
+- Added background for connection indicator<br><img src="Assets/Updates screenshot/v2.0.5/20250920_215459.jpg" width="250px" alt="New style for indicator">
   
 ---
 
 ## Previous version:
+### v2.0.4
+- Added status circle to indicate "Online" or "Offline" <br><img src="Assets/Updates screenshot/v2.0.4/20250920_115105.jpg" width="250px" alt="Indicator">
+- Added small detail: Dynamic input box placeholder. <br><img src="Assets/Updates screenshot/v2.0.4/20250920_115136.jpg" width="250px" alt="Intro">
+  
 ### v2.0.3
 - Adding blur effect in Input box
 - Changing the loading bar movement so that it shows the page loading percentage more
