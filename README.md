@@ -43,3 +43,7 @@ That's it! Now you can open `MirAI.html` directly in your web browser and start 
     * Light and dark mode support
     * Support for multiple languages (Indonesian, English, Japanese)
     * Ability to copy text from AI chat bubbles
+
+### License
+
+This project uses the ACL v5.1 license. For full details, please [read the license file here](ACLICENSE_ID.md).
