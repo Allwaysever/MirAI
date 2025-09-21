@@ -80,7 +80,7 @@
         }
 
 .hi-img {
-    max-width: auto;
+    max-width: 450px;
     max-height: auto;
     filter: none;
     z-index: 100;
@@ -922,6 +922,49 @@ margin: 5px 0;
         #creditsPage .credits-session ul li {
           margin-bottom: 2px;
         }
+
+/* CSS untuk Input API Key di Pengaturan */
+.api-key-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#apiKeyInput {
+    width: 100%;
+    padding: 8px 35px 8px 15px;
+    border-radius: 25px;
+    border: 1px solid #ffce00;
+    background-color: #212121;
+    color: white;
+    font-size: 0.9em;
+    box-sizing: border-box;
+}
+
+#toggleApiKey {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+#saveApiBtn {
+    margin-top: 0;
+    padding: 6px 12px;
+    font-size: 0.9em;
+}
+
+/* Style untuk Tema Terang */
+body.light-theme #apiKeyInput {
+    border: 1px solid #b3b3b3;
+    background-color: #d9d9d9;
+    color: #444;
+}
+
+body.light-theme #toggleApiKey {
+    color: #666;
+}
     </style>
 </head>
 <body class="light-theme">
@@ -1011,11 +1054,22 @@ margin: 5px 0;
             </select>
         </div>
 
+<h3 id="settingsApiTitle">API Key</h3>
+<div class="settings-option">
+    <p id="settingsApiText">Masukkan Google API Key Anda:</p>
+    <div class="api-key-container">
+        <input type="password" id="apiKeyInput" placeholder="AIzaSy... (leave blank for default)">
+        <i class="fas fa-eye" id="toggleApiKey"></i>
+    </div>
+    <button id="saveApiBtn" class="settings-credits-btn">Save Key</button>
+</div>
+
+
         <h3 id="settingsAboutTitle"></h3>
         <div class="settings-about">
             <p id="settingsAuthorText"></p>
             <p><a href="https://github.com/Allwaysever/MirAI" target="_blank" id="githubLink"></a></p>
-            <p><a href="https://github.com/Allwaysever/MirAI/blob/main/ACLICENSE_ID.md" id="licenseLink"></a></p>
+            <p><a href="https://github.com/Allwaysever/MirAI/tree/b8368ff43e7d7e78ba7742d52eb9d8f30f61d270/Licences" id="licenseLink" target="_blank"></a></p>
             <button id="creditsBtn" class="settings-credits-btn"></button>
             <p id="settingsVersionText"></p>
             <div class="gemini-container">
@@ -1089,9 +1143,10 @@ margin: 5px 0;
     </div>
 </div>
 <script>
-    const API_KEY = 'YOUR_API_KEY_HERE';
+    const DEFAULT_API_KEY = 'AIzaSyByXwlzVE_9meoDFeZsGs2SCTVW81v6SXk';
+    let currentApiKey = DEFAULT_API_KEY; 
     const model = 'gemini-2.5-flash';
-    const VERSION = 'v2.0.5';
+    const VERSION = 'v2.1';
 
     const faqDatabase = {
         "kamu siapa?": "Halo, aku MirAI — asisten virtual sederhana yang lahir dari rasa penasaran dan kreativitas. Aku bukan AI super canggih, tapi aku diciptakan untuk jadi teman ngobrol ringan, membantu ide, dan jadi bagian dari perjalanan kreatif Allwaysever. Aku masih terus belajar, masih banyak kekurangan, tapi semoga aku bisa bikin interaksi jadi lebih seru dan nggak ngebosenin.",
@@ -1112,7 +1167,6 @@ margin: 5px 0;
             checkingConnection: 'Memeriksa koneksi internet...',
             copySuffix: '\n\nIni adalah hasil dari respon MirAI',
             infoText: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya',
-            // Tambahan untuk halaman Pengaturan
             settingsHeaderTitle: 'Pengaturan',
             settingsAppearanceTitle: 'Tampilan',
             settingsThemeText: 'Pilih Tema:',
@@ -1129,20 +1183,17 @@ margin: 5px 0;
             githubLink: 'Repositori GitHub',
             licenseLink: 'Lisensi Open Source',
             settingsCreditsBtn: 'Credits',
-            // Tambahan untuk halaman Credits
             creditsHeaderTitle: 'Credits',
             personaDefaultPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
             personaFormalPrompt: "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.",
             personaCreativePrompt: "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya.",
-            placeholderMessages: [
-                'Tanya MirAI apa saja...',
-                'Butuh inspirasi? Coba tanya aku!',
-                'Bisa bantu translate atau kasih ide!',
-                'Mau cerita? Aku siap dengerin.',
-                'Coba ketik sesuatu, siapa tahu seru!'
-            ],
+            placeholderMessages: ['Tanya MirAI apa saja...', 'Butuh inspirasi? Coba tanya aku!', 'Bisa bantu translate atau kasih ide!', 'Mau cerita? Aku siap dengerin.', 'Coba ketik sesuatu, siapa tahu seru!'],
             onlineStatus: 'Online',
             offlineStatus: 'Offline',
+            settingsApiTitle: 'API Key',
+            settingsApiText: 'Masukkan Google API Key Kamu:',
+            apiKeySaved: 'API Key berhasil disimpan!',
+            apiKeyRemoved: 'API Key dihapus. Kembali menggunakan key default.'
         },
         'en': {
             offlineTitle: 'You\'re Offline',
@@ -1157,7 +1208,6 @@ margin: 5px 0;
             checkingConnection: 'Checking internet connection...',
             copySuffix: '\n\nThis is a response from MirAI',
             infoText: 'MirAI may give inaccurate answers. Please double-check the responses',
-            // Tambahan untuk halaman Pengaturan
             settingsHeaderTitle: 'Settings',
             settingsAppearanceTitle: 'Appearance',
             settingsThemeText: 'Choose Theme:',
@@ -1174,20 +1224,17 @@ margin: 5px 0;
             githubLink: 'GitHub Repository',
             licenseLink: 'Open Source License',
             settingsCreditsBtn: 'Credits',
-            // Tambahan untuk halaman Credits
             creditsHeaderTitle: 'Credits',
             personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
             personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
             personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
-            placeholderMessages: [
-                'Ask MirAI anything...',
-                'Need inspiration? Try asking me!',
-                'I can help translate or give ideas!',
-                'Want to tell a story? I\'m all ears.',
-                'Try typing something, who knows what will happen!'
-            ],
+            placeholderMessages: ['Ask MirAI anything...', 'Need inspiration? Try asking me!', 'I can help translate or give ideas!', 'Want to tell a story? I\'m all ears.', 'Try typing something, who knows what will happen!'],
             onlineStatus: 'Online',
             offlineStatus: 'Offline',
+            settingsApiTitle: 'API Key',
+            settingsApiText: 'Enter your Google API Key:',
+            apiKeySaved: 'API Key saved successfully!',
+            apiKeyRemoved: 'API Key removed. Reverting to default key.'
         },
         'en-uk': {
             offlineTitle: 'You\'re Offline',
@@ -1202,7 +1249,6 @@ margin: 5px 0;
             checkingConnection: 'Checking internet connection...',
             copySuffix: '\n\nThis is a response from MirAI',
             infoText: 'MirAI may give inaccurate answers. Please double-check the responses',
-            // Tambahan untuk halaman Pengaturan
             settingsHeaderTitle: 'Settings',
             settingsAppearanceTitle: 'Appearance',
             settingsThemeText: 'Choose Theme:',
@@ -1219,20 +1265,17 @@ margin: 5px 0;
             githubLink: 'GitHub Repository',
             licenseLink: 'Open Source Licence',
             settingsCreditsBtn: 'Credits',
-            // Tambahan untuk halaman Credits
             creditsHeaderTitle: 'Credits',
             personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
             personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
             personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
-            placeholderMessages: [
-                'Ask MirAI anything...',
-                'Need inspiration? Try asking me!',
-                'I can help translate or give ideas!',
-                'Want to tell a story? I\'m all ears.',
-                'Try typing something, who knows what will happen!'
-            ],
+            placeholderMessages: ['Ask MirAI anything...', 'Need inspiration? Try asking me!', 'I can help translate or give ideas!', 'Want to tell a story? I\'m all ears.', 'Try typing something, who knows what will happen!'],
             onlineStatus: 'Online',
             offlineStatus: 'Offline',
+            settingsApiTitle: 'API Key',
+            settingsApiText: 'Enter your Google API Key:',
+            apiKeySaved: 'API Key saved successfully!',
+            apiKeyRemoved: 'API Key removed. Reverting to default key.'
         },
         'jp': {
             offlineTitle: 'オフラインです',
@@ -1247,7 +1290,6 @@ margin: 5px 0;
             checkingConnection: 'インターネット接続を確認中...',
             copySuffix: '\n\nこれはMirAIからの返答です',
             infoText: 'MirAIは不正確な回答をする場合があります。回答を再確認してください',
-            // Tambahan untuk halaman Pengaturan
             settingsHeaderTitle: '設定',
             settingsAppearanceTitle: '外観',
             settingsThemeText: 'テーマを選択:',
@@ -1264,24 +1306,20 @@ margin: 5px 0;
             githubLink: 'GitHubリポジトリ',
             licenseLink: 'オープンソースライセンス',
             settingsCreditsBtn: 'クレジット',
-            // Tambahan untuk halaman Credits
             creditsHeaderTitle: 'クレジット',
             personaDefaultPrompt: 'あなたの名前はMirAIです。AlwaysseverのAIアシスタントです。気軽に、そして少しユーモアを交えて答えてください。',
             personaFormalPrompt: 'あなたの名前はMirAIです。AlwayseverのAIアシスタントです。標準的で専門的、そして真剣な言葉遣いで回答します。',
             personaCreativePrompt: 'あなたの名前はMirAI。アイデアと想像力に溢れたAIです。物語を語ったり、芸術作品を作ったりするかのように、創造的で描写的なスタイルで答えてください。',
-            placeholderMessages: [
-                'MirAIに何でも聞いてみよう...',
-                'インスピレーションが必要ですか？私に聞いてみてください！',
-                '翻訳やアイデア出しを手伝えます！',
-                '何か話したいことはありますか？いつでも聞きます。',
-                '何か入力してみてください。きっと楽しいことが起こります！'
-            ],
+            placeholderMessages: ['MirAIに何でも聞いてみよう...', 'インスピレーションが必要ですか？私に聞いてみてください！', '翻訳やアイデア出しを手伝えます！', '何か話したいことはありますか？いつでも聞きます。', '何か入力してみてください。きっと楽しいことが起こります！'],
             onlineStatus: 'オンライン',
             offlineStatus: 'オフライン',
+            settingsApiTitle: 'APIキー',
+            settingsApiText: 'Google APIキーを取得します:',
+            apiKeySaved: 'API キーが正常に保存されました。',
+            apiKeyRemoved: 'APIキーが削除されました。デフォルトのキーに戻してください。'
         },
     };
     
-    // UI Elements
     const elements = {
         questionInput: document.getElementById('questionInput'),
         sendBtn: document.getElementById('sendBtn'),
@@ -1308,11 +1346,9 @@ margin: 5px 0;
         backBtn: document.getElementById('backBtn'),
         themeSelect: document.getElementById('themeSelect'),
         personaSelect: document.getElementById('personaSelect'),
-        // Start of new code
         creditsBtn: document.getElementById('creditsBtn'),
         creditsPage: document.getElementById('creditsPage'),
         backBtnCredits: document.getElementById('backBtnCredits'),
-        // Tambahan elemen untuk terjemahan
         settingsHeaderTitle: document.getElementById('settingsHeaderTitle'),
         settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'),
         settingsThemeText: document.getElementById('settingsThemeText'),
@@ -1329,19 +1365,22 @@ margin: 5px 0;
         githubLink: document.getElementById('githubLink'),
         licenseLink: document.getElementById('licenseLink'),
         creditsHeaderTitle: document.getElementById('creditsHeaderTitle'),
-        // New: Connection Status Elements
         statusDot: document.getElementById('statusDot'),
         statusLabel: document.getElementById('statusLabel'),
-        // End of new code
+        // API Key Elements
+        apiKeyInput: document.getElementById('apiKeyInput'),
+        toggleApiKey: document.getElementById('toggleApiKey'),
+        saveApiBtn: document.getElementById('saveApiBtn'),
+        settingsApiTitle: document.getElementById('settingsApiTitle'),
+        settingsApiText: document.getElementById('settingsApiText')
     };
     
-    // State Variables
     let chatHistory = [];
     let abortController = null;
     let currentLanguage = 'en';
     let currentPersona = 'formal';
 
-    // Event Listeners
+    // --- EVENT LISTENERS ---
     elements.sendBtn.addEventListener('click', askAI);
     elements.stopBtn.addEventListener('click', stopAI);
     elements.clearBtn.addEventListener('click', clearChat);
@@ -1365,18 +1404,24 @@ margin: 5px 0;
         elements.splashScreen.classList.remove('hidden');
         checkInternetConnection();
     });
-    // Start of new code
     elements.creditsBtn.addEventListener('click', showCreditsPage);
     elements.backBtnCredits.addEventListener('click', hideCreditsPage);
-    // End of new code
+    // **NEW** API Key Feature Listeners
+    elements.saveApiBtn.addEventListener('click', saveApiKey);
+    elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
     
-    // Initialization
     document.addEventListener('DOMContentLoaded', () => {
-        const savedLanguage = localStorage.getItem('miraiLanguage');
-        if (savedLanguage) {
-            currentLanguage = savedLanguage;
-        }
+        const savedLanguage = localStorage.getItem('miraiLanguage') || 'id';
+        currentLanguage = savedLanguage;
         setLanguage(currentLanguage);
+
+        // **NEW** Load API Key from localStorage
+        const savedApiKey = localStorage.getItem('miraiApiKey');
+        if (savedApiKey) {
+            currentApiKey = savedApiKey;
+            elements.apiKeyInput.value = savedApiKey;
+        }
+
         checkInternetConnection();
         const savedTheme = localStorage.getItem('miraiTheme') || 'light';
         setTheme(savedTheme);
@@ -1385,13 +1430,38 @@ margin: 5px 0;
         updateConnectionStatus();
     });
     
-    // New: Handle online/offline events
     window.addEventListener('online', updateConnectionStatus);
     window.addEventListener('offline', updateConnectionStatus);
 
-    // --- UI & State Management Functions ---
-    
-    // New: Update connection status UI
+    // --- NEW API KEY FUNCTIONS ---
+    function saveApiKey() {
+        const newKey = elements.apiKeyInput.value.trim();
+        if (newKey) {
+            localStorage.setItem('miraiApiKey', newKey);
+            currentApiKey = newKey;
+            showCopyFeedback(uiStrings[currentLanguage].apiKeySaved);
+        } else {
+            localStorage.removeItem('miraiApiKey');
+            currentApiKey = DEFAULT_API_KEY;
+            showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved);
+        }
+    }
+
+    function toggleApiVisibility() {
+        const input = elements.apiKeyInput;
+        const icon = elements.toggleApiKey;
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    // --- UI & STATE MANAGEMENT FUNCTIONS ---
     function updateConnectionStatus() {
         if (navigator.onLine) {
             elements.statusDot.classList.remove('offline');
@@ -1406,24 +1476,21 @@ margin: 5px 0;
 
     function updateUI() {
         const lang = uiStrings[currentLanguage];
-        // elements.questionInput.placeholder = lang.inputPlaceholder; // Removed for dynamic placeholder
         elements.infoText.innerText = lang.infoText;
         updateSettingsUI();
         updateDynamicPlaceholder();
-        updateConnectionStatus(); // Added to update status when language changes
+        updateConnectionStatus();
     }
     
-    // New: Dynamic Placeholder Function
     function updateDynamicPlaceholder() {
         const placeholders = uiStrings[currentLanguage].placeholderMessages;
         const randomIndex = Math.floor(Math.random() * placeholders.length);
         elements.questionInput.placeholder = placeholders[randomIndex];
     }
     
-    // Fungsi baru untuk memperbarui UI halaman pengaturan dan credits
     function updateSettingsUI() {
         const lang = uiStrings[currentLanguage];
-        if (!lang) return; // Tambahkan cek untuk bahasa yang tidak didukung
+        if (!lang) return;
         
         elements.settingsHeaderTitle.innerText = lang.settingsHeaderTitle;
         elements.settingsAppearanceTitle.innerText = lang.settingsAppearanceTitle;
@@ -1441,17 +1508,17 @@ margin: 5px 0;
         elements.githubLink.innerText = lang.githubLink;
         elements.licenseLink.innerText = lang.licenseLink;
         elements.creditsBtn.innerText = lang.settingsCreditsBtn;
-        
-        // Update halaman Credits
         elements.creditsHeaderTitle.innerText = lang.creditsHeaderTitle;
+        // **NEW** Update API Key section text
+        elements.settingsApiTitle.innerText = lang.settingsApiTitle;
+        elements.settingsApiText.innerText = lang.settingsApiText;
     }
 
     function setLanguage(lang) {
         currentLanguage = lang;
         elements.langDropdown.value = lang;
-        updateUI();
         localStorage.setItem('miraiLanguage', lang);
-        showCopyFeedback(`${uiStrings[currentLanguage].langSwitchFeedback} ${currentLanguage.toUpperCase()}`);
+        updateUI();
         clearChat(); 
     }
     
@@ -1459,7 +1526,9 @@ margin: 5px 0;
         currentPersona = persona;
         elements.personaSelect.value = persona;
         localStorage.setItem('miraiPersona', persona);
-        clearChat(); 
+        if (chatHistory.length > 1) { // Only clear if a chat has started
+            clearChat();
+        }
     }
 
     function setTheme(theme) {
@@ -1472,13 +1541,10 @@ margin: 5px 0;
         elements.themeSelect.value = theme;
     }
 
-    
     function showSettingsPage() {
         elements.settingsPage.classList.add('active');
         elements.body.classList.remove('chat-active');
-        // Start of new code
         elements.creditsPage.classList.remove('active');
-        // End of new code
     }
 
     function hideSettingsPage() {
@@ -1488,34 +1554,23 @@ margin: 5px 0;
         }
     }
     
-    // Start of new code
     function showCreditsPage() {
         elements.settingsPage.classList.remove('active');
         elements.creditsPage.classList.add('active');
-        updateSettingsUI(); // Panggil lagi untuk update teks di halaman Credits
+        updateSettingsUI();
     }
 
     function hideCreditsPage() {
         elements.creditsPage.classList.remove('active');
         elements.settingsPage.classList.add('active');
     }
-    // End of new code
 
     function clearChat() {
         elements.chatMessages.innerHTML = '';
-const personaPrompt = uiStrings[currentLanguage][`persona${currentPersona.charAt(0).toUpperCase() + currentPersona.slice(1)}Prompt`];
-    chatHistory = [{
-        role: "user",
-        parts: [{ text: personaPrompt }]
-    }];
-        elements.body.classList.remove('chat-active');
-        elements.inputContainer.classList.remove('bottom');
-        elements.inputContainer.classList.add('centered');
-        elements.logoContainer.classList.remove('logo-hidden');
-        elements.languageSwitcher.classList.remove('lang-hidden');
-        elements.clearBtnContainer.style.display = 'none';
-        elements.infoText.style.display = 'none';
-        updateDynamicPlaceholder(); // New: Update placeholder on clear
+        const personaPrompt = uiStrings[currentLanguage][`persona${currentPersona.charAt(0).toUpperCase() + currentPersona.slice(1)}Prompt`];
+        chatHistory = [{ role: "user", parts: [{ text: personaPrompt }] }];
+        toggleChatUI(false);
+        updateDynamicPlaceholder();
     }
 
     function toggleChatUI(active) {
@@ -1538,20 +1593,12 @@ const personaPrompt = uiStrings[currentLanguage][`persona${currentPersona.charAt
         }
     }
 
-    // --- Core Chat Functions ---
-
-    /**
-     * @description This function simulates a "real" loading process by incrementally updating
-     * the loading bar and status text over a set period. It's a visual trick since
-     * fetching from an API doesn't provide real-time progress events.
-     * @param {number} duration The total duration of the loading simulation in milliseconds.
-     */
-function simulateLoading(duration) {
+    // --- CORE CHAT FUNCTIONS ---
+    function simulateLoading(duration) {
         const startTime = Date.now();
         const splashBar = document.querySelector('.loading-bar');
         const updateInterval = 50;
         
-        // Hapus teks status pada setiap fase loading
         const loadingPhases = [
             { percentage: 25, status: '' },
             { percentage: 60, status: '' },
@@ -1579,12 +1626,11 @@ function simulateLoading(duration) {
             splashBar.style.width = `${progress}%`;
         }
         
-        elements.splashStatus.innerText = ''; // Pastikan teks status awal juga kosong
+        elements.splashStatus.innerText = '';
         const intervalId = setInterval(updateProgress, updateInterval);
     }
     
-    // PERBAIKAN BUG: Mengubah logika pengecekan koneksi
-async function checkInternetConnection() {
+    async function checkInternetConnection() {
         elements.splashTitle.innerText = uiStrings[currentLanguage].checkingConnection;
         elements.splashStatus.style.display = 'none';
         elements.splashText2.style.display = 'block';
@@ -1599,7 +1645,7 @@ async function checkInternetConnection() {
                 new Promise((_, reject) => setTimeout(() => reject(new Error('Connection check timed out')), 5000))
             ]);
             
-            elements.splashTitle.style.display = 'none'; // Tambahkan baris ini
+            elements.splashTitle.style.display = 'none';
             elements.splashStatus.style.display = 'none';
             elements.splashText2.style.display = 'none';
             simulateLoading(3000);
@@ -1644,31 +1690,12 @@ async function checkInternetConnection() {
 
     function findSmartAnswer(question) {
         const normalized = question.toLowerCase().trim();
-        let bestMatch = null;
-        let highestScore = 0;
-        const threshold = 0.6;
         const sortedKeys = Object.keys(faqDatabase).sort((a, b) => b.length - a.length);
         for (const key of sortedKeys) {
             const normalizedKey = key.toLowerCase().replace("?", "");
             if (normalized.includes(normalizedKey)) return faqDatabase[key];
         }
-        for (const key in faqDatabase) {
-            const score = similarity(normalized, key);
-            if (score > highestScore) {
-                highestScore = score;
-                bestMatch = key;
-            }
-        }
-        return highestScore >= threshold ? faqDatabase[bestMatch] : null;
-    }
-    
-    function similarity(str1, str2) {
-        str1 = str1.toLowerCase().trim();
-        str2 = str2.toLowerCase().trim();
-        const words1 = str1.split(" ");
-        const words2 = str2.split(" ");
-        const common = words1.filter(w => words2.includes(w));
-        return common.length / Math.max(words1.length, words2.length);
+        return null;
     }
 
     function typeWriterEffect(element, text, speed = 0.5) {
@@ -1734,21 +1761,16 @@ async function checkInternetConnection() {
         setTimeout(() => userBubble.classList.add('fade-in'), 10);
         elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
 
-        chatHistory.push({
-            role: "user",
-            parts: [{ text: question }]
-        });
+        chatHistory.push({ role: "user", parts: [{ text: question }] });
 
         const loadingBubble = showLoading();
         const localAnswer = findSmartAnswer(question);
 
         if (localAnswer) {
-            await new Promise(resolve => setTimeout(resolve, 5000));
+            await new Promise(resolve => setTimeout(resolve, 1000));
             loadingBubble.remove();
-            
             const aiBubble = createAiBubble(localAnswer);
             elements.chatMessages.appendChild(aiBubble);
-            
             elements.sendBtn.style.display = 'block';
             elements.stopBtn.style.display = 'none';
             elements.clearBtnContainer.style.display = 'block';
@@ -1758,7 +1780,8 @@ async function checkInternetConnection() {
 
         try {
             abortController = new AbortController();
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${API_KEY}`;
+            // **CRITICAL CHANGE**: Use currentApiKey instead of the old constant
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${currentApiKey}`;
             const requestBody = { contents: chatHistory };
             const response = await fetch(url, {
                 method: "POST",
@@ -1768,12 +1791,6 @@ async function checkInternetConnection() {
             });
 
             if (!response.ok) {
-                if (response.status === 400) {
-                    throw new Error('Bad request. Please check the API key or model name.');
-                }
-                if (response.status === 500) {
-                    throw new Error('Server error. Please try again later.');
-                }
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
@@ -1798,13 +1815,7 @@ async function checkInternetConnection() {
         } catch (error) {
             console.error('Error:', error);
             if (error.name !== 'AbortError') {
-                let errorMessage;
-                if (error.message.includes('Failed to fetch') || error.message.includes('Connection check timed out')) {
-                    errorMessage = uiStrings[currentLanguage].errorConnection;
-                } else {
-                    errorMessage = uiStrings[currentLanguage].errorAPI;
-                }
-                
+                const errorMessage = navigator.onLine ? uiStrings[currentLanguage].errorAPI : uiStrings[currentLanguage].errorConnection;
                 loadingBubble.remove();
                 const errorBubble = createAiBubble(errorMessage);
                 elements.chatMessages.appendChild(errorBubble);
