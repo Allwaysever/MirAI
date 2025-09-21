@@ -22,13 +22,14 @@ To get MirAI working, you'll need to set up an API Key from Google AI Studio. Do
 
 Thanks to the new feature, you no longer need to edit the HTML file. Simply enter the key through the in-app settings.
 
-1.  Open the `MirAI.html` file in your browser (Google Chrome, Firefox, etc.).
+1.  Open the `MirAI.html` file in your browser (Google Chrome, Firefox, etc.).<br><img src="Assets/Tutorial/APIKEYSTEP1.png" width="max" alt="APIKEYSTEP1">
 2.  Click the **menu icon (three lines)** in the top-left corner to open **Settings**.
-3.  Find the **API Key** section.
-4.  **Paste** the API Key you copied into the provided field.
-5.  Click the **"Save Key"** button.
+3.  Find the **API Key** section.<br><img src="Assets/Tutorial/APIKEYSTEP2.png" width="max" alt="APIKEYSTEP3">
+4.  **Paste** the API Key you copied into the provided field.<br><img src="Assets/Tutorial/APIKEYSTEP3.1.png" width="max" alt="APIKEYSTEP4">
+5.  Click the **"Save Key"** button.<br><img src="Assets/Tutorial/APIKEYSTEP3.2.png" width="max" alt="APIKEYSTEP5">
 
 That's it! MirAI is now ready to use with your personal API Key. Have fun chatting with the AI!
+<img src="Assets/Tutorial/APIKEYSTEP4.png" width="max" alt="RESULT">
 
 ## 📚 Technical Details
 
