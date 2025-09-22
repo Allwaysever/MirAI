@@ -932,7 +932,7 @@ margin: 5px 0;
 }
 
 #apiKeyInput {
-    width: 100%;
+    width: 755px;
     padding: 8px 35px 8px 15px;
     border-radius: 25px;
     border: 1px solid #ffce00;
@@ -944,7 +944,7 @@ margin: 5px 0;
 
 #toggleApiKey {
     position: absolute;
-    right: 15px;
+    left: 725px;
     cursor: pointer;
     color: #aaa;
 }
@@ -1522,13 +1522,13 @@ body.light-theme #toggleApiKey {
         clearChat(); 
     }
     
-    function setPersona(persona) {
+function setPersona(persona) {
         currentPersona = persona;
         elements.personaSelect.value = persona;
         localStorage.setItem('miraiPersona', persona);
-        if (chatHistory.length > 1) { // Only clear if a chat has started
-            clearChat();
-        }
+        // Hapus kondisi 'if' agar clearChat() selalu dijalankan saat persona diubah.
+        // Ini akan memastikan prompt persona yang benar diterapkan setiap saat.
+        clearChat();
     }
 
     function setTheme(theme) {
