@@ -1,13 +1,17 @@
 # Changelogs
 
 ## What's new?
-### v2.1 - Practical update
-- Added feature: place to fill in your own API Key without having to change the MirAI source code.<br><img src="Assets/Updates screenshot/v2.1/Screenshot_20250921-131233.jpg" width="250px" alt="new feature">
-- Bugs fixed
+### v2.1.1
+- Fix bug: persona AI yang dipilih tidak sesuai. telah di fix.
+- Pengubahan UI: Tempat isi Google Gemini API telah di pendekan jadi ``755px``
   
 ---
 
 ## Previous version:
+### v2.1 - Practical update
+- Added feature: place to fill in your own API Key without having to change the MirAI source code.<br><img src="Assets/Updates screenshot/v2.1/Screenshot_20250921-131233.jpg" width="250px" alt="new feature">
+- Bugs fixed
+
 ### v2.0.5
 - Retyping and restyle For the credits section<br><img src="Assets/Updates screenshot/v2.0.5/20250920_215522.png" width="250px" alt="retyping and restyle">
 - Added background for connection indicator<br><img src="Assets/Updates screenshot/v2.0.5/20250920_215459.jpg" width="250px" alt="New style for indicator">
