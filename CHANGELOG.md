@@ -2,8 +2,8 @@
 
 ## What's new?
 ### v2.1.1
-- Fix bug: persona AI yang dipilih tidak sesuai. telah di fix.
-- Pengubahan UI: Tempat isi Google Gemini API telah di pendekan jadi ``755px``
+- Fixed bug: the selected AI persona was not suitable. has been fixed.
+- UI Changes: Google Gemini API content placeholder has been shortened to ``755px``
   
 ---
 
