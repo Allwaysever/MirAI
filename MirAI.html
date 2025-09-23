@@ -360,6 +360,20 @@ body.light-theme #connectionStatus {
     color: #444;
 }
         
+/* TAMBAHKAN KODE BARU INI */
+
+/* KONDISI 1: Saat chat aktif, geser kontainer ke kanan */
+body.chat-active #connectionStatus {
+    /* Geser ke kanan sebesar 100% lebarnya sendiri, lalu tarik kembali 32px */
+    transform: translateX(calc(125% - 32px));
+}
+
+/* KONDISI 2: Saat tertutup bubble, geser lebih jauh dan hilangkan */
+#connectionStatus.hidden-by-scroll {
+    transform: translateX(200px); /* Geser jauh ke kanan hingga hilang */
+    opacity: 0;
+}
+
         #connectionStatus .status-label {
             color: #fff;
         }
@@ -1876,6 +1890,46 @@ function setPersona(persona) {
             setTimeout(() => feedbackDiv.remove(), 500);
         }, 2000);
     }
+
+// --- KODE BARU UNTUK INTERAKSI SCROLL ---
+
+// Ambil elemen indikator koneksi
+const connectionStatus = document.getElementById('connectionStatus');
+
+// Fungsi untuk memeriksa apakah indikator tumpang tindih dengan user bubble
+function checkIndicatorPosition() {
+    // Dapatkan posisi dan ukuran indikator di layar
+    const indicatorRect = connectionStatus.getBoundingClientRect();
+    
+    // Dapatkan semua user bubble yang ada
+    const userBubbles = document.querySelectorAll('.user-bubble');
+
+    let isOverlapping = false;
+
+    // Ulangi setiap user bubble untuk diperiksa posisinya
+    for (const bubble of userBubbles) {
+        const bubbleRect = bubble.getBoundingClientRect();
+
+        // Cek apakah ada tumpang tindih (overlap) secara vertikal dan horizontal
+        const verticalOverlap = indicatorRect.bottom > bubbleRect.top && indicatorRect.top < bubbleRect.bottom;
+        const horizontalOverlap = indicatorRect.right > bubbleRect.left && indicatorRect.left < bubbleRect.right;
+
+        if (verticalOverlap && horizontalOverlap) {
+            isOverlapping = true;
+            break; // Jika sudah ketemu satu, hentikan pengecekan
+        }
+    }
+
+    // Tambahkan atau hapus kelas '.hidden-by-scroll' berdasarkan status overlap
+    // .toggle() adalah cara singkat untuk add/remove class berdasarkan kondisi boolean
+    connectionStatus.classList.toggle('hidden-by-scroll', isOverlapping);
+}
+
+// Jalankan fungsi checkIndicatorPosition setiap kali ada event scroll di window
+// 'passive: true' ditambahkan untuk optimasi performa scroll
+window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
+
+// --- AKHIR DARI KODE BARU ---
 </script>
 </body>
 </html>
