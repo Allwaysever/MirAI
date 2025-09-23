@@ -2,7 +2,7 @@
 
 ## 🛠️ How to Get Started
 
-To get MirAI working, you'll need to set up an API Key from Google AI Studio. Don't worry, it's pretty straightforward!
+You can actually use the API key from Alwaysever. But for security and to prevent misuse, I recommend using your own API key. Here's the tutorial.
 
 ### Step 1: Get Your API Key
 
