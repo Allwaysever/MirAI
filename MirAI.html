@@ -15,28 +15,11 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #1B1C1E;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: relative;
             transition: all 0.5s ease-in-out;
             chatHistorycolor: #fff;
-        }
-        
-        /* Tema Gelap Default */
-        body {
-            background-color: #1B1C1E;
-            color: #fff;
-        }
-
-        .chat-bubble.ai-bubble {
-            background-color: #0f0f0f;
-            color: #fff;
-        }
-
-        .chat-bubble.user-bubble {
-            background-color: #ffce00;
-            color: #000;
         }
         
         /* New: Background blur effect for input box and suggestion box */
@@ -56,14 +39,8 @@
             border: 1px solid #4B4F50;
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
-        }
-        
-        .ai-bubble strong {
-            color: #ffce00;
-        }
-
-        .ai-bubble h1, .ai-bubble h2, .ai-bubble h3 {
-            border-bottom: 1px solid #ffce00;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         /* CSS yang sudah diperbaiki */
@@ -79,14 +56,14 @@
             filter: none;
         }
 
-.hi-img {
-    max-width: 450px;
-    max-height: auto;
-    filter: none;
-    z-index: 100;
-}
+        .hi-img {
+            max-width: 450px;
+            max-height: auto;
+            filter: none;
+            z-index: 100;
+        }
 
-        /* Tema Terang dengan Nuansa Gelap */
+        /* TEMA TERANG */
         body.light-theme {
             background-color: #e9e9e9;
             color: #444;
@@ -128,9 +105,188 @@
             border-bottom: 1px solid #222;
         }
         
-body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-img {
-    filter: grayscale(100%) brightness(0.5);
+        body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-img {
+            filter: grayscale(100%) brightness(0.5);
+        }
+
+/* ================================== */
+/* TEMA DARK MONOCHROME PROFESSIONAL - FINAL */
+/* ================================== */
+
+/* --- [DASAR & TEKS] --- */
+body.dark-theme {
+    background-color: #0F0F0F; /* Latar Belakang Utama */
+    color: #F5F5F5;            /* Teks Utama (Putih Gading) */
 }
+
+/* Teks dengan kepentingan lebih rendah */
+body.dark-theme .info-text,
+body.dark-theme .input-box textarea::placeholder {
+    color: #A0A0A0;
+}
+
+/* --- [INTERFACE CHAT] --- */
+body.dark-theme .chat-bubble.ai-bubble {
+    background-color: #1E1E1E; /* Latar Belakang Sekunder */
+    color: #F5F5F5;
+}
+
+body.dark-theme .chat-bubble.user-bubble {
+    background-color: #333333; /* Warna Border & Divider */
+    color: #FFFFFF;
+}
+
+body.dark-theme .input-box {
+    background-color: rgba(30, 30, 30, 0.7);
+    border: 0.9px solid #333333;
+}
+
+body.dark-theme .input-box textarea {
+    color: #F5F5F5;
+}
+
+body.dark-theme .ai-bubble strong {
+    color: #FFFFFF; /* Kontras Tinggi */
+}
+
+body.dark-theme .ai-bubble h1, 
+body.dark-theme .ai-bubble h2, 
+body.dark-theme .ai-bubble h3 {
+    border-bottom: 1px solid #333333;
+}
+
+body.dark-theme .typing-indicator span {
+    background-color: #FFFFFF;
+}
+
+body.dark-theme .copy-btn:hover {
+    color: #FFFFFF;
+}
+
+/* --- [TOMBOL & UI UTAMA] --- */
+body.dark-theme #clearBtn, 
+body.dark-theme #settingsBtn {
+    background-color: #1E1E1E;
+    color: #F5F5F5;
+    border: 1px solid #333333;
+}
+
+body.dark-theme .lang-dropdown {
+    border: 1px solid #333333;
+}
+
+/* --- [TOMBOL AKSI (KONTRAK TINGGI)] --- */
+body.dark-theme .input-box button,
+body.dark-theme #saveApiBtn,
+body.dark-theme #retry-button {
+    background-color: #FFFFFF;
+    color: #0F0F0F;
+}
+
+body.dark-theme #retry-button:hover {
+    background-color: #E0E0E0;
+}
+
+/* --- [SPLASH SCREEN] --- */
+body.dark-theme .loading-bar {
+    background-color: #FFFFFF;
+}
+
+/* --- [HALAMAN POP-UP: PENGATURAN & CREDITS] --- */
+body.dark-theme #settingsPage,
+body.dark-theme #creditsPage {
+    background-color: #0F0F0F;
+}
+
+body.dark-theme .settings-content h3 {
+    color: #F5F5F5;
+}
+
+body.dark-theme .settings-option select,
+body.dark-theme #apiKeyInput {
+    border: 1px solid #333333;
+    background-color: #1E1E1E;
+    color: #F5F5F5;
+}
+
+body.dark-theme .settings-about a {
+    color: #A0A0A0; /* Link sebagai teks sekunder */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+body.dark-theme .settings-about a:hover {
+    color: #FFFFFF; /* Hover menjadi kontras tinggi */
+    text-decoration: underline;
+}
+
+body.dark-theme .settings-credits-btn {
+    color: #F5F5F5;
+    border: 1px solid #333333;
+    background-color: #1E1E1E;
+}
+
+body.dark-theme .settings-credits-btn:hover {
+    background-color: #FFFFFF;
+    color: #0F0F0F;
+}
+
+body.dark-theme .credits-session h2 {
+    color: #F5F5F5;
+}
+
+/* --- [FILTER GAMBAR] --- */
+body.dark-theme .logo-img,
+body.dark-theme .gemini-logo,
+body.dark-theme .hi-img {
+    filter: brightness(0) invert(1); /* Membuat gambar menjadi putih bersih */
+}
+
+        /* ================================== */
+        /* TEMA LAMA: PREMIUM DARK (KUNING)     */
+        /* ================================== */
+        body.premium-dark-theme {
+            background-color: #1B1C1E;
+            color: #fff;
+        }
+
+        body.premium-dark-theme .chat-bubble.ai-bubble {
+            background-color: #0f0f0f;
+            color: #fff;
+        }
+
+        body.premium-dark-theme .chat-bubble.user-bubble {
+            background-color: #ffce00;
+            color: #000;
+        }
+
+        body.premium-dark-theme .input-box {
+            background-color: rgba(24, 26, 27, 0.7);
+            border: 0.9px solid #4B4F50;
+        }
+
+        body.premium-dark-theme .input-box textarea {
+            color: white;
+        }
+
+        body.premium-dark-theme .input-box button {
+            background-color: #ffce00;
+            color: #000;
+        }
+
+        body.premium-dark-theme .ai-bubble strong {
+            color: #ffce00;
+        }
+
+        body.premium-dark-theme .ai-bubble h1, 
+        body.premium-dark-theme .ai-bubble h2, 
+        body.premium-dark-theme .ai-bubble h3 {
+            border-bottom: 1px solid #ffce00;
+        }
+
+        body.premium-dark-theme .typing-indicator span {
+            background-color: #ffce00;
+        }
 
         /* Matikan highlight default */
         * {
@@ -145,7 +301,7 @@ body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-
             transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
             z-index: 099;
             text-align: center;
-    pointer-events: none;
+            pointer-events: none;
         }
 
         .logo-container.logo-hidden {
@@ -549,6 +705,48 @@ body.chat-active #connectionStatus {
             color: black;
         }
 
+        /* CSS untuk item saran slash command */
+        .suggestion-item-slash {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+        }
+
+        body.light-theme .suggestion-item-slash {
+            border-bottom: 1px solid #aaa;
+        }
+
+        .suggestion-item-slash:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item-slash:hover {
+            background-color: #333;
+        }
+
+        body.light-theme .suggestion-item-slash:hover {
+            background-color: #ccc;
+        }
+
+        .suggestion-item-slash strong {
+            display: block;
+            font-size: 15px;
+            color: #f0f0f0;
+        }
+
+        body.light-theme .suggestion-item-slash strong {
+            color: #222;
+        }
+
+        .suggestion-item-slash span {
+            font-size: 12px;
+            color: #888;
+        }
+
+        body.light-theme .suggestion-item-slash span {
+            color: #555;
+        }
+
 
         .loading-text {
             display: flex;
@@ -644,12 +842,6 @@ body.chat-active #connectionStatus {
             background-color: #444;
         }
         
-        /* Remove the old animation */
-        /* @keyframes move {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        } */
-
         #retry-button {
           background-color: #ffce00;
           color: #000;
@@ -981,7 +1173,7 @@ body.light-theme #toggleApiKey {
 }
     </style>
 </head>
-<body class="light-theme">
+<body>
 
 <div id="splash-screen">
   <div class="splash-content">
@@ -1055,6 +1247,7 @@ body.light-theme #toggleApiKey {
             <select id="themeSelect">
                 <option value="light" id="themeLightOption"></option>
                 <option value="dark" id="themeDarkOption"></option>
+                <option value="premium-dark" id="themePremiumDarkOption"></option>
             </select>
         </div>
         
@@ -1160,12 +1353,25 @@ body.light-theme #toggleApiKey {
     const DEFAULT_API_KEY = 'AIzaSyByXwlzVE_9meoDFeZsGs2SCTVW81v6SXk';
     let currentApiKey = DEFAULT_API_KEY; 
     const model = 'gemini-2.5-flash';
-    const VERSION = 'v2.1.2';
+    const VERSION = 'v2.2';
 
     const faqDatabase = {
         "kamu siapa?": "Halo, aku MirAI — asisten virtual sederhana yang lahir dari rasa penasaran dan kreativitas. Aku bukan AI super canggih, tapi aku diciptakan untuk jadi teman ngobrol ringan, membantu ide, dan jadi bagian dari perjalanan kreatif Allwaysever. Aku masih terus belajar, masih banyak kekurangan, tapi semoga aku bisa bikin interaksi jadi lebih seru dan nggak ngebosenin.",
         "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information."
     };
+
+    const slashCommands = [
+        {
+            command: '/translate',
+            title: 'Translate Text',
+            description: 'Usage: /translate [text] to [language]'
+        },
+        {
+            command: '/summarize',
+            title: 'Summarize Text',
+            description: 'Usage: /summarize [long text]'
+        }
+    ];
 
     const uiStrings = {
         'id': {
@@ -1186,6 +1392,7 @@ body.light-theme #toggleApiKey {
             settingsThemeText: 'Pilih Tema:',
             themeLightOption: 'Terang',
             themeDarkOption: 'Gelap',
+            themePremiumDarkOption: 'Premium Gelap',
             settingsAITitle: 'Kustomisasi AI',
             settingsPersonaText: 'Persona MirAI:',
             personaFormalOption: 'Formal & Serius',
@@ -1227,6 +1434,7 @@ body.light-theme #toggleApiKey {
             settingsThemeText: 'Choose Theme:',
             themeLightOption: 'Light',
             themeDarkOption: 'Dark',
+            themePremiumDarkOption: 'Premium Dark',
             settingsAITitle: 'AI Customization',
             settingsPersonaText: 'MirAI Persona:',
             personaFormalOption: 'Formal & Serious',
@@ -1268,6 +1476,7 @@ body.light-theme #toggleApiKey {
             settingsThemeText: 'Choose Theme:',
             themeLightOption: 'Light',
             themeDarkOption: 'Dark',
+            themePremiumDarkOption: 'Premium Dark',
             settingsAITitle: 'AI Customisation',
             settingsPersonaText: 'MirAI Persona:',
             personaFormalOption: 'Formal & Serious',
@@ -1309,6 +1518,7 @@ body.light-theme #toggleApiKey {
             settingsThemeText: 'テーマを選択:',
             themeLightOption: 'ライト',
             themeDarkOption: 'ダーク',
+            themePremiumDarkOption: 'プレミアムダーク',
             settingsAITitle: 'AIのカスタマイズ',
             settingsPersonaText: 'MirAIのペルソナ:',
             personaFormalOption: 'フォーマル＆真面目',
@@ -1368,6 +1578,7 @@ body.light-theme #toggleApiKey {
         settingsThemeText: document.getElementById('settingsThemeText'),
         themeLightOption: document.getElementById('themeLightOption'),
         themeDarkOption: document.getElementById('themeDarkOption'),
+        themePremiumDarkOption: document.getElementById('themePremiumDarkOption'), 
         settingsAITitle: document.getElementById('settingsAITitle'),
         settingsPersonaText: document.getElementById('settingsPersonaText'),
         personaFormalOption: document.getElementById('personaFormalOption'),
@@ -1381,7 +1592,6 @@ body.light-theme #toggleApiKey {
         creditsHeaderTitle: document.getElementById('creditsHeaderTitle'),
         statusDot: document.getElementById('statusDot'),
         statusLabel: document.getElementById('statusLabel'),
-        // API Key Elements
         apiKeyInput: document.getElementById('apiKeyInput'),
         toggleApiKey: document.getElementById('toggleApiKey'),
         saveApiBtn: document.getElementById('saveApiBtn'),
@@ -1420,7 +1630,6 @@ body.light-theme #toggleApiKey {
     });
     elements.creditsBtn.addEventListener('click', showCreditsPage);
     elements.backBtnCredits.addEventListener('click', hideCreditsPage);
-    // **NEW** API Key Feature Listeners
     elements.saveApiBtn.addEventListener('click', saveApiKey);
     elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
     
@@ -1429,7 +1638,6 @@ body.light-theme #toggleApiKey {
         currentLanguage = savedLanguage;
         setLanguage(currentLanguage);
 
-        // **NEW** Load API Key from localStorage
         const savedApiKey = localStorage.getItem('miraiApiKey');
         if (savedApiKey) {
             currentApiKey = savedApiKey;
@@ -1437,7 +1645,7 @@ body.light-theme #toggleApiKey {
         }
 
         checkInternetConnection();
-        const savedTheme = localStorage.getItem('miraiTheme') || 'light';
+        const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
         setTheme(savedTheme);
         const savedPersona = localStorage.getItem('miraiPersona') || 'formal';
         setPersona(savedPersona);
@@ -1447,7 +1655,6 @@ body.light-theme #toggleApiKey {
     window.addEventListener('online', updateConnectionStatus);
     window.addEventListener('offline', updateConnectionStatus);
 
-    // --- NEW API KEY FUNCTIONS ---
     function saveApiKey() {
         const newKey = elements.apiKeyInput.value.trim();
         if (newKey) {
@@ -1475,7 +1682,6 @@ body.light-theme #toggleApiKey {
         }
     }
 
-    // --- UI & STATE MANAGEMENT FUNCTIONS ---
     function updateConnectionStatus() {
         if (navigator.onLine) {
             elements.statusDot.classList.remove('offline');
@@ -1511,6 +1717,7 @@ body.light-theme #toggleApiKey {
         elements.settingsThemeText.innerText = lang.settingsThemeText;
         elements.themeLightOption.innerText = lang.themeLightOption;
         elements.themeDarkOption.innerText = lang.themeDarkOption;
+        elements.themePremiumDarkOption.innerText = lang.themePremiumDarkOption;
         elements.settingsAITitle.innerText = lang.settingsAITitle;
         elements.settingsPersonaText.innerText = lang.settingsPersonaText;
         elements.personaFormalOption.innerText = lang.personaFormalOption;
@@ -1523,7 +1730,6 @@ body.light-theme #toggleApiKey {
         elements.licenseLink.innerText = lang.licenseLink;
         elements.creditsBtn.innerText = lang.settingsCreditsBtn;
         elements.creditsHeaderTitle.innerText = lang.creditsHeaderTitle;
-        // **NEW** Update API Key section text
         elements.settingsApiTitle.innerText = lang.settingsApiTitle;
         elements.settingsApiText.innerText = lang.settingsApiText;
     }
@@ -1536,20 +1742,21 @@ body.light-theme #toggleApiKey {
         clearChat(); 
     }
     
-function setPersona(persona) {
+    function setPersona(persona) {
         currentPersona = persona;
         elements.personaSelect.value = persona;
         localStorage.setItem('miraiPersona', persona);
-        // Hapus kondisi 'if' agar clearChat() selalu dijalankan saat persona diubah.
-        // Ini akan memastikan prompt persona yang benar diterapkan setiap saat.
         clearChat();
     }
 
     function setTheme(theme) {
+        elements.body.classList.remove('light-theme', 'dark-theme', 'premium-dark-theme');
         if (theme === 'light') {
             elements.body.classList.add('light-theme');
+        } else if (theme === 'premium-dark') {
+            elements.body.classList.add('premium-dark-theme');
         } else {
-            elements.body.classList.remove('light-theme');
+            elements.body.classList.add('dark-theme');
         }
         localStorage.setItem('miraiTheme', theme);
         elements.themeSelect.value = theme;
@@ -1607,7 +1814,6 @@ function setPersona(persona) {
         }
     }
 
-    // --- CORE CHAT FUNCTIONS ---
     function simulateLoading(duration) {
         const startTime = Date.now();
         const splashBar = document.querySelector('.loading-bar');
@@ -1682,23 +1888,49 @@ function setPersona(persona) {
         const query = elements.questionInput.value.toLowerCase().trim();
         elements.suggestionBox.innerHTML = '';
         elements.suggestionBox.style.display = 'none';
-        if (query.length < 2) return;
-        const suggestions = Object.keys(faqDatabase)
-            .filter(key => key.toLowerCase().includes(query))
-            .slice(0, 5);
-        if (suggestions.length > 0) {
-            elements.suggestionBox.style.display = 'block';
-            suggestions.forEach(suggestion => {
-                const div = document.createElement('div');
-                div.classList.add('suggestion-item');
-                div.innerText = suggestion;
-                div.addEventListener('click', () => {
-                    elements.questionInput.value = suggestion;
-                    elements.suggestionBox.style.display = 'none';
-                    askAI();
+
+        if (query.startsWith('/')) {
+            const commandQuery = query.substring(1);
+            
+            const matchingCommands = slashCommands.filter(cmd => 
+                cmd.command.substring(1).startsWith(commandQuery)
+            );
+
+            if (matchingCommands.length > 0) {
+                elements.suggestionBox.style.display = 'block';
+                matchingCommands.forEach(cmd => {
+                    const div = document.createElement('div');
+                    div.classList.add('suggestion-item-slash');
+                    
+                    div.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`;
+                    
+                    div.addEventListener('click', () => {
+                        elements.questionInput.value = cmd.command + ' ';
+                        elements.suggestionBox.style.display = 'none';
+                        elements.questionInput.focus();
+                    });
+                    elements.suggestionBox.appendChild(div);
                 });
-                elements.suggestionBox.appendChild(div);
-            });
+            }
+        } else {
+            if (query.length < 2) return;
+            const suggestions = Object.keys(faqDatabase)
+                .filter(key => key.toLowerCase().includes(query))
+                .slice(0, 5);
+            if (suggestions.length > 0) {
+                elements.suggestionBox.style.display = 'block';
+                suggestions.forEach(suggestion => {
+                    const div = document.createElement('div');
+                    div.classList.add('suggestion-item');
+                    div.innerText = suggestion;
+                    div.addEventListener('click', () => {
+                        elements.questionInput.value = suggestion;
+                        elements.suggestionBox.style.display = 'none';
+                        askAI();
+                    });
+                    elements.suggestionBox.appendChild(div);
+                });
+            }
         }
     }
 
@@ -1755,9 +1987,63 @@ function setPersona(persona) {
         }
     }
 
+    function handleSlashCommand(question) {
+        if (!question.startsWith('/')) {
+            return null;
+        }
+
+        const parts = question.split(' ');
+        const command = parts[0].toLowerCase();
+
+        switch (command) {
+            case '/translate': {
+                const toIndex = parts.indexOf('to');
+                if (toIndex === -1 || toIndex === 1 || toIndex === parts.length - 1) {
+                    return "Error: Invalid format. Use /translate [text] to [language]";
+                }
+                const textToTranslate = parts.slice(1, toIndex).join(' ');
+                const targetLanguage = parts.slice(toIndex + 1).join(' ');
+                return `Translate the following text to ${targetLanguage}: "${textToTranslate}"`;
+            }
+
+            case '/summarize': {
+                const textToSummarize = parts.slice(1).join(' ');
+                if (textToSummarize.length < 10) {
+                    return "Error: Please provide more text to summarize.";
+                }
+                return `Provide a concise summary of the following text: "${textToSummarize}"`;
+            }
+            
+            default:
+                return `Error: Unknown command "${command}".`;
+        }
+    }
+
     async function askAI() {
         const question = elements.questionInput.value;
         if (question.trim() === '') return;
+
+        let promptToSendToAI = question;
+        const processedPrompt = handleSlashCommand(question);
+
+        if (processedPrompt !== null) {
+            promptToSendToAI = processedPrompt;
+            
+            if (promptToSendToAI.startsWith('Error:')) {
+                toggleChatUI(true);
+                elements.questionInput.value = '';
+                
+                const userBubble = document.createElement('div');
+                userBubble.classList.add('chat-bubble', 'user-bubble', 'fade-in');
+                userBubble.innerText = question;
+                elements.chatMessages.appendChild(userBubble);
+                
+                const errorBubble = createAiBubble(promptToSendToAI);
+                elements.chatMessages.appendChild(errorBubble);
+                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+                return;
+            }
+        }
 
         toggleChatUI(true);
         elements.questionInput.value = '';
@@ -1775,7 +2061,7 @@ function setPersona(persona) {
         setTimeout(() => userBubble.classList.add('fade-in'), 10);
         elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
 
-        chatHistory.push({ role: "user", parts: [{ text: question }] });
+        chatHistory.push({ role: "user", parts: [{ text: promptToSendToAI }] });
 
         const loadingBubble = showLoading();
         const localAnswer = findSmartAnswer(question);
@@ -1794,7 +2080,6 @@ function setPersona(persona) {
 
         try {
             abortController = new AbortController();
-            // **CRITICAL CHANGE**: Use currentApiKey instead of the old constant
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${currentApiKey}`;
             const requestBody = { contents: chatHistory };
             const response = await fetch(url, {
@@ -1891,45 +2176,24 @@ function setPersona(persona) {
         }, 2000);
     }
 
-// --- KODE BARU UNTUK INTERAKSI SCROLL ---
-
-// Ambil elemen indikator koneksi
 const connectionStatus = document.getElementById('connectionStatus');
 
-// Fungsi untuk memeriksa apakah indikator tumpang tindih dengan user bubble
 function checkIndicatorPosition() {
-    // Dapatkan posisi dan ukuran indikator di layar
     const indicatorRect = connectionStatus.getBoundingClientRect();
-    
-    // Dapatkan semua user bubble yang ada
     const userBubbles = document.querySelectorAll('.user-bubble');
-
     let isOverlapping = false;
-
-    // Ulangi setiap user bubble untuk diperiksa posisinya
     for (const bubble of userBubbles) {
         const bubbleRect = bubble.getBoundingClientRect();
-
-        // Cek apakah ada tumpang tindih (overlap) secara vertikal dan horizontal
         const verticalOverlap = indicatorRect.bottom > bubbleRect.top && indicatorRect.top < bubbleRect.bottom;
         const horizontalOverlap = indicatorRect.right > bubbleRect.left && indicatorRect.left < bubbleRect.right;
-
         if (verticalOverlap && horizontalOverlap) {
             isOverlapping = true;
-            break; // Jika sudah ketemu satu, hentikan pengecekan
+            break; 
         }
     }
-
-    // Tambahkan atau hapus kelas '.hidden-by-scroll' berdasarkan status overlap
-    // .toggle() adalah cara singkat untuk add/remove class berdasarkan kondisi boolean
     connectionStatus.classList.toggle('hidden-by-scroll', isOverlapping);
 }
-
-// Jalankan fungsi checkIndicatorPosition setiap kali ada event scroll di window
-// 'passive: true' ditambahkan untuk optimasi performa scroll
 window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
-
-// --- AKHIR DARI KODE BARU ---
 </script>
 </body>
 </html>
