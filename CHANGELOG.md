@@ -1,13 +1,18 @@
 # Changelogs
 
 ## What's new?
-### v2.1.2
-- Added detail: If a chat is started, the connection indicator will move to "hide" and only show the circle.
-- Added detail: If the connection indicator "overlaps" a user's chat bubble, it will disappear, and if it moves away, it will reappear.
+### v2.2
+- Added feature: "Slash command". The main feature currently is for translation and summarization. Example: ``/translate what is this? to Indonesian``
+- UI Changes: The dark theme color with yellow accents has been moved to ``Premium Dark`` and the current dark theme with white accents has been changed to monochrome.
+- fix bugs
   
 ---
 
 ## Previous version:
+### v2.1.2
+- Added detail: If a chat is started, the connection indicator will move to "hide" and only show the circle.
+- Added detail: If the connection indicator "overlaps" a user's chat bubble, it will disappear, and if it moves away, it will reappear.
+
 ### v2.1.1
 - Fixed bug: the selected AI persona was not suitable. has been fixed.
 - UI Changes: Google Gemini API content placeholder has been shortened to ``755px``
