@@ -1,13 +1,17 @@
 # Changelogs
 
 ## What's new?
-### v2.1.1
-- Fixed bug: the selected AI persona was not suitable. has been fixed.
-- UI Changes: Google Gemini API content placeholder has been shortened to ``755px``
+### v2.1.2
+- Added detail: If a chat is started, the connection indicator will move to "hide" and only show the circle.
+- Added detail: If the connection indicator "overlaps" a user's chat bubble, it will disappear, and if it moves away, it will reappear.
   
 ---
 
 ## Previous version:
+### v2.1.1
+- Fixed bug: the selected AI persona was not suitable. has been fixed.
+- UI Changes: Google Gemini API content placeholder has been shortened to ``755px``
+
 ### v2.1 - Practical update
 - Added feature: place to fill in your own API Key without having to change the MirAI source code.<br><img src="Assets/Updates screenshot/v2.1/Screenshot_20250921-131233.jpg" width="250px" alt="new feature">
 - Bugs fixed
