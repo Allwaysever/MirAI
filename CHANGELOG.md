@@ -1,6 +1,13 @@
 # Changelogs
 
 ## What's new?
+v2.2.2
+- UI Fixes.
+- UX defaut fixes.
+  
+---
+
+## Previous version:
 ### v2.2.1
 - The addition of commands in the "slash command" feature is:
    - /rephrase
@@ -19,10 +26,7 @@ example: /explain black holes like I'm a 10 year old
 Usage: /code a [language] function to [task]
 example: /code a python function to check if a number is prime
 - UI Additions: Bug fix for ``code`` markdown output
-  
----
 
-## Previous version:
 ### v2.2
 - Added feature: "Slash command". The main feature currently is for translation and summarization. Example: ``/translate what is this? to Indonesian``
 - UI Changes: The dark theme color with yellow accents has been moved to ``Premium Dark`` and the current dark theme with white accents has been changed to monochrome.
