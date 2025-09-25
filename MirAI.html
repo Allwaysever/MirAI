@@ -56,12 +56,25 @@
             filter: none;
         }
 
-        .hi-img {
-            max-width: 450px;
-            max-height: auto;
-            filter: none;
-            z-index: 100;
-        }
+/* Wadahnya kita buat jadi 'bingkai' yang responsif */
+.logo-container {
+    width: 90%; /* Ambil 90% lebar layar, jadi ada space di pinggir */
+    max-width: 450px; /* Batas maksimalnya kita pindah ke sini */
+    margin-bottom: 30px;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+    z-index: 099;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* Gambarnya tinggal mengisi wadah itu */
+.hi-img {
+    width: 100%; /* Penuhi .logo-container yang ukurannya sudah jelas */
+    height: auto;
+    filter: none;
+    z-index: 100;
+    display: block; /* Mencegah spasi aneh di bawah gambar */
+}
 
         /* TEMA TERANG */
         body.light-theme {
@@ -514,6 +527,11 @@ body.light-theme #connectionStatus {
     background-color: rgba(217, 217, 217, 0.7);
     border: 0.9px solid #b3b3b3;
     color: #444;
+}
+
+/* INI YANG DITAMBAHKAN */
+body.light-theme #connectionStatus .status-label {
+    color: #000; /* Membuat teks jadi hitam pekat */
 }
         
 /* TAMBAHKAN KODE BARU INI */
@@ -1129,17 +1147,20 @@ margin: 5px 0;
           margin-bottom: 2px;
         }
 
-/* CSS untuk Input API Key di Pengaturan */
+/* Wadah utamanya yang kita atur */
 .api-key-container {
     position: relative;
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    width: 100%;          /* Ambil semua space yang ada */
+    max-width: 500px;     /* INI KUNCINYA: Jangan lebih lebar dari 500px */
 }
 
+/* Inputnya biar ngikutin lebar wadah */
 #apiKeyInput {
-    width: 755px;
-    padding: 8px 35px 8px 15px;
+    width: 100%;        /* Biar ngisi penuh di dalam container */
+    padding: 8px 40px 8px 15px; /* Padding kanan ditambah biar teks gak nabrak ikon */
     border-radius: 25px;
     border: 1px solid #ffce00;
     background-color: #212121;
@@ -1148,9 +1169,10 @@ margin: 5px 0;
     box-sizing: border-box;
 }
 
+/* Ikonnya biar nempel di kanan wadah */
 #toggleApiKey {
     position: absolute;
-    left: 725px;
+    right: 15px;        /* Nempel di kanan container */
     cursor: pointer;
     color: #aaa;
 }
@@ -1683,7 +1705,7 @@ const slashCommands = [
     elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
     
     document.addEventListener('DOMContentLoaded', () => {
-        const savedLanguage = localStorage.getItem('miraiLanguage') || 'id';
+        const savedLanguage = localStorage.getItem('miraiLanguage') || 'en';
         currentLanguage = savedLanguage;
         setLanguage(currentLanguage);
 
@@ -1694,9 +1716,9 @@ const slashCommands = [
         }
 
         checkInternetConnection();
-        const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
+        const savedTheme = localStorage.getItem('miraiTheme') || 'light';
         setTheme(savedTheme);
-        const savedPersona = localStorage.getItem('miraiPersona') || 'formal';
+        const savedPersona = localStorage.getItem('miraiPersona') || 'default';
         setPersona(savedPersona);
         updateConnectionStatus();
     });
