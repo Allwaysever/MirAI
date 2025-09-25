@@ -1,6 +1,6 @@
 <img src="Assets/Screenshot_20250915-213324.jpg" width="max" alt="Intro">
 
-[Download](https://rawcdn.githack.com/Allwaysever/MirAI/be80c02bf26fb8f624504c8966ce53d38ce1454a/MirAI.html)
+[Download](https://raw.githack.com/Allwaysever/MirAI/2a347570389c5a774c92585c8e9cdb751627c6f8/MirAI.html)
 
 ## 🛠️ How to Get Started
 
