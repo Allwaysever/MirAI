@@ -1,14 +1,33 @@
 # Changelogs
 
 ## What's new?
-### v2.2
-- Added feature: "Slash command". The main feature currently is for translation and summarization. Example: ``/translate what is this? to Indonesian``
-- UI Changes: The dark theme color with yellow accents has been moved to ``Premium Dark`` and the current dark theme with white accents has been changed to monochrome.
-- fix bugs
+### v2.2.1
+- The addition of commands in the "slash command" feature is:
+   - /rephrase
+Usage: /rephrase [text] as [tone]
+example: /rephrase I can't come to the meeting tomorrow as professional 
+   - /ideate
+Usage: /ideate [number] ideas for [topic]
+example: /ideate 5 ideas for YouTube video about programming
+   - /fix
+Usage: /fix [text with errors]
+example: /fix saya pergi ke market kemarin beli apple
+   - /explain
+Usage: /explain [concept] like I'm [audience]
+example: /explain black holes like I'm a 10 year old
+   - /code
+Usage: /code a [language] function to [task]
+example: /code a python function to check if a number is prime
+- UI Additions: Bug fix for ``code`` markdown output
   
 ---
 
 ## Previous version:
+### v2.2
+- Added feature: "Slash command". The main feature currently is for translation and summarization. Example: ``/translate what is this? to Indonesian``
+- UI Changes: The dark theme color with yellow accents has been moved to ``Premium Dark`` and the current dark theme with white accents has been changed to monochrome.
+- fix bugs
+
 ### v2.1.2
 - Added detail: If a chat is started, the connection indicator will move to "hide" and only show the circle.
 - Added detail: If the connection indicator "overlaps" a user's chat bubble, it will disappear, and if it moves away, it will reappear.
