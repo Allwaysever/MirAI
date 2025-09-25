@@ -1,5 +1,7 @@
 <img src="Assets/Screenshot_20250915-213324.jpg" width="max" alt="Intro">
 
+[Download](https://raw.githubusercontent.com/Allwaysever/MirAI/blob/main/MirAI.html)
+
 ## 🛠️ How to Get Started
 
 You can actually use the API key from Alwaysever. But for security and to prevent misuse, I recommend using your own API key. Here's the tutorial.
