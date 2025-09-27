@@ -31,8 +31,8 @@ MirAI is designed to be an accessible and feature-rich AI chat companion, right 
 
 You can try MirAI right away without any installation needed!
 
-* **[➡️ Try the Web Version (Netlify)](https://allwaysevermirai.netlify.app)**
-* **[⬇️ Download HTML File (Offline Version)](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/Allwaysever/MirAI/blob/main/index.html)**
+* **<a href="https://allwaysevermirai.netlify.app" target="_blank" rel="noopener noreferrer">➡️ Try the Web Version (Netlify)</a>**
+* **<a href="https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/Allwaysever/MirAI/blob/main/index.html" target="_blank" rel="noopener noreferrer">⬇️ Download HTML File (Offline Version)</a>**
 
 ---
 
