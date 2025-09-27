@@ -1,51 +1,88 @@
-<img src="Assets/Screenshot_20250915-213324.jpg" width="max" alt="Intro">
+# MirAI
 
-[Download](https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/MirAI.html)
-or
-[Use Web](https://raw.githack.com/Allwaysever/MirAI/2a347570389c5a774c92585c8e9cdb751627c6f8/MirAI.html)
+**A simple, lightweight, and responsive web interface to interact directly with the Google Gemini API.**
 
-## 🛠️ How to Get Started
+![Project](https://img.shields.io/badge/license-HTML%20App-blue)
+![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
+![Status](https://img.shields.io/badge/status-Active-brightgreen)
 
-You can actually use the API key from Alwaysever. But for security and to prevent misuse, I recommend using your own API key. Here's the tutorial.
+<br>
+
+<p align="center">
+  <img src="Assets/Screenshot_20250927-205202.png" width="600" alt="MirAI Screenshot">
+</p>
+
+---
+
+## ✨ Key Features
+
+MirAI is designed to be an accessible and feature-rich AI chat companion, right from your browser.
+
+* **✅ Responsive Chat Interface:** A comfortable layout for both mobile and desktop use.
+* **🌗 Light & Dark Mode:** Switch themes according to your visual preference.
+* **🌐 Multi-language Support:** Available in Indonesian, English, and Japanese.
+* **🔑 API Key Configuration:** Enter your own Gemini API key directly from the settings menu.
+* **🚀 Slash Commands:** Use commands like `/translate` or `/summarize` for specific tasks.
+* **📝 Markdown Parsing:** Responses from the AI containing formatting (like code blocks and lists) will be displayed correctly.
+
+---
+
+## 🚀 Live Demo & How to Use
+
+You can try MirAI right away without any installation needed!
+
+* **[➡️ Try the Web Version (Netlify)](https://allwaysevermirai.netlify.app)**
+* **[⬇️ Download HTML File (Offline Version)](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/Allwaysever/MirAI/blob/main/index.html)**
+
+---
+
+## 🛠️ Setup (Using Your Own API Key)
+
+For the best performance and security, it is highly recommended to use your own Google Gemini API Key.
+
+<details>
+<summary><strong>➡️ Click here for a complete tutorial on obtaining an API Key.</strong></summary>
+<br>
 
 ### Step 1: Get Your API Key
-
-1.  Go to **Google AI Studio** at [https://aistudio.google.com/](https://aistudio.google.com/).
+1.  Open **Google AI Studio** at [https://aistudio.google.com/](https://aistudio.google.com/).
 2.  Sign in with your Google account.
-3.  Once you're in, click **"Get API Key"** in the sidebar.
-    <img src="Assets/Tutorial/20250919_151650.jpg" width="max" alt="Step1.1">
-    <img src="Assets/Tutorial/20250919_151833.jpg" width="max" alt="Step1.2">
+3.  Click **"Get API Key"** in the sidebar.
+    <img src="Assets/Tutorial/20250919_151650.jpg" width="max" alt="Step 1.1">
+    <img src="Assets/Tutorial/20250919_151833.jpg" width="max" alt="Step 1.2">
 4.  Then, click **"Create API key"**.
-    <img src="Assets/Tutorial/20250919_151923.jpg" width="max" alt="Step1.3">
+    <img src="Assets/Tutorial/20250919_151923.jpg" width="max" alt="Step 1.3">
 5.  Type "Gemini API" and click "Create API key in existing project".
-    <img src="Assets/Tutorial/20250919_152023.jpg" width="max" alt="Step1.4">
+    <img src="Assets.Tutorial/20250919_152023.jpg" width="max" alt="Step 1.4">
 6.  Copy the generated API Key.
-    <img src="Assets/Tutorial/20250919_152101.jpg" width="max" alt="Step1.5">
+    <img src="Assets/Tutorial/20250919_152101.jpg" width="max" alt="Step 1.5">
 
-### Step 2: Input the API Key in MirAI
+### Step 2: Enter the API Key in MirAI
+Simply enter the key through the settings menu within the application.
+1.  Open the `MirAI.html` file.<br><img src="Assets/Tutorial/APIKEYSTEP1.png" width="max" alt="Step 2.1">
+2.  Click the **menu icon** in the top-left corner to open **Settings**.
+3.  Find the **API Key** section.<br><img src="Assets/Tutorial/APIKEYSTEP2.png" width="max" alt="Step 2.2">
+4.  **Paste** the API Key you copied.<br><img src="Assets/Tutorial/APIKEYSTEP3.1.png" width="max" alt="Step 2.3">
+5.  Click the **"Save Key"** button.<br><img src="Assets/Tutorial/APIKEYSTEP3.2.png" width="max" alt="Step 2.4">
 
-Thanks to the new feature, you no longer need to edit the HTML file. Simply enter the key through the in-app settings.
+Done! MirAI is now ready to use with your personal API Key.
 
-1.  Open the `MirAI.html` file in your browser (Google Chrome, Firefox, etc.).<br><img src="Assets/Tutorial/APIKEYSTEP1.png" width="max" alt="APIKEYSTEP1">
-2.  Click the **menu icon (three lines)** in the top-left corner to open **Settings**.
-3.  Find the **API Key** section.<br><img src="Assets/Tutorial/APIKEYSTEP2.png" width="max" alt="APIKEYSTEP3">
-4.  **Paste** the API Key you copied into the provided field.<br><img src="Assets/Tutorial/APIKEYSTEP3.1.png" width="max" alt="APIKEYSTEP4">
-5.  Click the **"Save Key"** button.<br><img src="Assets/Tutorial/APIKEYSTEP3.2.png" width="max" alt="APIKEYSTEP5">
+</details>
 
-That's it! MirAI is now ready to use with your personal API Key. Have fun chatting with the AI!
-<img src="Assets/Tutorial/APIKEYSTEP4.png" width="max" alt="RESULT">
+---
 
-## 📚 Technical Details
+## 💻 Tech Stack
 
-* **API**: Google Gemini API
-* **Application**: Single-page application (HTML, CSS, and JavaScript)
-* **Features**:
-    * Responsive chat interface
-    * Light and dark mode support
-    * Support for multiple languages (Indonesian, English, Japanese)
-    * Ability to copy text from AI chat bubbles
-    * In-app API Key configuration
+This project was built purely with basic web technologies, without any frameworks.
+
+* **HTML**
+* **CSS**
+* **JavaScript (Vanilla JS)**
+* **Google Gemini API**
+* **Marked.js** (For Markdown parsing)
+
+---
 
 ## 📄 License
 
-This project uses the ACL v5.1 license. For full details, please [read the license file here](Licences/ACLICENSE_EN.md). if you are Indonesian, you can [read this license](Licences/ACLICENSE_ID.md).
+This project is licensed under the GNU Affero General Public License v3.0. For full details, please [read the license file here](LICENSE).
