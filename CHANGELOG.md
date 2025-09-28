@@ -1,13 +1,16 @@
 # Changelogs
-
 ## What's new?
-v2.2.2
-- UI Fixes.
-- UX defaut fixes.
+### v2.3
+- New feature: "+" button to display slash commands. Multimodal features such as image uploading may be added later.
+- UI improvements: added more fluid animations.
   
 ---
 
 ## Previous version:
+### v2.2.2
+- UI Fixes.
+- UX defaut fixes.
+
 ### v2.2.1
 - The addition of commands in the "slash command" feature is:
    - /rephrase
