@@ -83,6 +83,17 @@ This project was built purely with basic web technologies, without any framework
 
 ---
 
+## 📚 Documentation
+
+For more detailed information about the project, please refer to the following documents:
+
+* **[❓ FAQ (Frequently Asked Questions)](FAQ.md)**: Find answers to common questions about MirAI's features and usage.
+* **[🛠️ Troubleshooting Guide](TROUBLESHOOTING.md)**: Solutions for common errors and issues.
+* **[🔄 Changelog](CHANGELOG.md)**: See the detailed history of changes and new features for each version.
+* **[🤝 Contributing Guide](CONTRIBUTING.md)**: Learn how you can contribute to make MirAI even better.
+
+---
+
 ## 📄 License
 
 This project is licensed under the GNU Affero General Public License v3.0. For full details, please [read the license file here](LICENSE).
