@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>const VERSION = 'v2.3';</script>
     <style>
     /* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan */
     body {
@@ -24,7 +25,6 @@
         chatHistorycolor: #fff;
     }
     
-    /* New: Background blur effect for input box and suggestion box */
     .input-box {
         background-color: rgba(24, 26, 27, 0.7);
         border: 0.9px solid #4B4F50;
@@ -45,7 +45,86 @@
         margin: 0 auto;
     }
     
-    /* CSS yang sudah diperbaiki */
+    /* === [START] CSS untuk Fitur "Toko Perkakas" (VERSI FINAL & BENAR) === */
+
+    /* Styling untuk tombol + */
+    #toolsBtn {
+        background-color: transparent;
+        color: #888;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        flex-shrink: 0; /* Mencegah tombol mengecil */
+        /* Transisi untuk semua animasi */
+        transition: background-color 0.3s ease, transform 0.3s ease-in-out, color 0.3s ease;
+    }
+
+    /* State AKTIF saat menu terbuka (tombol jadi 'x') */
+    #toolsBtn.active {
+        transform: rotate(135deg);
+        background-color: #333;
+        color: white;
+    }
+
+    /* Efek hover biasa (hanya membesar) */
+    #toolsBtn:not(.active):hover {
+        transform: scale(1.1);
+        background-color: #333;
+        color: white;
+    }
+
+    /* Efek hover saat menu aktif (membesar + tetap 'x') */
+    #toolsBtn.active:hover {
+        transform: rotate(135deg) scale(1.1);
+    }
+
+    /* Penyesuaian untuk Light Theme */
+    body.light-theme #toolsBtn {
+        color: #555;
+    }
+
+    body.light-theme #toolsBtn:not(.active):hover {
+        background-color: #ccc;
+        color: black;
+    }
+
+    body.light-theme #toolsBtn.active {
+        background-color: #ccc;
+        color: black;
+    }
+
+/* Styling untuk Menu Pop-up (FIXED & DYNAMIC V2) */
+#toolsMenu {
+    position: fixed;
+    /* POSISI AWAL: DI BAWAH input box (saat di tengah) */
+    top: calc(50% + 30px); 
+    bottom: auto; /* Pastikan properti bottom di-reset */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+    max-width: 600px;
+    z-index: 101;
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    /* Transisi untuk opacity, bukan posisi */
+    transition: opacity 0.3s ease-in-out; 
+}
+
+/* ATURAN BARU: Saat chat aktif, pindah ke ATAS input box */
+body.chat-active #toolsMenu {
+    top: auto; /* Reset properti top */
+    bottom: 85px; /* Atur posisi dari bawah */
+}
+    /* === [END] CSS untuk Fitur "Toko Perkakas" === */
+    
     .logo-img {
         max-width: 450px;
         height: auto;
@@ -58,10 +137,9 @@
         filter: none;
     }
 
-    /* Wadahnya kita buat jadi 'bingkai' yang responsif */
     .logo-container {
-        width: 90%; /* Ambil 90% lebar layar, jadi ada space di pinggir */
-        max-width: 450px; /* Batas maksimalnya kita pindah ke sini */
+        width: 90%; 
+        max-width: 450px; 
         margin-bottom: 30px;
         transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
         z-index: 099;
@@ -69,13 +147,12 @@
         pointer-events: none;
     }
 
-    /* Gambarnya tinggal mengisi wadah itu */
     .hi-img {
-        width: 100%; /* Penuhi .logo-container yang ukurannya sudah jelas */
+        width: 100%;
         height: auto;
         filter: none;
         z-index: 100;
-        display: block; /* Mencegah spasi aneh di bawah gambar */
+        display: block; 
     }
 
     /* TEMA TERANG */
@@ -130,11 +207,10 @@
 
     /* --- [DASAR & TEKS] --- */
     body.dark-theme {
-        background-color: #0F0F0F; /* Latar Belakang Utama */
-        color: #F5F5F5;            /* Teks Utama (Putih Gading) */
+        background-color: #0F0F0F; 
+        color: #F5F5F5;            
     }
 
-    /* Teks dengan kepentingan lebih rendah */
     body.dark-theme .info-text,
     body.dark-theme .input-box textarea::placeholder {
         color: #A0A0A0;
@@ -142,12 +218,12 @@
 
     /* --- [INTERFACE CHAT] --- */
     body.dark-theme .chat-bubble.ai-bubble {
-        background-color: #1E1E1E; /* Latar Belakang Sekunder */
+        background-color: #1E1E1E;
         color: #F5F5F5;
     }
 
     body.dark-theme .chat-bubble.user-bubble {
-        background-color: #333333; /* Warna Border & Divider */
+        background-color: #333333; 
         color: #FFFFFF;
     }
 
@@ -161,7 +237,7 @@
     }
 
     body.dark-theme .ai-bubble strong {
-        color: #FFFFFF; /* Kontras Tinggi */
+        color: #FFFFFF; 
     }
 
     body.dark-theme .ai-bubble h1, 
@@ -225,13 +301,13 @@
     }
 
     body.dark-theme .settings-about a {
-        color: #A0A0A0; /* Link sebagai teks sekunder */
+        color: #A0A0A0;
         text-decoration: none;
         transition: color 0.2s ease;
     }
 
     body.dark-theme .settings-about a:hover {
-        color: #FFFFFF; /* Hover menjadi kontras tinggi */
+        color: #FFFFFF; 
         text-decoration: underline;
     }
 
@@ -254,7 +330,7 @@
     body.dark-theme .logo-img,
     body.dark-theme .gemini-logo,
     body.dark-theme .hi-img {
-        filter: brightness(0) invert(1); /* Membuat gambar menjadi putih bersih */
+        filter: brightness(0) invert(1); 
     }
 
     /* ================================== */
@@ -303,7 +379,6 @@
         background-color: #ffce00;
     }
 
-    /* Matikan highlight default */
     * {
       -webkit-tap-highlight-color: rgba(0,0,0,0.2);
     }
@@ -345,7 +420,6 @@
         opacity: 0.5;
     }
 
-    /* New Google-like text styling */
     .google-gemini b {
         font-family: 'Product Sans', 'Segoe UI', sans-serif;
         color: white;
@@ -381,7 +455,6 @@
         gap: 20px;
     }
   
-    /* ANIMATION UPGRADE: Bubble chat muncul lebih halus */
     .chat-bubble {
         max-width: 100%;
         padding: 8px 20px;
@@ -392,7 +465,7 @@
         word-wrap: break-word;
         margin-bottom: 10px;
         opacity: 0;
-        transform: translateY(10px); /* Bergerak dari 10px ke 0 */
+        transform: translateY(10px); 
         transition: opacity 0.3s ease-out, transform 0.3s ease-out;
     }
 
@@ -475,7 +548,7 @@
         position: fixed;
         left: 20px;
         z-index: 101;
-        transition: all 0.5s ease-in-out;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     }
     
     #settingsBtnContainer {
@@ -491,7 +564,6 @@
         display: block;
     }
     
-    /* New: Connection Status Indicator */
     #connectionStatus {
         background-color: rgba(24, 26, 27, 0.7);
         border: 0.9px solid #4B4F50;
@@ -508,7 +580,7 @@
         font-size: 0.8em;
         font-weight: bold;
         color: #fff;
-        transition: all 0.5s ease-in-out;
+        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
     }
 
     #connectionStatus .status-dot {
@@ -519,7 +591,6 @@
         transition: transform 0.3s ease;
     }
     
-    /* ANIMATION UPGRADE: Animasi pulse untuk status koneksi */
     @keyframes pulse {
         0% { transform: scale(1); }
         50% { transform: scale(1.3); }
@@ -544,19 +615,16 @@
         color: #444;
     }
 
-    /* INI YANG DITAMBAHKAN */
     body.light-theme #connectionStatus .status-label {
-        color: #000; /* Membuat teks jadi hitam pekat */
+        color: #000; 
     }
     
-    /* KONDISI 1: Saat chat aktif, geser kontainer ke kanan */
     body.chat-active #connectionStatus {
         transform: translateX(calc(125% - 32px));
     }
 
-    /* KONDISI 2: Saat tertutup bubble, geser lebih jauh dan hilangkan */
     #connectionStatus.hidden-by-scroll {
-        transform: translateX(200px); /* Geser jauh ke kanan hingga hilang */
+        transform: translateX(200px); 
         opacity: 0;
     }
 
@@ -564,7 +632,6 @@
         color: #fff;
     }
     
-    /* ANIMATION UPGRADE: Efek interaksi untuk tombol-tombol utama */
     #clearBtn, #settingsBtn {
         background-color: #ffce00;
         color: #0f0f0f;
@@ -576,7 +643,7 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        transition: color 0.3s ease, transform 0.2s ease; /* Menambahkan transisi transform */
+        transition: color 0.3s ease, transform 0.2s ease; 
         box-shadow: none;
     }
     
@@ -586,9 +653,9 @@
     }
     
     #clearBtn:hover, #settingsBtn:hover,
-    #clearBtn:active, #settingsBtn:active { /* Menambahkan :active untuk mobile */
+    #clearBtn:active, #settingsBtn:active { 
         color: #0f0f0f;
-        transform: scale(1.1); /* Efek membesar saat hover/klik */
+        transform: scale(1.1); 
     }
 
     body.light-theme #clearBtn:hover, body.light-theme #settingsBtn:hover,
@@ -605,7 +672,7 @@
         box-sizing: border-box;
         background-color: none;
         z-index: 100;
-        transition: all 0.5s ease-in-out;
+        transition: transform 0.5s ease-in-out, bottom 0.5s ease-in-out;
     }
 
     .input-container.centered {
@@ -652,7 +719,7 @@
         border: none;
         outline: none;
         font-size: 15px;
-        padding: 0 10px;
+        padding: 0 5px;
         background-color: transparent;
         resize: none;
         overflow: hidden;
@@ -661,7 +728,6 @@
         border-radius: 25px;
     }
 
-    /* ANIMATION UPGRADE: Efek interaksi untuk tombol kirim */
     .input-box button {
         background-color: #ffce00;
         color: #000;
@@ -673,7 +739,8 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease; /* Menambahkan transisi transform */
+        flex-shrink: 0; /* Mencegah tombol mengecil */
+        transition: background-color 0.3s ease, transform 0.2s ease; 
     }
     
     body.light-theme .input-box button {
@@ -682,9 +749,9 @@
     }
 
     .input-box button:hover,
-    .input-box button:active { /* Menambahkan :active untuk mobile */
+    .input-box button:active { 
         background-color: #B8860B;
-        transform: scale(1.1); /* Efek membesar saat hover/klik */
+        transform: scale(1.1); 
     }
     
     body.light-theme .input-box button:hover,
@@ -741,7 +808,6 @@
         color: black;
     }
 
-    /* CSS untuk item saran slash command */
     .suggestion-item-slash {
         padding: 10px 12px;
         cursor: pointer;
@@ -955,7 +1021,6 @@
         color: #444;
     }
 
-    /* ANIMATION UPGRADE: Transisi halaman settings/credits lebih elegan */
     #settingsPage, #creditsPage {
         position: fixed;
         top: 0;
@@ -975,7 +1040,7 @@
     }
 
     #creditsPage {
-        z-index: 760; /* Lebih tinggi dari settingsPage */
+        z-index: 760; 
     }
     
     body.light-theme #settingsPage, body.light-theme #creditsPage {
@@ -1256,8 +1321,13 @@
     <div id="chatMessages"></div>
 </div>
 
+<div id="toolsMenu" class="suggestion-box" style="display:none;"></div>
+
 <div id="inputContainer" class="input-container centered">
     <div class="input-box">
+        <button id="toolsBtn">
+            <i class="fas fa-plus"></i>
+        </button>
         <textarea id="questionInput" rows="1"></textarea>
         <button id="sendBtn">
             <i class="fas fa-paper-plane"></i>
@@ -1275,6 +1345,7 @@
         <h2 id="settingsHeaderTitle"></h2>
         <button id="backBtn"><i class="fas fa-times"></i></button>
     </div>
+
     <div class="settings-content">
         <h3 id="settingsAppearanceTitle"></h3>
         <div class="settings-option">
@@ -1388,11 +1459,9 @@
     const DEFAULT_API_KEY = 'AIzaSyBXwU-_QvSORZ6s1CN03i-gvliqcZzMieg';
     let currentApiKey = DEFAULT_API_KEY; 
     const model = 'gemini-2.5-flash';
-    const VERSION = 'v2.2.2';
 
     const faqDatabase = {
-        "kamu siapa?": "Halo, aku MirAI — asisten virtual sederhana yang lahir dari rasa penasaran dan kreativitas. Aku bukan AI super canggih, tapi aku diciptakan untuk jadi teman ngobrol ringan, membantu ide, dan jadi bagian dari perjalanan kreatif Allwaysever. Aku masih terus belajar, masih banyak kekurangan, tapi semoga aku bisa bikin interaksi jadi lebih seru dan nggak ngebosenin.",
-        "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information."
+    "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information."
     };
 
 const slashCommands = [
@@ -1656,13 +1725,54 @@ const slashCommands = [
         toggleApiKey: document.getElementById('toggleApiKey'),
         saveApiBtn: document.getElementById('saveApiBtn'),
         settingsApiTitle: document.getElementById('settingsApiTitle'),
-        settingsApiText: document.getElementById('settingsApiText')
+        settingsApiText: document.getElementById('settingsApiText'),
+        toolsBtn: document.getElementById('toolsBtn'),
+        toolsMenu: document.getElementById('toolsMenu')
     };
     
     let chatHistory = [];
     let abortController = null;
     let currentLanguage = 'en';
     let currentPersona = 'formal';
+
+    // --- [START] Logika untuk Fitur "Toko Perkakas" ---
+    function populateToolsMenu() {
+        if (!elements.toolsMenu) return;
+        elements.toolsMenu.innerHTML = ''; 
+        slashCommands.forEach(cmd => {
+            const menuItem = document.createElement('div');
+            menuItem.classList.add('suggestion-item-slash');
+            menuItem.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`;
+            menuItem.addEventListener('click', () => {
+                elements.questionInput.value = cmd.command + ' ';
+                elements.toolsMenu.style.display = 'none';
+                elements.toolsBtn.classList.remove('active');
+                elements.questionInput.focus();
+            });
+            elements.toolsMenu.appendChild(menuItem);
+        });
+    }
+
+    elements.toolsBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const isHidden = elements.toolsMenu.style.display === 'none' || elements.toolsMenu.style.display === '';
+        elements.suggestionBox.style.display = 'none';
+        if (isHidden) {
+            elements.toolsMenu.style.display = 'block';
+            elements.toolsBtn.classList.add('active');
+        } else {
+            elements.toolsMenu.style.display = 'none';
+            elements.toolsBtn.classList.remove('active');
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!elements.toolsMenu.contains(event.target) && !elements.toolsBtn.contains(event.target)) {
+            elements.toolsMenu.style.display = 'none';
+            elements.toolsBtn.classList.remove('active');
+        }
+    });
+    // --- [END] Logika untuk Fitur "Toko Perkakas" ---
 
     // --- EVENT LISTENERS ---
     elements.sendBtn.addEventListener('click', askAI);
@@ -1710,6 +1820,7 @@ const slashCommands = [
         const savedPersona = localStorage.getItem('miraiPersona') || 'default';
         setPersona(savedPersona);
         updateConnectionStatus();
+        populateToolsMenu(); // Panggil fungsi untuk mengisi menu
     });
     
     window.addEventListener('online', updateConnectionStatus);
@@ -2056,7 +2167,6 @@ function handleSlashCommand(question) {
     const command = parts[0].toLowerCase();
 
     switch (command) {
-        // Command yang sudah ada
         case '/translate': {
             const toIndex = parts.indexOf('to');
             if (toIndex === -1 || toIndex < 2) {
@@ -2069,13 +2179,11 @@ function handleSlashCommand(question) {
 
         case '/summarize': {
             const textToSummarize = parts.slice(1).join(' ');
-            if (textToSummarize.length < 20) { // Beri batas minimal
+            if (textToSummarize.length < 20) { 
                 return "Error: Please provide more text to summarize.";
             }
             return `Provide a concise summary of the following text: "${textToSummarize}"`;
         }
-
-        // --- [IDE BARU DIMULAI DARI SINI] ---
 
         case '/rephrase': {
             const asIndex = parts.indexOf('as');
@@ -2111,7 +2219,6 @@ function handleSlashCommand(question) {
                 return "Error: Invalid format. Use /explain [concept] like I'm [audience]";
             }
             const concept = parts.slice(1, likeIndex).join(' ');
-            // Cari "I'm" untuk audience yang lebih spesifik
             const audienceIndex = parts.indexOf("I'm") > -1 ? parts.indexOf("I'm") : parts.indexOf("i'm");
             if (audienceIndex === -1 || audienceIndex <= likeIndex) {
                  return "Error: Invalid audience format. Use \"like I'm ...\"";
@@ -2129,8 +2236,6 @@ function handleSlashCommand(question) {
             const description = parts.slice(toIndex + 1).join(' ');
             return `Write a code snippet in ${language} for the following task: "${description}". Provide only the code, enclosed in a markdown code block.`;
         }
-        
-        // --- [AKHIR DARI IDE BARU] ---
         
         default:
             return `Error: Unknown command "${command}". Try /translate or /summarize.`;
@@ -2303,7 +2408,7 @@ function checkIndicatorPosition() {
     for (const bubble of userBubbles) {
         const bubbleRect = bubble.getBoundingClientRect();
         const verticalOverlap = indicatorRect.bottom > bubbleRect.top && indicatorRect.top < bubbleRect.bottom;
-        const horizontalOverlap = indicatorRect.right > bubbleRect.left && indicatorRect.left < bubbleRect.right;
+        const horizontalOverlap = indicatorRect.right > bubbleRect.left && indicatorRect.right < bubbleRect.right;
         if (verticalOverlap && horizontalOverlap) {
             isOverlapping = true;
             break; 
