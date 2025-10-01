@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>const VERSION = 'v2.3.1';</script>
+    <script>const VERSION = 'v2.4.0';</script>
     <style>
     /* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan */
     body {
@@ -154,11 +154,13 @@ body.chat-active #toolsMenu {
     }
 
     .hi-img {
-        width: 100%;
+        width: 75%;
         height: auto;
+        align-items: flex-start;
         filter: none;
         z-index: 100;
         display: block; 
+        margin: 0 auto;
     }
 
     /* TEMA TERANG */
@@ -208,185 +210,53 @@ body.chat-active #toolsMenu {
     }
 
     /* ================================== */
-    /* TEMA DARK MONOCHROME PROFESSIONAL - FINAL */
+    /* TEMA GELAP (KUNING)                */
     /* ================================== */
-
-    /* --- [DASAR & TEKS] --- */
     body.dark-theme {
-        background-color: #0F0F0F; 
-        color: #F5F5F5;            
+        background-color: #1B1C1E;
+        color: #fff;
     }
 
-    body.dark-theme .info-text,
-    body.dark-theme .input-box textarea::placeholder {
-        color: #A0A0A0;
-    }
-
-    /* --- [INTERFACE CHAT] --- */
     body.dark-theme .chat-bubble.ai-bubble {
-        background-color: #1E1E1E;
-        color: #F5F5F5;
+        background-color: #0f0f0f;
+        color: #fff;
     }
 
     body.dark-theme .chat-bubble.user-bubble {
-        background-color: #333333; 
-        color: #FFFFFF;
+        background-color: #ffce00;
+        color: #000;
     }
 
     body.dark-theme .input-box {
-        background-color: rgba(30, 30, 30, 0.7);
-        border: 0.9px solid #333333;
+        background-color: rgba(24, 26, 27, 0.7);
+        border: 0.9px solid #4B4F50;
     }
 
     body.dark-theme .input-box textarea {
-        color: #F5F5F5;
+        color: white;
+    }
+
+    body.dark-theme .input-box button {
+        background-color: #ffce00;
+        color: #000;
     }
 
     body.dark-theme .ai-bubble strong {
-        color: #FFFFFF; 
+        color: #ffce00;
     }
 
     body.dark-theme .ai-bubble h1, 
     body.dark-theme .ai-bubble h2, 
     body.dark-theme .ai-bubble h3 {
-        border-bottom: 1px solid #333333;
-    }
-
-    body.dark-theme .typing-indicator span {
-        background-color: #FFFFFF;
-    }
-
-    body.dark-theme .copy-btn:hover {
-        color: #FFFFFF;
-    }
-
-    /* --- [TOMBOL & UI UTAMA] --- */
-    body.dark-theme #clearBtn, 
-    body.dark-theme #settingsBtn {
-        background-color: #1E1E1E;
-        color: #F5F5F5;
-        border: 1px solid #333333;
-    }
-
-    body.dark-theme .lang-dropdown {
-        border: 1px solid #333333;
-    }
-
-    /* --- [TOMBOL AKSI (KONTRAK TINGGI)] --- */
-    body.dark-theme .input-box button,
-    body.dark-theme #saveApiBtn,
-    body.dark-theme #retry-button {
-        background-color: #FFFFFF;
-        color: #0F0F0F;
-    }
-
-    body.dark-theme #retry-button:hover {
-        background-color: #E0E0E0;
-    }
-
-    /* --- [SPLASH SCREEN] --- */
-    body.dark-theme .loading-bar {
-        background-color: #FFFFFF;
-    }
-
-    /* --- [HALAMAN POP-UP: PENGATURAN & CREDITS] --- */
-    body.dark-theme #settingsPage,
-    body.dark-theme #creditsPage {
-        background-color: #0F0F0F;
-    }
-
-    body.dark-theme .settings-content h3 {
-        color: #F5F5F5;
-    }
-
-    body.dark-theme .settings-option select,
-    body.dark-theme #apiKeyInput {
-        border: 1px solid #333333;
-        background-color: #1E1E1E;
-        color: #F5F5F5;
-    }
-
-    body.dark-theme .settings-about a {
-        color: #A0A0A0;
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-
-    body.dark-theme .settings-about a:hover {
-        color: #FFFFFF; 
-        text-decoration: underline;
-    }
-
-    body.dark-theme .settings-credits-btn {
-        color: #F5F5F5;
-        border: 1px solid #333333;
-        background-color: #1E1E1E;
-    }
-
-    body.dark-theme .settings-credits-btn:hover {
-        background-color: #FFFFFF;
-        color: #0F0F0F;
-    }
-
-    body.dark-theme .credits-session h2 {
-        color: #F5F5F5;
-    }
-
-    /* --- [FILTER GAMBAR] --- */
-    body.dark-theme .logo-img,
-    body.dark-theme .gemini-logo,
-    body.dark-theme .hi-img {
-        filter: brightness(0) invert(1); 
-    }
-
-    /* ================================== */
-    /* TEMA LAMA: PREMIUM DARK (KUNING)     */
-    /* ================================== */
-    body.premium-dark-theme {
-        background-color: #1B1C1E;
-        color: #fff;
-    }
-
-    body.premium-dark-theme .chat-bubble.ai-bubble {
-        background-color: #0f0f0f;
-        color: #fff;
-    }
-
-    body.premium-dark-theme .chat-bubble.user-bubble {
-        background-color: #ffce00;
-        color: #000;
-    }
-
-    body.premium-dark-theme .input-box {
-        background-color: rgba(24, 26, 27, 0.7);
-        border: 0.9px solid #4B4F50;
-    }
-
-    body.premium-dark-theme .input-box textarea {
-        color: white;
-    }
-
-    body.premium-dark-theme .input-box button {
-        background-color: #ffce00;
-        color: #000;
-    }
-
-    body.premium-dark-theme .ai-bubble strong {
-        color: #ffce00;
-    }
-
-    body.premium-dark-theme .ai-bubble h1, 
-    body.premium-dark-theme .ai-bubble h2, 
-    body.premium-dark-theme .ai-bubble h3 {
         border-bottom: 1px solid #ffce00;
     }
 
-    body.premium-dark-theme .typing-indicator span {
+    body.dark-theme .typing-indicator span {
         background-color: #ffce00;
     }
 
     * {
-      -webkit-tap-highlight-color: rgba(0,0,0,0.2);
+      -webkit-tap-highlight-color: transparent;
     }
 
     .logo-container {
@@ -684,6 +554,7 @@ body.chat-active #toolsMenu {
         left: 0;
         width: 100%;
         padding: 10px;
+        margin-top: 10px;
         box-sizing: border-box;
         background-color: none;
         z-index: 100;
@@ -1071,7 +942,7 @@ body.chat-active #toolsMenu {
         color: #444;
     }
 
-    #settingsPage, #creditsPage {
+    #settingsPage {
         position: fixed;
         top: 0;
         left: 0;
@@ -1088,17 +959,13 @@ body.chat-active #toolsMenu {
         transform: translateY(100%);
         transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
     }
-
-    #creditsPage {
-        z-index: 760; 
-    }
     
-    body.light-theme #settingsPage, body.light-theme #creditsPage {
+    body.light-theme #settingsPage {
         background-color: #e9e9e9;
         color: #444;
     }
 
-    #settingsPage.active, #creditsPage.active {
+    #settingsPage.active {
         opacity: 1;
         transform: translateY(0);
     }
@@ -1187,74 +1054,8 @@ body.chat-active #toolsMenu {
         text-decoration: underline;
     }
     
-    .settings-credits-btn {
-        background-color: #212121;
-        color: #ffce00;
-        border: 1px solid #ffce00;
-        padding: 8px 15px;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: 1em;
-        margin-top: 10px;
-        transition: all 0.3s ease;
-    }
-
-    body.light-theme .settings-credits-btn {
-        background-color: #d9d9d9;
-        color: #222;
-        border: 1px solid #b3b3b3;
-    }
-
-    .settings-credits-btn:hover {
-        background-color: #ffce00;
-        color: #000;
-        transform: scale(1.05);
-    }
-
-    body.light-theme .settings-credits-btn:hover {
-        background-color: #222;
-        color: #fff;
-    }
-    
     .gemini-container {
         margin-top: 20px;
-    }
-    .credits-session {
-        text-align: left;
-    }
-    
-    .credits-session p, .credits-session li {
-        font-size: 0.5em;
-        color: #aaa;
-        margin: 5px 0;
-    }
-
-    .credits-session h2 {
-        font-size: 0.3em;
-        margin: 5px 0;
-    }
-    
-    body.light-theme .credits-session p, body.light-theme .credits-session li, body.light-theme .credits-session h2 {
-        color: #666;
-    }
-    
-    .credits-session h2 {
-        color: #ffce00;
-        text-decoration: none;
-    }
-    
-    body.light-theme .credits-session h2 {
-        color: #222;
-    }
-
-    #creditsPage .credits-session ul {
-      list-style-type: none;
-      padding-left: 0;
-      margin-top: 5px;
-    }
-
-    #creditsPage .credits-session ul li {
-      margin-bottom: 2px;
     }
 
     .api-key-container {
@@ -1316,11 +1117,44 @@ body.chat-active #toolsMenu {
         font-family: inherit;
     }
 
-    body.light-theme .ai-bubble pre {
+    .body.light-theme .ai-bubble pre {
         background-color: #f6f8fa;
         color: #24292e;
         border: 1px solid #d0d7de;
     }
+
+/* Style dasar untuk tombol credits & save key (Dark Theme) */
+.settings-credits-btn {
+    background-color: #212121;
+    color: #ffce00;
+    border: 1px solid #ffce00;
+    padding: 8px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Penyesuaian untuk Light Theme */
+body.light-theme .settings-credits-btn {
+    background-color: #d9d9d9;
+    color: #222;
+    border: 1px solid #b3b3b3;
+}
+
+/* Efek saat disentuh (hover) - Dark Theme */
+.settings-credits-btn:hover {
+    background-color: #ffce00;
+    color: #000;
+    transform: scale(1.05);
+}
+
+/* Efek hover untuk Light Theme */
+body.light-theme .settings-credits-btn:hover {
+    background-color: #222;
+    color: #fff;
+}
 </style>
 </head>
 <body>
@@ -1336,6 +1170,7 @@ body.chat-active #toolsMenu {
     <button id="retry-button" style="display:none;"></button>
     <p class="splash-text2" id="splashText2" style="display:none;"></p>
   </div>
+ <p style="font-size: 0.5em; color: #aaa; bottom: 5px;"  id="settingsVersionText"></p>
 </div>
 
 <div id="settingsBtnContainer">
@@ -1355,7 +1190,7 @@ body.chat-active #toolsMenu {
 </div>
 
 <div class="logo-container">
-    <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250913_184620.png" alt="Hi! I'm MirAI! Nice to meet you. what are we discussing?" class="hi-img">
+    <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250930_133306.png" alt="Icon" class="hi-img">
 </div>
 
 <div id="languageSwitcher">
@@ -1403,7 +1238,6 @@ body.chat-active #toolsMenu {
             <select id="themeSelect">
                 <option value="light" id="themeLightOption"></option>
                 <option value="dark" id="themeDarkOption"></option>
-                <option value="premium-dark" id="themePremiumDarkOption"></option>
             </select>
         </div>
         
@@ -1432,77 +1266,12 @@ body.chat-active #toolsMenu {
         <div class="settings-about">
             <p id="settingsAuthorText"></p>
             <p><a href="https://github.com/Allwaysever/MirAI" target="_blank" id="githubLink"></a></p>
-            <p><a href="https://github.com/Allwaysever/MirAI/tree/b8368ff43e7d7e78ba7742d52eb9d8f30f61d270/Licences" id="licenseLink" target="_blank"></a></p>
-            <button id="creditsBtn" class="settings-credits-btn"></button>
+            <p><a href="https://github.com/Allwaysever/MirAI/blob/567951ae325568765827ac3982e8944d295abd1f/LICENSE" id="licenseLink" target="_blank"></a></p>
             <p id="settingsVersionText"></p>
             <div class="gemini-container">
                 <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250910_155455.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
             </div>
             </div>
-    </div>
-</div>
-
-<div id="creditsPage">
-    <div class="settings-header">
-        <h2 id="creditsHeaderTitle"></h2>
-        <button id="backBtnCredits"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="settings-content">
-        <div class="credits-session">
-            <h2>A Collaborative Creation By</h2>
-            <p>Allwaysever (Human Developer, Project Architect)</p>
-            <p>Google Gemini (AI Assistant, Suggestion, and Code Generation)</p>
-
-            <h2>Starring</h2>
-            <p>MirAI (The AI Personality)</p>
-
-            <h2>Project Leader & Architect</h2>
-            <p>Allwaysever</p>
-
-            <h2>Back-End Development</h2>
-            <p>Google (via Gemini API)</p>
-
-            <h2>Front-End & UI/UX Design</h2>
-            <p>Allwaysever</p>
-
-            <h2>AI Model & Collaboration</h2>
-            <p>Gemini 2.5 Flash by Google</p>
-            
-            <h2>Graphic & Visual Design</h2>
-            <p>Allwaysever (App Design)</p>
-            <p>Google (Gemini Logo)</p>
-
-            <h2>Fonts & Typography</h2>
-            <p>Egkoppel (Product Sans)</p>
-
-            <h2>Iconography</h2>
-            <p>Font Awesome (fontawesome.com)</p>
-
-            <h2>In Association With</h2>
-            <p>GitHub (github.com)</p>
-            <p>Google Developers (developers.google.com)</p>
-            <p>Google Gemini (gemini.google.com)</p>
-
-            <h2>Special Thanks</h2>
-            <ul>
-                <li>To everyone who gave feedback, suggestions, and support</li>
-                <li>The open source community</li>
-                <li>All users who tried and improved MirAI</li>
-            </ul>
-
-            <h2>Libraries & Tools Referenced</h2>
-            <ul>
-                <li>HTML, CSS, JavaScript (Core Technologies)</li>
-                <li>marked.js (for Markdown parsing)</li>
-                <li>Product Sans by Egkoppel</li>
-                <li>Font Awesome</li>
-                <li>Google Gemini API</li>
-                <li>GitHub for code hosting</li>
-            </ul>
-
-            <br>
-            <p>Copyright © 2025 Allwaysever Projects: MirAI</p>
-        </div>
     </div>
 </div>
 <script>
@@ -1571,7 +1340,6 @@ const slashCommands = [
             settingsThemeText: 'Pilih Tema:',
             themeLightOption: 'Terang',
             themeDarkOption: 'Gelap',
-            themePremiumDarkOption: 'Premium Gelap',
             settingsAITitle: 'Kustomisasi AI',
             settingsPersonaText: 'Persona MirAI:',
             personaFormalOption: 'Formal & Serius',
@@ -1582,8 +1350,6 @@ const slashCommands = [
             settingsAuthorText: 'Dibuat oleh Allwaysever',
             githubLink: 'Repositori GitHub',
             licenseLink: 'Lisensi Open Source',
-            settingsCreditsBtn: 'Credits',
-            creditsHeaderTitle: 'Credits',
             personaDefaultPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
             personaFormalPrompt: "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.",
             personaCreativePrompt: "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya.",
@@ -1613,7 +1379,6 @@ const slashCommands = [
             settingsThemeText: 'Choose Theme:',
             themeLightOption: 'Light',
             themeDarkOption: 'Dark',
-            themePremiumDarkOption: 'Premium Dark',
             settingsAITitle: 'AI Customization',
             settingsPersonaText: 'MirAI Persona:',
             personaFormalOption: 'Formal & Serious',
@@ -1624,8 +1389,6 @@ const slashCommands = [
             settingsAuthorText: 'Created by Allwaysever',
             githubLink: 'GitHub Repository',
             licenseLink: 'Open Source License',
-            settingsCreditsBtn: 'Credits',
-            creditsHeaderTitle: 'Credits',
             personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
             personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
             personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
@@ -1655,7 +1418,6 @@ const slashCommands = [
             settingsThemeText: 'Choose Theme:',
             themeLightOption: 'Light',
             themeDarkOption: 'Dark',
-            themePremiumDarkOption: 'Premium Dark',
             settingsAITitle: 'AI Customisation',
             settingsPersonaText: 'MirAI Persona:',
             personaFormalOption: 'Formal & Serious',
@@ -1666,8 +1428,6 @@ const slashCommands = [
             settingsAuthorText: 'Created by Allwaysever',
             githubLink: 'GitHub Repository',
             licenseLink: 'Open Source Licence',
-            settingsCreditsBtn: 'Credits',
-            creditsHeaderTitle: 'Credits',
             personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
             personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
             personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
@@ -1697,7 +1457,6 @@ const slashCommands = [
             settingsThemeText: 'テーマを選択:',
             themeLightOption: 'ライト',
             themeDarkOption: 'ダーク',
-            themePremiumDarkOption: 'プレミアムダーク',
             settingsAITitle: 'AIのカスタマイズ',
             settingsPersonaText: 'MirAIのペルソナ:',
             personaFormalOption: 'フォーマル＆真面目',
@@ -1708,8 +1467,6 @@ const slashCommands = [
             settingsAuthorText: '作成者: Allwaysever',
             githubLink: 'GitHubリポジトリ',
             licenseLink: 'オープンソースライセンス',
-            settingsCreditsBtn: 'クレジット',
-            creditsHeaderTitle: 'クレジット',
             personaDefaultPrompt: 'あなたの名前はMirAIです。AlwaysseverのAIアシスタントです。気軽に、そして少しユーモアを交えて答えてください。',
             personaFormalPrompt: 'あなたの名前はMirAIです。AlwayseverのAIアシスタントです。標準的で専門的、そして真剣な言葉遣いで回答します。',
             personaCreativePrompt: 'あなたの名前はMirAI。アイデアと想像力に溢れたAIです。物語を語ったり、芸術作品を作ったりするかのように、創造的で描写的なスタイルで答えてください。',
@@ -1749,15 +1506,11 @@ const slashCommands = [
         backBtn: document.getElementById('backBtn'),
         themeSelect: document.getElementById('themeSelect'),
         personaSelect: document.getElementById('personaSelect'),
-        creditsBtn: document.getElementById('creditsBtn'),
-        creditsPage: document.getElementById('creditsPage'),
-        backBtnCredits: document.getElementById('backBtnCredits'),
         settingsHeaderTitle: document.getElementById('settingsHeaderTitle'),
         settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'),
         settingsThemeText: document.getElementById('settingsThemeText'),
         themeLightOption: document.getElementById('themeLightOption'),
         themeDarkOption: document.getElementById('themeDarkOption'),
-        themePremiumDarkOption: document.getElementById('themePremiumDarkOption'), 
         settingsAITitle: document.getElementById('settingsAITitle'),
         settingsPersonaText: document.getElementById('settingsPersonaText'),
         personaFormalOption: document.getElementById('personaFormalOption'),
@@ -1768,7 +1521,6 @@ const slashCommands = [
         settingsAuthorText: document.getElementById('settingsAuthorText'),
         githubLink: document.getElementById('githubLink'),
         licenseLink: document.getElementById('licenseLink'),
-        creditsHeaderTitle: document.getElementById('creditsHeaderTitle'),
         statusDot: document.getElementById('statusDot'),
         statusLabel: document.getElementById('statusLabel'),
         apiKeyInput: document.getElementById('apiKeyInput'),
@@ -1863,8 +1615,6 @@ const slashCommands = [
         elements.splashScreen.classList.remove('hidden');
         checkInternetConnection();
     });
-    elements.creditsBtn.addEventListener('click', showCreditsPage);
-    elements.backBtnCredits.addEventListener('click', hideCreditsPage);
     elements.saveApiBtn.addEventListener('click', saveApiKey);
     elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
     
@@ -1954,7 +1704,6 @@ const slashCommands = [
         elements.settingsThemeText.innerText = lang.settingsThemeText;
         elements.themeLightOption.innerText = lang.themeLightOption;
         elements.themeDarkOption.innerText = lang.themeDarkOption;
-        elements.themePremiumDarkOption.innerText = lang.themePremiumDarkOption;
         elements.settingsAITitle.innerText = lang.settingsAITitle;
         elements.settingsPersonaText.innerText = lang.settingsPersonaText;
         elements.personaFormalOption.innerText = lang.personaFormalOption;
@@ -1965,8 +1714,6 @@ const slashCommands = [
         elements.settingsAuthorText.innerText = lang.settingsAuthorText;
         elements.githubLink.innerText = lang.githubLink;
         elements.licenseLink.innerText = lang.licenseLink;
-        elements.creditsBtn.innerText = lang.settingsCreditsBtn;
-        elements.creditsHeaderTitle.innerText = lang.creditsHeaderTitle;
         elements.settingsApiTitle.innerText = lang.settingsApiTitle;
         elements.settingsApiText.innerText = lang.settingsApiText;
     }
@@ -1987,11 +1734,9 @@ const slashCommands = [
     }
 
     function setTheme(theme) {
-        elements.body.classList.remove('light-theme', 'dark-theme', 'premium-dark-theme');
+        elements.body.classList.remove('light-theme', 'dark-theme');
         if (theme === 'light') {
             elements.body.classList.add('light-theme');
-        } else if (theme === 'premium-dark') {
-            elements.body.classList.add('premium-dark-theme');
         } else {
             elements.body.classList.add('dark-theme');
         }
@@ -2002,7 +1747,6 @@ const slashCommands = [
     function showSettingsPage() {
         elements.settingsPage.classList.add('active');
         elements.body.classList.remove('chat-active');
-        elements.creditsPage.classList.remove('active');
     }
 
     function hideSettingsPage() {
@@ -2012,17 +1756,6 @@ const slashCommands = [
         }
     }
     
-    function showCreditsPage() {
-        elements.settingsPage.classList.remove('active');
-        elements.creditsPage.classList.add('active');
-        updateSettingsUI();
-    }
-
-    function hideCreditsPage() {
-        elements.creditsPage.classList.remove('active');
-        elements.settingsPage.classList.add('active');
-    }
-
     function clearChat() {
         elements.chatMessages.innerHTML = '';
         const personaPrompt = uiStrings[currentLanguage][`persona${currentPersona.charAt(0).toUpperCase() + currentPersona.slice(1)}Prompt`];
