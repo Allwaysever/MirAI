@@ -1,12 +1,19 @@
 # Changelogs
 ## What's new?
-### v2.3.1
-- Animation improvements and additions.
-- UI improvements.
+### v2.4
+- Dark Theme (Monochrome) Removal
+- Credit Page Removal
+- Hi Text Changes
+- Animation Upgrade.
+- Fix bugs.
   
 ---
 
 ## Previous version:
+### v2.3.1
+- Animation improvements and additions.
+- UI improvements.
+
 ### v2.3
 - New feature: "+" button to display slash commands. Multimodal features such as image uploading may be added later.
 - UI improvements: added more fluid animations.
