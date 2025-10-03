@@ -89,7 +89,7 @@ For more detailed information about the project, please refer to the following d
 
 * **[❓ FAQ (Frequently Asked Questions)](Docs/FAQ.md)**: Find answers to common questions about MirAI's features and usage.
 * **[🛠️ Troubleshooting Guide](Docs/TROUBLESHOOTING.md)**: Solutions for common errors and issues.
-* **[🔄 Changelog](Docs/CHANGELOG.md)**: See the detailed history of changes and new features for each version.
+* **[🔄 Changelog](CHANGELOG.md)**: See the detailed history of changes and new features for each version.
 * **[🤝 Contributing Guide](Docs/CONTRIBUTNG.md)**: Learn how you can contribute to make MirAI even better.
 
 ###### [Buy us a Coffee](https://ko-fi.com/allwaysever)
