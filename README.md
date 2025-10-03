@@ -87,10 +87,10 @@ This project was built purely with basic web technologies, without any framework
 
 For more detailed information about the project, please refer to the following documents:
 
-* **[❓ FAQ (Frequently Asked Questions)](https://github.com/Allwaysever/MirAI/blob/63696ead53e692c42b886b1fc65dd93449d8fe45/FAQ.md)**: Find answers to common questions about MirAI's features and usage.
-* **[🛠️ Troubleshooting Guide](https://github.com/Allwaysever/MirAI/blob/63696ead53e692c42b886b1fc65dd93449d8fe45/TROUBLESHOOTING.md)**: Solutions for common errors and issues.
-* **[🔄 Changelog](https://github.com/Allwaysever/MirAI/blob/a8f7209ca31273eceace51daf0eed75ae74ba3fd/CHANGELOG.md)**: See the detailed history of changes and new features for each version.
-* **[🤝 Contributing Guide](https://github.com/Allwaysever/MirAI/blob/63696ead53e692c42b886b1fc65dd93449d8fe45/CONTRIBUTNG.md)**: Learn how you can contribute to make MirAI even better.
+* **[❓ FAQ (Frequently Asked Questions)](https://github.com/Allwaysever/MirAI/blob/FAQ.md)**: Find answers to common questions about MirAI's features and usage.
+* **[🛠️ Troubleshooting Guide](https://github.com/Allwaysever/MirAI/blob/TROUBLESHOOTING.md)**: Solutions for common errors and issues.
+* **[🔄 Changelog](https://github.com/Allwaysever/MirAI/blob/CHANGELOG.md)**: See the detailed history of changes and new features for each version.
+* **[🤝 Contributing Guide](https://github.com/Allwaysever/MirAI/blob/CONTRIBUTNG.md)**: Learn how you can contribute to make MirAI even better.
 
 ---
 
