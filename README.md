@@ -87,11 +87,12 @@ This project was built purely with basic web technologies, without any framework
 
 For more detailed information about the project, please refer to the following documents:
 
-* **[❓ FAQ (Frequently Asked Questions)](https://github.com/Allwaysever/MirAI/blob/FAQ.md)**: Find answers to common questions about MirAI's features and usage.
-* **[🛠️ Troubleshooting Guide](https://github.com/Allwaysever/MirAI/blob/TROUBLESHOOTING.md)**: Solutions for common errors and issues.
-* **[🔄 Changelog](https://github.com/Allwaysever/MirAI/blob/CHANGELOG.md)**: See the detailed history of changes and new features for each version.
-* **[🤝 Contributing Guide](https://github.com/Allwaysever/MirAI/blob/CONTRIBUTNG.md)**: Learn how you can contribute to make MirAI even better.
+* **[❓ FAQ (Frequently Asked Questions)](docs/FAQ.md)**: Find answers to common questions about MirAI's features and usage.
+* **[🛠️ Troubleshooting Guide](Docs/TROUBLESHOOTING.md)**: Solutions for common errors and issues.
+* **[🔄 Changelog](Docs/CHANGELOG.md)**: See the detailed history of changes and new features for each version.
+* **[🤝 Contributing Guide](Docs/CONTRIBUTNG.md)**: Learn how you can contribute to make MirAI even better.
 
+[Buy us a Coffee](https://ko-fi.com/allwaysever
 ---
 
 ## 📄 License
