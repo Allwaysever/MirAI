@@ -1,5 +1,11 @@
 # Changelogs
 ## What's new?
+### v2.4.1
+- fix bugs
+  
+---
+
+## Previous version:
 ### v2.4
 - Dark Theme (Monochrome) Removal
 - Credit Page Removal
@@ -7,9 +13,6 @@
 - Animation Upgrade.
 - Fix bugs.
   
----
-
-## Previous version:
 ### v2.3.1
 - Animation improvements and additions.
 - UI improvements.
