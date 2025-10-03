@@ -92,7 +92,7 @@ For more detailed information about the project, please refer to the following d
 * **[🔄 Changelog](Docs/CHANGELOG.md)**: See the detailed history of changes and new features for each version.
 * **[🤝 Contributing Guide](Docs/CONTRIBUTNG.md)**: Learn how you can contribute to make MirAI even better.
 
-[Buy us a Coffee](https://ko-fi.com/allwaysever
+###### [Buy us a Coffee](https://ko-fi.com/allwaysever)
 ---
 
 ## 📄 License
