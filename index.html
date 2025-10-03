@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>const VERSION = 'v2.4.0';</script>
+    <script>const VERSION = 'v2.4.1';</script>
     <style>
     /* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan */
     body {
@@ -452,7 +452,7 @@ body.chat-active #toolsMenu {
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         padding: 8px 12px;
-        border-radius: 20px;
+        border-radius: 25px;
         right: 20px;
         top: 20px;
         position: fixed;
@@ -610,7 +610,7 @@ body.chat-active #toolsMenu {
         overflow: hidden;
         max-height: 250px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        border-radius: 25px;
+        border-radius: 0;
     }
 
     #sendBtn {
@@ -678,7 +678,7 @@ body.chat-active #toolsMenu {
         backdrop-filter: blur(10px);
         max-width: 600px;
         margin: 0 auto;
-        border-radius: 10px;
+        border-radius: 15px;
         padding: 10px;
         position: relative;
         top: -10px;
@@ -842,7 +842,7 @@ body.chat-active #toolsMenu {
         width: 200px;
         height: 4px;
         background-color: #212121;
-        border-radius: 2px;
+        border-radius: 25px;
         overflow: hidden;
         position: relative;
     }
@@ -1267,6 +1267,7 @@ body.light-theme .settings-credits-btn:hover {
             <p id="settingsAuthorText"></p>
             <p><a href="https://github.com/Allwaysever/MirAI" target="_blank" id="githubLink"></a></p>
             <p><a href="https://github.com/Allwaysever/MirAI/blob/567951ae325568765827ac3982e8944d295abd1f/LICENSE" id="licenseLink" target="_blank"></a></p>
+            <p><a href="https://ko-fi.com/allwaysever" target"_blank">Buy us a Coffee ☕</a></p>
             <p id="settingsVersionText"></p>
             <div class="gemini-container">
                 <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250910_155455.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
@@ -1280,7 +1281,8 @@ body.light-theme .settings-credits-btn:hover {
     const model = 'gemini-2.5-flash';
 
     const faqDatabase = {
-    "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information."
+    "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information.",
+    "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a coffee](https://ko-fi.com/allwaysever)"
     };
 
 const slashCommands = [
