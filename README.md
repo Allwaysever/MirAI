@@ -9,7 +9,7 @@
 <br>
 
 <p align="center">
-  <img src="Assets/Screenshot_20250927-205202.png" width="600" alt="MirAI Screenshot">
+  <img src="Assets/home v2.4.1.png" width="600" alt="MirAI Screenshot">
 </p>
 
 ---
