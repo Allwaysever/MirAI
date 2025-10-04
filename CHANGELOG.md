@@ -1,11 +1,15 @@
 # Changelogs
 ## What's new?
-### v2.4.1
-- fix bugs
+### v2.5
+- New feature! Now you can have deeper conversations, and MirAI will remember everything you've said (limited to 25 previous chats).
+- Color change for the stop response button
   
 ---
 
 ## Previous version:
+### v2.4.1
+- fix bugs
+
 ### v2.4
 - Dark Theme (Monochrome) Removal
 - Credit Page Removal
