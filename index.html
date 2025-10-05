@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>const VERSION = 'v2.5.0';</script>
+    <script>const VERSION = 'v2.6.0';</script>
     <style>
     /* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan */
     body {
@@ -1286,7 +1286,170 @@ body.light-theme .settings-credits-btn:hover {
     };
 
     const slashCommands = [ { command: '/translate', title: 'Translate Text', description: 'Usage: /translate [text] to [language]' }, { command: '/summarize', title: 'Summarize Text', description: 'Usage: /summarize [long text]' }, { command: '/rephrase', title: 'Rephrase Text', description: 'Usage: /rephrase [text] as [tone]' }, { command: '/ideate', title: 'Generate Ideas', description: 'Usage: /ideate [number] ideas for [topic]' }, { command: '/fix', title: 'Fix Grammar & Spelling', description: 'Usage: /fix [text with errors]' }, { command: '/explain', title: 'Explain Simply', description: "Usage: /explain [concept] like I'm [audience]" }, { command: '/code', title: 'Write Code Snippet', description: 'Usage: /code a [language] function to [task]' } ];
-    const uiStrings = { 'id': { offlineTitle: 'Kamu Offline', offlineText: 'Periksa Internet kamu dan coba lagi', retryButton: 'Coba Lagi', inputPlaceholder: 'Tanya MirAI apa saja...', copyFeedback: 'Teks berhasil disalin!', langSwitchFeedback: 'Bahasa berhasil diganti ke', errorAPI: 'Oops! Sepertinya ada masalah. Coba periksa koneksi internet atau coba lagi sebentar lagi, ya. 😅', errorFallback: 'Maaf, saya tidak dapat menemukan jawaban untuk itu. Mungkin pertanyaannya terlalu rumit? 😂 Coba tanyakan hal lain, ya.', errorConnection: 'Tidak ada koneksi internet. Silakan periksa jaringan Kamu.', checkingConnection: 'Memeriksa koneksi internet...', copySuffix: '\n\nIni adalah hasil dari respon MirAI', infoText: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya', settingsHeaderTitle: 'Pengaturan', settingsAppearanceTitle: 'Tampilan', settingsThemeText: 'Pilih Tema:', themeLightOption: 'Terang', themeDarkOption: 'Gelap', settingsAITitle: 'Kustomisasi AI', settingsPersonaText: 'Persona MirAI:', personaFormalOption: 'Formal & Serius', personaDefaultOption: 'Santai & Bercanda', personaCreativeOption: 'Kreatif & Imajinatif', settingsAboutTitle: 'Tentang MirAI', settingsVersionText: `Versi: ${VERSION}`, settingsAuthorText: 'Dibuat oleh Allwaysever', githubLink: 'Repositori GitHub', licenseLink: 'Lisensi Open Source', personaDefaultPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.", personaFormalPrompt: "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.", personaCreativePrompt: "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya.", placeholderMessages: ['Tanya MirAI apa saja...', 'Butuh inspirasi? Coba tanya aku!', 'Bisa bantu translate atau kasih ide!', 'Mau cerita? Aku siap dengerin.', 'Coba ketik sesuatu, siapa tahu seru!'], onlineStatus: 'Online', offlineStatus: 'Offline', settingsApiTitle: 'API Key', settingsApiText: 'Masukkan Google API Key Kamu:', apiKeySaved: 'API Key berhasil disimpan!', apiKeyRemoved: 'API Key dihapus. Kembali menggunakan key default.' }, 'en': { offlineTitle: 'You\'re Offline', offlineText: 'Check your internet and try again', retryButton: 'Try Again', inputPlaceholder: 'Ask MirAI anything...', copyFeedback: 'Text copied successfully!', langSwitchFeedback: 'Language successfully changed to', errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅', errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.', errorConnection: 'No internet connection. Please check your network.', checkingConnection: 'Checking internet connection...', copySuffix: '\n\nThis is a response from MirAI', infoText: 'MirAI may give inaccurate answers. Please double-check the responses', settingsHeaderTitle: 'Settings', settingsAppearanceTitle: 'Appearance', settingsThemeText: 'Choose Theme:', themeLightOption: 'Light', themeDarkOption: 'Dark', settingsAITitle: 'AI Customization', settingsPersonaText: 'MirAI Persona:', personaFormalOption: 'Formal & Serious', personaDefaultOption: 'Relaxed & Casual', personaCreativeOption: 'Creative & Imaginative', settingsAboutTitle: 'About MirAI', settingsVersionText: `Version: ${VERSION}`, settingsAuthorText: 'Created by Allwaysever', githubLink: 'GitHub Repository', licenseLink: 'Open Source License', personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.", personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.", personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.", placeholderMessages: ['Ask MirAI anything...', 'Need inspiration? Try asking me!', 'I can help translate or give ideas!', 'Want to tell a story? I\'m all ears.', 'Try typing something, who knows what will happen!'], onlineStatus: 'Online', offlineStatus: 'Offline', settingsApiTitle: 'API Key', settingsApiText: 'Enter your Google API Key:', apiKeySaved: 'API Key saved successfully!', apiKeyRemoved: 'API Key removed. Reverting to default key.' }, 'en-uk': { offlineTitle: 'You\'re Offline', offlineText: 'Check your internet and try again', retryButton: 'Try Again', inputPlaceholder: 'Ask MirAI anything...', copyFeedback: 'Text copied successfully!', langSwitchFeedback: 'Language successfully changed to', errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅', errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.', errorConnection: 'No internet connection. Please check your network.', checkingConnection: 'Checking internet connection...', copySuffix: '\n\nThis is a response from MirAI', infoText: 'MirAI may give inaccurate answers. Please double-check the responses', settingsHeaderTitle: 'Settings', settingsAppearanceTitle: 'Appearance', settingsThemeText: 'Choose Theme:', themeLightOption: 'Light', themeDarkOption: 'Dark', settingsAITitle: 'AI Customisation', settingsPersonaText: 'MirAI Persona:', personaFormalOption: 'Formal & Serious', personaDefaultOption: 'Relaxed & Casual', personaCreativeOption: 'Creative & Imaginative', settingsAboutTitle: 'About MirAI', settingsVersionText: `Version: ${VERSION}`, settingsAuthorText: 'Created by Allwaysever', githubLink: 'GitHub Repository', licenseLink: 'Open Source Licence', personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.", personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.", personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.", placeholderMessages: ['Ask MirAI anything...', 'Need inspiration? Try asking me!', 'I can help translate or give ideas!', 'Want to tell a story? I\'m all ears.', 'Try typing something, who knows what will happen!'], onlineStatus: 'Online', offlineStatus: 'Offline', settingsApiTitle: 'API Key', settingsApiText: 'Enter your Google API Key:', apiKeySaved: 'API Key saved successfully!', apiKeyRemoved: 'API Key removed. Reverting to default key.' }, 'jp': { offlineTitle: 'オフラインです', offlineText: 'インターネットを確認して、もう一度お試しください', retryButton: '再試行', inputPlaceholder: 'MirAIに何でも聞いてみよう...', copyFeedback: 'テキストが正常にコピーされました！', langSwitchFeedback: '言語が正常に切り替わりました', errorAPI: 'おっと！問題が発生したようです。インターネット接続を確認するか、しばらくしてからもう一度お試しください。😅', errorFallback: 'すみません、その質問に対する答えが見つかりませんでした。もしかしたら質問が複雑すぎるかもしれません？😂 別のことを聞いてみてください。', errorConnection: 'インターネット接続がありません。ネットワークを確認してください。', checkingConnection: 'インターネット接続を確認中...', copySuffix: '\n\nこれはMirAIからの返答です', infoText: 'MirAIは不正確な回答をする場合があります。回答を再確認してください', settingsHeaderTitle: '設定', settingsAppearanceTitle: '外観', settingsThemeText: 'テーマを選択:', themeLightOption: 'ライト', themeDarkOption: 'ダーク', settingsAITitle: 'AIのカスタマイズ', settingsPersonaText: 'MirAIのペルソナ:', personaFormalOption: 'フォーマル＆真面目', personaDefaultOption: 'リラックス＆カジュアル', personaCreativeOption: 'クリエイティブ＆想像力豊か', settingsAboutTitle: 'MirAIについて', settingsVersionText: `バージョン: ${VERSION}`, settingsAuthorText: '作成者: Allwaysever', githubLink: 'GitHubリポジトリ', licenseLink: 'オープンソースライセンス', personaDefaultPrompt: 'あなたの名前はMirAIです。AlwaysseverのAIアシスタントです。気軽に、そして少しユーモアを交えて答えてください。', personaFormalPrompt: 'あなたの名前はMirAIです。AlwayseverのAIアシスタントです。標準的で専門的、そして真剣な言葉遣いで回答します。', personaCreativePrompt: 'あなたの名前はMirAI。アイデアと想像力に溢れたAIです。物語を語ったり、芸術作品を作ったりするかのように、創造的で描写的なスタイルで答えてください。', placeholderMessages: ['MirAIに何でも聞いてみよう...', 'インスピレーションが必要ですか？私に聞いてみてください！', '翻訳やアイデア出しを手伝えます！', '何か話したいことはありますか？いつでも聞きます。', '何か入力してみてください。きっと楽しいことが起こります！'], onlineStatus: 'オンライン', offlineStatus: 'オフライン', settingsApiTitle: 'APIキー', settingsApiText: 'Google APIキーを取得します:', apiKeySaved: 'API キーが正常に保存されました。', apiKeyRemoved: 'APIキーが削除されました。デフォルトのキーに戻してください。' }, };
+    
+    const uiStrings = {
+        'id': {
+            offlineTitle: 'Kamu Offline',
+            offlineText: 'Periksa Internet kamu dan coba lagi',
+            retryButton: 'Coba Lagi',
+            inputPlaceholder: 'Tanya MirAI apa saja...',
+            copyFeedback: 'Teks berhasil disalin!',
+            langSwitchFeedback: 'Bahasa berhasil diganti ke',
+            errorAPI: 'Oops! Sepertinya ada masalah. Coba periksa koneksi internet atau coba lagi sebentar lagi, ya. 😅',
+            errorFallback: 'Maaf, saya tidak dapat menemukan jawaban untuk itu. Mungkin pertanyaannya terlalu rumit? 😂 Coba tanyakan hal lain, ya.',
+            errorConnection: 'Tidak ada koneksi internet. Silakan periksa jaringan Kamu.',
+            checkingConnection: 'Memeriksa koneksi internet...',
+            copySuffix: '\n\nIni adalah hasil dari respon MirAI',
+            infoText: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya',
+            settingsHeaderTitle: 'Pengaturan',
+            settingsAppearanceTitle: 'Tampilan',
+            settingsThemeText: 'Pilih Tema:',
+            themeLightOption: 'Terang',
+            themeDarkOption: 'Gelap',
+            settingsAITitle: 'Kustomisasi AI',
+            settingsPersonaText: 'Persona MirAI:',
+            personaFormalOption: 'Formal & Serius',
+            personaDefaultOption: 'Santai & Bercanda',
+            personaCreativeOption: 'Kreatif & Imajinatif',
+            settingsAboutTitle: 'Tentang MirAI',
+            settingsVersionText: `Versi: ${VERSION}`,
+            settingsAuthorText: 'Dibuat oleh Allwaysever',
+            githubLink: 'Repositori GitHub',
+            licenseLink: 'Lisensi Open Source',
+            personaDefaultPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
+            personaFormalPrompt: "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.",
+            personaCreativePrompt: "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya.",
+            placeholderMessages: ['Tanya MirAI apa saja...', 'Butuh inspirasi? Coba tanya aku!', 'Bisa bantu translate atau kasih ide!', 'Mau cerita? Aku siap dengerin.', 'Coba ketik sesuatu, siapa tahu seru!'],
+            onlineStatus: 'Online',
+            offlineStatus: 'Offline',
+            settingsApiTitle: 'API Key',
+            settingsApiText: 'Masukkan Google API Key Kamu:',
+            apiKeySaved: 'API Key berhasil disimpan!',
+            apiKeyRemoved: 'API Key dihapus. Kembali menggunakan key default.',
+            dateTimeContextPrompt: 'Konteks waktu saat ini di sisi pengguna adalah {dateTime}. Berdasarkan informasi ini, jawab pertanyaan pengguna berikut:'
+        },
+        'en': {
+            offlineTitle: 'You\'re Offline',
+            offlineText: 'Check your internet and try again',
+            retryButton: 'Try Again',
+            inputPlaceholder: 'Ask MirAI anything...',
+            copyFeedback: 'Text copied successfully!',
+            langSwitchFeedback: 'Language successfully changed to',
+            errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅',
+            errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.',
+            errorConnection: 'No internet connection. Please check your network.',
+            checkingConnection: 'Checking internet connection...',
+            copySuffix: '\n\nThis is a response from MirAI',
+            infoText: 'MirAI may give inaccurate answers. Please double-check the responses',
+            settingsHeaderTitle: 'Settings',
+            settingsAppearanceTitle: 'Appearance',
+            settingsThemeText: 'Choose Theme:',
+            themeLightOption: 'Light',
+            themeDarkOption: 'Dark',
+            settingsAITitle: 'AI Customization',
+            settingsPersonaText: 'MirAI Persona:',
+            personaFormalOption: 'Formal & Serious',
+            personaDefaultOption: 'Relaxed & Casual',
+            personaCreativeOption: 'Creative & Imaginative',
+            settingsAboutTitle: 'About MirAI',
+            settingsVersionText: `Version: ${VERSION}`,
+            settingsAuthorText: 'Created by Allwaysever',
+            githubLink: 'GitHub Repository',
+            licenseLink: 'Open Source License',
+            personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
+            personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
+            personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
+            placeholderMessages: ['Ask MirAI anything...', 'Need inspiration? Try asking me!', 'I can help translate or give ideas!', 'Want to tell a story? I\'m all ears.', 'Try typing something, who knows what will happen!'],
+            onlineStatus: 'Online',
+            offlineStatus: 'Offline',
+            settingsApiTitle: 'API Key',
+            settingsApiText: 'Enter your Google API Key:',
+            apiKeySaved: 'API Key saved successfully!',
+            apiKeyRemoved: 'API Key removed. Reverting to default key.',
+            dateTimeContextPrompt: 'The current time on the user\'s side is {dateTime}. Based on this information, answer the following user question:'
+        },
+        'en-uk': {
+            offlineTitle: 'You\'re Offline',
+            offlineText: 'Check your internet and try again',
+            retryButton: 'Try Again',
+            inputPlaceholder: 'Ask MirAI anything...',
+            copyFeedback: 'Text copied successfully!',
+            langSwitchFeedback: 'Language successfully changed to',
+            errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅',
+            errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.',
+            errorConnection: 'No internet connection. Please check your network.',
+            checkingConnection: 'Checking internet connection...',
+            copySuffix: '\n\nThis is a response from MirAI',
+            infoText: 'MirAI may give inaccurate answers. Please double-check the responses',
+            settingsHeaderTitle: 'Settings',
+            settingsAppearanceTitle: 'Appearance',
+            settingsThemeText: 'Choose Theme:',
+            themeLightOption: 'Light',
+            themeDarkOption: 'Dark',
+            settingsAITitle: 'AI Customisation',
+            settingsPersonaText: 'MirAI Persona:',
+            personaFormalOption: 'Formal & Serious',
+            personaDefaultOption: 'Relaxed & Casual',
+            personaCreativeOption: 'Creative & Imaginative',
+            settingsAboutTitle: 'About MirAI',
+            settingsVersionText: `Version: ${VERSION}`,
+            settingsAuthorText: 'Created by Allwaysever',
+            githubLink: 'GitHub Repository',
+            licenseLink: 'Open Source Licence',
+            personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
+            personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
+            personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
+            placeholderMessages: ['Ask MirAI anything...', 'Need inspiration? Try asking me!', 'I can help translate or give ideas!', 'Want to tell a story? I\'m all ears.', 'Try typing something, who knows what will happen!'],
+            onlineStatus: 'Online',
+            offlineStatus: 'Offline',
+            settingsApiTitle: 'API Key',
+            settingsApiText: 'Enter your Google API Key:',
+            apiKeySaved: 'API Key saved successfully!',
+            apiKeyRemoved: 'API Key removed. Reverting to default key.',
+            dateTimeContextPrompt: 'The current time on the user\'s side is {dateTime}. Based on this information, answer the following user question:'
+        },
+        'jp': {
+            offlineTitle: 'オフラインです',
+            offlineText: 'インターネットを確認して、もう一度お試しください',
+            retryButton: '再試行',
+            inputPlaceholder: 'MirAIに何でも聞いてみよう...',
+            copyFeedback: 'テキストが正常にコピーされました！',
+            langSwitchFeedback: '言語が正常に切り替わりました',
+            errorAPI: 'おっと！問題が発生したようです。インターネット接続を確認するか、しばらくしてからもう一度お試しください。😅',
+            errorFallback: 'すみません、その質問に対する答えが見つかりませんでした。もしかしたら質問が複雑すぎるかもしれません？😂 別のことを聞いてみてください。',
+            errorConnection: 'インターネット接続がありません。ネットワークを確認してください。',
+            checkingConnection: 'インターネット接続を確認中...',
+            copySuffix: '\n\nこれはMirAIからの返答です',
+            infoText: 'MirAIは不正確な回答をする場合があります。回答を再確認してください',
+            settingsHeaderTitle: '設定',
+            settingsAppearanceTitle: '外観',
+            settingsThemeText: 'テーマを選択:',
+            themeLightOption: 'ライト',
+            themeDarkOption: 'ダーク',
+            settingsAITitle: 'AIのカスタマイズ',
+            settingsPersonaText: 'MirAIのペルソナ:',
+            personaFormalOption: 'フォーマル＆真面目',
+            personaDefaultOption: 'リラックス＆カジュアル',
+            personaCreativeOption: 'クリエイティブ＆想像力豊か',
+            settingsAboutTitle: 'MirAIについて',
+            settingsVersionText: `バージョン: ${VERSION}`,
+            settingsAuthorText: '作成者: Allwaysever',
+            githubLink: 'GitHubリポジトリ',
+            licenseLink: 'オープンソースライセンス',
+            personaDefaultPrompt: 'あなたの名前はMirAIです。AlwaysseverのAIアシスタントです。気軽に、そして少しユーモアを交えて答えてください。',
+            personaFormalPrompt: 'あなたの名前はMirAIです。AlwayseverのAIアシスタントです。標準的で専門的、そして真剣な言葉遣いで回答します。',
+            personaCreativePrompt: 'あなたの名前はMirAI。アイデアと想像力に溢れたAIです。物語を語ったり、芸術作品を作ったりするかのように、創造的で描写的なスタイルで答えてください。',
+            placeholderMessages: ['MirAIに何でも聞いてみよう...', 'インスピレーションが必要ですか？私に聞いてみてください！', '翻訳やアイデア出しを手伝えます！', '何か話したいことはありますか？いつでも聞きます。', '何か入力してみてください。きっと楽しいことが起こります！'],
+            onlineStatus: 'オンライン',
+            offlineStatus: 'オフライン',
+            settingsApiTitle: 'APIキー',
+            settingsApiText: 'Google APIキーを取得します:',
+            apiKeySaved: 'API キーが正常に保存されました。',
+            apiKeyRemoved: 'APIキーが削除されました。デフォルトのキーに戻してください。',
+            dateTimeContextPrompt: 'ユーザー側の現在時刻は{dateTime}です。この情報を基に、次のユーザーの質問に答えてください：'
+        },
+    };
+
     const elements = { questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), settingsBtnContainer: document.getElementById('settingsBtnContainer'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), splashTitle: document.getElementById('splashTitle'), splashStatus: document.getElementById('splashStatus'), splashText2: document.getElementById('splashText2'), splashLoader: document.getElementById('splash-loader'), retryButton: document.getElementById('retry-button'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu') };
     let chatHistory = [];
     let abortController = null;
@@ -1424,20 +1587,31 @@ body.light-theme .settings-credits-btn:hover {
     // =================================================================
     // FUNGSI INTI: askAI (dengan pemanggilan saveChatHistory)
     // =================================================================
-
+    
     async function askAI() {
-        const question = elements.questionInput.value;
-        if (question.trim() === '') return;
+        const userQuestion = elements.questionInput.value;
+        if (userQuestion.trim() === '') return;
 
-        let promptToSendToAI = question;
-        const processedPrompt = handleSlashCommand(question);
+        // Ambil waktu client dan buat konteks untuk AI
+        const clientDateTime = getCurrentDateTimeString();
+        const promptTemplate = uiStrings[currentLanguage].dateTimeContextPrompt;
+        const contextPrompt = promptTemplate.replace('{dateTime}', clientDateTime);
+        
+        let promptToSendToAI;
+
+        // Periksa apakah ini adalah slash command
+        const processedPrompt = handleSlashCommand(userQuestion);
 
         if (processedPrompt !== null) {
-            promptToSendToAI = processedPrompt;
-            if (promptToSendToAI.startsWith('Error:')) {
+            if (processedPrompt.startsWith('Error:')) {
                 // ... (error handling for slash command) ...
                 return;
             }
+             // Gabungkan konteks waktu dengan hasil proses slash command
+            promptToSendToAI = `${contextPrompt}\n\n"${processedPrompt}"`;
+        } else {
+            // Gabungkan konteks waktu dengan pertanyaan asli pengguna
+            promptToSendToAI = `${contextPrompt}\n\n"${userQuestion}"`;
         }
 
         toggleChatUI(true);
@@ -1452,16 +1626,16 @@ body.light-theme .settings-credits-btn:hover {
 
         const userBubble = document.createElement('div');
         userBubble.classList.add('chat-bubble', 'user-bubble');
-        userBubble.innerText = question;
+        userBubble.innerText = userQuestion; // Tampilkan pertanyaan asli pengguna di UI
         elements.chatMessages.appendChild(userBubble);
         setTimeout(() => userBubble.classList.add('fade-in'), 10);
         elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
 
-        chatHistory.push({ role: "user", parts: [{ text: promptToSendToAI }] });
+        chatHistory.push({ role: "user", parts: [{ text: promptToSendToAI }] }); // Kirim prompt lengkap dengan konteks ke AI
         saveChatHistory(); 
 
         const loadingBubble = showLoading();
-        const localAnswer = findSmartAnswer(question);
+        const localAnswer = findSmartAnswer(userQuestion);
 
         if (localAnswer) {
             // ... (handling for local answer) ...
@@ -1512,9 +1686,24 @@ body.light-theme .settings-credits-btn:hover {
     }
     
     // =================================================================
-    // SISA FUNGSI LAINNYA (TIDAK ADA PERUBAHAN)
+    // SISA FUNGSI LAINNYA
     // =================================================================
     
+    /**
+     * Mengambil dan memformat tanggal dan waktu saat ini dari sisi client.
+     * @returns {string} String tanggal dan waktu yang diformat (misal: "2025-10-05 07:12:34").
+     */
+    function getCurrentDateTimeString() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
     function populateToolsMenu() { if (!elements.toolsMenu) return; elements.toolsMenu.innerHTML = ''; slashCommands.forEach(cmd => { const menuItem = document.createElement('div'); menuItem.classList.add('suggestion-item-slash'); menuItem.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; menuItem.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); elements.questionInput.focus(); }); elements.toolsMenu.appendChild(menuItem); }); }
     elements.toolsBtn.addEventListener('click', (event) => { event.stopPropagation(); const isActive = elements.toolsBtn.classList.contains('active'); elements.suggestionBox.classList.remove('visible'); if (!isActive) { elements.toolsMenu.classList.add('visible'); elements.toolsBtn.classList.add('active'); } else { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
     document.addEventListener('click', (event) => { if (elements.toolsMenu && !elements.toolsMenu.contains(event.target) && !elements.toolsBtn.contains(event.target)) { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
