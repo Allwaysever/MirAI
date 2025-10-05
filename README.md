@@ -5,7 +5,6 @@
 ![Project](https://img.shields.io/badge/Type-HTML%20App-blue)
 ![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
 ![Status](https://img.shields.io/badge/status-Active-brightgreen)
-![Version](https://img.shields.io/badge/version-v2.6.0-informational)
 
 <br>
 
