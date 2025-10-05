@@ -1,12 +1,16 @@
 # Changelogs
 ## What's new?
-### v2.5
-- New feature! Now you can have deeper conversations, and MirAI will remember everything you've said (limited to 25 previous chats).
-- Color change for the stop response button
+### v2.6
+- Creating a sense of time sensitivity when interacting. Knowing the time during a chat.
+- time-based search optimization
   
 ---
 
 ## Previous version:
+### v2.5
+- New feature! Now you can have deeper conversations, and MirAI will remember everything you've said (limited to 25 previous chats).
+- Color change for the stop response button
+
 ### v2.4.1
 - fix bugs
 
