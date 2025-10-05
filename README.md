@@ -5,11 +5,12 @@
 ![Project](https://img.shields.io/badge/Type-HTML%20App-blue)
 ![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
 ![Status](https://img.shields.io/badge/status-Active-brightgreen)
+![Version](https://img.shields.io/badge/version-v2.6.0-informational)
 
 <br>
 
 <p align="center">
-  <img src="Assets/home v2.4.1.png" width="600" alt="MirAI Screenshot">
+  <img src="Assets/home v2.4.1.png" width="600" alt="MirAI Screenshot (Older Version)">
 </p>
 
 ---
@@ -18,12 +19,16 @@
 
 MirAI is designed to be an accessible and feature-rich AI chat companion, right from your browser.
 
+* **💾 Session Persistence:** Your conversation is automatically saved in your browser. Pick up where you left off, anytime!
 * **✅ Responsive Chat Interface:** A comfortable layout for both mobile and desktop use.
 * **🌗 Light & Dark Mode:** Switch themes according to your visual preference.
-* **🌐 Multi-language Support:** Available in Indonesian, English, and Japanese.
+* **🎭 Customizable AI Persona:** Choose between Default (Relaxed & Casual), Formal, or Creative personalities for the AI.
+* **🌐 Multi-language Support:** Available in Indonesian, English (US & UK), and Japanese.
 * **🔑 API Key Configuration:** Enter your own Gemini API key directly from the settings menu.
-* **🚀 Slash Commands:** Use commands like `/translate` or `/summarize` for specific tasks.
+* **🚀 Enhanced Slash Commands & Tools Menu:** Use the '+' menu or type commands like `/translate`, `/summarize`, `/code`, and `/fix` for specific tasks.
+* **🛑 Stop Generation:** Immediately halt the AI's response when needed.
 * **📝 Markdown Parsing:** Responses from the AI containing formatting (like code blocks and lists) will be displayed correctly.
+* **⏰ Time-aware Context:** The AI knows the current date and time for more relevant answers.
 
 ---
 
@@ -78,7 +83,7 @@ This project was built purely with basic web technologies, without any framework
 * **HTML**
 * **CSS**
 * **JavaScript (Vanilla JS)**
-* **Google Gemini API**
+* **Google Gemini API** (using the `gemini-2.5-flash` model)
 * **Marked.js** (For Markdown parsing)
 
 ---
