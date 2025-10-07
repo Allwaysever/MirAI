@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>const VERSION = 'v2.8';</script>
+    <script>const VERSION = 'v2.9';</script>
     <style>
     /* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan */
     body {
@@ -1414,7 +1414,16 @@ body.light-theme #confirmBtnNo:hover {
     "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a DiamondStars](https://trakteer.id/Allwaysever)"
     };
 
-    const slashCommands = [ { command: '/translate', title: 'Translate Text', description: 'Usage: /translate [text] to [language]' }, { command: '/summarize', title: 'Summarize Text', description: 'Usage: /summarize [long text]' }, { command: '/rephrase', title: 'Rephrase Text', description: 'Usage: /rephrase [text] as [tone]' }, { command: '/ideate', title: 'Generate Ideas', description: 'Usage: /ideate [number] ideas for [topic]' }, { command: '/fix', title: 'Fix Grammar & Spelling', description: 'Usage: /fix [text with errors]' }, { command: '/explain', title: 'Explain Simply', description: "Usage: /explain [concept] like I'm [audience]" }, { command: '/code', title: 'Write Code Snippet', description: 'Usage: /code a [language] function to [task]' } ];
+    const slashCommands = [
+        { command: '/search', title: 'Search the Web', description: 'Usage: /search [your query]' },
+        { command: '/translate', title: 'Translate Text', description: 'Usage: /translate [text] to [language]' },
+        { command: '/summarize', title: 'Summarize Text', description: 'Usage: /summarize [long text]' },
+        { command: '/rephrase', title: 'Rephrase Text', description: 'Usage: /rephrase [text] as [tone]' },
+        { command: '/ideate', title: 'Generate Ideas', description: 'Usage: /ideate [number] ideas for [topic]' },
+        { command: '/fix', title: 'Fix Grammar & Spelling', description: 'Usage: /fix [text with errors]' },
+        { command: '/explain', title: 'Explain Simply', description: "Usage: /explain [concept] like I'm [audience]" },
+        { command: '/code', title: 'Write Code Snippet', description: 'Usage: /code a [language] function to [task]' }
+    ];
     
 const uiStrings = {
     'id': {
@@ -1886,7 +1895,95 @@ const uiStrings = {
     function typeWriterEffect(element, text, speed = 0.5) { const parsedHtml = marked.parse(text); let i = 0; element.innerHTML = ''; const tempElement = document.createElement('div'); tempElement.innerHTML = parsedHtml; const textToType = tempElement.innerText; return new Promise(resolve => { function type() { if (i < textToType.length) { element.innerHTML += textToType.charAt(i); i++; setTimeout(type, speed); } else { element.innerHTML = parsedHtml; resolve(); } } type(); }); }
     function showLoading() { const loadingBubble = document.createElement('div'); loadingBubble.classList.add('chat-bubble', 'ai-bubble', 'typing-indicator', 'fade-in'); loadingBubble.innerHTML = '<span></span><span></span><span></span>'; elements.chatMessages.appendChild(loadingBubble); return loadingBubble; }
     function stopAI() { if (abortController) { abortController.abort(); console.log("Response aborted."); elements.stopBtn.style.display = 'none'; elements.sendBtn.style.display = 'block'; elements.clearBtnContainer.style.display = 'block'; const loadingBubble = document.querySelector('.typing-indicator'); if (loadingBubble) loadingBubble.remove(); } }
-    function handleSlashCommand(question) { if (!question.startsWith('/')) { return null; } const parts = question.split(' '); const command = parts[0].toLowerCase(); switch (command) { case '/translate': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 2) { return "Error: Invalid format. Use /translate [text] to [language]"; } const textToTranslate = parts.slice(1, toIndex).join(' '); const targetLanguage = parts.slice(toIndex + 1).join(' '); return `Translate the following text to ${targetLanguage}: "${textToTranslate}"`; } case '/summarize': { const textToSummarize = parts.slice(1).join(' '); if (textToSummarize.length < 20) { return "Error: Please provide more text to summarize."; } return `Provide a concise summary of the following text: "${textToSummarize}"`; } case '/rephrase': { const asIndex = parts.indexOf('as'); if (asIndex === -1 || asIndex < 2) { return "Error: Invalid format. Use /rephrase [text] as [tone]"; } const textToRephrase = parts.slice(1, asIndex).join(' '); const tone = parts.slice(asIndex + 1).join(' '); return `Rephrase the following text in a ${tone} tone: "${textToRephrase}"`; } case '/ideate': { const forIndex = parts.indexOf('for'); if (forIndex === -1 || forIndex < 3 || isNaN(parseInt(parts[1]))) { return "Error: Invalid format. Use /ideate [number] ideas for [topic]"; } const number = parts[1]; const topic = parts.slice(forIndex + 1).join(' '); return `Generate ${number} ideas for ${topic}. Present them as a numbered list.`; } case '/fix': { const textToFix = parts.slice(1).join(' '); if (!textToFix) { return "Error: Please provide text to fix. Use /fix [text]"; } return `Proofread and correct any grammatical errors and spelling mistakes in the following text. Only provide the corrected text: "${textToFix}"`; } case '/explain': { const likeIndex = parts.findIndex(part => part.toLowerCase() === "like"); if (likeIndex === -1 || likeIndex < 2) { return "Error: Invalid format. Use /explain [concept] like I'm [audience]"; } const concept = parts.slice(1, likeIndex).join(' '); const audienceIndex = parts.indexOf("I'm") > -1 ? parts.indexOf("I'm") : parts.indexOf("i'm"); if (audienceIndex === -1 || audienceIndex <= likeIndex) { return "Error: Invalid audience format. Use \"like I'm ...\""; } const audience = parts.slice(audienceIndex + 1).join(' '); return `Explain the concept of "${concept}" as if you were talking to a ${audience}.`; } case '/code': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 3) { return "Error: Invalid format. Use /code a [language] function to [description]"; } const language = parts[2]; const description = parts.slice(toIndex + 1).join(' '); return `Write a code snippet in ${language} for the following task: "${description}". Provide only the code, enclosed in a markdown code block.`; } default: return `Error: Unknown command "${command}". Try /translate or /summarize.`; } }
+    function handleSlashCommand(question) {
+        if (!question.startsWith('/')) {
+            return null;
+        }
+        const parts = question.split(' ');
+        const command = parts[0].toLowerCase();
+        switch (command) {
+            case '/translate':
+                {
+                    const toIndex = parts.indexOf('to');
+                    if (toIndex === -1 || toIndex < 2) {
+                        return "Error: Invalid format. Use /translate [text] to [language]";
+                    }
+                    const textToTranslate = parts.slice(1, toIndex).join(' ');
+                    const targetLanguage = parts.slice(toIndex + 1).join(' ');
+                    return `Translate the following text to ${targetLanguage}: "${textToTranslate}"`;
+                }
+            case '/summarize':
+                {
+                    const textToSummarize = parts.slice(1).join(' ');
+                    if (textToSummarize.length < 20) {
+                        return "Error: Please provide more text to summarize.";
+                    }
+                    return `Provide a concise summary of the following text: "${textToSummarize}"`;
+                }
+            case '/rephrase':
+                {
+                    const asIndex = parts.indexOf('as');
+                    if (asIndex === -1 || asIndex < 2) {
+                        return "Error: Invalid format. Use /rephrase [text] as [tone]";
+                    }
+                    const textToRephrase = parts.slice(1, asIndex).join(' ');
+                    const tone = parts.slice(asIndex + 1).join(' ');
+                    return `Rephrase the following text in a ${tone} tone: "${textToRephrase}"`;
+                }
+            case '/ideate':
+                {
+                    const forIndex = parts.indexOf('for');
+                    if (forIndex === -1 || forIndex < 3 || isNaN(parseInt(parts[1]))) {
+                        return "Error: Invalid format. Use /ideate [number] ideas for [topic]";
+                    }
+                    const number = parts[1];
+                    const topic = parts.slice(forIndex + 1).join(' ');
+                    return `Generate ${number} ideas for ${topic}. Present them as a numbered list.`;
+                }
+            case '/fix':
+                {
+                    const textToFix = parts.slice(1).join(' ');
+                    if (!textToFix) {
+                        return "Error: Please provide text to fix. Use /fix [text]";
+                    }
+                    return `Proofread and correct any grammatical errors and spelling mistakes in the following text. Only provide the corrected text: "${textToFix}"`;
+                }
+            case '/explain':
+                {
+                    const likeIndex = parts.findIndex(part => part.toLowerCase() === "like");
+                    if (likeIndex === -1 || likeIndex < 2) {
+                        return "Error: Invalid format. Use /explain [concept] like I'm [audience]";
+                    }
+                    const concept = parts.slice(1, likeIndex).join(' ');
+                    const audienceIndex = parts.indexOf("I'm") > -1 ? parts.indexOf("I'm") : parts.indexOf("i'm");
+                    if (audienceIndex === -1 || audienceIndex <= likeIndex) {
+                        return "Error: Invalid audience format. Use \"like I'm ...\"";
+                    }
+                    const audience = parts.slice(audienceIndex + 1).join(' ');
+                    return `Explain the concept of "${concept}" as if you were talking to a ${audience}.`;
+                }
+            case '/code':
+                {
+                    const toIndex = parts.indexOf('to');
+                    if (toIndex === -1 || toIndex < 3) {
+                        return "Error: Invalid format. Use /code a [language] function to [description]";
+                    }
+                    const language = parts[2];
+                    const description = parts.slice(toIndex + 1).join(' ');
+                    return `Write a code snippet in ${language} for the following task: "${description}". Provide only the code, enclosed in a markdown code block.`;
+                }
+            case '/search':
+                {
+                    const query = parts.slice(1).join(' ');
+                    if (!query) {
+                        return "Error: Please provide a search query. Use /search [query]";
+                    }
+                    return `Search the web for information about "${query}". Provide a concise summary and, if possible, include relevant links.`;
+                }
+            default:
+                return `Error: Unknown command "${command}". Try /translate or /summarize.`;
+        }
+    }
     function createAiBubble(text, useInnerHTML = true) { const bubble = document.createElement('div'); bubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in'); bubble.setAttribute('data-raw-text', text); if (useInnerHTML) { bubble.innerHTML = `${marked.parse(text)}<i class="fas fa-copy copy-btn" onclick="copyToClipboard(this)"></i>`; } return bubble; }
     function copyToClipboard(element) { const aiBubble = element.closest('.ai-bubble'); const textToCopy = aiBubble.getAttribute('data-raw-text'); const formattedText = `${textToCopy}${uiStrings[currentLanguage].copySuffix}`; const tempInput = document.createElement('textarea'); tempInput.value = formattedText; document.body.appendChild(tempInput); tempInput.select(); tempInput.setSelectionRange(0, 99999); document.execCommand('copy'); document.body.removeChild(tempInput); showCopyFeedback(uiStrings[currentLanguage].copyFeedback); }
     function showCopyFeedback(message) { const feedbackDiv = document.createElement('div'); feedbackDiv.innerText = message; feedbackDiv.style.cssText = ` position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background-color: #444; color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 14px; z-index: 200; opacity: 0; transition: opacity 0.5s ease-in-out; `; document.body.appendChild(feedbackDiv); setTimeout(() => { feedbackDiv.style.opacity = 1; }, 10); setTimeout(() => { feedbackDiv.style.opacity = 0; setTimeout(() => feedbackDiv.remove(), 500); }, 2000); }
