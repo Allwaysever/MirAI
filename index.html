@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>const VERSION = 'v2.7.1';</script>
+    <script>const VERSION = 'v2.8';</script>
     <style>
     /* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan */
     body {
@@ -1285,13 +1285,9 @@ body.light-theme #confirmBtnNo:hover {
 <div id="splash-screen">
   <div class="splash-content">
     <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Allwaysever%203rd%20Years.png" alt="Allwaysever 3rd Years" class="splash-logo logo-img">
-    <h1 class="splash-title" id="splashTitle" style="display:none;"></h1>
-    <p class="splash-status" id="splashStatus" style="display:none;"></p>
     <div class="loading-bar-container" id="splash-loader">
         <div class="loading-bar"></div>
     </div>
-    <button id="retry-button" style="display:none;"></button>
-    <p class="splash-text2" id="splashText2" style="display:none;"></p>
   </div>
  <p style="font-size: 0.5em; color: #aaa; bottom: 5px;"  id="settingsVersionText"></p>
 </div>
@@ -1609,7 +1605,7 @@ const uiStrings = {
         // ==> [PERBAIKAN] Panggil fungsi inisialisasi utama
         initializeApp();
         
-        checkInternetConnection();
+        simulateLoading(3000); // Langsung jalankan loading statis
         updateConnectionStatus();
         populateToolsMenu();
         updateSendButtonState();
@@ -1628,7 +1624,7 @@ const uiStrings = {
 
     elements.questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); if (!elements.sendBtn.disabled) { askAI(); } } });
     elements.questionInput.addEventListener('input', () => { showSuggestions(); updateSendButtonState(); elements.questionInput.style.height = 'auto'; elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px'; });
-    elements.retryButton.addEventListener('click', () => { elements.splashScreen.classList.remove('hidden'); checkInternetConnection(); });
+    
     elements.saveApiBtn.addEventListener('click', saveApiKey);
     elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
     window.addEventListener('online', updateConnectionStatus);
@@ -1884,8 +1880,7 @@ const uiStrings = {
     function showSettingsPage() { elements.settingsPage.classList.add('active'); elements.body.classList.remove('chat-active'); }
     function hideSettingsPage() { elements.settingsPage.classList.remove('active'); if (chatHistory.length > 1) { elements.body.classList.add('chat-active'); } }
     function toggleChatUI(active) { if (active) { elements.body.classList.add('chat-active'); elements.inputContainer.classList.remove('centered'); elements.inputContainer.classList.add('bottom'); elements.logoContainer.classList.add('logo-hidden'); elements.languageSwitcher.classList.add('lang-hidden'); elements.infoText.style.display = 'block'; } else { elements.body.classList.remove('chat-active'); elements.inputContainer.classList.remove('bottom'); elements.inputContainer.classList.add('centered'); elements.logoContainer.classList.remove('logo-hidden'); elements.languageSwitcher.classList.remove('lang-hidden'); elements.infoText.style.display = 'none'; } }
-    function simulateLoading(duration) { const startTime = Date.now(); const splashBar = document.querySelector('.loading-bar'); const updateInterval = 50; const loadingPhases = [ { percentage: 25, status: '' }, { percentage: 60, status: '' }, { percentage: 95, status: '' } ]; let currentPhase = 0; function updateProgress() { const elapsedTime = Date.now() - startTime; let progress = (elapsedTime / duration) * 100; if (currentPhase < loadingPhases.length && progress >= loadingPhases[currentPhase].percentage) { elements.splashStatus.innerText = loadingPhases[currentPhase].status; currentPhase++; } if (progress >= 100) { progress = 100; clearInterval(intervalId); setTimeout(() => { elements.splashScreen.classList.add('hidden'); }, 500); } splashBar.style.width = `${progress}%`; } elements.splashStatus.innerText = ''; const intervalId = setInterval(updateProgress, updateInterval); }
-    async function checkInternetConnection() { elements.splashTitle.innerText = uiStrings[currentLanguage].checkingConnection; elements.splashStatus.style.display = 'none'; elements.splashText2.style.display = 'block'; elements.splashLoader.style.display = 'block'; elements.retryButton.style.display = 'none'; const splashBar = document.querySelector('.loading-bar'); splashBar.style.width = '0%'; try { await Promise.race([ fetch('https://www.google.com/favicon.ico?v=' + Date.now(), { mode: 'no-cors', cache: 'no-store' }), new Promise((_, reject) => setTimeout(() => reject(new Error('Connection check timed out')), 5000)) ]); elements.splashTitle.style.display = 'none'; elements.splashStatus.style.display = 'none'; elements.splashText2.style.display = 'none'; simulateLoading(3000); } catch (error) { elements.splashTitle.innerText = uiStrings[currentLanguage].offlineTitle; elements.splashStatus.innerText = uiStrings[currentLanguage].offlineText; elements.splashText2.innerText = uiStrings[currentLanguage].errorConnection; elements.retryButton.innerText = uiStrings[currentLanguage].retryButton; elements.splashTitle.style.display = 'block'; elements.splashStatus.style.display = 'block'; elements.splashText2.style.display = 'block'; elements.retryButton.style.display = 'block'; elements.splashLoader.style.display = 'none'; } }
+    function simulateLoading(duration) { const startTime = Date.now(); const splashBar = document.querySelector('.loading-bar'); const updateInterval = 50; function updateProgress() { const elapsedTime = Date.now() - startTime; let progress = (elapsedTime / duration) * 100; if (progress >= 100) { progress = 100; clearInterval(intervalId); setTimeout(() => { elements.splashScreen.classList.add('hidden'); }, 500); } splashBar.style.width = `${progress}%`; } const intervalId = setInterval(updateProgress, updateInterval); }
     function showSuggestions() { const query = elements.questionInput.value.toLowerCase().trim(); elements.suggestionBox.innerHTML = ''; elements.suggestionBox.classList.remove('visible'); if (query.startsWith('/')) { const commandQuery = query.substring(1); const matchingCommands = slashCommands.filter(cmd => cmd.command.substring(1).startsWith(commandQuery) ); if (matchingCommands.length > 0) { elements.suggestionBox.classList.add('visible'); matchingCommands.forEach(cmd => { const div = document.createElement('div'); div.classList.add('suggestion-item-slash'); div.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; div.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.suggestionBox.classList.remove('visible'); elements.questionInput.focus(); }); elements.suggestionBox.appendChild(div); }); } } else { if (query.length < 2) return; const suggestions = Object.keys(faqDatabase) .filter(key => key.toLowerCase().includes(query)) .slice(0, 5); if (suggestions.length > 0) { elements.suggestionBox.classList.add('visible'); suggestions.forEach(suggestion => { const div = document.createElement('div'); div.classList.add('suggestion-item'); div.innerText = suggestion; div.addEventListener('click', () => { elements.questionInput.value = suggestion; elements.suggestionBox.classList.remove('visible'); askAI(); }); elements.suggestionBox.appendChild(div); }); } } }
     function findSmartAnswer(question) { const normalized = question.toLowerCase().trim(); const sortedKeys = Object.keys(faqDatabase).sort((a, b) => b.length - a.length); for (const key of sortedKeys) { const normalizedKey = key.toLowerCase().replace("?", ""); if (normalized.includes(normalizedKey)) return faqDatabase[key]; } return null; }
     function typeWriterEffect(element, text, speed = 0.5) { const parsedHtml = marked.parse(text); let i = 0; element.innerHTML = ''; const tempElement = document.createElement('div'); tempElement.innerHTML = parsedHtml; const textToType = tempElement.innerText; return new Promise(resolve => { function type() { if (i < textToType.length) { element.innerHTML += textToType.charAt(i); i++; setTimeout(type, speed); } else { element.innerHTML = parsedHtml; resolve(); } } type(); }); }
