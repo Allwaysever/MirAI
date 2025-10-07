@@ -1,11 +1,14 @@
 # Changelogs
 ## What's new?
-### v2.6.1
-- Fix bugs
+### v2.7 - 2.9
+- Upgrade Features
   
 ---
 
 ## Previous version:
+### v2.6.1
+- Fix bugs
+
 ### v2.6
 - Creating a sense of time sensitivity when interacting. Knowing the time during a chat.
 - time-based search optimization
