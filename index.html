@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>const VERSION = 'v2.10-BETA';</script>
+    <script>const VERSION = 'v2.10-BETA2';</script>
     <style>
     /* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan */
     body {
@@ -1974,7 +1974,43 @@ body.light-theme #confirmBtnNo:hover {
     function showSettingsPage() { elements.settingsPage.classList.add('active'); elements.body.classList.remove('chat-active'); }
     function hideSettingsPage() { elements.settingsPage.classList.remove('active'); if (chatHistory.length > 1) { elements.body.classList.add('chat-active'); } }
     function toggleChatUI(active) { if (active) { elements.body.classList.add('chat-active'); elements.inputContainer.classList.remove('centered'); elements.inputContainer.classList.add('bottom'); elements.logoContainer.classList.add('logo-hidden'); elements.languageSwitcher.classList.add('lang-hidden'); elements.infoText.style.display = 'block'; } else { elements.body.classList.remove('chat-active'); elements.inputContainer.classList.remove('bottom'); elements.inputContainer.classList.add('centered'); elements.logoContainer.classList.remove('logo-hidden'); elements.languageSwitcher.classList.remove('lang-hidden'); elements.infoText.style.display = 'none'; } }
-    function simulateLoading(duration) { const startTime = Date.now(); const splashBar = document.querySelector('.loading-bar'); const updateInterval = 50; function updateProgress() { const elapsedTime = Date.now() - startTime; let progress = (elapsedTime / duration) * 100; if (progress >= 100) { progress = 100; clearInterval(intervalId); setTimeout(() => { elements.splashScreen.classList.add('hidden'); }, 500); } splashBar.style.width = `${progress}%`; } const intervalId = setInterval(updateProgress, updateInterval); }
+    
+    function simulateLoading(duration) {
+        const startTime = Date.now();
+        const splashBar = document.querySelector('.loading-bar');
+
+        // === [START] PERBAIKAN BUG ===
+        // Cek dulu apakah elemen loading bar berhasil ditemukan.
+        if (!splashBar) {
+            console.error("Elemen .loading-bar tidak ditemukan. Kemungkinan terjadi race condition.");
+            // Meskipun bar tidak ada, kita harus tetap menyembunyikan splash screen
+            // setelah durasi yang ditentukan agar aplikasi tidak macet.
+            setTimeout(() => {
+                if (elements.splashScreen) {
+                    elements.splashScreen.classList.add('hidden');
+                }
+            }, duration);
+            return; // Hentikan eksekusi fungsi lebih lanjut.
+        }
+        // === [END] PERBAIKAN BUG ===
+
+        const updateInterval = 50;
+        // Sisa fungsi tetap sama
+        function updateProgress() {
+            const elapsedTime = Date.now() - startTime;
+            let progress = (elapsedTime / duration) * 100;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(intervalId);
+                setTimeout(() => {
+                    elements.splashScreen.classList.add('hidden');
+                }, 500);
+            }
+            splashBar.style.width = `${progress}%`;
+        }
+        const intervalId = setInterval(updateProgress, updateInterval);
+    }
+
     function showSuggestions() { const query = elements.questionInput.value.toLowerCase().trim(); elements.suggestionBox.innerHTML = ''; elements.suggestionBox.classList.remove('visible'); if (query.startsWith('/')) { const commandQuery = query.substring(1); const matchingCommands = slashCommands.filter(cmd => cmd.command.substring(1).startsWith(commandQuery) ); if (matchingCommands.length > 0) { elements.suggestionBox.classList.add('visible'); matchingCommands.forEach(cmd => { const div = document.createElement('div'); div.classList.add('suggestion-item-slash'); div.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; div.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.suggestionBox.classList.remove('visible'); elements.questionInput.focus(); }); elements.suggestionBox.appendChild(div); }); } } else { if (query.length < 2) return; const suggestions = Object.keys(faqDatabase) .filter(key => key.toLowerCase().includes(query)) .slice(0, 5); if (suggestions.length > 0) { elements.suggestionBox.classList.add('visible'); suggestions.forEach(suggestion => { const div = document.createElement('div'); div.classList.add('suggestion-item'); div.innerText = suggestion; div.addEventListener('click', () => { elements.questionInput.value = suggestion; elements.suggestionBox.classList.remove('visible'); askAI(); }); elements.suggestionBox.appendChild(div); }); } } }
     function findSmartAnswer(question) { const normalized = question.toLowerCase().trim(); const sortedKeys = Object.keys(faqDatabase).sort((a, b) => b.length - a.length); for (const key of sortedKeys) { const normalizedKey = key.toLowerCase().replace("?", ""); if (normalized.includes(normalizedKey)) return faqDatabase[key]; } return null; }
     function typeWriterEffect(element, text, speed = 0.5) { const parsedHtml = marked.parse(text); let i = 0; element.innerHTML = ''; const tempElement = document.createElement('div'); tempElement.innerHTML = parsedHtml; const textToType = tempElement.innerText; return new Promise(resolve => { function type() { if (i < textToType.length) { element.innerHTML += textToType.charAt(i); i++; setTimeout(type, speed); } else { element.innerHTML = parsedHtml; resolve(); } } type(); }); }
