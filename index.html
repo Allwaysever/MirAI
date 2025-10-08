@@ -5,32 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MirAI</title>
     <meta name="description" content="MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.">
-<meta name="google-site-verification" content="Ww9spnmeAgguaCwvLVAw-0SV0_ZS-bA7bjNgyWKaeQU"/>
+    <meta name="google-site-verification" content="Ww9spnmeAgguaCwvLVAw-0SV0_ZS-bA7bjNgyWKaeQU"/>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250905_141718.png">
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<script>
-window.onerror = function(message, source, lineno, colno, error) {
-  // Hentikan splash screen agar tidak menutupi alert
-  var splash = document.getElementById('splash-screen');
-  if (splash) {
-    splash.style.display = 'none';
-  }
-
-  // Tampilkan detail error dalam bentuk alert
-  alert(
-    'ERROR DITEMUKAN!\n\n' +
-    'Pesan: ' + message + '\n' +
-    'Di baris: ' + lineno + '\n' +
-    'File: ' + source
-  );
-
-  // Mencegah browser menampilkan dialog error standarnya
-  return true;
-};
-</script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>const VERSION = 'v2.10-BETA3';</script>
+    <script>const VERSION = 'v2.10-BETA3-FIXED';</script>
     <style>
     /* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan */
     body {
@@ -1317,7 +1297,7 @@ body.light-theme #confirmBtnNo:hover {
 .tombol-spesial:hover {
   background-color: #e6b800;
 }
-</style>
+    </style>
 </head>
 <body>
 
@@ -1713,6 +1693,10 @@ body.light-theme #confirmBtnNo:hover {
     };
 
     let slashCommands = []; 
+    let chatHistory = [];
+    let abortController = null;
+    let currentLanguage = 'id';
+    let currentPersona = 'default';
 
     function initializeSlashCommands(lang) {
         const s = uiStrings[lang];
@@ -1727,322 +1711,290 @@ body.light-theme #confirmBtnNo:hover {
             { command: '/code', title: s.slashCmdCodeTitle, description: s.slashCmdCodeDesc }
         ];
     }
-
-    const elements = { questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), settingsBtnContainer: document.getElementById('settingsBtnContainer'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), splashTitle: document.getElementById('splashTitle'), splashStatus: document.getElementById('splashStatus'), splashText2: document.getElementById('splashText2'), splashLoader: document.getElementById('splash-loader'), retryButton: document.getElementById('retry-button'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu'), customConfirmOverlay: document.getElementById('customConfirmOverlay'), customConfirmMessage: document.getElementById('customConfirmMessage'), confirmBtnYes: document.getElementById('confirmBtnYes'), confirmBtnNo: document.getElementById('confirmBtnNo'), termsLink: document.querySelector('a[href="T&C/index.html"]'), moreOptionsBtn: document.getElementById('moreOptionsBtn') };
-    let chatHistory = [];
-    let abortController = null;
-    let currentLanguage = 'id';
-    let currentPersona = 'default';
-
-    // =================================================================
-    // EVENT LISTENERS
-    // =================================================================
-
+    
     document.addEventListener('DOMContentLoaded', () => {
-        initializeApp();
+        // [FIX] DEFINISI ELEMENTS DIPINDAHKAN KE SINI AGAR SCRIPT MENUNGGU HTML SIAP
+        const elements = { questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), settingsBtnContainer: document.getElementById('settingsBtnContainer'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), splashTitle: document.getElementById('splashTitle'), splashStatus: document.getElementById('splashStatus'), splashText2: document.getElementById('splashText2'), splashLoader: document.getElementById('splash-loader'), retryButton: document.getElementById('retry-button'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu'), customConfirmOverlay: document.getElementById('customConfirmOverlay'), customConfirmMessage: document.getElementById('customConfirmMessage'), confirmBtnYes: document.getElementById('confirmBtnYes'), confirmBtnNo: document.getElementById('confirmBtnNo'), termsLink: document.querySelector('a[href="T&C/index.html"]'), moreOptionsBtn: document.getElementById('moreOptionsBtn') };
+
+        // =================================================================
+        // LOGIKA BARU: INISIALISASI APLIKASI
+        // =================================================================
+
+        function initializeApp() {
+            currentLanguage = localStorage.getItem('miraiLanguage') || 'id';
+            currentPersona = localStorage.getItem('miraiPersona') || 'default';
+            const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
+            const savedApiKey = localStorage.getItem('miraiApiKey');
+
+            elements.langDropdown.value = currentLanguage;
+            elements.personaSelect.value = currentPersona;
+            if (savedApiKey) {
+                currentApiKey = savedApiKey;
+                elements.apiKeyInput.value = savedApiKey;
+            }
+            
+            initializeSlashCommands(currentLanguage);
+
+            setTheme(savedTheme);
+            updateUI();
+
+            const historyLoaded = loadChatHistory();
+
+            if (!historyLoaded) {
+                initializeNewChatSession();
+            }
+        }
+
+        // ... SEMUA FUNGSI LAINNYA DIDEFINISIKAN DI SINI ...
         
+        function initializeNewChatSession() {
+            const personaPromptText = uiStrings[currentLanguage][`persona${currentPersona.charAt(0).toUpperCase() + currentPersona.slice(1)}Prompt`];
+            chatHistory = [{ role: "user", parts: [{ text: personaPromptText }] }];
+            console.log('Sesi chat baru dimulai.');
+        }
+
+
+        function loadChatHistory() {
+            const savedHistory = localStorage.getItem('miraiChatHistory');
+            if (savedHistory) {
+                chatHistory = JSON.parse(savedHistory);
+                console.log('Riwayat percakapan berhasil dimuat.', chatHistory);
+                return true; 
+            }
+            console.log('Tidak ada riwayat untuk dimuat.');
+            return false; 
+        }
+
+        function saveChatHistory() {
+            const maxHistoryLength = 50; 
+            if (chatHistory.length > maxHistoryLength) {
+                const personaPrompt = chatHistory[0];
+                const conversation = chatHistory.slice(chatHistory.length - maxHistoryLength + 1);
+                chatHistory = [personaPrompt, ...conversation];
+            }
+            localStorage.setItem('miraiChatHistory', JSON.stringify(chatHistory));
+        }
+        
+        function clearChat() {
+            elements.chatMessages.innerHTML = '';
+            localStorage.removeItem('miraiChatHistory'); 
+            initializeNewChatSession(); 
+            toggleChatUI(false);
+            updateDynamicPlaceholder();
+        }
+
+        function showClearConfirmation() {
+            const lang = uiStrings[currentLanguage];
+            elements.customConfirmMessage.innerText = lang.confirmClearMessage;
+            elements.confirmBtnYes.innerText = lang.confirmClearYes;
+            elements.confirmBtnNo.innerText = lang.confirmClearNo;
+            elements.customConfirmOverlay.classList.add('visible');
+        }
+
+        function hideClearConfirmation() {
+            elements.customConfirmOverlay.classList.remove('visible');
+        }
+        
+        function setPersona(persona, fromUserInteraction = false) {
+            currentPersona = persona;
+            elements.personaSelect.value = persona;
+            localStorage.setItem('miraiPersona', persona);
+            if (fromUserInteraction) {
+                clearChat(); 
+            }
+        }
+
+        function setLanguage(lang, fromUserInteraction = false) {
+            currentLanguage = lang;
+            elements.langDropdown.value = lang;
+            localStorage.setItem('miraiLanguage', lang);
+            
+            initializeSlashCommands(currentLanguage);
+            populateToolsMenu();
+            
+            updateUI();
+            if (fromUserInteraction) {
+                clearChat(); 
+            }
+        }
+
+        async function askAI() {
+            const userQuestion = elements.questionInput.value;
+            if (userQuestion.trim() === '') return;
+
+            const clientDateTime = getCurrentDateTimeString();
+            const promptTemplate = uiStrings[currentLanguage].dateTimeContextPrompt;
+            const contextPrompt = promptTemplate.replace('{dateTime}', clientDateTime);
+            
+            let promptToSendToAI;
+
+            const processedPrompt = handleSlashCommand(userQuestion);
+
+            if (processedPrompt !== null) {
+                if (processedPrompt.startsWith('Error:')) {
+                    return;
+                }
+                promptToSendToAI = `${contextPrompt}\n\n"${processedPrompt}"`;
+            } else {
+                promptToSendToAI = `${contextPrompt}\n\n"${userQuestion}"`;
+            }
+
+            toggleChatUI(true);
+            elements.questionInput.value = '';
+            elements.questionInput.style.height = 'auto';
+            elements.suggestionBox.classList.remove('visible');
+            updateSendButtonState();
+            
+            elements.sendBtn.style.display = 'none';
+            elements.clearBtnContainer.style.display = 'none';
+            elements.stopBtn.style.display = 'block';
+
+            const userBubble = document.createElement('div');
+            userBubble.classList.add('chat-bubble', 'user-bubble');
+            userBubble.innerText = userQuestion;
+            elements.chatMessages.appendChild(userBubble);
+            setTimeout(() => userBubble.classList.add('fade-in'), 10);
+            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+
+            chatHistory.push({ role: "user", parts: [{ text: promptToSendToAI }] }); 
+            saveChatHistory(); 
+
+            const loadingBubble = showLoading();
+            const localAnswer = findSmartAnswer(userQuestion);
+
+            if (localAnswer) {
+                return;
+            }
+
+            try {
+                abortController = new AbortController();
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${currentApiKey}`;
+                const requestBody = { contents: chatHistory };
+                const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(requestBody), signal: abortController.signal });
+
+                if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
+                const data = await response.json();
+                let answer = uiStrings[currentLanguage].errorFallback;
+                if (data.candidates?.[0]?.content?.parts?.[0]) {
+                    answer = data.candidates[0].content.parts[0].text;
+                    chatHistory.push({ role: "model", parts: [{ text: answer }] });
+                    saveChatHistory(); 
+                }
+
+                loadingBubble.remove();
+                const aiBubble = createAiBubble(answer, false);
+                elements.chatMessages.appendChild(aiBubble);
+                await typeWriterEffect(aiBubble, answer);
+                
+                const copyBtn = document.createElement('i');
+                copyBtn.classList.add('fas', 'fa-copy', 'copy-btn');
+                copyBtn.setAttribute('onclick', 'copyToClipboard(this)');
+                aiBubble.appendChild(copyBtn);
+                
+                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+
+            } catch (error) {
+                console.error('Error:', error);
+                if (error.name !== 'AbortError') {
+                    const errorMessage = navigator.onLine ? uiStrings[currentLanguage].errorAPI : uiStrings[currentLanguage].errorConnection;
+                    loadingBubble.remove();
+                    const errorBubble = createAiBubble(errorMessage);
+                    elements.chatMessages.appendChild(errorBubble);
+                    elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+                }
+            } finally {
+                elements.sendBtn.style.display = 'block';
+                elements.stopBtn.style.display = 'none';
+                elements.clearBtnContainer.style.display = 'block';
+            }
+        }
+        
+        function getCurrentDateTimeString() { const now = new Date(); const year = now.getFullYear(); const month = String(now.getMonth() + 1).padStart(2, '0'); const day = String(now.getDate()).padStart(2, '0'); const hours = String(now.getHours()).padStart(2, '0'); const minutes = String(now.getMinutes()).padStart(2, '0'); const seconds = String(now.getSeconds()).padStart(2, '0'); return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; }
+        function populateToolsMenu() { if (!elements.toolsMenu) return; elements.toolsMenu.innerHTML = ''; slashCommands.forEach(cmd => { const menuItem = document.createElement('div'); menuItem.classList.add('suggestion-item-slash'); menuItem.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; menuItem.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); elements.questionInput.focus(); }); elements.toolsMenu.appendChild(menuItem); }); }
+        function updateSendButtonState() { if (elements.questionInput.value.trim() === '') { elements.sendBtn.classList.add('disabled'); elements.sendBtn.disabled = true; } else { elements.sendBtn.classList.remove('disabled'); elements.sendBtn.disabled = false; } }
+        function saveApiKey() { const newKey = elements.apiKeyInput.value.trim(); if (newKey) { localStorage.setItem('miraiApiKey', newKey); currentApiKey = newKey; showCopyFeedback(uiStrings[currentLanguage].apiKeySaved); } else { localStorage.removeItem('miraiApiKey'); currentApiKey = DEFAULT_API_KEY; showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); } }
+        function toggleApiVisibility() { const input = elements.apiKeyInput; const icon = elements.toggleApiKey; if (input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } }
+        function updateConnectionStatus() { if (navigator.onLine) { elements.statusDot.classList.remove('offline'); elements.statusDot.classList.add('online'); elements.statusLabel.innerText = uiStrings[currentLanguage].onlineStatus; } else { elements.statusDot.classList.remove('online'); elements.statusDot.classList.add('offline'); elements.statusLabel.innerText = uiStrings[currentLanguage].offlineStatus; } }
+        function updateUI() { const lang = uiStrings[currentLanguage]; elements.infoText.innerText = lang.infoText; updateSettingsUI(); updateDynamicPlaceholder(); updateConnectionStatus(); }
+        function updateDynamicPlaceholder() { const placeholders = uiStrings[currentLanguage].placeholderMessages; const randomIndex = Math.floor(Math.random() * placeholders.length); elements.questionInput.placeholder = placeholders[randomIndex]; }
+        function updateSettingsUI() { const lang = uiStrings[currentLanguage]; if (!lang) return; elements.settingsHeaderTitle.innerText = lang.settingsHeaderTitle; elements.settingsAppearanceTitle.innerText = lang.settingsAppearanceTitle; elements.settingsThemeText.innerText = lang.settingsThemeText; elements.themeLightOption.innerText = lang.themeLightOption; elements.themeDarkOption.innerText = lang.themeDarkOption; elements.settingsAITitle.innerText = lang.settingsAITitle; elements.settingsPersonaText.innerText = lang.settingsPersonaText; elements.personaFormalOption.innerText = lang.personaFormalOption; elements.personaDefaultOption.innerText = lang.personaDefaultOption; elements.personaCreativeOption.innerText = lang.personaCreativeOption; elements.settingsAboutTitle.innerText = lang.settingsAboutTitle; elements.settingsVersionText.innerText = lang.settingsVersionText; elements.settingsAuthorText.innerText = lang.settingsAuthorText; elements.githubLink.innerText = lang.githubLink; elements.licenseLink.innerText = lang.licenseLink; elements.settingsApiTitle.innerText = lang.settingsApiTitle; elements.settingsApiText.innerText = lang.settingsApiText; document.title = lang.pageTitle; elements.saveApiBtn.innerText = lang.saveApiKeyBtn; elements.apiKeyInput.placeholder = lang.apiKeyPlaceholder; elements.termsLink.innerText = lang.termsLink; elements.moreOptionsBtn.innerText = lang.moreOptionsBtn; }
+        function setTheme(theme) { elements.body.classList.remove('light-theme', 'dark-theme'); if (theme === 'light') { elements.body.classList.add('light-theme'); } else { elements.body.classList.add('dark-theme'); } localStorage.setItem('miraiTheme', theme); elements.themeSelect.value = theme; }
+        function showSettingsPage() { elements.settingsPage.classList.add('active'); elements.body.classList.remove('chat-active'); }
+        function hideSettingsPage() { elements.settingsPage.classList.remove('active'); if (chatHistory.length > 1) { elements.body.classList.add('chat-active'); } }
+        function toggleChatUI(active) { if (active) { elements.body.classList.add('chat-active'); elements.inputContainer.classList.remove('centered'); elements.inputContainer.classList.add('bottom'); elements.logoContainer.classList.add('logo-hidden'); elements.languageSwitcher.classList.add('lang-hidden'); elements.infoText.style.display = 'block'; } else { elements.body.classList.remove('chat-active'); elements.inputContainer.classList.remove('bottom'); elements.inputContainer.classList.add('centered'); elements.logoContainer.classList.remove('logo-hidden'); elements.languageSwitcher.classList.remove('lang-hidden'); elements.infoText.style.display = 'none'; } }
+        
+        function simulateLoading(duration) {
+            const startTime = Date.now();
+            const splashBar = document.querySelector('.loading-bar');
+
+            if (!splashBar) {
+                console.error("Elemen .loading-bar tidak ditemukan.");
+                setTimeout(() => {
+                    if (elements.splashScreen) {
+                        elements.splashScreen.classList.add('hidden');
+                    }
+                }, duration);
+                return; 
+            }
+
+            const updateInterval = 50;
+            const intervalId = setInterval(updateProgress, updateInterval);
+            
+            function updateProgress() {
+                const elapsedTime = Date.now() - startTime;
+                let progress = (elapsedTime / duration) * 100;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(intervalId);
+                    setTimeout(() => {
+                        elements.splashScreen.classList.add('hidden');
+                    }, 500);
+                }
+                splashBar.style.width = `${progress}%`;
+            }
+        }
+
+        function showSuggestions() { const query = elements.questionInput.value.toLowerCase().trim(); elements.suggestionBox.innerHTML = ''; elements.suggestionBox.classList.remove('visible'); if (query.startsWith('/')) { const commandQuery = query.substring(1); const matchingCommands = slashCommands.filter(cmd => cmd.command.substring(1).startsWith(commandQuery) ); if (matchingCommands.length > 0) { elements.suggestionBox.classList.add('visible'); matchingCommands.forEach(cmd => { const div = document.createElement('div'); div.classList.add('suggestion-item-slash'); div.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; div.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.suggestionBox.classList.remove('visible'); elements.questionInput.focus(); }); elements.suggestionBox.appendChild(div); }); } } else { if (query.length < 2) return; const suggestions = Object.keys(faqDatabase) .filter(key => key.toLowerCase().includes(query)) .slice(0, 5); if (suggestions.length > 0) { elements.suggestionBox.classList.add('visible'); suggestions.forEach(suggestion => { const div = document.createElement('div'); div.classList.add('suggestion-item'); div.innerText = suggestion; div.addEventListener('click', () => { elements.questionInput.value = suggestion; elements.suggestionBox.classList.remove('visible'); askAI(); }); elements.suggestionBox.appendChild(div); }); } } }
+        function findSmartAnswer(question) { const normalized = question.toLowerCase().trim(); const sortedKeys = Object.keys(faqDatabase).sort((a, b) => b.length - a.length); for (const key of sortedKeys) { const normalizedKey = key.toLowerCase().replace("?", ""); if (normalized.includes(normalizedKey)) return faqDatabase[key]; } return null; }
+        function typeWriterEffect(element, text, speed = 0.5) { const parsedHtml = marked.parse(text); let i = 0; element.innerHTML = ''; const tempElement = document.createElement('div'); tempElement.innerHTML = parsedHtml; const textToType = tempElement.innerText; return new Promise(resolve => { function type() { if (i < textToType.length) { element.innerHTML += textToType.charAt(i); i++; setTimeout(type, speed); } else { element.innerHTML = parsedHtml; resolve(); } } type(); }); }
+        function showLoading() { const loadingBubble = document.createElement('div'); loadingBubble.classList.add('chat-bubble', 'ai-bubble', 'typing-indicator', 'fade-in'); loadingBubble.innerHTML = '<span></span><span></span><span></span>'; elements.chatMessages.appendChild(loadingBubble); return loadingBubble; }
+        function stopAI() { if (abortController) { abortController.abort(); console.log("Response aborted."); elements.stopBtn.style.display = 'none'; elements.sendBtn.style.display = 'block'; elements.clearBtnContainer.style.display = 'block'; const loadingBubble = document.querySelector('.typing-indicator'); if (loadingBubble) loadingBubble.remove(); } }
+        function handleSlashCommand(question) { if (!question.startsWith('/')) { return null; } const parts = question.split(' '); const command = parts[0].toLowerCase(); switch (command) { case '/translate': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 2) { return "Error: Invalid format. Use /translate [text] to [language]"; } const textToTranslate = parts.slice(1, toIndex).join(' '); const targetLanguage = parts.slice(toIndex + 1).join(' '); return `Translate the following text to ${targetLanguage}: "${textToTranslate}"`; } case '/summarize': { const textToSummarize = parts.slice(1).join(' '); if (textToSummarize.length < 20) { return "Error: Please provide more text to summarize."; } return `Provide a concise summary of the following text: "${textToSummarize}"`; } case '/rephrase': { const asIndex = parts.indexOf('as'); if (asIndex === -1 || asIndex < 2) { return "Error: Invalid format. Use /rephrase [text] as [tone]"; } const textToRephrase = parts.slice(1, asIndex).join(' '); const tone = parts.slice(asIndex + 1).join(' '); return `Rephrase the following text in a ${tone} tone: "${textToRephrase}"`; } case '/ideate': { const forIndex = parts.indexOf('for'); if (forIndex === -1 || forIndex < 3 || isNaN(parseInt(parts[1]))) { return "Error: Invalid format. Use /ideate [number] ideas for [topic]"; } const number = parts[1]; const topic = parts.slice(forIndex + 1).join(' '); return `Generate ${number} ideas for ${topic}. Present them as a numbered list.`; } case '/fix': { const textToFix = parts.slice(1).join(' '); if (!textToFix) { return "Error: Please provide text to fix. Use /fix [text]"; } return `Proofread and correct any grammatical errors and spelling mistakes in the following text. Only provide the corrected text: "${textToFix}"`; } case '/explain': { const likeIndex = parts.findIndex(part => part.toLowerCase() === "like"); if (likeIndex === -1 || likeIndex < 2) { return "Error: Invalid format. Use /explain [concept] like I'm [audience]"; } const concept = parts.slice(1, likeIndex).join(' '); const audienceIndex = parts.indexOf("I'm") > -1 ? parts.indexOf("I'm") : parts.indexOf("i'm"); if (audienceIndex === -1 || audienceIndex <= likeIndex) { return "Error: Invalid audience format. Use \"like I'm ...\""; } const audience = parts.slice(audienceIndex + 1).join(' '); return `Explain the concept of "${concept}" as if you were talking to a ${audience}.`; } case '/code': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 3) { return "Error: Invalid format. Use /code a [language] function to [description]"; } const language = parts[2]; const description = parts.slice(toIndex + 1).join(' '); return `Write a code snippet in ${language} for the following task: "${description}". Provide only the code, enclosed in a markdown code block.`; } case '/search': { const query = parts.slice(1).join(' '); if (!query) { return "Error: Please provide a search query. Use /search [query]"; } return `Search the web for information about "${query}". Provide a concise summary and, if possible, include relevant links.`; } default: return `Error: Unknown command "${command}". Try /translate or /summarize.`; } }
+        function createAiBubble(text, useInnerHTML = true) { const bubble = document.createElement('div'); bubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in'); bubble.setAttribute('data-raw-text', text); if (useInnerHTML) { bubble.innerHTML = `${marked.parse(text)}<i class="fas fa-copy copy-btn" onclick="copyToClipboard(this)"></i>`; } return bubble; }
+        function copyToClipboard(element) { const aiBubble = element.closest('.ai-bubble'); const textToCopy = aiBubble.getAttribute('data-raw-text'); const formattedText = `${textToCopy}${uiStrings[currentLanguage].copySuffix}`; const tempInput = document.createElement('textarea'); tempInput.value = formattedText; document.body.appendChild(tempInput); tempInput.select(); tempInput.setSelectionRange(0, 99999); document.execCommand('copy'); document.body.removeChild(tempInput); showCopyFeedback(uiStrings[currentLanguage].copyFeedback); }
+        function showCopyFeedback(message) { const feedbackDiv = document.createElement('div'); feedbackDiv.innerText = message; feedbackDiv.style.cssText = ` position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background-color: #444; color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 14px; z-index: 200; opacity: 0; transition: opacity 0.5s ease-in-out; `; document.body.appendChild(feedbackDiv); setTimeout(() => { feedbackDiv.style.opacity = 1; }, 10); setTimeout(() => { feedbackDiv.style.opacity = 0; setTimeout(() => feedbackDiv.remove(), 500); }, 2000); }
+        function checkIndicatorPosition() { const indicatorRect = connectionStatus.getBoundingClientRect(); const userBubbles = document.querySelectorAll('.user-bubble'); let isOverlapping = false; for (const bubble of userBubbles) { const bubbleRect = bubble.getBoundingClientRect(); const verticalOverlap = indicatorRect.bottom > bubbleRect.top && indicatorRect.top < bubbleRect.bottom; const horizontalOverlap = indicatorRect.right > bubbleRect.left && indicatorRect.right < bubbleRect.right; if (verticalOverlap && horizontalOverlap) { isOverlapping = true; break; } } connectionStatus.classList.toggle('hidden-by-scroll', isOverlapping); }
+        
+        // [FIX] PINDAHKAN SEMUA EVENT LISTENER KE SINI
+        elements.sendBtn.addEventListener('click', askAI);
+        elements.stopBtn.addEventListener('click', stopAI);
+        elements.clearBtn.addEventListener('click', showClearConfirmation);
+        elements.settingsBtn.addEventListener('click', showSettingsPage);
+        elements.backBtn.addEventListener('click', hideSettingsPage);
+        elements.themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
+        elements.personaSelect.addEventListener('change', (e) => setPersona(e.target.value, true));
+        elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value, true));
+        elements.questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); if (!elements.sendBtn.disabled) { askAI(); } } });
+        elements.questionInput.addEventListener('input', () => { showSuggestions(); updateSendButtonState(); elements.questionInput.style.height = 'auto'; elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px'; });
+        elements.saveApiBtn.addEventListener('click', saveApiKey);
+        elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
+        elements.confirmBtnYes.addEventListener('click', () => { clearChat(); hideClearConfirmation(); });
+        elements.confirmBtnNo.addEventListener('click', hideClearConfirmation);
+        elements.toolsBtn.addEventListener('click', (event) => { event.stopPropagation(); const isActive = elements.toolsBtn.classList.contains('active'); elements.suggestionBox.classList.remove('visible'); if (!isActive) { elements.toolsMenu.classList.add('visible'); elements.toolsBtn.classList.add('active'); } else { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
+        document.addEventListener('click', (event) => { if (elements.toolsMenu && !elements.toolsMenu.contains(event.target) && !elements.toolsBtn.contains(event.target)) { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
+        window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
+        
+        // Jalankan inisialisasi aplikasi
+        initializeApp();
         simulateLoading(3000); 
         updateConnectionStatus();
         populateToolsMenu();
         updateSendButtonState();
     });
 
-    elements.sendBtn.addEventListener('click', askAI);
-    elements.stopBtn.addEventListener('click', stopAI);
-    elements.clearBtn.addEventListener('click', showClearConfirmation);
-    elements.settingsBtn.addEventListener('click', showSettingsPage);
-    elements.backBtn.addEventListener('click', hideSettingsPage);
-    elements.themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
-    
-    elements.personaSelect.addEventListener('change', (e) => setPersona(e.target.value, true));
-    elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value, true));
+    window.addEventListener('online', () => updateConnectionStatus());
+    window.addEventListener('offline', () => updateConnectionStatus());
 
-    elements.questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); if (!elements.sendBtn.disabled) { askAI(); } } });
-    elements.questionInput.addEventListener('input', () => { showSuggestions(); updateSendButtonState(); elements.questionInput.style.height = 'auto'; elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px'; });
-    
-    elements.saveApiBtn.addEventListener('click', saveApiKey);
-    elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
-    window.addEventListener('online', updateConnectionStatus);
-    window.addEventListener('offline', updateConnectionStatus);
-
-    elements.confirmBtnYes.addEventListener('click', () => {
-        clearChat();
-        hideClearConfirmation();
-    });
-    elements.confirmBtnNo.addEventListener('click', hideClearConfirmation);
-
-
-    // =================================================================
-    // LOGIKA BARU: INISIALISASI APLIKASI
-    // =================================================================
-
-    function initializeApp() {
-        currentLanguage = localStorage.getItem('miraiLanguage') || 'id';
-        currentPersona = localStorage.getItem('miraiPersona') || 'default';
-        const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
-        const savedApiKey = localStorage.getItem('miraiApiKey');
-
-        elements.langDropdown.value = currentLanguage;
-        elements.personaSelect.value = currentPersona;
-        if (savedApiKey) {
-            currentApiKey = savedApiKey;
-            elements.apiKeyInput.value = savedApiKey;
-        }
-        
-        initializeSlashCommands(currentLanguage);
-
-        setTheme(savedTheme);
-        updateUI();
-
-        const historyLoaded = loadChatHistory();
-
-        if (!historyLoaded) {
-            initializeNewChatSession();
-        }
-    }
-
-    function initializeNewChatSession() {
-        const personaPromptText = uiStrings[currentLanguage][`persona${currentPersona.charAt(0).toUpperCase() + currentPersona.slice(1)}Prompt`];
-        chatHistory = [{ role: "user", parts: [{ text: personaPromptText }] }];
-        console.log('Sesi chat baru dimulai.');
-    }
-
-
-    // =================================================================
-    // FUNGSI UNTUK SIMPAN DAN MUAT RIWAYAT CHAT
-    // =================================================================
-
-    function loadChatHistory() {
-        const savedHistory = localStorage.getItem('miraiChatHistory');
-        if (savedHistory) {
-            chatHistory = JSON.parse(savedHistory);
-            console.log('Riwayat percakapan berhasil dimuat.', chatHistory);
-            return true; 
-        }
-        console.log('Tidak ada riwayat untuk dimuat.');
-        return false; 
-    }
-
-    function saveChatHistory() {
-        const maxHistoryLength = 50; 
-        if (chatHistory.length > maxHistoryLength) {
-            const personaPrompt = chatHistory[0];
-            const conversation = chatHistory.slice(chatHistory.length - maxHistoryLength + 1);
-            chatHistory = [personaPrompt, ...conversation];
-        }
-        localStorage.setItem('miraiChatHistory', JSON.stringify(chatHistory));
-    }
-    
-    // =================================================================
-    // PERBAIKAN PADA FUNGSI clearChat, setPersona, setLanguage
-    // =================================================================
-
-    function clearChat() {
-        elements.chatMessages.innerHTML = '';
-        localStorage.removeItem('miraiChatHistory'); 
-        initializeNewChatSession(); 
-        toggleChatUI(false);
-        updateDynamicPlaceholder();
-    }
-
-    function showClearConfirmation() {
-        const lang = uiStrings[currentLanguage];
-        elements.customConfirmMessage.innerText = lang.confirmClearMessage;
-        elements.confirmBtnYes.innerText = lang.confirmClearYes;
-        elements.confirmBtnNo.innerText = lang.confirmClearNo;
-        elements.customConfirmOverlay.classList.add('visible');
-    }
-
-    function hideClearConfirmation() {
-        elements.customConfirmOverlay.classList.remove('visible');
-    }
-    
-    function setPersona(persona, fromUserInteraction = false) {
-        currentPersona = persona;
-        elements.personaSelect.value = persona;
-        localStorage.setItem('miraiPersona', persona);
-        if (fromUserInteraction) {
-            clearChat(); 
-        }
-    }
-
-    function setLanguage(lang, fromUserInteraction = false) {
-        currentLanguage = lang;
-        elements.langDropdown.value = lang;
-        localStorage.setItem('miraiLanguage', lang);
-        
-        initializeSlashCommands(currentLanguage);
-        populateToolsMenu();
-        
-        updateUI();
-        if (fromUserInteraction) {
-            clearChat(); 
-        }
-    }
-
-    // =================================================================
-    // FUNGSI INTI: askAI (dengan pemanggilan saveChatHistory)
-    // =================================================================
-    
-    async function askAI() {
-        const userQuestion = elements.questionInput.value;
-        if (userQuestion.trim() === '') return;
-
-        const clientDateTime = getCurrentDateTimeString();
-        const promptTemplate = uiStrings[currentLanguage].dateTimeContextPrompt;
-        const contextPrompt = promptTemplate.replace('{dateTime}', clientDateTime);
-        
-        let promptToSendToAI;
-
-        const processedPrompt = handleSlashCommand(userQuestion);
-
-        if (processedPrompt !== null) {
-            if (processedPrompt.startsWith('Error:')) {
-                return;
-            }
-            promptToSendToAI = `${contextPrompt}\n\n"${processedPrompt}"`;
-        } else {
-            promptToSendToAI = `${contextPrompt}\n\n"${userQuestion}"`;
-        }
-
-        toggleChatUI(true);
-        elements.questionInput.value = '';
-        elements.questionInput.style.height = 'auto';
-        elements.suggestionBox.classList.remove('visible');
-        updateSendButtonState();
-        
-        elements.sendBtn.style.display = 'none';
-        elements.clearBtnContainer.style.display = 'none';
-        elements.stopBtn.style.display = 'block';
-
-        const userBubble = document.createElement('div');
-        userBubble.classList.add('chat-bubble', 'user-bubble');
-        userBubble.innerText = userQuestion;
-        elements.chatMessages.appendChild(userBubble);
-        setTimeout(() => userBubble.classList.add('fade-in'), 10);
-        elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-
-        chatHistory.push({ role: "user", parts: [{ text: promptToSendToAI }] }); 
-        saveChatHistory(); 
-
-        const loadingBubble = showLoading();
-        const localAnswer = findSmartAnswer(userQuestion);
-
-        if (localAnswer) {
-            return;
-        }
-
-        try {
-            abortController = new AbortController();
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${currentApiKey}`;
-            const requestBody = { contents: chatHistory };
-            const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(requestBody), signal: abortController.signal });
-
-            if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
-            const data = await response.json();
-            let answer = uiStrings[currentLanguage].errorFallback;
-            if (data.candidates?.[0]?.content?.parts?.[0]) {
-                answer = data.candidates[0].content.parts[0].text;
-                chatHistory.push({ role: "model", parts: [{ text: answer }] });
-                saveChatHistory(); 
-            }
-
-            loadingBubble.remove();
-            const aiBubble = createAiBubble(answer, false);
-            elements.chatMessages.appendChild(aiBubble);
-            await typeWriterEffect(aiBubble, answer);
-            
-            const copyBtn = document.createElement('i');
-            copyBtn.classList.add('fas', 'fa-copy', 'copy-btn');
-            copyBtn.setAttribute('onclick', 'copyToClipboard(this)');
-            aiBubble.appendChild(copyBtn);
-            
-            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-
-        } catch (error) {
-            console.error('Error:', error);
-            if (error.name !== 'AbortError') {
-                const errorMessage = navigator.onLine ? uiStrings[currentLanguage].errorAPI : uiStrings[currentLanguage].errorConnection;
-                loadingBubble.remove();
-                const errorBubble = createAiBubble(errorMessage);
-                elements.chatMessages.appendChild(errorBubble);
-                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-            }
-        } finally {
-            elements.sendBtn.style.display = 'block';
-            elements.stopBtn.style.display = 'none';
-            elements.clearBtnContainer.style.display = 'block';
-        }
-    }
-    
-    // =================================================================
-    // SISA FUNGSI LAINNYA
-    // =================================================================
-    
-    function getCurrentDateTimeString() { const now = new Date(); const year = now.getFullYear(); const month = String(now.getMonth() + 1).padStart(2, '0'); const day = String(now.getDate()).padStart(2, '0'); const hours = String(now.getHours()).padStart(2, '0'); const minutes = String(now.getMinutes()).padStart(2, '0'); const seconds = String(now.getSeconds()).padStart(2, '0'); return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; }
-    function populateToolsMenu() { if (!elements.toolsMenu) return; elements.toolsMenu.innerHTML = ''; slashCommands.forEach(cmd => { const menuItem = document.createElement('div'); menuItem.classList.add('suggestion-item-slash'); menuItem.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; menuItem.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); elements.questionInput.focus(); }); elements.toolsMenu.appendChild(menuItem); }); }
-    elements.toolsBtn.addEventListener('click', (event) => { event.stopPropagation(); const isActive = elements.toolsBtn.classList.contains('active'); elements.suggestionBox.classList.remove('visible'); if (!isActive) { elements.toolsMenu.classList.add('visible'); elements.toolsBtn.classList.add('active'); } else { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
-    document.addEventListener('click', (event) => { if (elements.toolsMenu && !elements.toolsMenu.contains(event.target) && !elements.toolsBtn.contains(event.target)) { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
-    function updateSendButtonState() { if (elements.questionInput.value.trim() === '') { elements.sendBtn.classList.add('disabled'); elements.sendBtn.disabled = true; } else { elements.sendBtn.classList.remove('disabled'); elements.sendBtn.disabled = false; } }
-    function saveApiKey() { const newKey = elements.apiKeyInput.value.trim(); if (newKey) { localStorage.setItem('miraiApiKey', newKey); currentApiKey = newKey; showCopyFeedback(uiStrings[currentLanguage].apiKeySaved); } else { localStorage.removeItem('miraiApiKey'); currentApiKey = DEFAULT_API_KEY; showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); } }
-    function toggleApiVisibility() { const input = elements.apiKeyInput; const icon = elements.toggleApiKey; if (input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } }
-    function updateConnectionStatus() { if (navigator.onLine) { elements.statusDot.classList.remove('offline'); elements.statusDot.classList.add('online'); elements.statusLabel.innerText = uiStrings[currentLanguage].onlineStatus; } else { elements.statusDot.classList.remove('online'); elements.statusDot.classList.add('offline'); elements.statusLabel.innerText = uiStrings[currentLanguage].offlineStatus; } }
-    function updateUI() { const lang = uiStrings[currentLanguage]; elements.infoText.innerText = lang.infoText; updateSettingsUI(); updateDynamicPlaceholder(); updateConnectionStatus(); }
-    function updateDynamicPlaceholder() { const placeholders = uiStrings[currentLanguage].placeholderMessages; const randomIndex = Math.floor(Math.random() * placeholders.length); elements.questionInput.placeholder = placeholders[randomIndex]; }
-    function updateSettingsUI() { const lang = uiStrings[currentLanguage]; if (!lang) return; elements.settingsHeaderTitle.innerText = lang.settingsHeaderTitle; elements.settingsAppearanceTitle.innerText = lang.settingsAppearanceTitle; elements.settingsThemeText.innerText = lang.settingsThemeText; elements.themeLightOption.innerText = lang.themeLightOption; elements.themeDarkOption.innerText = lang.themeDarkOption; elements.settingsAITitle.innerText = lang.settingsAITitle; elements.settingsPersonaText.innerText = lang.settingsPersonaText; elements.personaFormalOption.innerText = lang.personaFormalOption; elements.personaDefaultOption.innerText = lang.personaDefaultOption; elements.personaCreativeOption.innerText = lang.personaCreativeOption; elements.settingsAboutTitle.innerText = lang.settingsAboutTitle; elements.settingsVersionText.innerText = lang.settingsVersionText; elements.settingsAuthorText.innerText = lang.settingsAuthorText; elements.githubLink.innerText = lang.githubLink; elements.licenseLink.innerText = lang.licenseLink; elements.settingsApiTitle.innerText = lang.settingsApiTitle; elements.settingsApiText.innerText = lang.settingsApiText; document.title = lang.pageTitle; elements.saveApiBtn.innerText = lang.saveApiKeyBtn; elements.apiKeyInput.placeholder = lang.apiKeyPlaceholder; elements.termsLink.innerText = lang.termsLink; elements.moreOptionsBtn.innerText = lang.moreOptionsBtn; }
-    function setTheme(theme) { elements.body.classList.remove('light-theme', 'dark-theme'); if (theme === 'light') { elements.body.classList.add('light-theme'); } else { elements.body.classList.add('dark-theme'); } localStorage.setItem('miraiTheme', theme); elements.themeSelect.value = theme; }
-    function showSettingsPage() { elements.settingsPage.classList.add('active'); elements.body.classList.remove('chat-active'); }
-    function hideSettingsPage() { elements.settingsPage.classList.remove('active'); if (chatHistory.length > 1) { elements.body.classList.add('chat-active'); } }
-    function toggleChatUI(active) { if (active) { elements.body.classList.add('chat-active'); elements.inputContainer.classList.remove('centered'); elements.inputContainer.classList.add('bottom'); elements.logoContainer.classList.add('logo-hidden'); elements.languageSwitcher.classList.add('lang-hidden'); elements.infoText.style.display = 'block'; } else { elements.body.classList.remove('chat-active'); elements.inputContainer.classList.remove('bottom'); elements.inputContainer.classList.add('centered'); elements.logoContainer.classList.remove('logo-hidden'); elements.languageSwitcher.classList.remove('lang-hidden'); elements.infoText.style.display = 'none'; } }
-    
-    function simulateLoading(duration) {
-        const startTime = Date.now();
-        const splashBar = document.querySelector('.loading-bar');
-
-        // === [START] PERBAIKAN BUG ===
-        // Cek dulu apakah elemen loading bar berhasil ditemukan.
-        if (!splashBar) {
-            console.error("Elemen .loading-bar tidak ditemukan. Kemungkinan terjadi race condition.");
-            // Meskipun bar tidak ada, kita harus tetap menyembunyikan splash screen
-            // setelah durasi yang ditentukan agar aplikasi tidak macet.
-            setTimeout(() => {
-                if (elements.splashScreen) {
-                    elements.splashScreen.classList.add('hidden');
-                }
-            }, duration);
-            return; // Hentikan eksekusi fungsi lebih lanjut.
-        }
-        // === [END] PERBAIKAN BUG ===
-
-        const updateInterval = 50;
-        // Sisa fungsi tetap sama
-        function updateProgress() {
-            const elapsedTime = Date.now() - startTime;
-            let progress = (elapsedTime / duration) * 100;
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(intervalId);
-                setTimeout(() => {
-                    elements.splashScreen.classList.add('hidden');
-                }, 500);
-            }
-            splashBar.style.width = `${progress}%`;
-        }
-        const intervalId = setInterval(updateProgress, updateInterval);
-    }
-
-    function showSuggestions() { const query = elements.questionInput.value.toLowerCase().trim(); elements.suggestionBox.innerHTML = ''; elements.suggestionBox.classList.remove('visible'); if (query.startsWith('/')) { const commandQuery = query.substring(1); const matchingCommands = slashCommands.filter(cmd => cmd.command.substring(1).startsWith(commandQuery) ); if (matchingCommands.length > 0) { elements.suggestionBox.classList.add('visible'); matchingCommands.forEach(cmd => { const div = document.createElement('div'); div.classList.add('suggestion-item-slash'); div.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; div.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.suggestionBox.classList.remove('visible'); elements.questionInput.focus(); }); elements.suggestionBox.appendChild(div); }); } } else { if (query.length < 2) return; const suggestions = Object.keys(faqDatabase) .filter(key => key.toLowerCase().includes(query)) .slice(0, 5); if (suggestions.length > 0) { elements.suggestionBox.classList.add('visible'); suggestions.forEach(suggestion => { const div = document.createElement('div'); div.classList.add('suggestion-item'); div.innerText = suggestion; div.addEventListener('click', () => { elements.questionInput.value = suggestion; elements.suggestionBox.classList.remove('visible'); askAI(); }); elements.suggestionBox.appendChild(div); }); } } }
-    function findSmartAnswer(question) { const normalized = question.toLowerCase().trim(); const sortedKeys = Object.keys(faqDatabase).sort((a, b) => b.length - a.length); for (const key of sortedKeys) { const normalizedKey = key.toLowerCase().replace("?", ""); if (normalized.includes(normalizedKey)) return faqDatabase[key]; } return null; }
-    function typeWriterEffect(element, text, speed = 0.5) { const parsedHtml = marked.parse(text); let i = 0; element.innerHTML = ''; const tempElement = document.createElement('div'); tempElement.innerHTML = parsedHtml; const textToType = tempElement.innerText; return new Promise(resolve => { function type() { if (i < textToType.length) { element.innerHTML += textToType.charAt(i); i++; setTimeout(type, speed); } else { element.innerHTML = parsedHtml; resolve(); } } type(); }); }
-    function showLoading() { const loadingBubble = document.createElement('div'); loadingBubble.classList.add('chat-bubble', 'ai-bubble', 'typing-indicator', 'fade-in'); loadingBubble.innerHTML = '<span></span><span></span><span></span>'; elements.chatMessages.appendChild(loadingBubble); return loadingBubble; }
-    function stopAI() { if (abortController) { abortController.abort(); console.log("Response aborted."); elements.stopBtn.style.display = 'none'; elements.sendBtn.style.display = 'block'; elements.clearBtnContainer.style.display = 'block'; const loadingBubble = document.querySelector('.typing-indicator'); if (loadingBubble) loadingBubble.remove(); } }
-    function handleSlashCommand(question) { if (!question.startsWith('/')) { return null; } const parts = question.split(' '); const command = parts[0].toLowerCase(); switch (command) { case '/translate': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 2) { return "Error: Invalid format. Use /translate [text] to [language]"; } const textToTranslate = parts.slice(1, toIndex).join(' '); const targetLanguage = parts.slice(toIndex + 1).join(' '); return `Translate the following text to ${targetLanguage}: "${textToTranslate}"`; } case '/summarize': { const textToSummarize = parts.slice(1).join(' '); if (textToSummarize.length < 20) { return "Error: Please provide more text to summarize."; } return `Provide a concise summary of the following text: "${textToSummarize}"`; } case '/rephrase': { const asIndex = parts.indexOf('as'); if (asIndex === -1 || asIndex < 2) { return "Error: Invalid format. Use /rephrase [text] as [tone]"; } const textToRephrase = parts.slice(1, asIndex).join(' '); const tone = parts.slice(asIndex + 1).join(' '); return `Rephrase the following text in a ${tone} tone: "${textToRephrase}"`; } case '/ideate': { const forIndex = parts.indexOf('for'); if (forIndex === -1 || forIndex < 3 || isNaN(parseInt(parts[1]))) { return "Error: Invalid format. Use /ideate [number] ideas for [topic]"; } const number = parts[1]; const topic = parts.slice(forIndex + 1).join(' '); return `Generate ${number} ideas for ${topic}. Present them as a numbered list.`; } case '/fix': { const textToFix = parts.slice(1).join(' '); if (!textToFix) { return "Error: Please provide text to fix. Use /fix [text]"; } return `Proofread and correct any grammatical errors and spelling mistakes in the following text. Only provide the corrected text: "${textToFix}"`; } case '/explain': { const likeIndex = parts.findIndex(part => part.toLowerCase() === "like"); if (likeIndex === -1 || likeIndex < 2) { return "Error: Invalid format. Use /explain [concept] like I'm [audience]"; } const concept = parts.slice(1, likeIndex).join(' '); const audienceIndex = parts.indexOf("I'm") > -1 ? parts.indexOf("I'm") : parts.indexOf("i'm"); if (audienceIndex === -1 || audienceIndex <= likeIndex) { return "Error: Invalid audience format. Use \"like I'm ...\""; } const audience = parts.slice(audienceIndex + 1).join(' '); return `Explain the concept of "${concept}" as if you were talking to a ${audience}.`; } case '/code': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 3) { return "Error: Invalid format. Use /code a [language] function to [description]"; } const language = parts[2]; const description = parts.slice(toIndex + 1).join(' '); return `Write a code snippet in ${language} for the following task: "${description}". Provide only the code, enclosed in a markdown code block.`; } case '/search': { const query = parts.slice(1).join(' '); if (!query) { return "Error: Please provide a search query. Use /search [query]"; } return `Search the web for information about "${query}". Provide a concise summary and, if possible, include relevant links.`; } default: return `Error: Unknown command "${command}". Try /translate or /summarize.`; } }
-    function createAiBubble(text, useInnerHTML = true) { const bubble = document.createElement('div'); bubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in'); bubble.setAttribute('data-raw-text', text); if (useInnerHTML) { bubble.innerHTML = `${marked.parse(text)}<i class="fas fa-copy copy-btn" onclick="copyToClipboard(this)"></i>`; } return bubble; }
-    function copyToClipboard(element) { const aiBubble = element.closest('.ai-bubble'); const textToCopy = aiBubble.getAttribute('data-raw-text'); const formattedText = `${textToCopy}${uiStrings[currentLanguage].copySuffix}`; const tempInput = document.createElement('textarea'); tempInput.value = formattedText; document.body.appendChild(tempInput); tempInput.select(); tempInput.setSelectionRange(0, 99999); document.execCommand('copy'); document.body.removeChild(tempInput); showCopyFeedback(uiStrings[currentLanguage].copyFeedback); }
-    function showCopyFeedback(message) { const feedbackDiv = document.createElement('div'); feedbackDiv.innerText = message; feedbackDiv.style.cssText = ` position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background-color: #444; color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 14px; z-index: 200; opacity: 0; transition: opacity 0.5s ease-in-out; `; document.body.appendChild(feedbackDiv); setTimeout(() => { feedbackDiv.style.opacity = 1; }, 10); setTimeout(() => { feedbackDiv.style.opacity = 0; setTimeout(() => feedbackDiv.remove(), 500); }, 2000); }
-    const connectionStatus = document.getElementById('connectionStatus');
-    function checkIndicatorPosition() { const indicatorRect = connectionStatus.getBoundingClientRect(); const userBubbles = document.querySelectorAll('.user-bubble'); let isOverlapping = false; for (const bubble of userBubbles) { const bubbleRect = bubble.getBoundingClientRect(); const verticalOverlap = indicatorRect.bottom > bubbleRect.top && indicatorRect.top < bubbleRect.bottom; const horizontalOverlap = indicatorRect.right > bubbleRect.left && indicatorRect.right < bubbleRect.right; if (verticalOverlap && horizontalOverlap) { isOverlapping = true; break; } } connectionStatus.classList.toggle('hidden-by-scroll', isOverlapping); }
-    window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
 </script>
 </body>
 </html>
