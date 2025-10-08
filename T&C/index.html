@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Bahasa - Syarat & Ketentuan MirAI</title>
+    <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1B1C1E;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .portal-container {
+            max-width: 500px;
+            width: 90%;
+            padding: 40px;
+            box-sizing: border-box;
+            background-color: rgba(24, 26, 27, 0.7);
+            border: 0.9px solid #4B4F50;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-family: 'Product Sans', 'Segoe UI', sans-serif;
+            color: #ffce00;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
+
+        p {
+            color: #ccc;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .language-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .lang-button {
+            background-color: #212121;
+            color: #ffce00;
+            border: 1px solid #ffce00;
+            padding: 15px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .lang-button:hover {
+            background-color: #ffce00;
+            color: #000;
+            transform: scale(1.05);
+        }
+        
+        .lang-button .flag {
+            font-size: 1.2em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="portal-container">
+        <h1>Terms & Conditions</h1>
+        <p>Please select your language to continue.</p>
+        
+        <div class="language-buttons">
+            <a href="#" class="lang-button">
+                <span class="flag">🇮🇩</span>
+                <span>Bahasa Indonesia</span>
+            </a>
+            <a href="#" class="lang-button">
+                <span class="flag">🇬🇧</span>
+                <span>English</span>
+            </a>
+            <a href="#" class="lang-button">
+                <span class="flag">🇯🇵</span>
+                <span>日本語 (Japanese)</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
