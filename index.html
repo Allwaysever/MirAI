@@ -1136,6 +1136,8 @@ body.chat-active #toolsMenu {
     font-size: 1em;
     margin-top: 10px;
     transition: all 0.3s ease;
+    text-decoration: none; /* Tambahan untuk <a> */
+    display: inline-block; /* Tambahan untuk <a> */
 }
 
 /* Penyesuaian untuk Light Theme */
@@ -1278,6 +1280,23 @@ body.light-theme #confirmBtnNo:hover {
     border-color: #222;
 }
 /* === [END] CSS UNTUK POPUP KONFIRMASI KUSTOM === */
+.tombol-spesial {
+  background-color: #ffce00;
+  border-radius: 25px;
+  border: none;
+  color: #0f0f0f; /* PERBAIKAN: Warna teks jadi gelap */
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.tombol-spesial:hover {
+  background-color: #e6b800;
+}
 </style>
 </head>
 <body>
@@ -1370,25 +1389,24 @@ body.light-theme #confirmBtnNo:hover {
             </select>
         </div>
 
-<h3 id="settingsApiTitle">API Key</h3>
-<div class="settings-option">
-    <p id="settingsApiText">Masukkan Google API Key Anda:</p>
-    <div class="api-key-container">
-        <input type="password" id="apiKeyInput" placeholder="AIzaSy... (leave blank for default)">
-        <i class="fas fa-eye" id="toggleApiKey"></i>
-    </div>
-    <button id="saveApiBtn" class="settings-credits-btn">Save Key</button>
-</div>
+        <h3 id="settingsApiTitle"></h3>
+        <div class="settings-option">
+            <p id="settingsApiText"></p>
+            <div class="api-key-container">
+                <input type="password" id="apiKeyInput">
+                <i class="fas fa-eye" id="toggleApiKey"></i>
+            </div>
+            <button id="saveApiBtn" class="settings-credits-btn"></button>
+        </div>
 
+            <a href="pages/index.html" id="moreOptionsBtn" class="settings-credits-btn"></a>
 
         <h3 id="settingsAboutTitle"></h3>
         <div class="settings-about">
             <p id="settingsAuthorText"></p>
             <p><a href="https://github.com/Allwaysever/MirAI" target="_blank" id="githubLink"></a></p>
-            <p><a href="T&C/index.html" target="_blank">Terms & Condition</a></p>
-            <p><a href="https://github.com/Allwaysever/MirAI/blob/567951ae325568765827ac3982e8944d295abd1f/LICENSE" id="licenseLink" target="_blank"></a></p><br>
-           <p><a href="https://trakteer.id/Allwaysever" target"_blank"><img src="https://github.com/Allwaysever/MirAI/blob/main/Assets/Buy%20us%20a%20DiamondStars%20.png?raw=true" style="max-width: 200px; height: auto;" alt="Buy us a DiamondStars"></a></p>
-            <p id="settingsVersionText"></p>
+            <p><a href="T&C/index.html" target="_blank"></a></p>
+            <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"></a></p>
             <div class="gemini-container">
                <a href="https://deepmind.google/models/gemini/flash/" target="_blank"><img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250910_155455.png" alt="Google Gemini 2.5 Flash" class="gemini-logo"></a>
             </div>
@@ -1415,193 +1433,282 @@ body.light-theme #confirmBtnNo:hover {
     "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a DiamondStars](https://trakteer.id/Allwaysever)"
     };
 
-    const slashCommands = [
-        { command: '/search', title: 'Search the Web', description: 'Usage: /search [your query]' },
-        { command: '/translate', title: 'Translate Text', description: 'Usage: /translate [text] to [language]' },
-        { command: '/summarize', title: 'Summarize Text', description: 'Usage: /summarize [long text]' },
-        { command: '/rephrase', title: 'Rephrase Text', description: 'Usage: /rephrase [text] as [tone]' },
-        { command: '/ideate', title: 'Generate Ideas', description: 'Usage: /ideate [number] ideas for [topic]' },
-        { command: '/fix', title: 'Fix Grammar & Spelling', description: 'Usage: /fix [text with errors]' },
-        { command: '/explain', title: 'Explain Simply', description: "Usage: /explain [concept] like I'm [audience]" },
-        { command: '/code', title: 'Write Code Snippet', description: 'Usage: /code a [language] function to [task]' }
-    ];
-    
-const uiStrings = {
-    'id': {
-        offlineTitle: 'Kamu Offline',
-        offlineText: 'Periksa Internet kamu dan coba lagi',
-        retryButton: 'Coba Lagi',
-        inputPlaceholder: 'Tanya MirAI apa saja...',
-        copyFeedback: 'Teks berhasil disalin!',
-        langSwitchFeedback: 'Bahasa berhasil diganti ke',
-        errorAPI: 'Oops! Sepertinya ada masalah. Coba periksa koneksi internet atau coba lagi sebentar lagi, ya. 😅',
-        errorFallback: 'Maaf, saya tidak dapat menemukan jawaban untuk itu. Mungkin pertanyaannya terlalu rumit? 😂 Coba tanyakan hal lain, ya.',
-        errorConnection: 'Tidak ada koneksi internet. Silakan periksa jaringan Kamu.',
-        checkingConnection: 'Memeriksa koneksi internet...',
-        copySuffix: '\n\nIni adalah hasil dari respon MirAI',
-        infoText: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya',
-        settingsHeaderTitle: 'Pengaturan',
-        settingsAppearanceTitle: 'Tampilan',
-        settingsThemeText: 'Pilih Tema:',
-        themeLightOption: 'Terang',
-        themeDarkOption: 'Gelap',
-        settingsAITitle: 'Kustomisasi AI',
-        settingsPersonaText: 'Persona MirAI:',
-        personaFormalOption: 'Formal & Serius',
-        personaDefaultOption: 'Santai & Bercanda',
-        personaCreativeOption: 'Kreatif & Imajinatif',
-        settingsAboutTitle: 'Tentang MirAI',
-        settingsVersionText: `Versi: ${VERSION}`,
-        settingsAuthorText: 'Dibuat oleh Allwaysever',
-        githubLink: 'Repositori GitHub',
-        licenseLink: 'Lisensi Open Source',
-        personaDefaultPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
-        personaFormalPrompt: "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.",
-        personaCreativePrompt: "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya.",
-        placeholderMessages: ['Tanya MirAI apa saja...', 'Butuh inspirasi? Coba tanya aku!', 'Bisa bantu translate atau kasih ide!', 'Mau cerita? Aku siap dengerin.', 'Coba ketik sesuatu, siapa tahu seru!'],
-        onlineStatus: 'Online',
-        offlineStatus: 'Offline',
-        settingsApiTitle: 'API Key',
-        settingsApiText: 'Masukkan Google API Key Kamu:',
-        apiKeySaved: 'API Key berhasil disimpan!',
-        apiKeyRemoved: 'API Key dihapus. Kembali menggunakan key default.',
-        dateTimeContextPrompt: '[Konteks Internal] Waktu klien: {dateTime}. Jangan sebutkan waktu ini di jawabanmu kecuali diminta secara langsung. Jawab pertanyaan berikut:',
-        confirmClearMessage: 'Jika kamu menghapus chat ini, MirAI bisa amnesia.\nJika kamu ingin menghilangkan bubble chat saat ini, direkomendasikan untuk me-reload halaman ini saja.',
-        confirmClearYes: 'Ya, Hapus',
-        confirmClearNo: 'Tidak',
-    },
-    'en': {
-        offlineTitle: 'You\'re Offline',
-        offlineText: 'Check your internet and try again',
-        retryButton: 'Try Again',
-        inputPlaceholder: 'Ask MirAI anything...',
-        copyFeedback: 'Text copied successfully!',
-        langSwitchFeedback: 'Language successfully changed to',
-        errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅',
-        errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.',
-        errorConnection: 'No internet connection. Please check your network.',
-        checkingConnection: 'Checking internet connection...',
-        copySuffix: '\n\nThis is a response from MirAI',
-        infoText: 'MirAI may give inaccurate answers. Please double-check the responses',
-        settingsHeaderTitle: 'Settings',
-        settingsAppearanceTitle: 'Appearance',
-        settingsThemeText: 'Choose Theme:',
-        themeLightOption: 'Light',
-        themeDarkOption: 'Dark',
-        settingsAITitle: 'AI Customization',
-        settingsPersonaText: 'MirAI Persona:',
-        personaFormalOption: 'Formal & Serious',
-        personaDefaultOption: 'Relaxed & Casual',
-        personaCreativeOption: 'Creative & Imaginative',
-        settingsAboutTitle: 'About MirAI',
-        settingsVersionText: `Version: ${VERSION}`,
-        settingsAuthorText: 'Created by Allwaysever',
-        githubLink: 'GitHub Repository',
-        licenseLink: 'Open Source License',
-        personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
-        personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
-        personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
-        placeholderMessages: ['Ask MirAI anything...', 'Need inspiration? Try asking me!', 'I can help translate or give ideas!', 'Want to tell a story? I\'m all ears.', 'Try typing something, who knows what will happen!'],
-        onlineStatus: 'Online',
-        offlineStatus: 'Offline',
-        settingsApiTitle: 'API Key',
-        settingsApiText: 'Enter your Google API Key:',
-        apiKeySaved: 'API Key saved successfully!',
-        apiKeyRemoved: 'API Key removed. Reverting to default key.',
-        dateTimeContextPrompt: '[Internal Context] Client time: {dateTime}. Do not mention this time in your response unless directly asked. Answer the following question:',
-        confirmClearMessage: 'If you delete this chat, MirAI might get amnesia.\nIf you just want to clear the current bubbles, it\'s recommended to reload the page instead.',
-        confirmClearYes: 'Yes, Delete',
-        confirmClearNo: 'No',
-    },
-    'en-uk': {
-        offlineTitle: 'You\'re Offline',
-        offlineText: 'Check your internet and try again',
-        retryButton: 'Try Again',
-        inputPlaceholder: 'Ask MirAI anything...',
-        copyFeedback: 'Text copied successfully!',
-        langSwitchFeedback: 'Language successfully changed to',
-        errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅',
-        errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.',
-        errorConnection: 'No internet connection. Please check your network.',
-        checkingConnection: 'Checking internet connection...',
-        copySuffix: '\n\nThis is a response from MirAI',
-        infoText: 'MirAI may give inaccurate answers. Please double-check the responses',
-        settingsHeaderTitle: 'Settings',
-        settingsAppearanceTitle: 'Appearance',
-        settingsThemeText: 'Choose Theme:',
-        themeLightOption: 'Light',
-        themeDarkOption: 'Dark',
-        settingsAITitle: 'AI Customisation',
-        settingsPersonaText: 'MirAI Persona:',
-        personaFormalOption: 'Formal & Serious',
-        personaDefaultOption: 'Relaxed & Casual',
-        personaCreativeOption: 'Creative & Imaginative',
-        settingsAboutTitle: 'About MirAI',
-        settingsVersionText: `Version: ${VERSION}`,
-        settingsAuthorText: 'Created by Allwaysever',
-        githubLink: 'GitHub Repository',
-        licenseLink: 'Open Source Licence',
-        personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
-        personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
-        personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
-        placeholderMessages: ['Ask MirAI anything...', 'Need inspiration? Try asking me!', 'I can help translate or give ideas!', 'Want to tell a story? I\'m all ears.', 'Try typing something, who knows what will happen!'],
-        onlineStatus: 'Online',
-        offlineStatus: 'Offline',
-        settingsApiTitle: 'API Key',
-        settingsApiText: 'Enter your Google API Key:',
-        apiKeySaved: 'API Key saved successfully!',
-        apiKeyRemoved: 'API Key removed. Reverting to default key.',
-        dateTimeContextPrompt: '[Internal Context] Client time: {dateTime}. Do not mention this time in your response unless directly asked. Answer the following question:',
-        confirmClearMessage: 'If you delete this chat, MirAI might get amnesia.\nIf you just want to clear the current bubbles, it\'s recommended to reload the page instead.',
-        confirmClearYes: 'Yes, Delete',
-        confirmClearNo: 'No',
-    },
-    'jp': {
-        offlineTitle: 'オフラインです',
-        offlineText: 'インターネットを確認して、もう一度お試しください',
-        retryButton: '再試行',
-        inputPlaceholder: 'MirAIに何でも聞いてみよう...',
-        copyFeedback: 'テキストが正常にコピーされました！',
-        langSwitchFeedback: '言語が正常に切り替わりました',
-        errorAPI: 'おっと！問題が発生したようです。インターネット接続を確認するか、しばらくしてからもう一度お試しください。😅',
-        errorFallback: 'すみません、その質問に対する答えが見つかりませんでした。もしかしたら質問が複雑すぎるかもしれません？😂 別のことを聞いてみてください。',
-        errorConnection: 'インターネット接続がありません。ネットワークを確認してください。',
-        checkingConnection: 'インターネット接続を確認中...',
-        copySuffix: '\n\nこれはMirAIからの返答です',
-        infoText: 'MirAIは不正確な回答をする場合があります。回答を再確認してください',
-        settingsHeaderTitle: '設定',
-        settingsAppearanceTitle: '外観',
-        settingsThemeText: 'テーマを選択:',
-        themeLightOption: 'ライト',
-        themeDarkOption: 'ダーク',
-        settingsAITitle: 'AIのカスタマイズ',
-        settingsPersonaText: 'MirAIのペルソナ:',
-        personaFormalOption: 'フォーマル＆真面目',
-        personaDefaultOption: 'リラックス＆カジュアル',
-        personaCreativeOption: 'クリエイティブ＆想像力豊か',
-        settingsAboutTitle: 'MirAIについて',
-        settingsVersionText: `バージョン: ${VERSION}`,
-        settingsAuthorText: '作成者: Allwaysever',
-        githubLink: 'GitHubリポジトリ',
-        licenseLink: 'オープンソースライセンス',
-        personaDefaultPrompt: 'あなたの名前はMirAIです。AlwaysseverのAIアシスタントです。気軽に、そして少しユーモアを交えて答えてください。',
-        personaFormalPrompt: 'あなたの名前はMirAIです。AlwayseverのAIアシスタントです。標準的で専門的、そして真剣な言葉遣いで回答します。',
-        personaCreativePrompt: 'あなたの名前はMirAI。アイデアと想像力に溢れたAIです。物語を語ったり、芸術作品を作ったりするかのように、創造的で描写的なスタイルで答えてください。',
-        placeholderMessages: ['MirAIに何でも聞いてみよう...', 'インスピレーションが必要ですか？私に聞いてみてください！', '翻訳やアイデア出しを手伝えます！', '何か話したいことはありますか？いつでも聞きます。', '何か入力してみてください。きっと楽しいことが起こります！'],
-        onlineStatus: 'オンライン',
-        offlineStatus: 'オフライン',
-        settingsApiTitle: 'APIキー',
-        settingsApiText: 'Google APIキーを取得します:',
-        apiKeySaved: 'API キーが正常に保存されました。',
-        apiKeyRemoved: 'APIキーが削除されました。デフォルトのキーに戻してください。',
-        dateTimeContextPrompt: '[内部コンテキスト] クライアント時刻: {dateTime}。直接尋ねられない限り、この時刻を回答に含めないでください。次の質問に答えてください：',
-        confirmClearMessage: 'このチャットを削除すると、MirAIが記憶喪失になる可能性があります。\n現在のチャットバブルを消したいだけの場合は、このページをリロードすることをお勧めします。',
-        confirmClearYes: 'はい、削除します',
-        confirmClearNo: 'いいえ',
-    },
-};
+    const uiStrings = {
+        'id': {
+            offlineTitle: 'Kamu Offline',
+            offlineText: 'Periksa Internet kamu dan coba lagi',
+            retryButton: 'Coba Lagi',
+            inputPlaceholder: 'Tanya MirAI apa saja...',
+            copyFeedback: 'Teks berhasil disalin!',
+            langSwitchFeedback: 'Bahasa berhasil diganti ke',
+            errorAPI: 'Oops! Sepertinya ada masalah. Coba periksa koneksi internet atau coba lagi sebentar lagi, ya. 😅',
+            errorFallback: 'Maaf, saya tidak dapat menemukan jawaban untuk itu. Mungkin pertanyaannya terlalu rumit? 😂 Coba tanyakan hal lain, ya.',
+            errorConnection: 'Tidak ada koneksi internet. Silakan periksa jaringan Kamu.',
+            checkingConnection: 'Memeriksa koneksi internet...',
+            copySuffix: '\n\nIni adalah hasil dari respon MirAI',
+            infoText: 'MirAI bisa jawab ngawur. Jadi tolong periksa kembali responnya',
+            settingsHeaderTitle: 'Pengaturan',
+            settingsAppearanceTitle: 'Tampilan',
+            settingsThemeText: 'Pilih Tema:',
+            themeLightOption: 'Terang',
+            themeDarkOption: 'Gelap',
+            settingsAITitle: 'Kustomisasi AI',
+            settingsPersonaText: 'Persona MirAI:',
+            personaFormalOption: 'Formal & Serius',
+            personaDefaultOption: 'Santai & Bercanda',
+            personaCreativeOption: 'Kreatif & Imajinatif',
+            settingsAboutTitle: 'Tentang MirAI',
+            settingsVersionText: `Versi: ${VERSION}`,
+            settingsAuthorText: 'Dibuat oleh Allwaysever',
+            githubLink: 'Repositori GitHub',
+            licenseLink: 'Lisensi Open Source',
+            personaDefaultPrompt: "Namamu MirAI. Asisten AI dari Allwaysever. Jawab dengan santai dan sedikit bercanda.",
+            personaFormalPrompt: "Nama Anda MirAI. Asisten AI dari Allwaysever. Berikan jawaban dengan bahasa baku, profesional, dan serius.",
+            personaCreativePrompt: "Namamu MirAI, sebuah AI yang penuh ide dan imajinasi. Jawablah dengan gaya yang kreatif dan deskriptif, seolah-olah kamu sedang menceritakan sebuah kisah atau menciptakan sebuah karya.",
+            placeholderMessages: ['Tanya MirAI apa saja...', 'Butuh inspirasi? Coba tanya aku!', 'Bisa bantu translate atau kasih ide!', 'Mau cerita? Aku siap dengerin.', 'Coba ketik sesuatu, siapa tahu seru!'],
+            onlineStatus: 'Online',
+            offlineStatus: 'Offline',
+            settingsApiTitle: 'API Key',
+            settingsApiText: 'Masukkan Google API Key Kamu:',
+            apiKeySaved: 'API Key berhasil disimpan!',
+            apiKeyRemoved: 'API Key dihapus. Kembali menggunakan key default.',
+            dateTimeContextPrompt: '[Konteks Internal] Waktu klien: {dateTime}. Jangan sebutkan waktu ini di jawabanmu kecuali diminta secara langsung. Jawab pertanyaan berikut:',
+            confirmClearMessage: 'Jika kamu menghapus chat ini, MirAI bisa amnesia.\nJika kamu ingin menghilangkan bubble chat saat ini, direkomendasikan untuk me-reload halaman ini saja.',
+            confirmClearYes: 'Ya, Hapus',
+            confirmClearNo: 'Tidak',
+            pageTitle: 'MirAI - Asisten AI Pribadi',
+            saveApiKeyBtn: 'Simpan Key',
+            apiKeyPlaceholder: 'Kosongkan untuk pakai key default',
+            termsLink: 'Syarat & Ketentuan',
+            moreOptionsBtn: 'Opsi Lanjutan',
+            slashCmdSearchTitle: 'Cari di Web',
+            slashCmdSearchDesc: 'Guna: /search [pertanyaan]',
+            slashCmdTranslateTitle: 'Terjemahkan Teks',
+            slashCmdTranslateDesc: 'Guna: /translate [teks] to [bahasa]',
+            slashCmdSummarizeTitle: 'Ringkas Teks',
+            slashCmdSummarizeDesc: 'Guna: /summarize [teks panjang]',
+            slashCmdRephraseTitle: 'Ubah Gaya Bahasa',
+            slashCmdRephraseDesc: 'Guna: /rephrase [teks] as [gaya]',
+            slashCmdIdeateTitle: 'Hasilkan Ide',
+            slashCmdIdeateDesc: 'Guna: /ideate [jumlah] ide untuk [topik]',
+            slashCmdFixTitle: 'Perbaiki Ejaan & Tata Bahasa',
+            slashCmdFixDesc: 'Guna: /fix [teks yang salah]',
+            slashCmdExplainTitle: 'Jelaskan Secara Sederhana',
+            slashCmdExplainDesc: "Guna: /explain [konsep] like I'm [audiens]",
+            slashCmdCodeTitle: 'Tulis Potongan Kode',
+            slashCmdCodeDesc: 'Guna: /code [bahasa] function to [tugas]'
+        },
+        'en': {
+            offlineTitle: 'You\'re Offline',
+            offlineText: 'Check your internet and try again',
+            retryButton: 'Try Again',
+            inputPlaceholder: 'Ask MirAI anything...',
+            copyFeedback: 'Text copied successfully!',
+            langSwitchFeedback: 'Language successfully changed to',
+            errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅',
+            errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.',
+            errorConnection: 'No internet connection. Please check your network.',
+            checkingConnection: 'Checking internet connection...',
+            copySuffix: '\n\nThis is a response from MirAI',
+            infoText: 'MirAI may give inaccurate answers. Please double-check the responses',
+            settingsHeaderTitle: 'Settings',
+            settingsAppearanceTitle: 'Appearance',
+            settingsThemeText: 'Choose Theme:',
+            themeLightOption: 'Light',
+            themeDarkOption: 'Dark',
+            settingsAITitle: 'AI Customization',
+            settingsPersonaText: 'MirAI Persona:',
+            personaFormalOption: 'Formal & Serious',
+            personaDefaultOption: 'Relaxed & Casual',
+            personaCreativeOption: 'Creative & Imaginative',
+            settingsAboutTitle: 'About MirAI',
+            settingsVersionText: `Version: ${VERSION}`,
+            settingsAuthorText: 'Created by Allwaysever',
+            githubLink: 'GitHub Repository',
+            licenseLink: 'Open Source License',
+            personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
+            personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
+            personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
+            placeholderMessages: ['Ask MirAI anything...', 'Need inspiration? Try asking me!', 'I can help translate or give ideas!', 'Want to tell a story? I\'m all ears.', 'Try typing something, who knows what will happen!'],
+            onlineStatus: 'Online',
+            offlineStatus: 'Offline',
+            settingsApiTitle: 'API Key',
+            settingsApiText: 'Enter your Google API Key:',
+            apiKeySaved: 'API Key saved successfully!',
+            apiKeyRemoved: 'API Key removed. Reverting to default key.',
+            dateTimeContextPrompt: '[Internal Context] Client time: {dateTime}. Do not mention this time in your response unless directly asked. Answer the following question:',
+            confirmClearMessage: 'If you delete this chat, MirAI might get amnesia.\nIf you just want to clear the current bubbles, it\'s recommended to reload the page instead.',
+            confirmClearYes: 'Yes, Delete',
+            confirmClearNo: 'No',
+            pageTitle: 'MirAI - Personal AI Assistant',
+            saveApiKeyBtn: 'Save Key',
+            apiKeyPlaceholder: 'Leave blank for default key',
+            termsLink: 'Terms & Condition',
+            moreOptionsBtn: 'More Options',
+            slashCmdSearchTitle: 'Search the Web',
+            slashCmdSearchDesc: 'Usage: /search [your query]',
+            slashCmdTranslateTitle: 'Translate Text',
+            slashCmdTranslateDesc: 'Usage: /translate [text] to [language]',
+            slashCmdSummarizeTitle: 'Summarize Text',
+            slashCmdSummarizeDesc: 'Usage: /summarize [long text]',
+            slashCmdRephraseTitle: 'Rephrase Text',
+            slashCmdRephraseDesc: 'Usage: /rephrase [text] as [tone]',
+            slashCmdIdeateTitle: 'Generate Ideas',
+            slashCmdIdeateDesc: 'Usage: /ideate [number] ideas for [topic]',
+            slashCmdFixTitle: 'Fix Grammar & Spelling',
+            slashCmdFixDesc: 'Usage: /fix [text with errors]',
+            slashCmdExplainTitle: 'Explain Simply',
+            slashCmdExplainDesc: "Usage: /explain [concept] like I'm [audience]",
+            slashCmdCodeTitle: 'Write Code Snippet',
+            slashCmdCodeDesc: 'Usage: /code a [language] function to [task]'
+        },
+        'en-uk': {
+            offlineTitle: 'You\'re Offline',
+            offlineText: 'Check your internet and try again',
+            retryButton: 'Try Again',
+            inputPlaceholder: 'Ask MirAI anything...',
+            copyFeedback: 'Text copied successfully!',
+            langSwitchFeedback: 'Language successfully changed to',
+            errorAPI: 'Oops! It seems there\'s a problem. Please check your internet connection or try again in a moment. 😅',
+            errorFallback: 'Sorry, I couldn\'t find an answer for that. Maybe the question is a bit too complex? 😂 Please try asking something else.',
+            errorConnection: 'No internet connection. Please check your network.',
+            checkingConnection: 'Checking internet connection...',
+            copySuffix: '\n\nThis is a response from MirAI',
+            infoText: 'MirAI may give inaccurate answers. Please double-check the responses',
+            settingsHeaderTitle: 'Settings',
+            settingsAppearanceTitle: 'Appearance',
+            settingsThemeText: 'Choose Theme:',
+            themeLightOption: 'Light',
+            themeDarkOption: 'Dark',
+            settingsAITitle: 'AI Customisation',
+            settingsPersonaText: 'MirAI Persona:',
+            personaFormalOption: 'Formal & Serious',
+            personaDefaultOption: 'Relaxed & Casual',
+            personaCreativeOption: 'Creative & Imaginative',
+            settingsAboutTitle: 'About MirAI',
+            settingsVersionText: `Version: ${VERSION}`,
+            settingsAuthorText: 'Created by Allwaysever',
+            githubLink: 'GitHub Repository',
+            licenseLink: 'Open Source Licence',
+            personaDefaultPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Respond in a casual and slightly humorous manner.",
+            personaFormalPrompt: "Your name is MirAI. An AI assistant from Allwaysever. Provide responses in a formal, professional, and serious tone.",
+            personaCreativePrompt: "Your name is MirAI, an AI full of ideas and imagination. Respond in a creative and descriptive style, as if you are telling a story or creating a work of art.",
+            placeholderMessages: ['Ask MirAI anything...', 'Need inspiration? Try asking me!', 'I can help translate or give ideas!', 'Want to tell a story? I\'m all ears.', 'Try typing something, who knows what will happen!'],
+            onlineStatus: 'Online',
+            offlineStatus: 'Offline',
+            settingsApiTitle: 'API Key',
+            settingsApiText: 'Enter your Google API Key:',
+            apiKeySaved: 'API Key saved successfully!',
+            apiKeyRemoved: 'API Key removed. Reverting to default key.',
+            dateTimeContextPrompt: '[Internal Context] Client time: {dateTime}. Do not mention this time in your response unless directly asked. Answer the following question:',
+            confirmClearMessage: 'If you delete this chat, MirAI might get amnesia.\nIf you just want to clear the current bubbles, it\'s recommended to reload the page instead.',
+            confirmClearYes: 'Yes, Delete',
+            confirmClearNo: 'No',
+            pageTitle: 'MirAI - Personal AI Assistant',
+            saveApiKeyBtn: 'Save Key',
+            apiKeyPlaceholder: 'Leave blank for default key',
+            termsLink: 'Terms & Condition',
+            moreOptionsBtn: 'More Options',
+            slashCmdSearchTitle: 'Search the Web',
+            slashCmdSearchDesc: 'Usage: /search [your query]',
+            slashCmdTranslateTitle: 'Translate Text',
+            slashCmdTranslateDesc: 'Usage: /translate [text] to [language]',
+            slashCmdSummarizeTitle: 'Summarise Text',
+            slashCmdSummarizeDesc: 'Usage: /summarise [long text]',
+            slashCmdRephraseTitle: 'Rephrase Text',
+            slashCmdRephraseDesc: 'Usage: /rephrase [text] as [tone]',
+            slashCmdIdeateTitle: 'Generate Ideas',
+            slashCmdIdeateDesc: 'Usage: /ideate [number] ideas for [topic]',
+            slashCmdFixTitle: 'Fix Grammar & Spelling',
+            slashCmdFixDesc: 'Usage: /fix [text with errors]',
+            slashCmdExplainTitle: 'Explain Simply',
+            slashCmdExplainDesc: "Usage: /explain [concept] like I'm [audience]",
+            slashCmdCodeTitle: 'Write Code Snippet',
+            slashCmdCodeDesc: 'Usage: /code a [language] function to [task]'
+        },
+        'jp': {
+            offlineTitle: 'オフラインです',
+            offlineText: 'インターネットを確認して、もう一度お試しください',
+            retryButton: '再試行',
+            inputPlaceholder: 'MirAIに何でも聞いてみよう...',
+            copyFeedback: 'テキストが正常にコピーされました！',
+            langSwitchFeedback: '言語が正常に切り替わりました',
+            errorAPI: 'おっと！問題が発生したようです。インターネット接続を確認するか、しばらくしてからもう一度お試しください。😅',
+            errorFallback: 'すみません、その質問に対する答えが見つかりませんでした。もしかしたら質問が複雑すぎるかもしれません？😂 別のことを聞いてみてください。',
+            errorConnection: 'インターネット接続がありません。ネットワークを確認してください。',
+            checkingConnection: 'インターネット接続を確認中...',
+            copySuffix: '\n\nこれはMirAIからの返答です',
+            infoText: 'MirAIは不正確な回答をする場合があります。回答を再確認してください',
+            settingsHeaderTitle: '設定',
+            settingsAppearanceTitle: '外観',
+            settingsThemeText: 'テーマを選択:',
+            themeLightOption: 'ライト',
+            themeDarkOption: 'ダーク',
+            settingsAITitle: 'AIのカスタマイズ',
+            settingsPersonaText: 'MirAIのペルソナ:',
+            personaFormalOption: 'フォーマル＆真面目',
+            personaDefaultOption: 'リラックス＆カジュアル',
+            personaCreativeOption: 'クリエイティブ＆想像力豊か',
+            settingsAboutTitle: 'MirAIについて',
+            settingsVersionText: `バージョン: ${VERSION}`,
+            settingsAuthorText: '作成者: Allwaysever',
+            githubLink: 'GitHubリポジトリ',
+            licenseLink: 'オープンソースライセンス',
+            personaDefaultPrompt: 'あなたの名前はMirAIです。AlwaysseverのAIアシスタントです。気軽に、そして少しユーモアを交えて答えてください。',
+            personaFormalPrompt: 'あなたの名前はMirAIです。AlwayseverのAIアシスタントです。標準的で専門的、そして真剣な言葉遣いで回答します。',
+            personaCreativePrompt: 'あなたの名前はMirAI。アイデアと想像力に溢れたAIです。物語を語ったり、芸術作品を作ったりするかのように、創造的で描写的なスタイルで答えてください。',
+            placeholderMessages: ['MirAIに何でも聞いてみよう...', 'インスピレーションが必要ですか？私に聞いてみてください！', '翻訳やアイデア出しを手伝えます！', '何か話したいことはありますか？いつでも聞きます。', '何か入力してみてください。きっと楽しいことが起こります！'],
+            onlineStatus: 'オンライン',
+            offlineStatus: 'オフライン',
+            settingsApiTitle: 'APIキー',
+            settingsApiText: 'Google APIキーを取得します:',
+            apiKeySaved: 'API キーが正常に保存されました。',
+            apiKeyRemoved: 'APIキーが削除されました。デフォルトのキーに戻してください。',
+            dateTimeContextPrompt: '[内部コンテキスト] クライアント時刻: {dateTime}。直接尋ねられない限り、この時刻を回答に含めないでください。次の質問に答えてください：',
+            confirmClearMessage: 'このチャットを削除すると、MirAIが記憶喪失になる可能性があります。\n現在のチャットバブルを消したいだけの場合は、このページをリロードすることをお勧めします。',
+            confirmClearYes: 'はい、削除します',
+            confirmClearNo: 'いいえ',
+            pageTitle: 'MirAI - パーソナルAIアシスタント',
+            saveApiKeyBtn: 'キーを保存',
+            apiKeyPlaceholder: 'デフォルトキーは空白のまま',
+            termsLink: '利用規約',
+            moreOptionsBtn: '詳細オプション',
+            slashCmdSearchTitle: 'ウェブで検索',
+            slashCmdSearchDesc: '使い方: /search [検索クエリ]',
+            slashCmdTranslateTitle: 'テキストを翻訳',
+            slashCmdTranslateDesc: '使い方: /translate [テキスト] to [言語]',
+            slashCmdSummarizeTitle: 'テキストを要約',
+            slashCmdSummarizeDesc: '使い方: /summarize [長いテキスト]',
+            slashCmdRephraseTitle: 'テキストを言い換える',
+            slashCmdRephraseDesc: '使い方: /rephrase [テキスト] as [トーン]',
+            slashCmdIdeateTitle: 'アイデアを出す',
+            slashCmdIdeateDesc: '使い方: /ideate [数] ideas for [トピック]',
+            slashCmdFixTitle: '文法とスペルを修正',
+            slashCmdFixDesc: '使い方: /fix [間違いのあるテキスト]',
+            slashCmdExplainTitle: '簡単に説明',
+            slashCmdExplainDesc: '使い方: /explain [概念] like I\'m [対象者]',
+            slashCmdCodeTitle: 'コードスニペットを作成',
+            slashCmdCodeDesc: '使い方: /code [言語] function to [タスク]'
+        },
+    };
 
-    const elements = { questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), settingsBtnContainer: document.getElementById('settingsBtnContainer'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), splashTitle: document.getElementById('splashTitle'), splashStatus: document.getElementById('splashStatus'), splashText2: document.getElementById('splashText2'), splashLoader: document.getElementById('splash-loader'), retryButton: document.getElementById('retry-button'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu'), customConfirmOverlay: document.getElementById('customConfirmOverlay'), customConfirmMessage: document.getElementById('customConfirmMessage'), confirmBtnYes: document.getElementById('confirmBtnYes'), confirmBtnNo: document.getElementById('confirmBtnNo') };
+    let slashCommands = []; 
+
+    function initializeSlashCommands(lang) {
+        const s = uiStrings[lang];
+        slashCommands = [
+            { command: '/search', title: s.slashCmdSearchTitle, description: s.slashCmdSearchDesc },
+            { command: '/translate', title: s.slashCmdTranslateTitle, description: s.slashCmdTranslateDesc },
+            { command: '/summarize', title: s.slashCmdSummarizeTitle, description: s.slashCmdSummarizeDesc },
+            { command: '/rephrase', title: s.slashCmdRephraseTitle, description: s.slashCmdRephraseDesc },
+            { command: '/ideate', title: s.slashCmdIdeateTitle, description: s.slashCmdIdeateDesc },
+            { command: '/fix', title: s.slashCmdFixTitle, description: s.slashCmdFixDesc },
+            { command: '/explain', title: s.slashCmdExplainTitle, description: s.slashCmdExplainDesc },
+            { command: '/code', title: s.slashCmdCodeTitle, description: s.slashCmdCodeDesc }
+        ];
+    }
+
+    const elements = { questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), settingsBtnContainer: document.getElementById('settingsBtnContainer'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), splashTitle: document.getElementById('splashTitle'), splashStatus: document.getElementById('splashStatus'), splashText2: document.getElementById('splashText2'), splashLoader: document.getElementById('splash-loader'), retryButton: document.getElementById('retry-button'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu'), customConfirmOverlay: document.getElementById('customConfirmOverlay'), customConfirmMessage: document.getElementById('customConfirmMessage'), confirmBtnYes: document.getElementById('confirmBtnYes'), confirmBtnNo: document.getElementById('confirmBtnNo'), termsLink: document.querySelector('a[href="T&C/index.html"]'), moreOptionsBtn: document.getElementById('moreOptionsBtn') };
     let chatHistory = [];
     let abortController = null;
     let currentLanguage = 'id';
@@ -1612,10 +1719,9 @@ const uiStrings = {
     // =================================================================
 
     document.addEventListener('DOMContentLoaded', () => {
-        // ==> [PERBAIKAN] Panggil fungsi inisialisasi utama
         initializeApp();
         
-        simulateLoading(3000); // Langsung jalankan loading statis
+        simulateLoading(3000); 
         updateConnectionStatus();
         populateToolsMenu();
         updateSendButtonState();
@@ -1628,7 +1734,6 @@ const uiStrings = {
     elements.backBtn.addEventListener('click', hideSettingsPage);
     elements.themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
     
-    // ==> [PERBAIKAN] Event listener HANYA untuk mengubah, bukan inisialisasi
     elements.personaSelect.addEventListener('change', (e) => setPersona(e.target.value, true));
     elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value, true));
 
@@ -1640,7 +1745,6 @@ const uiStrings = {
     window.addEventListener('online', updateConnectionStatus);
     window.addEventListener('offline', updateConnectionStatus);
 
-    // Event listeners untuk tombol konfirmasi
     elements.confirmBtnYes.addEventListener('click', () => {
         clearChat();
         hideClearConfirmation();
@@ -1653,26 +1757,25 @@ const uiStrings = {
     // =================================================================
 
     function initializeApp() {
-        // Muat pengaturan dari localStorage
         currentLanguage = localStorage.getItem('miraiLanguage') || 'id';
         currentPersona = localStorage.getItem('miraiPersona') || 'default';
         const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
         const savedApiKey = localStorage.getItem('miraiApiKey');
 
-        // Terapkan pengaturan ke UI
         elements.langDropdown.value = currentLanguage;
         elements.personaSelect.value = currentPersona;
         if (savedApiKey) {
             currentApiKey = savedApiKey;
             elements.apiKeyInput.value = savedApiKey;
         }
+        
+        initializeSlashCommands(currentLanguage);
+
         setTheme(savedTheme);
         updateUI();
 
-        // ==> [PERBAIKAN KUNCI] Coba muat riwayat DULU
         const historyLoaded = loadChatHistory();
 
-        // Jika GAGAL memuat riwayat, baru buat sesi baru
         if (!historyLoaded) {
             initializeNewChatSession();
         }
@@ -1694,10 +1797,10 @@ const uiStrings = {
         if (savedHistory) {
             chatHistory = JSON.parse(savedHistory);
             console.log('Riwayat percakapan berhasil dimuat.', chatHistory);
-            return true; // Beri tanda bahwa load berhasil
+            return true; 
         }
         console.log('Tidak ada riwayat untuk dimuat.');
-        return false; // Beri tanda bahwa load gagal
+        return false; 
     }
 
     function saveChatHistory() {
@@ -1717,12 +1820,11 @@ const uiStrings = {
     function clearChat() {
         elements.chatMessages.innerHTML = '';
         localStorage.removeItem('miraiChatHistory'); 
-        initializeNewChatSession(); // Mulai sesi baru
+        initializeNewChatSession(); 
         toggleChatUI(false);
         updateDynamicPlaceholder();
     }
 
-    // Fungsi baru untuk popup konfirmasi
     function showClearConfirmation() {
         const lang = uiStrings[currentLanguage];
         elements.customConfirmMessage.innerText = lang.confirmClearMessage;
@@ -1739,7 +1841,6 @@ const uiStrings = {
         currentPersona = persona;
         elements.personaSelect.value = persona;
         localStorage.setItem('miraiPersona', persona);
-        // ==> [PERBAIKAN] Hanya clear chat jika diubah oleh user, bukan saat load
         if (fromUserInteraction) {
             clearChat(); 
         }
@@ -1749,8 +1850,11 @@ const uiStrings = {
         currentLanguage = lang;
         elements.langDropdown.value = lang;
         localStorage.setItem('miraiLanguage', lang);
+        
+        initializeSlashCommands(currentLanguage);
+        populateToolsMenu();
+        
         updateUI();
-        // ==> [PERBAIKAN] Hanya clear chat jika diubah oleh user, bukan saat load
         if (fromUserInteraction) {
             clearChat(); 
         }
@@ -1764,25 +1868,20 @@ const uiStrings = {
         const userQuestion = elements.questionInput.value;
         if (userQuestion.trim() === '') return;
 
-        // Ambil waktu client dan buat konteks untuk AI
         const clientDateTime = getCurrentDateTimeString();
         const promptTemplate = uiStrings[currentLanguage].dateTimeContextPrompt;
         const contextPrompt = promptTemplate.replace('{dateTime}', clientDateTime);
         
         let promptToSendToAI;
 
-        // Periksa apakah ini adalah slash command
         const processedPrompt = handleSlashCommand(userQuestion);
 
         if (processedPrompt !== null) {
             if (processedPrompt.startsWith('Error:')) {
-                // ... (error handling for slash command) ...
                 return;
             }
-             // Gabungkan konteks waktu dengan hasil proses slash command
             promptToSendToAI = `${contextPrompt}\n\n"${processedPrompt}"`;
         } else {
-            // Gabungkan konteks waktu dengan pertanyaan asli pengguna
             promptToSendToAI = `${contextPrompt}\n\n"${userQuestion}"`;
         }
 
@@ -1798,19 +1897,18 @@ const uiStrings = {
 
         const userBubble = document.createElement('div');
         userBubble.classList.add('chat-bubble', 'user-bubble');
-        userBubble.innerText = userQuestion; // Tampilkan pertanyaan asli pengguna di UI
+        userBubble.innerText = userQuestion;
         elements.chatMessages.appendChild(userBubble);
         setTimeout(() => userBubble.classList.add('fade-in'), 10);
         elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
 
-        chatHistory.push({ role: "user", parts: [{ text: promptToSendToAI }] }); // Kirim prompt lengkap dengan konteks ke AI
+        chatHistory.push({ role: "user", parts: [{ text: promptToSendToAI }] }); 
         saveChatHistory(); 
 
         const loadingBubble = showLoading();
         const localAnswer = findSmartAnswer(userQuestion);
 
         if (localAnswer) {
-            // ... (handling for local answer) ...
             return;
         }
 
@@ -1861,21 +1959,7 @@ const uiStrings = {
     // SISA FUNGSI LAINNYA
     // =================================================================
     
-    /**
-     * Mengambil dan memformat tanggal dan waktu saat ini dari sisi client.
-     * @returns {string} String tanggal dan waktu yang diformat (misal: "2025-10-05 07:12:34").
-     */
-    function getCurrentDateTimeString() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
-        const day = String(now.getDate()).padStart(2, '0');
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    }
-
+    function getCurrentDateTimeString() { const now = new Date(); const year = now.getFullYear(); const month = String(now.getMonth() + 1).padStart(2, '0'); const day = String(now.getDate()).padStart(2, '0'); const hours = String(now.getHours()).padStart(2, '0'); const minutes = String(now.getMinutes()).padStart(2, '0'); const seconds = String(now.getSeconds()).padStart(2, '0'); return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; }
     function populateToolsMenu() { if (!elements.toolsMenu) return; elements.toolsMenu.innerHTML = ''; slashCommands.forEach(cmd => { const menuItem = document.createElement('div'); menuItem.classList.add('suggestion-item-slash'); menuItem.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; menuItem.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); elements.questionInput.focus(); }); elements.toolsMenu.appendChild(menuItem); }); }
     elements.toolsBtn.addEventListener('click', (event) => { event.stopPropagation(); const isActive = elements.toolsBtn.classList.contains('active'); elements.suggestionBox.classList.remove('visible'); if (!isActive) { elements.toolsMenu.classList.add('visible'); elements.toolsBtn.classList.add('active'); } else { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
     document.addEventListener('click', (event) => { if (elements.toolsMenu && !elements.toolsMenu.contains(event.target) && !elements.toolsBtn.contains(event.target)) { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
@@ -1885,7 +1969,7 @@ const uiStrings = {
     function updateConnectionStatus() { if (navigator.onLine) { elements.statusDot.classList.remove('offline'); elements.statusDot.classList.add('online'); elements.statusLabel.innerText = uiStrings[currentLanguage].onlineStatus; } else { elements.statusDot.classList.remove('online'); elements.statusDot.classList.add('offline'); elements.statusLabel.innerText = uiStrings[currentLanguage].offlineStatus; } }
     function updateUI() { const lang = uiStrings[currentLanguage]; elements.infoText.innerText = lang.infoText; updateSettingsUI(); updateDynamicPlaceholder(); updateConnectionStatus(); }
     function updateDynamicPlaceholder() { const placeholders = uiStrings[currentLanguage].placeholderMessages; const randomIndex = Math.floor(Math.random() * placeholders.length); elements.questionInput.placeholder = placeholders[randomIndex]; }
-    function updateSettingsUI() { const lang = uiStrings[currentLanguage]; if (!lang) return; elements.settingsHeaderTitle.innerText = lang.settingsHeaderTitle; elements.settingsAppearanceTitle.innerText = lang.settingsAppearanceTitle; elements.settingsThemeText.innerText = lang.settingsThemeText; elements.themeLightOption.innerText = lang.themeLightOption; elements.themeDarkOption.innerText = lang.themeDarkOption; elements.settingsAITitle.innerText = lang.settingsAITitle; elements.settingsPersonaText.innerText = lang.settingsPersonaText; elements.personaFormalOption.innerText = lang.personaFormalOption; elements.personaDefaultOption.innerText = lang.personaDefaultOption; elements.personaCreativeOption.innerText = lang.personaCreativeOption; elements.settingsAboutTitle.innerText = lang.settingsAboutTitle; elements.settingsVersionText.innerText = lang.settingsVersionText; elements.settingsAuthorText.innerText = lang.settingsAuthorText; elements.githubLink.innerText = lang.githubLink; elements.licenseLink.innerText = lang.licenseLink; elements.settingsApiTitle.innerText = lang.settingsApiTitle; elements.settingsApiText.innerText = lang.settingsApiText; }
+    function updateSettingsUI() { const lang = uiStrings[currentLanguage]; if (!lang) return; elements.settingsHeaderTitle.innerText = lang.settingsHeaderTitle; elements.settingsAppearanceTitle.innerText = lang.settingsAppearanceTitle; elements.settingsThemeText.innerText = lang.settingsThemeText; elements.themeLightOption.innerText = lang.themeLightOption; elements.themeDarkOption.innerText = lang.themeDarkOption; elements.settingsAITitle.innerText = lang.settingsAITitle; elements.settingsPersonaText.innerText = lang.settingsPersonaText; elements.personaFormalOption.innerText = lang.personaFormalOption; elements.personaDefaultOption.innerText = lang.personaDefaultOption; elements.personaCreativeOption.innerText = lang.personaCreativeOption; elements.settingsAboutTitle.innerText = lang.settingsAboutTitle; elements.settingsVersionText.innerText = lang.settingsVersionText; elements.settingsAuthorText.innerText = lang.settingsAuthorText; elements.githubLink.innerText = lang.githubLink; elements.licenseLink.innerText = lang.licenseLink; elements.settingsApiTitle.innerText = lang.settingsApiTitle; elements.settingsApiText.innerText = lang.settingsApiText; document.title = lang.pageTitle; elements.saveApiBtn.innerText = lang.saveApiKeyBtn; elements.apiKeyInput.placeholder = lang.apiKeyPlaceholder; elements.termsLink.innerText = lang.termsLink; elements.moreOptionsBtn.innerText = lang.moreOptionsBtn; }
     function setTheme(theme) { elements.body.classList.remove('light-theme', 'dark-theme'); if (theme === 'light') { elements.body.classList.add('light-theme'); } else { elements.body.classList.add('dark-theme'); } localStorage.setItem('miraiTheme', theme); elements.themeSelect.value = theme; }
     function showSettingsPage() { elements.settingsPage.classList.add('active'); elements.body.classList.remove('chat-active'); }
     function hideSettingsPage() { elements.settingsPage.classList.remove('active'); if (chatHistory.length > 1) { elements.body.classList.add('chat-active'); } }
@@ -1896,95 +1980,7 @@ const uiStrings = {
     function typeWriterEffect(element, text, speed = 0.5) { const parsedHtml = marked.parse(text); let i = 0; element.innerHTML = ''; const tempElement = document.createElement('div'); tempElement.innerHTML = parsedHtml; const textToType = tempElement.innerText; return new Promise(resolve => { function type() { if (i < textToType.length) { element.innerHTML += textToType.charAt(i); i++; setTimeout(type, speed); } else { element.innerHTML = parsedHtml; resolve(); } } type(); }); }
     function showLoading() { const loadingBubble = document.createElement('div'); loadingBubble.classList.add('chat-bubble', 'ai-bubble', 'typing-indicator', 'fade-in'); loadingBubble.innerHTML = '<span></span><span></span><span></span>'; elements.chatMessages.appendChild(loadingBubble); return loadingBubble; }
     function stopAI() { if (abortController) { abortController.abort(); console.log("Response aborted."); elements.stopBtn.style.display = 'none'; elements.sendBtn.style.display = 'block'; elements.clearBtnContainer.style.display = 'block'; const loadingBubble = document.querySelector('.typing-indicator'); if (loadingBubble) loadingBubble.remove(); } }
-    function handleSlashCommand(question) {
-        if (!question.startsWith('/')) {
-            return null;
-        }
-        const parts = question.split(' ');
-        const command = parts[0].toLowerCase();
-        switch (command) {
-            case '/translate':
-                {
-                    const toIndex = parts.indexOf('to');
-                    if (toIndex === -1 || toIndex < 2) {
-                        return "Error: Invalid format. Use /translate [text] to [language]";
-                    }
-                    const textToTranslate = parts.slice(1, toIndex).join(' ');
-                    const targetLanguage = parts.slice(toIndex + 1).join(' ');
-                    return `Translate the following text to ${targetLanguage}: "${textToTranslate}"`;
-                }
-            case '/summarize':
-                {
-                    const textToSummarize = parts.slice(1).join(' ');
-                    if (textToSummarize.length < 20) {
-                        return "Error: Please provide more text to summarize.";
-                    }
-                    return `Provide a concise summary of the following text: "${textToSummarize}"`;
-                }
-            case '/rephrase':
-                {
-                    const asIndex = parts.indexOf('as');
-                    if (asIndex === -1 || asIndex < 2) {
-                        return "Error: Invalid format. Use /rephrase [text] as [tone]";
-                    }
-                    const textToRephrase = parts.slice(1, asIndex).join(' ');
-                    const tone = parts.slice(asIndex + 1).join(' ');
-                    return `Rephrase the following text in a ${tone} tone: "${textToRephrase}"`;
-                }
-            case '/ideate':
-                {
-                    const forIndex = parts.indexOf('for');
-                    if (forIndex === -1 || forIndex < 3 || isNaN(parseInt(parts[1]))) {
-                        return "Error: Invalid format. Use /ideate [number] ideas for [topic]";
-                    }
-                    const number = parts[1];
-                    const topic = parts.slice(forIndex + 1).join(' ');
-                    return `Generate ${number} ideas for ${topic}. Present them as a numbered list.`;
-                }
-            case '/fix':
-                {
-                    const textToFix = parts.slice(1).join(' ');
-                    if (!textToFix) {
-                        return "Error: Please provide text to fix. Use /fix [text]";
-                    }
-                    return `Proofread and correct any grammatical errors and spelling mistakes in the following text. Only provide the corrected text: "${textToFix}"`;
-                }
-            case '/explain':
-                {
-                    const likeIndex = parts.findIndex(part => part.toLowerCase() === "like");
-                    if (likeIndex === -1 || likeIndex < 2) {
-                        return "Error: Invalid format. Use /explain [concept] like I'm [audience]";
-                    }
-                    const concept = parts.slice(1, likeIndex).join(' ');
-                    const audienceIndex = parts.indexOf("I'm") > -1 ? parts.indexOf("I'm") : parts.indexOf("i'm");
-                    if (audienceIndex === -1 || audienceIndex <= likeIndex) {
-                        return "Error: Invalid audience format. Use \"like I'm ...\"";
-                    }
-                    const audience = parts.slice(audienceIndex + 1).join(' ');
-                    return `Explain the concept of "${concept}" as if you were talking to a ${audience}.`;
-                }
-            case '/code':
-                {
-                    const toIndex = parts.indexOf('to');
-                    if (toIndex === -1 || toIndex < 3) {
-                        return "Error: Invalid format. Use /code a [language] function to [description]";
-                    }
-                    const language = parts[2];
-                    const description = parts.slice(toIndex + 1).join(' ');
-                    return `Write a code snippet in ${language} for the following task: "${description}". Provide only the code, enclosed in a markdown code block.`;
-                }
-            case '/search':
-                {
-                    const query = parts.slice(1).join(' ');
-                    if (!query) {
-                        return "Error: Please provide a search query. Use /search [query]";
-                    }
-                    return `Search the web for information about "${query}". Provide a concise summary and, if possible, include relevant links.`;
-                }
-            default:
-                return `Error: Unknown command "${command}". Try /translate or /summarize.`;
-        }
-    }
+    function handleSlashCommand(question) { if (!question.startsWith('/')) { return null; } const parts = question.split(' '); const command = parts[0].toLowerCase(); switch (command) { case '/translate': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 2) { return "Error: Invalid format. Use /translate [text] to [language]"; } const textToTranslate = parts.slice(1, toIndex).join(' '); const targetLanguage = parts.slice(toIndex + 1).join(' '); return `Translate the following text to ${targetLanguage}: "${textToTranslate}"`; } case '/summarize': { const textToSummarize = parts.slice(1).join(' '); if (textToSummarize.length < 20) { return "Error: Please provide more text to summarize."; } return `Provide a concise summary of the following text: "${textToSummarize}"`; } case '/rephrase': { const asIndex = parts.indexOf('as'); if (asIndex === -1 || asIndex < 2) { return "Error: Invalid format. Use /rephrase [text] as [tone]"; } const textToRephrase = parts.slice(1, asIndex).join(' '); const tone = parts.slice(asIndex + 1).join(' '); return `Rephrase the following text in a ${tone} tone: "${textToRephrase}"`; } case '/ideate': { const forIndex = parts.indexOf('for'); if (forIndex === -1 || forIndex < 3 || isNaN(parseInt(parts[1]))) { return "Error: Invalid format. Use /ideate [number] ideas for [topic]"; } const number = parts[1]; const topic = parts.slice(forIndex + 1).join(' '); return `Generate ${number} ideas for ${topic}. Present them as a numbered list.`; } case '/fix': { const textToFix = parts.slice(1).join(' '); if (!textToFix) { return "Error: Please provide text to fix. Use /fix [text]"; } return `Proofread and correct any grammatical errors and spelling mistakes in the following text. Only provide the corrected text: "${textToFix}"`; } case '/explain': { const likeIndex = parts.findIndex(part => part.toLowerCase() === "like"); if (likeIndex === -1 || likeIndex < 2) { return "Error: Invalid format. Use /explain [concept] like I'm [audience]"; } const concept = parts.slice(1, likeIndex).join(' '); const audienceIndex = parts.indexOf("I'm") > -1 ? parts.indexOf("I'm") : parts.indexOf("i'm"); if (audienceIndex === -1 || audienceIndex <= likeIndex) { return "Error: Invalid audience format. Use \"like I'm ...\""; } const audience = parts.slice(audienceIndex + 1).join(' '); return `Explain the concept of "${concept}" as if you were talking to a ${audience}.`; } case '/code': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 3) { return "Error: Invalid format. Use /code a [language] function to [description]"; } const language = parts[2]; const description = parts.slice(toIndex + 1).join(' '); return `Write a code snippet in ${language} for the following task: "${description}". Provide only the code, enclosed in a markdown code block.`; } case '/search': { const query = parts.slice(1).join(' '); if (!query) { return "Error: Please provide a search query. Use /search [query]"; } return `Search the web for information about "${query}". Provide a concise summary and, if possible, include relevant links.`; } default: return `Error: Unknown command "${command}". Try /translate or /summarize.`; } }
     function createAiBubble(text, useInnerHTML = true) { const bubble = document.createElement('div'); bubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in'); bubble.setAttribute('data-raw-text', text); if (useInnerHTML) { bubble.innerHTML = `${marked.parse(text)}<i class="fas fa-copy copy-btn" onclick="copyToClipboard(this)"></i>`; } return bubble; }
     function copyToClipboard(element) { const aiBubble = element.closest('.ai-bubble'); const textToCopy = aiBubble.getAttribute('data-raw-text'); const formattedText = `${textToCopy}${uiStrings[currentLanguage].copySuffix}`; const tempInput = document.createElement('textarea'); tempInput.value = formattedText; document.body.appendChild(tempInput); tempInput.select(); tempInput.setSelectionRange(0, 99999); document.execCommand('copy'); document.body.removeChild(tempInput); showCopyFeedback(uiStrings[currentLanguage].copyFeedback); }
     function showCopyFeedback(message) { const feedbackDiv = document.createElement('div'); feedbackDiv.innerText = message; feedbackDiv.style.cssText = ` position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background-color: #444; color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 14px; z-index: 200; opacity: 0; transition: opacity 0.5s ease-in-out; `; document.body.appendChild(feedbackDiv); setTimeout(() => { feedbackDiv.style.opacity = 1; }, 10); setTimeout(() => { feedbackDiv.style.opacity = 0; setTimeout(() => feedbackDiv.remove(), 500); }, 2000); }
