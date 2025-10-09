@@ -1398,15 +1398,13 @@ body.light-theme #confirmBtnNo:hover {
             </div>
             <button id="saveApiBtn" class="settings-credits-btn"></button>
         </div>
-
-            <a href="pages/index.html" id="moreOptionsBtn" class="settings-credits-btn"></a>
-
+        
         <h3 id="settingsAboutTitle"></h3>
         <div class="settings-about">
             <p id="settingsAuthorText"></p>
             <p><a href="https://github.com/Allwaysever/MirAI" target="_blank" id="githubLink"></a></p>
-            <p><a href="T&C/index.html" target="_blank"></a></p>
-            <p><a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/LICENSE" id="licenseLink" target="_blank"></a></p>
+            <p><a href="T&C/index.html" target="_blank" id="termsLink">Syarat & Ketentuan</a></p>
+            <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"></a></p>
             <div class="gemini-container">
                <a href="https://deepmind.google/models/gemini/flash/" target="_blank"><img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/20250910_155455.png" alt="Google Gemini 2.5 Flash" class="gemini-logo"></a>
             </div>
@@ -1429,7 +1427,7 @@ body.light-theme #confirmBtnNo:hover {
     let currentApiKey = DEFAULT_API_KEY; 
     const model = 'gemini-2.5-flash';
     const faqDatabase = {
-        "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/Docs/CHANGELOG.md) for changelogs information.",
+        "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information.",
         "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a DiamondStars](https://trakteer.id/Allwaysever)"
     };
     const uiStrings = {
@@ -1478,8 +1476,6 @@ body.light-theme #confirmBtnNo:hover {
             pageTitle: 'MirAI - Asisten AI Pribadi',
             saveApiKeyBtn: 'Simpan Key',
             apiKeyPlaceholder: 'Kosongkan untuk pakai key default',
-            termsLink: 'Syarat & Ketentuan',
-            moreOptionsBtn: 'Opsi Lanjutan',
             slashCmdSearchTitle: 'Cari di Web',
             slashCmdSearchDesc: 'Guna: /search [pertanyaan]',
             slashCmdTranslateTitle: 'Terjemahkan Teks',
@@ -1542,8 +1538,6 @@ body.light-theme #confirmBtnNo:hover {
             pageTitle: 'MirAI - Personal AI Assistant',
             saveApiKeyBtn: 'Save Key',
             apiKeyPlaceholder: 'Leave blank for default key',
-            termsLink: 'Terms & Condition',
-            moreOptionsBtn: 'More Options',
             slashCmdSearchTitle: 'Search the Web',
             slashCmdSearchDesc: 'Usage: /search [your query]',
             slashCmdTranslateTitle: 'Translate Text',
@@ -1606,8 +1600,6 @@ body.light-theme #confirmBtnNo:hover {
             pageTitle: 'MirAI - Personal AI Assistant',
             saveApiKeyBtn: 'Save Key',
             apiKeyPlaceholder: 'Leave blank for default key',
-            termsLink: 'Terms & Condition',
-            moreOptionsBtn: 'More Options',
             slashCmdSearchTitle: 'Search the Web',
             slashCmdSearchDesc: 'Usage: /search [your query]',
             slashCmdTranslateTitle: 'Translate Text',
@@ -1670,8 +1662,6 @@ body.light-theme #confirmBtnNo:hover {
             pageTitle: 'MirAI - パーソナルAIアシスタント',
             saveApiKeyBtn: 'キーを保存',
             apiKeyPlaceholder: 'デフォルトキーは空白のまま',
-            termsLink: '利用規約',
-            moreOptionsBtn: '詳細オプション',
             slashCmdSearchTitle: 'ウェブで検索',
             slashCmdSearchDesc: '使い方: /search [検索クエリ]',
             slashCmdTranslateTitle: 'テキストを翻訳',
@@ -1886,7 +1876,7 @@ body.light-theme #confirmBtnNo:hover {
     function updateConnectionStatus() { if (navigator.onLine) { elements.statusDot.classList.remove('offline'); elements.statusDot.classList.add('online'); elements.statusLabel.innerText = uiStrings[currentLanguage].onlineStatus; } else { elements.statusDot.classList.remove('online'); elements.statusDot.classList.add('offline'); elements.statusLabel.innerText = uiStrings[currentLanguage].offlineStatus; } }
     function updateUI() { const lang = uiStrings[currentLanguage]; elements.infoText.innerText = lang.infoText; updateSettingsUI(); updateDynamicPlaceholder(); updateConnectionStatus(); }
     function updateDynamicPlaceholder() { const placeholders = uiStrings[currentLanguage].placeholderMessages; const randomIndex = Math.floor(Math.random() * placeholders.length); elements.questionInput.placeholder = placeholders[randomIndex]; }
-    function updateSettingsUI() { const lang = uiStrings[currentLanguage]; if (!lang) return; elements.settingsHeaderTitle.innerText = lang.settingsHeaderTitle; elements.settingsAppearanceTitle.innerText = lang.settingsAppearanceTitle; elements.settingsThemeText.innerText = lang.settingsThemeText; elements.themeLightOption.innerText = lang.themeLightOption; elements.themeDarkOption.innerText = lang.themeDarkOption; elements.settingsAITitle.innerText = lang.settingsAITitle; elements.settingsPersonaText.innerText = lang.settingsPersonaText; elements.personaFormalOption.innerText = lang.personaFormalOption; elements.personaDefaultOption.innerText = lang.personaDefaultOption; elements.personaCreativeOption.innerText = lang.personaCreativeOption; elements.settingsAboutTitle.innerText = lang.settingsAboutTitle; elements.settingsVersionText.innerText = lang.settingsVersionText; elements.settingsAuthorText.innerText = lang.settingsAuthorText; elements.githubLink.innerText = lang.githubLink; elements.licenseLink.innerText = lang.licenseLink; elements.settingsApiTitle.innerText = lang.settingsApiTitle; elements.settingsApiText.innerText = lang.settingsApiText; document.title = lang.pageTitle; elements.saveApiBtn.innerText = lang.saveApiKeyBtn; elements.apiKeyInput.placeholder = lang.apiKeyPlaceholder; elements.termsLink.innerText = lang.termsLink; elements.moreOptionsBtn.innerText = lang.moreOptionsBtn; }
+    function updateSettingsUI() { const lang = uiStrings[currentLanguage]; if (!lang) return; elements.settingsHeaderTitle.innerText = lang.settingsHeaderTitle; elements.settingsAppearanceTitle.innerText = lang.settingsAppearanceTitle; elements.settingsThemeText.innerText = lang.settingsThemeText; elements.themeLightOption.innerText = lang.themeLightOption; elements.themeDarkOption.innerText = lang.themeDarkOption; elements.settingsAITitle.innerText = lang.settingsAITitle; elements.settingsPersonaText.innerText = lang.settingsPersonaText; elements.personaFormalOption.innerText = lang.personaFormalOption; elements.personaDefaultOption.innerText = lang.personaDefaultOption; elements.personaCreativeOption.innerText = lang.personaCreativeOption; elements.settingsAboutTitle.innerText = lang.settingsAboutTitle; elements.settingsVersionText.innerText = lang.settingsVersionText; elements.settingsAuthorText.innerText = lang.settingsAuthorText; elements.githubLink.innerText = lang.githubLink; elements.licenseLink.innerText = lang.licenseLink; elements.settingsApiTitle.innerText = lang.settingsApiTitle; elements.settingsApiText.innerText = lang.settingsApiText; document.title = lang.pageTitle; elements.saveApiBtn.innerText = lang.saveApiKeyBtn; elements.apiKeyInput.placeholder = lang.apiKeyPlaceholder; }
     function setTheme(theme) { elements.body.classList.remove('light-theme', 'dark-theme'); if (theme === 'light') { elements.body.classList.add('light-theme'); } else { elements.body.classList.add('dark-theme'); } localStorage.setItem('miraiTheme', theme); elements.themeSelect.value = theme; }
     function showSettingsPage() { elements.settingsPage.classList.add('active'); elements.body.classList.remove('chat-active'); }
     function hideSettingsPage() { elements.settingsPage.classList.remove('active'); if (chatHistory.length > 1) { elements.body.classList.add('chat-active'); } }
@@ -1908,7 +1898,7 @@ body.light-theme #confirmBtnNo:hover {
     document.addEventListener('DOMContentLoaded', () => {
         // [FIX] Isi variabel `elements` sekarang, setelah HTML dijamin siap
         elements = { 
-            questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), settingsBtnContainer: document.getElementById('settingsBtnContainer'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), splashTitle: document.getElementById('splashTitle'), splashStatus: document.getElementById('splashStatus'), splashText2: document.getElementById('splashText2'), splashLoader: document.getElementById('splash-loader'), retryButton: document.getElementById('retry-button'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu'), customConfirmOverlay: document.getElementById('customConfirmOverlay'), customConfirmMessage: document.getElementById('customConfirmMessage'), confirmBtnYes: document.getElementById('confirmBtnYes'), confirmBtnNo: document.getElementById('confirmBtnNo'), termsLink: document.querySelector('a[href="T&C/index.html"]'), moreOptionsBtn: document.getElementById('moreOptionsBtn') 
+            questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu'), customConfirmOverlay: document.getElementById('customConfirmOverlay'), customConfirmMessage: document.getElementById('customConfirmMessage'), confirmBtnYes: document.getElementById('confirmBtnYes'), confirmBtnNo: document.getElementById('confirmBtnNo'), termsLink: document.getElementById('termsLink')
         };
 
         // Pasang semua event listener setelah `elements` diisi
