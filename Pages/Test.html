@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>Halaman Tes Debug</h1>
+    <p id="test-element" style="border: 2px solid red; padding: 10px;">Teks ini seharusnya berubah.</p>
+    <hr>
+    <h2>Log Aktivitas:</h2>
+
+    <script>
+        // Kita coba tangkap error lagi untuk jaga-jaga
+        window.onerror = function(message, source, lineno, colno, error) {
+            alert('ERROR DI FILE TES!\n\n' + message + '\nBaris: ' + lineno);
+            return true;
+        };
+
+        // Fungsi untuk menulis log ke layar, biar kelihatan di HP
+        function logToScreen(msg) {
+            const logContainer = document.body;
+            const logDiv = document.createElement('div');
+            logDiv.style.borderBottom = '1px solid #ccc';
+            logDiv.style.padding = '5px';
+            logDiv.textContent = `[LOG] ${new Date().toLocaleTimeString()}: ${msg}`;
+            logContainer.appendChild(logDiv);
+        }
+
+        alert('Langkah 1: Skrip mulai berjalan...');
+        logToScreen('Skrip mulai berjalan...');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            alert('Langkah 2: Event DOMContentLoaded terpicu!');
+            logToScreen('Event DOMContentLoaded terpicu! Artinya HTML sudah selesai dimuat.');
+
+            const el = document.getElementById('test-element');
+
+            if (el) {
+                alert('Langkah 3: Elemen DITEMUKAN! Mengubah teks...');
+                logToScreen('HASIL: Elemen DITEMUKAN! Teks akan diubah.');
+                el.textContent = 'BERHASIL DIUBAH! Artinya, tidak ada masalah dengan DOMContentLoaded.';
+                el.style.color = 'green';
+                el.style.fontWeight = 'bold';
+                el.style.borderColor = 'green';
+            } else {
+                alert('Langkah 3: Elemen GAGAL ditemukan (null)! Ini aneh.');
+                logToScreen('HASIL: Elemen GAGAL ditemukan (null)! Ini adalah sumber masalahnya.');
+            }
+        });
+    </script>
+</body>
+</html>
