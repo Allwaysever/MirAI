@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusat Bantuan MirAI</title>
+    <link rel="icon" type="image/png" href="../Assets/20250905_141718.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #1B1C1E;
+            --text-dark: #e9e9e9;
+            --primary-dark: #ffce00;
+            --surface-dark: #0f0f0f;
+            --border-dark: #4B4F50;
+
+            --bg-light: #e9e9e9;
+            --text-light: #444;
+            --primary-light: #222;
+            --surface-light: #ffffff;
+            --border-light: #b3b3b3;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        body.light-theme {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        body.light-theme .header {
+            border-bottom-color: var(--border-light);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin: 0;
+        }
+        
+        .home-btn {
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            font-size: 1.5em;
+            cursor: pointer;
+            margin-right: 15px;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+        
+        body.light-theme .home-btn {
+            color: var(--text-light);
+        }
+        
+        .home-btn:hover {
+            color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        body.light-theme .home-btn:hover {
+            color: var(--primary-light);
+        }
+
+        .theme-switcher {
+            background-color: var(--surface-dark);
+            color: var(--text-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme .theme-switcher {
+            background-color: var(--surface-light);
+            color: var(--text-light);
+            border-color: var(--border-light);
+        }
+
+        .theme-switcher:hover {
+            border-color: var(--primary-dark);
+            color: var(--primary-dark);
+        }
+        
+        body.light-theme .theme-switcher:hover {
+            border-color: var(--primary-light);
+            color: var(--primary-light);
+        }
+
+        .search-container {
+            margin: 30px 0;
+            position: relative;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            font-size: 1em;
+            border-radius: 25px;
+            border: 1px solid var(--border-dark);
+            background-color: var(--surface-dark);
+            color: var(--text-dark);
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--primary-dark);
+            box-shadow: 0 0 10px rgba(255, 206, 0, 0.2);
+        }
+        
+        .search-container .fa-search {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        body.light-theme #searchInput {
+            background-color: var(--surface-light);
+            color: var(--text-light);
+            border-color: var(--border-light);
+        }
+        
+        body.light-theme #searchInput:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #noResults {
+            text-align: center;
+            padding: 40px;
+            display: none;
+            font-size: 1.2em;
+            color: #888;
+        }
+        
+        .accordion-item {
+            background-color: var(--surface-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: background-color 0.4s ease;
+        }
+        
+        body.light-theme .accordion-item {
+            background-color: var(--surface-light);
+            border-color: var(--border-light);
+        }
+        
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        body.light-theme .accordion-header:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .accordion-header h2 {
+            margin: 0;
+            font-size: 1.3em;
+        }
+
+        .accordion-header .icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .accordion-item.active .accordion-header .icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            padding: 0 20px;
+        }
+        
+        .accordion-content .content-inner {
+            padding-bottom: 20px;
+            line-height: 1.7;
+            border-top: 1px solid var(--border-dark);
+            padding-top: 20px;
+        }
+        
+        body.light-theme .accordion-content .content-inner {
+            border-top-color: var(--border-light);
+        }
+
+        .accordion-content h3 {
+            color: var(--primary-dark);
+            margin-top: 0;
+        }
+        
+        body.light-theme .accordion-content h3 {
+            color: var(--primary-light);
+        }
+
+        .accordion-content p, .accordion-content ul {
+            margin-bottom: 15px;
+        }
+
+        .accordion-content ul {
+            padding-left: 20px;
+        }
+        
+        .accordion-content code {
+            background-color: rgba(0,0,0,0.2);
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body.light-theme .accordion-content code {
+            background-color: rgba(0,0,0,0.08);
+        }
+
+        .accordion-content a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        body.light-theme .accordion-content a {
+            color: #0056b3;
+        }
+
+        .accordion-content a:hover {
+            text-decoration: underline;
+        }
+
+        .highlight {
+            background-color: var(--primary-dark);
+            color: var(--bg-dark);
+            padding: 0 2px;
+            border-radius: 3px;
+        }
+
+        body.light-theme .highlight {
+            background-color: #ffde4d;
+            color: var(--text-light);
+        }
+        
+        /* === POPUP STYLES START === */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-container {
+            background-color: var(--bg-dark);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid var(--border-dark);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        
+        .popup-overlay.show .popup-container {
+            transform: scale(1);
+        }
+
+        body.light-theme .popup-container {
+            background-color: var(--surface-light);
+            border-color: var(--border-light);
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+        
+        body.light-theme .popup-header {
+            border-bottom-color: var(--border-light);
+        }
+
+        .popup-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+            color: var(--primary-dark);
+        }
+        
+        body.light-theme .popup-header h2 {
+            color: var(--primary-light);
+        }
+
+        .popup-close {
+            background: none;
+            border: none;
+            font-size: 2em;
+            line-height: 1;
+            cursor: pointer;
+            color: var(--text-dark);
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        body.light-theme .popup-close {
+            color: var(--text-light);
+        }
+        
+        .popup-close:hover {
+            color: #ff4d4d;
+            transform: rotate(90deg);
+        }
+
+        .popup-body {
+            line-height: 1.6;
+        }
+        /* === POPUP STYLES END === */
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <button class="home-btn" onclick="window.history.back()" title="Kembali">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1>Pusat Bantuan</h1>
+            </div>
+            <button class="theme-switcher" id="themeSwitcher" title="Ganti Tema">
+                <i class="fas fa-sun"></i>
+            </button>
+        </header>
+
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Cari topik atau pertanyaan...">
+        </div>
+
+        <div id="noResults">
+            <p>Tidak ada hasil yang ditemukan untuk pencarian Anda.</p>
+        </div>
+
+        <div id="accordionContainer">
+            <div class="accordion-item" data-title="Frequently Asked Questions (FAQ)">
+                <div class="accordion-header">
+                    <h2><i class="fas fa-question-circle" style="margin-right: 10px;"></i>FAQ</h2>
+                    <i class="fas fa-chevron-down icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <h3>T: Apa itu MirAI?</h3>
+                        <p><strong>J:</strong> MirAI adalah asisten chat AI yang dibuat oleh developer <strong>Allwaysever</strong>. Tujuannya adalah menjadi teman ngobrol yang menyenangkan dan alat ringan untuk tugas sehari-hari seperti mencari ide atau menerjemahkan teks.</p>
+                        
+                        <h3>T: Apakah jawaban MirAI selalu 100% akurat?</h3>
+                        <p><strong>J:</strong> Tidak. Sebagaimana yang tertera di aplikasi, "MirAI bisa memberikan jawaban yang tidak akurat. Jadi, mohon cek ulang responsnya." MirAI adalah alat bantu, bukan sumber kebenaran absolut. Selalu verifikasi informasi penting.</p>
+                        
+                        <h3>T: Bagaimana cara mengubah tema, bahasa, atau kepribadian AI?</h3>
+                        <p><strong>J:</strong> Klik <strong>ikon menu (tiga garis)</strong> di pojok kiri atas untuk membuka halaman <strong>Pengaturan</strong>. Di sana Anda dapat mengubah tema, bahasa, dan persona AI.</p>
+                        
+                        <h3>T: Perintah garis miring (<code>/</code>) apa saja yang tersedia?</h3>
+                        <p><strong>J:</strong> Saat ini, MirAI mendukung perintah berikut:</p>
+                        <ul>
+                            <li><code>/search</code>: Untuk mencari informasi di web.</li>
+                            <li><code>/translate</code>: Untuk menerjemahkan teks.</li>
+                            <li><code>/summarize</code>: Untuk meringkas teks panjang.</li>
+                            <li><code>/rephrase</code>: Untuk mengubah gaya penulisan teks.</li>
+                            <li><code>/ideate</code>: Untuk mencari ide.</li>
+                            <li><code>/fix</code>: Untuk memperbaiki tata bahasa.</li>
+                            <li><code>/explain</code>: Untuk menjelaskan sebuah konsep.</li>
+                            <li><code>/code</code>: Untuk menulis potongan kode.</li>
+                        </ul>
+                        <p>Ketik <code>/</code> di kotak input untuk melihat deskripsi lengkapnya.</p>
+                        
+                        <h3>T: Apakah saya memerlukan Kunci API untuk menggunakan MirAI?</h3>
+                        <p><strong>J:</strong> Tidak. MirAI sudah menyediakan Kunci API default. Namun, untuk penggunaan yang lebih intensif, disarankan untuk menggunakan Kunci API Google pribadi Anda sendiri, yang dapat dimasukkan di halaman Pengaturan.</p>
+                    </div>
+                </div>
+            </div>
+
+<div class="accordion-item" data-title="Troubleshooting (Penyelesaian Masalah)">
+                <div class="accordion-header">
+                    <h2><i class="fas fa-tools" style="margin-right: 10px;"></i>Penyelesaian Masalah</h2>
+                    <i class="fas fa-chevron-down icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <h3><i class="fas fa-wifi" style="margin-right: 8px;"></i>Masalah Koneksi & Error API</h3>
+                        
+                        <h4>Aplikasi Terjebak di Layar "Internet Terputus"</h4>
+                        <p>Aplikasi ini membutuhkan koneksi internet aktif untuk berfungsi. Jika Anda terjebak di layar ini, coba langkah-langkah berikut:</p>
+                        <ol>
+                            <li><strong>Periksa Koneksi Dasar:</strong> Pastikan WiFi atau data seluler Anda aktif dan berfungsi dengan membuka situs web lain.</li>
+                            <li><strong>Refresh Halaman:</strong> Coba muat ulang halaman dengan menekan tombol "Coba Lagi" atau refresh browser Anda.</li>
+                            <li><strong>Nonaktifkan VPN:</strong> Beberapa VPN dapat mengganggu koneksi ke server AI. Coba matikan sementara untuk melihat apakah masalah teratasi.</li>
+                        </ol>
+
+                        <h4>Pesan Error: "Terjadi kesalahan. Silakan muat ulang..."</h4>
+                        <p>Ini adalah pesan error umum yang bisa disebabkan oleh beberapa hal. Mari kita telusuri penyebabnya:</p>
+                        <ul>
+                            <li><strong>Batas Penggunaan Kunci API Default:</strong> Ini penyebab paling umum. Kunci API yang disediakan bersama aplikasi digunakan oleh semua pengguna. Jika lalu lintas sedang tinggi, kuota gratisnya bisa habis.
+                                <ul>
+                                    <li><strong>Solusi Terbaik:</strong> Gunakan <strong>Kunci API Google</strong> pribadi Anda. Anda bisa mendapatkannya secara gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>. Setelah mendapatkannya, masukkan di menu <strong>Pengaturan > Kunci API Google</strong>.</li>
+                                </ul>
+                            </li>
+                             <li><strong>Kunci API Pribadi Anda Tidak Valid:</strong> Jika Anda sudah memasukkan kunci pribadi tetapi masih mendapatkan error, pastikan Anda menyalin seluruh kunci tanpa ada spasi atau karakter yang tertinggal.</li>
+                             <li><strong>Masalah Server Google:</strong> Sangat jarang terjadi, tetapi mungkin saja server Google Gemini sedang mengalami gangguan. Anda bisa menunggu beberapa saat lalu mencobanya kembali.</li>
+                        </ul>
+                        <hr style="border-color: var(--border-dark); margin: 20px 0;">
+
+                        <h3><i class="fas fa-desktop" style="margin-right: 8px;"></i>Masalah Tampilan & Fungsionalitas</h3>
+
+                        <h4>Tampilan Aplikasi Terlihat Aneh atau Berantakan</h4>
+                        <p>Jika tombol-tombol tidak pada tempatnya atau gaya visual terlihat rusak, ini biasanya disebabkan oleh file *cache* yang usang di browser Anda.</p>
+                        <ul>
+                            <li><strong>Solusi:</strong> Lakukan <strong>Hard Refresh</strong>. Ini memaksa browser untuk mengunduh ulang semua file (CSS, JavaScript) dari server.
+                                <ul>
+                                    <li><strong>Windows/Linux:</strong> Tekan `Ctrl + Shift + R`</li>
+                                    <li><strong>Mac:</strong> Tekan `Cmd + Shift + R`</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h4>Pengaturan (Tema, Persona, Bahasa) Tidak Tersimpan</h4>
+                        <p>MirAI menggunakan penyimpanan lokal browser (*localStorage*) untuk mengingat preferensi Anda. Jika pengaturan Anda kembali ke default setiap kali Anda membuka aplikasi, kemungkinan besar:</p>
+                        <ul>
+                            <li><strong>Mode Penyamaran/Pribadi:</strong> Anda menjalankan MirAI dalam mode *Incognito* (Chrome) atau *Private* (Firefox), yang tidak menyimpan data sesi.</li>
+                            <li><strong>Pengaturan Browser:</strong> Browser Anda diatur untuk menghapus data situs saat ditutup. Periksa pengaturan privasi browser Anda dan izinkan MirAI untuk menyimpan data.</li>
+                        </ul>
+                        
+                        <h4>Jawaban dari AI Tidak Terformat dengan Benar (Tidak ada daftar, tebal, dll.)</h4>
+                        <p>MirAI menggunakan library `marked.min.js` untuk mengubah format Markdown dari AI (seperti `**teks tebal**` atau `- daftar`) menjadi HTML. Jika format tidak muncul, mungkin prosesnya gagal. Coba refresh halaman, karena ini biasanya masalah sementara.</p>
+                        <hr style="border-color: var(--border-dark); margin: 20px 0;">
+
+                        <h3><i class="fas fa-cogs" style="margin-right: 8px;"></i>Masalah Penggunaan Fitur</h3>
+
+                        <h4>Riwayat Obrolan Saya Hilang Setelah Refresh!</h4>
+                        <p><strong>Ini bukan bug, tetapi fitur saat ini.</strong> Berdasarkan kode `MirAI.html`, riwayat obrolan disimpan sementara di *localStorage*. Namun, logika untuk memuat ulang obrolan setelah menutup tab belum diimplementasikan secara penuh, sehingga obrolan akan direset untuk memastikan sesi baru yang bersih. Untuk membersihkan obrolan secara manual selama sesi, gunakan tombol ikon tempat sampah.</p>
+                        
+                        <h4>Perintah <code>/</code> Saya Tidak Berfungsi atau Memberi Hasil Aneh</h4>
+                        <p>Setiap perintah memiliki struktur yang spesifik. Kesalahan paling umum adalah urutan kata. Perhatikan contoh berikut:</p>
+                        <ul>
+                            <li><strong>/translate:</strong>
+                                <ul>
+                                    <li><strong style="color: #4CAF50;">Benar:</strong> <code>/translate selamat pagi to english</code></li>
+                                    <li><strong style="color: #F44336;">Salah:</strong> <code>/translate to english selamat pagi</code></li>
+                                </ul>
+                            </li>
+                            <li><strong>/rephrase:</strong>
+                                <ul>
+                                    <li><strong style="color: #4CAF50;">Benar:</strong> <code>/rephrase kalimat ini as lebih formal</code></li>
+                                    <li><strong style="color: #F44336;">Salah:</strong> <code>/rephrase as lebih formal kalimat ini</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>Ketik <code>/</code> pada kotak input untuk melihat daftar perintah dan deskripsi formatnya.</p>
+
+                        <h4>Jawaban AI Terasa Lambat atau Berhenti di Tengah Jalan</h4>
+                        <p>Ini bisa terjadi karena beberapa alasan:</p>
+                        <ul>
+                            <li><strong>Koneksi Internet Lambat:</strong> Proses komunikasi dengan AI membutuhkan koneksi yang stabil.</li>
+                            <li><strong>Pertanyaan Sangat Kompleks:</strong> AI membutuhkan waktu lebih lama untuk memproses permintaan yang rumit.</li>
+                            <li><strong>Jaringan Terputus saat AI Menjawab:</strong> Jika koneksi Anda terputus saat AI sedang "mengetik" jawabannya, prosesnya akan berhenti. Anda bisa menggunakan tombol <strong>Stop</strong> lalu mencoba lagi.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item" data-title="Contribution Guide (Panduan Kontribusi)">
+                <div class="accordion-header">
+                    <h2><i class="fas fa-hands-helping" style="margin-right: 10px;"></i>Panduan Kontribusi</h2>
+                    <i class="fas fa-chevron-down icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <p>Terima kasih atas minat Anda untuk berkontribusi pada MirAI! Kami sangat menghargai bantuan dari komunitas.</p>
+
+                        <h3>Cara Berkontribusi</h3>
+                        <p>Kami menerima berbagai jenis kontribusi, termasuk tetapi tidak terbatas pada:</p>
+                        <ul>
+                            <li>Melaporkan bug</li>
+                            <li>Mengajukan permintaan fitur baru</li>
+                            <li>Menulis atau meningkatkan dokumentasi</li>
+                            <li>Mengirimkan <em>Pull Request</em> untuk perbaikan kode atau penambahan fitur</li>
+                        </ul>
+
+                        <h3>Melaporkan Bug</h3>
+                        <p>Jika Anda menemukan bug, silakan buat <em>Issue</em> baru di repositori GitHub kami. Pastikan untuk menggunakan templat "Laporan Bug" dan sertakan detail sebanyak mungkin.</p>
+                        
+                        <h3>Menyarankan Fitur</h3>
+                        <p>Gunakan templat "Permintaan Fitur" saat membuat <em>Issue</em> baru. Jelaskan ide Anda sejelas mungkin dan mengapa fitur tersebut akan berguna untuk MirAI.</p>
+
+                        <h3>Pull Request (PR)</h3>
+                        <ol>
+                            <li><em>Fork</em> repositori ini.</li>
+                            <li>Buat <em>branch</em> baru untuk pekerjaan Anda (<code>git checkout -b fitur/fitur-baru-keren</code>).</li>
+                            <li>Lakukan perubahan Anda dan <em>commit</em> pekerjaan Anda dengan pesan yang jelas.</li>
+                            <li><em>Push</em> ke <em>branch</em> Anda (<code>git push origin fitur/fitur-baru-keren</code>).</li>
+                            <li>Buka <em>Pull Request</em> ke <em>branch</em> <code>main</code> kami.</li>
+                        </ol>
+                        
+                        <h3>Standar Kode</h3>
+                        <ul>
+                            <li>Gunakan format kode yang konsisten.</li>
+                            <li>Tulis komentar untuk bagian kode yang kompleks.</li>
+                            <li>Pastikan tidak ada <em>error</em> di konsol browser sebelum mengirimkan PR.</li>
+                        </ul>
+                        <p>Terima kasih telah membantu membuat MirAI menjadi lebih baik!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="welcomePopup" class="popup-overlay">
+        <div class="popup-container">
+            <div class="popup-header">
+                <h2 id="popupTitle"></h2>
+                <button id="popupClose" class="popup-close" title="Tutup">&times;</button>
+            </div>
+            <div class="popup-body" id="popupBody">
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeSwitcher = document.getElementById('themeSwitcher');
+            const body = document.body;
+            const icon = themeSwitcher.querySelector('i');
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
+            if (savedTheme === 'light') {
+                body.classList.add('light-theme');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+
+            // Theme switcher event
+            themeSwitcher.addEventListener('click', () => {
+                body.classList.toggle('light-theme');
+                const isLight = body.classList.contains('light-theme');
+                localStorage.setItem('miraiTheme', isLight ? 'light' : 'dark');
+                
+                if(isLight) {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                } else {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                }
+            });
+
+            // Accordion functionality
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    const content = item.querySelector('.accordion-content');
+                    const wasActive = item.classList.contains('active');
+
+                    // Close all items
+                    accordionItems.forEach(i => {
+                        i.classList.remove('active');
+                        i.querySelector('.accordion-content').style.maxHeight = null;
+                    });
+                    
+                    // Open the clicked one if it wasn't active
+                    if (!wasActive) {
+                        item.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const noResults = document.getElementById('noResults');
+
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase().trim();
+                let resultsFound = false;
+
+                accordionItems.forEach(item => {
+                    const content = item.querySelector('.content-inner');
+                    const title = item.dataset.title.toLowerCase();
+                    const text = content.innerText.toLowerCase();
+
+                    // Remove previous highlights
+                    content.innerHTML = content.innerHTML.replace(/<\/?mark class="highlight">/g, '');
+
+                    if (title.includes(query) || text.includes(query)) {
+                        item.style.display = 'block';
+                        resultsFound = true;
+                        
+                        // Highlight logic
+                        if (query.length > 1) {
+                            const regex = new RegExp(query, 'gi');
+                            content.innerHTML = content.innerHTML.replace(regex, (match) => `<mark class="highlight">${match}</mark>`);
+                        }
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                noResults.style.display = resultsFound ? 'none' : 'block';
+            });
+            
+            // === POPUP SCRIPT START ===
+
+            // 1. UIString Database
+            const UIStrings = {
+                'id': {
+                    title: '💡 Info Penting',
+                    body: 'Kunci API default yang kami sediakan memiliki batas penggunaan. Jika Anda mengalami error, kemungkinan besar kuotanya habis. Untuk pengalaman terbaik, kami sangat menyarankan untuk menggunakan <strong>Kunci API Google pribadi</strong> Anda sendiri di halaman <strong>Pengaturan</strong>.'
+                },
+                'en-US': {
+                    title: '💡 Important Info',
+                    body: 'The default API Key we provide has usage limits. If you encounter errors, its quota is likely depleted. For the best experience, we highly recommend using your own <strong>personal Google API Key</strong> in the <strong>Settings</strong> page.'
+                },
+                'ja': {
+                    title: '💡 重要なお知らせ',
+                    body: '提供されているデフォルトのAPIキーには使用制限があります。エラーが発生した場合、そのクォータが上限に達した可能性があります。最良の体験を得るために、<strong>設定</strong>ページでご自身の<strong>個人用Google APIキー</strong>を使用することを強くお勧めします。'
+                }
+            };
+            
+            // 2. Popup Initialization
+            const popup = document.getElementById('welcomePopup');
+            const closeButton = document.getElementById('popupClose');
+            const popupTitle = document.getElementById('popupTitle');
+            const popupBody = document.getElementById('popupBody');
+
+            function showPopup() {
+                // Determine language, default to 'id'
+                // This assumes the language is stored in 'miraiLanguage' item.
+                const currentLang = localStorage.getItem('miraiLanguage') || 'id';
+                const strings = UIStrings[currentLang] || UIStrings['id']; // Fallback to 'id' if lang not found
+
+                // Populate popup with text from UIStrings
+                popupTitle.innerHTML = strings.title;
+                popupBody.innerHTML = strings.body;
+                
+                // Show the popup
+                popup.classList.add('show');
+            }
+
+            function hidePopup() {
+                popup.classList.remove('show');
+            }
+            
+            // 3. Display Logic (Show only once per session)
+            if (!sessionStorage.getItem('popupShown')) {
+                // Use a short delay to allow the main page to render first
+                setTimeout(showPopup, 500); 
+                sessionStorage.setItem('popupShown', 'true');
+            }
+
+            // 4. Event Listeners for closing the popup
+            closeButton.addEventListener('click', hidePopup);
+            popup.addEventListener('click', (event) => {
+                // Close if the user clicks on the overlay (outside the container)
+                if (event.target === popup) {
+                    hidePopup();
+                }
+            });
+            
+            // === POPUP SCRIPT END ===
+        });
+    </script>
+</body>
+</html>
