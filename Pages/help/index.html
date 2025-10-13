@@ -330,22 +330,11 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-dark);
         }
         
-        body.light-theme .popup-header {
-            border-bottom-color: var(--border-light);
-        }
-
         .popup-header h2 {
             margin: 0;
             font-size: 1.5em;
-            color: var(--primary-dark);
-        }
-        
-        body.light-theme .popup-header h2 {
-            color: var(--primary-light);
         }
 
         .popup-close {
@@ -370,8 +359,45 @@
         .popup-body {
             line-height: 1.6;
         }
-        /* === POPUP STYLES END === */
+        
+        .language-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
 
+        .lang-btn {
+            padding: 12px 20px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid var(--border-dark);
+            background-color: var(--surface-dark);
+            color: var(--text-dark);
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+            text-align: left;
+        }
+
+        body.light-theme .lang-btn {
+            border-color: var(--border-light);
+            background-color: var(--surface-light);
+            color: var(--text-light);
+        }
+
+        .lang-btn:hover {
+            border-color: var(--primary-dark);
+            color: var(--primary-dark);
+            background-color: rgba(255, 206, 0, 0.1);
+        }
+        
+        body.light-theme .lang-btn:hover {
+            border-color: var(--primary-light);
+            color: var(--primary-light);
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        /* === POPUP STYLES END === */
     </style>
 </head>
 <body>
@@ -381,7 +407,7 @@
                 <button class="home-btn" onclick="window.history.back()" title="Kembali">
                     <i class="fas fa-arrow-left"></i>
                 </button>
-                <h1>Pusat Bantuan</h1>
+                <h1 data-lang-key="pageTitle">Pusat Bantuan</h1>
             </div>
             <button class="theme-switcher" id="themeSwitcher" title="Ganti Tema">
                 <i class="fas fa-sun"></i>
@@ -394,237 +420,222 @@
         </div>
 
         <div id="noResults">
-            <p>Tidak ada hasil yang ditemukan untuk pencarian Anda.</p>
+            <p data-lang-key="noResults">Tidak ada hasil yang ditemukan untuk pencarian Anda.</p>
         </div>
 
         <div id="accordionContainer">
-            <div class="accordion-item" data-title="Frequently Asked Questions (FAQ)">
+            <div class="accordion-item" data-title-key="faqTitle">
                 <div class="accordion-header">
-                    <h2><i class="fas fa-question-circle" style="margin-right: 10px;"></i>FAQ</h2>
+                    <h2 data-lang-key="faqTitle"><i class="fas fa-question-circle" style="margin-right: 10px;"></i>FAQ</h2>
                     <i class="fas fa-chevron-down icon"></i>
                 </div>
                 <div class="accordion-content">
                     <div class="content-inner">
-                        <h3>T: Apa itu MirAI?</h3>
-                        <p><strong>J:</strong> MirAI adalah asisten chat AI yang dibuat oleh developer <strong>Allwaysever</strong>. Tujuannya adalah menjadi teman ngobrol yang menyenangkan dan alat ringan untuk tugas sehari-hari seperti mencari ide atau menerjemahkan teks.</p>
-                        
-                        <h3>T: Apakah jawaban MirAI selalu 100% akurat?</h3>
-                        <p><strong>J:</strong> Tidak. Sebagaimana yang tertera di aplikasi, "MirAI bisa memberikan jawaban yang tidak akurat. Jadi, mohon cek ulang responsnya." MirAI adalah alat bantu, bukan sumber kebenaran absolut. Selalu verifikasi informasi penting.</p>
-                        
-                        <h3>T: Bagaimana cara mengubah tema, bahasa, atau kepribadian AI?</h3>
-                        <p><strong>J:</strong> Klik <strong>ikon menu (tiga garis)</strong> di pojok kiri atas untuk membuka halaman <strong>Pengaturan</strong>. Di sana Anda dapat mengubah tema, bahasa, dan persona AI.</p>
-                        
-                        <h3>T: Perintah garis miring (<code>/</code>) apa saja yang tersedia?</h3>
-                        <p><strong>J:</strong> Saat ini, MirAI mendukung perintah berikut:</p>
-                        <ul>
-                            <li><code>/search</code>: Untuk mencari informasi di web.</li>
-                            <li><code>/translate</code>: Untuk menerjemahkan teks.</li>
-                            <li><code>/summarize</code>: Untuk meringkas teks panjang.</li>
-                            <li><code>/rephrase</code>: Untuk mengubah gaya penulisan teks.</li>
-                            <li><code>/ideate</code>: Untuk mencari ide.</li>
-                            <li><code>/fix</code>: Untuk memperbaiki tata bahasa.</li>
-                            <li><code>/explain</code>: Untuk menjelaskan sebuah konsep.</li>
-                            <li><code>/code</code>: Untuk menulis potongan kode.</li>
-                        </ul>
-                        <p>Ketik <code>/</code> di kotak input untuk melihat deskripsi lengkapnya.</p>
-                        
-                        <h3>T: Apakah saya memerlukan Kunci API untuk menggunakan MirAI?</h3>
-                        <p><strong>J:</strong> Tidak. MirAI sudah menyediakan Kunci API default. Namun, untuk penggunaan yang lebih intensif, disarankan untuk menggunakan Kunci API Google pribadi Anda sendiri, yang dapat dimasukkan di halaman Pengaturan.</p>
+                        <h3 data-lang-key="q1"></h3><p data-lang-key="a1"></p>
+                        <h3 data-lang-key="q2"></h3><p data-lang-key="a2"></p>
+                        <h3 data-lang-key="q3"></h3><p data-lang-key="a3"></p>
+                        <h3 data-lang-key="q4"></h3><div data-lang-key="a4"></div>
+                        <h3 data-lang-key="q5"></h3><p data-lang-key="a5"></p>
                     </div>
                 </div>
             </div>
 
-<div class="accordion-item" data-title="Troubleshooting (Penyelesaian Masalah)">
+            <div class="accordion-item" data-title-key="troubleshootingTitle">
                 <div class="accordion-header">
-                    <h2><i class="fas fa-tools" style="margin-right: 10px;"></i>Penyelesaian Masalah</h2>
+                    <h2 data-lang-key="troubleshootingTitle"><i class="fas fa-tools" style="margin-right: 10px;"></i>Penyelesaian Masalah</h2>
                     <i class="fas fa-chevron-down icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <div class="content-inner">
-                        <h3><i class="fas fa-wifi" style="margin-right: 8px;"></i>Masalah Koneksi & Error API</h3>
-                        
-                        <h4>Aplikasi Terjebak di Layar "Internet Terputus"</h4>
-                        <p>Aplikasi ini membutuhkan koneksi internet aktif untuk berfungsi. Jika Anda terjebak di layar ini, coba langkah-langkah berikut:</p>
-                        <ol>
-                            <li><strong>Periksa Koneksi Dasar:</strong> Pastikan WiFi atau data seluler Anda aktif dan berfungsi dengan membuka situs web lain.</li>
-                            <li><strong>Refresh Halaman:</strong> Coba muat ulang halaman dengan menekan tombol "Coba Lagi" atau refresh browser Anda.</li>
-                            <li><strong>Nonaktifkan VPN:</strong> Beberapa VPN dapat mengganggu koneksi ke server AI. Coba matikan sementara untuk melihat apakah masalah teratasi.</li>
-                        </ol>
-
-                        <h4>Pesan Error: "Terjadi kesalahan. Silakan muat ulang..."</h4>
-                        <p>Ini adalah pesan error umum yang bisa disebabkan oleh beberapa hal. Mari kita telusuri penyebabnya:</p>
-                        <ul>
-                            <li><strong>Batas Penggunaan Kunci API Default:</strong> Ini penyebab paling umum. Kunci API yang disediakan bersama aplikasi digunakan oleh semua pengguna. Jika lalu lintas sedang tinggi, kuota gratisnya bisa habis.
-                                <ul>
-                                    <li><strong>Solusi Terbaik:</strong> Gunakan <strong>Kunci API Google</strong> pribadi Anda. Anda bisa mendapatkannya secara gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>. Setelah mendapatkannya, masukkan di menu <strong>Pengaturan > Kunci API Google</strong>.</li>
-                                </ul>
-                            </li>
-                             <li><strong>Kunci API Pribadi Anda Tidak Valid:</strong> Jika Anda sudah memasukkan kunci pribadi tetapi masih mendapatkan error, pastikan Anda menyalin seluruh kunci tanpa ada spasi atau karakter yang tertinggal.</li>
-                             <li><strong>Masalah Server Google:</strong> Sangat jarang terjadi, tetapi mungkin saja server Google Gemini sedang mengalami gangguan. Anda bisa menunggu beberapa saat lalu mencobanya kembali.</li>
-                        </ul>
-                        <hr style="border-color: var(--border-dark); margin: 20px 0;">
-
-                        <h3><i class="fas fa-desktop" style="margin-right: 8px;"></i>Masalah Tampilan & Fungsionalitas</h3>
-
-                        <h4>Tampilan Aplikasi Terlihat Aneh atau Berantakan</h4>
-                        <p>Jika tombol-tombol tidak pada tempatnya atau gaya visual terlihat rusak, ini biasanya disebabkan oleh file *cache* yang usang di browser Anda.</p>
-                        <ul>
-                            <li><strong>Solusi:</strong> Lakukan <strong>Hard Refresh</strong>. Ini memaksa browser untuk mengunduh ulang semua file (CSS, JavaScript) dari server.
-                                <ul>
-                                    <li><strong>Windows/Linux:</strong> Tekan `Ctrl + Shift + R`</li>
-                                    <li><strong>Mac:</strong> Tekan `Cmd + Shift + R`</li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                        <h4>Pengaturan (Tema, Persona, Bahasa) Tidak Tersimpan</h4>
-                        <p>MirAI menggunakan penyimpanan lokal browser (*localStorage*) untuk mengingat preferensi Anda. Jika pengaturan Anda kembali ke default setiap kali Anda membuka aplikasi, kemungkinan besar:</p>
-                        <ul>
-                            <li><strong>Mode Penyamaran/Pribadi:</strong> Anda menjalankan MirAI dalam mode *Incognito* (Chrome) atau *Private* (Firefox), yang tidak menyimpan data sesi.</li>
-                            <li><strong>Pengaturan Browser:</strong> Browser Anda diatur untuk menghapus data situs saat ditutup. Periksa pengaturan privasi browser Anda dan izinkan MirAI untuk menyimpan data.</li>
-                        </ul>
-                        
-                        <h4>Jawaban dari AI Tidak Terformat dengan Benar (Tidak ada daftar, tebal, dll.)</h4>
-                        <p>MirAI menggunakan library `marked.min.js` untuk mengubah format Markdown dari AI (seperti `**teks tebal**` atau `- daftar`) menjadi HTML. Jika format tidak muncul, mungkin prosesnya gagal. Coba refresh halaman, karena ini biasanya masalah sementara.</p>
-                        <hr style="border-color: var(--border-dark); margin: 20px 0;">
-
-                        <h3><i class="fas fa-cogs" style="margin-right: 8px;"></i>Masalah Penggunaan Fitur</h3>
-
-                        <h4>Riwayat Obrolan Saya Hilang Setelah Refresh!</h4>
-                        <p><strong>Ini bukan bug, tetapi fitur saat ini.</strong> Berdasarkan kode `MirAI.html`, riwayat obrolan disimpan sementara di *localStorage*. Namun, logika untuk memuat ulang obrolan setelah menutup tab belum diimplementasikan secara penuh, sehingga obrolan akan direset untuk memastikan sesi baru yang bersih. Untuk membersihkan obrolan secara manual selama sesi, gunakan tombol ikon tempat sampah.</p>
-                        
-                        <h4>Perintah <code>/</code> Saya Tidak Berfungsi atau Memberi Hasil Aneh</h4>
-                        <p>Setiap perintah memiliki struktur yang spesifik. Kesalahan paling umum adalah urutan kata. Perhatikan contoh berikut:</p>
-                        <ul>
-                            <li><strong>/translate:</strong>
-                                <ul>
-                                    <li><strong style="color: #4CAF50;">Benar:</strong> <code>/translate selamat pagi to english</code></li>
-                                    <li><strong style="color: #F44336;">Salah:</strong> <code>/translate to english selamat pagi</code></li>
-                                </ul>
-                            </li>
-                            <li><strong>/rephrase:</strong>
-                                <ul>
-                                    <li><strong style="color: #4CAF50;">Benar:</strong> <code>/rephrase kalimat ini as lebih formal</code></li>
-                                    <li><strong style="color: #F44336;">Salah:</strong> <code>/rephrase as lebih formal kalimat ini</code></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <p>Ketik <code>/</code> pada kotak input untuk melihat daftar perintah dan deskripsi formatnya.</p>
-
-                        <h4>Jawaban AI Terasa Lambat atau Berhenti di Tengah Jalan</h4>
-                        <p>Ini bisa terjadi karena beberapa alasan:</p>
-                        <ul>
-                            <li><strong>Koneksi Internet Lambat:</strong> Proses komunikasi dengan AI membutuhkan koneksi yang stabil.</li>
-                            <li><strong>Pertanyaan Sangat Kompleks:</strong> AI membutuhkan waktu lebih lama untuk memproses permintaan yang rumit.</li>
-                            <li><strong>Jaringan Terputus saat AI Menjawab:</strong> Jika koneksi Anda terputus saat AI sedang "mengetik" jawabannya, prosesnya akan berhenti. Anda bisa menggunakan tombol <strong>Stop</strong> lalu mencoba lagi.</li>
-                        </ul>
-                    </div>
+                    <div class="content-inner" data-lang-key="troubleshootingContent">
+                        </div>
                 </div>
             </div>
 
-            <div class="accordion-item" data-title="Contribution Guide (Panduan Kontribusi)">
+            <div class="accordion-item" data-title-key="contributionTitle">
                 <div class="accordion-header">
-                    <h2><i class="fas fa-hands-helping" style="margin-right: 10px;"></i>Panduan Kontribusi</h2>
+                    <h2 data-lang-key="contributionTitle"><i class="fas fa-hands-helping" style="margin-right: 10px;"></i>Panduan Kontribusi</h2>
                     <i class="fas fa-chevron-down icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <div class="content-inner">
-                        <p>Terima kasih atas minat Anda untuk berkontribusi pada MirAI! Kami sangat menghargai bantuan dari komunitas.</p>
-
-                        <h3>Cara Berkontribusi</h3>
-                        <p>Kami menerima berbagai jenis kontribusi, termasuk tetapi tidak terbatas pada:</p>
-                        <ul>
-                            <li>Melaporkan bug</li>
-                            <li>Mengajukan permintaan fitur baru</li>
-                            <li>Menulis atau meningkatkan dokumentasi</li>
-                            <li>Mengirimkan <em>Pull Request</em> untuk perbaikan kode atau penambahan fitur</li>
-                        </ul>
-
-                        <h3>Melaporkan Bug</h3>
-                        <p>Jika Anda menemukan bug, silakan buat <em>Issue</em> baru di repositori GitHub kami. Pastikan untuk menggunakan templat "Laporan Bug" dan sertakan detail sebanyak mungkin.</p>
-                        
-                        <h3>Menyarankan Fitur</h3>
-                        <p>Gunakan templat "Permintaan Fitur" saat membuat <em>Issue</em> baru. Jelaskan ide Anda sejelas mungkin dan mengapa fitur tersebut akan berguna untuk MirAI.</p>
-
-                        <h3>Pull Request (PR)</h3>
-                        <ol>
-                            <li><em>Fork</em> repositori ini.</li>
-                            <li>Buat <em>branch</em> baru untuk pekerjaan Anda (<code>git checkout -b fitur/fitur-baru-keren</code>).</li>
-                            <li>Lakukan perubahan Anda dan <em>commit</em> pekerjaan Anda dengan pesan yang jelas.</li>
-                            <li><em>Push</em> ke <em>branch</em> Anda (<code>git push origin fitur/fitur-baru-keren</code>).</li>
-                            <li>Buka <em>Pull Request</em> ke <em>branch</em> <code>main</code> kami.</li>
-                        </ol>
-                        
-                        <h3>Standar Kode</h3>
-                        <ul>
-                            <li>Gunakan format kode yang konsisten.</li>
-                            <li>Tulis komentar untuk bagian kode yang kompleks.</li>
-                            <li>Pastikan tidak ada <em>error</em> di konsol browser sebelum mengirimkan PR.</li>
-                        </ul>
-                        <p>Terima kasih telah membantu membuat MirAI menjadi lebih baik!</p>
-                    </div>
+                    <div class="content-inner" data-lang-key="contributionContent">
+                        </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="welcomePopup" class="popup-overlay">
+    <div id="languagePopup" class="popup-overlay">
         <div class="popup-container">
             <div class="popup-header">
-                <h2 id="popupTitle"></h2>
+                <h2 data-lang-key="popupTitle">Pilih Bahasa</h2>
                 <button id="popupClose" class="popup-close" title="Tutup">&times;</button>
             </div>
-            <div class="popup-body" id="popupBody">
+            <div class="popup-body">
+                <p data-lang-key="popupInstruction">Silakan pilih bahasa yang Anda inginkan.</p>
+                <div class="language-selector">
+                    <button class="lang-btn" data-lang="id"><span style="font-size: 1.5em; vertical-align: middle; margin-right: 10px;">🇮🇩</span> Bahasa Indonesia</button>
+                    <button class="lang-btn" data-lang="en-US"><span style="font-size: 1.5em; vertical-align: middle; margin-right: 10px;">🇺🇸</span> English (US)</button>
+                    <button class="lang-btn" data-lang="ja"><span style="font-size: 1.5em; vertical-align: middle; margin-right: 10px;">🇯🇵</span> 日本語</button>
+                </div>
             </div>
         </div>
     </div>
     <script>
+        // === UI STRING DATABASE ===
+        const UIStrings = {
+            'id': {
+                docTitle: "Pusat Bantuan MirAI",
+                pageTitle: "Pusat Bantuan",
+                backButton: "Kembali",
+                themeButton: "Ganti Tema",
+                searchPlaceholder: "Cari topik atau pertanyaan...",
+                noResults: "Tidak ada hasil yang ditemukan untuk pencarian Anda.",
+                popupTitle: "Pilih Bahasa",
+                popupInstruction: "Silakan pilih bahasa yang Anda inginkan.",
+                
+                faqTitle: "FAQ",
+                q1: "T: Apa itu MirAI?",
+                a1: "<strong>J:</strong> MirAI adalah asisten chat AI yang dibuat oleh developer <strong>Allwaysever</strong>. Tujuannya adalah menjadi teman ngobrol yang menyenangkan dan alat ringan untuk tugas sehari-hari seperti mencari ide atau menerjemahkan teks.",
+                q2: "T: Apakah jawaban MirAI selalu 100% akurat?",
+                a2: "<strong>J:</strong> Tidak. Sebagaimana yang tertera di aplikasi, \"MirAI bisa memberikan jawaban yang tidak akurat. Jadi, mohon cek ulang responsnya.\" MirAI adalah alat bantu, bukan sumber kebenaran absolut. Selalu verifikasi informasi penting.",
+                q3: "T: Bagaimana cara mengubah tema, bahasa, atau kepribadian AI?",
+                a3: "<strong>J:</strong> Klik <strong>ikon menu (tiga garis)</strong> di pojok kiri atas untuk membuka halaman <strong>Pengaturan</strong>. Di sana Anda dapat mengubah tema, bahasa, dan persona AI.",
+                q4: "T: Perintah garis miring (<code>/</code>) apa saja yang tersedia?",
+                a4: "<p><strong>J:</strong> Saat ini, MirAI mendukung perintah berikut:</p><ul><li><code>/search</code>: Untuk mencari informasi di web.</li><li><code>/translate</code>: Untuk menerjemahkan teks.</li><li><code>/summarize</code>: Untuk meringkas teks panjang.</li><li><code>/rephrase</code>: Untuk mengubah gaya penulisan teks.</li><li><code>/ideate</code>: Untuk mencari ide.</li><li><code>/fix</code>: Untuk memperbaiki tata bahasa.</li><li><code>/explain</code>: Untuk menjelaskan sebuah konsep.</li><li><code>/code</code>: Untuk menulis potongan kode.</li></ul><p>Ketik <code>/</code> di kotak input untuk melihat deskripsi lengkapnya.</p>",
+                q5: "T: Apakah saya memerlukan Kunci API untuk menggunakan MirAI?",
+                a5: "<strong>J:</strong> Tidak. MirAI sudah menyediakan Kunci API default. Namun, untuk penggunaan yang lebih intensif, disarankan untuk menggunakan Kunci API Google pribadi Anda sendiri, yang dapat dimasukkan di halaman Pengaturan.",
+
+                troubleshootingTitle: "Penyelesaian Masalah",
+                troubleshootingContent: `<h3><i class="fas fa-wifi" style="margin-right: 8px;"></i>Masalah Koneksi & Error API</h3><h4>Aplikasi Terjebak di Layar "Internet Terputus"</h4><p>Aplikasi ini membutuhkan koneksi internet aktif untuk berfungsi...</p><h4>Pesan Error: "Terjadi kesalahan. Silakan muat ulang..."</h4><p>Ini penyebab paling umum adalah <strong>Batas Penggunaan Kunci API Default</strong>. Solusi terbaik adalah gunakan <strong>Kunci API Google</strong> pribadi Anda di <strong>Pengaturan</strong>.</p>`,
+                
+                contributionTitle: "Panduan Kontribusi",
+                contributionContent: `<p>Terima kasih atas minat Anda untuk berkontribusi pada MirAI! Kami sangat menghargai bantuan dari komunitas.</p><h3>Cara Berkontribusi</h3><ul><li>Melaporkan bug</li><li>Mengajukan permintaan fitur baru</li><li>Mengirimkan <em>Pull Request</em></li></ul>`
+            },
+            'en-US': {
+                docTitle: "MirAI Help Center",
+                pageTitle: "Help Center",
+                backButton: "Back",
+                themeButton: "Switch Theme",
+                searchPlaceholder: "Search for topics or questions...",
+                noResults: "No results found for your search.",
+                popupTitle: "Choose Language",
+                popupInstruction: "Please select your preferred language.",
+
+                faqTitle: "FAQ",
+                q1: "Q: What is MirAI?",
+                a1: "<strong>A:</strong> MirAI is an AI chat assistant created by developer <strong>Allwaysever</strong>. Its goal is to be a fun conversational partner and a lightweight tool for daily tasks like brainstorming or translating text.",
+                q2: "Q: Are MirAI's answers always 100% accurate?",
+                a2: "<strong>A:</strong> No. As stated in the app, \"MirAI can provide inaccurate answers. Please double-check its responses.\" MirAI is a supplementary tool, not an absolute source of truth. Always verify important information.",
+                q3: "Q: How do I change the theme, language, or AI personality?",
+                a3: "<strong>A:</strong> Click the <strong>menu icon (three lines)</strong> in the top-left corner to open the <strong>Settings</strong> page. There you can change the theme, language, and AI persona.",
+                q4: "Q: What slash commands (<code>/</code>) are available?",
+                a4: "<p><strong>A:</strong> Currently, MirAI supports the following commands:</p><ul><li><code>/search</code>: To search for information on the web.</li><li><code>/translate</code>: To translate text.</li><li><code>/summarize</code>: To summarize long text.</li><li><code>/rephrase</code>: To change the writing style of text.</li><li><code>/ideate</code>: To brainstorm ideas.</li><li><code>/fix</code>: To fix grammar.</li><li><code>/explain</code>: To explain a concept.</li><li><code>/code</code>: To write a code snippet.</li></ul><p>Type <code>/</code> in the input box to see their full descriptions.</p>",
+                q5: "Q: Do I need an API Key to use MirAI?",
+                a5: "<strong>A:</strong> No. MirAI comes with a default API Key. However, for more intensive use, it is recommended to use your own personal Google API Key, which can be entered on the Settings page.",
+
+                troubleshootingTitle: "Troubleshooting",
+                troubleshootingContent: `<h3><i class="fas fa-wifi" style="margin-right: 8px;"></i>Connection & API Errors</h3><h4>App is Stuck on "Internet Disconnected" Screen</h4><p>The application requires an active internet connection to function...</p><h4>Error Message: "An error occurred. Please reload..."</h4><p>This is most commonly caused by the <strong>Default API Key's Rate Limit</strong>. The best solution is to use your personal <strong>Google API Key</strong> in <strong>Settings</strong>.</p>`,
+
+                contributionTitle: "Contribution Guide",
+                contributionContent: `<p>Thank you for your interest in contributing to MirAI! We greatly appreciate help from the community.</p><h3>How to Contribute</h3><ul><li>Reporting bugs</li><li>Suggesting new features</li><li>Submitting a <em>Pull Request</em></li></ul>`
+            },
+            'ja': {
+                docTitle: "MirAI ヘルプセンター",
+                pageTitle: "ヘルプセンター",
+                backButton: "戻る",
+                themeButton: "テーマを切り替え",
+                searchPlaceholder: "トピックや質問を検索...",
+                noResults: "検索結果が見つかりませんでした。",
+                popupTitle: "言語を選択",
+                popupInstruction: "ご希望の言語を選択してください。",
+
+                faqTitle: "よくある質問",
+                q1: "Q: MirAIとは何ですか？",
+                a1: "<strong>A:</strong> MirAIは、開発者<strong>Allwaysever</strong>によって作成されたAIチャットアシスタントです。楽しい会話相手であり、アイデア出しやテキスト翻訳などの日常的なタスクのための軽量ツールとなることを目指しています。",
+                q2: "Q: MirAIの回答は常に100%正確ですか？",
+                a2: "<strong>A:</strong> いいえ。アプリに記載されている通り、「MirAIは不正確な回答をすることがあります。応答を再確認してください。」MirAIは補助的なツールであり、絶対的な真実の源ではありません。重要な情報は必ず確認してください。",
+                q3: "Q: テーマ、言語、AIのペルソナを変更するにはどうすればよいですか？",
+                a3: "<strong>A:</strong> 左上の<strong>メニューアイコン（三本線）</strong>をクリックして<strong>設定</strong>ページを開きます。そこでテーマ、言語、AIペルソナを変更できます。",
+                q4: "Q: 利用可能なスラッシュコマンド(<code>/</code>)は何ですか？",
+                a4: "<p><strong>A:</strong> 現在、MirAIは次のコマンドをサポートしています：</p><ul><li><code>/search</code>: ウェブで情報を検索します。</li><li><code>/translate</code>: テキストを翻訳します。</li><li><code>/summarize</code>: 長いテキストを要約します。</li><li><code>/rephrase</code>: テキストの書き方を変えます。</li><li><code>/ideate</code>: アイデアを出します。</li><li><code>/fix</code>: 文法を修正します。</li><li><code>/explain</code>: 概念を説明します。</li><li><code>/code</code>: コードスニペットを作成します。</li></ul><p>入力ボックスに<code>/</code>と入力すると、完全な説明が表示されます。</p>",
+                q5: "Q: MirAIを使用するためにAPIキーは必要ですか？",
+                a5: "<strong>A:</strong> いいえ。MirAIにはデフォルトのAPIキーが付属しています。ただし、より集中的に使用する場合は、設定ページで入力できる個人のGoogle APIキーを使用することをお勧めします。",
+
+                troubleshootingTitle: "トラブルシューティング",
+                troubleshootingContent: `<h3><i class="fas fa-wifi" style="margin-right: 8px;"></i>接続とAPIエラー</h3><h4>「インターネット切断」画面でアプリが動かなくなる</h4><p>このアプリケーションが機能するには、アクティブなインターネット接続が必要です...</p><h4>エラーメッセージ：「エラーが発生しました。リロードしてください...」</h4><p>これは最も一般的に<strong>デフォルトAPIキーのレート制限</strong>が原因です。最善の解決策は、<strong>設定</strong>で個人の<strong>Google APIキー</strong>を使用することです。</p>`,
+
+                contributionTitle: "貢献ガイド",
+                contributionContent: `<p>MirAIへの貢献に関心をお寄せいただきありがとうございます！コミュニティからのご協力に深く感謝いたします。</p><h3>貢献の方法</h3><ul><li>バグの報告</li><li>新機能の提案</li><li><em>プルリクエスト</em>の送信</li></ul>`
+            }
+        };
+
+
         document.addEventListener('DOMContentLoaded', () => {
+            const currentLang = localStorage.getItem('miraiLanguage') || 'id';
+
+            // === CORE FUNCTIONS ===
+            function applyLanguage(lang) {
+                const strings = UIStrings[lang] || UIStrings['id'];
+
+                // Set HTML lang attribute
+                document.documentElement.lang = lang;
+
+                // Update all elements with data-lang-key attribute
+                document.querySelectorAll('[data-lang-key]').forEach(element => {
+                    const key = element.dataset.langKey;
+                    if (strings[key]) {
+                        element.innerHTML = strings[key];
+                    }
+                });
+
+                // Update special elements like titles and placeholders
+                document.title = strings.docTitle;
+                document.querySelector('.home-btn').title = strings.backButton;
+                document.getElementById('themeSwitcher').title = strings.themeButton;
+                document.getElementById('searchInput').placeholder = strings.searchPlaceholder;
+
+                // Update accordion titles for search functionality
+                document.querySelectorAll('.accordion-item').forEach(item => {
+                    const titleKey = item.dataset.titleKey;
+                    if(strings[titleKey]) {
+                        item.dataset.title = strings[titleKey];
+                    }
+                });
+            }
+
+
+            // === INITIALIZATION ===
+            
+            // 1. Apply language on page load
+            applyLanguage(currentLang);
+
+            // 2. Theme Switcher Logic
             const themeSwitcher = document.getElementById('themeSwitcher');
             const body = document.body;
             const icon = themeSwitcher.querySelector('i');
-
-            // Load saved theme
             const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
             if (savedTheme === 'light') {
                 body.classList.add('light-theme');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            } else {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
+                icon.classList.replace('fa-sun', 'fa-moon');
             }
-
-            // Theme switcher event
             themeSwitcher.addEventListener('click', () => {
                 body.classList.toggle('light-theme');
                 const isLight = body.classList.contains('light-theme');
                 localStorage.setItem('miraiTheme', isLight ? 'light' : 'dark');
-                
-                if(isLight) {
-                    icon.classList.remove('fa-sun');
-                    icon.classList.add('fa-moon');
-                } else {
-                    icon.classList.remove('fa-moon');
-                    icon.classList.add('fa-sun');
-                }
+                icon.classList.toggle('fa-sun', !isLight);
+                icon.classList.toggle('fa-moon', isLight);
             });
 
-            // Accordion functionality
+            // 3. Accordion Logic
             const accordionItems = document.querySelectorAll('.accordion-item');
             accordionItems.forEach(item => {
-                const header = item.querySelector('.accordion-header');
-                header.addEventListener('click', () => {
+                item.querySelector('.accordion-header').addEventListener('click', () => {
                     const content = item.querySelector('.accordion-content');
                     const wasActive = item.classList.contains('active');
-
-                    // Close all items
                     accordionItems.forEach(i => {
                         i.classList.remove('active');
                         i.querySelector('.accordion-content').style.maxHeight = null;
                     });
-                    
-                    // Open the clicked one if it wasn't active
                     if (!wasActive) {
                         item.classList.add('active');
                         content.style.maxHeight = content.scrollHeight + "px";
@@ -632,27 +643,20 @@
                 });
             });
 
-            // Search functionality
+            // 4. Search Logic
             const searchInput = document.getElementById('searchInput');
             const noResults = document.getElementById('noResults');
-
             searchInput.addEventListener('input', () => {
                 const query = searchInput.value.toLowerCase().trim();
                 let resultsFound = false;
-
                 accordionItems.forEach(item => {
                     const content = item.querySelector('.content-inner');
                     const title = item.dataset.title.toLowerCase();
                     const text = content.innerText.toLowerCase();
-
-                    // Remove previous highlights
                     content.innerHTML = content.innerHTML.replace(/<\/?mark class="highlight">/g, '');
-
                     if (title.includes(query) || text.includes(query)) {
                         item.style.display = 'block';
                         resultsFound = true;
-                        
-                        // Highlight logic
                         if (query.length > 1) {
                             const regex = new RegExp(query, 'gi');
                             content.innerHTML = content.innerHTML.replace(regex, (match) => `<mark class="highlight">${match}</mark>`);
@@ -661,69 +665,39 @@
                         item.style.display = 'none';
                     }
                 });
-                
                 noResults.style.display = resultsFound ? 'none' : 'block';
             });
-            
-            // === POPUP SCRIPT START ===
 
-            // 1. UIString Database
-            const UIStrings = {
-                'id': {
-                    title: '💡 Info Penting',
-                    body: 'Kunci API default yang kami sediakan memiliki batas penggunaan. Jika Anda mengalami error, kemungkinan besar kuotanya habis. Untuk pengalaman terbaik, kami sangat menyarankan untuk menggunakan <strong>Kunci API Google pribadi</strong> Anda sendiri di halaman <strong>Pengaturan</strong>.'
-                },
-                'en-US': {
-                    title: '💡 Important Info',
-                    body: 'The default API Key we provide has usage limits. If you encounter errors, its quota is likely depleted. For the best experience, we highly recommend using your own <strong>personal Google API Key</strong> in the <strong>Settings</strong> page.'
-                },
-                'ja': {
-                    title: '💡 重要なお知らせ',
-                    body: '提供されているデフォルトのAPIキーには使用制限があります。エラーが発生した場合、そのクォータが上限に達した可能性があります。最良の体験を得るために、<strong>設定</strong>ページでご自身の<strong>個人用Google APIキー</strong>を使用することを強くお勧めします。'
-                }
-            };
-            
-            // 2. Popup Initialization
-            const popup = document.getElementById('welcomePopup');
+            // 5. Popup Logic
+            const popup = document.getElementById('languagePopup');
             const closeButton = document.getElementById('popupClose');
-            const popupTitle = document.getElementById('popupTitle');
-            const popupBody = document.getElementById('popupBody');
+            const langSelector = popup.querySelector('.language-selector');
 
             function showPopup() {
-                // Determine language, default to 'id'
-                // This assumes the language is stored in 'miraiLanguage' item.
-                const currentLang = localStorage.getItem('miraiLanguage') || 'id';
-                const strings = UIStrings[currentLang] || UIStrings['id']; // Fallback to 'id' if lang not found
-
-                // Populate popup with text from UIStrings
-                popupTitle.innerHTML = strings.title;
-                popupBody.innerHTML = strings.body;
-                
-                // Show the popup
                 popup.classList.add('show');
             }
-
             function hidePopup() {
                 popup.classList.remove('show');
             }
-            
-            // 3. Display Logic (Show only once per session)
+
+            // Show popup if it hasn't been shown this session
             if (!sessionStorage.getItem('popupShown')) {
-                // Use a short delay to allow the main page to render first
-                setTimeout(showPopup, 500); 
+                setTimeout(showPopup, 500);
                 sessionStorage.setItem('popupShown', 'true');
             }
-
-            // 4. Event Listeners for closing the popup
-            closeButton.addEventListener('click', hidePopup);
-            popup.addEventListener('click', (event) => {
-                // Close if the user clicks on the overlay (outside the container)
-                if (event.target === popup) {
-                    hidePopup();
+            
+            // Event listener for language buttons
+            langSelector.addEventListener('click', (event) => {
+                const button = event.target.closest('.lang-btn');
+                if (button) {
+                    const selectedLang = button.dataset.lang;
+                    localStorage.setItem('miraiLanguage', selectedLang);
+                    // Reload page to apply new language everywhere
+                    location.reload();
                 }
             });
-            
-            // === POPUP SCRIPT END ===
+
+            closeButton.addEventListener('click', hidePopup);
         });
     </script>
 </body>
