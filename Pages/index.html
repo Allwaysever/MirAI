@@ -1462,7 +1462,7 @@ body.light-theme #confirmBtnNo:hover {
             licenseLink: 'Lisensi',
             helpLink: 'Pusat Bantuan',
             termsText: 'Dengan menggunakan MirAI, Anda menyetujui <a href="T&C/index.html" target="_blank">Syarat & Ketentuan</a>.',
-            personaDefaultPrompt: 'Anda adalah MirAI, asisten AI yang informatif. Jawab semua pertanyaan secara jelas, ringkas, dan mudah dipahami.',
+            personaDefaultPrompt: 'Anda adalah MirAI, asisten AI yang santai dan suka bercanda. Jawab semua pertanyaan dengan gaya yang ramah, sedikit humor, namun tetap informatif.',
             personaFormalPrompt: 'Anda adalah MirAI, asisten AI profesional. Berikan jawaban yang terstruktur, akurat, dan menggunakan bahasa formal.',
             personaCreativePrompt: 'Anda adalah MirAI, asisten AI yang kreatif. Berikan jawaban yang unik, imajinatif, dan ekspresif untuk setiap pertanyaan.',
             placeholderMessages: ['Ajukan pertanyaan apa pun.', 'Butuh bantuan untuk ide?', 'Minta terjemahan atau ringkasan.', 'Bagaimana saya bisa membantu?'],
@@ -1526,7 +1526,7 @@ body.light-theme #confirmBtnNo:hover {
             licenseLink: 'License',
             helpLink: 'Help Center',
             termsText: 'By using MirAI, you agree to the <a href="T&C/index.html" target="_blank">Terms & Conditions</a>.',
-            personaDefaultPrompt: 'You are MirAI, an informative AI assistant. Answer all questions clearly, concisely, and in an easy-to-understand manner.',
+            personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humor, while remaining informative.',
             personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
             personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
             placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
@@ -1590,7 +1590,7 @@ body.light-theme #confirmBtnNo:hover {
             licenseLink: 'License',
             helpLink: 'Help Center',
             termsText: 'By using MirAI, you agree to the <a href="T&C/index.html" target="_blank">Terms & Conditions</a>.',
-            personaDefaultPrompt: 'You are MirAI, an informative AI assistant. Answer all questions clearly, concisely, and in an easy-to-understand manner.',
+            personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humour, while remaining informative.',
             personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
             personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
             placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
@@ -1654,7 +1654,7 @@ body.light-theme #confirmBtnNo:hover {
             licenseLink: 'ライセンス',
             helpLink: 'ヘルプセンター',
             termsText: 'MirAIを使用することにより、<a href="T&C/index.html" target="_blank">利用規約</a>に同意したことになります。',
-            personaDefaultPrompt: 'あなたはMirAI、情報提供を行うAIアシスタントです。すべての質問に明確、簡潔、かつ分かりやすく回答してください。',
+            personaDefaultPrompt: 'あなたはMirAI、リラックスして冗談好きなAIアシスタントです。フレンドリーなスタイルで、少しユーモアを交えながらも、情報を提供するようにすべての質問に答えてください。',
             personaFormalPrompt: 'あなたはMirAI、プロフェッショナルなAIアシスタントです。構造化され、正確で、フォーマルな言葉遣いで回答を提供してください。',
             personaCreativePrompt: 'あなたはMirAI、創造的なAIアシスタントです。すべての質問に対して、ユニークで想像力に富んだ表現力豊かな回答をしてください。',
             placeholderMessages: ['質問を入力してください。', 'アイデアが必要ですか？', '翻訳または要約を依頼。', '何かお手伝いできることはありますか？'],
@@ -1793,7 +1793,7 @@ body.light-theme #confirmBtnNo:hover {
         elements.personaSelect.value = persona;
         localStorage.setItem('miraiPersona', persona);
         if (fromUserInteraction) {
-            clearChat(); 
+            // clearChat(); // Diberi komentar agar tidak dijalankan sesuai permintaan
         }
     }
 
@@ -1805,7 +1805,7 @@ body.light-theme #confirmBtnNo:hover {
         populateToolsMenu();
         updateUI();
         if (fromUserInteraction) {
-            clearChat(); 
+            // clearChat(); // Diberi komentar agar tidak dijalankan sesuai permintaan
         }
     }
 
