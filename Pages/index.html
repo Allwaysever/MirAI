@@ -1431,7 +1431,7 @@ body.light-theme #confirmBtnNo:hover {
         "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information.",
         "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a DiamondStars](https://trakteer.id/Allwaysever)"
     };
-const uiStrings = {
+ const uiStrings = {
         'id': {
             offlineTitle: 'Koneksi Internet Terputus',
             offlineText: 'Silakan periksa koneksi WiFi atau data seluler Anda, lalu coba kembali.',
@@ -1560,7 +1560,6 @@ const uiStrings = {
             slashCmdCodeTitle: 'Generate a Code Snippet',
             slashCmdCodeDesc: 'e.g., /code a javascript function for a button'
         },
-        // INI BAGIAN YANG DITAMBAHKAN
         'en-uk': {
             offlineTitle: 'Internet Connection Lost',
             offlineText: 'Please check your WiFi or cellular data connection, then try again.',
@@ -1716,7 +1715,14 @@ const uiStrings = {
     }
     
     function initializeApp() {
-        currentLanguage = localStorage.getItem('miraiLanguage') || 'id';
+        // [PERBAIKAN FINAL] Cek bahasa yang tersimpan, jika tidak valid, gunakan default 'id'
+        const savedLang = localStorage.getItem('miraiLanguage');
+        if (savedLang && uiStrings.hasOwnProperty(savedLang)) {
+            currentLanguage = savedLang;
+        } else {
+            currentLanguage = 'id'; // Fallback ke bahasa default jika tidak valid
+        }
+
         currentPersona = localStorage.getItem('miraiPersona') || 'default';
         const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
         const savedApiKey = localStorage.getItem('miraiApiKey');
