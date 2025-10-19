@@ -385,6 +385,31 @@ body.chat-active #toolsMenu {
         color: #222;
     }
 
+    /* === [BARU] CSS UNTUK TOMBOL TTS === */
+    .speak-btn {
+        position: absolute;
+        bottom: -20px;
+        left: 35px; /* Memberi jarak dari tombol copy */
+        color: rgba(255, 255, 255, 0.5); 
+        cursor: pointer;
+        font-size: 14px;
+        transition: color 0.3s ease;
+    }
+
+    body.light-theme .speak-btn {
+        color: rgba(0,0,0,0.5);
+    }
+
+    .speak-btn:hover {
+        color: #ffce00;
+    }
+    
+    body.light-theme .speak-btn:hover {
+        color: #222;
+    }
+    /* === [AKHIR] CSS UNTUK TOMBOL TTS === */
+
+
     .typing-indicator {
         align-self: flex-start;
         margin-left: 10px;
@@ -1656,7 +1681,7 @@ body.light-theme #confirmBtnNo:hover {
             termsText: 'MirAIを使用することにより、<a href="T&C/index.html" target="_blank">利用規約</a>に同意したことになります。',
             personaDefaultPrompt: 'あなたはMirAI、リラックスして冗談好きなAIアシスタントです。フレンドリーなスタイルで、少しユーモアを交えながらも、情報を提供するようにすべての質問に答えてください。',
             personaFormalPrompt: 'あなたはMirAI、プロフェッショナルなAIアシスタントです。構造化され、正確で、フォーマルな言葉遣いで回答を提供してください。',
-            personaCreativePrompt: 'あなたはMirAI、創造的なAIアシスタントです。すべての質問に対して、ユニークで想像力に富んだ表現力豊かな回答をしてください。',
+            personaCreativePrompt: 'あなたはMirAI、創造的なAIアシスタNTです。すべての質問に対して、ユニークで想像力に富んだ表現力豊かな回答をしてください。',
             placeholderMessages: ['質問を入力してください。', 'アイデアが必要ですか？', '翻訳または要約を依頼。', '何かお手伝いできることはありますか？'],
             onlineStatus: '接続済み',
             offlineStatus: '切断',
@@ -1774,6 +1799,10 @@ body.light-theme #confirmBtnNo:hover {
         initializeNewChatSession(); 
         toggleChatUI(false);
         updateDynamicPlaceholder();
+        // [BARU] Hentikan TTS jika sedang berjalan
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+        }
     }
 
     function showClearConfirmation() {
@@ -1863,10 +1892,19 @@ body.light-theme #confirmBtnNo:hover {
             const aiBubble = createAiBubble(answer, false);
             elements.chatMessages.appendChild(aiBubble);
             await typeWriterEffect(aiBubble, answer);
+            
+            // --- [MODIFIKASI] Tambahkan tombol copy DAN speak ---
             const copyBtn = document.createElement('i');
             copyBtn.classList.add('fas', 'fa-copy', 'copy-btn');
             copyBtn.setAttribute('onclick', 'copyToClipboard(this)');
             aiBubble.appendChild(copyBtn);
+
+            const speakBtn = document.createElement('i');
+            speakBtn.classList.add('fas', 'fa-volume-up', 'speak-btn');
+            speakBtn.setAttribute('onclick', 'speakText(this)');
+            aiBubble.appendChild(speakBtn);
+            // --- [AKHIR MODIFIKASI] ---
+
             elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
         } catch (error) {
             console.error('Error:', error);
@@ -1902,9 +1940,113 @@ body.light-theme #confirmBtnNo:hover {
     function findSmartAnswer(question) { const normalized = question.toLowerCase().trim(); const sortedKeys = Object.keys(faqDatabase).sort((a, b) => b.length - a.length); for (const key of sortedKeys) { const normalizedKey = key.toLowerCase().replace("?", ""); if (normalized.includes(normalizedKey)) return faqDatabase[key]; } return null; }
     function typeWriterEffect(element, text, speed = 0.5) { const parsedHtml = marked.parse(text); let i = 0; element.innerHTML = ''; const tempElement = document.createElement('div'); tempElement.innerHTML = parsedHtml; const textToType = tempElement.innerText; return new Promise(resolve => { function type() { if (i < textToType.length) { element.innerHTML += textToType.charAt(i); i++; setTimeout(type, speed); } else { element.innerHTML = parsedHtml; resolve(); } } type(); }); }
     function showLoading() { const loadingBubble = document.createElement('div'); loadingBubble.classList.add('chat-bubble', 'ai-bubble', 'typing-indicator', 'fade-in'); loadingBubble.innerHTML = '<span></span><span></span><span></span>'; elements.chatMessages.appendChild(loadingBubble); return loadingBubble; }
-    function stopAI() { if (abortController) { abortController.abort(); console.log("Response aborted."); elements.stopBtn.style.display = 'none'; elements.sendBtn.style.display = 'block'; elements.clearBtnContainer.style.display = 'block'; const loadingBubble = document.querySelector('.typing-indicator'); if (loadingBubble) loadingBubble.remove(); } }
+    
+    function stopAI() {
+        if (abortController) {
+            abortController.abort();
+            console.log("Response aborted.");
+            elements.stopBtn.style.display = 'none';
+            elements.sendBtn.style.display = 'block';
+            elements.clearBtnContainer.style.display = 'block';
+            const loadingBubble = document.querySelector('.typing-indicator');
+            if (loadingBubble) loadingBubble.remove();
+        }
+        // [MODIFIKASI] Hentikan juga TTS yang sedang berjalan
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+            // Reset semua ikon tombol speak
+            document.querySelectorAll('.speak-btn').forEach(btn => {
+                btn.classList.remove('fa-stop');
+                btn.classList.add('fa-volume-up');
+            });
+        }
+    }
+
     function handleSlashCommand(question) { if (!question.startsWith('/')) { return null; } const parts = question.split(' '); const command = parts[0].toLowerCase(); switch (command) { case '/translate': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 2) { return "Error: Invalid format. Use /translate [text] to [language]"; } const textToTranslate = parts.slice(1, toIndex).join(' '); const targetLanguage = parts.slice(toIndex + 1).join(' '); return `Translate the following text to ${targetLanguage}: "${textToTranslate}"`; } case '/summarize': { const textToSummarize = parts.slice(1).join(' '); if (textToSummarize.length < 20) { return "Error: Please provide more text to summarize."; } return `Provide a concise summary of the following text: "${textToSummarize}"`; } case '/rephrase': { const asIndex = parts.indexOf('as'); if (asIndex === -1 || asIndex < 2) { return "Error: Invalid format. Use /rephrase [text] as [tone]"; } const textToRephrase = parts.slice(1, asIndex).join(' '); const tone = parts.slice(asIndex + 1).join(' '); return `Rephrase the following text in a ${tone} tone: "${textToRephrase}"`; } case '/ideate': { const forIndex = parts.indexOf('for'); if (forIndex === -1 || forIndex < 3 || isNaN(parseInt(parts[1]))) { return "Error: Invalid format. Use /ideate [number] ideas for [topic]"; } const number = parts[1]; const topic = parts.slice(forIndex + 1).join(' '); return `Generate ${number} ideas for ${topic}. Present them as a numbered list.`; } case '/fix': { const textToFix = parts.slice(1).join(' '); if (!textToFix) { return "Error: Please provide text to fix. Use /fix [text]"; } return `Proofread and correct any grammatical errors and spelling mistakes in the following text. Only provide the corrected text: "${textToFix}"`; } case '/explain': { const likeIndex = parts.findIndex(part => part.toLowerCase() === "like"); if (likeIndex === -1 || likeIndex < 2) { return "Error: Invalid format. Use /explain [concept] like I'm [audience]"; } const concept = parts.slice(1, likeIndex).join(' '); const audienceIndex = parts.indexOf("I'm") > -1 ? parts.indexOf("I'm") : parts.indexOf("i'm"); if (audienceIndex === -1 || audienceIndex <= likeIndex) { return "Error: Invalid audience format. Use \"like I'm ...\""; } const audience = parts.slice(audienceIndex + 1).join(' '); return `Explain the concept of "${concept}" as if you were talking to a ${audience}.`; } case '/code': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 3) { return "Error: Invalid format. Use /code a [language] function to [description]"; } const language = parts[2]; const description = parts.slice(toIndex + 1).join(' '); return `Write a code snippet in ${language} for the following task: "${description}". Provide only the code, enclosed in a markdown code block.`; } case '/search': { const query = parts.slice(1).join(' '); if (!query) { return "Error: Please provide a search query. Use /search [query]"; } return `Search the web for information about "${query}". Provide a concise summary and, if possible, include relevant links.`; } default: return `Error: Unknown command "${command}". Try /translate or /summarize.`; } }
-    function createAiBubble(text, useInnerHTML = true) { const bubble = document.createElement('div'); bubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in'); bubble.setAttribute('data-raw-text', text); if (useInnerHTML) { bubble.innerHTML = `${marked.parse(text)}<i class="fas fa-copy copy-btn" onclick="copyToClipboard(this)"></i>`; } return bubble; }
+    
+    function createAiBubble(text, useInnerHTML = true) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in');
+        bubble.setAttribute('data-raw-text', text);
+        if (useInnerHTML) {
+            // [MODIFIKASI] Tambahkan tombol copy DAN speak
+            bubble.innerHTML = `${marked.parse(text)}
+                              <i class="fas fa-copy copy-btn" onclick="copyToClipboard(this)"></i>
+                              <i class="fas fa-volume-up speak-btn" onclick="speakText(this)"></i>`;
+        }
+        return bubble;
+    }
+
+    // --- [BARU] FUNGSI UNTUK TTS ---
+    
+    /**
+     * Mendapatkan kode bahasa BCP 47 untuk SpeechSynthesis
+     * @param {string} lang - Kode bahasa dari aplikasi (e.g., 'id', 'en', 'jp')
+     * @returns {string} Kode bahasa BCP 47 (e.g., 'id-ID', 'en-US', 'ja-JP')
+     */
+    function getLangCodeForSpeech(lang) {
+        if (lang === 'en-uk') return 'en-GB';
+        if (lang === 'en') return 'en-US';
+        if (lang === 'jp') return 'ja-JP';
+        if (lang === 'id') return 'id-ID';
+        return 'id-ID'; // Fallback default
+    }
+
+    /**
+     * Membacakan teks dari bubble AI menggunakan Web Speech API
+     * @param {HTMLElement} element - Elemen ikon speaker yang diklik
+     */
+    function speakText(element) {
+        const aiBubble = element.closest('.ai-bubble');
+        const textToSpeak = aiBubble.getAttribute('data-raw-text');
+        const icon = element;
+
+        // Jika tombol stop (ikon stop) diklik, hentikan audio
+        if (icon.classList.contains('fa-stop')) {
+            window.speechSynthesis.cancel();
+            // Event 'onend' akan otomatis mengubah ikon kembali
+            return;
+        }
+
+        // Jika ada audio lain yang sedang diputar, hentikan dulu
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+            // Reset semua ikon lain (jika ada) sebelum memulai yang baru
+             document.querySelectorAll('.speak-btn').forEach(btn => {
+                btn.classList.remove('fa-stop');
+                btn.classList.add('fa-volume-up');
+            });
+        }
+
+        if (!textToSpeak) return;
+
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.lang = getLangCodeForSpeech(currentLanguage);
+
+        // Saat audio mulai diputar
+        utterance.onstart = () => {
+            icon.classList.remove('fa-volume-up');
+            icon.classList.add('fa-stop');
+        };
+
+        // Saat audio selesai (baik selesai normal atau dibatalkan)
+        utterance.onend = () => {
+            icon.classList.remove('fa-stop');
+            icon.classList.add('fa-volume-up');
+        };
+
+        // Jika terjadi error
+        utterance.onerror = (event) => {
+            console.error('SpeechSynthesis Error:', event.error);
+            icon.classList.remove('fa-stop');
+            icon.classList.add('fa-volume-up');
+        };
+
+        window.speechSynthesis.speak(utterance);
+    }
+    // --- [AKHIR FUNGSI BARU] ---
+
+
     function copyToClipboard(element) { const aiBubble = element.closest('.ai-bubble'); const textToCopy = aiBubble.getAttribute('data-raw-text'); const formattedText = `${textToCopy}${uiStrings[currentLanguage].copySuffix}`; const tempInput = document.createElement('textarea'); tempInput.value = formattedText; document.body.appendChild(tempInput); tempInput.select(); tempInput.setSelectionRange(0, 99999); document.execCommand('copy'); document.body.removeChild(tempInput); showCopyFeedback(uiStrings[currentLanguage].copyFeedback); }
     function showCopyFeedback(message) { const feedbackDiv = document.createElement('div'); feedbackDiv.innerText = message; feedbackDiv.style.cssText = ` position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background-color: #444; color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 14px; z-index: 200; opacity: 0; transition: opacity 0.5s ease-in-out; `; document.body.appendChild(feedbackDiv); setTimeout(() => { feedbackDiv.style.opacity = 1; }, 10); setTimeout(() => { feedbackDiv.style.opacity = 0; setTimeout(() => feedbackDiv.remove(), 500); }, 2000); }
     function checkIndicatorPosition() { const connectionStatus = document.getElementById('connectionStatus'); if (!connectionStatus) return; const indicatorRect = connectionStatus.getBoundingClientRect(); const userBubbles = document.querySelectorAll('.user-bubble'); let isOverlapping = false; for (const bubble of userBubbles) { const bubbleRect = bubble.getBoundingClientRect(); const verticalOverlap = indicatorRect.bottom > bubbleRect.top && indicatorRect.top < bubbleRect.bottom; const horizontalOverlap = indicatorRect.right > bubbleRect.left && indicatorRect.right < bubbleRect.right; if (verticalOverlap && horizontalOverlap) { isOverlapping = true; break; } } connectionStatus.classList.toggle('hidden-by-scroll', isOverlapping); }
@@ -1942,6 +2084,13 @@ body.light-theme #confirmBtnNo:hover {
         updateConnectionStatus();
         populateToolsMenu();
         updateSendButtonState();
+
+        // [BARU] Pastikan TTS berhenti jika pengguna menutup tab/jendela
+        window.addEventListener('beforeunload', () => {
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+        });
     });
 
     window.addEventListener('online', updateConnectionStatus);
