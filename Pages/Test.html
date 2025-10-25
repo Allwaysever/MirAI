@@ -170,158 +170,230 @@
             </div>
     </div>
 
-    <script>
-        // Ambil elemen yang dibutuhkan
-        const elements = {
-            testElement: document.getElementById('test-element'),
-            logContainer: document.getElementById('log-container'),
-            themeToggleBtn: document.getElementById('themeToggleBtn'),
-            runAllTestsBtn: document.getElementById('runAllTestsBtn'),
-            screenWidthDisplay: document.getElementById('screen-width'),
-            localStorageStatus: document.getElementById('local-storage-status'),
-            geolocationStatus: document.getElementById('geolocation-status'),
-            networkStatus: document.getElementById('network-status'),
-        };
-        
-        // =================================================
-        // FUNGSI UTILITY & FITUR LAMA
-        // =================================================
+ <script>
+    // Ambil elemen yang dibutuhkan (Tetap sama)
+    const elements = {
+        testElement: document.getElementById('test-element'),
+        logContainer: document.getElementById('log-container'),
+        themeToggleBtn: document.getElementById('themeToggleBtn'),
+        runAllTestsBtn: document.getElementById('runAllTestsBtn'),
+        screenWidthDisplay: document.getElementById('screen-width'),
+        localStorageStatus: document.getElementById('local-storage-status'),
+        geolocationStatus: document.getElementById('geolocation-status'),
+        networkStatus: document.getElementById('network-status'),
+    };
+    
+    // Konstanta Jeda Waktu (Delay)
+    const LOG_DELAY = 500; // 500 milidetik (0.5 detik)
+    let logQueue = []; // Antrian Log
+    let isProcessing = false; // Status pemrosesan
 
-        function logToScreen(msg, type = 'LOG') {
-            const logDiv = document.createElement('div');
-            logDiv.classList.add('log-item');
-            logDiv.textContent = `[${type}] ${new Date().toLocaleTimeString('id-ID')}: ${msg}`;
-            elements.logContainer.prepend(logDiv);
+    // =================================================
+    // FUNGSI UTILITY & FITUR LAMA
+    // =================================================
+
+    // [MODIFIKASI] Fungsi log sekarang mengantri pesan
+    function logToScreen(msg, type = 'LOG') {
+        // Cek jika pesan sudah berupa objek hasil dari fungsi tes (untuk log yang langsung ditampilkan)
+        if (typeof msg === 'object' && msg !== null) {
+            logQueue.push({ msg: msg.msg, type: msg.type });
+        } else {
+            logQueue.push({ msg, type });
         }
         
-        function toggleTheme() {
-            const isLight = document.body.classList.toggle('light-theme');
-            document.body.classList.toggle('dark-theme', !isLight);
-            
-            if (isLight) {
-                elements.themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
-                localStorage.setItem('theme', 'light');
-            } else {
-                elements.themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-                localStorage.setItem('theme', 'dark');
-            }
-            logToScreen(`Tema diubah menjadi: ${isLight ? 'Terang' : 'Gelap'}`, 'THEME');
+        // Mulai proses antrian jika belum berjalan
+        if (!isProcessing) {
+            processLogQueue();
+        }
+    }
+
+    // [BARU] Fungsi untuk memproses antrian log satu per satu
+    function processLogQueue() {
+        if (logQueue.length === 0) {
+            isProcessing = false;
+            // Aktifkan kembali tombol setelah semua tes selesai
+            elements.runAllTestsBtn.disabled = false; 
+            elements.runAllTestsBtn.innerHTML = '<i class="fas fa-microchip"></i> Jalankan Semua Tes';
+            return;
         }
 
-        function initializeTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.body.classList.remove('dark-theme', 'light-theme');
-            
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-theme');
-                elements.themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
-            } else {
-                document.body.classList.add('dark-theme');
-                elements.themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-            }
-        }
-
-        // =================================================
-        // FUNGSI UNTUK 4 JENIS TES BARU
-        // =================================================
-
-        // 1. Tes DOM (Diperbarui)
-        function testDom() {
-            logToScreen('1. Memulai Tes DOM...', 'DOM');
-            const el = elements.testElement;
-
-            if (el) {
-                el.textContent = 'BERHASIL DIUBAH! DOM OK.';
-                el.style.color = '#ffce00'; 
-                el.style.fontWeight = 'bold';
-                logToScreen('Elemen DOM berhasil ditemukan dan dimanipulasi.', 'SUCCESS');
-            } else {
-                el.textContent = 'GAGAL DITEMUKAN! DOM Bermasalah.';
-                el.style.color = 'red';
-                logToScreen('Elemen DOM GAGAL ditemukan.', 'ERROR');
-            }
-        }
+        isProcessing = true;
+        const nextLog = logQueue.shift();
         
-        // 1.b. Tes Responsivitas (Real-time)
-        function updateScreenWidth() {
-            const width = window.innerWidth;
-            elements.screenWidthDisplay.textContent = width;
-            logToScreen(`Lebar Layar Saat Ini: ${width}px`, 'SCREEN');
-        }
-
-        // 2. Tes Ketersediaan API
-        function testAPI() {
-            logToScreen('2. Memulai Tes Ketersediaan API...', 'API');
-            
-            // Tes localStorage
-            try {
-                localStorage.setItem('test', '1');
-                localStorage.removeItem('test');
-                elements.localStorageStatus.textContent = 'TERSEDIA';
-                elements.localStorageStatus.style.color = '#4CAF50';
-                logToScreen('localStorage: OK', 'SUCCESS');
-            } catch (e) {
-                elements.localStorageStatus.textContent = 'TIDAK TERSEDIA';
-                elements.localStorageStatus.style.color = 'red';
-                logToScreen('localStorage: GAGAL (Mungkin dinonaktifkan)', 'ERROR');
-            }
-
-            // Tes Geolocation
-            if ('geolocation' in navigator) {
-                elements.geolocationStatus.textContent = 'TERSEDIA';
-                elements.geolocationStatus.style.color = '#4CAF50';
-                logToScreen('Geolocation: OK', 'SUCCESS');
-            } else {
-                elements.geolocationStatus.textContent = 'TIDAK TERSEDIA';
-                elements.geolocationStatus.style.color = 'red';
-                logToScreen('Geolocation: GAGAL', 'ERROR');
-            }
-        }
+        const logDiv = document.createElement('div');
+        logDiv.classList.add('log-item');
+        // Tambahkan animasi loading/fade-in
+        logDiv.style.opacity = '0'; 
+        logDiv.style.transform = 'translateY(10px)'; 
+        logDiv.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         
-        // 3. Tes Koneksi Jaringan
-        function testNetwork() {
-            logToScreen('3. Memulai Tes Koneksi Jaringan...', 'NETWORK');
-            updateNetworkStatus();
+        logDiv.textContent = `[${nextLog.type}] ${new Date().toLocaleTimeString('id-ID')}: ${nextLog.msg}`;
+        elements.logContainer.prepend(logDiv); // Tambahkan di atas
+        
+        // Paksakan reflow/redraw
+        void logDiv.offsetWidth; 
+        
+        // Animasikan masuk
+        logDiv.style.opacity = '1';
+        logDiv.style.transform = 'translateY(0)';
+
+        // Lanjutkan ke log berikutnya setelah jeda
+        setTimeout(processLogQueue, LOG_DELAY);
+    }
+
+    // Fungsi toggleTheme & initializeTheme (Tidak perlu diubah, tetap pakai fungsi lama)
+    function toggleTheme() {
+        // ... (Kode toggleTheme lama) ...
+        const isLight = document.body.classList.toggle('light-theme');
+        document.body.classList.toggle('dark-theme', !isLight);
+        
+        if (isLight) {
+            elements.themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', 'light');
+        } else {
+            elements.themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', 'dark');
+        }
+        logToScreen({ msg: `Tema diubah menjadi: ${isLight ? 'Terang' : 'Gelap'}`, type: 'THEME' });
+    }
+
+    function initializeTheme() {
+        // ... (Kode initializeTheme lama) ...
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.body.classList.remove('dark-theme', 'light-theme');
+        
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-theme');
+            elements.themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+        } else {
+            document.body.classList.add('dark-theme');
+            elements.themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    }
+
+
+    // =================================================
+    // FUNGSI UNTUK 4 JENIS TES BARU
+    // (Fungsi ini sekarang hanya MENGUMPULKAN LOG, tidak langsung menampilkannya)
+    // =================================================
+    
+    // 1. Tes DOM
+    function testDom() {
+        logToScreen({ msg: '1. Memulai Tes DOM...', type: 'DOM' });
+        const el = elements.testElement;
+
+        if (el) {
+            el.textContent = 'BERHASIL DIUBAH! DOM OK.';
+            el.style.color = '#ffce00'; 
+            el.style.fontWeight = 'bold';
+            logToScreen({ msg: 'Elemen DOM berhasil ditemukan dan dimanipulasi.', type: 'SUCCESS' });
+        } else {
+            el.textContent = 'GAGAL DITEMUKAN! DOM Bermasalah.';
+            el.style.color = 'red';
+            logToScreen({ msg: 'Elemen DOM GAGAL ditemukan.', type: 'ERROR' });
+        }
+    }
+    
+    // 1.b. Tes Responsivitas (Hanya update layar, log nanti di runAllTests)
+    function updateScreenWidth() {
+        const width = window.innerWidth;
+        elements.screenWidthDisplay.textContent = width;
+        // Log ini akan dipanggil manual di runAllTests untuk efek delay
+    }
+
+    // 2. Tes Ketersediaan API
+    function testAPI() {
+        logToScreen({ msg: '2. Memulai Tes Ketersediaan API...', type: 'API' });
+        
+        // Tes localStorage
+        try {
+            localStorage.setItem('test', '1');
+            localStorage.removeItem('test');
+            elements.localStorageStatus.textContent = 'TERSEDIA';
+            elements.localStorageStatus.style.color = '#4CAF50';
+            logToScreen({ msg: 'localStorage: OK. Data persisten dapat digunakan.', type: 'SUCCESS' });
+        } catch (e) {
+            elements.localStorageStatus.textContent = 'TIDAK TERSEDIA';
+            elements.localStorageStatus.style.color = 'red';
+            logToScreen({ msg: 'localStorage: GAGAL (Mungkin dinonaktifkan)', type: 'ERROR' });
         }
 
-        function updateNetworkStatus() {
-            const isOnline = navigator.onLine;
-            elements.networkStatus.textContent = isOnline ? 'ONLINE' : 'OFFLINE';
-            elements.networkStatus.style.color = isOnline ? '#4CAF50' : 'red';
-            logToScreen(`Status Jaringan: ${isOnline ? 'ONLINE' : 'OFFLINE'}`, 'NETWORK');
+        // Tes Geolocation
+        if ('geolocation' in navigator) {
+            elements.geolocationStatus.textContent = 'TERSEDIA';
+            elements.geolocationStatus.style.color = '#4CAF50';
+            logToScreen({ msg: 'Geolocation: OK. Fitur lokasi tersedia.', type: 'SUCCESS' });
+        } else {
+            elements.geolocationStatus.textContent = 'TIDAK TERSEDIA';
+            elements.geolocationStatus.style.color = 'red';
+            logToScreen({ msg: 'Geolocation: GAGAL. Fitur lokasi tidak didukung.', type: 'ERROR' });
         }
+    }
+    
+    // 3. Tes Koneksi Jaringan (Hanya untuk update display, log nanti di runAllTests)
+    function updateNetworkStatus() {
+        const isOnline = navigator.onLine;
+        elements.networkStatus.textContent = isOnline ? 'ONLINE' : 'OFFLINE';
+        elements.networkStatus.style.color = isOnline ? '#4CAF50' : 'red';
+        // Log ini akan dipanggil manual di runAllTests untuk efek delay
+    }
 
-        // Fungsi utama untuk menjalankan semua tes
-        function runAllTests() {
-            elements.logContainer.innerHTML = ''; // Bersihkan Log
-            logToScreen('--- MENJALANKAN SEMUA TES ---', 'START');
-            testDom();
-            updateScreenWidth(); // Panggil manual
-            testAPI();
-            testNetwork();
-            logToScreen('--- SEMUA TES SELESAI ---', 'FINISH');
-        }
+    // =================================================
+    // [MODIFIKASI UTAMA] FUNGSI SEQUENTIAL TEST
+    // =================================================
 
-        // =================================================
-        // EVENT LISTENERS & INISIALISASI
-        // =================================================
+    function runAllTests() {
+        if (isProcessing) return; // Cegah tombol ditekan berulang kali
+        
+        elements.logContainer.innerHTML = ''; // Bersihkan Log
+        logQueue = []; // Reset antrian
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeTheme();
-            runAllTests(); // Jalankan semua tes saat dimuat
-            
-            // Event Listeners
-            elements.themeToggleBtn.addEventListener('click', toggleTheme);
-            elements.runAllTestsBtn.addEventListener('click', runAllTests);
+        // Nonaktifkan tombol dan ubah teksnya menjadi Loading
+        elements.runAllTestsBtn.disabled = true;
+        elements.runAllTestsBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sedang Menguji...';
 
-            // Real-time listener untuk Responsivitas
-            window.addEventListener('resize', updateScreenWidth);
-            
-            // Real-time listener untuk Koneksi
-            window.addEventListener('online', updateNetworkStatus);
-            window.addEventListener('offline', updateNetworkStatus);
-        });
+        logToScreen({ msg: '--- MEMULAI PROSES UJI 4 LANGKAH ---', type: 'START' });
+        
+        // Langkah 1: Tes DOM
+        testDom();
+        
+        // Langkah 2: Tes Responsivitas
+        logToScreen({ msg: '1.b. Memperbarui Lebar Layar...', type: 'SCREEN' });
+        updateScreenWidth(); 
+        logToScreen({ msg: `RESPONSIVITAS: Saat ini ${window.innerWidth}px.`, type: 'SUCCESS' });
+        
+        // Langkah 3: Tes Ketersediaan API
+        testAPI();
 
-    </script>
+        // Langkah 4: Tes Koneksi Jaringan
+        logToScreen({ msg: '3. Memeriksa Status Koneksi Jaringan...', type: 'NETWORK' });
+        updateNetworkStatus();
+        
+        logToScreen({ msg: '--- SEMUA TES DIMASUKKAN KE ANTRIAN ---', type: 'FINISH' });
+        
+        // Proses antrian akan dimulai otomatis di fungsi logToScreen pertama.
+    }
+
+    // =================================================
+    // EVENT LISTENERS & INISIALISASI
+    // =================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeTheme();
+        
+        // Panggil tes pertama kali saat dimuat untuk memberikan kesan MirAI yang langsung memuat data
+        runAllTests(); 
+        
+        // Event Listeners
+        elements.themeToggleBtn.addEventListener('click', toggleTheme);
+        elements.runAllTestsBtn.addEventListener('click', runAllTests);
+
+        // Real-time listener tetap aktif di background tanpa delay
+        window.addEventListener('resize', updateScreenWidth);
+        window.addEventListener('online', updateNetworkStatus);
+        window.addEventListener('offline', updateNetworkStatus);
+    });
+
+</script>
 </body>
 </html>
