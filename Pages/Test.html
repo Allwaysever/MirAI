@@ -1,54 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Page</title>
-</head>
-<body>
-    <h1>Halaman Tes Debug</h1>
-    <p id="test-element" style="border: 2px solid red; padding: 10px;">Teks ini seharusnya berubah.</p>
-    <hr>
-    <h2>Log Aktivitas:</h2>
+    <title>Test Debug Page (MirAI Style)</title>
+    
+    <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <script>
-        // Kita coba tangkap error lagi untuk jaga-jaga
-        window.onerror = function(message, source, lineno, colno, error) {
-            alert('ERROR DI FILE TES!\n\n' + message + '\nBaris: ' + lineno);
-            return true;
-        };
-
-        // Fungsi untuk menulis log ke layar, biar kelihatan di HP
-        function logToScreen(msg) {
-            const logContainer = document.body;
-            const logDiv = document.createElement('div');
-            logDiv.style.borderBottom = '1px solid #ccc';
-            logDiv.style.padding = '5px';
-            logDiv.textContent = `[LOG] ${new Date().toLocaleTimeString()}: ${msg}`;
-            logContainer.appendChild(logDiv);
+    <style>
+        /* ================================================= */
+        /* BASE STYLE (DIADAPTASI DARI MirAI.html) */
+        /* ================================================= */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Ganti ke flex-start agar konten dari atas */
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Product Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+            padding: 20px;
+            padding-top: 80px; /* Jarak untuk tombol di atas */
+        }
+        
+        /* TEMA GELAP (DEFAULT) */
+        body.dark-theme {
+            background-color: #1B1C1E;
+            color: #fff;
         }
 
-        alert('Langkah 1: Skrip mulai berjalan...');
-        logToScreen('Skrip mulai berjalan...');
+        /* TEMA TERANG */
+        body.light-theme {
+            background-color: #e9e9e9;
+            color: #444;
+        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            alert('Langkah 2: Event DOMContentLoaded terpicu!');
-            logToScreen('Event DOMContentLoaded terpicu! Artinya HTML sudah selesai dimuat.');
+        /* Container Utama Mirip Chat Container di MirAI */
+        .main-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-            const el = document.getElementById('test-element');
+        /* Adaptasi Style untuk Elemen HTML Dasar */
+        h1, h2 {
+            font-weight: 600;
+            border-bottom: 2px solid;
+            padding-bottom: 5px;
+        }
 
-            if (el) {
-                alert('Langkah 3: Elemen DITEMUKAN! Mengubah teks...');
-                logToScreen('HASIL: Elemen DITEMUKAN! Teks akan diubah.');
-                el.textContent = 'BERHASIL DIUBAH! Artinya, tidak ada masalah dengan DOMContentLoaded.';
-                el.style.color = 'green';
-                el.style.fontWeight = 'bold';
-                el.style.borderColor = 'green';
+        /* Warna Border untuk Dark Mode */
+        body.dark-theme h1, body.dark-theme h2,
+        body.dark-theme #test-element {
+            border-color: #ffce00; /* Warna aksen kuning MirAI */
+        }
+        
+        /* Warna Border untuk Light Mode */
+        body.light-theme h1, body.light-theme h2,
+        body.light-theme #test-element {
+            border-color: #444;
+        }
+
+        /* Style untuk Elemen Tes yang Berhasil Berubah */
+        #test-element {
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        /* Style untuk Tombol Tema (Diadopsi dari #settingsBtn MirAI) */
+        #themeToggleBtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ffce00;
+            color: #0f0f0f;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            font-size: 1.2em;
+        }
+        
+        #themeToggleBtn:hover { 
+            background-color: #eab308;
+            transform: scale(1.1); 
+        }
+
+        /* Penyesuaian Tombol untuk Light Theme */
+        body.light-theme #themeToggleBtn {
+            background-color: #444;
+            color: #e9e9e9;
+        }
+
+        body.light-theme #themeToggleBtn:hover {
+            background-color: #222;
+        }
+
+        /* Style untuk Log Aktivitas */
+        .log-item {
+            padding: 8px 0;
+            margin: 5px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+            font-size: 0.9em;
+            word-wrap: break-word;
+        }
+
+        body.light-theme .log-item {
+             border-bottom: 1px dashed rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    
+    <button id="themeToggleBtn">
+        <i class="fas fa-sun"></i> 
+    </button>
+
+    <div class="main-container">
+        <h1>Halaman Tes Debug</h1>
+        <p id="test-element">Teks ini seharusnya berubah.</p>
+        <hr>
+        
+        <button id="actionBtn" class="tombol-spesial" style="margin-top: 15px;">
+             <i class="fas fa-flask"></i> Jalankan Tes DOM
+        </button>
+
+        <h2>Log Aktivitas:</h2>
+        <div id="log-container">
+            </div>
+    </div>
+
+    <script>
+        // Ambil elemen yang dibutuhkan
+        const elements = {
+            testElement: document.getElementById('test-element'),
+            logContainer: document.getElementById('log-container'),
+            themeToggleBtn: document.getElementById('themeToggleBtn'),
+            actionBtn: document.getElementById('actionBtn')
+        };
+        
+        // =================================================
+        // FUNGSI UTILITY
+        // =================================================
+
+        // 1. Fungsi untuk menulis log ke layar (Diperbarui dari Test.html)
+        function logToScreen(msg, type = 'LOG') {
+            const logDiv = document.createElement('div');
+            logDiv.classList.add('log-item');
+            logDiv.textContent = `[${type}] ${new Date().toLocaleTimeString('id-ID')}: ${msg}`;
+            elements.logContainer.prepend(logDiv); // Tambahkan di atas
+        }
+        
+        // 2. Fungsi untuk menjalankan tes DOM (Modifikasi dari Test.html)
+        function runDomTest() {
+            logToScreen('Skrip mulai berjalan...', 'START');
+            
+            // Hapus log lama
+            elements.logContainer.innerHTML = '';
+            
+            // Simulasikan DOMContentLoaded
+            setTimeout(() => {
+                logToScreen('Event DOMContentLoaded terpicu! HTML sudah selesai dimuat.', 'DOM');
+                
+                const el = elements.testElement;
+                if (el) {
+                    logToScreen('HASIL: Elemen DITEMUKAN! Teks akan diubah.', 'SUCCESS');
+                    el.textContent = 'BERHASIL DIUBAH! Artinya, tidak ada masalah dengan DOMContentLoaded.';
+                    el.style.color = '#ffce00'; // Warna teks kuning MirAI
+                    el.style.fontWeight = 'bold';
+                    el.style.borderColor = '#4CAF50';
+                } else {
+                    logToScreen('HASIL: Elemen GAGAL ditemukan (null)! Perlu diperiksa.', 'ERROR');
+                }
+            }, 100);
+        }
+
+        // 3. FITUR BARU: Theme Toggle (Mengadopsi pola MirAI)
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('light-theme');
+            
+            // Ganti icon tombol
+            if (isDark) {
+                elements.themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
             } else {
-                alert('Langkah 3: Elemen GAGAL ditemukan (null)! Ini aneh.');
-                logToScreen('HASIL: Elemen GAGAL ditemukan (null)! Ini adalah sumber masalahnya.');
+                document.body.classList.add('dark-theme'); // Pastikan dark-theme ada
+                elements.themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
             }
-        });
+            logToScreen(`Tema diubah menjadi: ${isDark ? 'Terang' : 'Gelap'}`, 'THEME');
+        }
+
+        // 4. Inisialisasi Tema
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default MirAI adalah dark
+            document.body.classList.remove('dark-theme', 'light-theme');
+            
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                elements.themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.classList.add('dark-theme');
+                elements.themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        // =================================================
+        // EVENT LISTENERS
+        // =================================================
+
+        // Jalankan inisialisasi tema saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', initializeTheme);
+        
+        // Panggil fungsi theme toggle saat tombol ditekan
+        elements.themeToggleBtn.addEventListener('click', toggleTheme);
+        
+        // Panggil fungsi runDomTest saat tombol aksi ditekan
+        elements.actionBtn.addEventListener('click', runDomTest);
+
+        // Jalankan tes DOM pertama kali saat halaman siap (Seperti MirAI yang langsung memuat)
+        document.addEventListener('DOMContentLoaded', runDomTest);
+
     </script>
 </body>
 </html>
