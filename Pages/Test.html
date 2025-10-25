@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Debug Page (MirAI Style)</title>
+    <title>Test Debug Page (MirAI Style - 4 Tests)</title>
     
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -15,14 +15,14 @@
         body {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Ganti ke flex-start agar konten dari atas */
+            justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             font-family: 'Product Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
             padding: 20px;
-            padding-top: 80px; /* Jarak untuk tombol di atas */
+            padding-top: 80px;
         }
         
         /* TEMA GELAP (DEFAULT) */
@@ -57,24 +57,17 @@
 
         /* Warna Border untuk Dark Mode */
         body.dark-theme h1, body.dark-theme h2,
-        body.dark-theme #test-element {
+        body.dark-theme .test-result {
             border-color: #ffce00; /* Warna aksen kuning MirAI */
         }
         
         /* Warna Border untuk Light Mode */
         body.light-theme h1, body.light-theme h2,
-        body.light-theme #test-element {
+        body.light-theme .test-result {
             border-color: #444;
         }
 
-        /* Style untuk Elemen Tes yang Berhasil Berubah */
-        #test-element {
-            padding: 15px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        /* Style untuk Tombol Tema (Diadopsi dari #settingsBtn MirAI) */
+        /* Style untuk Tombol Tema */
         #themeToggleBtn {
             position: fixed;
             top: 20px;
@@ -110,7 +103,7 @@
             background-color: #222;
         }
 
-        /* Style untuk Log Aktivitas */
+        /* Style untuk Log Aktivitas dan Hasil Tes */
         .log-item {
             padding: 8px 0;
             margin: 5px 0;
@@ -122,6 +115,19 @@
         body.light-theme .log-item {
              border-bottom: 1px dashed rgba(0, 0, 0, 0.3);
         }
+
+        /* Tampilan Hasil Tes */
+        .test-result {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .test-result strong {
+            color: #ffce00; /* Aksen kuning MirAI */
+        }
     </style>
 </head>
 
@@ -132,13 +138,32 @@
     </button>
 
     <div class="main-container">
-        <h1>Halaman Tes Debug</h1>
-        <p id="test-element">Teks ini seharusnya berubah.</p>
+        <h1>Halaman Tes Development</h1>
+        <p>Halaman ini akan menjalankan 4 jenis tes JavaScript untuk *debugging*.</p>
         <hr>
         
-        <button id="actionBtn" class="tombol-spesial" style="margin-top: 15px;">
-             <i class="fas fa-flask"></i> Jalankan Tes DOM
+        <button id="runAllTestsBtn" style="margin-top: 15px;">
+             <i class="fas fa-microchip"></i> Jalankan Semua Tes
         </button>
+
+        <h2>Hasil Tes:</h2>
+
+        <h3>1. Tes DOM & Responsivitas</h3>
+        <div id="dom-test-result" class="test-result">
+            <p id="test-element">Teks DOM akan berubah di sini.</p>
+            <p>Lebar Layar (Real-time): <strong id="screen-width">--</strong> px</p>
+        </div>
+
+        <h3>2. Tes Ketersediaan API</h3>
+        <div id="api-test-result" class="test-result">
+            <p>localStorage: <strong id="local-storage-status">--</strong></p>
+            <p>Geolocation: <strong id="geolocation-status">--</strong></p>
+        </div>
+        
+        <h3>3. Tes Koneksi Jaringan</h3>
+        <div id="network-test-result" class="test-result">
+            Status: <strong id="network-status">--</strong>
+        </div>
 
         <h2>Log Aktivitas:</h2>
         <div id="log-container">
@@ -151,64 +176,40 @@
             testElement: document.getElementById('test-element'),
             logContainer: document.getElementById('log-container'),
             themeToggleBtn: document.getElementById('themeToggleBtn'),
-            actionBtn: document.getElementById('actionBtn')
+            runAllTestsBtn: document.getElementById('runAllTestsBtn'),
+            screenWidthDisplay: document.getElementById('screen-width'),
+            localStorageStatus: document.getElementById('local-storage-status'),
+            geolocationStatus: document.getElementById('geolocation-status'),
+            networkStatus: document.getElementById('network-status'),
         };
         
         // =================================================
-        // FUNGSI UTILITY
+        // FUNGSI UTILITY & FITUR LAMA
         // =================================================
 
-        // 1. Fungsi untuk menulis log ke layar (Diperbarui dari Test.html)
         function logToScreen(msg, type = 'LOG') {
             const logDiv = document.createElement('div');
             logDiv.classList.add('log-item');
             logDiv.textContent = `[${type}] ${new Date().toLocaleTimeString('id-ID')}: ${msg}`;
-            elements.logContainer.prepend(logDiv); // Tambahkan di atas
+            elements.logContainer.prepend(logDiv);
         }
         
-        // 2. Fungsi untuk menjalankan tes DOM (Modifikasi dari Test.html)
-        function runDomTest() {
-            logToScreen('Skrip mulai berjalan...', 'START');
-            
-            // Hapus log lama
-            elements.logContainer.innerHTML = '';
-            
-            // Simulasikan DOMContentLoaded
-            setTimeout(() => {
-                logToScreen('Event DOMContentLoaded terpicu! HTML sudah selesai dimuat.', 'DOM');
-                
-                const el = elements.testElement;
-                if (el) {
-                    logToScreen('HASIL: Elemen DITEMUKAN! Teks akan diubah.', 'SUCCESS');
-                    el.textContent = 'BERHASIL DIUBAH! Artinya, tidak ada masalah dengan DOMContentLoaded.';
-                    el.style.color = '#ffce00'; // Warna teks kuning MirAI
-                    el.style.fontWeight = 'bold';
-                    el.style.borderColor = '#4CAF50';
-                } else {
-                    logToScreen('HASIL: Elemen GAGAL ditemukan (null)! Perlu diperiksa.', 'ERROR');
-                }
-            }, 100);
-        }
-
-        // 3. FITUR BARU: Theme Toggle (Mengadopsi pola MirAI)
         function toggleTheme() {
-            const isDark = document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.toggle('light-theme');
+            document.body.classList.toggle('dark-theme', !isLight);
             
-            // Ganti icon tombol
-            if (isDark) {
+            if (isLight) {
                 elements.themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
                 localStorage.setItem('theme', 'light');
             } else {
-                document.body.classList.add('dark-theme'); // Pastikan dark-theme ada
                 elements.themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
                 localStorage.setItem('theme', 'dark');
             }
-            logToScreen(`Tema diubah menjadi: ${isDark ? 'Terang' : 'Gelap'}`, 'THEME');
+            logToScreen(`Tema diubah menjadi: ${isLight ? 'Terang' : 'Gelap'}`, 'THEME');
         }
 
-        // 4. Inisialisasi Tema
         function initializeTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default MirAI adalah dark
+            const savedTheme = localStorage.getItem('theme') || 'dark';
             document.body.classList.remove('dark-theme', 'light-theme');
             
             if (savedTheme === 'light') {
@@ -221,20 +222,105 @@
         }
 
         // =================================================
-        // EVENT LISTENERS
+        // FUNGSI UNTUK 4 JENIS TES BARU
         // =================================================
 
-        // Jalankan inisialisasi tema saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', initializeTheme);
-        
-        // Panggil fungsi theme toggle saat tombol ditekan
-        elements.themeToggleBtn.addEventListener('click', toggleTheme);
-        
-        // Panggil fungsi runDomTest saat tombol aksi ditekan
-        elements.actionBtn.addEventListener('click', runDomTest);
+        // 1. Tes DOM (Diperbarui)
+        function testDom() {
+            logToScreen('1. Memulai Tes DOM...', 'DOM');
+            const el = elements.testElement;
 
-        // Jalankan tes DOM pertama kali saat halaman siap (Seperti MirAI yang langsung memuat)
-        document.addEventListener('DOMContentLoaded', runDomTest);
+            if (el) {
+                el.textContent = 'BERHASIL DIUBAH! DOM OK.';
+                el.style.color = '#ffce00'; 
+                el.style.fontWeight = 'bold';
+                logToScreen('Elemen DOM berhasil ditemukan dan dimanipulasi.', 'SUCCESS');
+            } else {
+                el.textContent = 'GAGAL DITEMUKAN! DOM Bermasalah.';
+                el.style.color = 'red';
+                logToScreen('Elemen DOM GAGAL ditemukan.', 'ERROR');
+            }
+        }
+        
+        // 1.b. Tes Responsivitas (Real-time)
+        function updateScreenWidth() {
+            const width = window.innerWidth;
+            elements.screenWidthDisplay.textContent = width;
+            logToScreen(`Lebar Layar Saat Ini: ${width}px`, 'SCREEN');
+        }
+
+        // 2. Tes Ketersediaan API
+        function testAPI() {
+            logToScreen('2. Memulai Tes Ketersediaan API...', 'API');
+            
+            // Tes localStorage
+            try {
+                localStorage.setItem('test', '1');
+                localStorage.removeItem('test');
+                elements.localStorageStatus.textContent = 'TERSEDIA';
+                elements.localStorageStatus.style.color = '#4CAF50';
+                logToScreen('localStorage: OK', 'SUCCESS');
+            } catch (e) {
+                elements.localStorageStatus.textContent = 'TIDAK TERSEDIA';
+                elements.localStorageStatus.style.color = 'red';
+                logToScreen('localStorage: GAGAL (Mungkin dinonaktifkan)', 'ERROR');
+            }
+
+            // Tes Geolocation
+            if ('geolocation' in navigator) {
+                elements.geolocationStatus.textContent = 'TERSEDIA';
+                elements.geolocationStatus.style.color = '#4CAF50';
+                logToScreen('Geolocation: OK', 'SUCCESS');
+            } else {
+                elements.geolocationStatus.textContent = 'TIDAK TERSEDIA';
+                elements.geolocationStatus.style.color = 'red';
+                logToScreen('Geolocation: GAGAL', 'ERROR');
+            }
+        }
+        
+        // 3. Tes Koneksi Jaringan
+        function testNetwork() {
+            logToScreen('3. Memulai Tes Koneksi Jaringan...', 'NETWORK');
+            updateNetworkStatus();
+        }
+
+        function updateNetworkStatus() {
+            const isOnline = navigator.onLine;
+            elements.networkStatus.textContent = isOnline ? 'ONLINE' : 'OFFLINE';
+            elements.networkStatus.style.color = isOnline ? '#4CAF50' : 'red';
+            logToScreen(`Status Jaringan: ${isOnline ? 'ONLINE' : 'OFFLINE'}`, 'NETWORK');
+        }
+
+        // Fungsi utama untuk menjalankan semua tes
+        function runAllTests() {
+            elements.logContainer.innerHTML = ''; // Bersihkan Log
+            logToScreen('--- MENJALANKAN SEMUA TES ---', 'START');
+            testDom();
+            updateScreenWidth(); // Panggil manual
+            testAPI();
+            testNetwork();
+            logToScreen('--- SEMUA TES SELESAI ---', 'FINISH');
+        }
+
+        // =================================================
+        // EVENT LISTENERS & INISIALISASI
+        // =================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            runAllTests(); // Jalankan semua tes saat dimuat
+            
+            // Event Listeners
+            elements.themeToggleBtn.addEventListener('click', toggleTheme);
+            elements.runAllTestsBtn.addEventListener('click', runAllTests);
+
+            // Real-time listener untuk Responsivitas
+            window.addEventListener('resize', updateScreenWidth);
+            
+            // Real-time listener untuk Koneksi
+            window.addEventListener('online', updateNetworkStatus);
+            window.addEventListener('offline', updateNetworkStatus);
+        });
 
     </script>
 </body>
