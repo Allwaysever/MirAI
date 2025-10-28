@@ -1,11 +1,21 @@
 # Changelogs
 ## What's new?
-### v2.7 - 2.9
-- Upgrade Features
+### v2.11-BETA - **``Multimodal Upgrade``**
+- Added multimodal functionality for image uploads
+- added "paperlink" button for uploading images and so on
+
+*note:* This version is still under development, so... **BE PATIENT IF YOU FEEL UNCOMFORTABLE WITH THE UI!!**
   
 ---
 
 ## Previous version:
+### v2.10
+- UI Upgrade
+- fix bugs
+
+### v2.7 - 2.9
+- Upgrade Features
+
 ### v2.6.1
 - Fix bugs
 
