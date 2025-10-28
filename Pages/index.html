@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>const VERSION = 'v2.10-DEVMODE';</script>
+    <script>const VERSION = 'v2.11-BETA';</script>
     <style>
     /* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan */
     body {
@@ -632,6 +632,7 @@ body.chat-active #toolsMenu {
         outline: none;
         font-size: 15px;
         padding: 0 5px;
+        margin-left: 5px;
         background-color: transparent;
         resize: none;
         overflow: hidden;
@@ -1322,6 +1323,48 @@ body.light-theme #confirmBtnNo:hover {
 .tombol-spesial:hover {
   background-color: #e6b800;
 }
+
+/* [BARU] Styling untuk tombol upload */
+#uploadImageBtn {
+    background-color: #333;
+    color: #888;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.3s ease, transform 0.3s ease-in-out, color 0.3s ease;
+    margin-left: 5px; /* Memberi jarak dari tombol tools */
+}
+
+#uploadImageBtn:hover {
+    transform: scale(1.1);
+    background-color: #444;
+    color: white;
+}
+
+body.light-theme #uploadImageBtn {
+    color: #555;
+    background-color: #ccc;
+}
+
+body.light-theme #uploadImageBtn:hover {
+    background-color: #bbb;
+    color: black;
+}
+
+/* [BARU] Styling untuk preview gambar (disempurnakan dari HTML) */
+#imagePreview {
+    border: 1px solid #4B4F50;
+}
+
+body.light-theme #imagePreview {
+     border: 1px solid #b3b3b3;
+}
 </style>
 </head>
 <body>
@@ -1371,12 +1414,21 @@ body.light-theme #confirmBtnNo:hover {
 
 <div id="toolsMenu" class="suggestion-box"></div>
 
+<div id="imagePreviewContainer" style="display: none; max-width: 600px; margin: 0 auto; position: relative; width: fit-content; margin-bottom: 10px;">
+    <img id="imagePreview" src="" alt="Image Preview" style="width: 100px; height: 100px; object-fit: cover; border-radius: 15px;">
+    <button id="removeImageBtn" style="position: absolute; top: -5px; right: -5px; background-color: rgba(255, 0, 0, 0.8); color: white; border: 1px solid white; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; line-height: 1; box-shadow: 0 0 5px rgba(0,0,0,0.5);">&times;</button>
+</div>
+
 <div id="inputContainer" class="input-container centered">
     <div id="suggestionBox" class="suggestion-box"></div>
     <div class="input-box">
         <button id="toolsBtn">
             <i class="fas fa-plus"></i>
         </button>
+<button id="uploadImageBtn">
+    <i class="fas fa-paperclip"></i>
+</button>
+<input type="file" id="imageInput" accept="image/*" style="display: none;">
         <textarea id="questionInput" rows="1"></textarea>
         <button id="sendBtn">
             <i class="fas fa-paper-plane"></i>
@@ -1719,6 +1771,7 @@ body.light-theme #confirmBtnNo:hover {
     let abortController = null;
     let currentLanguage = 'id';
     let currentPersona = 'default';
+    let currentImageData = null;
 
     // [FIX] Deklarasikan `elements` di scope global tapi jangan diisi dulu
     let elements;
@@ -1737,6 +1790,59 @@ body.light-theme #confirmBtnNo:hover {
             { command: '/explain', title: s.slashCmdExplainTitle, description: s.slashCmdExplainDesc },
             { command: '/code', title: s.slashCmdCodeTitle, description: s.slashCmdCodeDesc }
         ];
+    }
+
+// [BARU] Fungsi untuk konversi gambar ke Base64
+    function convertImageToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                // Hapus prefix "data:image/jpeg;base64,"
+                const base64String = reader.result.split(',')[1];
+                resolve(base64String);
+            };
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    // [BARU] Fungsi untuk menangani upload gambar
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+            alert('Silakan unggah file gambar (jpeg, png, webp).');
+            return;
+        }
+
+        elements.imageInput.value = ''; // Reset input agar bisa upload gambar yang sama
+
+        convertImageToBase64(file)
+            .then(base64Data => {
+                currentImageData = {
+                    mimeType: file.type,
+                    data: base64Data
+                };
+                
+                elements.imagePreview.src = `data:${file.type};base64,${base64Data}`;
+                elements.imagePreviewContainer.style.display = 'block';
+                toggleChatUI(true); // Pindahkan UI ke mode chat
+                updateSendButtonState(); // Perbarui status tombol kirim
+            })
+            .catch(error => {
+                console.error('Error converting image:', error);
+                removeImage();
+            });
+    }
+
+    // [BARU] Fungsi untuk menghapus gambar yang di-upload
+    function removeImage() {
+        currentImageData = null;
+        elements.imagePreview.src = '';
+        elements.imagePreviewContainer.style.display = 'none';
+        elements.imageInput.value = ''; // Pastikan input file dikosongkan
+        updateSendButtonState(); // Perbarui status tombol kirim
     }
     
     function initializeApp() {
@@ -1840,20 +1946,32 @@ body.light-theme #confirmBtnNo:hover {
 
     async function askAI() {
         const userQuestion = elements.questionInput.value;
-        if (userQuestion.trim() === '') return;
+
+        // [MODIFIKASI] Jangan kirim jika tidak ada teks DAN tidak ada gambar
+        if (userQuestion.trim() === '' && !currentImageData) return;
+
         const clientDateTime = getCurrentDateTimeString();
         const promptTemplate = uiStrings[currentLanguage].dateTimeContextPrompt;
         const contextPrompt = promptTemplate.replace('{dateTime}', clientDateTime);
+        
         let promptToSendToAI;
-        const processedPrompt = handleSlashCommand(userQuestion);
-        if (processedPrompt !== null) {
-            if (processedPrompt.startsWith('Error:')) {
-                return;
+
+        // [MODIFIKASI] Hanya proses slash command jika TIDAK ada gambar
+        if (!currentImageData) {
+            const processedPrompt = handleSlashCommand(userQuestion);
+            if (processedPrompt !== null) {
+                if (processedPrompt.startsWith('Error:')) {
+                    return;
+                }
+                promptToSendToAI = `${contextPrompt}\n\n"${processedPrompt}"`;
+            } else {
+                promptToSendToAI = `${contextPrompt}\n\n"${userQuestion}"`;
             }
-            promptToSendToAI = `${contextPrompt}\n\n"${processedPrompt}"`;
         } else {
+            // Jika ada gambar, kirim teks apa adanya (jangan proses slash command)
             promptToSendToAI = `${contextPrompt}\n\n"${userQuestion}"`;
         }
+
         toggleChatUI(true);
         elements.questionInput.value = '';
         elements.questionInput.style.height = 'auto';
@@ -1862,23 +1980,79 @@ body.light-theme #confirmBtnNo:hover {
         elements.sendBtn.style.display = 'none';
         elements.clearBtnContainer.style.display = 'none';
         elements.stopBtn.style.display = 'block';
+
+        // [MODIFIKASI] Tampilkan bubble user dengan teks dan gambar (jika ada)
         const userBubble = document.createElement('div');
         userBubble.classList.add('chat-bubble', 'user-bubble');
-        userBubble.innerText = userQuestion;
+        
+        let userBubbleHTML = '';
+        if (currentImageData) {
+            // Tampilkan preview gambar di bubble user
+            userBubbleHTML += `<img src="${elements.imagePreview.src}" style="width: 100%; max-width: 200px; border-radius: 10px; margin-bottom: 5px;"><br>`;
+        }
+        // Gunakan .innerText untuk teks agar aman dari XSS
+        const textNode = document.createTextNode(userQuestion);
+        userBubble.appendChild(textNode);
+        if(currentImageData) {
+             // Jika ada gambar, tambahkan gambar di atas teks
+             userBubble.innerHTML = userBubbleHTML; // Set HTML gambar
+             userBubble.appendChild(document.createElement('br'));
+             userBubble.appendChild(textNode); // Tambahkan teks setelah gambar
+        }
+
         elements.chatMessages.appendChild(userBubble);
         setTimeout(() => userBubble.classList.add('fade-in'), 10);
         elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-        chatHistory.push({ role: "user", parts: [{ text: promptToSendToAI }] }); 
-        saveChatHistory(); 
-        const loadingBubble = showLoading();
-        const localAnswer = findSmartAnswer(userQuestion);
-        if (localAnswer) {
-            return;
+
+        // [MODIFIKASI TOTAL] Konstruksi 'parts' untuk multimodal
+        const userParts = [];
+        
+        // 1. Tambahkan bagian teks
+        userParts.push({ text: promptToSendToAI });
+
+        // 2. Tambahkan bagian gambar jika ada
+        if (currentImageData) {
+            userParts.push({
+                inlineData: {
+                    mimeType: currentImageData.mimeType,
+                    data: currentImageData.data
+                }
+            });
         }
+        
+        // Push ke chatHistory sebagai satu giliran 'user'
+        chatHistory.push({ role: "user", parts: userParts }); 
+        saveChatHistory(); 
+        
+        // Simpan status apakah gambar dikirim, lalu bersihkan UI
+        const imageWasSent = !!currentImageData;
+        removeImage(); // Kosongkan preview untuk pesan berikutnya
+
+        const loadingBubble = showLoading();
+
+        // [MODIFIKASI] Jangan cari jawaban lokal jika ada gambar
+        if (!imageWasSent) {
+            const localAnswer = findSmartAnswer(userQuestion);
+            if (localAnswer) {
+                // (Logika jawaban lokal Anda tetap sama)
+                loadingBubble.remove();
+                const aiBubble = createAiBubble(localAnswer, true);
+                elements.chatMessages.appendChild(aiBubble);
+                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+                elements.sendBtn.style.display = 'block';
+                elements.stopBtn.style.display = 'none';
+                elements.clearBtnContainer.style.display = 'block';
+                return; 
+            }
+        }
+
         try {
             abortController = new AbortController();
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${currentApiKey}`;
-            const requestBody = { contents: chatHistory };
+            
+            // [MODIFIKASI] Request body sekarang sudah benar
+            const requestBody = { contents: chatHistory }; 
+
             const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(requestBody), signal: abortController.signal });
             if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
             const data = await response.json();
@@ -1893,7 +2067,6 @@ body.light-theme #confirmBtnNo:hover {
             elements.chatMessages.appendChild(aiBubble);
             await typeWriterEffect(aiBubble, answer);
             
-            // --- [MODIFIKASI] Tambahkan tombol copy DAN speak ---
             const copyBtn = document.createElement('i');
             copyBtn.classList.add('fas', 'fa-copy', 'copy-btn');
             copyBtn.setAttribute('onclick', 'copyToClipboard(this)');
@@ -1903,7 +2076,6 @@ body.light-theme #confirmBtnNo:hover {
             speakBtn.classList.add('fas', 'fa-volume-up', 'speak-btn');
             speakBtn.setAttribute('onclick', 'speakText(this)');
             aiBubble.appendChild(speakBtn);
-            // --- [AKHIR MODIFIKASI] ---
 
             elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
         } catch (error) {
@@ -1924,7 +2096,16 @@ body.light-theme #confirmBtnNo:hover {
     
     function getCurrentDateTimeString() { const now = new Date(); const year = now.getFullYear(); const month = String(now.getMonth() + 1).padStart(2, '0'); const day = String(now.getDate()).padStart(2, '0'); const hours = String(now.getHours()).padStart(2, '0'); const minutes = String(now.getMinutes()).padStart(2, '0'); const seconds = String(now.getSeconds()).padStart(2, '0'); return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; }
     function populateToolsMenu() { if (!elements.toolsMenu) return; elements.toolsMenu.innerHTML = ''; slashCommands.forEach(cmd => { const menuItem = document.createElement('div'); menuItem.classList.add('suggestion-item-slash'); menuItem.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; menuItem.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); elements.questionInput.focus(); }); elements.toolsMenu.appendChild(menuItem); }); }
-    function updateSendButtonState() { if (elements.questionInput.value.trim() === '') { elements.sendBtn.classList.add('disabled'); elements.sendBtn.disabled = true; } else { elements.sendBtn.classList.remove('disabled'); elements.sendBtn.disabled = false; } }
+    function updateSendButtonState() { 
+        // [MODIFIKASI] Aktif jika ada teks ATAU gambar
+        if (elements.questionInput.value.trim() === '' && !currentImageData) { 
+            elements.sendBtn.classList.add('disabled'); 
+            elements.sendBtn.disabled = true; 
+        } else { 
+            elements.sendBtn.classList.remove('disabled'); 
+            elements.sendBtn.disabled = false; 
+        } 
+    }
     function saveApiKey() { const newKey = elements.apiKeyInput.value.trim(); if (newKey) { localStorage.setItem('miraiApiKey', newKey); currentApiKey = newKey; showCopyFeedback(uiStrings[currentLanguage].apiKeySaved); } else { localStorage.removeItem('miraiApiKey'); currentApiKey = DEFAULT_API_KEY; showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); } }
     function toggleApiVisibility() { const input = elements.apiKeyInput; const icon = elements.toggleApiKey; if (input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } }
     function updateConnectionStatus() { if (navigator.onLine) { elements.statusDot.classList.remove('offline'); elements.statusDot.classList.add('online'); elements.statusLabel.innerText = uiStrings[currentLanguage].onlineStatus; } else { elements.statusDot.classList.remove('online'); elements.statusDot.classList.add('offline'); elements.statusLabel.innerText = uiStrings[currentLanguage].offlineStatus; } }
@@ -2056,7 +2237,12 @@ body.light-theme #confirmBtnNo:hover {
     document.addEventListener('DOMContentLoaded', () => {
         // [FIX] Isi variabel `elements` sekarang, setelah HTML dijamin siap
         elements = { 
-            questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu'), customConfirmOverlay: document.getElementById('customConfirmOverlay'), customConfirmMessage: document.getElementById('customConfirmMessage'), confirmBtnYes: document.getElementById('confirmBtnYes'), confirmBtnNo: document.getElementById('confirmBtnNo'), helpLink: document.getElementById('helpLink'), termsText: document.getElementById('termsText')
+            questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu'), customConfirmOverlay: document.getElementById('customConfirmOverlay'), customConfirmMessage: document.getElementById('customConfirmMessage'), confirmBtnYes: document.getElementById('confirmBtnYes'), confirmBtnNo: document.getElementById('confirmBtnNo'), helpLink: document.getElementById('helpLink'), termsText: document.getElementById('termsText'),
+uploadImageBtn: document.getElementById('uploadImageBtn'),
+            imageInput: document.getElementById('imageInput'),
+            imagePreviewContainer: document.getElementById('imagePreviewContainer'),
+            imagePreview: document.getElementById('imagePreview'),
+            removeImageBtn: document.getElementById('removeImageBtn')
         };
 
         // Pasang semua event listener setelah `elements` diisi
@@ -2071,6 +2257,9 @@ body.light-theme #confirmBtnNo:hover {
         elements.questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); if (!elements.sendBtn.disabled) { askAI(); } } });
         elements.questionInput.addEventListener('input', () => { showSuggestions(); updateSendButtonState(); elements.questionInput.style.height = 'auto'; elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px'; });
         elements.saveApiBtn.addEventListener('click', saveApiKey);
+elements.uploadImageBtn.addEventListener('click', () => elements.imageInput.click());
+        elements.imageInput.addEventListener('change', handleImageUpload);
+        elements.removeImageBtn.addEventListener('click', removeImage);
         elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
         elements.confirmBtnYes.addEventListener('click', () => { clearChat(); hideClearConfirmation(); });
         elements.confirmBtnNo.addEventListener('click', hideClearConfirmation);
