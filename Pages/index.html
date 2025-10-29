@@ -318,7 +318,7 @@ body.chat-active #toolsMenu {
         flex-direction: column;
         overflow-y: auto;
         flex-grow: 1;
-        padding-bottom: 120px;
+        padding-bottom: 170px;
         opacity: 0;
         transition: opacity 0.5s ease-in-out;
     }
@@ -1365,6 +1365,60 @@ body.light-theme #uploadImageBtn:hover {
 body.light-theme #imagePreview {
      border: 1px solid #b3b3b3;
 }
+
+.imgRemoveBtn {
+position: absolute; 
+top: -5px; 
+right: -5px; 
+background-color: rgba(255, 0, 0, 0.8); 
+color: white; 
+border: 1px solid white; 
+border-radius: 50%; 
+width: 22px; 
+height: 22px; 
+cursor: pointer; 
+font-size: 14px; 
+display: flex; 
+align-items: 
+center; justify-content: 
+center; line-height: 1; 
+box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.imagePreviewContainer {
+    display: none; /* JS akan mengubah ini menjadi 'flex' */
+    margin-bottom: 0px;
+    z-index: 20;
+    
+    /* [BAGIAN 1] Membuat kontainer tidak terlihat (transparan) */
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+
+    /* [BAGIAN 2] Menyamakan posisinya dengan .input-box */
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+
+    /* [BAGIAN 3] Meratakan gambar ke kiri di dalam kontainer 600px */
+    justify-content: flex-start; 
+}
+
+.imagePreview {
+width: 100px; height: 100px;
+object-fit: cover;
+border-radius: 15px;
+}
+
+/* [BARU] Tambahkan CSS untuk wrapper */
+.imagePreviewWrapper {
+    position: relative; /* Nah, 'position: relative' pindah ke sini */
+    width: fit-content; /* Ukurannya pas dengan isinya (gambar) */
+
+    /* Beri sedikit margin agar tombol 'X' tidak terpotong di atas */
+    margin-top: 5px; 
+}
 </style>
 </head>
 <body>
@@ -1412,14 +1466,18 @@ body.light-theme #imagePreview {
     <div id="chatMessages"></div>
 </div>
 
+
 <div id="toolsMenu" class="suggestion-box"></div>
 
-<div id="imagePreviewContainer" style="display: none; max-width: 600px; margin: 0 auto; position: relative; width: fit-content; margin-bottom: 10px;">
-    <img id="imagePreview" src="" alt="Image Preview" style="width: 100px; height: 100px; object-fit: cover; border-radius: 15px;">
-    <button id="removeImageBtn" style="position: absolute; top: -5px; right: -5px; background-color: rgba(255, 0, 0, 0.8); color: white; border: 1px solid white; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; line-height: 1; box-shadow: 0 0 5px rgba(0,0,0,0.5);">&times;</button>
-</div>
-
 <div id="inputContainer" class="input-container centered">
+
+    <div id="imagePreviewContainer" class="imagePreviewContainer">
+       <div class="imagePreviewWrapper">
+        <img id="imagePreview" src="" alt="Image Preview" class="imagePreview"">
+        <button id="removeImageBtn" class="imgRemoveBtn">&times;</button>
+    </div>
+</div>
+    
     <div id="suggestionBox" class="suggestion-box"></div>
     <div class="input-box">
         <button id="toolsBtn">
@@ -1826,7 +1884,7 @@ body.light-theme #imagePreview {
                 };
                 
                 elements.imagePreview.src = `data:${file.type};base64,${base64Data}`;
-                elements.imagePreviewContainer.style.display = 'block';
+                elements.imagePreviewContainer.style.display = 'flex'; // <--- UBAH DI SINI
                 toggleChatUI(true); // Pindahkan UI ke mode chat
                 updateSendButtonState(); // Perbarui status tombol kirim
             })
