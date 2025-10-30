@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pilih Bahasa - Syarat & Ketentuan MirAI</title>
-    <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* --- [START] Gaya SRUI Diterapkan --- */
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1B1C1E;
+            /* [SRUI UPGRADE] Ganti font-family menjadi Arial */
+            font-family: 'Arial', Tahoma, Geneva, Verdana, sans-serif; 
+            /* Warna latar belakang SRUI Dark Theme */
+            background-color: #1B1C1E; 
             color: #fff;
             display: flex;
             justify-content: center;
@@ -19,36 +21,41 @@
             text-align: center;
         }
 
-            * {
-      -webkit-tap-highlight-color: transparent;
-            }
+        /* [SRUI UPGRADE] Tap highlight color dihilangkan */
+        * {
+          -webkit-tap-highlight-color: transparent;
+        }
 
+        /* Kontainer Utama - Super Rounded */
         .portal-container {
             max-width: 500px;
             width: 90%;
             padding: 40px;
             box-sizing: border-box;
-            background-color: rgba(24, 26, 27, 0.7);
-            border: 0.9px solid #4B4F50;
+            /* Latar belakang semi-transparan SRUI, lebih dark */
+            background-color: rgba(27, 28, 30, 0.9);
+            /* Border lebih halus dan membulat */
+            border: 1px solid #4B4F50;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            /* [SRUI UPGRADE] Sudut Bulat Ekstrem */
+            border-radius: 25px; 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            /* [SRUI UPGRADE] Transisi halus */
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .portal-container h1 {
+            font-size: 1.8em;
+            /* Warna aksen SRUI */
+            color: #ffce00; 
+            margin-bottom: 5px;
         }
 
-        h1 {
-            font-family: 'Product Sans', 'Segoe UI', sans-serif;
-            color: #ffce00;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 2em;
-        }
-
-        p {
-            color: #ccc;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-            line-height: 1.6;
+        .portal-container p {
+            font-size: 1em;
+            opacity: 0.8;
+            margin-bottom: 25px;
         }
 
         .language-buttons {
@@ -57,33 +64,40 @@
             gap: 15px;
         }
 
+        /* Tombol Bahasa - Super Rounded */
         .lang-button {
-            background-color: #212121;
+            /* Warna latar belakang komponen SRUI (lebih gelap dari #1B1C1E) */
+            background-color: #2a2a2e; 
             color: #ffce00;
             border: 1px solid #ffce00;
             padding: 15px 20px;
-            border-radius: 25px;
+            /* [SRUI UPGRADE] Sudut Bulat Ekstrem */
+            border-radius: 25px; 
             cursor: pointer;
             font-size: 1em;
             text-decoration: none;
             font-weight: bold;
-            transition: all 0.3s ease;
+            /* [SRUI UPGRADE] Transisi halus */
+            transition: all 0.3s ease-in-out; 
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
 
+        /* Efek Hover (sesuai SRUI Accent) */
         .lang-button:hover {
             background-color: #ffce00;
             color: #000;
-            transform: scale(1.05);
+            /* [SRUI UPGRADE] Feedback visual skala kecil dan halus */
+            transform: scale(1.03); 
+            box-shadow: 0 0 15px rgba(255, 206, 0, 0.5);
         }
         
         .lang-button .flag {
             font-size: 1.2em;
         }
-
+        /* --- [END] Gaya SRUI Diterapkan --- */
     </style>
 </head>
 <body>
