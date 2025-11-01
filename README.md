@@ -4,7 +4,7 @@
 
 ![Project](https://img.shields.io/badge/Type-HTML%20App-blue)
 ![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
-![Status](https://img.shields.io/badge/status-Active-brightgreen)
+![Status](https://img-shields.io/badge/status-Fix%20Bugs-red)
 
 <br>
 
@@ -25,9 +25,26 @@ MirAI is designed to be an accessible and feature-rich AI chat companion, right 
 * **🌐 Multi-language Support:** Available in Indonesian, English (US & UK), and Japanese.
 * **🔑 API Key Configuration:** Enter your own Gemini API key directly from the settings menu.
 * **🚀 Enhanced Slash Commands & Tools Menu:** Use the '+' menu or type commands like `/translate`, `/summarize`, `/code`, and `/fix` for specific tasks.
+* **🖼️ Multimodal Input:** Support for image uploads (JPEG, PNG, WebP) along with your text prompts, powered by Gemini's multimodal capabilities. 
+* **🔊 Text-to-Speech (TTS):** Click the speaker icon to have the AI's response read aloud in the selected language.
 * **🛑 Stop Generation:** Immediately halt the AI's response when needed.
 * **📝 Markdown Parsing:** Responses from the AI containing formatting (like code blocks and lists) will be displayed correctly.
 * **⏰ Time-aware Context:** The AI knows the current date and time for more relevant answers.
+
+---
+
+## 🎨 UI/UX Design
+
+The visual design and user experience of MirAI are powered by:
+
+<p align="center">
+  <img src="Assets/SRUI Logo (Cropped).png" width="600" alt="SRUI Logo">
+</p>
+
+**SuperRoundedUI (SRUI)**
+
+An exclusive UI design system from Allwaysever™ that emphasizes rounded corners, smooth transitions, and a clean layout.
+**("Flat never felt this round.")**
 
 ---
 
@@ -57,7 +74,7 @@ For the best performance and security, it is highly recommended to use your own 
 4.  Then, click **"Create API key"**.
     <img src="Assets/Tutorial/20250919_151923.jpg" width="max" alt="Step 1.3">
 5.  Type "Gemini API" and click "Create API key in existing project".
-    <img src="Assets.Tutorial/20250919_152023.jpg" width="max" alt="Step 1.4">
+    <img src="Assets/Tutorial/20250919_152023.jpg" width="max" alt="Step 1.4">
 6.  Copy the generated API Key.
     <img src="Assets/Tutorial/20250919_152101.jpg" width="max" alt="Step 1.5">
 
@@ -84,6 +101,7 @@ This project was built purely with basic web technologies, without any framework
 * **JavaScript (Vanilla JS)**
 * **Google Gemini API** (using the `gemini-2.5-flash` model)
 * **Marked.js** (For Markdown parsing)
+* **SuperRoundedUI by Allwaysever** as UI Guidelines
 
 ---
 
@@ -94,7 +112,7 @@ For more detailed information about the project, please refer to the following d
 * **[❓ FAQ (Frequently Asked Questions)](Docs/FAQ.md)**: Find answers to common questions about MirAI's features and usage.
 * **[🛠️ Troubleshooting Guide](Docs/TROUBLESHOOTING.md)**: Solutions for common errors and issues.
 * **[🔄 Changelog](Docs/CHANGELOG.md)**: See the detailed history of changes and new features for each version.
-* **[🤝 Contributing Guide](Docs/CONTRIBUTNG.md)**: Learn how you can contribute to make MirAI even better.
+* **[🤝 Contributing Guide](Docs/CONTRIBUTING.md)**: Learn how you can contribute to make MirAI even better. (**Koreksi typo dari CONTRIBUTNG.md menjadi CONTRIBUTING.md**)
 
 ---
 
