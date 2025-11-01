@@ -361,7 +361,7 @@ body.chat-active #toolsMenu {
         flex-direction: column;
         overflow-y: auto;
         flex-grow: 1;
-        padding-bottom: 170px;
+        padding-bottom: 250px;
         opacity: 0;
         /* SRUI: Transisi halus */
         transition: opacity 0.5s ease-in-out;
@@ -413,7 +413,7 @@ body.chat-active #toolsMenu {
 
     .copy-btn {
         position: absolute;
-        bottom: -20px;
+        bottom: -25px;
         left: 8px;
         color: #666666; /* SRUI Dark: Neutral Dark */
         cursor: pointer;
@@ -436,7 +436,7 @@ body.chat-active #toolsMenu {
     /* === [BARU] CSS UNTUK TOMBOL TTS === */
     .speak-btn {
         position: absolute;
-        bottom: -20px;
+        bottom: -25px;
         left: 35px;
         color: #666666; /* SRUI Dark: Neutral Dark */
         cursor: pointer;
@@ -471,7 +471,7 @@ body.chat-active #toolsMenu {
         /* SRUI Dark: SRUI Accent (#ffce00) */
         background-color: #ffce00; 
         border-radius: 50%;
-        animation: bounce 0.6s infinite alternate;
+        animation: bounce 1.0s infinite alternate;
     }
     
     body.light-theme .typing-indicator span {
@@ -510,9 +510,10 @@ body.chat-active #toolsMenu {
     }
 
     #clearBtnContainer {
-        top: 70px;
+        left: 70px;
+        top: 20px;
         opacity: 0;
-        transform: translateX(-20px);
+        transform: translateY(-20px);
         pointer-events: none;
     }
 
