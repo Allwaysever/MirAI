@@ -31,7 +31,7 @@ MirAI is designed to be an accessible and feature-rich AI chat companion, right 
 
 ---
 
-## 🚀 Live Demo & How to Use
+## 🚀 Try MirAI now!
 
 You can try MirAI right away without any installation needed!
 
@@ -63,7 +63,7 @@ For the best performance and security, it is highly recommended to use your own 
 
 ### Step 2: Enter the API Key in MirAI
 Simply enter the key through the settings menu within the application.
-1.  Open the `MirAI.html` file.<br><img src="Assets/Tutorial/APIKEYSTEP1.png" width="max" alt="Step 2.1">
+1.  Open the `MirAI.html` file or [MirAI Web](https://allwaysevermirai.netlify.app).<br><img src="Assets/Tutorial/APIKEYSTEP1.png" width="max" alt="Step 2.1">
 2.  Click the **menu icon** in the top-left corner to open **Settings**.
 3.  Find the **API Key** section.<br><img src="Assets/Tutorial/APIKEYSTEP2.png" width="max" alt="Step 2.2">
 4.  **Paste** the API Key you copied.<br><img src="Assets/Tutorial/APIKEYSTEP3.1.png" width="max" alt="Step 2.3">
@@ -96,9 +96,8 @@ For more detailed information about the project, please refer to the following d
 * **[🔄 Changelog](Docs/CHANGELOG.md)**: See the detailed history of changes and new features for each version.
 * **[🤝 Contributing Guide](Docs/CONTRIBUTNG.md)**: Learn how you can contribute to make MirAI even better.
 
-###### [Buy us a Coffee](https://ko-fi.com/allwaysever)
 ---
 
 ## 📄 License
 
-This project is licensed under the GNU Affero General Public License v3.0. For full details, please [read the license file here](LICENSE).
+This project is licensed under the GNU Affero General Public License v3.0. For full details, please [read the license file here](Docs/LICENSE).
