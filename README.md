@@ -5,7 +5,7 @@
 ![Project](https://img.shields.io/badge/Type-HTML%20App-blue)
 ![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
 
-![Status](https://img.shields.io/badge/Status-In_the_process_of_releasing_a_new_version-%23ffce00)
+![Static Badge](https://img.shields.io/badge/Status-In_the_process_of_releasing_a_new_version-%23ffce00?link=https%3A%2F%2Fgithub.com%2FAllwaysever%2FMirAI%2Fblob%2Fmain%2FDocs%2FCHANGELOG.md)
 
 <br>
 
