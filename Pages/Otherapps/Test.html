@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Debug Page (MirAI Style - 6 Tests)</title>
+    
+    <link rel="stylesheet" href="https://egkoppel.github.io/product-sans/google-fonts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* ================================================= */
+        /* BASE STYLE (DIADAPTASI DARI MirAI.html) */
+        /* ================================================= */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Product Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+            padding: 20px;
+            padding-top: 80px;
+        }
+        
+        /* TEMA GELAP (DEFAULT) */
+        body.dark-theme {
+            background-color: #1B1C1E;
+            color: #fff;
+        }
+
+        /* TEMA TERANG */
+        body.light-theme {
+            background-color: #e9e9e9;
+            color: #444;
+        }
+
+        /* Container Utama Mirip Chat Container di MirAI */
+        .main-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Adaptasi Style untuk Elemen HTML Dasar */
+        h1, h2, h3 {
+            font-weight: 600;
+            border-bottom: 2px solid;
+            padding-bottom: 5px;
+        }
+
+        /* Warna Border untuk Dark Mode */
+        body.dark-theme h1, body.dark-theme h2, body.dark-theme h3,
+        body.dark-theme .test-result {
+            border-color: #ffce00; /* Warna aksen kuning MirAI */
+        }
+        
+        /* Warna Border untuk Light Mode */
+        body.light-theme h1, body.light-theme h2, body.light-theme h3,
+        body.light-theme .test-result {
+            border-color: #444;
+        }
+
+        /* Style untuk Tombol Tema */
+        #themeToggleBtn, #runAllTestsBtn {
+            /* Menyesuaikan style MirAI untuk Tombol */
+            background-color: #ffce00;
+            color: #0f0f0f;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+        
+        #themeToggleBtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+        }
+        
+        #runAllTestsBtn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        #themeToggleBtn:hover, #runAllTestsBtn:hover:not(:disabled) { 
+            background-color: #eab308;
+            transform: scale(1.05); 
+        }
+
+        /* Style saat tombol dinonaktifkan */
+        #runAllTestsBtn:disabled {
+            background-color: #555;
+            color: #ccc;
+            cursor: wait;
+            transform: scale(1);
+        }
+
+
+        /* Style untuk Log Aktivitas dan Hasil Tes */
+        .log-item {
+            padding: 8px 0;
+            margin: 5px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+            font-size: 0.9em;
+            word-wrap: break-word;
+        }
+
+        body.light-theme .log-item {
+             border-bottom: 1px dashed rgba(0, 0, 0, 0.3);
+        }
+
+        /* Tampilan Hasil Tes */
+        .test-result {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .test-result strong {
+            color: #ffce00; /* Aksen kuning MirAI */
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    
+    <button id="themeToggleBtn">
+        <i class="fas fa-sun"></i> 
+    </button>
+
+    <div class="main-container">
+        <h1>Halaman Tes Development</h1>
+        <p>Menjalankan 6 jenis tes teknis dengan animasi berurutan.</p>
+        <hr>
+        
+        <button id="runAllTestsBtn" style="margin-top: 15px; margin-bottom: 20px;">
+             <i class="fas fa-microchip"></i> Jalankan Semua Tes
+        </button>
+
+        <h2>Hasil Uji:</h2>
+
+        <h3>1. DOM & Layar (Real-time)</h3>
+        <div id="dom-test-result" class="test-result">
+            <p id="test-element">Teks DOM akan diuji di sini.</p>
+            <p>Lebar Layar: <strong id="screen-width">--</strong> px</p>
+        </div>
+
+        <h3>2. API Lanjutan</h3>
+        <div id="api-test-result" class="test-result">
+            <p>localStorage: <strong id="local-storage-status">--</strong></p>
+            <p>Geolocation: <strong id="geolocation-status">--</strong></p>
+            <p>Web Worker: <strong id="worker-status">--</strong></p>
+        </div>
+        
+        <h3>3. Jaringan & Performa</h3>
+        <div id="network-perf-result" class="test-result">
+            <p>Status Koneksi: <strong id="network-status">--</strong></p>
+            <p>Waktu Muat: <strong id="load-time-status">--</strong></p>
+        </div>
+
+        <h2>Log Aktivitas:</h2>
+        <div id="log-container">
+            </div>
+    </div>
+
+    <script>
+        // Ambil elemen yang dibutuhkan
+        const elements = {
+            testElement: document.getElementById('test-element'),
+            logContainer: document.getElementById('log-container'),
+            themeToggleBtn: document.getElementById('themeToggleBtn'),
+            runAllTestsBtn: document.getElementById('runAllTestsBtn'),
+            screenWidthDisplay: document.getElementById('screen-width'),
+            localStorageStatus: document.getElementById('local-storage-status'),
+            geolocationStatus: document.getElementById('geolocation-status'),
+            networkStatus: document.getElementById('network-status'),
+            workerStatus: document.getElementById('worker-status'),
+            loadTimeStatus: document.getElementById('load-time-status'),
+        };
+        
+        // Konstanta Jeda Waktu (Delay)
+        const LOG_DELAY = 500; // 500 milidetik (0.5 detik)
+        let logQueue = []; // Antrian Log
+        let isProcessing = false; // Status pemrosesan
+        let loadStartTime; // Untuk menyimpan waktu mulai performance
+
+        // =================================================
+        // FUNGSI UTILITY & FITUR LAMA
+        // =================================================
+
+        // Fungsi log sekarang mengantri pesan
+        function logToScreen(msg, type = 'LOG') {
+            logQueue.push({ msg, type });
+            
+            // Mulai proses antrian jika belum berjalan
+            if (!isProcessing) {
+                processLogQueue();
+            }
+        }
+
+        // Fungsi untuk memproses antrian log satu per satu (untuk efek animasi)
+        function processLogQueue() {
+            if (logQueue.length === 0) {
+                isProcessing = false;
+                // Aktifkan kembali tombol setelah semua tes selesai
+                elements.runAllTestsBtn.disabled = false; 
+                elements.runAllTestsBtn.innerHTML = '<i class="fas fa-microchip"></i> Jalankan Semua Tes';
+                logToScreen('--- PROSES PENGUJIAN SELESAI ---', 'FINISH');
+                return;
+            }
+
+            isProcessing = true;
+            const nextLog = logQueue.shift();
+            
+            const logDiv = document.createElement('div');
+            logDiv.classList.add('log-item');
+            logDiv.style.opacity = '0'; 
+            logDiv.style.transform = 'translateY(10px)'; 
+            logDiv.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            
+            logDiv.textContent = `[${nextLog.type}] ${new Date().toLocaleTimeString('id-ID')}: ${nextLog.msg}`;
+            elements.logContainer.prepend(logDiv);
+            
+            void logDiv.offsetWidth; // Paksakan reflow
+            
+            logDiv.style.opacity = '1';
+            logDiv.style.transform = 'translateY(0)';
+
+            // Lanjutkan ke log berikutnya setelah jeda
+            setTimeout(processLogQueue, LOG_DELAY);
+        }
+
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light-theme');
+            document.body.classList.toggle('dark-theme', !isLight);
+            
+            if (isLight) {
+                elements.themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                elements.themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            }
+            logToScreen(`Tema diubah menjadi: ${isLight ? 'Terang' : 'Gelap'}`, 'THEME');
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.classList.remove('dark-theme', 'light-theme');
+            
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                elements.themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.classList.add('dark-theme');
+                elements.themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        // =================================================
+        // FUNGSI UNTUK 6 JENIS TES
+        // =================================================
+        
+        // 1. Tes DOM
+        function testDom() {
+            logToScreen('1. Memulai Tes DOM...', 'DOM');
+            const el = elements.testElement;
+
+            if (el) {
+                el.textContent = 'BERHASIL DIUBAH! DOM OK.';
+                el.style.color = '#ffce00'; 
+                el.style.fontWeight = 'bold';
+                logToScreen('1.1. Elemen DOM berhasil ditemukan dan dimanipulasi.', 'SUCCESS');
+            } else {
+                el.textContent = 'GAGAL DITEMUKAN! DOM Bermasalah.';
+                el.style.color = 'red';
+                logToScreen('1.1. Elemen DOM GAGAL ditemukan.', 'ERROR');
+            }
+        }
+        
+        // 2. Tes Responsivitas (Hanya update layar)
+        function updateScreenWidth() {
+            const width = window.innerWidth;
+            elements.screenWidthDisplay.textContent = width;
+            // Log ini akan dipanggil manual di runAllTests untuk efek delay
+        }
+
+        // 3. Tes Ketersediaan API Dasar
+        function testAPI() {
+            logToScreen('2. Memulai Tes Ketersediaan API Dasar...', 'API');
+            
+            // Tes localStorage
+            try {
+                localStorage.setItem('test', '1');
+                localStorage.removeItem('test');
+                elements.localStorageStatus.textContent = 'TERSEDIA';
+                elements.localStorageStatus.style.color = '#4CAF50';
+                logToScreen('2.1. localStorage: OK.', 'SUCCESS');
+            } catch (e) {
+                elements.localStorageStatus.textContent = 'TIDAK TERSEDIA';
+                elements.localStorageStatus.style.color = 'red';
+                logToScreen('2.1. localStorage: GAGAL (Dinonaktifkan).', 'ERROR');
+            }
+
+            // Tes Geolocation
+            if ('geolocation' in navigator) {
+                elements.geolocationStatus.textContent = 'TERSEDIA';
+                elements.geolocationStatus.style.color = '#4CAF50';
+                logToScreen('2.2. Geolocation: OK.', 'SUCCESS');
+            } else {
+                elements.geolocationStatus.textContent = 'TIDAK TERSEDIA';
+                elements.geolocationStatus.style.color = 'red';
+                logToScreen('2.2. Geolocation: GAGAL.', 'ERROR');
+            }
+        }
+
+        // 4. Tes Web Worker (BARU)
+        function testWebWorker() {
+            logToScreen('3. Memulai Tes Web Worker (Background Thread)...', 'WORKER');
+            if (window.Worker) {
+                elements.workerStatus.textContent = 'DIDUKUNG';
+                elements.workerStatus.style.color = '#4CAF50';
+                logToScreen('3.1. Web Worker: OK. Dukungan untuk background processing tersedia.', 'SUCCESS');
+            } else {
+                elements.workerStatus.textContent = 'TIDAK DIDUKUNG';
+                elements.workerStatus.style.color = 'red';
+                logToScreen('3.1. Web Worker: GAGAL. Fitur multithreading tidak tersedia.', 'ERROR');
+            }
+        }
+        
+        // 5. Tes Koneksi Jaringan
+        function updateNetworkStatus() {
+            const isOnline = navigator.onLine;
+            elements.networkStatus.textContent = isOnline ? 'ONLINE' : 'OFFLINE';
+            elements.networkStatus.style.color = isOnline ? '#4CAF50' : 'red';
+            // Log ini akan dipanggil manual di runAllTests untuk efek delay
+        }
+        
+        // 6. Tes Performance (BARU)
+        function testPerformance() {
+            logToScreen('4. Memulai Tes Performa dan Loading Speed...', 'PERF');
+            let loadEndTime = performance.now();
+            let loadTime = loadEndTime - loadStartTime; // Hitung durasi
+            
+            let statusText = `${loadTime.toFixed(2)} ms`;
+            
+            elements.loadTimeStatus.textContent = statusText;
+            elements.loadTimeStatus.style.color = '#ffce00';
+
+            logToScreen(`4.1. Page Load Time: Halaman dimuat dalam ${statusText}`, 'SUCCESS');
+            logToScreen(`4.2. Performance: Mark waktu awal telah terekam.`, 'LOG');
+        }
+
+        // =================================================
+        // FUNGSI SEQUENTIAL TEST UTAMA
+        // =================================================
+
+        function runAllTests() {
+            if (isProcessing) return; 
+            
+            elements.logContainer.innerHTML = ''; 
+            logQueue = []; 
+
+            // Simpan waktu mulai tes untuk Performance Mark
+            loadStartTime = performance.now();
+
+            // Nonaktifkan tombol dan ubah teksnya menjadi Loading
+            elements.runAllTestsBtn.disabled = true;
+            elements.runAllTestsBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sedang Menguji 6 Langkah...';
+
+            logToScreen('--- MEMULAI PROSES UJI 6 LANGKAH TEKNIS ---', 'START');
+            
+            // --- LANGKAH 1: DOM ---
+            testDom();
+            
+            // --- LANGKAH 2: RESPONSIVITAS ---
+            logToScreen('1.2. Memperbarui Lebar Layar...', 'SCREEN');
+            updateScreenWidth(); 
+            logToScreen(`RESPONSIVITAS: Lebar Layar ${window.innerWidth}px.`, 'LOG');
+            
+            // --- LANGKAH 3: API DASAR ---
+            testAPI();
+
+            // --- LANGKAH 4: WEB WORKER ---
+            testWebWorker();
+            
+            // --- LANGKAH 5: JARINGAN ---
+            logToScreen('5. Memeriksa Status Koneksi Jaringan...', 'NETWORK');
+            updateNetworkStatus();
+            logToScreen(`5.1. Status Jaringan: ${navigator.onLine ? 'ONLINE' : 'OFFLINE'}`, navigator.onLine ? 'SUCCESS' : 'WARNING');
+            
+            // --- LANGKAH 6: PERFORMA ---
+            testPerformance();
+            
+            logToScreen('--- SEMUA LOG DIMASUKKAN KE ANTRIAN UNTUK ANIMASI ---', 'LOG');
+        }
+
+        // =================================================
+        // EVENT LISTENERS & INISIALISASI
+        // =================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            
+            // Panggil tes pertama kali saat dimuat
+            runAllTests(); 
+            
+            // Event Listeners
+            elements.themeToggleBtn.addEventListener('click', toggleTheme);
+            elements.runAllTestsBtn.addEventListener('click', runAllTests);
+
+            // Real-time listener
+            window.addEventListener('resize', updateScreenWidth);
+            window.addEventListener('online', () => { updateNetworkStatus(); logToScreen('Koneksi pulih, Status: ONLINE', 'NETWORK'); });
+            window.addEventListener('offline', () => { updateNetworkStatus(); logToScreen('Koneksi terputus, Status: OFFLINE', 'NETWORK'); });
+        });
+
+    </script>
+</body>
+</html>
