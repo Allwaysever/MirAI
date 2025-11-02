@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tes Kepribadian SRUI (MBTI-Inspired)</title>
+    <!-- Konfigurasi Tailwind untuk SRUI Design System -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // SRUI Dark Theme Palet
+                        'srui-accent': '#ffce00',
+                        'srui-bg': '#1B1C1E',
+                        'srui-card': '#0f0f0f',
+                        'srui-text': '#ffffff',
+                        'srui-accent-text': '#000000',
+                        'neutral-input-border': '#4B4F50',
+                        'neutral-mid': '#999999',
+                        'neutral-dark': '#666666',
+                        'colorin-success': '#4CAF50',
+                        'colorin-error': '#F44336',
+                    },
+                    borderRadius: {
+                        '3xl': '24px', // Super Rounded Touch
+                    },
+                    fontFamily: {
+                        sans: ['Arial', 'sans-serif'], // Font Primer: Arial
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Menggunakan Arial sebagai font utama */
+        body {
+            font-family: 'Arial', sans-serif;
+            transition: all 0.3s ease-in-out; /* Transisi SRUI */
+        }
+        .quiz-card {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 5px rgba(0, 0, 0, 0.2); /* Shadow Minimalis */
+            transition: all 0.3s ease-in-out;
+        }
+        .option-button:hover {
+            transform: scale(1.01);
+            /* Mengganti shadow dengan highlight warna yang lebih gelap */
+            background-color: #3e3f42; 
+        }
+        .btn-primary {
+            /* Styling khusus untuk tombol utama SRUI Accent */
+            font-weight: 700;
+        }
+        /* Custom progress bar color */
+        #progress-bar {
+            background-color: #4B4F50; /* Neutral Input Border */
+            border-radius: 9999px;
+        }
+        #progress-fill {
+            background-color: #ffce00; /* SRUI Accent */
+            transition: width 0.3s ease-in-out;
+            border-radius: 9999px;
+        }
+        .loading-spinner {
+            border: 4px solid #4B4F50; /* Neutral Input Border */
+            border-top: 4px solid #ffce00; /* SRUI Accent */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Gaya tambahan untuk hasil Markdown yang di-parse */
+        #result-description-display table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        #result-description-display th, #result-description-display td {
+            border: 1px solid #4B4F50; /* Garis tipis */
+            padding: 8px 12px;
+            text-align: left;
+        }
+        #result-description-display th {
+            background-color: #3e3f42;
+            font-weight: 600;
+            color: #ffce00; /* Accent di header tabel */
+        }
+        #result-description-display code {
+            background-color: #3e3f42;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen flex items-center justify-center bg-srui-bg text-srui-text">
+
+    <div id="quiz-app" class="quiz-card w-full max-w-lg p-6 sm:p-10 bg-srui-card rounded-3xl">
+
+        <!-- Header -->
+        <h1 class="text-3xl font-bold mb-3 text-center">Tes Kepribadian Sederhana</h1>
+        <p class="text-neutral-mid text-sm mb-6 text-center">
+            Jawab dengan jujur berdasarkan bagaimana kamu <b>paling sering</b> merasa. (20 Pertanyaan)
+        </p>
+
+        <!-- Progress Bar -->
+        <div id="progress-bar" class="w-full h-2 rounded-full mb-8">
+            <div id="progress-fill" class="h-full w-0"></div>
+        </div>
+        
+        <!-- Question Container -->
+        <div id="question-area" class="question-container flex flex-col justify-between">
+            <!-- Questions will be loaded here -->
+        </div>
+
+        <!-- Result Container (Hidden initially) -->
+        <div id="result-area" class="hidden text-center">
+            <h2 class="text-2xl font-bold text-srui-accent mb-4">Hasil Kepribadianmu!</h2>
+            <div id="result-type-display" class="text-5xl font-extrabold mb-4 text-srui-text"></div>
+            
+            <!-- Area LLM -->
+            <h3 class="text-xl font-semibold text-srui-text mt-6 mb-3">Analisis Mendalam Gemini</h3>
+            <div id="loading-indicator" class="hidden flex flex-col items-center justify-center p-8 bg-neutral-input-border rounded-xl">
+                <div class="loading-spinner"></div>
+                <p class="mt-3 text-srui-accent font-medium">Membuat Analisis Unik untukmu...</p>
+            </div>
+            
+            <div id="gemini-analysis" class="text-left p-4 bg-neutral-input-border rounded-3xl">
+                <div id="result-description-display" class="text-base text-srui-text"></div> 
+                <div id="citation-display" class="mt-4 text-xs text-neutral-dark border-t border-neutral-mid pt-2"></div>
+            </div>
+            
+            <p class="text-sm text-neutral-dark italic mt-6">
+                Ingat, ini adalah tes sederhana. Kepribadianmu lebih unik daripada 4 huruf!
+            </p>
+            <button onclick="restartTest()" class="mt-8 px-8 py-3 btn-primary bg-srui-accent text-srui-accent-text rounded-3xl">
+                Ulangi Tes
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- KONFIGURASI API GEMINI (Jangan diubah) ---
+        const apiKey = "AIzaSyBXwU-_QvSORZ6s1CN03i-gvliqcZzMieg"; 
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+        // --- 1. DEFINISI PERTANYAN DAN TIPE ---
+        const QUESTIONS = [
+            // E vs I (Extraversion vs Introversion)
+            { id: 1, text: "Setelah berinteraksi dengan banyak orang, aku merasa energiku terkuras dan perlu waktu sendiri.", dichotomy: 'E', score: 1, weight: -1 },
+            { id: 2, text: "Aku sering menjadi orang pertama yang berbicara dalam grup baru.", dichotomy: 'E', score: 1, weight: 1 },
+            { id: 3, text: "Aku lebih suka pekerjaan yang memungkinkan aku fokus sendirian daripada harus berkoordinasi dengan banyak tim.", dichotomy: 'E', score: 1, weight: -1 },
+            { id: 4, text: "Aku menikmati menjadi pusat perhatian atau pemicu keramaian di sirkelku.", dichotomy: 'E', score: 1, weight: 1 },
+            
+            // S vs N (Sensing vs iNtuition)
+            { id: 5, text: "Aku lebih tertarik pada fakta yang nyata dan detail, daripada teori abstrak.", dichotomy: 'N', score: 1, weight: -1 },
+            { id: 6, text: "Aku sering melamun dan memikirkan ide-ide tentang masa depan yang jauh.", dichotomy: 'N', score: 1, weight: 1 },
+            { id: 7, text: "Aku lebih suka mengikuti instruksi langkah demi langkah yang sudah terbukti.", dichotomy: 'N', score: 1, weight: -1 },
+            { id: 8, text: "Aku cenderung mencari makna tersembunyi atau pola di balik setiap hal.", dichotomy: 'N', score: 1, weight: 1 },
+
+            // T vs F (Thinking vs Feeling)
+            { id: 9, text: "Saat mengambil keputusan, aku mengutamakan logika dan objektivitas, bahkan jika itu menyakiti perasaan seseorang.", dichotomy: 'F', score: 1, weight: -1 },
+            { id: 10, text: "Aku mudah berempati dan bisa merasakan apa yang dirasakan orang lain.", dichotomy: 'F', score: 1, weight: 1 },
+            { id: 11, text: "Di sebuah debat, aku lebih menghargai kebenaran faktual daripada menjaga harmoni.", dichotomy: 'F', score: 1, weight: -1 },
+            { id: 12, text: "Aku sering memikirkan bagaimana keputusanku akan mempengaruhi orang-orang terdekatku.", dichotomy: 'F', score: 1, weight: 1 },
+
+            // J vs P (Judging vs Perceiving)
+            { id: 13, text: "Aku selalu membuat rencana detail dan merasa stres jika ada perubahan mendadak.", dichotomy: 'P', score: 1, weight: -1 },
+            { id: 14, text: "Aku suka menjaga opsi tetap terbuka dan menunda keputusan sampai menit terakhir.", dichotomy: 'P', score: 1, weight: 1 },
+            { id: 15, text: "Ruang kerja atau belajarku biasanya rapi dan terorganisir.", dichotomy: 'P', score: 1, weight: -1 },
+            { id: 16, text: "Aku cenderung spontan dan menikmati kejutan tak terduga.", dichotomy: 'P', score: 1, weight: 1 },
+
+            // A vs T (Assertive vs Turbulent)
+            { id: 17, text: "Aku jarang khawatir tentang kegagalan atau hal yang tidak berjalan sesuai rencana.", dichotomy: 'T', score: 1, weight: -1 },
+            { id: 18, text: "Aku sering membandingkan diri dengan orang lain dan berharap aku lebih baik.", dichotomy: 'T', score: 1, weight: 1 },
+            { id: 19, text: "Aku sangat peka terhadap kritik dan cenderung mengambil hati.", dichotomy: 'T', score: 1, weight: 1 },
+            { id: 20, text: "Secara umum, aku percaya diri dengan kemampuanku dan jarang merasa cemas.", dichotomy: 'T', score: 1, weight: -1 },
+        ];
+
+        // Hasil jawaban pengguna
+        let currentQuestionIndex = 0;
+        let scores = {
+            E: 0, N: 0, F: 0, P: 0, T: 0
+        };
+
+        // --- 2. LOGIKA KUIS ---
+
+        function showLoading(show) {
+            document.getElementById('loading-indicator').classList.toggle('hidden', !show);
+            document.getElementById('gemini-analysis').classList.toggle('hidden', show);
+        }
+
+        /**
+         * Mengambil analisis kepribadian mendalam dari Gemini.
+         * Menggunakan Google Search untuk grounding informasi.
+         */
+        async function fetchGeminiAnalysis(finalType) {
+            showLoading(true);
+            const descriptionDisplay = document.getElementById('result-description-display');
+            const citationDisplay = document.getElementById('citation-display');
+            
+            descriptionDisplay.innerHTML = ''; 
+            citationDisplay.innerHTML = '';
+            
+            // Prompt disesuaikan untuk output Markdown yang rapi
+            const systemPrompt = "You are a professional personality analyst specializing in MBTI and Jungian types. Provide a comprehensive, structured analysis in Indonesian based on the provided 5-letter personality code. The analysis must cover the type's core traits, social behavior (specifically addressing the 'extrovert mask/introvert core' paradox and social phobia management), and provide 3 specific self-development tips. The output must be formatted strictly in clean Markdown, using **bold** for key terms, lists (using - or *), tables (if applicable), horizontal rules (---), and appropriate headings (## and ###).";
+            const userQuery = `Tolong analisis tipe kepribadian ini secara mendalam: ${finalType}. Sertakan heading Markdown untuk setiap bagian, dan jika relevan, buatlah satu tabel kecil (misalnya, Perbedaan Tipe Asertif vs Turbulen) dan gunakan garis horizontal.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            // Logika Retry dengan Exponential Backoff
+            const maxRetries = 3;
+            let delay = 1000;
+            let response;
+
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        break; 
+                    } else if (i < maxRetries - 1) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        delay *= 2; 
+                    } else {
+                        throw new Error(`API failed after ${maxRetries} attempts.`);
+                    }
+                } catch (error) {
+                    console.error("Error during fetch:", error);
+                    if (i < maxRetries - 1) {
+                         await new Promise(resolve => setTimeout(resolve, delay));
+                         delay *= 2;
+                    } else {
+                        // Gagal total
+                        descriptionDisplay.innerHTML = `<p class="my-3 text-colorin-error">Maaf, gagal mendapatkan analisis mendalam. Terjadi kesalahan jaringan: ${error.message}. Coba lagi di platform Gemini ini.</p>`;
+                        showLoading(false);
+                        return;
+                    }
+                }
+            }
+
+
+            try {
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    let formattedText = candidate.content.parts[0].text;
+                    
+                    // --- LOGIKA PARSING MARKDOWN AGRESIF BARU ---
+                    
+                    // 1. Blok Code (```language ... ```) - Hapus sepenuhnya karena LLM tidak diminta kode
+                    formattedText = formattedText.replace(/```.*?```/gs, '');
+
+                    // 2. Horizontal Rule (---, ***, atau___)
+                    formattedText = formattedText.replace(/^( {0,3}[*-_]){3,}[ \t]*$/gm, '<hr class="border-t border-neutral-dark my-5">');
+
+                    // 3. Blokquote (>) - Harus dijalankan sebelum P-tagging
+                    formattedText = formattedText.replace(/^> (.*)$/gm, '<div class="border-l-4 border-srui-accent pl-4 italic text-neutral-mid my-3">$1</div>');
+
+                    // 4. Header (## dan ###)
+                    formattedText = formattedText.replace(/### (.*)/g, '<h4 class="text-lg font-bold mt-4 mb-2 text-srui-accent">$1</h4>');
+                    formattedText = formattedText.replace(/## (.*)/g, '<h3 class="text-xl font-bold mt-5 mb-3 text-srui-text">$1</h3>');
+
+                    // 5. Tabel (Ini adalah yang paling kompleks)
+                    formattedText = parseTables(formattedText);
+
+                    // 6. Formatting Inline (Bold, Italic, Code Inline)
+                    // Inline Code (`code`)
+                    formattedText = formattedText.replace(/`(.*?)`/g, '<code>$1</code>');
+                    // Bold (**)
+                    formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    // Italic/Emphasis (* atau _)
+                    formattedText = formattedText.replace(/(\*|_)(.*?)\1/g, '<em>$2</em>');
+
+
+                    // 7. List Items (Membuat <li>)
+                    // Mendeteksi list unordered (- atau *) dan ordered (\d+\.)
+                    formattedText = formattedText.replace(/^(\*|\-|\d+\.) (.*)$/gm, '<li>$2</li>');
+                    
+                    // 8. Paragraph dan List Wrapping (Multi-step structural parsing)
+                    // Pisahkan teks berdasarkan double newline (yang menandakan akhir paragraf/blok)
+                    const blocks = formattedText.split('\n\n');
+                    let htmlOutput = '';
+
+                    blocks.forEach(block => {
+                        if (block.trim() === '') return;
+
+                        // Cek apakah blok ini adalah kumpulan <li>
+                        if (block.trim().startsWith('<li>')) {
+                            const listItems = block.split('\n').map(item => item.trim()).filter(item => item.startsWith('<li>')).join('');
+                            htmlOutput += `<ul class="list-disc ml-8 space-y-1 my-3">${listItems}</ul>\n`;
+                        } 
+                        // Cek apakah blok ini adalah HR, Header, Blockquote, atau Tabel
+                        else if (block.startsWith('<h') || block.startsWith('<div class="border-l-4') || block.startsWith('<hr') || block.startsWith('<table')) {
+                            // Biarkan struktural block apa adanya
+                            htmlOutput += `${block}\n`;
+                        }
+                        else {
+                            // Ini adalah Paragraf
+                            const paragraphContent = block.replace(/\n/g, '<br>');
+                            htmlOutput += `<p class="my-3">${paragraphContent}</p>\n`;
+                        }
+                    });
+                    
+                    descriptionDisplay.innerHTML = htmlOutput;
+
+                    // Tampilkan Sumber (Citations)
+                    let sources = [];
+                    const groundingMetadata = candidate.groundingMetadata;
+                    if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                        sources = groundingMetadata.groundingAttributions
+                            .map(attribution => ({
+                                uri: attribution.web?.uri,
+                                title: attribution.web?.title,
+                            }))
+                            .filter(source => source.uri && source.title);
+                    }
+
+                    if (sources.length > 0) {
+                        let citationHtml = 'Sumber: ';
+                        sources.forEach((source, index) => {
+                            citationHtml += `<a href="${source.uri}" target="_blank" class="text-srui-accent hover:underline">${source.title}</a>${index < sources.length - 1 ? ', ' : ''}`;
+                        });
+                        citationDisplay.innerHTML = citationHtml;
+                    }
+
+                } else {
+                    descriptionDisplay.innerHTML = '<p class="my-3 text-colorin-error">Analisis AI tidak dapat dihasilkan. Coba lagi.</p>';
+                }
+            } catch (error) {
+                console.error("Error processing response:", error);
+                descriptionDisplay.innerHTML = `<p class="my-3 text-colorin-error">Terjadi kesalahan saat memproses hasil. Error: ${error.message}</p>`;
+            }
+
+            showLoading(false);
+        }
+
+        /**
+         * Logika sederhana untuk mem-parsing tabel Markdown.
+         */
+        function parseTables(text) {
+            const lines = text.split('\n');
+            let result = [];
+            let inTable = false;
+            let currentTable = [];
+
+            for (const line of lines) {
+                // Cek apakah baris ini adalah bagian dari tabel (mengandung |)
+                if (line.includes('|')) {
+                    if (!inTable) {
+                        inTable = true;
+                    }
+                    currentTable.push(line.trim());
+                } else {
+                    // Jika kita keluar dari blok tabel
+                    if (inTable) {
+                        result.push(renderTable(currentTable));
+                        currentTable = [];
+                        inTable = false;
+                    }
+                    // Tambahkan baris non-tabel (ini akan diproses oleh logika paragraph/block di luar)
+                    result.push(line);
+                }
+            }
+
+            // Proses tabel terakhir jika ada
+            if (inTable) {
+                result.push(renderTable(currentTable));
+            }
+
+            return result.join('\n');
+        }
+
+        /**
+         * Mengubah array baris tabel Markdown menjadi string HTML.
+         */
+        function renderTable(tableLines) {
+            if (tableLines.length < 2) return tableLines.join('\n'); // Harus ada header dan separator
+
+            // Baris pertama adalah Header
+            const headerLine = tableLines[0].replace(/^\||\|$/g, '').trim();
+            const headers = headerLine.split('|').map(h => h.trim());
+
+            // Baris kedua adalah Separator (kita abaikan valuenya, hanya cek keberadaan)
+            const separatorLine = tableLines[1].replace(/^\||\|$/g, '').trim();
+            if (!separatorLine.includes('-')) {
+                return tableLines.join('\n'); // Ini bukan tabel yang valid
+            }
+            
+            let html = '<table><thead><tr>';
+            headers.forEach(h => {
+                html += `<th>${h}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            // Baris 3 dan seterusnya adalah Body
+            for (let i = 2; i < tableLines.length; i++) {
+                const rowLine = tableLines[i].replace(/^\||\|$/g, '').trim();
+                const cells = rowLine.split('|').map(c => c.trim());
+
+                if (cells.length !== headers.length) continue; // Skip jika jumlah kolom tidak cocok
+
+                html += '<tr>';
+                cells.forEach(c => {
+                    html += `<td>${c}</td>`;
+                });
+                html += '</tr>';
+            }
+
+            html += '</tbody></table>';
+            return html;
+        }
+
+
+        /**
+         * Menampilkan pertanyaan saat ini.
+         */
+        function displayQuestion() {
+            const container = document.getElementById('question-area');
+            const currentQ = QUESTIONS[currentQuestionIndex];
+            
+            // Sembunyikan area hasil dan pastikan area pertanyaan terlihat
+            document.getElementById('result-area').classList.add('hidden');
+            container.classList.remove('hidden');
+
+            if (!currentQ) {
+                calculateResult();
+                return;
+            }
+
+            // Update Progress Bar
+            const progress = (currentQuestionIndex / QUESTIONS.length) * 100;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+
+            // HTML untuk Pertanyaan
+            container.innerHTML = `
+                <p class="text-sm font-medium text-srui-accent mb-2">Pertanyaan ${currentQuestionIndex + 1} dari ${QUESTIONS.length}</p>
+                <p class="text-xl font-semibold mb-8">${currentQ.text}</p>
+                
+                <div class="space-y-3">
+                    ${createOptionButton('Sangat Tidak Setuju', -2, currentQ)}
+                    ${createOptionButton('Tidak Setuju', -1, currentQ)}
+                    ${createOptionButton('Netral', 0, currentQ)}
+                    ${createOptionButton('Setuju', 1, currentQ)}
+                    ${createOptionButton('Sangat Setuju', 2, currentQ)}
+                </div>
+            `;
+        }
+        
+        /**
+         * Membuat tombol opsi jawaban.
+         * @param {string} label Label tombol
+         * @param {number} value Nilai skor
+         * @param {object} question Objek pertanyaan saat ini
+         */
+        function createOptionButton(label, value, question) {
+            const scoreValue = value * question.weight;
+            const dichotomy = question.dichotomy; 
+
+            return `
+                <button 
+                    class="option-button w-full px-4 py-3 bg-neutral-input-border text-srui-text rounded-2xl font-medium text-base text-left transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-srui-accent"
+                    onclick="answerQuestion('${dichotomy}', ${scoreValue})">
+                    ${label}
+                </button>
+            `;
+        }
+
+        /**
+         * Mencatat jawaban dan melanjutkan ke pertanyaan berikutnya.
+         * @param {string} dichotomy Dikotomi yang dipengaruhi (E, N, F, P, T)
+         * @param {number} value Nilai skor yang ditambahkan (bisa positif/negatif)
+         */
+        function answerQuestion(dichotomy, value) {
+            scores[dichotomy] += value;
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+
+        /**
+         * Mengkonversi skor menjadi tipe kepribadian 4-huruf.
+         * @returns {string} Tipe kepribadian (misalnya: INFP-T)
+         */
+        function calculateResult() {
+            document.getElementById('progress-fill').style.width = `100%`;
+
+            const E_I = scores.E < 0 ? 'I' : 'E';
+            const N_S = scores.N < 0 ? 'S' : 'N';
+            const F_T = scores.F < 0 ? 'T' : 'F';
+            const P_J = scores.P < 0 ? 'J' : 'P';
+            const A_T = scores.T < 0 ? 'A' : 'T';
+
+            const finalType = E_I + N_S + F_T + P_J + '-' + A_T;
+            
+            document.getElementById('question-area').classList.add('hidden');
+            document.getElementById('result-area').classList.remove('hidden');
+            document.getElementById('result-type-display').textContent = finalType;
+            
+            fetchGeminiAnalysis(finalType);
+        }
+
+
+        /**
+         * Mengatur ulang kuis ke kondisi awal.
+         */
+        function restartTest() {
+            currentQuestionIndex = 0;
+            scores = { E: 0, N: 0, F: 0, P: 0, T: 0 };
+            document.getElementById('progress-fill').style.width = '0%';
+            document.getElementById('result-description-display').innerHTML = '';
+            document.getElementById('citation-display').innerHTML = '';
+            showLoading(false);
+            displayQuestion();
+        }
+
+        // --- 3. INISIALISASI ---
+        window.onload = function() {
+            displayQuestion();
+        };
+
+    </script>
+</body>
+</html>
