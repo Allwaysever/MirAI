@@ -5,7 +5,7 @@
 ![Project](https://img.shields.io/badge/Type-HTML%20App-blue)
 ![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
 
-![Status](https://img.shields.io/badge/Status-In_the_process_of_releasing_a_new_version-%23ffce00?logo=googlegemini&logoColor=%23ffce00&logoSize=1&labelColor=%230f0f0f)
+![Status](https://img.shields.io/badge/Status-Active-%234CAF50?logo=googlegemini&logoColor=ffce00&labelColor=%23000)
 
 <br>
 
