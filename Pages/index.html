@@ -4923,7 +4923,10 @@ elements.uploadImageBtn.addEventListener('click', () => elements.imageInput.clic
 
         elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
 
-        elements.confirmBtnYes.addEventListener('click', () => { clearChat(); hideClearConfirmation(); });
+        elements.confirmBtnYes.addEventListener('click', () => { 
+    clearChat(); 
+    hideClearConfirmation(); // <--- BARIS INI DITAMBAHKAN
+});
 
         elements.confirmBtnNo.addEventListener('click', hideClearConfirmation);
 
