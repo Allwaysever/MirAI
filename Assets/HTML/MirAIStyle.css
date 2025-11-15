@@ -1,3097 +1,1436 @@
-
 /* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan (SRUI: Transisi Halus) */
 
-    body {
-
-        display: flex;
-
-        flex-direction: column;
-
-        justify-content: center;
-
-        align-items: center;
-
-        min-height: 100vh;
-
-        margin: 0;
-
-        /* SRUI: Mengganti font dengan Arial */
-
-        font-family: Arial, sans-serif;
-
-        position: relative;
-
-        /* SRUI: Menerapkan transisi global yang lebih halus */
-
-        transition: all 0.3s ease-in-out; 
-
-        chatHistorycolor: #fff; /* Properti ini tampaknya typo, tapi dipertahankan agar tidak merusak */
-
-    }
-
-    
-
-    .input-box {
-
-        /* SRUI Dark: Background Card/Bubble (#0f0f0f) dan Border Input (#4B4F50) */
-
-        background-color: rgba(15, 15, 15, 0.7); /* #0f0f0f transparan */
-
-        border: 1px solid #4B4F50;
-
-        -webkit-backdrop-filter: blur(10px);
-
-        backdrop-filter: blur(10px);
-
-        /* SRUI: Border-radius mencolok dan konsisten (25px) */
-
-        border-radius: 25px; 
-
-    }
-
-
-
-    .input-box textarea {
-
-        color: #ffffff; /* SRUI Dark: Teks Primer */
-
-    }
-
-
-
-    /* === [START] CSS untuk Fitur "Toko Perkakas" (VERSI FINAL & BENAR) === */
-
-
-
-    /* Styling untuk tombol + */
-
-    #toolsBtn {
-
-        /* SRUI: Gunakan SRUI Accent (#ffce00) atau netral. Dipilih netral (Neutral Dark/Mid) */
-
-        background-color: #212121; /* Neutral Dark/Mid */
-
-        color: #ffffff;
-
-        border: none;
-
-        border-radius: 50%;
-
-        width: 40px;
-
-        height: 40px;
-
-        display: flex;
-
-        justify-content: center;
-
-        align-items: center;
-
-        cursor: pointer;
-
-        flex-shrink: 0;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out;
-
-    }
-
-
-
-    /* State AKTIF saat menu terbuka (tombol jadi 'x') */
-
-    #toolsBtn.active {
-
-        transform: rotate(135deg);
-
-        background-color: #ffce00; /* SRUI Accent saat aktif */
-
-        color: #000000; /* SRUI Accent Text */
-
-    }
-
-
-
-    /* Efek hover biasa */
-
-    #toolsBtn:not(.active):hover {
-
-        transform: scale(1.1);
-
-        background-color: #ffce00; /* SRUI Accent saat hover */
-
-        color: #000000; /* SRUI Accent Text */
-
-    }
-
-
-
-    /* Efek hover saat menu aktif */
-
-    #toolsBtn.active:hover {
-
-        transform: rotate(135deg) scale(1.1);
-
-        background-color: #eab308; /* Hover SRUI Accent */
-
-    }
-
-
-
-    /* Penyesuaian untuk Light Theme */
-
-    body.light-theme #toolsBtn {
-
-        color: #ffffff; /* SRUI Accent Text Alt (#ffffff) */
-
-        background-color: #444444; /* SRUI Accent Alt */
-
-    }
-
-
-
-    body.light-theme #toolsBtn:not(.active):hover {
-
-        background-color: #222222;
-
-        color: #ffffff;
-
-    }
-
-
-
-    body.light-theme #toolsBtn.active {
-
-        background-color: #222222;
-
-        color: #ffffff;
-
-    }
-
-
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    /* SRUI: Mengganti font dengan Arial */
+    font-family: Arial, sans-serif;
+    position: relative;
+    /* SRUI: Menerapkan transisi global yang lebih halus */
+    transition: all 0.3s ease-in-out;
+    color: #fff;
+}
+
+.input-box {
+    /* SRUI Dark: Background Card/Bubble (#0f0f0f) dan Border Input (#4B4F50) */
+    background-color: rgba(15, 15, 15, 0.7);
+    border: 1px solid #4B4F50;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    /* SRUI: Border-radius mencolok dan konsisten (25px) */
+    border-radius: 25px;
+}
+
+.input-box textarea {
+    color: #ffffff;
+}
+
+/* === [START] CSS untuk Fitur "Toko Perkakas" (VERSI FINAL & BENAR) === */
+
+/* Styling untuk tombol + */
+#toolsBtn {
+    /* SRUI: Gunakan SRUI Accent (#ffce00) atau netral. Dipilih netral (Neutral Dark/Mid) */
+    background-color: #212121;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    /* SRUI: Transisi halus */
+    transition: all 0.3s ease-in-out;
+}
+
+/* State AKTIF saat menu terbuka (tombol jadi 'x') */
+#toolsBtn.active {
+    transform: rotate(135deg);
+    background-color: #ffce00;
+    color: #000000;
+}
+
+/* Efek hover biasa */
+#toolsBtn:not(.active):hover {
+    transform: scale(1.1);
+    background-color: #ffce00;
+    color: #000000;
+}
+
+/* Efek hover saat menu aktif */
+#toolsBtn.active:hover {
+    transform: rotate(135deg) scale(1.1);
+    background-color: #eab308;
+}
+
+/* Penyesuaian untuk Light Theme */
+body.light-theme #toolsBtn {
+    color: #ffffff;
+    background-color: #444444;
+}
+
+body.light-theme #toolsBtn:not(.active):hover {
+    background-color: #222222;
+    color: #ffffff;
+}
+
+body.light-theme #toolsBtn.active {
+    background-color: #222222;
+    color: #ffffff;
+}
 
 /* Styling untuk Menu Pop-up (FIXED & DYNAMIC V2) */
-
 #toolsMenu {
-
     position: fixed;
-
-    top: calc(50% + 30px); 
-
+    top: calc(50% + 30px);
     bottom: auto;
-
     left: 50%;
-
     transform: translateX(-50%);
-
     width: calc(100% - 40px);
-
     max-width: 600px;
-
     z-index: 101;
-
     max-height: 300px;
-
     overflow-y: auto;
-
-    /* SRUI: Border-radius 15px sudah baik, dipertahankan */
-
-    border-radius: 15px; 
-
+    border-radius: 15px;
     padding: 10px;
-
     box-sizing: border-box;
-
-    /* SRUI: Menggunakan background Card/Bubble untuk menu pop-up (Dark) */
-
-    background-color: #0f0f0f; 
-
-    /* SRUI: Tambahkan border netral untuk pemisah/hierarki */
-
-    border: 1px solid #4B4F50; 
-
-    /* SRUI: Menerapkan bayangan minimalis */
-
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
-
-
-
+    background-color: #0f0f0f;
+    border: 1px solid #4B4F50;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     opacity: 0;
-
     transform: translateX(-50%) translateY(10px);
-
     visibility: hidden;
-
     pointer-events: none;
-
-    /* SRUI: Transisi halus */
-
-    transition: all 0.3s ease-in-out; 
-
+    transition: all 0.3s ease-in-out;
 }
-
-
 
 /* Penyesuaian Light Theme untuk #toolsMenu */
-
 body.light-theme #toolsMenu {
-
-    /* SRUI Light: Background Card/Bubble Light (#ffffff) dan Border Netral Light (#b3b3b3) */
-
     background-color: #ffffff;
-
     border: 1px solid #b3b3b3;
-
 }
-
-
 
 /* Kelas untuk menampilkan menu */
-
 #toolsMenu.visible {
-
     opacity: 1;
-
     transform: translateX(-50%) translateY(0);
-
     visibility: visible;
-
     pointer-events: auto;
-
 }
-
-
 
 /* ATURAN BARU: Saat chat aktif, pindah ke ATAS input box */
-
 body.chat-active #toolsMenu {
-
     top: auto;
-
     bottom: 85px;
+}
+/* === [END] CSS untuk Fitur "Toko Perkakas" === */
 
+.logo-img {
+    max-width: 450px;
+    height: auto;
+    filter: none;
 }
 
-    /* === [END] CSS untuk Fitur "Toko Perkakas" === */
-
-    
-
-    .logo-img {
-
-        max-width: 450px;
-
-        height: auto;
-
-        filter: none;
-
-    }
-
-
-
-    .gemini-logo {
-
-        max-width: 200px;
-
-        height: auto;
-
-        filter: none;
-
-    }
-
-
-
-    .logo-container {
-
-        width: 90%; 
-
-        max-width: 450px; 
-
-        margin-bottom: 30px;
-
-        transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-
-        z-index: 099;
-
-        text-align: center;
-
-        pointer-events: none;
-
-    }
-
-
-
-    .hi-img {
-
-        width: 75%;
-
-        height: auto;
-
-        align-items: flex-start;
-
-        filter: none;
-
-        z-index: 100;
-
-        display: block; 
-
-        margin: 0 auto;
-
-    }
-
-
-
-    /* TEMA TERANG */
-
-    body.light-theme {
-
-        /* SRUI Light: Background Light (#e9e9e9) */
-
-        background-color: #e9e9e9;
-
-        /* SRUI Light: Teks Primer (#444444) */
-
-        color: #444444; 
-
-    }
-
-
-
-    body.light-theme .chat-bubble.ai-bubble {
-
-        /* SRUI Light: Card/Bubble Light (#ffffff) */
-
-        background-color: #ffffff; 
-
-        /* SRUI Light: Teks Primer (#444444) */
-
-        color: #444444; 
-
-    }
-
-
-
-    body.light-theme .chat-bubble.user-bubble {
-
-        /* SRUI Light: User Bubble Light (#888888) */
-
-        background-color: #888888; 
-
-        /* SRUI Light: User Text Light (#ffffff) */
-
-        color: #ffffff; 
-
-    }
-
-    
-
-    body.light-theme .logo-version {
-
-        color: #444444; /* Disesuaikan dengan Teks Primer */
-
-    }
-
-
-
-    body.light-theme .input-box {
-
-        /* SRUI Light: Neutral Background Light (#d9d9d9) transparan */
-
-        background-color: rgba(217, 217, 217, 0.7); 
-
-        /* SRUI Light: Neutral Border Light (#b3b3b3) */
-
-        border: 1px solid #b3b3b3; 
-
-    }
-
-
-
-    body.light-theme .input-box textarea {
-
-        color: #444444; /* SRUI Light: Teks Primer */
-
-    }
-
-
-
-    body.light-theme .suggestion-box {
-
-        /* SRUI Light: Neutral Background Light (#d9d9d9) transparan */
-
-        background-color: rgba(217, 217, 217, 0.7); 
-
-        /* SRUI Light: Neutral Border Light (#b3b3b3) */
-
-        border: 1px solid #b3b3b3;
-
-    }
-
-    
-
-    body.light-theme .ai-bubble strong {
-
-        color: #444444; /* Disesuaikan dengan Teks Primer Light */
-
-    }
-
-
-
-    body.light-theme .ai-bubble h1, body.light-theme .ai-bubble h2, body.light-theme .ai-bubble h3 {
-
-        /* SRUI Light: Border sesuai Teks Primer Light */
-
-        border-bottom: 1px solid #444444; 
-
-    }
-
-    
-
-    body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-img {
-
-        /* Mengurangi filter agar lebih minimalis (iOS in Flatness) */
-
-        filter: grayscale(100%) brightness(0.5); 
-
-    }
-
-
-
-    /* ================================== */
-
-    /* TEMA GELAP (KUNING) - DEFAULT SRUI */
-
-    /* ================================== */
-
-    body.dark-theme {
-
-        /* SRUI Dark: Background Utama (#1B1C1E) */
-
-        background-color: #1B1C1E;
-
-        /* SRUI Dark: Teks Primer (#ffffff) */
-
-        color: #ffffff; 
-
-    }
-
-
-
-    body.dark-theme .chat-bubble.ai-bubble {
-
-        /* SRUI Dark: Card/Bubble (#0f0f0f) */
-
-        background-color: #0f0f0f;
-
-        /* SRUI Dark: Teks Primer (#ffffff) */
-
-        color: #ffffff; 
-
-    }
-
-
-
-    body.dark-theme .chat-bubble.user-bubble {
-
-        /* SRUI Dark: SRUI Accent (#ffce00) */
-
-        background-color: #ffce00;
-
-        /* SRUI Dark: SRUI Accent Text (#000000) */
-
-        color: #000000; 
-
-    }
-
-
-
-    body.dark-theme .input-box {
-
-        /* SRUI Dark: Card/Bubble (#0f0f0f) transparan */
-
-        background-color: rgba(15, 15, 15, 0.7); 
-
-        /* SRUI Dark: Neutral Input Border (#4B4F50) */
-
-        border: 1px solid #4B4F50; 
-
-    }
-
-
-
-    body.dark-theme .input-box textarea {
-
-        color: #ffffff; /* SRUI Dark: Teks Primer */
-
-    }
-
-
-
-    body.dark-theme .input-box button {
-
-        /* SRUI Dark: SRUI Accent (#ffce00) */
-
-        background-color: #ffce00;
-
-        /* SRUI Dark: SRUI Accent Text (#000000) */
-
-        color: #000000; 
-
-    }
-
-
-
-    body.dark-theme .ai-bubble strong {
-
-        /* SRUI Dark: SRUI Accent (#ffce00) */
-
-        color: #ffce00; 
-
-    }
-
-
-
-    body.dark-theme .ai-bubble h1, 
-
-    body.dark-theme .ai-bubble h2, 
-
-    body.dark-theme .ai-bubble h3 {
-
-        /* SRUI Dark: Border sesuai SRUI Accent */
-
-        border-bottom: 1px solid #ffce00; 
-
-    }
-
-
-
-    body.dark-theme .typing-indicator span {
-
-        /* SRUI Dark: SRUI Accent (#ffce00) */
-
-        background-color: #ffce00; 
-
-    }
-
-
-
-    * {
-
-      -webkit-tap-highlight-color: transparent;
-
-    }
-
-
-
-    .logo-container {
-
-        position: absolute;
-
-        top: 25%;
-
-        left: 50%;
-
-        transform: translate(-50% , -50%);
-
-        transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
-
-        z-index: 099;
-
-        text-align: center;
-
-        pointer-events: none;
-
-    }
-
-
-
-    .logo-container.logo-hidden {
-
-        opacity: 0;
-
-        visibility: hidden;
-
-    }
-
-
-
-    .logo-container img {
-
-        max-width: 450px;
-
-        height: auto;
-
-    }
-
-
-
-    .logo-version {
-
-        color: #fff;
-
-        font-size: 0.5em;
-
-        font-weight: bold;
-
-        margin-top: 10px;
-
-        letter-spacing: 2px;
-
-        opacity: 0.5;
-
-    }
-
-    
-
-    .logo-text-img {
-
-        height: auto;
-
-        width: 35%;
-
-        vertical-align: middle;
-
-        opacity: 0.5;
-
-    }
-
-
-
-    .google-gemini b {
-
-        font-family: Arial, sans-serif; /* Mengganti ke Arial/sans-serif */
-
-        color: white;
-
-        letter-spacing: normal;
-
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-
-    }
-
-
-
-    body.chat-active {
-
-        justify-content: flex-start;
-
-    }
-
-
-
-    .chat-container {
-
-        width: 100%;
-
-        max-width: 600px;
-
-        padding: 20px;
-
-        box-sizing: border-box;
-
-        display: flex;
-
-        flex-direction: column;
-
-        overflow-y: auto;
-
-        flex-grow: 1;
-
-        padding-bottom: 250px;
-
-        opacity: 0;
-
-        /* SRUI: Transisi halus */
-
-        transition: opacity 0.5s ease-in-out;
-
-    }
-
-
-
-    body.chat-active .chat-container {
-
-        opacity: 1;
-
-    }
-
-    
-
-    #chatMessages {
-
-        display: flex;
-
-        flex-direction: column;
-
-        gap: 15px; /* Mengurangi jarak antar bubble */
-
-    }
-
-  
-
-    .chat-bubble {
-
-        max-width: 100%;
-
-        padding: 10px 20px; /* Padding sedikit dilebarkan */
-
-        /* SRUI: Border-radius mencolok dan konsisten (25px) */
-
-        border-radius: 25px; 
-
-        /* SRUI: Bayangan minimalis */
-
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); 
-
-        font-size: 16px;
-
-        line-height: 1.5;
-
-        word-wrap: break-word;
-
-        margin-bottom: 10px;
-
-        opacity: 0;
-
-        transform: translateY(10px); 
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out; 
-
-    }
-
-
-
-    .chat-bubble.fade-in {
-
-        opacity: 1;
-
+.gemini-logo {
+    max-width: 200px;
+    height: auto;
+    filter: none;
+}
+
+.logo-container {
+    width: 90%;
+    max-width: 450px;
+    margin-bottom: 30px;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    z-index: 99;
+    text-align: center;
+    pointer-events: none;
+}
+
+.hi-img {
+    width: 75%;
+    height: auto;
+    align-items: flex-start;
+    filter: none;
+    z-index: 100;
+    display: block;
+    margin: 0 auto;
+}
+
+/* TEMA TERANG */
+body.light-theme {
+    background-color: #e9e9e9;
+    color: #444444;
+}
+
+body.light-theme .chat-bubble.ai-bubble {
+    background-color: #ffffff;
+    color: #444444;
+}
+
+body.light-theme .chat-bubble.user-bubble {
+    background-color: #888888;
+    color: #ffffff;
+}
+
+body.light-theme .logo-version {
+    color: #444444;
+}
+
+body.light-theme .input-box {
+    background-color: rgba(217, 217, 217, 0.7);
+    border: 1px solid #b3b3b3;
+}
+
+body.light-theme .input-box textarea {
+    color: #444444;
+}
+
+body.light-theme .suggestion-box {
+    background-color: rgba(217, 217, 217, 0.7);
+    border: 1px solid #b3b3b3;
+}
+
+body.light-theme .ai-bubble strong {
+    color: #444444;
+}
+
+body.light-theme .ai-bubble h1, 
+body.light-theme .ai-bubble h2, 
+body.light-theme .ai-bubble h3 {
+    border-bottom: 1px solid #444444;
+}
+
+body.light-theme .logo-img, 
+body.light-theme .gemini-logo, 
+body.light-theme .hi-img {
+    filter: grayscale(100%) brightness(0.5);
+}
+
+/* ================================== */
+/* TEMA GELAP (KUNING) - DEFAULT SRUI */
+/* ================================== */
+body.dark-theme {
+    background-color: #1B1C1E;
+    color: #ffffff;
+}
+
+body.dark-theme .chat-bubble.ai-bubble {
+    background-color: #0f0f0f;
+    color: #ffffff;
+}
+
+body.dark-theme .chat-bubble.user-bubble {
+    background-color: #ffce00;
+    color: #000000;
+}
+
+body.dark-theme .input-box {
+    background-color: rgba(15, 15, 15, 0.7);
+    border: 1px solid #4B4F50;
+}
+
+body.dark-theme .input-box textarea {
+    color: #ffffff;
+}
+
+body.dark-theme .input-box button {
+    background-color: #ffce00;
+    color: #000000;
+}
+
+body.dark-theme .ai-bubble strong {
+    color: #ffce00;
+}
+
+body.dark-theme .ai-bubble h1, 
+body.dark-theme .ai-bubble h2, 
+body.dark-theme .ai-bubble h3 {
+    border-bottom: 1px solid #ffce00;
+}
+
+body.dark-theme .typing-indicator span {
+    background-color: #ffce00;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.logo-container {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+    z-index: 99;
+    text-align: center;
+    pointer-events: none;
+}
+
+.logo-container.logo-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.logo-container img {
+    max-width: 450px;
+    height: auto;
+}
+
+.logo-version {
+    color: #fff;
+    font-size: 0.5em;
+    font-weight: bold;
+    margin-top: 10px;
+    letter-spacing: 2px;
+    opacity: 0.5;
+}
+
+.logo-text-img {
+    height: auto;
+    width: 35%;
+    vertical-align: middle;
+    opacity: 0.5;
+}
+
+.google-gemini b {
+    font-family: Arial, sans-serif;
+    color: white;
+    letter-spacing: normal;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+body.chat-active {
+    justify-content: flex-start;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-bottom: 250px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+body.chat-active .chat-container {
+    opacity: 1;
+}
+
+#chatMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.chat-bubble {
+    max-width: 100%;
+    padding: 10px 20px;
+    border-radius: 25px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease-in-out;
+}
+
+.chat-bubble.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.user-bubble {
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.ai-bubble {
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.copy-btn {
+    position: absolute;
+    bottom: -20px;
+    margin-bottom: 25px;
+    left: 8px;
+    color: #666666;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+body.light-theme .copy-btn {
+    color: #666666;
+}
+
+.copy-btn:hover {
+    color: #ffce00;
+}
+
+body.light-theme .copy-btn:hover {
+    color: #444444;
+}
+
+/* === [BARU] CSS UNTUK TOMBOL TTS === */
+.speak-btn {
+    position: absolute;
+    bottom: -20px;
+    margin-bottom: 25px;
+    left: 35px;
+    color: #666666;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+body.light-theme .speak-btn {
+    color: #666666;
+}
+
+.speak-btn:hover {
+    color: #ffce00;
+}
+
+body.light-theme .speak-btn:hover {
+    color: #444444;
+}
+/* === [AKHIR] CSS UNTUK TOMBOL TTS === */
+
+.typing-indicator {
+    align-self: flex-start;
+    margin-left: 10px;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+    background-color: #ffce00;
+    border-radius: 50%;
+    animation: bounce 1.0s infinite alternate;
+}
+
+body.light-theme .typing-indicator span {
+    background-color: #444444;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    from {
         transform: translateY(0);
-
-    }
-
-
-
-    /* Menghapus radius tajam untuk SRUI */
-
-    .user-bubble {
-
-        align-self: flex-end;
-
-        border-bottom-right-radius: 5px; 
-
-    }
-
-
-
-    .ai-bubble {
-
-        align-self: flex-start;
-
-        border-bottom-left-radius: 5px; 
-
-        position: relative;
-         margin-buttom: 25px;
-
-
-    }
-
-
-
-    .copy-btn {
-
-        position: absolute;
-
-        bottom: -20px;
-       margin-buttom: 25px;
-
-
-        left: 8px;
-
-        color: #666666; /* SRUI Dark: Neutral Dark */
-
-        cursor: pointer;
-
-        font-size: 14px;
-
-        transition: color 0.3s ease;
-
-    }
-
-    
-
-    body.light-theme .copy-btn {
-
-        color: #666666; /* SRUI Light: Neutral Dark (sama) */
-
-    }
-
-
-
-    .copy-btn:hover {
-
-        color: #ffce00; /* SRUI Accent */
-
-    }
-
-    
-
-    body.light-theme .copy-btn:hover {
-
-        color: #444444; /* SRUI Accent Alt */
-
-    }
-
-
-
-    /* === [BARU] CSS UNTUK TOMBOL TTS === */
-
-    .speak-btn {
-
-        position: absolute;
-
-        bottom: -20px;
-       margin-buttom: 25px;
-
-        left: 35px;
-
-        color: #666666; /* SRUI Dark: Neutral Dark */
-
-        cursor: pointer;
-
-        font-size: 14px;
-
-        transition: color 0.3s ease;
-
-    }
-
-
-
-    body.light-theme .speak-btn {
-
-        color: #666666; /* SRUI Light: Neutral Dark */
-
-    }
-
-
-
-    .speak-btn:hover {
-
-        color: #ffce00; /* SRUI Accent */
-
-    }
-
-    
-
-    body.light-theme .speak-btn:hover {
-
-        color: #444444; /* SRUI Accent Alt */
-
-    }
-
-    /* === [AKHIR] CSS UNTUK TOMBOL TTS === */
-
-
-
-
-
-    .typing-indicator {
-
-        align-self: flex-start;
-
-        margin-left: 10px;
-
-    }
-
-
-
-    .typing-indicator span {
-
-        display: inline-block;
-
-        width: 8px;
-
-        height: 8px;
-
-        margin: 0 2px;
-
-        /* SRUI Dark: SRUI Accent (#ffce00) */
-
-        background-color: #ffce00; 
-
-        border-radius: 50%;
-
-        animation: bounce 1.0s infinite alternate;
-
-    }
-
-    
-
-    body.light-theme .typing-indicator span {
-
-        /* SRUI Light: Teks Primer (#444444) */
-
-        background-color: #444444; 
-
-    }
-
-
-
-
-
-    .typing-indicator span:nth-child(2) {
-
-        animation-delay: 0.2s;
-
-    }
-
-
-
-    .typing-indicator span:nth-child(3) {
-
-        animation-delay: 0.4s;
-
-    }
-
-
-
-    @keyframes bounce {
-
-        from {
-
-            transform: translateY(0);
-
-        }
-
-        to {
-
-            transform: translateY(-5px);
-
-        }
-
-    }
-
-
-
-    #settingsBtnContainer, #clearBtnContainer {
-
-        position: fixed;
-
-        left: 20px;
-
-        z-index: 101;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out; 
-
-    }
-
-    
-
-    #settingsBtnContainer {
-
-        top: 20px;
-
-    }
-
-
-
-    #clearBtnContainer {
-
-        left: 70px;
-
-        top: 20px;
-
-        opacity: 0;
-
-        transform: translateY(-20px);
-
-        pointer-events: none;
-
-    }
-
-
-
-    body.chat-active #clearBtnContainer {
-
-        opacity: 1;
-
-        transform: translateX(0);
-
-        pointer-events: auto;
-
-    }
-
-    
-
-    #connectionStatus {
-
-        /* SRUI Dark: Card/Bubble (#0f0f0f) transparan & Border Input (#4B4F50) */
-
-        background-color: rgba(15, 15, 15, 0.7); 
-
-        border: 1px solid #4B4F50;
-
-        -webkit-backdrop-filter: blur(10px);
-
-        backdrop-filter: blur(10px);
-
-        padding: 8px 12px;
-
-        /* SRUI: Border-radius 25px */
-
-        border-radius: 25px; 
-
-        right: 20px;
-
-        top: 20px;
-
-        position: fixed;
-
-        z-index: 101;
-
-        display: flex;
-
-        align-items: center;
-
-        font-size: 0.8em;
-
-        font-weight: bold;
-
-        color: #ffffff; /* SRUI Dark: Teks Primer */
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out; 
-
-    }
-
-
-
-    #connectionStatus .status-dot {
-
-        width: 10px;
-
-        height: 10px;
-
-        border-radius: 50%;
-
-        margin-right: 8px;
-
-        transition: transform 0.3s ease;
-
-    }
-
-    
-
-    @keyframes pulse {
-
-        0% { transform: scale(1); }
-
-        50% { transform: scale(1.3); }
-
-        100% { transform: scale(1); }
-
-    }
-
-
-
-    .status-changed .status-dot {
-
-        animation: pulse 0.5s ease-in-out;
-
-    }
-
-    
-
-    #connectionStatus .online {
-
-        /* SRUI: Success (#4CAF50) */
-
-        background-color: #4CAF50; 
-
-    }
-
-    
-
-    #connectionStatus .offline {
-
-        /* SRUI: Error (#F44336) */
-
-        background-color: #F44336; 
-
-    }
-
-
-
-    body.light-theme #connectionStatus {
-
-        /* SRUI Light: Neutral Background Light (#d9d9d9) transparan & Border Netral Light (#b3b3b3) */
-
-        background-color: rgba(217, 217, 217, 0.7); 
-
-        border: 1px solid #b3b3b3;
-
-        color: #444444; /* SRUI Light: Teks Primer */
-
-    }
-
-
-
-    body.light-theme #connectionStatus .status-label {
-
-        color: #444444; /* SRUI Light: Teks Primer */
-
-    }
-
-    
-
-    body.chat-active #connectionStatus {
-
-        transform: translateX(calc(125% - 32px));
-
-    }
-
-
-
-    #connectionStatus.hidden-by-scroll {
-
-        transform: translateX(200px); 
-
-        opacity: 0;
-
-    }
-
-
-
-    #connectionStatus .status-label {
-
-        color: #ffffff; /* SRUI Dark: Teks Primer */
-
-    }
-
-    
-
-    #clearBtn, #settingsBtn {
-
-        /* SRUI Dark: SRUI Accent (#ffce00) & SRUI Accent Text (#000000) */
-
-        background-color: #ffce00;
-
-        color: #000000; 
-
-        border: none;
-
-        border-radius: 50%;
-
-        width: 40px;
-
-        height: 40px;
-
-        display: flex;
-
-        justify-content: center;
-
-        align-items: center;
-
-        cursor: pointer;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out; 
-
-        box-shadow: none;
-
-    }
-
-    
-
-    body.light-theme #clearBtn, body.light-theme #settingsBtn {
-
-        /* SRUI Light: SRUI Accent Alt (#444444) & SRUI Accent Text Alt (#ffffff) */
-
-        background-color: #444444;
-
-        color: #ffffff;
-
-    }
-
-    
-
-    #clearBtn:hover, #settingsBtn:hover,
-
-    #clearBtn:active, #settingsBtn:active { 
-
-        color: #000000;
-
-        transform: scale(1.1); 
-
-        background-color: #eab308; /* Hover SRUI Accent */
-
-    }
-
-
-
-    body.light-theme #clearBtn:hover, body.light-theme #settingsBtn:hover,
-
-    body.light-theme #clearBtn:active, body.light-theme #settingsBtn:active {
-
-        color: #ffffff;
-
-        background-color: #222222; /* Hover SRUI Accent Alt */
-
-    }
-
-
-
-    .input-container {
-
-        position: fixed;
-
-        bottom: 0;
-
-        left: 0;
-
-        width: 100%;
-
-        padding: 10px;
-
-        margin-top: 10px;
-
-        box-sizing: border-box;
-
-        background-color: none;
-
-        z-index: 100;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.5s ease-in-out; 
-
-    }
-
-
-
-    .input-container.centered {
-
-        position: absolute;
-
-        bottom: 50%;
-
-        transform: translateY(50%);
-
-    }
-
-
-
-    .input-container.bottom {
-
-        position: fixed;
-
-        bottom: 0;
-
-    }
-
-    
-
-    .info-text {
-
-        color: #666666; /* SRUI Dark: Neutral Dark */
-
-        font-size: 12px;
-
-        text-align: center;
-
-        buttom: 3px;
-
-        display: none;
-
-        transition: opacity 0.5s ease-in-out;
-
-    }
-
-    
-
-    body.light-theme .info-text {
-
-        color: #666666; /* SRUI Light: Neutral Dark */
-
-    }
-
-
-
-    body.chat-active .info-text {
-
-        display: block;
-
-    }
-
-
-
-    .input-box {
-
-        display: flex;
-
-        align-items: center;
-
-        max-width: 600px;
-
-        margin: 0 auto;
-
-        padding: 10px;
-
-        /* SRUI: Border-radius 25px */
-
-        border-radius: 25px; 
-
-        /* SRUI: Bayangan minimalis */
-
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); 
-
-    }
-
-
-
-    .input-box textarea {
-
-        flex-grow: 1;
-
-        border: none;
-
-        outline: none;
-
-        font-size: 15px;
-
-        padding: 0 5px;
-
-        margin-left: 5px;
-
-        background-color: transparent;
-
-        resize: none;
-
-        overflow: hidden;
-
-        max-height: 250px;
-
-        /* SRUI: Mengganti font dengan Arial */
-
-        font-family: Arial, sans-serif; 
-
-        border-radius: 0;
-
-    }
-
-
-
-    #sendBtn {
-
-        /* SRUI Dark: SRUI Accent (#ffce00) & SRUI Accent Text (#000000) */
-
-        background-color: #ffce00;
-
-        color: #000000; 
-
-        border: none;
-
-        border-radius: 25px;
-
-        width: 40px;
-
-        height: 40px;
-
-        display: flex;
-
-        justify-content: center;
-
-        align-items: center;
-
-        cursor: pointer;
-
-        flex-shrink: 0;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out; 
-
-    }
-
-    
-
-    /* Style untuk tombol kirim saat non-aktif */
-
-    #sendBtn.disabled {
-
-        opacity: 0.5;
-
-        transform: scale(0.9);
-
-        cursor: not-allowed;
-
-    }
-
-
-
-    body.light-theme #sendBtn {
-
-        /* SRUI Light: SRUI Accent Alt (#444444) & SRUI Accent Text Alt (#ffffff) */
-
-        background-color: #444444;
-
-        color: #ffffff;
-
-    }
-
-
-
-    #sendBtn:not(.disabled):hover,
-
-    #sendBtn:not(.disabled):active { 
-
-        background-color: #eab308; /* Hover SRUI Accent */
-
-        transform: scale(1.1); 
-
-    }
-
-    
-
-    body.light-theme #sendBtn:not(.disabled):hover,
-
-    body.light-theme #sendBtn:not(.disabled):active {
-
-        background-color: #222222; /* Hover SRUI Accent Alt */
-
-    }
-
-
-
-    #stopBtn {
-
-        /* SRUI: Menggunakan warna Error (#F44336) untuk Stop */
-
-        background-color: #F44336; 
-
-        color: #ffffff; /* Teks putih agar kontras */
-
-        border: none;
-
-        border-radius: 25px;
-
-        width: 40px;
-
-        height: 40px;
-
-        display: flex;
-
-        justify-content: center;
-
-        align-items: center;
-
-        cursor: pointer;
-
-        flex-shrink: 0;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out; 
-
-    }
-
-    
-
-    body.light-theme #stopBtn {
-
-        /* SRUI: Menggunakan warna Error (#F44336) untuk Stop */
-
-        background-color: #F44336; 
-
-        color: #ffffff;
-
-    }
-
-
-
-    .suggestion-box {
-
-        /* SRUI Dark: Card/Bubble (#0f0f0f) transparan & Border Input (#4B4F50) */
-
-        background-color: rgba(15, 15, 15, 0.7); 
-
-        border: 1px solid #4B4F50;
-
-        -webkit-backdrop-filter: blur(10px);
-
-        backdrop-filter: blur(10px);
-
-        max-width: 600px;
-
-        margin: 0 auto;
-
-        /* SRUI: Border-radius 15px */
-
-        border-radius: 15px; 
-
-        padding: 10px;
-
-        position: relative;
-
-        top: -10px;
-
-        z-index: 10;
-
-        width: calc(100% - 20px);
-
-        margin-top: 5px;
-
-        box-sizing: border-box;
-
-        /* SRUI: Bayangan minimalis */
-
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); 
-
-        opacity: 0;
-
-        transform: translateY(10px);
-
-        visibility: hidden;
-
-        pointer-events: none;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out;
-
-    }
-
-    
-
-    /* Kelas untuk menampilkan suggestion box */
-
-    .suggestion-box.visible {
-
-        opacity: 1;
-
-        transform: translateY(0);
-
-        visibility: visible;
-
-        pointer-events: auto;
-
-    }
-
-
-
-    body.light-theme .suggestion-box {
-
-        /* SRUI Light: Neutral Background Light (#d9d9d9) transparan & Border Netral Light (#b3b3b3) */
-
-        background-color: rgba(217, 217, 217, 0.7); 
-
-        border: 1px solid #b3b3b3;
-
-    }
-
-
-
-    .suggestion-item {
-
-        color: #ffffff; /* SRUI Dark: Teks Primer */
-
-        padding: 8px 10px;
-
-        cursor: pointer;
-
-        /* SRUI Dark: Neutral Border (#4B4F50) */
-
-        border-bottom: 1px solid #4B4F50; 
-
-        font-size: 14px;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.2s ease; 
-
-        border-radius: 8px; /* Sudut sedikit membulat untuk item */
-
-    }
-
-    
-
-    body.light-theme .suggestion-item {
-
-        color: #444444; /* SRUI Light: Teks Primer */
-
-        /* SRUI Light: Neutral Border Light (#b3b3b3) */
-
-        border-bottom: 1px solid #b3b3b3; 
-
-    }
-
-
-
-    .suggestion-item:last-child {
-
-        border-bottom: none;
-
-    }
-
-
-
-    .suggestion-item:hover {
-
-        /* Hover di Dark Theme menggunakan SRUI Accent dengan transparansi */
-
-        background-color: rgba(255, 206, 0, 0.2); 
-
-        color: #ffce00; /* SRUI Accent */
-
-    }
-
-    
-
-    body.light-theme .suggestion-item:hover {
-
-        /* Hover di Light Theme menggunakan SRUI Accent Alt dengan transparansi */
-
-        background-color: rgba(68, 68, 68, 0.2); 
-
-        color: #444444; /* SRUI Accent Alt */
-
-    }
-
-
-
-    .suggestion-item-slash {
-
-        padding: 10px 12px;
-
-        cursor: pointer;
-
-        /* SRUI Dark: Neutral Border (#4B4F50) */
-
-        border-bottom: 1px solid #4B4F50;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.2s ease;
-
-        border-radius: 8px; /* Sudut sedikit membulat untuk item */
-
-    }
-
-
-
-    body.light-theme .suggestion-item-slash {
-
-        /* SRUI Light: Neutral Border Light (#b3b3b3) */
-
-        border-bottom: 1px solid #b3b3b3;
-
-    }
-
-
-
-    .suggestion-item-slash:last-child {
-
-        border-bottom: none;
-
-    }
-
-
-
-    .suggestion-item-slash:hover {
-
-        /* Hover di Dark Theme menggunakan SRUI Accent dengan transparansi */
-
-        background-color: rgba(255, 206, 0, 0.2);
-
-    }
-
-
-
-    body.light-theme .suggestion-item-slash:hover {
-
-        /* Hover di Light Theme menggunakan SRUI Accent Alt dengan transparansi */
-
-        background-color: rgba(68, 68, 68, 0.2);
-
-    }
-
-
-
-    .suggestion-item-slash strong {
-
-        display: block;
-
-        font-size: 15px;
-
-        color: #ffce00; /* SRUI Accent */
-
-    }
-
-
-
-    body.light-theme .suggestion-item-slash strong {
-
-        color: #444444; /* SRUI Accent Alt */
-
-    }
-
-
-
-    .suggestion-item-slash span {
-
-        font-size: 12px;
-
-        color: #999999; /* SRUI Dark: Neutral Mid */
-
-    }
-
-
-
-    body.light-theme .suggestion-item-slash span {
-
-        color: #999999; /* SRUI Light: Neutral Mid */
-
-    }
-
-
-
-    .loading-text {
-
-        display: flex;
-
-        align-items: center;
-
-        gap: 10px;
-
-    }
-
-
-
-    #splash-screen {
-
-      position: fixed;
-
-      top: 0;
-
-      left: 0;
-
-      width: 100%;
-
-      height: 100%;
-
-      /* SRUI Dark: Card/Bubble (#0f0f0f) */
-
-      background-color: #0f0f0f;
-
-      display: flex;
-
-      justify-content: center;
-
-      align-items: center;
-
-      z-index: 1000;
-
-      flex-direction: column;
-
-      color: #ffffff; /* SRUI Dark: Teks Primer */
-
-      text-align: center;
-
-      transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-
-    }
-
-
-
-    body.light-theme #splash-screen {
-
-      /* SRUI Light: Card/Bubble Light (#ffffff) */
-
-      background-color: #ffffff;
-
-      color: #444444; /* SRUI Light: Teks Primer */
-
-    }
-
-
-
-    #splash-screen.hidden {
-
-      opacity: 0;
-
-      visibility: hidden;
-
-    }
-
-
-
-    .splash-content {
-
-      display: flex;
-
-      flex-direction: column;
-
-      align-items: center;
-
-      gap: 20px;
-
-    }
-
-
-
-    .splash-logo {
-
-      max-width: 200px;
-
-    }
-
-
-
-    .splash-title {
-
-      font-size: 2em;
-
-      margin: 0;
-
-      letter-spacing: 2px;
-
-    }
-
-
-
-    .splash-text {
-
-      font-size: 0.8em;
-
-      color: #999999; /* SRUI Dark: Neutral Mid */
-
-    }
-
-    
-
-    body.light-theme .splash-text {
-
-        color: #999999; /* SRUI Light: Neutral Mid */
-
-    }
-
-
-
-    .splash-text2 {
-
-      font-size: 0.5em;
-
-      color: #999999; /* SRUI Dark: Neutral Mid */
-
-    }
-
-    
-
-    body.light-theme .splash-text2 {
-
-        color: #999999; /* SRUI Light: Neutral Mid */
-
-    }
-
-    
-
-    .loading-bar-container {
-
-        width: 200px;
-
-        height: 4px;
-
-        background-color: #212121; /* SRUI Dark: Neutral Input Border */
-
-        border-radius: 25px;
-
-        overflow: hidden;
-
-        position: relative;
-
-    }
-
-    
-
-    body.light-theme .loading-bar-container {
-
-        background-color: #b3b3b3; /* SRUI Light: Neutral Border Light */
-
-    }
-
-
-
-    .loading-bar {
-
-        width: 0%;
-
-        height: 100%;
-
-        background-color: #ffce00; /* SRUI Dark: SRUI Accent */
-
-        position: absolute;
-
-        transition: width 0.5s ease-in-out;
-
-    }
-
-    
-
-    body.light-theme .loading-bar {
-
-        background-color: #444444; /* SRUI Light: SRUI Accent Alt */
-
-    }
-
-    
-
-    #retry-button {
-
-      /* SRUI Dark: SRUI Accent (#ffce00) & SRUI Accent Text (#000000) */
-
-      background-color: #ffce00;
-
-      color: #000000;
-
-      border: none;
-
-      padding: 10px 20px;
-
-      border-radius: 25px;
-
-      cursor: pointer;
-
-      margin-top: 20px;
-
-      font-size: 1em;
-
-      /* SRUI: Transisi halus */
-
-      transition: all 0.3s ease-in-out; 
-
-    }
-
-        
-
-    #retry-button:hover,
-
-    #retry-button:active {
-
-        transform: scale(1.05);
-
-        background-color: #eab308; /* Hover SRUI Accent */
-
-    }
-
-        
-
-    body.light-theme #retry-button {
-
-        /* SRUI Light: SRUI Accent Alt (#444444) & SRUI Accent Text Alt (#ffffff) */
-
-        background-color: #444444;
-
-        color: #ffffff;
-
-    }
-
-    
-
-    body.light-theme #retry-button:hover {
-
-        background-color: #222222; /* Hover SRUI Accent Alt */
-
-    }
-
-        
-
-    #languageSwitcher {
-
-        position: fixed;
-
-        bottom: 25px;
-
-        left: 50%;
-
-        transform: translateX(-50%);
-
-        z-index: 100;
-
-        transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-
-        text-align: center;
-
-    }
-
-    
-
-    #languageSwitcher.lang-hidden {
-
-        opacity: 0;
-
-        visibility: hidden;
-
-    }
-
-
-
-    .lang-dropdown {
-
-        /* SRUI Dark: Card/Bubble (#0f0f0f) & Border SRUI Accent (#ffce00) */
-
-        background-color: #0f0f0f; 
-
-        color: #ffffff;
-
-        border: 1px solid #ffce00;
-
-        border-radius: 25px;
-
-        padding: 4px 25px 4px 7.5px;
-
-        font-size: 0.5em;
-
-        cursor: pointer;
-
-        -webkit-appearance: none;
-
-        -moz-appearance: none;
-
-        appearance: none;
-
-        background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-
-        background-repeat: no-repeat;
-
-        background-position: right 2.5px top 50%;
-
-        margin-top: 20px;
-
-        width: fit-content;
-
-        margin-left: auto;
-
-        margin-right: auto;
-
-        display: block;
-
-    }
-
-    
-
-    body.light-theme .lang-dropdown {
-
-        /* SRUI Light: Neutral Background Light (#d9d9d9) & Border Neutral Border Light (#b3b3b3) */
-
-        background-color: #d9d9d9; 
-
-        color: #444444;
-
-        border: 1px solid #b3b3b3;
-
-        background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-
-    }
-
-
-
-    .lang-dropdown option {
-
-        /* SRUI Dark: Card/Bubble (#0f0f0f) */
-
-        background-color: #0f0f0f;
-
-        color: #ffffff;
-
-    }
-
-    
-
-    body.light-theme .lang-dropdown option {
-
-        /* SRUI Light: Neutral Background Light (#d9d9d9) */
-
-        background-color: #d9d9d9;
-
-        color: #444444;
-
-    }
-
-
-
-    #settingsPage {
-
-        position: fixed;
-
-        top: 0;
-
-        left: 0;
-
-        width: 100%;
-
-        height: 100%;
-
-        /* SRUI Dark: Background Utama (#1B1C1E) */
-
-        background-color: #1B1C1E;
-
-        color: #ffffff;
-
-        z-index: 750;
-
-        display: flex;
-
-        flex-direction: column;
-
-        padding: 20px;
-
-        box-sizing: border-box;
-
-        opacity: 0;
-
-        transform: translateY(100%);
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.4s ease-in-out; 
-
-    }
-
-    
-
-    body.light-theme #settingsPage {
-
-        /* SRUI Light: Background Light (#e9e9e9) */
-
-        background-color: #e9e9e9;
-
-        color: #444444;
-
-    }
-
-
-
-    #settingsPage.active {
-
-        opacity: 1;
-
-        transform: translateY(0);
-
-    }
-
-    .settings-header {
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: space-between;
-
-        margin-bottom: 20px;
-
-        padding-bottom: 10px;
-
-        /* SRUI Dark: Neutral Input Border (#4B4F50) */
-
-        border-bottom: 1px solid #4B4F50; 
-
-    }
-
-    
-
-    body.light-theme .settings-header {
-
-        /* SRUI Light: Neutral Border Light (#b3b3b3) */
-
-        border-bottom: 1px solid #b3b3b3; 
-
-    }
-
-    
-
-    .settings-header h2 {
-
-        margin: 0;
-
-        font-size: 1.5em;
-
-    }
-
-    .settings-header #backBtn {
-
-        background: none;
-
-        border: none;
-
-        color: #ffffff;
-
-        font-size: 1.5em;
-
-        cursor: pointer;
-
-    }
-
-    
-
-    body.light-theme .settings-header #backBtn {
-
-        color: #444444;
-
-    }
-
-    
-
-    .settings-content h3 {
-
-        color: #ffce00; /* SRUI Dark: SRUI Accent */
-
-        margin-top: 30px;
-
-        margin-bottom: 10px;
-
-    }
-
-
-
-    body.light-theme .settings-content h3 {
-
-        color: #444444; /* SRUI Light: SRUI Accent Alt */
-
-    }
-
-    .settings-option {
-
-        margin-bottom: 15px;
-
-    }
-
-    .settings-option p {
-
-        margin: 0 0 5px 0;
-
-    }
-
-    .settings-option select {
-
-        /* SRUI Dark: Card/Bubble (#0f0f0f) & Border SRUI Accent (#ffce00) */
-
-        background-color: #0f0f0f; 
-
-        color: #ffffff;
-
-        border: 1px solid #ffce00;
-
-        border-radius: 25px;
-
-        padding: 5px;
-
-    }
-
-    
-
-    body.light-theme .settings-option select {
-
-        /* SRUI Light: Neutral Background Light (#d9d9d9) & Border Neutral Border Light (#b3b3b3) */
-
-        background-color: #d9d9d9;
-
-        color: #444444;
-
-        border: 1px solid #b3b3b3;
-
-    }
-
-
-
-    .settings-about {
-
-        text-align: center;
-
-    }
-
-    
-
-    .settings-about p, .settings-about a {
-
-        font-size: 0.9em;
-
-        color: #999999; /* SRUI Dark: Neutral Mid */
-
-        margin: 5px 0;
-
-    }
-
-    
-
-    body.light-theme .settings-about p, body.light-theme .settings-about a {
-
-        color: #999999; /* SRUI Light: Neutral Mid */
-
-    }
-
-    
-
-    .settings-about a {
-
-        color: #ffce00; /* SRUI Dark: SRUI Accent */
-
-        text-decoration: none;
-
-    }
-
-    
-
-    body.light-theme .settings-about a {
-
-        color: #444444; /* SRUI Light: SRUI Accent Alt */
-
-    }
-
-    
-
-    .settings-about a:hover {
-
-        text-decoration: underline;
-
-    }
-
-    
-
-    .gemini-container {
-
-        margin-top: 20px;
-
-    }
-
-
-
-    .api-key-container {
-
-        position: relative;
-
-        display: flex;
-
-        align-items: center;
-
-        margin-bottom: 10px;
-
-        width: 100%;
-
-        max-width: 500px;
-
-    }
-
-
-
-    #apiKeyInput {
-
-        width: 100%;
-
-        padding: 8px 40px 8px 15px;
-
-        border-radius: 25px;
-
-        /* SRUI Dark: Border SRUI Accent (#ffce00) & Card/Bubble (#0f0f0f) */
-
-        border: 1px solid #ffce00;
-
-        background-color: #0f0f0f;
-
-        color: #ffffff;
-
-        font-size: 0.9em;
-
-        box-sizing: border-box;
-
-    }
-
-
-
-    #toggleApiKey {
-
-        position: absolute;
-
-        right: 15px;
-
-        cursor: pointer;
-
-        color: #999999; /* SRUI Dark: Neutral Mid */
-
-    }
-
-
-
-    #saveApiBtn {
-
-        margin-top: 0;
-
-        padding: 6px 12px;
-
-        font-size: 0.9em;
-
-    }
-
-    
-
-    body.light-theme #apiKeyInput {
-
-        /* SRUI Light: Border Neutral Border Light (#b3b3b3) & Neutral Background Light (#d9d9d9) */
-
-        border: 1px solid #b3b3b3;
-
-        background-color: #d9d9d9;
-
-        color: #444444;
-
-    }
-
-    
-
-    body.light-theme #toggleApiKey {
-
-        color: #999999; /* SRUI Light: Neutral Mid */
-
-    }
-
-
-
-    .ai-bubble pre {
-
-        /* Tetap menggunakan style code block default (untuk performa/kebiasaan) */
-
-        background-color: #0d1117;
-
-        color: #c9d1d9;
-
-        padding: 15px;
-
-        /* SRUI: Border-radius 25px */
-
-        border-radius: 25px; 
-
-        overflow-x: auto;
-
-        font-family: 'Courier New', Courier, monospace;
-
-        font-size: 0.9em;
-
-        margin-top: 10px;
-
-        margin-bottom: 10px;
-
-    }
-
-    
-
-    .ai-bubble code {
-
-        font-family: inherit;
-
-    }
-
-
-
-    .body.light-theme .ai-bubble pre {
-
-        background-color: #f6f8fa;
-
-        color: #24292e;
-
-        border: 1px solid #d0d7de;
-
-    }
-
-
-
-    /* Style dasar untuk tombol credits & save key (Dark Theme) */
-
-    .settings-credits-btn {
-
-        /* SRUI Dark: Card/Bubble (#0f0f0f) & Border SRUI Accent (#ffce00) */
-
-        background-color: #0f0f0f;
-
-        color: #ffce00;
-
-        border: 1px solid #ffce00;
-
-        padding: 8px 15px;
-
-        border-radius: 25px;
-
-        cursor: pointer;
-
-        font-size: 1em;
-
-        margin-top: 10px;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out; 
-
-        text-decoration: none;
-
-        display: inline-block;
-
-    }
-
-
-
-    /* Penyesuaian untuk Light Theme */
-
-    body.light-theme .settings-credits-btn {
-
-        /* SRUI Light: Neutral Background Light (#d9d9d9) & Border Neutral Border Light (#b3b3b3) */
-
-        background-color: #d9d9d9;
-
-        color: #444444;
-
-        border: 1px solid #b3b3b3;
-
-    }
-
-
-
-    /* Efek saat disentuh (hover) - Dark Theme */
-
-    .settings-credits-btn:hover {
-
-        /* SRUI Dark: SRUI Accent (#ffce00) & SRUI Accent Text (#000000) */
-
-        background-color: #ffce00;
-
-        color: #000000;
-
-        transform: scale(1.05);
-
-    }
-
-
-
-    /* Efek hover untuk Light Theme */
-
-    body.light-theme .settings-credits-btn:hover {
-
-        /* SRUI Light: SRUI Accent Alt (#444444) & SRUI Accent Text Alt (#ffffff) */
-
-        background-color: #444444;
-
-        color: #ffffff;
-
-    }
-
-
-
-    /* === [START] CSS UNTUK POPUP KONFIRMASI KUSTOM === */
-
-    #customConfirmOverlay {
-
-        position: fixed;
-
-        top: 0;
-
-        left: 0;
-
-        width: 100%;
-
-        height: 100%;
-
-        background-color: rgba(0, 0, 0, 0.6);
-
-        -webkit-backdrop-filter: blur(5px);
-
-        backdrop-filter: blur(5px);
-
-        display: flex;
-
-        justify-content: center;
-
-        align-items: center;
-
-        z-index: 2000;
-
-        opacity: 0;
-
-        visibility: hidden;
-
-        pointer-events: none;
-
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-
-    }
-
-
-
-    #customConfirmOverlay.visible {
-
-        opacity: 1;
-
-        visibility: visible;
-
-        pointer-events: auto;
-
-    }
-
-
-
-    #customConfirmBox {
-
-        /* SRUI Dark: Background Utama (#1B1C1E) & Border Neutral Input Border (#4B4F50) */
-
-        background-color: #1B1C1E;
-
-        color: #ffffff;
-
-        padding: 25px;
-
-        border-radius: 25px;
-
-        border: 1px solid #4B4F50;
-
-        width: 75%;
-
-        max-width: 400px;
-
-        text-align: center;
-
-        transform: scale(0.95);
-
-        transition: transform 0.3s ease;
-
-        /* SRUI: Bayangan minimalis (sedikit lebih kuat karena ini modal) */
-
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); 
-
-    }
-
-
-
-    #customConfirmOverlay.visible #customConfirmBox {
-
-        transform: scale(1);
-
-    }
-
-
-
-    #customConfirmMessage {
-
-        margin: 0 0 20px 0;
-
-        font-size: 1em;
-
-        line-height: 1.6;
-
-        white-space: pre-wrap;
-
-    }
-
-
-
-    .custom-confirm-buttons {
-
-        display: flex;
-
-        justify-content: center;
-
-        gap: 15px;
-
-    }
-
-
-
-    .custom-confirm-buttons button {
-
-        padding: 10px 20px;
-
-        border-radius: 25px;
-
-        cursor: pointer;
-
-        font-size: 1em;
-
-        font-weight: bold;
-
-        min-width: 100px;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.2s ease; 
-
-    }
-
-
-
-    /* Tombol Ya (Confirm/Destructive) - Dibuat jadi outline */
-
-    #confirmBtnYes {
-
-        background-color: transparent;
-
-        color: #ffce00;
-
-        border: 1px solid #ffce00; /* SRUI Accent */
-
-    }
-
-
-
-    #confirmBtnYes:hover {
-
-        background-color: #ffce00;
-
-        color: #000000;
-
-    }
-
-
-
-    /* Tombol Tidak (Cancel/Safe) - Dibuat jadi solid */
-
-    #confirmBtnNo {
-
-        background-color: #ffce00; /* Neutral Mid */
-
-        border: 1px solid #ffce00; /* SRUI Accent */
-
-        color: #000000;
-
-    }
-
-
-
-    #confirmBtnNo:hover {
-
-        background-color: #ffee00; /* Neutral Dark */
-
-        border: 1px solid #ffce00; /* SRUI Accent */
-
-        transform: scale(1.05);
-
-        color: #ffffff; /* Teks putih untuk kontras yang lebih baik */
-
-    }
-
-
-
-    /* Tema Terang */
-
-    body.light-theme #customConfirmBox {
-
-        /* SRUI Light: Background Light (#e9e9e9) & Border Neutral Border Light (#b3b3b3) */
-
-        background-color: #e9e9e9;
-
-        color: #444444;
-
-        border: 1px solid #b3b3b3;
-
-    }
-
-
-
-    body.light-theme #confirmBtnYes {
-
-        background-color: transparent;
-
-        color: #444444; /* SRUI Accent Alt */
-
-        border: 1px solid #b3b3b3;
-
-    }
-
-
-
-    body.light-theme #confirmBtnYes:hover {
-
-        background-color: #444444;
-
-        color: #ffffff;
-
-    }
-
-
-
-    body.light-theme #confirmBtnNo {
-
-        background-color: #999999; /* Neutral Mid */
-
-        color: #ffffff;
-
-        border-color: #999999;
-
-    }
-
-
-
-    body.light-theme #confirmBtnNo:hover {
-
-        background-color: #666666; /* Neutral Dark */
-
-        border-color: #666666;
-
-    }
-
-
-
-    /* === [END] CSS UNTUK POPUP KONFIRMASI KUSTOM === */
-
-    .tombol-spesial {
-
-        /* SRUI Dark: SRUI Accent (#ffce00) & SRUI Accent Text (#000000) */
-
-        background-color: #ffce00;
-
-        border-radius: 25px;
-
-        border: none;
-
-        color: #000000; 
-
-        padding: 12px 24px;
-
-        font-size: 16px;
-
-        font-weight: bold;
-
-        cursor: pointer;
-
-        text-decoration: none;
-
-        display: inline-block;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out; 
-
-    }
-
-
-
-    .tombol-spesial:hover {
-
-        background-color: #eab308; /* Hover SRUI Accent */
-
-    }
-
-    
-
-    body.light-theme .tombol-spesial {
-
-        /* SRUI Light: SRUI Accent Alt (#444444) & SRUI Accent Text Alt (#ffffff) */
-
-        background-color: #444444;
-
-        color: #ffffff;
-
-    }
-
-
-
-    body.light-theme .tombol-spesial:hover {
-
-        background-color: #222222; /* Hover SRUI Accent Alt */
-
-    }
-
-
-
-
-
-    /* [BARU] Styling untuk tombol upload */
-
-    #uploadImageBtn {
-
-        /* SRUI Dark: Neutral Dark (#666666) & Teks Putih */
-
-        background-color: #212121; 
-
-        color: #ffffff; 
-
-        border: none;
-
-        border-radius: 50%;
-
-        width: 40px;
-
-        height: 40px;
-
-        display: flex;
-
-        justify-content: center;
-
-        align-items: center;
-
-        cursor: pointer;
-
-        flex-shrink: 0;
-
-        /* SRUI: Transisi halus */
-
-        transition: all 0.3s ease-in-out;
-
-        margin-left: 5px;
-
-    }
-
-
-
-    #uploadImageBtn:hover {
-
-        transform: scale(1.1);
-
-        /* SRUI Dark: SRUI Accent (#ffce00) & SRUI Accent Text (#000000) */
-
-        background-color: #ffce00; 
-
-        color: #000000;
-
-    }
-
-
-
-    body.light-theme #uploadImageBtn {
-
-        /* SRUI Light: SRUI Accent Alt (#444444) & SRUI Accent Text Alt (#ffffff) */
-
-        color: #ffffff;
-
-        background-color: #444444;
-
-    }
-
-
-
-    body.light-theme #uploadImageBtn:hover {
-
-        background-color: #222222; /* Hover SRUI Accent Alt */
-
-        color: #ffffff;
-
-    }
-
-
-
-    /* [BARU] Styling untuk preview gambar (disempurnakan dari HTML) */
-
-    #imagePreview {
-
-        /* SRUI Dark: Neutral Input Border (#4B4F50) */
-
-        border: 1px solid #4B4F50;
-
-    }
-
-
-
-    body.light-theme #imagePreview {
-
-        /* SRUI Light: Neutral Border Light (#b3b3b3) */
-
-        border: 1px solid #b3b3b3;
-
-    }
-
-
-
-    .imgRemoveBtn {
-
-        position: absolute;
-
-        top: -5px;
-
-        right: -5px;
-
-        /* SRUI: Menggunakan warna Error (#F44336) untuk tombol hapus */
-
-        background-color: #F44336; 
-
-        color: white;
-
-        border: 1px solid white;
-
-        border-radius: 50%;
-
-        width: 22px;
-
-        height: 22px;
-
-        cursor: pointer;
-
-        font-size: 14px;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        line-height: 1;
-
-        box-shadow: 0 0 5px rgba(0,0,0,0.5);
-
-    }
-
-
-
-    .imagePreviewContainer {
-
-        display: none;
-
-        margin-bottom: 0px;
-
-        z-index: 20;
-
-        background: transparent;
-
-        border-radius: 0;
-
-        padding: 0;
-
-        box-shadow: none;
-
-        max-width: 600px;
-
-        margin-left: auto;
-
-        margin-right: auto;
-
-        justify-content: flex-start;
-
-    }
-
-
-
-    .imagePreview {
-
-        width: 100px;
-
-        height: 100px;
-
-        object-fit: cover;
-
-        /* SRUI: Border-radius 15px */
-
-        border-radius: 15px; 
-
-    }
-
-
-
-    /* [BARU] Tambahkan CSS untuk wrapper */
-
-    .imagePreviewWrapper {
-
-        position: relative;
-
-        width: fit-content;
-
-        margin-top: 5px;
-
     }
+    to {
+        transform: translateY(-5px);
+    }
+}
+
+#settingsBtnContainer, #clearBtnContainer {
+    position: fixed;
+    left: 20px;
+    z-index: 101;
+    transition: all 0.3s ease-in-out;
+}
+
+#settingsBtnContainer {
+    top: 20px;
+}
+
+#clearBtnContainer {
+    left: 70px;
+    top: 20px;
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+body.chat-active #clearBtnContainer {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+#connectionStatus {
+    background-color: rgba(15, 15, 15, 0.7);
+    border: 1px solid #4B4F50;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 8px 12px;
+    border-radius: 25px;
+    right: 20px;
+    top: 20px;
+    position: fixed;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #ffffff;
+    transition: all 0.3s ease-in-out;
+}
+
+#connectionStatus .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.status-changed .status-dot {
+    animation: pulse 0.5s ease-in-out;
+}
+
+#connectionStatus .online {
+    background-color: #4CAF50;
+}
+
+#connectionStatus .offline {
+    background-color: #F44336;
+}
+
+body.light-theme #connectionStatus {
+    background-color: rgba(217, 217, 217, 0.7);
+    border: 1px solid #b3b3b3;
+    color: #444444;
+}
+
+body.light-theme #connectionStatus .status-label {
+    color: #444444;
+}
+
+body.chat-active #connectionStatus {
+    transform: translateX(calc(125% - 32px));
+}
+
+#connectionStatus.hidden-by-scroll {
+    transform: translateX(200px);
+    opacity: 0;
+}
+
+#connectionStatus .status-label {
+    color: #ffffff;
+}
+
+#clearBtn, #settingsBtn {
+    background-color: #ffce00;
+    color: #000000;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: none;
+}
+
+body.light-theme #clearBtn, 
+body.light-theme #settingsBtn {
+    background-color: #444444;
+    color: #ffffff;
+}
+
+#clearBtn:hover, #settingsBtn:hover,
+#clearBtn:active, #settingsBtn:active {
+    color: #000000;
+    transform: scale(1.1);
+    background-color: #eab308;
+}
+
+body.light-theme #clearBtn:hover, 
+body.light-theme #settingsBtn:hover,
+body.light-theme #clearBtn:active, 
+body.light-theme #settingsBtn:active {
+    color: #ffffff;
+    background-color: #222222;
+}
+
+.input-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    background-color: none;
+    z-index: 100;
+    transition: all 0.5s ease-in-out;
+}
+
+.input-container.centered {
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(50%);
+}
+
+.input-container.bottom {
+    position: fixed;
+    bottom: 0;
+}
+
+.info-text {
+    color: #666666;
+    font-size: 12px;
+    text-align: center;
+    bottom: 3px;
+    display: none;
+    transition: opacity 0.5s ease-in-out;
+}
+
+body.light-theme .info-text {
+    color: #666666;
+}
+
+body.chat-active .info-text {
+    display: block;
+}
+
+.input-box {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.input-box textarea {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    padding: 0 5px;
+    margin-left: 5px;
+    background-color: transparent;
+    resize: none;
+    overflow: hidden;
+    max-height: 250px;
+    font-family: Arial, sans-serif;
+    border-radius: 0;
+}
+
+#sendBtn {
+    background-color: #ffce00;
+    color: #000000;
+    border: none;
+    border-radius: 25px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+#sendBtn.disabled {
+    opacity: 0.5;
+    transform: scale(0.9);
+    cursor: not-allowed;
+}
+
+body.light-theme #sendBtn {
+    background-color: #444444;
+    color: #ffffff;
+}
+
+#sendBtn:not(.disabled):hover,
+#sendBtn:not(.disabled):active {
+    background-color: #eab308;
+    transform: scale(1.1);
+}
+
+body.light-theme #sendBtn:not(.disabled):hover,
+body.light-theme #sendBtn:not(.disabled):active {
+    background-color: #222222;
+}
+
+#stopBtn {
+    background-color: #F44336;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+body.light-theme #stopBtn {
+    background-color: #F44336;
+    color: #ffffff;
+}
+
+.suggestion-box {
+    background-color: rgba(15, 15, 15, 0.7);
+    border: 1px solid #4B4F50;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 15px;
+    padding: 10px;
+    position: relative;
+    top: -10px;
+    z-index: 10;
+    width: calc(100% - 20px);
+    margin-top: 5px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(10px);
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.suggestion-box.visible {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+}
+
+body.light-theme .suggestion-box {
+    background-color: rgba(217, 217, 217, 0.7);
+    border: 1px solid #b3b3b3;
+}
+
+.suggestion-item {
+    color: #ffffff;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #4B4F50;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+body.light-theme .suggestion-item {
+    color: #444444;
+    border-bottom: 1px solid #b3b3b3;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: rgba(255, 206, 0, 0.2);
+    color: #ffce00;
+}
+
+body.light-theme .suggestion-item:hover {
+    background-color: rgba(68, 68, 68, 0.2);
+    color: #444444;
+}
+
+.suggestion-item-slash {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #4B4F50;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+body.light-theme .suggestion-item-slash {
+    border-bottom: 1px solid #b3b3b3;
+}
+
+.suggestion-item-slash:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item-slash:hover {
+    background-color: rgba(255, 206, 0, 0.2);
+}
+
+body.light-theme .suggestion-item-slash:hover {
+    background-color: rgba(68, 68, 68, 0.2);
+}
+
+.suggestion-item-slash strong {
+    display: block;
+    font-size: 15px;
+    color: #ffce00;
+}
+
+body.light-theme .suggestion-item-slash strong {
+    color: #444444;
+}
+
+.suggestion-item-slash span {
+    font-size: 12px;
+    color: #999999;
+}
+
+body.light-theme .suggestion-item-slash span {
+    color: #999999;
+}
+
+.loading-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0f0f0f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    flex-direction: column;
+    color: #ffffff;
+    text-align: center;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+body.light-theme #splash-screen {
+    background-color: #ffffff;
+    color: #444444;
+}
+
+#splash-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.splash-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.splash-logo {
+    max-width: 200px;
+}
+
+.splash-title {
+    font-size: 2em;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.splash-text {
+    font-size: 0.8em;
+    color: #999999;
+}
+
+body.light-theme .splash-text {
+    color: #999999;
+}
+
+.splash-text2 {
+    font-size: 0.5em;
+    color: #999999;
+}
+
+body.light-theme .splash-text2 {
+    color: #999999;
+}
+
+.loading-bar-container {
+    width: 200px;
+    height: 4px;
+    background-color: #212121;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+}
+
+body.light-theme .loading-bar-container {
+    background-color: #b3b3b3;
+}
+
+.loading-bar {
+    width: 0%;
+    height: 100%;
+    background-color: #ffce00;
+    position: absolute;
+    transition: width 0.5s ease-in-out;
+}
+
+body.light-theme .loading-bar {
+    background-color: #444444;
+}
+
+#retry-button {
+    background-color: #ffce00;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1em;
+    transition: all 0.3s ease-in-out;
+}
+
+#retry-button:hover,
+#retry-button:active {
+    transform: scale(1.05);
+    background-color: #eab308;
+}
+
+body.light-theme #retry-button {
+    background-color: #444444;
+    color: #ffffff;
+}
+
+body.light-theme #retry-button:hover {
+    background-color: #222222;
+}
+
+#languageSwitcher {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    text-align: center;
+}
+
+#languageSwitcher.lang-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.lang-dropdown {
+    background-color: #0f0f0f;
+    color: #ffffff;
+    border: 1px solid #ffce00;
+    border-radius: 25px;
+    padding: 4px 25px 4px 7.5px;
+    font-size: 0.5em;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 2.5px top 50%;
+    margin-top: 20px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+body.light-theme .lang-dropdown {
+    background-color: #d9d9d9;
+    color: #444444;
+    border: 1px solid #b3b3b3;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+}
+
+.lang-dropdown option {
+    background-color: #0f0f0f;
+    color: #ffffff;
+}
+
+body.light-theme .lang-dropdown option {
+    background-color: #d9d9d9;
+    color: #444444;
+}
+
+#settingsPage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1B1C1E;
+    color: #ffffff;
+    z-index: 750;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.4s ease-in-out;
+}
+
+body.light-theme #settingsPage {
+    background-color: #e9e9e9;
+    color: #444444;
+}
+
+#settingsPage.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #4B4F50;
+}
+
+body.light-theme .settings-header {
+    border-bottom: 1px solid #b3b3b3;
+}
+
+.settings-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.settings-header #backBtn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+body.light-theme .settings-header #backBtn {
+    color: #444444;
+}
+
+.settings-content h3 {
+    color: #ffce00;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+body.light-theme .settings-content h3 {
+    color: #444444;
+}
+
+.settings-option {
+    margin-bottom: 15px;
+}
+
+.settings-option p {
+    margin: 0 0 5px 0;
+}
+
+.settings-option select {
+    background-color: #0f0f0f;
+    color: #ffffff;
+    border: 1px solid #ffce00;
+    border-radius: 25px;
+    padding: 5px;
+}
+
+body.light-theme .settings-option select {
+    background-color: #d9d9d9;
+    color: #444444;
+    border: 1px solid #b3b3b3;
+}
+
+.settings-about {
+    text-align: center;
+}
+
+.settings-about p, .settings-about a {
+    font-size: 0.9em;
+    color: #999999;
+    margin: 5px 0;
+}
+
+body.light-theme .settings-about p, 
+body.light-theme .settings-about a {
+    color: #999999;
+}
+
+.settings-about a {
+    color: #ffce00;
+    text-decoration: none;
+}
+
+body.light-theme .settings-about a {
+    color: #444444;
+}
+
+.settings-about a:hover {
+    text-decoration: underline;
+}
+
+.gemini-container {
+    margin-top: 20px;
+}
+
+.api-key-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 500px;
+}
+
+#apiKeyInput {
+    width: 100%;
+    padding: 8px 40px 8px 15px;
+    border-radius: 25px;
+    border: 1px solid #ffce00;
+    background-color: #0f0f0f;
+    color: #ffffff;
+    font-size: 0.9em;
+    box-sizing: border-box;
+}
+
+#toggleApiKey {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    color: #999999;
+}
+
+#saveApiBtn {
+    margin-top: 0;
+    padding: 6px 12px;
+    font-size: 0.9em;
+}
+
+body.light-theme #apiKeyInput {
+    border: 1px solid #b3b3b3;
+    background-color: #d9d9d9;
+    color: #444444;
+}
+
+body.light-theme #toggleApiKey {
+    color: #999999;
+}
+
+.ai-bubble pre {
+    background-color: #0d1117;
+    color: #c9d1d9;
+    padding: 15px;
+    border-radius: 25px;
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ai-bubble code {
+    font-family: inherit;
+}
+
+body.light-theme .ai-bubble pre {
+    background-color: #f6f8fa;
+    color: #24292e;
+    border: 1px solid #d0d7de;
+}
+
+.settings-credits-btn {
+    background-color: #0f0f0f;
+    color: #ffce00;
+    border: 1px solid #ffce00;
+    padding: 8px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    display: inline-block;
+}
+
+body.light-theme .settings-credits-btn {
+    background-color: #d9d9d9;
+    color: #444444;
+    border: 1px solid #b3b3b3;
+}
+
+.settings-credits-btn:hover {
+    background-color: #ffce00;
+    color: #000000;
+    transform: scale(1.05);
+}
+
+body.light-theme .settings-credits-btn:hover {
+    background-color: #444444;
+    color: #ffffff;
+}
+
+/* === [START] CSS UNTUK POPUP KONFIRMASI KUSTOM === */
+#customConfirmOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#customConfirmOverlay.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+#customConfirmBox {
+    background-color: #1B1C1E;
+    color: #ffffff;
+    padding: 25px;
+    border-radius: 25px;
+    border: 1px solid #4B4F50;
+    width: 75%;
+    max-width: 400px;
+    text-align: center;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+#customConfirmOverlay.visible #customConfirmBox {
+    transform: scale(1);
+}
+
+#customConfirmMessage {
+    margin: 0 0 20px 0;
+    font-size: 1em;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.custom-confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.custom-confirm-buttons button {
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    min-width: 100px;
+    transition: all 0.2s ease;
+}
+
+#confirmBtnYes {
+    background-color: transparent;
+    color: #ffce00;
+    border: 1px solid #ffce00;
+}
+
+#confirmBtnYes:hover {
+    background-color: #ffce00;
+    color: #000000;
+}
+
+#confirmBtnNo {
+    background-color: #ffce00;
+    border: 1px solid #ffce00;
+    color: #000000;
+}
+
+#confirmBtnNo:hover {
+    background-color: #ffee00;
+    border: 1px solid #ffce00;
+    transform: scale(1.05);
+    color: #ffffff;
+}
+
+body.light-theme #customConfirmBox {
+    background-color: #e9e9e9;
+    color: #444444;
+    border: 1px solid #b3b3b3;
+}
+
+body.light-theme #confirmBtnYes {
+    background-color: transparent;
+    color: #444444;
+    border: 1px solid #b3b3b3;
+}
+
+body.light-theme #confirmBtnYes:hover {
+    background-color: #444444;
+    color: #ffffff;
+}
+
+body.light-theme #confirmBtnNo {
+    background-color: #999999;
+    color: #ffffff;
+    border-color: #999999;
+}
+
+body.light-theme #confirmBtnNo:hover {
+    background-color: #666666;
+    border-color: #666666;
+}
+/* === [END] CSS UNTUK POPUP KONFIRMASI KUSTOM === */
+
+.tombol-spesial {
+    background-color: #ffce00;
+    border-radius: 25px;
+    border: none;
+    color: #000000;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease-in-out;
+}
+
+.tombol-spesial:hover {
+    background-color: #eab308;
+}
+
+body.light-theme .tombol-spesial {
+    background-color: #444444;
+    color: #ffffff;
+}
+
+body.light-theme .tombol-spesial:hover {
+    background-color: #222222;
+}
+
+/* [BARU] Styling untuk tombol upload */
+#uploadImageBtn {
+    background-color: #212121;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.3s ease-in-out;
+    margin-left: 5px;
+}
+
+#uploadImageBtn:hover {
+    transform: scale(1.1);
+    background-color: #ffce00;
+    color: #000000;
+}
+
+body.light-theme #uploadImageBtn {
+    color: #ffffff;
+    background-color: #444444;
+}
+
+body.light-theme #uploadImageBtn:hover {
+    background-color: #222222;
+    color: #ffffff;
+}
+
+/* [BARU] Styling untuk preview gambar */
+#imagePreview {
+    border: 1px solid #4B4F50;
+}
+
+body.light-theme #imagePreview {
+    border: 1px solid #b3b3b3;
+}
+
+.imgRemoveBtn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #F44336;
+    color: white;
+    border: 1px solid white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.imagePreviewContainer {
+    display: none;
+    margin-bottom: 0px;
+    z-index: 20;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: flex-start;
+}
+
+.imagePreview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.imagePreviewWrapper {
+    position: relative;
+    width: fit-content;
+    margin-top: 5px;
+}
