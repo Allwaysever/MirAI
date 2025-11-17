@@ -1,1899 +1,256 @@
 <!DOCTYPE html>
-
 <html lang="id">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>MirAI</title>
-
-    <meta name="description" content="MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.">
-
-    <meta name="keywords" content="Allwaysever, AI, Artificial Intelligence, Chatbot AI, AI Chatbot, Gemini 2.5 flash, Google Gemini, Gemini API, MirAI">
-
-    <meta name="google-site-verification" content="Ww9spnmeAgguaCwvLVAw-0SV0_ZS-bA7bjNgyWKaeQU"/>
-
-<meta property="og:title" content="MirAI" />
-<meta property="og:description" content="MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly." />
-<meta property="og:url" content="https://allwaysevermirai.netlify.app/" />
-<meta property="og:image" content="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Banner.png" />
-
-<meta property="og:type" content="article" /> <meta property="og:site_name" content="MirAI by Allwaysever" />
-
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIStyle.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-    <script>
-// Auto-generate version based on date
-function generateVersion(major, minor, patch) {
-    const now = new Date();
-    const yymmdd = now.getFullYear().toString().slice(-2) + 
-                   String(now.getMonth() + 1).padStart(2, '0') + 
-                   String(now.getDate()).padStart(2, '0');
-    
-    return `${major}.${minor}.${patch}.${yymmdd}`;
-}
-
-// Usage
-const VERSION = generateVersion(2, 11, 0); // "2.11.0.241125"
-</script>
+    <title>MirAI | Asisten Cerdas oleh Allwaysever</title>
+    <!-- Memuat Tailwind CSS untuk styling cepat dan modern -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* SRUI Custom Styling & Variables (Diselaraskan dengan Dark Theme MirAI) */
+        :root {
+            --color-accent: #ffce00; /* SRUI Accent Color (Kuning Cerah) */
+            --color-primary: #ffffff; /* Teks Putih */
+            --color-dark-bg: #0f0f0f; /* Background Utama MirAI (Dark) */
+            --color-card-bg: rgba(33, 33, 33, 0.7); /* Background Card/Input MirAI (Blurry Dark) */
+            --color-border: #4B4F50; /* Warna Border MirAI */
+        }
+        body {
+            /* Mengganti font sesuai style.css: Arial/sans-serif */
+            font-family: Arial, sans-serif;
+            background-color: var(--color-dark-bg); 
+            color: var(--color-primary);
+            min-height: 100vh;
+        }
+        /* Menggunakan border-radius 25px, sesuai dengan MirAI.html */
+        .card-srui {
+            border-radius: 25px; 
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-srui:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px -8px rgba(0, 0, 0, 0.3);
+        }
+        /* Style untuk tombol aksen (Kuning Cerah) */
+        .accent-button {
+            background-color: var(--color-accent);
+            color: var(--color-dark-bg);
+            font-weight: 700;
+            border-radius: 9999px; /* rounded-full */
+            transition: all 0.2s ease-in-out;
+            border: 2px solid var(--color-accent); 
+        }
+        .accent-button:hover {
+            background-color: #e6b800; 
+            transform: translateY(-1px);
+        }
+        /* Utility */
+        .container-padding {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 768px) {
+            .container-padding {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
+        }
+        /* Animasi loading untuk auto-redirect */
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .loading-dot {
+            animation: pulse-dot 1.5s infinite ease-in-out;
+        }
+        .loading-dot:nth-child(2) { animation-delay: 0.3s; }
+        .loading-dot:nth-child(3) { animation-delay: 0.6s; }
+    </style>
 </head>
-
 <body>
 
-
-
-<div id="splash-screen">
-
-  <div class="splash-content">
-
-    <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Name%20Logo.png" alt="MirAI" class="splash-logo logo-img">
-
-    <div class="loading-bar-container" id="splash-loader">
-
-        <div class="loading-bar"></div>
-
-    </div>
-
-  </div>
-
- <p style="font-size: 0.5em; color: #aaa; bottom: 5px;"  id="settingsVersionText"></p>
-
-</div>
-
-
-
-<div id="settingsBtnContainer">
-
-    <button id="settingsBtn">
-
-        <i class="fas fa-bars"></i>
-
-    </button>
-
-</div>
-
-<div id="clearBtnContainer">
-
-    <button id="clearBtn">
-
-        <i class="fas fa-trash-alt"></i>
-
-    </button>
-
-</div>
-
-
-
-<div id="connectionStatus">
-
-    <span id="statusDot" class="status-dot"></span>
-
-    <span id="statusLabel" class="status-label"></span>
-
-</div>
-
-
-
-<div class="logo-container">
-
-    <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/HI%20new.png" alt="what are we talking about?" class="hi-img">
-
-</div>
-
-
-
-<div id="languageSwitcher">
-
-    <select id="langDropdown" class="lang-dropdown">
-
-        <option value="id">🇮🇩 Bahasa Indonesia</option>
-
-        <option value="en">🇺🇸 English (US)</option>
-
-        <option value="en-uk">🇬🇧 English (UK)</option>
-
-        <option value="jp">🇯🇵 日本語</option>
-
-    </select>
-
-</div>
-
-
-
-<div class="chat-container">
-
-    <div id="chatMessages"></div>
-
-</div>
-
-
-
-
-
-<div id="toolsMenu" class="suggestion-box"></div>
-
-
-
-<div id="inputContainer" class="input-container centered">
-
-
-
-    <div id="imagePreviewContainer" class="imagePreviewContainer">
-
-       <div class="imagePreviewWrapper">
-
-        <img id="imagePreview" src="" alt="Image Preview" class="imagePreview"">
-
-        <button id="removeImageBtn" class="imgRemoveBtn"><i class="fas fa-times"></i></button>
-
-    </div>
-
-</div>
-
-    
-
-    <div id="suggestionBox" class="suggestion-box"></div>
-
-    <div class="input-box">
-
-        <button id="toolsBtn">
-
-            <i class="fas fa-plus"></i>
-
-        </button>
-
-<button id="uploadImageBtn">
-
-    <i class="fas fa-paperclip"></i>
-
-</button>
-
-<input type="file" id="imageInput" accept="image/*" style="display: none;">
-
-        <textarea id="questionInput" rows="1"></textarea>
-
-        <button id="sendBtn">
-
-            <i class="fas fa-paper-plane"></i>
-
-        </button>
-
-        <button id="stopBtn" style="display: none;">
-
-            <i class="fas fa-stop"></i>
-
-        </button>
-
-    </div>
-
-    <p id="infoText" class="info-text"></p>
-
-</div>
-
-
-
-<div id="settingsPage">
-
-    <div class="settings-header">
-
-        <h2 id="settingsHeaderTitle"></h2>
-
-        <button id="backBtn"><i class="fas fa-times"></i></button>
-
-    </div>
-
-
-
-    <div class="settings-content">
-
-        <h3 id="settingsAppearanceTitle"></h3>
-
-        <div class="settings-option">
-
-            <p id="settingsThemeText"></p>
-
-            <select id="themeSelect">
-
-                <option value="light" id="themeLightOption"></option>
-
-                <option value="dark" id="themeDarkOption"></option>
-
-            </select>
-
-        </div>
-
-        
-
-        <h3 id="settingsAITitle"></h3>
-
-        <div class="settings-option">
-
-            <p id="settingsPersonaText"></p>
-
-            <select id="personaSelect">
-
-                <option value="formal" id="personaFormalOption"></option>
-
-                <option value="default" id="personaDefaultOption"></option>
-
-                <option value="creative" id="personaCreativeOption"></option>
-
-            </select>
-
-        </div>
-
-
-
-        <h3 id="settingsApiTitle"></h3>
-
-        <div class="settings-option">
-
-            <p id="settingsApiText"></p>
-
-            <div class="api-key-container">
-
-                <input type="password" id="apiKeyInput">
-
-                <i class="fas fa-eye" id="toggleApiKey"></i>
-
+    <!-- Header dengan Logo Gambar -->
+    <header class="w-full py-6 container-padding border-b border-gray-800">
+        <div class="flex justify-between items-center max-w-6xl mx-auto">
+            <div class="flex items-center space-x-3">
+                <!-- Placeholder untuk Header Gambar/Logo MirAI -->
+                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="Logo MirAI">
             </div>
-
-            <button id="saveApiBtn" class="settings-credits-btn"></button>
-
+            <a href="#features" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150 hidden sm:block">Fitur Utama</a>
         </div>
+    </header>
 
+    <main class="w-full mx-auto pb-20">
         
+        <!-- SECTION 1: HERO - Fokus Utama dan CTA -->
+        <section class="text-center py-16 md:py-24 container-padding max-w-6xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                Asisten Cerdas Pribadimu,
+                <span class="text-yellow-400 block md:inline-block">Ditenagai Google Gemini</span>
+            </h1>
 
-        <h3 id="settingsAboutTitle"></h3>
+            <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-3xl mx-auto">
+                MirAI adalah antarmuka web yang ringan dan cepat untuk Gemini API. Desainnya intuitif, berorientasi **SuperRoundedUI**, dan sepenuhnya responsif. Mulai dapatkan ide dan jawaban instan tanpa *bloat*.
+            </p>
 
-        <div class="settings-about">
-
-            <p id="settingsAuthorText"></p>
-
-            <p><a href="https://github.com/Allwaysever/MirAI" target="_blank" id="githubLink"></a></p>
-
-            <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"></a></p>
-
-            <p><a href="help/index.html" id="helpLink" target="_self"></a></p>
-
-            <div class="gemini-container">
-
-               <a href="https://deepmind.google/models/gemini/flash/" target="_blank"><img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Gemini%202.5%20Flash%20Logo.png" alt="Google Gemini 2.5 Flash" class="gemini-logo"></a>
-
+            <button id="try-mirai-btn" class="accent-button text-xl px-10 py-4 shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 min-w-[280px] hover:shadow-2xl transition duration-300">
+                Mulai Bicara dengan MirAI
+            </button>
+            
+            <!-- Message Status Area -->
+            <div id="status-area" class="mt-8 text-sm text-gray-500">
+                <span id="welcome-message" class="font-medium"></span>
+                <span id="redirect-loading" class="hidden">
+                    Mengarahkan
+                    <span class="loading-dot">.</span>
+                    <span class="loading-dot">.</span>
+                    <span class="loading-dot">.</span>
+                </span>
             </div>
+        </section>
 
-            <p id="termsText"></p>
+        <!-- SECTION 2: KEY FEATURES - Kartu SRUI -->
+        <section id="features" class="py-16 container-padding max-w-6xl mx-auto mt-10">
+             <h2 class="text-3xl font-bold text-center mb-12 text-white">Mengapa MirAI Begitu Cepat?</h2>
 
-        </div>
-
-    </div>
-
-</div>
-
-
-
-<div id="customConfirmOverlay">
-
-    <div id="customConfirmBox">
-
-        <p id="customConfirmMessage"></p>
-
-        <div class="custom-confirm-buttons">
-
-            <button id="confirmBtnYes"></button>
-
-            <button id="confirmBtnNo"></button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<script>
-
-    // Variabel global yang tidak bergantung pada elemen HTML
-
-    const DEFAULT_API_KEY = 'AIzaSyBXwU-_QvSORZ6s1CN03i-gvliqcZzMieg';
-
-    let currentApiKey = DEFAULT_API_KEY; 
-
-    const model = 'gemini-2.5-flash';
-
-    const faqDatabase = {
-
-        "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information.",
-
-        "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a DiamondStars](https://trakteer.id/Allwaysever)"
-
-    };
-
- const uiStrings = {
-
-        'id': {
-
-            offlineTitle: 'Koneksi Internet Terputus',
-
-            offlineText: 'Silakan periksa koneksi WiFi atau data seluler Anda, lalu coba kembali.',
-
-            retryButton: 'Coba Lagi',
-
-            inputPlaceholder: 'Ketik pertanyaan Anda di sini...',
-
-            copyFeedback: 'Teks berhasil disalin!',
-
-            langSwitchFeedback: 'Bahasa telah diubah ke',
-
-            errorAPI: 'Terjadi kesalahan. Silakan muat ulang atau coba beberapa saat lagi.',
-
-            errorFallback: 'Maaf, jawaban tidak ditemukan. Coba gunakan kata kunci yang berbeda.',
-
-            errorConnection: 'Koneksi internet tidak tersedia. Mohon periksa kembali.',
-
-            checkingConnection: 'Memeriksa koneksi internet...',
-
-            copySuffix: '\n\n-- Dihasilkan oleh MirAI',
-
-            infoText: 'Informasi yang dihasilkan AI mungkin tidak akurat. Verifikasi kembali fakta penting.',
-
-            settingsHeaderTitle: 'Pengaturan',
-
-            settingsAppearanceTitle: 'Tampilan',
-
-            settingsThemeText: 'Pilih preferensi tema Anda:',
-
-            themeLightOption: 'Terang',
-
-            themeDarkOption: 'Gelap',
-
-            settingsAITitle: 'Persona AI',
-
-            settingsPersonaText: 'Pilih gaya respons AI:',
-
-            personaFormalOption: 'Formal & Profesional',
-
-            personaDefaultOption: 'Santai & Bercanda',
-
-            personaCreativeOption: 'Kreatif & Ekspresif',
-
-            settingsAboutTitle: 'Tentang Aplikasi',
-
-            settingsVersionText: `Versi: v${VERSION}`,
-
-            settingsAuthorText: 'Dikembangkan oleh Allwaysever',
-
-            githubLink: 'Repositori GitHub',
-
-            licenseLink: 'Lisensi',
-
-            helpLink: 'Pusat Bantuan',
-
-            termsText: 'Dengan menggunakan MirAI, Anda menyetujui <a href="T&C/index.html" target="_blank">Syarat & Ketentuan</a>.',
-
-            personaDefaultPrompt: 'Anda adalah MirAI, asisten AI yang santai dan suka bercanda. Jawab semua pertanyaan dengan gaya yang ramah, sedikit humor, namun tetap informatif.',
-
-            personaFormalPrompt: 'Anda adalah MirAI, asisten AI profesional. Berikan jawaban yang terstruktur, akurat, dan menggunakan bahasa formal.',
-
-            personaCreativePrompt: 'Anda adalah MirAI, asisten AI yang kreatif. Berikan jawaban yang unik, imajinatif, dan ekspresif untuk setiap pertanyaan.',
-
-            placeholderMessages: ['Ajukan pertanyaan apa pun.', 'Butuh bantuan untuk ide?', 'Minta terjemahan atau ringkasan.', 'Bagaimana saya bisa membantu?'],
-
-            onlineStatus: 'Terhubung',
-
-            offlineStatus: 'Terputus',
-
-            settingsApiTitle: 'Kunci API Google',
-
-            settingsApiText: 'Masukkan Kunci API kustom Anda:',
-
-            apiKeySaved: 'Kunci API berhasil disimpan.',
-
-            apiKeyRemoved: 'Kunci API dihapus. Menggunakan kunci default.',
-
-            dateTimeContextPrompt: '[{dateTime}]:',
-
-            confirmClearMessage: 'Apakah Anda yakin ingin menghapus riwayat percakapan ini? Tindakan ini tidak dapat diurungkan.',
-
-            confirmClearYes: 'Ya, Hapus',
-
-            confirmClearNo: 'Batal',
-
-            pageTitle: 'MirAI | Asisten AI Anda',
-
-            saveApiKeyBtn: 'Simpan',
-
-            apiKeyPlaceholder: 'Kosongkan untuk menggunakan kunci default',
-
-            slashCmdSearchTitle: 'Cari Informasi',
-
-            slashCmdSearchDesc: 'Contoh: /search berita terkini',
-
-            slashCmdTranslateTitle: 'Terjemahkan Teks',
-
-            slashCmdTranslateDesc: 'Contoh: /translate halo to english',
-
-            slashCmdSummarizeTitle: 'Ringkas Teks',
-
-            slashCmdSummarizeDesc: 'Contoh: /summarize [tempel teks panjang]',
-
-            slashCmdRephraseTitle: 'Ubah Gaya Bahasa',
-
-            slashCmdRephraseDesc: 'Contoh: /rephrase teks ini as profesional',
-
-            slashCmdIdeateTitle: 'Hasilkan Ide',
-
-            slashCmdIdeateDesc: 'Contoh: /ideate 3 ide untuk judul artikel',
-
-            slashCmdFixTitle: 'Perbaiki Ejaan & Tata Bahasa',
-
-            slashCmdFixDesc: 'Contoh: /fix teks saya yang salah',
-
-            slashCmdExplainTitle: 'Jelaskan Konsep',
-
-            slashCmdExplainDesc: 'Contoh: /explain apa itu API',
-
-            slashCmdCodeTitle: 'Buat Potongan Kode',
-
-            slashCmdCodeDesc: 'Contoh: /code fungsi python untuk hello world'
-
-        },
-
-        'en': {
-
-            offlineTitle: 'Internet Connection Lost',
-
-            offlineText: 'Please check your WiFi or cellular data connection, then try again.',
-
-            retryButton: 'Retry',
-
-            inputPlaceholder: 'Type your question here...',
-
-            copyFeedback: 'Text copied to clipboard!',
-
-            langSwitchFeedback: 'Language has been changed to',
-
-            errorAPI: 'An error occurred. Please reload the page or try again shortly.',
-
-            errorFallback: 'Sorry, no answer was found. Please try different keywords.',
-
-            errorConnection: 'Internet connection is unavailable. Please check and try again.',
-
-            checkingConnection: 'Checking internet connection...',
-
-            copySuffix: '\n\n-- Generated by MirAI',
-
-            infoText: 'AI-generated information may be inaccurate. Please verify important facts.',
-
-            settingsHeaderTitle: 'Settings',
-
-            settingsAppearanceTitle: 'Appearance',
-
-            settingsThemeText: 'Select your theme preference:',
-
-            themeLightOption: 'Light',
-
-            themeDarkOption: 'Dark',
-
-            settingsAITitle: 'AI Persona',
-
-            settingsPersonaText: 'Choose the AI\'s response style:',
-
-            personaFormalOption: 'Formal & Professional',
-
-            personaDefaultOption: 'Chill & joking',
-
-            personaCreativeOption: 'Creative & Expressive',
-
-            settingsAboutTitle: 'About',
-
-            settingsVersionText: `Version: v${VERSION}`,
-
-            settingsAuthorText: 'Developed by Allwaysever',
-
-            githubLink: 'GitHub Repository',
-
-            licenseLink: 'License',
-
-            helpLink: 'Help Center',
-
-            termsText: 'By using MirAI, you agree to the <a href="T&C/index.html" target="_blank">Terms & Conditions</a>.',
-
-            personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humor, while remaining informative.',
-
-            personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
-
-            personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
-
-            placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
-
-            onlineStatus: 'Connected',
-
-            offlineStatus: 'Disconnected',
-
-            settingsApiTitle: 'Google API Key',
-
-            settingsApiText: 'Enter your custom API Key:',
-
-            apiKeySaved: 'API Key saved successfully.',
-
-            apiKeyRemoved: 'API Key removed. Using default key.',
-
-            dateTimeContextPrompt: '[{dateTime}]:',
-
-            confirmClearMessage: 'Are you sure you want to delete this chat history? This action cannot be undone.',
-
-            confirmClearYes: 'Yes, Delete',
-
-            confirmClearNo: 'Cancel',
-
-            pageTitle: 'MirAI | Your AI Assistant',
-
-            saveApiKeyBtn: 'Save',
-
-            apiKeyPlaceholder: 'Leave blank to use the default key',
-
-            slashCmdSearchTitle: 'Search Information',
-
-            slashCmdSearchDesc: 'e.g., /search latest tech news',
-
-            slashCmdTranslateTitle: 'Translate Text',
-
-            slashCmdTranslateDesc: 'e.g., /translate hello to japanese',
-
-            slashCmdSummarizeTitle: 'Summarize Text',
-
-            slashCmdSummarizeDesc: 'e.g., /summarize [paste long text here]',
-
-            slashCmdRephraseTitle: 'Rephrase Text',
-
-            slashCmdRephraseDesc: 'e.g., /rephrase this text as more formal',
-
-            slashCmdIdeateTitle: 'Generate Ideas',
-
-            slashCmdIdeateDesc: 'e.g., /ideate 3 ideas for a blog post',
-
-            slashCmdFixTitle: 'Fix Spelling & Grammar',
-
-            slashCmdFixDesc: 'e.g., /fix this incorect text',
-
-            slashCmdExplainTitle: 'Explain a Concept',
-
-            slashCmdExplainDesc: "e.g., /explain what is blockchain",
-
-            slashCmdCodeTitle: 'Generate a Code Snippet',
-
-            slashCmdCodeDesc: 'e.g., /code a javascript function for a button'
-
-        },
-
-        'en-uk': {
-
-            offlineTitle: 'Internet Connection Lost',
-
-            offlineText: 'Please check your WiFi or cellular data connection, then try again.',
-
-            retryButton: 'Retry',
-
-            inputPlaceholder: 'Type your question here...',
-
-            copyFeedback: 'Text copied to clipboard!',
-
-            langSwitchFeedback: 'Language has been changed to',
-
-            errorAPI: 'An error occurred. Please reload the page or try again shortly.',
-
-            errorFallback: 'Sorry, no answer was found. Please try different keywords.',
-
-            errorConnection: 'Internet connection is unavailable. Please check and try again.',
-
-            checkingConnection: 'Checking internet connection...',
-
-            copySuffix: '\n\n-- Generated by MirAI',
-
-            infoText: 'AI-generated information may be inaccurate. Please verify important facts.',
-
-            settingsHeaderTitle: 'Settings',
-
-            settingsAppearanceTitle: 'Appearance',
-
-            settingsThemeText: 'Select your theme preference:',
-
-            themeLightOption: 'Light',
-
-            themeDarkOption: 'Dark',
-
-            settingsAITitle: 'AI Persona',
-
-            settingsPersonaText: 'Choose the AI\'s response style:',
-
-            personaFormalOption: 'Formal & Professional',
-
-            personaDefaultOption: 'Laid-back & bantering',
-
-            personaCreativeOption: 'Creative & Expressive',
-
-            settingsAboutTitle: 'About',
-
-            settingsVersionText: `Version: v${VERSION}`,
-
-            settingsAuthorText: 'Developed by Allwaysever',
-
-            githubLink: 'GitHub Repository',
-
-            licenseLink: 'License',
-
-            helpLink: 'Help Center',
-
-            termsText: 'By using MirAI, you agree to the <a href="T&C/index.html" target="_blank">Terms & Conditions</a>.',
-
-            personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humour, while remaining informative.',
-
-            personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
-
-            personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
-
-            placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
-
-            onlineStatus: 'Connected',
-
-            offlineStatus: 'Disconnected',
-
-            settingsApiTitle: 'Google API Key',
-
-            settingsApiText: 'Enter your custom API Key:',
-
-            apiKeySaved: 'API Key saved successfully.',
-
-            apiKeyRemoved: 'API Key removed. Using default key.',
-
-            dateTimeContextPrompt: '[{dateTime}]:',
-
-            confirmClearMessage: 'Are you sure you want to delete this chat history? This action cannot be undone.',
-
-            confirmClearYes: 'Yes, Delete',
-
-            confirmClearNo: 'Cancel',
-
-            pageTitle: 'MirAI | Your AI Assistant',
-
-            saveApiKeyBtn: 'Save',
-
-            apiKeyPlaceholder: 'Leave blank to use the default key',
-
-            slashCmdSearchTitle: 'Search Information',
-
-            slashCmdSearchDesc: 'e.g., /search latest tech news',
-
-            slashCmdTranslateTitle: 'Translate Text',
-
-            slashCmdTranslateDesc: 'e.g., /translate hello to japanese',
-
-            slashCmdSummarizeTitle: 'Summarize Text',
-
-            slashCmdSummarizeDesc: 'e.g., /summarize [paste long text here]',
-
-            slashCmdRephraseTitle: 'Rephrase Text',
-
-            slashCmdRephraseDesc: 'e.g., /rephrase this text as more formal',
-
-            slashCmdIdeateTitle: 'Generate Ideas',
-
-            slashCmdIdeateDesc: 'e.g., /ideate 3 ideas for a blog post',
-
-            slashCmdFixTitle: 'Fix Spelling & Grammar',
-
-            slashCmdFixDesc: 'e.g., /fix this incorect text',
-
-            slashCmdExplainTitle: 'Explain a Concept',
-
-            slashCmdExplainDesc: "e.g., /explain what is blockchain",
-
-            slashCmdCodeTitle: 'Generate a Code Snippet',
-
-            slashCmdCodeDesc: 'e.g., /code a javascript function for a button'
-
-        },
-
-        'jp': {
-
-            offlineTitle: 'インターネット接続がありません',
-
-            offlineText: 'WiFiまたはデータ接続を確認し、再度お試しください。',
-
-            retryButton: '再試行',
-
-            inputPlaceholder: 'ここに質問を入力してください...',
-
-            copyFeedback: 'テキストをコピーしました。',
-
-            langSwitchFeedback: '言語が変更されました',
-
-            errorAPI: 'エラーが発生しました。ページを再読み込みするか、しばらくしてからもう一度お試しください。',
-
-            errorFallback: '申し訳ありません、回答が見つかりませんでした。別のキーワードでお試しください。',
-
-            errorConnection: 'インターネットに接続されていません。接続を確認してください。',
-
-            checkingConnection: 'インターネット接続を確認中...',
-
-            copySuffix: '\n\n-- MirAIによって生成',
-
-            infoText: 'AIが生成した情報は不正確な場合があります。重要な事実は再度ご確認ください。',
-
-            settingsHeaderTitle: '設定',
-
-            settingsAppearanceTitle: '外観',
-
-            settingsThemeText: 'テーマを選択してください:',
-
-            themeLightOption: 'ライト',
-
-            themeDarkOption: 'ダーク',
-
-            settingsAITitle: 'AIのペルソナ',
-
-            settingsPersonaText: 'AIの応答スタイルを選択:',
-
-            personaFormalOption: 'フォーマル・プロ',
-
-            personaDefaultOption: 'のんびりしてて冗談好き',
-
-            personaCreativeOption: 'クリエイティブ・表現豊か',
-
-            settingsAboutTitle: 'アプリについて',
-
-            settingsVersionText: `バージョン: v${VERSION}`,
-
-            settingsAuthorText: '開発者: Allwaysever',
-
-            githubLink: 'GitHubリポジトリ',
-
-            licenseLink: 'ライセンス',
-
-            helpLink: 'ヘルプセンター',
-
-            termsText: 'MirAIを使用することにより、<a href="T&C/index.html" target="_blank">利用規約</a>に同意したことになります。',
-
-            personaDefaultPrompt: 'あなたはMirAI、リラックスして冗談好きなAIアシスタントです。フレンドリーなスタイルで、少しユーモアを交えながらも、情報を提供するようにすべての質問に答えてください。',
-
-            personaFormalPrompt: 'あなたはMirAI、プロフェッショナルなAIアシスタントです。構造化され、正確で、フォーマルな言葉遣いで回答を提供してください。',
-
-            personaCreativePrompt: 'あなたはMirAI、創造的なAIアシスタNTです。すべての質問に対して、ユニークで想像力に富んだ表現力豊かな回答をしてください。',
-
-            placeholderMessages: ['質問を入力してください。', 'アイデアが必要ですか？', '翻訳または要約を依頼。', '何かお手伝いできることはありますか？'],
-
-            onlineStatus: '接続済み',
-
-            offlineStatus: '切断',
-
-            settingsApiTitle: 'Google APIキー',
-
-            settingsApiText: 'カスタムAPIキーを入力してください:',
-
-            apiKeySaved: 'APIキーが保存されました。',
-
-            apiKeyRemoved: 'APIキーが削除されました。デフォルトキーを使用します。',
-
-            dateTimeContextPrompt: '[{dateTime}]:',
-
-            confirmClearMessage: 'このチャット履歴を削除してもよろしいですか？この操作は元に戻せません。',
-
-            confirmClearYes: 'はい、削除します',
-
-            confirmClearNo: 'キャンセル',
-
-            pageTitle: 'MirAI | AIアシスタント',
-
-            saveApiKeyBtn: '保存',
-
-            apiKeyPlaceholder: 'デフォルトキーを使用する場合は空欄',
-
-            slashCmdSearchTitle: '情報を検索',
-
-            slashCmdSearchDesc: '例: /search 最新のニュース',
-
-            slashCmdTranslateTitle: 'テキストを翻訳',
-
-            slashCmdTranslateDesc: '例: /translate こんにちは to english',
-
-            slashCmdSummarizeTitle: 'テキストを要約',
-
-            slashCmdSummarizeDesc: '例: /summarize [ここに長い文章を貼り付け]',
-
-            slashCmdRephraseTitle: '表現を変更',
-
-            slashCmdRephraseDesc: '例: /rephrase この文 as より丁寧に',
-
-            slashCmdIdeateTitle: 'アイデアを生成',
-
-            slashCmdIdeateDesc: '例: /ideate 3個 ブログのタイトル',
-
-            slashCmdFixTitle: '誤字脱字を修正',
-
-            slashCmdFixDesc: '例: /fix この間違った文章',
-
-            slashCmdExplainTitle: '概念を説明',
-
-            slashCmdExplainDesc: '例: /explain APIとは',
-
-            slashCmdCodeTitle: 'コードスニペットを作成',
-
-            slashCmdCodeDesc: '例: /code javascript ボタンの関数'
-
-        }
-
-    };
-
-    let slashCommands = [];
-
-    let chatHistory = [];
-
-    let abortController = null;
-
-    let currentLanguage = 'en';
-
-    let currentPersona = 'default';
-
-    let currentImageData = null;
-
-
-
-    // [FIX] Deklarasikan `elements` di scope global tapi jangan diisi dulu
-
-    let elements;
-
-
-
-    // --- Semua deklarasi fungsi ditaruh di sini (global scope) ---
-
-    
-
-    function initializeSlashCommands(lang) {
-
-        const s = uiStrings[lang];
-
-        slashCommands = [
-
-            { command: '/search', title: s.slashCmdSearchTitle, description: s.slashCmdSearchDesc },
-
-            { command: '/translate', title: s.slashCmdTranslateTitle, description: s.slashCmdTranslateDesc },
-
-            { command: '/summarize', title: s.slashCmdSummarizeTitle, description: s.slashCmdSummarizeDesc },
-
-            { command: '/rephrase', title: s.slashCmdRephraseTitle, description: s.slashCmdRephraseDesc },
-
-            { command: '/ideate', title: s.slashCmdIdeateTitle, description: s.slashCmdIdeateDesc },
-
-            { command: '/fix', title: s.slashCmdFixTitle, description: s.slashCmdFixDesc },
-
-            { command: '/explain', title: s.slashCmdExplainTitle, description: s.slashCmdExplainDesc },
-
-            { command: '/code', title: s.slashCmdCodeTitle, description: s.slashCmdCodeDesc }
-
-        ];
-
-    }
-
-
-
-// [BARU] Fungsi untuk konversi gambar ke Base64
-
-    function convertImageToBase64(file) {
-
-        return new Promise((resolve, reject) => {
-
-            const reader = new FileReader();
-
-            reader.readAsDataURL(file);
-
-            reader.onload = () => {
-
-                // Hapus prefix "data:image/jpeg;base64,"
-
-                const base64String = reader.result.split(',')[1];
-
-                resolve(base64String);
-
-            };
-
-            reader.onerror = error => reject(error);
-
-        });
-
-    }
-
-
-
-    // [BARU] Fungsi untuk menangani upload gambar
-
-    function handleImageUpload(event) {
-
-        const file = event.target.files[0];
-
-        if (!file) return;
-
-
-
-        if (!file.type.startsWith('image/')) {
-
-            alert('Silakan unggah file gambar (jpeg, png, webp).');
-
-            return;
-
-        }
-
-
-
-        elements.imageInput.value = ''; // Reset input agar bisa upload gambar yang sama
-
-
-
-        convertImageToBase64(file)
-
-            .then(base64Data => {
-
-                currentImageData = {
-
-                    mimeType: file.type,
-
-                    data: base64Data
-
-                };
-
+            <div class="grid md:grid-cols-3 gap-8 px-4 md:px-10">
                 
-
-                elements.imagePreview.src = `data:${file.type};base64,${base64Data}`;
-
-                elements.imagePreviewContainer.style.display = 'flex'; // <--- UBAH DI SINI
-
-                toggleChatUI(true); // Pindahkan UI ke mode chat
-
-                updateSendButtonState(); // Perbarui status tombol kirim
-
-            })
-
-            .catch(error => {
-
-                console.error('Error converting image:', error);
-
-                removeImage();
-
-            });
-
-    }
-
-
-
-    // [BARU] Fungsi untuk menghapus gambar yang di-upload
-
-    function removeImage() {
-
-        currentImageData = null;
-
-        elements.imagePreview.src = '';
-
-        elements.imagePreviewContainer.style.display = 'none';
-
-        elements.imageInput.value = ''; // Pastikan input file dikosongkan
-
-        updateSendButtonState(); // Perbarui status tombol kirim
-
-    }
-
-    
-
-    function initializeApp() {
-
-        // [PERBAIKAN FINAL] Cek bahasa yang tersimpan, jika tidak valid, gunakan default 'id'
-
-        const savedLang = localStorage.getItem('miraiLanguage');
-
-        if (savedLang && uiStrings.hasOwnProperty(savedLang)) {
-
-            currentLanguage = savedLang;
-
-        } else {
-
-            currentLanguage = 'id'; // Fallback ke bahasa default jika tidak valid
-
-        }
-
-
-
-        currentPersona = localStorage.getItem('miraiPersona') || 'default';
-
-        const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
-
-        const savedApiKey = localStorage.getItem('miraiApiKey');
-
-        elements.langDropdown.value = currentLanguage;
-
-        elements.personaSelect.value = currentPersona;
-
-        if (savedApiKey) {
-
-            currentApiKey = savedApiKey;
-
-            elements.apiKeyInput.value = savedApiKey;
-
-        }
-
-        initializeSlashCommands(currentLanguage);
-
-        setTheme(savedTheme);
-
-        updateUI();
-
-        const historyLoaded = loadChatHistory();
-
-        if (!historyLoaded) {
-
-            initializeNewChatSession();
-
-        }
-
-    }
-
-
-
-    function initializeNewChatSession() {
-
-        const personaPromptText = uiStrings[currentLanguage][`persona${currentPersona.charAt(0).toUpperCase() + currentPersona.slice(1)}Prompt`];
-
-        chatHistory = [{ role: "user", parts: [{ text: personaPromptText }] }];
-
-        console.log('Sesi chat baru dimulai.');
-
-    }
-
-
-
-    function loadChatHistory() {
-
-        const savedHistory = localStorage.getItem('miraiChatHistory');
-
-        if (savedHistory) {
-
-            chatHistory = JSON.parse(savedHistory);
-
-            console.log('Riwayat percakapan berhasil dimuat.', chatHistory);
-
-            return true; 
-
-        }
-
-        console.log('Tidak ada riwayat untuk dimuat.');
-
-        return false; 
-
-    }
-
-
-
-    function saveChatHistory() {
-
-        const maxHistoryLength = 50; 
-
-        if (chatHistory.length > maxHistoryLength) {
-
-            const personaPrompt = chatHistory[0];
-
-            const conversation = chatHistory.slice(chatHistory.length - maxHistoryLength + 1);
-
-            chatHistory = [personaPrompt, ...conversation];
-
-        }
-
-        localStorage.setItem('miraiChatHistory', JSON.stringify(chatHistory));
-
-    }
-
-    
-
-    function clearChat() {
-
-        elements.chatMessages.innerHTML = '';
-
-        localStorage.removeItem('miraiChatHistory'); 
-
-        initializeNewChatSession(); 
-
-        toggleChatUI(false);
-
-        updateDynamicPlaceholder();
-
-        // [BARU] Hentikan TTS jika sedang berjalan
-
-        if (window.speechSynthesis.speaking) {
-
-            window.speechSynthesis.cancel();
-
-        }
-
-    }
-
-
-
-    function showClearConfirmation() {
-
-        const lang = uiStrings[currentLanguage];
-
-        elements.customConfirmMessage.innerText = lang.confirmClearMessage;
-
-        elements.confirmBtnYes.innerText = lang.confirmClearYes;
-
-        elements.confirmBtnNo.innerText = lang.confirmClearNo;
-
-        elements.customConfirmOverlay.classList.add('visible');
-
-    }
-
-
-
-    function hideClearConfirmation() {
-
-        elements.customConfirmOverlay.classList.remove('visible');
-
-    }
-
-    
-
-    function setPersona(persona, fromUserInteraction = false) {
-
-        currentPersona = persona;
-
-        elements.personaSelect.value = persona;
-
-        localStorage.setItem('miraiPersona', persona);
-
-        if (fromUserInteraction) {
-
-            // clearChat(); // Diberi komentar agar tidak dijalankan sesuai permintaan
-
-        }
-
-    }
-
-
-
-    function setLanguage(lang, fromUserInteraction = false) {
-
-        currentLanguage = lang;
-
-        elements.langDropdown.value = lang;
-
-        localStorage.setItem('miraiLanguage', lang);
-
-        initializeSlashCommands(currentLanguage);
-
-        populateToolsMenu();
-
-        updateUI();
-
-        if (fromUserInteraction) {
-
-            // clearChat(); // Diberi komentar agar tidak dijalankan sesuai permintaan
-
-        }
-
-    }
-
-
-
-    async function askAI() {
-
-        const userQuestion = elements.questionInput.value;
-
-
-
-        // [MODIFIKASI] Jangan kirim jika tidak ada teks DAN tidak ada gambar
-
-        if (userQuestion.trim() === '' && !currentImageData) return;
-
-
-
-        const clientDateTime = getCurrentDateTimeString();
-
-        const promptTemplate = uiStrings[currentLanguage].dateTimeContextPrompt;
-
-        const contextPrompt = promptTemplate.replace('{dateTime}', clientDateTime);
-
+                <!-- Fitur 1: Kecepatan & Keringanan -->
+                <div class="p-6 card-srui text-left">
+                    <div class="text-yellow-400 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Vanilla Stack</h3>
+                    <p class="text-gray-400">Dibuat murni dengan HTML, CSS, dan JavaScript. Tanpa *framework* berat, menjamin *loading* yang super ringan dan *snappy*.</p>
+                </div>
+
+                <!-- Fitur 2: Desain SRUI Konsisten -->
+                <div class="p-6 card-srui text-left">
+                    <div class="text-yellow-400 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">SRUI Optimal</h3>
+                    <p class="text-gray-400">Border-radius 25px yang konsisten, bayangan minimalis, dan *backdrop-filter* blur memastikan MirAI tampil modern dan nyaman di mata (Mirip dengan aplikasi favoritmu!).</p>
+                </div>
+
+                <!-- Fitur 3: Fitur Cerdas & Utilitas -->
+                <div class="p-6 card-srui text-left">
+                    <div class="text-yellow-400 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M3.636 5.636l.707.707M12 20.999v-1m6.364-1.636l-.707-.707M3.636 18.364l.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Slash Commands</h3>
+                    <p class="text-gray-400">Perintahkan MirAI dengan cepat menggunakan `/tools` atau `/code` untuk tugas spesifik. Lebih cepat, lebih fokus, dan lebih akurat!</p>
+                </div>
+            </div>
+        </section>
         
+        <!-- SECTION 3: CALL TO ACTION AKHIR -->
+        <section class="py-16 container-padding max-w-6xl mx-auto text-center">
+            <div class="bg-yellow-400 card-srui p-8 md:p-12 text-gray-900 border-none">
+                <h2 class="text-3xl font-extrabold mb-4">Jangan cuma baca, rasakan kecerdasannya!</h2>
+                <p class="text-lg mb-8">Langsung coba sekarang juga dan lihat bagaimana MirAI bisa membantumu dalam segala hal, dari *coding* hingga ide kreatif.</p>
+                <button id="try-mirai-btn-footer" class="accent-button text-xl px-10 py-4 shadow-md focus:outline-none focus:ring-4 focus:ring-gray-900 focus:ring-opacity-20 min-w-[280px]">
+                    Luncurkan MirAI Sekarang →
+                </button>
+            </div>
+        </section>
 
-        let promptToSendToAI;
+    </main>
+    
+    <footer class="text-center py-6 text-sm text-gray-600 border-t border-gray-900">
+        &copy; 2025 Allwaysever Project: MirAI. Ditenagai oleh Google Gemini API.
+    </footer>
 
+    <script>
+        // --- KONFIGURASI PENTING ---
+        // GANTI LINK INI dengan tautan URL aplikasi MirAI kamu yang sebenarnya.
+        const APP_LINK = 'https://allwaysevermirai.netlify.app/app'; 
+        
+        // Kunci localStorage untuk menandai kunjungan
+        const COUNT_KEY = 'miraiVisitCount';
 
+        const tryBtns = document.querySelectorAll('#try-mirai-btn, #try-mirai-btn-footer');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const redirectLoading = document.getElementById('redirect-loading');
+        
+        function getVisitCount() {
+            return parseInt(localStorage.getItem(COUNT_KEY) || '0');
+        }
 
-        // [MODIFIKASI] Hanya proses slash command jika TIDAK ada gambar
+        function setVisitCount(count) {
+            localStorage.setItem(COUNT_KEY, count.toString());
+        }
 
-        if (!currentImageData) {
+        function incrementVisitCount() {
+            let count = getVisitCount();
+            count++;
+            setVisitCount(count);
+            return count;
+        }
 
-            const processedPrompt = handleSlashCommand(userQuestion);
+        function setupPage() {
+            const count = getVisitCount();
+            
+            // Periksa apakah APP_LINK sudah diganti.
+            const isLinkConfigured = APP_LINK !== 'https://link-aplikasi-anda-di-sini.com/app';
 
-            if (processedPrompt !== null) {
+            // 1. Logic Auto-Redirect (untuk pengguna yang sudah pernah mengunjungi)
+            if (count > 0 && isLinkConfigured) {
+                // Tampilkan loading dan pesan redirect
+                welcomeMessage.textContent = 'Selamat datang kembali! Anda telah mengunjungi halaman ini ';
+                welcomeMessage.innerHTML += `<span class="font-bold">${count + 1} kali</span>.`;
+                redirectLoading.classList.remove('hidden');
 
-                if (processedPrompt.startsWith('Error:')) {
+                // Non-aktifkan tombol selama redirect
+                tryBtns.forEach(btn => {
+                    btn.disabled = true;
+                    btn.textContent = 'Mengarahkan...';
+                });
+                
+                // Redirect setelah 2 detik
+                setTimeout(() => {
+                    window.location.replace(APP_LINK);
+                }, 2000); 
 
-                    return;
-
-                }
-
-                promptToSendToAI = `${contextPrompt}\n\n"${processedPrompt}"`;
-
+            } else if (!isLinkConfigured) {
+                // Jika link masih placeholder, berikan peringatan di status area
+                welcomeMessage.textContent = '⚠️ Harap ganti "APP_LINK" di kode JavaScript untuk mengaktifkan fungsi tombol dan auto-redirect.';
+                tryBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        alert('Mohon ganti nilai APP_LINK di dalam kode JavaScript dengan tautan aplikasi Anda yang sebenarnya!');
+                    });
+                });
             } else {
-
-                promptToSendToAI = `${contextPrompt}\n\n"${userQuestion}"`;
-
+                // Kunjungan pertama dan link sudah dikonfigurasi
+                welcomeMessage.textContent = 'Ini kunjungan pertama Anda.';
             }
 
-        } else {
-
-            // Jika ada gambar, kirim teks apa adanya (jangan proses slash command)
-
-            promptToSendToAI = `${contextPrompt}\n\n"${userQuestion}"`;
-
-        }
-
-
-
-        toggleChatUI(true);
-
-        elements.questionInput.value = '';
-
-        elements.questionInput.style.height = 'auto';
-
-        elements.suggestionBox.classList.remove('visible');
-
-        updateSendButtonState();
-
-        elements.sendBtn.style.display = 'none';
-
-        elements.clearBtnContainer.style.display = 'none';
-
-        elements.stopBtn.style.display = 'block';
-
-
-
-        // [MODIFIKASI] Tampilkan bubble user dengan teks dan gambar (jika ada)
-
-        const userBubble = document.createElement('div');
-
-        userBubble.classList.add('chat-bubble', 'user-bubble');
-
-        
-
-        let userBubbleHTML = '';
-
-        if (currentImageData) {
-
-            // Tampilkan preview gambar di bubble user
-
-            userBubbleHTML += `<img src="${elements.imagePreview.src}" style="width: 100%; max-width: 200px; border-radius: 10px; margin-bottom: 5px;"><br>`;
-
-        }
-
-        // Gunakan .innerText untuk teks agar aman dari XSS
-
-        const textNode = document.createTextNode(userQuestion);
-
-        userBubble.appendChild(textNode);
-
-        if(currentImageData) {
-
-             // Jika ada gambar, tambahkan gambar di atas teks
-
-             userBubble.innerHTML = userBubbleHTML; // Set HTML gambar
-
-             userBubble.appendChild(document.createElement('br'));
-
-             userBubble.appendChild(textNode); // Tambahkan teks setelah gambar
-
-        }
-
-
-
-        elements.chatMessages.appendChild(userBubble);
-
-        setTimeout(() => userBubble.classList.add('fade-in'), 10);
-
-        elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-
-
-
-        // [MODIFIKASI TOTAL] Konstruksi 'parts' untuk multimodal
-
-        const userParts = [];
-
-        
-
-        // 1. Tambahkan bagian teks
-
-        userParts.push({ text: promptToSendToAI });
-
-
-
-        // 2. Tambahkan bagian gambar jika ada
-
-        if (currentImageData) {
-
-            userParts.push({
-
-                inlineData: {
-
-                    mimeType: currentImageData.mimeType,
-
-                    data: currentImageData.data
-
-                }
-
-            });
-
-        }
-
-        
-
-        // Push ke chatHistory sebagai satu giliran 'user'
-
-        chatHistory.push({ role: "user", parts: userParts }); 
-
-        saveChatHistory(); 
-
-        
-
-        // Simpan status apakah gambar dikirim, lalu bersihkan UI
-
-        const imageWasSent = !!currentImageData;
-
-        removeImage(); // Kosongkan preview untuk pesan berikutnya
-
-
-
-        const loadingBubble = showLoading();
-
-
-
-        // [MODIFIKASI] Jangan cari jawaban lokal jika ada gambar
-
-        if (!imageWasSent) {
-
-            const localAnswer = findSmartAnswer(userQuestion);
-
-            if (localAnswer) {
-
-                // (Logika jawaban lokal Anda tetap sama)
-
-                loadingBubble.remove();
-
-                const aiBubble = createAiBubble(localAnswer, true);
-
-                elements.chatMessages.appendChild(aiBubble);
-
-                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-
-                elements.sendBtn.style.display = 'block';
-
-                elements.stopBtn.style.display = 'none';
-
-                elements.clearBtnContainer.style.display = 'block';
-
-                return; 
-
+            // 2. Tambahkan event listener ke tombol untuk redirect manual
+            if (isLinkConfigured) {
+                tryBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        incrementVisitCount();
+                        window.location.href = APP_LINK;
+                    });
+                });
             }
 
-        }
-
-
-
-        try {
-
-            abortController = new AbortController();
-
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${currentApiKey}`;
-
-            
-
-            // [MODIFIKASI] Request body sekarang sudah benar
-
-            const requestBody = { contents: chatHistory }; 
-
-
-
-            const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(requestBody), signal: abortController.signal });
-
-            if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
-
-            const data = await response.json();
-
-            let answer = uiStrings[currentLanguage].errorFallback;
-
-            if (data.candidates?.[0]?.content?.parts?.[0]) {
-
-                answer = data.candidates[0].content.parts[0].text;
-
-                chatHistory.push({ role: "model", parts: [{ text: answer }] });
-
-                saveChatHistory(); 
-
+            // Set flag kunjungan di akhir setup jika ini kunjungan pertama
+            if (count === 0 && isLinkConfigured) {
+                 incrementVisitCount(); // Increment untuk kunjungan saat ini (agar auto-redirect aktif di kunjungan berikutnya)
             }
-
-            loadingBubble.remove();
-
-            const aiBubble = createAiBubble(answer, false);
-
-            elements.chatMessages.appendChild(aiBubble);
-
-            await typeWriterEffect(aiBubble, answer);
-
-            
-
-            const copyBtn = document.createElement('i');
-
-            copyBtn.classList.add('fas', 'fa-copy', 'copy-btn');
-
-            copyBtn.setAttribute('onclick', 'copyToClipboard(this)');
-
-            aiBubble.appendChild(copyBtn);
-
-
-
-            const speakBtn = document.createElement('i');
-
-            speakBtn.classList.add('fas', 'fa-volume-up', 'speak-btn');
-
-            speakBtn.setAttribute('onclick', 'speakText(this)');
-
-            aiBubble.appendChild(speakBtn);
-
-
-
-            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-
-        } catch (error) {
-
-            console.error('Error:', error);
-
-            if (error.name !== 'AbortError') {
-
-                const errorMessage = navigator.onLine ? uiStrings[currentLanguage].errorAPI : uiStrings[currentLanguage].errorConnection;
-
-                loadingBubble.remove();
-
-                const errorBubble = createAiBubble(errorMessage);
-
-                elements.chatMessages.appendChild(errorBubble);
-
-                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-
-            }
-
-        } finally {
-
-            elements.sendBtn.style.display = 'block';
-
-            elements.stopBtn.style.display = 'none';
-
-            elements.clearBtnContainer.style.display = 'block';
-
         }
 
-    }
-
-    
-
-    function getCurrentDateTimeString() { const now = new Date(); const year = now.getFullYear(); const month = String(now.getMonth() + 1).padStart(2, '0'); const day = String(now.getDate()).padStart(2, '0'); const hours = String(now.getHours()).padStart(2, '0'); const minutes = String(now.getMinutes()).padStart(2, '0'); const seconds = String(now.getSeconds()).padStart(2, '0'); return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; }
-
-    function populateToolsMenu() { if (!elements.toolsMenu) return; elements.toolsMenu.innerHTML = ''; slashCommands.forEach(cmd => { const menuItem = document.createElement('div'); menuItem.classList.add('suggestion-item-slash'); menuItem.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; menuItem.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); elements.questionInput.focus(); }); elements.toolsMenu.appendChild(menuItem); }); }
-
-    function updateSendButtonState() { 
-
-        // [MODIFIKASI] Aktif jika ada teks ATAU gambar
-
-        if (elements.questionInput.value.trim() === '' && !currentImageData) { 
-
-            elements.sendBtn.classList.add('disabled'); 
-
-            elements.sendBtn.disabled = true; 
-
-        } else { 
-
-            elements.sendBtn.classList.remove('disabled'); 
-
-            elements.sendBtn.disabled = false; 
-
-        } 
-
-    }
-
-    function saveApiKey() { const newKey = elements.apiKeyInput.value.trim(); if (newKey) { localStorage.setItem('miraiApiKey', newKey); currentApiKey = newKey; showCopyFeedback(uiStrings[currentLanguage].apiKeySaved); } else { localStorage.removeItem('miraiApiKey'); currentApiKey = DEFAULT_API_KEY; showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); } }
-
-    function toggleApiVisibility() { const input = elements.apiKeyInput; const icon = elements.toggleApiKey; if (input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } }
-
-    function updateConnectionStatus() { if (navigator.onLine) { elements.statusDot.classList.remove('offline'); elements.statusDot.classList.add('online'); elements.statusLabel.innerText = uiStrings[currentLanguage].onlineStatus; } else { elements.statusDot.classList.remove('online'); elements.statusDot.classList.add('offline'); elements.statusLabel.innerText = uiStrings[currentLanguage].offlineStatus; } }
-
-    function updateUI() { const lang = uiStrings[currentLanguage]; elements.infoText.innerText = lang.infoText; updateSettingsUI(); updateDynamicPlaceholder(); updateConnectionStatus(); }
-
-    function updateDynamicPlaceholder() { const placeholders = uiStrings[currentLanguage].placeholderMessages; const randomIndex = Math.floor(Math.random() * placeholders.length); elements.questionInput.placeholder = placeholders[randomIndex]; }
-
-    function updateSettingsUI() { const lang = uiStrings[currentLanguage]; if (!lang) return; elements.settingsHeaderTitle.innerText = lang.settingsHeaderTitle; elements.settingsAppearanceTitle.innerText = lang.settingsAppearanceTitle; elements.settingsThemeText.innerText = lang.settingsThemeText; elements.themeLightOption.innerText = lang.themeLightOption; elements.themeDarkOption.innerText = lang.themeDarkOption; elements.settingsAITitle.innerText = lang.settingsAITitle; elements.settingsPersonaText.innerText = lang.settingsPersonaText; elements.personaFormalOption.innerText = lang.personaFormalOption; elements.personaDefaultOption.innerText = lang.personaDefaultOption; elements.personaCreativeOption.innerText = lang.personaCreativeOption; elements.settingsAboutTitle.innerText = lang.settingsAboutTitle; elements.settingsVersionText.innerText = lang.settingsVersionText; elements.settingsAuthorText.innerText = lang.settingsAuthorText; elements.githubLink.innerText = lang.githubLink; elements.licenseLink.innerText = lang.licenseLink; elements.helpLink.innerText = lang.helpLink; elements.termsText.innerHTML = lang.termsText; elements.settingsApiTitle.innerText = lang.settingsApiTitle; elements.settingsApiText.innerText = lang.settingsApiText; document.title = lang.pageTitle; elements.saveApiBtn.innerText = lang.saveApiKeyBtn; elements.apiKeyInput.placeholder = lang.apiKeyPlaceholder; }
-
-    function setTheme(theme) { elements.body.classList.remove('light-theme', 'dark-theme'); if (theme === 'light') { elements.body.classList.add('light-theme'); } else { elements.body.classList.add('dark-theme'); } localStorage.setItem('miraiTheme', theme); elements.themeSelect.value = theme; }
-
-    function showSettingsPage() { elements.settingsPage.classList.add('active'); elements.body.classList.remove('chat-active'); }
-
-    function hideSettingsPage() { elements.settingsPage.classList.remove('active'); if (chatHistory.length > 1) { elements.body.classList.add('chat-active'); } }
-
-    function toggleChatUI(active) { if (active) { elements.body.classList.add('chat-active'); elements.inputContainer.classList.remove('centered'); elements.inputContainer.classList.add('bottom'); elements.logoContainer.classList.add('logo-hidden'); elements.languageSwitcher.classList.add('lang-hidden'); elements.infoText.style.display = 'block'; } else { elements.body.classList.remove('chat-active'); elements.inputContainer.classList.remove('bottom'); elements.inputContainer.classList.add('centered'); elements.logoContainer.classList.remove('logo-hidden'); elements.languageSwitcher.classList.remove('lang-hidden'); elements.infoText.style.display = 'none'; } }
-
-    function simulateLoading(duration) { const startTime = Date.now(); const splashBar = document.querySelector('.loading-bar'); if (!splashBar) { console.error("Elemen .loading-bar tidak ditemukan."); setTimeout(() => { if (elements.splashScreen) { elements.splashScreen.classList.add('hidden'); } }, duration); return; } const updateInterval = 50; const intervalId = setInterval(updateProgress, updateInterval); function updateProgress() { const elapsedTime = Date.now() - startTime; let progress = (elapsedTime / duration) * 100; if (progress >= 100) { progress = 100; clearInterval(intervalId); setTimeout(() => { elements.splashScreen.classList.add('hidden'); }, 500); } splashBar.style.width = `${progress}%`; } }
-
-    function showSuggestions() { const query = elements.questionInput.value.toLowerCase().trim(); elements.suggestionBox.innerHTML = ''; elements.suggestionBox.classList.remove('visible'); if (query.startsWith('/')) { const commandQuery = query.substring(1); const matchingCommands = slashCommands.filter(cmd => cmd.command.substring(1).startsWith(commandQuery) ); if (matchingCommands.length > 0) { elements.suggestionBox.classList.add('visible'); matchingCommands.forEach(cmd => { const div = document.createElement('div'); div.classList.add('suggestion-item-slash'); div.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; div.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.suggestionBox.classList.remove('visible'); elements.questionInput.focus(); }); elements.suggestionBox.appendChild(div); }); } } else { if (query.length < 2) return; const suggestions = Object.keys(faqDatabase) .filter(key => key.toLowerCase().includes(query)) .slice(0, 5); if (suggestions.length > 0) { elements.suggestionBox.classList.add('visible'); suggestions.forEach(suggestion => { const div = document.createElement('div'); div.classList.add('suggestion-item'); div.innerText = suggestion; div.addEventListener('click', () => { elements.questionInput.value = suggestion; elements.suggestionBox.classList.remove('visible'); askAI(); }); elements.suggestionBox.appendChild(div); }); } } }
-
-    function findSmartAnswer(question) { const normalized = question.toLowerCase().trim(); const sortedKeys = Object.keys(faqDatabase).sort((a, b) => b.length - a.length); for (const key of sortedKeys) { const normalizedKey = key.toLowerCase().replace("?", ""); if (normalized.includes(normalizedKey)) return faqDatabase[key]; } return null; }
-
-    function typeWriterEffect(element, text, speed = 0.5) { const parsedHtml = marked.parse(text); let i = 0; element.innerHTML = ''; const tempElement = document.createElement('div'); tempElement.innerHTML = parsedHtml; const textToType = tempElement.innerText; return new Promise(resolve => { function type() { if (i < textToType.length) { element.innerHTML += textToType.charAt(i); i++; setTimeout(type, speed); } else { element.innerHTML = parsedHtml; resolve(); } } type(); }); }
-
-    function showLoading() { const loadingBubble = document.createElement('div'); loadingBubble.classList.add('chat-bubble', 'ai-bubble', 'typing-indicator', 'fade-in'); loadingBubble.innerHTML = '<span></span><span></span><span></span>'; elements.chatMessages.appendChild(loadingBubble); return loadingBubble; }
-
-    
-
-    function stopAI() {
-
-        if (abortController) {
-
-            abortController.abort();
-
-            console.log("Response aborted.");
-
-            elements.stopBtn.style.display = 'none';
-
-            elements.sendBtn.style.display = 'block';
-
-            elements.clearBtnContainer.style.display = 'block';
-
-            const loadingBubble = document.querySelector('.typing-indicator');
-
-            if (loadingBubble) loadingBubble.remove();
-
-        }
-
-        // [MODIFIKASI] Hentikan juga TTS yang sedang berjalan
-
-        if (window.speechSynthesis.speaking) {
-
-            window.speechSynthesis.cancel();
-
-            // Reset semua ikon tombol speak
-
-            document.querySelectorAll('.speak-btn').forEach(btn => {
-
-                btn.classList.remove('fa-stop');
-
-                btn.classList.add('fa-volume-up');
-
-            });
-
-        }
-
-    }
-
-
-
-    function handleSlashCommand(question) { if (!question.startsWith('/')) { return null; } const parts = question.split(' '); const command = parts[0].toLowerCase(); switch (command) { case '/translate': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 2) { return "Error: Invalid format. Use /translate [text] to [language]"; } const textToTranslate = parts.slice(1, toIndex).join(' '); const targetLanguage = parts.slice(toIndex + 1).join(' '); return `Translate the following text to ${targetLanguage}: "${textToTranslate}"`; } case '/summarize': { const textToSummarize = parts.slice(1).join(' '); if (textToSummarize.length < 20) { return "Error: Please provide more text to summarize."; } return `Provide a concise summary of the following text: "${textToSummarize}"`; } case '/rephrase': { const asIndex = parts.indexOf('as'); if (asIndex === -1 || asIndex < 2) { return "Error: Invalid format. Use /rephrase [text] as [tone]"; } const textToRephrase = parts.slice(1, asIndex).join(' '); const tone = parts.slice(asIndex + 1).join(' '); return `Rephrase the following text in a ${tone} tone: "${textToRephrase}"`; } case '/ideate': { const forIndex = parts.indexOf('for'); if (forIndex === -1 || forIndex < 3 || isNaN(parseInt(parts[1]))) { return "Error: Invalid format. Use /ideate [number] ideas for [topic]"; } const number = parts[1]; const topic = parts.slice(forIndex + 1).join(' '); return `Generate ${number} ideas for ${topic}. Present them as a numbered list.`; } case '/fix': { const textToFix = parts.slice(1).join(' '); if (!textToFix) { return "Error: Please provide text to fix. Use /fix [text]"; } return `Proofread and correct any grammatical errors and spelling mistakes in the following text. Only provide the corrected text: "${textToFix}"`; } case '/explain': { const likeIndex = parts.findIndex(part => part.toLowerCase() === "like"); if (likeIndex === -1 || likeIndex < 2) { return "Error: Invalid format. Use /explain [concept] like I'm [audience]"; } const concept = parts.slice(1, likeIndex).join(' '); const audienceIndex = parts.indexOf("I'm") > -1 ? parts.indexOf("I'm") : parts.indexOf("i'm"); if (audienceIndex === -1 || audienceIndex <= likeIndex) { return "Error: Invalid audience format. Use \"like I'm ...\""; } const audience = parts.slice(audienceIndex + 1).join(' '); return `Explain the concept of "${concept}" as if you were talking to a ${audience}.`; } case '/code': { const toIndex = parts.indexOf('to'); if (toIndex === -1 || toIndex < 3) { return "Error: Invalid format. Use /code a [language] function to [description]"; } const language = parts[2]; const description = parts.slice(toIndex + 1).join(' '); return `Write a code snippet in ${language} for the following task: "${description}". Provide only the code, enclosed in a markdown code block.`; } case '/search': { const query = parts.slice(1).join(' '); if (!query) { return "Error: Please provide a search query. Use /search [query]"; } return `Search the web for information about "${query}". Provide a concise summary and, if possible, include relevant links.`; } default: return `Error: Unknown command "${command}". Try /translate or /summarize.`; } }
-
-    
-
-    function createAiBubble(text, useInnerHTML = true) {
-
-        const bubble = document.createElement('div');
-
-        bubble.classList.add('chat-bubble', 'ai-bubble', 'fade-in');
-
-        bubble.setAttribute('data-raw-text', text);
-
-        if (useInnerHTML) {
-
-            // [MODIFIKASI] Tambahkan tombol copy DAN speak
-
-            bubble.innerHTML = `${marked.parse(text)}
-
-                              <i class="fas fa-copy copy-btn" onclick="copyToClipboard(this)"></i>
-
-                              <i class="fas fa-volume-up speak-btn" onclick="speakText(this)"></i>`;
-
-        }
-
-        return bubble;
-
-    }
-
-
-
-    // --- [BARU] FUNGSI UNTUK TTS ---
-
-    
-
-    /**
-
-     * Mendapatkan kode bahasa BCP 47 untuk SpeechSynthesis
-
-     * @param {string} lang - Kode bahasa dari aplikasi (e.g., 'id', 'en', 'jp')
-
-     * @returns {string} Kode bahasa BCP 47 (e.g., 'id-ID', 'en-US', 'ja-JP')
-
-     */
-
-    function getLangCodeForSpeech(lang) {
-
-        if (lang === 'en-uk') return 'en-GB';
-
-        if (lang === 'en') return 'en-US';
-
-        if (lang === 'jp') return 'ja-JP';
-
-        if (lang === 'id') return 'id-ID';
-
-        return 'id-ID'; // Fallback default
-
-    }
-
-
-
-    /**
-
-     * Membacakan teks dari bubble AI menggunakan Web Speech API
-
-     * @param {HTMLElement} element - Elemen ikon speaker yang diklik
-
-     */
-
-    function speakText(element) {
-
-        const aiBubble = element.closest('.ai-bubble');
-
-        const textToSpeak = aiBubble.getAttribute('data-raw-text');
-
-        const icon = element;
-
-
-
-        // Jika tombol stop (ikon stop) diklik, hentikan audio
-
-        if (icon.classList.contains('fa-stop')) {
-
-            window.speechSynthesis.cancel();
-
-            // Event 'onend' akan otomatis mengubah ikon kembali
-
-            return;
-
-        }
-
-
-
-        // Jika ada audio lain yang sedang diputar, hentikan dulu
-
-        if (window.speechSynthesis.speaking) {
-
-            window.speechSynthesis.cancel();
-
-            // Reset semua ikon lain (jika ada) sebelum memulai yang baru
-
-             document.querySelectorAll('.speak-btn').forEach(btn => {
-
-                btn.classList.remove('fa-stop');
-
-                btn.classList.add('fa-volume-up');
-
-            });
-
-        }
-
-
-
-        if (!textToSpeak) return;
-
-
-
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-
-        utterance.lang = getLangCodeForSpeech(currentLanguage);
-
-
-
-        // Saat audio mulai diputar
-
-        utterance.onstart = () => {
-
-            icon.classList.remove('fa-volume-up');
-
-            icon.classList.add('fa-stop');
-
-        };
-
-
-
-        // Saat audio selesai (baik selesai normal atau dibatalkan)
-
-        utterance.onend = () => {
-
-            icon.classList.remove('fa-stop');
-
-            icon.classList.add('fa-volume-up');
-
-        };
-
-
-
-        // Jika terjadi error
-
-        utterance.onerror = (event) => {
-
-            console.error('SpeechSynthesis Error:', event.error);
-
-            icon.classList.remove('fa-stop');
-
-            icon.classList.add('fa-volume-up');
-
-        };
-
-
-
-        window.speechSynthesis.speak(utterance);
-
-    }
-
-    // --- [AKHIR FUNGSI BARU] ---
-
-
-
-
-
-    function copyToClipboard(element) { const aiBubble = element.closest('.ai-bubble'); const textToCopy = aiBubble.getAttribute('data-raw-text'); const formattedText = `${textToCopy}${uiStrings[currentLanguage].copySuffix}`; const tempInput = document.createElement('textarea'); tempInput.value = formattedText; document.body.appendChild(tempInput); tempInput.select(); tempInput.setSelectionRange(0, 99999); document.execCommand('copy'); document.body.removeChild(tempInput); showCopyFeedback(uiStrings[currentLanguage].copyFeedback); }
-
-    function showCopyFeedback(message) { const feedbackDiv = document.createElement('div'); feedbackDiv.innerText = message; feedbackDiv.style.cssText = ` position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background-color: #444; color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 14px; z-index: 200; opacity: 0; transition: opacity 0.5s ease-in-out; `; document.body.appendChild(feedbackDiv); setTimeout(() => { feedbackDiv.style.opacity = 1; }, 10); setTimeout(() => { feedbackDiv.style.opacity = 0; setTimeout(() => feedbackDiv.remove(), 500); }, 2000); }
-
-    function checkIndicatorPosition() { const connectionStatus = document.getElementById('connectionStatus'); if (!connectionStatus) return; const indicatorRect = connectionStatus.getBoundingClientRect(); const userBubbles = document.querySelectorAll('.user-bubble'); let isOverlapping = false; for (const bubble of userBubbles) { const bubbleRect = bubble.getBoundingClientRect(); const verticalOverlap = indicatorRect.bottom > bubbleRect.top && indicatorRect.top < bubbleRect.bottom; const horizontalOverlap = indicatorRect.right > bubbleRect.left && indicatorRect.right < bubbleRect.right; if (verticalOverlap && horizontalOverlap) { isOverlapping = true; break; } } connectionStatus.classList.toggle('hidden-by-scroll', isOverlapping); }
-
-
-
-    // --- Titik Eksekusi Utama ---
-
-
-
-    document.addEventListener('DOMContentLoaded', () => {
-
-        // [FIX] Isi variabel `elements` sekarang, setelah HTML dijamin siap
-
-        elements = { 
-
-            questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu'), customConfirmOverlay: document.getElementById('customConfirmOverlay'), customConfirmMessage: document.getElementById('customConfirmMessage'), confirmBtnYes: document.getElementById('confirmBtnYes'), confirmBtnNo: document.getElementById('confirmBtnNo'), helpLink: document.getElementById('helpLink'), termsText: document.getElementById('termsText'),
-
-uploadImageBtn: document.getElementById('uploadImageBtn'),
-
-            imageInput: document.getElementById('imageInput'),
-
-            imagePreviewContainer: document.getElementById('imagePreviewContainer'),
-
-            imagePreview: document.getElementById('imagePreview'),
-
-            removeImageBtn: document.getElementById('removeImageBtn')
-
-        };
-
-
-
-        // Pasang semua event listener setelah `elements` diisi
-
-        elements.sendBtn.addEventListener('click', askAI);
-
-        elements.stopBtn.addEventListener('click', stopAI);
-
-        elements.clearBtn.addEventListener('click', showClearConfirmation);
-
-        elements.settingsBtn.addEventListener('click', showSettingsPage);
-
-        elements.backBtn.addEventListener('click', hideSettingsPage);
-
-        elements.themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
-
-        elements.personaSelect.addEventListener('change', (e) => setPersona(e.target.value, true));
-
-        elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value, true));
-
-        elements.questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); if (!elements.sendBtn.disabled) { askAI(); } } });
-
-        elements.questionInput.addEventListener('input', () => { showSuggestions(); updateSendButtonState(); elements.questionInput.style.height = 'auto'; elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px'; });
-
-        elements.saveApiBtn.addEventListener('click', saveApiKey);
-
-elements.uploadImageBtn.addEventListener('click', () => elements.imageInput.click());
-
-        elements.imageInput.addEventListener('change', handleImageUpload);
-
-        elements.removeImageBtn.addEventListener('click', removeImage);
-
-        elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
-
-        elements.confirmBtnYes.addEventListener('click', () => { 
-    clearChat(); 
-    hideClearConfirmation(); // <--- BARIS INI DITAMBAHKAN
-});
-
-        elements.confirmBtnNo.addEventListener('click', hideClearConfirmation);
-
-        elements.toolsBtn.addEventListener('click', (event) => { event.stopPropagation(); const isActive = elements.toolsBtn.classList.contains('active'); elements.suggestionBox.classList.remove('visible'); if (!isActive) { elements.toolsMenu.classList.add('visible'); elements.toolsBtn.classList.add('active'); } else { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
-
-        document.addEventListener('click', (event) => { if (elements.toolsMenu && !elements.toolsMenu.contains(event.target) && !elements.toolsBtn.contains(event.target)) { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
-
-        window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
-
-        
-
-        // Jalankan inisialisasi aplikasi
-
-        initializeApp();
-
-        simulateLoading(3000); 
-
-        updateConnectionStatus();
-
-        populateToolsMenu();
-
-        updateSendButtonState();
-
-
-
-        // [BARU] Pastikan TTS berhenti jika pengguna menutup tab/jendela
-
-        window.addEventListener('beforeunload', () => {
-
-            if (window.speechSynthesis.speaking) {
-
-                window.speechSynthesis.cancel();
-
-            }
-
-        });
-
-    });
-
-
-
-    window.addEventListener('online', updateConnectionStatus);
-
-    window.addEventListener('offline', updateConnectionStatus);
-
-</script>
+        document.addEventListener('DOMContentLoaded', setupPage);
+    </script>
 
 </body>
-
 </html>
