@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MirAI | Asisten Cerdas oleh Allwaysever</title>
+    <title>MirAI | Smart Assistant by Allwaysever</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
         <meta name="description" content="MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.">
     <meta name="keywords" content="Allwaysever, AI, Artificial Intelligence, Chatbot AI, AI Chatbot, Gemini 2.5 flash, Google Gemini, Gemini API, MirAI">
@@ -16,22 +16,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        /* SRUI Custom Styling & Variables (Diselaraskan dengan Dark Theme MirAI) */
+        /* SRUI Custom Styling & Variables (Aligned with MirAI Dark Theme) */
         :root {
-            --color-accent: #ffce00; /* SRUI Accent Color (Kuning Cerah) */
-            --color-primary: #ffffff; /* Teks Putih */
-            --color-dark-bg: #0f0f0f; /* Background Utama MirAI (Dark) */
-            --color-card-bg: rgba(33, 33, 33, 0.7); /* Background Card/Input MirAI (Blurry Dark) */
-            --color-border: #4B4F50; /* Warna Border MirAI */
+            --color-accent: #ffce00; /* SRUI Accent Color (Bright Yellow) */
+            --color-primary: #ffffff; /* White Text */
+            --color-dark-bg: #0f0f0f; /* Main MirAI Background (Dark) */
+            --color-card-bg: rgba(33, 33, 33, 0.7); /* Card/Input Background MirAI (Blurry Dark) */
+            --color-border: #4B4F50; /* MirAI Border Color */
         }
         body {
-            /* Mengganti font sesuai style.css: Arial/sans-serif */
+            /* Replacing font according to style.css: Arial/sans-serif */
             font-family: Arial, sans-serif;
             background-color: var(--color-dark-bg); 
             color: var(--color-primary);
             min-height: 100vh;
         }
-        /* Menggunakan border-radius 25px, sesuai dengan MirAI.html */
+        /* Using border-radius 25px, as per MirAI.html */
         .card-srui {
             border-radius: 25px; 
             background-color: var(--color-card-bg);
@@ -45,7 +45,7 @@
             transform: translateY(-2px);
             box-shadow: 0 15px 40px -8px rgba(0, 0, 0, 0.3);
         }
-        /* Style untuk tombol aksen (Kuning Cerah) */
+        /* Style for accent buttons (Bright Yellow) */
         .accent-button {
             background-color: var(--color-accent);
             color: var(--color-dark-bg);
@@ -69,7 +69,7 @@
                 padding-right: 3rem;
             }
         }
-        /* Animasi loading untuk auto-redirect (Tetap dipertahankan untuk pesan) */
+        /* Loading animation for auto-redirect (Kept for message) */
         @keyframes pulse-dot {
             0%, 100% { opacity: 1; }
             50% { opacity: .5; }
@@ -80,7 +80,7 @@
         .loading-dot:nth-child(2) { animation-delay: 0.3s; }
         .loading-dot:nth-child(3) { animation-delay: 0.6s; }
         
-        /* Style untuk FAQ */
+        /* Style for FAQ */
         .faq-item {
             border-bottom: 1px solid var(--color-border);
         }
@@ -94,7 +94,7 @@
             top: 0;
             z-index: 10;
             backdrop-filter: blur(5px);
-            background-color: rgba(15, 15, 15, 0.9); /* Sedikit transparan */
+            background-color: rgba(15, 15, 15, 0.9); /* Slightly transparent */
         }
     </style>
 </head>
@@ -103,12 +103,12 @@
     <header class="w-full py-6 container-padding border-b border-gray-800 sticky-header">
         <div class="flex justify-between items-center max-w-6xl mx-auto">
             <div class="flex items-center space-x-3">
-                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="Logo MirAI">
+                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="MirAI Logo">
                 <span class="text-lg font-bold">MirAI</span>
             </div>
             <nav class="space-x-4 hidden sm:flex">
-                <a href="#features" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Fitur Utama</a>
-                <a href="#testimonials" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Testimoni</a>
+                <a href="#features" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Key Features</a>
+                <a href="#testimonials" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Testimonials</a>
                 <a href="#faq" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">FAQ</a>
             </nav>
         </div>
@@ -118,22 +118,22 @@
         
         <section class="text-center py-16 md:py-24 container-padding max-w-6xl mx-auto">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
-                Asisten Cerdas Pribadimu,
-                <span class="text-yellow-400 block md:inline-block">Ditenagai Google Gemini</span>
+                Your Smart Personal Assistant,
+                <span class="text-yellow-400 block md:inline-block">Powered by Google Gemini</span>
             </h1>
 
             <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-3xl mx-auto">
-                MirAI adalah antarmuka web yang ringan dan cepat untuk Gemini API. Desainnya intuitif, berorientasi <b>SuperRoundedUI</b>, dan sepenuhnya responsif. Mulai dapatkan ide dan jawaban instan tanpa <b>bloat</b>.
+                MirAI is a lightweight and fast web interface for the Gemini API. It features an intuitive, <b>SuperRoundedUI</b>-oriented design and is fully responsive. Start getting instant ideas and answers without <b>bloat</b>.
             </p>
 
             <button id="try-mirai-btn" class="accent-button text-xl px-10 py-4 shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 min-w-[280px] hover:shadow-2xl transition duration-300">
-                Mulai Bicara dengan MirAI
+                Start Talking with MirAI
             </button>
             
             <div id="status-area" class="mt-8 text-sm text-gray-500">
                 <span id="welcome-message" class="font-medium"></span>
                 <span id="redirect-loading" class="hidden">
-                    Mengarahkan
+                    Redirecting
                     <span class="loading-dot">.</span>
                     <span class="loading-dot">.</span>
                     <span class="loading-dot">.</span>
@@ -142,7 +142,7 @@
         </section>
 
         <section id="features" class="py-16 container-padding max-w-6xl mx-auto mt-10">
-             <h2 class="text-3xl font-bold text-center mb-12 text-white">Mengapa MirAI Begitu Cepat?</h2>
+             <h2 class="text-3xl font-bold text-center mb-12 text-white">Why is MirAI So Fast?</h2>
 
             <div class="grid md:grid-cols-3 gap-8 px-4 md:px-10">
                 
@@ -151,15 +151,15 @@
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2 text-white">Vanilla Stack</h3>
-                    <p class="text-gray-400">Dibuat murni dengan HTML, CSS, dan JavaScript. Tanpa <b>framework</b> berat, menjamin <b>loading</b> yang super ringan dan <b>snappy</b>.</p>
+                    <p class="text-gray-400">Built purely with HTML, CSS, and JavaScript. No heavy <b>frameworks</b>, ensuring super lightweight <b>loading</b> and a <b>snappy</b> experience.</p>
                 </div>
 
                 <div class="p-6 card-srui text-left">
                     <div class="text-yellow-400 mb-4">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-white">SRUI Optimal</h3>
-                    <p class="text-gray-400">Border-radius 25px yang konsisten, bayangan minimalis, dan <b>backdrop-filter</b> blur memastikan MirAI tampil modern dan nyaman di mata (Mirip dengan aplikasi favoritmu!).</p>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Optimal SRUI</h3>
+                    <p class="text-gray-400">Consistent 25px border-radius, minimalist shadows, and <b>backdrop-filter</b> blur ensure MirAI looks modern and comfortable to the eyes (Similar to your favorite apps!).</p>
                 </div>
 
                 <div class="p-6 card-srui text-left">
@@ -167,45 +167,45 @@
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M3.636 5.636l.707.707M12 20.999v-1m6.364-1.636l-.707-.707M3.636 18.364l.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2 text-white">Slash Commands</h3>
-                    <p class="text-gray-400">Perintahkan MirAI dengan cepat menggunakan `/tools` atau `/code` untuk tugas spesifik. Lebih cepat, lebih fokus, dan lebih akurat!</p>
+                    <p class="text-gray-400">Command MirAI quickly using `/tools` or `/code` for specific tasks. Faster, more focused, and more accurate!</p>
                 </div>
             </div>
         </section>
         
         <section id="testimonials" class="py-16 container-padding max-w-6xl mx-auto">
-             <h2 class="text-3xl font-bold text-center mb-12 text-white">Apa Kata Mereka?</h2>
+             <h2 class="text-3xl font-bold text-center mb-12 text-white">What Do They Say?</h2>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-10">
                 
                 <div class="p-6 card-srui text-left">
-                    <p class="text-gray-300 italic mb-4">"UI-nya bersih banget! Nggak ada aplikasi AI lain yang senyaman ini dipakai di HP. Benar-benar sesuai nama <b>SuperRoundedUI</b>."</p>
+                    <p class="text-gray-300 italic mb-4">"The UI is so clean! No other AI app is as comfortable to use on mobile. Truly lives up to the name <b>SuperRoundedUI</b>."</p>
                     <div class="flex items-center">
-                        <img src="https://i.pravatar.cc/50?img=1" class="w-10 h-10 rounded-full mr-3" alt="Foto Pengguna 1">
+                        <img src="https://i.pravatar.cc/50?img=1" class="w-10 h-10 rounded-full mr-3" alt="User 1 Photo">
                         <div>
                             <p class="font-semibold text-white">Alex S.</p>
-                            <p class="text-sm text-gray-400">Pengembang Frontend</p>
+                            <p class="text-sm text-gray-400">Frontend Developer</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="p-6 card-srui text-left">
-                    <p class="text-gray-300 italic mb-4">"Fitur slash command-nya bantu banget buat kerja. Saya bisa langsung dapat *boilerplate code* tanpa harus mengetik prompt panjang lebar."</p>
+                    <p class="text-gray-300 italic mb-4">"The slash command feature is super helpful for work. I can get *boilerplate code* instantly without typing long prompts."</p>
                     <div class="flex items-center">
-                        <img src="https://i.pravatar.cc/50?img=2" class="w-10 h-10 rounded-full mr-3" alt="Foto Pengguna 2">
+                        <img src="https://i.pravatar.cc/50?img=2" class="w-10 h-10 rounded-full mr-3" alt="User 2 Photo">
                         <div>
                             <p class="font-semibold text-white">Budi H.</p>
-                            <p class="text-sm text-gray-400">Mahasiswa</p>
+                            <p class="text-sm text-gray-400">Student</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="p-6 card-srui text-left md:col-span-2 lg:col-span-1">
-                    <p class="text-gray-300 italic mb-4">"Secepat itu. Nggak ada *lag* sama sekali pas *loading*. Rasanya kayak pakai aplikasi *native* di laptop saya yang jadul."</p>
+                    <p class="text-gray-300 italic mb-4">"It's that fast. No *lag* at all during *loading*. Feels like using a *native* app on my old laptop."</p>
                     <div class="flex items-center">
-                        <img src="https://i.pravatar.cc/50?img=3" class="w-10 h-10 rounded-full mr-3" alt="Foto Pengguna 3">
+                        <img src="https://i.pravatar.cc/50?img=3" class="w-10 h-10 rounded-full mr-3" alt="User 3 Photo">
                         <div>
                             <p class="font-semibold text-white">Cinta P.</p>
-                            <p class="text-sm text-gray-400">Desainer Grafis</p>
+                            <p class="text-sm text-gray-400">Graphic Designer</p>
                         </div>
                     </div>
                 </div>
@@ -214,23 +214,23 @@
         </section>
 
         <section id="faq" class="py-16 container-padding max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white">Tanya Jawab (FAQ)</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">Frequently Asked Questions (FAQ)</h2>
 
             <div class="max-w-3xl mx-auto p-6 card-srui border-none">
                 
                 <details class="faq-item py-4 cursor-pointer">
-                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">Apa itu Vanilla Stack?</summary>
-                    <p class="text-gray-400 mt-3 pl-4">Vanilla Stack artinya MirAI dibuat tanpa menggunakan kerangka kerja (framework) atau library yang berat seperti React, Vue, atau Angular. Kami hanya menggunakan HTML, CSS, dan JavaScript murni (vanilla), ditambah Tailwind CSS untuk utilitas styling, menjadikannya sangat ringan.</p>
+                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">What is Vanilla Stack?</summary>
+                    <p class="text-gray-400 mt-3 pl-4">Vanilla Stack means MirAI is built without using heavy frameworks or libraries like React, Vue, or Angular. We only use pure (vanilla) HTML, CSS, and JavaScript, plus Tailwind CSS for utility styling, making it very lightweight.</p>
                 </details>
 
                 <details class="faq-item py-4 cursor-pointer">
-                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">Apakah MirAI gratis?</summary>
-                    <p class="text-gray-400 mt-3 pl-4">MirAI adalah antarmuka open-source yang bisa kamu gunakan secara gratis. Namun, MirAI menggunakan Google Gemini API yang mungkin memerlukan kunci API berbayar dari Google untuk penggunaan tingkat lanjut (tergantung pada kebijakan Google Cloud saat ini).</p>
+                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">Is MirAI free?</summary>
+                    <p class="text-gray-400 mt-3 pl-4">MirAI is an open-source interface that you can use for free. However, MirAI uses the Google Gemini API which may require a paid API key from Google for advanced usage (depending on current Google Cloud policies).</p>
                 </details>
                 
                 <details class="faq-item py-4 cursor-pointer">
-                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">Bagaimana cara kerja SuperRoundedUI (SRUI)?</summary>
-                    <p class="text-gray-400 mt-3 pl-4">SRUI adalah prinsip desain yang fokus pada penggunaan border-radius 25px yang konsisten, efek blur (backdrop-filter) yang halus pada latar belakang, dan warna gelap yang nyaman di mata. Ini memberikan tampilan modern, *premium*, dan kohesif.</p>
+                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">How does SuperRoundedUI (SRUI) work?</summary>
+                    <p class="text-gray-400 mt-3 pl-4">SRUI is a design principle focused on using a consistent 25px border-radius, smooth blur effects (backdrop-filter) on backgrounds, and dark colors that are comfortable for the eyes. This provides a modern, *premium*, and cohesive look.</p>
                 </details>
                 
             </div>
@@ -239,10 +239,10 @@
 
         <section class="py-16 container-padding max-w-6xl mx-auto text-center">
             <div class="bg-yellow-400 card-srui p-8 md:p-12 text-gray-900 border-none">
-                <h2 class="text-3xl font-extrabold mb-4">Jangan cuma baca, rasakan kecerdasannya!</h2>
-                <p class="text-lg mb-8">Langsung coba sekarang juga dan lihat bagaimana MirAI bisa membantumu dalam segala hal, dari <b>coding</b> hingga ide kreatif.</p>
+                <h2 class="text-3xl font-extrabold mb-4">Don't just read, experience its intelligence!</h2>
+                <p class="text-lg mb-8">Try it right now and see how MirAI can help you with everything, from <b>coding</b> to creative ideas.</p>
                 <button id="try-mirai-btn-footer" class="accent-button text-xl px-10 py-4 shadow-md focus:outline-none focus:ring-4 focus:ring-gray-900 focus:ring-opacity-20 min-w-[280px]">
-                    Luncurkan MirAI Sekarang →
+                    Launch MirAI Now →
                 </button>
             </div>
         </section>
@@ -250,17 +250,17 @@
     </main>
     
     <footer class="text-center py-6 text-sm text-gray-600 border-t border-gray-900">
-        &copy; 2025 Allwaysever Project: MirAI. Ditenagai oleh Google Gemini API.
+        &copy; 2025 Allwaysever Project: MirAI. Powered by Google Gemini API.
     </footer>
 
     <script>
-        // --- KONFIGURASI PENTING ---
-        // GANTI LINK INI dengan tautan URL aplikasi MirAI kamu yang sebenarnya.
+        // --- IMPORTANT CONFIGURATION ---
+        // CHANGE THIS LINK to the actual URL of your MirAI application.
         const APP_LINK = 'https://allwaysevermirai.netlify.app/app'; 
         
-        // Kunci localStorage untuk menandai kunjungan
+        // localStorage key to mark visits
         const COUNT_KEY = 'miraiVisitCount';
-        // Delay redirect yang diubah menjadi SANGAT SINGKAT (50ms)
+        // Redirect delay changed to VERY SHORT (50ms)
         const REDIRECT_DELAY_MS = 50; 
 
         const tryBtns = document.querySelectorAll('#try-mirai-btn, #try-mirai-btn-footer');
@@ -285,57 +285,57 @@
         function setupPage() {
             const count = getVisitCount();
             
-            // Periksa apakah APP_LINK sudah diganti.
+            // Check if APP_LINK has been changed.
             const isLinkConfigured = APP_LINK === 'https://allwaysevermirai.netlify.app/app';
 
-            // 1. Logic Auto-Redirect (untuk pengguna yang sudah pernah mengunjungi)
+            // 1. Auto-Redirect Logic (for users who have visited before)
             if (count > 0 && isLinkConfigured) {
-                // Tampilkan loading dan pesan redirect
-                welcomeMessage.textContent = 'Selamat datang kembali! Anda telah mengunjungi halaman ini ';
-                welcomeMessage.innerHTML += `<span class="font-bold">${count + 1} kali</span>.`;
+                // Show loading and redirect message
+                welcomeMessage.textContent = 'Welcome back! You have visited this page ';
+                welcomeMessage.innerHTML += `<span class="font-bold">${count + 1} times</span>.`;
                 redirectLoading.classList.remove('hidden');
 
-                // Non-aktifkan tombol selama redirect
+                // Disable buttons during redirect
                 tryBtns.forEach(btn => {
                     btn.disabled = true;
-                    btn.textContent = 'Mengarahkan...';
+                    btn.textContent = 'Redirecting...';
                 });
                 
-                // Redirect SANGAT CEPAT setelah 50ms (efektif instan)
+                // VERY FAST Redirect after 50ms (effectively instant)
                 setTimeout(() => {
-                    // Gunakan replace agar tombol back history browser lebih bersih
+                    // Use replace for cleaner browser back button history
                     window.location.replace(APP_LINK); 
                 }, REDIRECT_DELAY_MS); 
 
             } else if (!isLinkConfigured) {
-                // Jika link masih placeholder, berikan peringatan di status area
-                welcomeMessage.textContent = '⚠️ Harap ganti "APP_LINK" di kode JavaScript untuk mengaktifkan fungsi tombol dan auto-redirect.';
+                // If the link is still a placeholder, show a warning in the status area
+                welcomeMessage.textContent = '⚠️ Please replace "APP_LINK" in the JavaScript code to enable button and auto-redirect functions.';
                 tryBtns.forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
-                        alert('Mohon ganti nilai APP_LINK di dalam kode JavaScript dengan tautan aplikasi Anda yang sebenarnya!');
+                        alert('Please replace the APP_LINK value in the JavaScript code with your actual application link!');
                     });
                 });
             } else {
-                // Kunjungan pertama dan link sudah dikonfigurasi
-                welcomeMessage.textContent = 'Ini kunjungan pertama Anda.';
+                // First visit and link is configured
+                welcomeMessage.textContent = 'This is your first visit.';
             }
 
-            // 2. Tambahkan event listener ke tombol untuk redirect manual (INSTAN)
+            // 2. Add event listener to buttons for manual redirect (INSTANT)
             if (isLinkConfigured) {
                 tryBtns.forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
-                        // Langsung redirect tanpa delay
+                        // Redirect immediately without delay
                         incrementVisitCount();
                         window.location.href = APP_LINK;
                     });
                 });
             }
 
-            // Set flag kunjungan di akhir setup jika ini kunjungan pertama
+            // Set visit flag at the end of setup if this is the first visit
             if (count === 0 && isLinkConfigured) {
-                 // Increment untuk kunjungan saat ini (agar auto-redirect aktif di kunjungan berikutnya)
+                 // Increment for the current visit (so auto-redirect is active on the next visit)
                  incrementVisitCount(); 
             }
         }
