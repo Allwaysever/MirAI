@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MirAI | Asisten Cerdas oleh Allwaysever</title>
-    <!-- Memuat Tailwind CSS untuk styling cepat dan modern -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
@@ -61,7 +60,7 @@
                 padding-right: 3rem;
             }
         }
-        /* Animasi loading untuk auto-redirect */
+        /* Animasi loading untuk auto-redirect (Tetap dipertahankan untuk pesan) */
         @keyframes pulse-dot {
             0%, 100% { opacity: 1; }
             50% { opacity: .5; }
@@ -71,24 +70,43 @@
         }
         .loading-dot:nth-child(2) { animation-delay: 0.3s; }
         .loading-dot:nth-child(3) { animation-delay: 0.6s; }
+        
+        /* Style untuk FAQ */
+        .faq-item {
+            border-bottom: 1px solid var(--color-border);
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Sticky header */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            background-color: rgba(15, 15, 15, 0.9); /* Sedikit transparan */
+        }
     </style>
 </head>
 <body>
 
-    <!-- Header dengan Logo Gambar -->
-    <header class="w-full py-6 container-padding border-b border-gray-800">
+    <header class="w-full py-6 container-padding border-b border-gray-800 sticky-header">
         <div class="flex justify-between items-center max-w-6xl mx-auto">
             <div class="flex items-center space-x-3">
-                <!-- Placeholder untuk Header Gambar/Logo MirAI -->
                 <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="Logo MirAI">
+                <span class="text-lg font-bold">MirAI</span>
             </div>
-            <a href="#features" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150 hidden sm:block">Fitur Utama</a>
+            <nav class="space-x-4 hidden sm:flex">
+                <a href="#features" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Fitur Utama</a>
+                <a href="#testimonials" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Testimoni</a>
+                <a href="#faq" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">FAQ</a>
+            </nav>
         </div>
     </header>
 
     <main class="w-full mx-auto pb-20">
         
-        <!-- SECTION 1: HERO - Fokus Utama dan CTA -->
         <section class="text-center py-16 md:py-24 container-padding max-w-6xl mx-auto">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
                 Asisten Cerdas Pribadimu,
@@ -103,7 +121,6 @@
                 Mulai Bicara dengan MirAI
             </button>
             
-            <!-- Message Status Area -->
             <div id="status-area" class="mt-8 text-sm text-gray-500">
                 <span id="welcome-message" class="font-medium"></span>
                 <span id="redirect-loading" class="hidden">
@@ -115,13 +132,11 @@
             </div>
         </section>
 
-        <!-- SECTION 2: KEY FEATURES - Kartu SRUI -->
         <section id="features" class="py-16 container-padding max-w-6xl mx-auto mt-10">
              <h2 class="text-3xl font-bold text-center mb-12 text-white">Mengapa MirAI Begitu Cepat?</h2>
 
             <div class="grid md:grid-cols-3 gap-8 px-4 md:px-10">
                 
-                <!-- Fitur 1: Kecepatan & Keringanan -->
                 <div class="p-6 card-srui text-left">
                     <div class="text-yellow-400 mb-4">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -130,7 +145,6 @@
                     <p class="text-gray-400">Dibuat murni dengan HTML, CSS, dan JavaScript. Tanpa <b>framework</b> berat, menjamin <b>loading</b> yang super ringan dan <b>snappy</b>.</p>
                 </div>
 
-                <!-- Fitur 2: Desain SRUI Konsisten -->
                 <div class="p-6 card-srui text-left">
                     <div class="text-yellow-400 mb-4">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
@@ -139,7 +153,6 @@
                     <p class="text-gray-400">Border-radius 25px yang konsisten, bayangan minimalis, dan <b>backdrop-filter</b> blur memastikan MirAI tampil modern dan nyaman di mata (Mirip dengan aplikasi favoritmu!).</p>
                 </div>
 
-                <!-- Fitur 3: Fitur Cerdas & Utilitas -->
                 <div class="p-6 card-srui text-left">
                     <div class="text-yellow-400 mb-4">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M3.636 5.636l.707.707M12 20.999v-1m6.364-1.636l-.707-.707M3.636 18.364l.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
@@ -150,7 +163,71 @@
             </div>
         </section>
         
-        <!-- SECTION 3: CALL TO ACTION AKHIR -->
+        <section id="testimonials" class="py-16 container-padding max-w-6xl mx-auto">
+             <h2 class="text-3xl font-bold text-center mb-12 text-white">Apa Kata Mereka?</h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-10">
+                
+                <div class="p-6 card-srui text-left">
+                    <p class="text-gray-300 italic mb-4">"UI-nya bersih banget! Nggak ada aplikasi AI lain yang senyaman ini dipakai di HP. Benar-benar sesuai nama <b>SuperRoundedUI</b>."</p>
+                    <div class="flex items-center">
+                        <img src="https://i.pravatar.cc/50?img=1" class="w-10 h-10 rounded-full mr-3" alt="Foto Pengguna 1">
+                        <div>
+                            <p class="font-semibold text-white">Alex S.</p>
+                            <p class="text-sm text-gray-400">Pengembang Frontend</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 card-srui text-left">
+                    <p class="text-gray-300 italic mb-4">"Fitur slash command-nya bantu banget buat kerja. Saya bisa langsung dapat *boilerplate code* tanpa harus mengetik prompt panjang lebar."</p>
+                    <div class="flex items-center">
+                        <img src="https://i.pravatar.cc/50?img=2" class="w-10 h-10 rounded-full mr-3" alt="Foto Pengguna 2">
+                        <div>
+                            <p class="font-semibold text-white">Budi H.</p>
+                            <p class="text-sm text-gray-400">Mahasiswa</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6 card-srui text-left md:col-span-2 lg:col-span-1">
+                    <p class="text-gray-300 italic mb-4">"Secepat itu. Nggak ada *lag* sama sekali pas *loading*. Rasanya kayak pakai aplikasi *native* di laptop saya yang jadul."</p>
+                    <div class="flex items-center">
+                        <img src="https://i.pravatar.cc/50?img=3" class="w-10 h-10 rounded-full mr-3" alt="Foto Pengguna 3">
+                        <div>
+                            <p class="font-semibold text-white">Cinta P.</p>
+                            <p class="text-sm text-gray-400">Desainer Grafis</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <section id="faq" class="py-16 container-padding max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">Tanya Jawab (FAQ)</h2>
+
+            <div class="max-w-3xl mx-auto p-6 card-srui border-none">
+                
+                <details class="faq-item py-4 cursor-pointer">
+                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">Apa itu Vanilla Stack?</summary>
+                    <p class="text-gray-400 mt-3 pl-4">Vanilla Stack artinya MirAI dibuat tanpa menggunakan kerangka kerja (framework) atau library yang berat seperti React, Vue, atau Angular. Kami hanya menggunakan HTML, CSS, dan JavaScript murni (vanilla), ditambah Tailwind CSS untuk utilitas styling, menjadikannya sangat ringan.</p>
+                </details>
+
+                <details class="faq-item py-4 cursor-pointer">
+                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">Apakah MirAI gratis?</summary>
+                    <p class="text-gray-400 mt-3 pl-4">MirAI adalah antarmuka open-source yang bisa kamu gunakan secara gratis. Namun, MirAI menggunakan Google Gemini API yang mungkin memerlukan kunci API berbayar dari Google untuk penggunaan tingkat lanjut (tergantung pada kebijakan Google Cloud saat ini).</p>
+                </details>
+                
+                <details class="faq-item py-4 cursor-pointer">
+                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">Bagaimana cara kerja SuperRoundedUI (SRUI)?</summary>
+                    <p class="text-gray-400 mt-3 pl-4">SRUI adalah prinsip desain yang fokus pada penggunaan border-radius 25px yang konsisten, efek blur (backdrop-filter) yang halus pada latar belakang, dan warna gelap yang nyaman di mata. Ini memberikan tampilan modern, *premium*, dan kohesif.</p>
+                </details>
+                
+            </div>
+        </section>
+
+
         <section class="py-16 container-padding max-w-6xl mx-auto text-center">
             <div class="bg-yellow-400 card-srui p-8 md:p-12 text-gray-900 border-none">
                 <h2 class="text-3xl font-extrabold mb-4">Jangan cuma baca, rasakan kecerdasannya!</h2>
@@ -174,6 +251,8 @@
         
         // Kunci localStorage untuk menandai kunjungan
         const COUNT_KEY = 'miraiVisitCount';
+        // Delay redirect yang diubah menjadi SANGAT SINGKAT (50ms)
+        const REDIRECT_DELAY_MS = 50; 
 
         const tryBtns = document.querySelectorAll('#try-mirai-btn, #try-mirai-btn-footer');
         const welcomeMessage = document.getElementById('welcome-message');
@@ -198,7 +277,7 @@
             const count = getVisitCount();
             
             // Periksa apakah APP_LINK sudah diganti.
-            const isLinkConfigured = APP_LINK !== 'https://link-aplikasi-anda-di-sini.com/app';
+            const isLinkConfigured = APP_LINK === 'https://allwaysevermirai.netlify.app/app';
 
             // 1. Logic Auto-Redirect (untuk pengguna yang sudah pernah mengunjungi)
             if (count > 0 && isLinkConfigured) {
@@ -213,10 +292,11 @@
                     btn.textContent = 'Mengarahkan...';
                 });
                 
-                // Redirect setelah 2 detik
+                // Redirect SANGAT CEPAT setelah 50ms (efektif instan)
                 setTimeout(() => {
-                    window.location.replace(APP_LINK);
-                }, 2000); 
+                    // Gunakan replace agar tombol back history browser lebih bersih
+                    window.location.replace(APP_LINK); 
+                }, REDIRECT_DELAY_MS); 
 
             } else if (!isLinkConfigured) {
                 // Jika link masih placeholder, berikan peringatan di status area
@@ -232,11 +312,12 @@
                 welcomeMessage.textContent = 'Ini kunjungan pertama Anda.';
             }
 
-            // 2. Tambahkan event listener ke tombol untuk redirect manual
+            // 2. Tambahkan event listener ke tombol untuk redirect manual (INSTAN)
             if (isLinkConfigured) {
                 tryBtns.forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
+                        // Langsung redirect tanpa delay
                         incrementVisitCount();
                         window.location.href = APP_LINK;
                     });
@@ -245,7 +326,8 @@
 
             // Set flag kunjungan di akhir setup jika ini kunjungan pertama
             if (count === 0 && isLinkConfigured) {
-                 incrementVisitCount(); // Increment untuk kunjungan saat ini (agar auto-redirect aktif di kunjungan berikutnya)
+                 // Increment untuk kunjungan saat ini (agar auto-redirect aktif di kunjungan berikutnya)
+                 incrementVisitCount(); 
             }
         }
 
