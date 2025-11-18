@@ -1,4 +1,6 @@
-// String UI multibahasa untuk MirAI
+// UI Strings Multibahasa untuk MirAI
+// Versi: v2.11.0.241125
+
 const uiStrings = {
     'id': {
         offlineTitle: 'Koneksi Internet Terputus',
@@ -24,7 +26,7 @@ const uiStrings = {
         personaDefaultOption: 'Santai & Bercanda',
         personaCreativeOption: 'Kreatif & Ekspresif',
         settingsAboutTitle: 'Tentang Aplikasi',
-        settingsVersionText: `Versi: v${MIRAI_VERSION}`,
+        settingsVersionText: `Versi: v2.11.0.241125`,
         settingsAuthorText: 'Dikembangkan oleh Allwaysever',
         githubLink: 'Repositori GitHub',
         licenseLink: 'Lisensi',
@@ -65,7 +67,6 @@ const uiStrings = {
         slashCmdCodeDesc: 'Contoh: /code fungsi python untuk hello world'
     },
     'en': {
-        // English strings - sama seperti yang ada di file asli
         offlineTitle: 'Internet Connection Lost',
         offlineText: 'Please check your WiFi or cellular data connection, then try again.',
         retryButton: 'Retry',
@@ -89,7 +90,7 @@ const uiStrings = {
         personaDefaultOption: 'Chill & joking',
         personaCreativeOption: 'Creative & Expressive',
         settingsAboutTitle: 'About',
-        settingsVersionText: `Version: v${MIRAI_VERSION}`,
+        settingsVersionText: `Version: v2.11.0.241125`,
         settingsAuthorText: 'Developed by Allwaysever',
         githubLink: 'GitHub Repository',
         licenseLink: 'License',
@@ -130,7 +131,6 @@ const uiStrings = {
         slashCmdCodeDesc: 'e.g., /code a javascript function for a button'
     },
     'en-uk': {
-        // UK English strings - sama seperti yang ada di file asli
         offlineTitle: 'Internet Connection Lost',
         offlineText: 'Please check your WiFi or cellular data connection, then try again.',
         retryButton: 'Retry',
@@ -154,7 +154,7 @@ const uiStrings = {
         personaDefaultOption: 'Laid-back & bantering',
         personaCreativeOption: 'Creative & Expressive',
         settingsAboutTitle: 'About',
-        settingsVersionText: `Version: v${MIRAI_VERSION}`,
+        settingsVersionText: `Version: v2.11.0.241125`,
         settingsAuthorText: 'Developed by Allwaysever',
         githubLink: 'GitHub Repository',
         licenseLink: 'License',
@@ -195,7 +195,6 @@ const uiStrings = {
         slashCmdCodeDesc: 'e.g., /code a javascript function for a button'
     },
     'jp': {
-        // Japanese strings - sama seperti yang ada di file asli
         offlineTitle: 'インターネット接続がありません',
         offlineText: 'WiFiまたはデータ接続を確認し、再度お試しください。',
         retryButton: '再試行',
@@ -219,7 +218,7 @@ const uiStrings = {
         personaDefaultOption: 'のんびりしてて冗談好き',
         personaCreativeOption: 'クリエイティブ・表現豊か',
         settingsAboutTitle: 'アプリについて',
-        settingsVersionText: `バージョン: v${MIRAI_VERSION}`,
+        settingsVersionText: `バージョン: v2.11.0.241125`,
         settingsAuthorText: '開発者: Allwaysever',
         githubLink: 'GitHubリポジトリ',
         licenseLink: 'ライセンス',
