@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirAI - Dokumentasi Lengkap</title>
+    <meta name="description" content="Dokumentasi resmi MirAI: Antarmuka web ringan untuk Google Gemini API.">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* --- SRUI Dark Palette --- */
+            --bg-dark: #1B1C1E;
+            --surface-dark: #0f0f0f;
+            --surface-hover: #1f1f1f;
+            --text-primary: #e9e9e9;
+            --text-secondary: #b0b0b0;
+            --accent-color: #ffce00;  /* Warna Khas MirAI/SRUI */
+            --border-color: #333;
+            --code-bg: #252525;
+            
+            --radius-xl: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: var(--accent-color); transition: 0.2s; }
+        a:hover { text-decoration: underline; opacity: 0.9; }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- Typography --- */
+        h1 { font-size: 3rem; margin-bottom: 10px; color: var(--text-primary); letter-spacing: -1px; }
+        h2 { 
+            font-size: 1.8rem; 
+            margin-top: 50px; 
+            margin-bottom: 20px; 
+            padding-bottom: 10px; 
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h3 { color: var(--accent-color); margin-top: 25px; }
+        p { color: var(--text-secondary); margin-bottom: 15px; }
+
+        /* --- Badges Custom (Meniru Shields.io) --- */
+        .badge-container { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0; }
+        .badge {
+            font-size: 0.75rem;
+            font-family: monospace;
+            padding: 4px 8px;
+            border-radius: 25px;
+            display: inline-flex;
+            align-items: center;
+            font-weight: bold;
+            color: #fff;
+        }
+        .badge-blue { background: #3273dc; }   /* Type: HTML App */
+        .badge-orange { background: #fe852f; color: #000; } /* Made with: HTML, CSS, JS */
+        .badge-green { background: #4CAF50; color: #000; } /* Status: Active */
+
+        /* --- Images --- */
+        img { max-width: 100%; height: auto; border-radius: var(--radius-md); }
+        .main-image-container { text-align: center; margin: 30px 0; }
+        .main-image { 
+            border: 1px solid var(--border-color); 
+            box-shadow: var(--shadow);
+        }
+
+        /* --- Cards (Features) --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background: var(--surface-dark);
+            padding: 20px;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, background 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            background: var(--surface-hover);
+        }
+        .card strong { color: var(--accent-color); display: block; margin-bottom: 5px; font-size: 1.1em; }
+
+        /* --- Accordion / Details --- */
+        details {
+            background: var(--surface-dark);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        summary {
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.03);
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        summary::after { content: '\f078'; font-family: "Font Awesome 6 Free"; transition: 0.3s; }
+        details[open] summary::after { transform: rotate(180deg); }
+        .details-content { padding: 20px; border-top: 1px solid var(--border-color); }
+
+        /* --- Tech Stack List --- */
+        .tech-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+        .tech-item {
+            background: rgba(255, 206, 0, 0.15);
+            color: var(--accent-color);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 206, 0, 0.3);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Code block styling */
+        code {
+            background-color: rgba(255,255,255,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header>
+            <h1>MirAI</h1>
+            <p style="font-size: 1.2em;"><strong>A simple, lightweight, and responsive web interface to interact directly with the Google Gemini API.</strong></p>
+
+            <div class="badge-container">
+                <span class="badge badge-blue">Type: HTML App</span>
+                <span class="badge badge-orange">made with: HTML, CSS, JS</span>
+                <span class="badge badge-green"><i class="fas fa-check-circle" style="margin-right:5px;"></i> Status: Active</span>
+            </div>
+        </header>
+
+        <div class="main-image-container">
+            <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/main/Assets/MirAI_v2.11.png" alt="MirAI Screenshot (v2.11)" class="main-image">
+            <p style="font-size:0.8em; color:#666;">*Screenshot (v2.11)*</p>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 40px 0;">
+
+        <section>
+            <h2>✨ Key Features</h2>
+            <p>MirAI is designed to be an accessible and feature-rich AI chat companion, right from your browser.</p>
+
+            <div class="grid">
+                <div class="card">
+                    <strong>💾 Session Persistence</strong>
+                    Your conversation is automatically saved in your browser. Pick up where you left off, anytime!
+                </div>
+                <div class="card">
+                    <strong>✅ Responsive Chat Interface</strong>
+                    A comfortable layout for both mobile and desktop use.
+                </div>
+                <div class="card">
+                    <strong>🌗 Light & Dark Mode</strong>
+                    Switch themes according to your visual preference.
+                </div>
+                <div class="card">
+                    <strong>🎭 Customizable AI Persona</strong>
+                    Choose between Default (Relaxed & Casual), Formal, or Creative personalities for the AI.
+                </div>
+                <div class="card">
+                    <strong>🌐 Multi-language Support</strong>
+                    Available in Indonesian, English (US & UK), and Japanese.
+                </div>
+                <div class="card">
+                    <strong>🔑 API Key Configuration</strong>
+                    Enter your own Gemini API key directly from the settings menu.
+                </div>
+                <div class="card">
+                    <strong>🚀 Enhanced Slash Commands</strong>
+                    Use the '+' menu or type commands like <code>/translate</code>, <code>/summarize</code>, <code>/code</code>, and <code>/fix</code>.
+                </div>
+                <div class="card">
+                    <strong>🖼️ Multimodal Input</strong>
+                    Support for image uploads (JPEG, PNG, WebP) along with text prompts, powered by Gemini's multimodal capabilities.
+                </div>
+                <div class="card">
+                    <strong>🔊 Text-to-Speech (TTS)</strong>
+                    Click the speaker icon to have the AI's response read aloud.
+                </div>
+                <div class="card">
+                    <strong>🛑 Stop Generation</strong>
+                    Immediately halt the AI's response when needed.
+                </div>
+                <div class="card">
+                    <strong>📝 Markdown Parsing</strong>
+                    Responses containing formatting (like code blocks and lists) will be displayed correctly.
+                </div>
+                <div class="card">
+                    <strong>⏰ Time-aware Context</strong>
+                    The AI knows the current date and time for more relevant answers.
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>🎨 UI/UX Design</h2>
+            <p>The visual design and user experience of MirAI are powered by:</p>
+            <div style="text-align: center; padding: 20px; background: var(--surface-dark); border-radius: var(--radius-xl);">
+                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/main/Assets/SRUI%20Logo%20(Cropped).png" alt="SRUI Logo" style="max-width: 200px; margin-bottom: 10px;">
+                <h3 style="margin: 0; color: var(--text-primary);">SuperRoundedUI (SRUI)</h3>
+                <p>An exclusive UI design system from Allwaysever™ that emphasizes rounded corners, smooth transitions, and a clean layout.</p>
+                <p style="font-style: italic; color: var(--accent-color);">"Flat never felt this round."</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>💻 Tech Stack</h2>
+            <p>This project was built purely with basic web technologies, without any frameworks.</p>
+            <ul class="tech-list">
+                <li class="tech-item">HTML</li>
+                <li class="tech-item">CSS</li>
+                <li class="tech-item">JavaScript (Vanilla JS)</li>
+                <li class="tech-item">Google Gemini API (gemini-2.5-flash)</li>
+                <li class="tech-item">Marked.js</li>
+                <li class="tech-item">SuperRoundedUI</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>📚 Documentation</h2>
+            <p>For more detailed information, please refer to the following documents:</p>
+            <div class="grid">
+                <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/FAQ.md" class="card">❓ FAQ (Frequently Asked Questions)</a>
+                <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/TROUBLESHOOTING.md" class="card">🛠️ Troubleshooting Guide</a>
+                <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CHANGELOG.md" class="card">🔄 Changelog</a>
+                <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" class="card">🤝 Contributing Guide</a>
+            </div>
+        </section>
+
+        <section>
+            <h2>📄 License</h2>
+            <div class="card" style="border-left: 5px solid var(--accent-color);">
+                <p>This project is licensed under the <strong>GNU Affero General Public License v3.0</strong></p>
+                <p>For full details, please <a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE">read the license file here</a>.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Allwaysever Project: MirAI</p>
+        <a href="https://github.com/Allwaysever/MirAI"><p style="font-size: 0.8rem; opacity: 0.6;"><i class="fa-brands fa-github"></i> Go to GitHub Repo</p></a>
+    </footer>
+
+</body>
+</html>
