@@ -23,6 +23,7 @@
             --color-dark-bg: #0f0f0f; /* Main MirAI Background (Dark) */
             --color-card-bg: rgba(33, 33, 33, 0.7); /* Card/Input Background MirAI (Blurry Dark) */
             --color-border: #4B4F50; /* MirAI Border Color */
+            --color-light-text: #9ca3af; /* gray-400 */
         }
         body {
             /* Replacing font according to style.css: Arial/sans-serif */
@@ -104,13 +105,18 @@
         <div class="flex justify-between items-center max-w-6xl mx-auto">
             <div class="flex items-center space-x-3">
                 <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="MirAI Logo">
-                <span class="text-lg font-bold">MirAI</span>
+                <span><span class="text-lg font-bold">MirAI</span> by <span  class="text-lg font-bold">Allwaysever</span></span>
             </div>
             <nav class="space-x-4 hidden sm:flex">
                 <a href="#features" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Key Features</a>
+                <a href="#how-it-works" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Gemini Power</a>
+                <a href="#multimodal" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Multimodal</a> <a href="#tech-stack" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Tech Stack</a>
                 <a href="#testimonials" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Testimonials</a>
                 <a href="#faq" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">FAQ</a>
             </nav>
+            <a href="#try-mirai-btn" class="accent-button text-sm px-4 py-2 hidden sm:inline-block">
+                Try Now
+            </a>
         </div>
     </header>
 
@@ -167,8 +173,104 @@
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M3.636 5.636l.707.707M12 20.999v-1m6.364-1.636l-.707-.707M3.636 18.364l.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2 text-white">Slash Commands</h3>
-                    <p class="text-gray-400">Command MirAI quickly using `/tools` or `/code` for specific tasks. Faster, more focused, and more accurate!</p>
+                    <p class="text-gray-400">Command MirAI quickly using the '+' menu or type commands like `/translate`, `/summarize`, `/code`, and `/fix` for specific tasks. Faster, more focused, and more accurate!</p>
                 </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="py-16 container-padding max-w-6xl mx-auto">
+             <h2 class="text-3xl font-bold text-center mb-12 text-white">Gemini Power: Speed, Persona, and Language</h2>
+
+            <div class="grid md:grid-cols-2 gap-10 items-center">
+                <div class="text-left">
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Instant Adaptation and Multilingual</h3>
+                    <p class="text-gray-400 mb-4">MirAI uses <b>Gemini 2.5 Flash</b>, an AI model designed for speed and efficiency. It can also adapt to your style and language.</p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 mr-3 mt-1">&#10003;</span>
+                            <div>
+                                <b>Customizable AI Persona:</b> Choose between Default (Casual), Formal, or Creative personas for the most suitable results.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 mr-3 mt-1">&#10003;</span>
+                            <div>
+                                <b>Multi-language Support:</b> MirAI is available in Indonesian, English, and Japanese.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 mr-3 mt-1">&#10003;</span>
+                            <div>
+                                <b>Session Persistence:</b> Your conversations are automatically saved in the <i>browser</i>. Continue anytime!
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-6 card-srui border-none flex justify-center items-center min-h-[300px]">
+                    <p class="text-lg text-yellow-400 font-bold">Visual: AI Persona Selection (Default, Formal, Creative)</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="multimodal" class="py-16 container-padding max-w-6xl mx-auto">
+             <h2 class="text-3xl font-bold text-center mb-12 text-white">Beyond Text: Multimodal Input & Text-to-Speech</h2>
+
+            <div class="grid md:grid-cols-2 gap-8 px-4 md:px-10">
+                
+                <div class="p-6 card-srui text-left">
+                    <div class="text-yellow-400 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Visual Input (Image Upload)</h3>
+                    <p class="text-gray-400">Powered by Gemini's multimodal capabilities, you can upload images (JPEG, PNG, WebP) along with text <i>prompts</i>. Ask the AI to explain memes or analyze code from photos!</p>
+                </div>
+
+                <div class="p-6 card-srui text-left">
+                    <div class="text-yellow-400 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a2 2 0 010 2.828l-3 3a2 2 0 01-2.828 0l-3-3a2 2 0 010-2.828m2.828 0l2.828-2.828a2 2 0 012.828 0m0 5.656h-.01"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Text-to-Speech (TTS)</h3>
+                    <p class="text-gray-400">Simply click the <i>speaker</i> icon to hear the AI's answer read aloud in your chosen language. Perfect for <i>multitasking</i> or learning a new language!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-stack" class="py-16 container-padding max-w-6xl mx-auto">
+             <h2 class="text-3xl font-bold text-center mb-12 text-white">Behind the Scenes: The Real Tech Stack</h2>
+
+            <div class="grid md:grid-cols-4 gap-8 px-4 md:px-10 text-center">
+                
+                <div class="p-6 card-srui">
+                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">HTML</p>
+                    <h3 class="text-lg font-semibold mb-1 text-white">The Skeleton</h3>
+                    <p class="text-sm text-gray-400">Clean, semantic base structure without bloat.</p>
+                </div>
+                
+                <div class="p-6 card-srui">
+                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">CSS</p>
+                    <h3 class="text-lg font-semibold mb-1 text-white">The Style (SRUI)</h3>
+                    <p class="text-sm text-gray-400">Implementation of the comfortable SuperRoundedUI and Dark Theme.</p>
+                </div>
+                
+                <div class="p-6 card-srui">
+                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">Vanilla JS</p>
+                    <h3 class="text-lg font-semibold mb-1 text-white">The Brain</h3>
+                    <p class="text-sm text-gray-400">Efficient and fast client-side interaction logic.</p>
+                </div>
+                
+                <div class="p-6 card-srui">
+                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">Gemini API</p>
+                    <h3 class="text-lg font-semibold mb-1 text-white">The Core Model</h3>
+                    <p class="text-sm text-gray-400">Uses the `gemini-2.5-flash` model for best performance.</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <p class="text-xl font-semibold text-gray-300 mb-4">MirAI is a simple and elegant Open-Source project.</p>
+                <a href="https://github.com/Allwaysever/MirAI" class="accent-button px-6 py-3 text-lg inline-flex items-center space-x-2">
+                    <span>View Source Code on GitHub</span>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.417 2.865 8.16 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.705-2.782.603-3.37-1.34-3.37-1.34-.454-1.15-.11-1.458-.11-1.458.93-.635 1.408.081 1.408.081.823 1.406 2.152.997 2.67.761.083-.59.324-.997.593-1.226-2.046-.231-4.197-1.025-4.197-4.555 0-1.006.357-1.83.948-2.474-.095-.231-.41-.1.1-.986 1.428.005 2.825.706 2.825.706.77-.213 1.597-.32 2.42-.325.823.005 1.65.112 2.42.325 0 0 1.397-.7 2.825-.706.51 1.094.195.755.1.986.591.644.948 1.468.948 2.474 0 3.53-2.154 4.32-4.204 4.549.33.284.625.845.625 1.705 0 1.226-.01 2.219-.01 2.525 0 .267.18.579.688.482 3.967-1.345 6.83-5.088 6.83-9.504C22 6.484 17.523 2 12 2z" clip-rule="evenodd"></path></svg>
+                </a>
             </div>
         </section>
         
@@ -189,7 +291,7 @@
                 </div>
 
                 <div class="p-6 card-srui text-left">
-                    <p class="text-gray-300 italic mb-4">"The slash command feature is super helpful for work. I can get *boilerplate code* instantly without typing long prompts."</p>
+                    <p class="text-gray-300 italic mb-4">"The slash command feature is super helpful for work. I can get <i>boilerplate code</i> instantly without typing long prompts."</p>
                     <div class="flex items-center">
                         <img src="https://i.pravatar.cc/50?img=2" class="w-10 h-10 rounded-full mr-3" alt="User 2 Photo">
                         <div>
@@ -200,7 +302,7 @@
                 </div>
                 
                 <div class="p-6 card-srui text-left md:col-span-2 lg:col-span-1">
-                    <p class="text-gray-300 italic mb-4">"It's that fast. No *lag* at all during *loading*. Feels like using a *native* app on my old laptop."</p>
+                    <p class="text-gray-300 italic mb-4">"It's that fast. No <i>lag</i> at all during <i>loading</i>. Feels like using a <i>native</i> app on my old laptop."</p>
                     <div class="flex items-center">
                         <img src="https://i.pravatar.cc/50?img=3" class="w-10 h-10 rounded-full mr-3" alt="User 3 Photo">
                         <div>
@@ -230,7 +332,17 @@
                 
                 <details class="faq-item py-4 cursor-pointer">
                     <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">How does SuperRoundedUI (SRUI) work?</summary>
-                    <p class="text-gray-400 mt-3 pl-4">SRUI is a design principle focused on using a consistent 25px border-radius, smooth blur effects (backdrop-filter) on backgrounds, and dark colors that are comfortable for the eyes. This provides a modern, *premium*, and cohesive look.</p>
+                    <p class="text-gray-400 mt-3 pl-4">SRUI is a design principle focused on using a consistent 25px border-radius, smooth blur effects (backdrop-filter) on backgrounds, and dark colors that are comfortable for the eyes. This provides a modern, <i>premium</i>, and cohesive look. SRUI is an exclusive UI design system from Allwaysever™.</p>
+                </details>
+
+                <details class="faq-item py-4 cursor-pointer">
+                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">What are the Slash Commands?</summary>
+                    <p class="text-gray-400 mt-3 pl-4">Slash commands are shortcuts like `/code` or `/tools` that let you quickly set a specific mode or persona for MirAI. This helps the AI focus its response for maximum accuracy and speed on specialized tasks.</p>
+                </details>
+                
+                <details class="faq-item py-4 cursor-pointer">
+                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150">Do I need my own API Key?</summary>
+                    <p class="text-gray-400 mt-3 pl-4">For the best performance and security, it is recommended to use your own Google Gemini API Key. You can enter this key directly in the <b>Settings</b> menu of MirAI.</p>
                 </details>
                 
             </div>
@@ -249,6 +361,24 @@
 
     </main>
     
+    <section id="community" class="py-10 container-padding max-w-6xl mx-auto text-center">
+        <h3 class="text-xl font-bold mb-6 text-white">Join the MirAI Community!</h3>
+        <div class="flex justify-center space-x-6 text-gray-400">
+            <a href="https://github.com/Allwaysever/MirAI/issues" class="hover:text-yellow-400 transition duration-150">
+                <span class="text-xl">GitHub</span> 
+            </a>
+            <span class="text-xl">|</span>
+             <a href="https://whatsapp.com/channel/0029Vb6hyuk6mYPGjI2E5g31" class="hover:text-yellow-400 transition duration-150">
+                <span class="text-xl">WA Channel</span> 
+            </a>
+            <span class="text-xl">|</span>
+            <a href="https://Instagram.com/allwaysevermirai" class="hover:text-yellow-400 transition duration-150">
+                <span class="text-xl">Instagram</span> 
+            </a>
+        </div>
+        <p class="text-sm text-gray-600 mt-4">Development is open-source. Found a bug or want to contribute? Check out our <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTNG.md" target="_blank" class="text-gray-400 hover:text-yellow-400 underline">Contributing Guide</a>.</p>
+    </section>
+
     <footer class="text-center py-6 text-sm text-gray-600 border-t border-gray-900">
         &copy; 2025 Allwaysever Project: MirAI. Powered by Google Gemini API.
     </footer>
@@ -286,7 +416,7 @@
             const count = getVisitCount();
             
             // Check if APP_LINK has been changed.
-            const isLinkConfigured = APP_LINK === 'https://allwaysevermirai.netlify.app/c';
+            const isLinkConfigured = APP_LINK === '#';
 
             // 1. Auto-Redirect Logic (for users who have visited before)
             if (count > 0 && isLinkConfigured) {
