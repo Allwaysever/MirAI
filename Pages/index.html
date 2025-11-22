@@ -383,95 +383,92 @@
         &copy; 2025 Allwaysever Project: MirAI. Powered by Google Gemini API.
     </footer>
 
-    <script>
-        // --- IMPORTANT CONFIGURATION ---
-        // CHANGE THIS LINK to the actual URL of your MirAI application.
-        const APP_LINK = 'https://allwaysevermirai.netlify.app/c'; 
+<script>
+    // --- IMPORTANT CONFIGURATION ---
+    // CHANGE THIS LINK to the actual URL of your MirAI application.
+    const APP_LINK = 'https://allwaysevermirai.netlify.app/c'; 
+    
+    // localStorage key to mark visits
+    const COUNT_KEY = 'miraiVisitCount';
+    // Redirect delay changed to VERY SHORT (50ms)
+    const REDIRECT_DELAY_MS = 50; 
+
+    const tryBtns = document.querySelectorAll('#try-mirai-btn, #try-mirai-btn-footer');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const redirectLoading = document.getElementById('redirect-loading');
+    
+    function getVisitCount() {
+        return parseInt(localStorage.getItem(COUNT_KEY) || '0');
+    }
+
+    function setVisitCount(count) {
+        localStorage.setItem(COUNT_KEY, count.toString());
+    }
+
+    function incrementVisitCount() {
+        let count = getVisitCount();
+        count++;
+        setVisitCount(count);
+        return count;
+    }
+
+    function setupPage() {
+        const count = getVisitCount();
         
-        // localStorage key to mark visits
-        const COUNT_KEY = 'miraiVisitCount';
-        // Redirect delay changed to VERY SHORT (50ms)
-        const REDIRECT_DELAY_MS = 50; 
+        // FIX: Check if APP_LINK has been configured properly (not empty and not placeholder)
+        const isLinkConfigured = APP_LINK && APP_LINK !== '#' && APP_LINK !== 'APP_LINK';
 
-        const tryBtns = document.querySelectorAll('#try-mirai-btn, #try-mirai-btn-footer');
-        const welcomeMessage = document.getElementById('welcome-message');
-        const redirectLoading = document.getElementById('redirect-loading');
-        
-        function getVisitCount() {
-            return parseInt(localStorage.getItem(COUNT_KEY) || '0');
-        }
+        // 1. Auto-Redirect Logic (for users who have visited before)
+        if (count > 0 && isLinkConfigured) {
+            // Show loading and redirect message
+            welcomeMessage.textContent = 'Welcome back! You have visited this page ';
+            welcomeMessage.innerHTML += `<span class="font-bold">${count} times</span>.`;
+            redirectLoading.classList.remove('hidden');
 
-        function setVisitCount(count) {
-            localStorage.setItem(COUNT_KEY, count.toString());
-        }
-
-        function incrementVisitCount() {
-            let count = getVisitCount();
-            count++;
-            setVisitCount(count);
-            return count;
-        }
-
-        function setupPage() {
-            const count = getVisitCount();
+            // Disable buttons during redirect
+            tryBtns.forEach(btn => {
+                btn.disabled = true;
+                btn.textContent = 'Redirecting...';
+            });
             
-            // Check if APP_LINK has been changed.
-            const isLinkConfigured = APP_LINK === '#';
+            // VERY FAST Redirect after 50ms (effectively instant)
+            setTimeout(() => {
+                // Use replace for cleaner browser back button history
+                window.location.replace(APP_LINK); 
+            }, REDIRECT_DELAY_MS); 
 
-            // 1. Auto-Redirect Logic (for users who have visited before)
-            if (count > 0 && isLinkConfigured) {
-                // Show loading and redirect message
-                welcomeMessage.textContent = 'Welcome back! You have visited this page ';
-                welcomeMessage.innerHTML += `<span class="font-bold">${count + 1} times</span>.`;
-                redirectLoading.classList.remove('hidden');
-
-                // Disable buttons during redirect
-                tryBtns.forEach(btn => {
-                    btn.disabled = true;
-                    btn.textContent = 'Redirecting...';
+        } else if (!isLinkConfigured) {
+            // If the link is still a placeholder, show a warning in the status area
+            welcomeMessage.textContent = '⚠️ Please replace "APP_LINK" in the JavaScript code to enable button and auto-redirect functions.';
+            tryBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alert('Please replace the APP_LINK value in the JavaScript code with your actual application link!');
                 });
-                
-                // VERY FAST Redirect after 50ms (effectively instant)
-                setTimeout(() => {
-                    // Use replace for cleaner browser back button history
-                    window.location.replace(APP_LINK); 
-                }, REDIRECT_DELAY_MS); 
-
-            } else if (!isLinkConfigured) {
-                // If the link is still a placeholder, show a warning in the status area
-                welcomeMessage.textContent = '⚠️ Please replace "APP_LINK" in the JavaScript code to enable button and auto-redirect functions.';
-                tryBtns.forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        alert('Please replace the APP_LINK value in the JavaScript code with your actual application link!');
-                    });
-                });
-            } else {
-                // First visit and link is configured
-                welcomeMessage.textContent = 'This is your first visit.';
-            }
-
-            // 2. Add event listener to buttons for manual redirect (INSTANT)
-            if (isLinkConfigured) {
-                tryBtns.forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        // Redirect immediately without delay
-                        incrementVisitCount();
-                        window.location.href = APP_LINK;
-                    });
-                });
-            }
-
-            // Set visit flag at the end of setup if this is the first visit
-            if (count === 0 && isLinkConfigured) {
-                 // Increment for the current visit (so auto-redirect is active on the next visit)
-                 incrementVisitCount(); 
-            }
+            });
+        } else {
+            // First visit and link is configured
+            welcomeMessage.textContent = 'This is your first visit. Click the button to start!';
+            
+            // Set visit flag for first visit
+            incrementVisitCount();
         }
 
-        document.addEventListener('DOMContentLoaded', setupPage);
-    </script>
+        // 2. Add event listener to buttons for manual redirect (INSTANT)
+        if (isLinkConfigured) {
+            tryBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Redirect immediately without delay
+                    incrementVisitCount();
+                    window.location.href = APP_LINK;
+                });
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', setupPage);
+</script>
 
 </body>
 </html>
