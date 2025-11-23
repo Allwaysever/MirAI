@@ -5,189 +5,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pusat Bantuan MirAI</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <meta name="description" content="Pusat Bantuan MirAI - Temukan jawaban untuk pertanyaan umum, panduan penggunaan, dan pemecahan masalah">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
+        /* SRUI Custom Styling & Variables (Aligned with MirAI Dark Theme) */
         :root {
-            --bg-dark: #1B1C1E;
-            /* SRUI Change: Text Primer Dark Theme menjadi #ffffff  */
-            --text-dark: #ffffff;
-            --primary-dark: #ffce00;
-            --surface-dark: #0f0f0f;
-            --border-dark: #4B4F50;
-
-            --bg-light: #e9e9e9;
-            --text-light: #444;
-            --primary-light: #222;
-            --surface-light: #ffffff;
-            --border-light: #b3b3b3;
+            --color-accent: #ffce00; /* SRUI Accent Color (Bright Yellow) */
+            --color-primary: #ffffff; /* White Text */
+            --color-dark-bg: #0f0f0f; /* Main MirAI Background (Dark) */
+            --color-card-bg: rgba(33, 33, 33, 0.7); /* Card/Input Background MirAI (Blurry Dark) */
+            --color-border: #4B4F50; /* MirAI Border Color */
+            --color-light-text: #9ca3af; /* gray-400 */
         }
-
-    * {
-      -webkit-tap-highlight-color: transparent;
-    }
-
         body {
-            /* SRUI Change: Font Primer menjadi Arial  */
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-dark);
-            transition: background-color 0.4s ease, color 0.4s ease;
+            background-color: var(--color-dark-bg); 
+            color: var(--color-primary);
+            min-height: 100vh;
         }
-
-        body.light-theme {
-            background-color: var(--bg-light);
-            color: var(--text-light);
+        .card-srui {
+            border-radius: 25px; 
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+        .card-srui:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px -8px rgba(0, 0, 0, 0.3);
         }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-dark);
+        /* Style for buttons that are usually accent, but here only for navigation/links */
+        .link-button {
+            background-color: var(--color-accent);
+            color: var(--color-dark-bg);
+            font-weight: 700;
+            border-radius: 9999px; /* rounded-full */
+            transition: all 0.2s ease-in-out;
+            border: 2px solid var(--color-accent); 
         }
-
-        body.light-theme .header {
-            border-bottom-color: var(--border-light);
+        .link-button:hover {
+            background-color: #e6b800; 
+            transform: translateY(-1px);
         }
-        
-        .header-left {
-            display: flex;
-            align-items: center;
+        /* Utility */
+        .container-padding {
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
-        
-        .header h1 {
-            font-size: 2em;
-            margin: 0;
+        @media (min-width: 768px) {
+            .container-padding {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
         }
-        
-        .home-btn {
-            background: none;
+        /* Sticky header */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            background-color: rgba(15, 15, 15, 0.9); /* Slightly transparent */
+        }
+        /* Back Button - Super Rounded (SRUI) */
+        .back-button {
+            background-color: var(--color-accent);
+            color: var(--color-dark-bg);
             border: none;
-            color: var(--text-dark);
-            font-size: 1.5em;
-            cursor: pointer;
-            margin-right: 15px;
-            transition: color 0.3s ease, transform 0.2s ease;
-        }
-        
-        body.light-theme .home-btn {
-            color: var(--text-light);
-        }
-        
-        .home-btn:hover {
-            color: var(--primary-dark);
-            transform: scale(1.1);
-        }
-
-        body.light-theme .home-btn:hover {
-            color: var(--primary-light);
-        }
-
-        .theme-switcher {
-            background-color: var(--surface-dark);
-            color: var(--text-dark);
-            border: 1px solid var(--border-dark);
-            border-radius: 50%;
+            border-radius: 50%; 
             width: 40px;
             height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: all 0.3s ease-in-out; 
         }
-
-        body.light-theme .theme-switcher {
-            background-color: var(--surface-light);
-            color: var(--text-light);
-            border-color: var(--border-light);
+        .back-button:hover {
+            transform: scale(1.05);
+            background-color: #eab308;
         }
-
-        .theme-switcher:hover {
-            border-color: var(--primary-dark);
-            color: var(--primary-dark);
-        }
-        
-        body.light-theme .theme-switcher:hover {
-            border-color: var(--primary-light);
-            color: var(--primary-light);
-        }
-
+        /* Search input styling */
         .search-container {
-            margin: 30px 0;
             position: relative;
+            margin-bottom: 20px;
         }
-
-        #searchInput {
+        .search-input {
             width: 100%;
             padding: 15px 20px 15px 50px;
             font-size: 1em;
-            /* SRUI Change: Lebih rounded  */
-            border-radius: 20px;
-            border: 1px solid var(--border-dark);
-            background-color: var(--surface-dark);
-            color: var(--text-dark);
+            border-radius: 25px;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-card-bg);
+            color: var(--color-primary);
             box-sizing: border-box;
             transition: all 0.3s ease;
         }
-
-        #searchInput:focus {
+        .search-input:focus {
             outline: none;
-            border-color: var(--primary-dark);
+            border-color: var(--color-accent);
             box-shadow: 0 0 10px rgba(255, 206, 0, 0.2);
         }
-        
-        .search-container .fa-search {
+        .search-icon {
             position: absolute;
             left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: #888;
+            color: var(--color-light-text);
         }
-
-        body.light-theme #searchInput {
-            background-color: var(--surface-light);
-            color: var(--text-light);
-            border-color: var(--border-light);
-        }
-        
-        body.light-theme #searchInput:focus {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #noResults {
-            text-align: center;
-            padding: 40px;
-            display: none;
-            font-size: 1.2em;
-            color: #888;
-        }
-        
+        /* Accordion styling */
         .accordion-item {
-            background-color: var(--surface-dark);
-            border: 1px solid var(--border-dark);
-            /* SRUI Change: Lebih rounded  */
-            border-radius: 20px;
             margin-bottom: 15px;
             overflow: hidden;
-            transition: background-color 0.4s ease;
         }
-        
-        body.light-theme .accordion-item {
-            background-color: var(--surface-light);
-            border-color: var(--border-light);
-        }
-        
         .accordion-header {
             padding: 20px;
             cursor: pointer;
@@ -195,567 +132,702 @@
             justify-content: space-between;
             align-items: center;
             transition: background-color 0.3s ease;
+            border-radius: 25px;
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-border);
         }
-
         .accordion-header:hover {
             background-color: rgba(255, 255, 255, 0.05);
         }
-        
-        body.light-theme .accordion-header:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-
         .accordion-header h2 {
             margin: 0;
-            font-size: 1.2em; /* Adjusted for longer titles */
+            font-size: 1.2em;
             display: flex;
             align-items: center;
         }
-        
         .accordion-header h2 i {
             margin-right: 12px;
-            width: 20px; /* Ensure icon alignment */
+            width: 20px;
             text-align: center;
         }
-
         .accordion-header .icon {
             transition: transform 0.3s ease-in-out;
             flex-shrink: 0;
         }
-        
         .accordion-item.active .accordion-header .icon {
             transform: rotate(180deg);
         }
-
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
             padding: 0 20px;
         }
-        
         .accordion-content .content-inner {
             padding-bottom: 20px;
             line-height: 1.7;
-            border-top: 1px solid var(--border-dark);
+            border-top: 1px solid var(--color-border);
             padding-top: 20px;
         }
-        
-        body.light-theme .accordion-content .content-inner {
-            border-top-color: var(--border-light);
-        }
-
         .accordion-content h3 {
-            color: var(--primary-dark);
+            color: var(--color-accent);
             margin-top: 0;
         }
-        
-        body.light-theme .accordion-content h3 {
-            color: var(--primary-light);
-        }
-
         .accordion-content p, .accordion-content ul {
             margin-bottom: 15px;
         }
-
         .accordion-content ul {
             padding-left: 20px;
         }
-        
         .accordion-content code {
             background-color: rgba(0,0,0,0.2);
             padding: 2px 6px;
-            /* SRUI Change: Lebih rounded  */
-            border-radius: 12px;
+            border-radius: 5px;
             font-family: 'Courier New', Courier, monospace;
         }
-
-        body.light-theme .accordion-content code {
-            background-color: rgba(0,0,0,0.08);
-        }
-
         .accordion-content a {
-            color: var(--primary-dark);
+            color: var(--color-accent);
             text-decoration: none;
             font-weight: bold;
         }
-        
-        body.light-theme .accordion-content a {
-            color: #0056b3;
-        }
-
         .accordion-content a:hover {
             text-decoration: underline;
         }
-
         .highlight {
-            background-color: var(--primary-dark);
-            color: var(--bg-dark);
+            background-color: var(--color-accent);
+            color: var(--color-dark-bg);
             padding: 0 2px;
             border-radius: 3px;
         }
-
-        body.light-theme .highlight {
-            background-color: #ffde4d;
-            color: var(--text-light);
+        /* Language Selector Styles */
+        .language-selector select {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 25px;
+            color: var(--color-primary);
+            padding: 8px 12px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .language-selector select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+        }
+        .language-badge {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="header-left">
-                <button class="home-btn" onclick="window.history.back()" title="Kembali">
+
+    <header class="w-full py-6 container-padding border-b border-gray-800 sticky-header">
+        <div class="flex justify-between items-center max-w-6xl mx-auto">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="back-button">
                     <i class="fas fa-arrow-left"></i>
-                </button>
-                <h1 data-lang-key="pageTitle">Pusat Bantuan</h1>
+                </a>
+                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="MirAI Logo">
+                <span><span class="text-lg font-bold text-white">MirAI</span> <span style="color: #EFEFE; font-weight: 100;" data-lang-key="pageTitle">Pusat Bantuan</span></span>
             </div>
-            <button class="theme-switcher" id="themeSwitcher" title="Ganti Tema">
-                <i class="fas fa-sun"></i>
-            </button>
-        </header>
-
-        <div class="search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Cari topik atau pertanyaan...">
-        </div>
-
-        <div id="noResults">
-            <p data-lang-key="noResults">Tidak ada hasil yang ditemukan untuk pencarian Anda.</p>
-        </div>
-
-        <div id="accordionContainer">
+            <div class="flex items-center space-x-4">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="auto">Auto Detect</option>
+                        <option value="id">Bahasa Indonesia</option>
+                        <option value="en-US">English (US)</option>
+                        <option value="ja">日本語</option>
+                    </select>
+                </div>
+                <a href="https://allwaysevermirai.netlify.app" target="_blank" class="link-button text-sm px-4 py-2 hidden sm:inline-block">
+                    Coba Versi Web ↗
+                </a>
             </div>
-    </div>
+        </div>
+    </header>
 
-    <script>
-        // === UI STRING DATABASE (100 SECTIONS) ===
-        const UIStrings = {
-            'id': {
-                docTitle: "Pusat Bantuan MirAI", pageTitle: "Pusat Bantuan", searchPlaceholder: "Cari topik atau pertanyaan...", noResults: "Tidak ada hasil yang ditemukan untuk pencarian Anda.",
-                s1_title: "Apa itu MirAI?", s1_content: "MirAI adalah asisten chat AI yang dibuat oleh <strong>Allwaysever</strong>. Tujuannya adalah menjadi teman ngobrol yang menyenangkan dan alat ringan untuk tugas sehari-hari.",
-                s2_title: "Apakah jawaban MirAI selalu akurat?", s2_content: "Tidak. Sebagaimana yang tertera di aplikasi, \"MirAI bisa memberikan jawaban yang tidak akurat.\" Selalu verifikasi informasi penting dari sumber lain.",
-                s3_title: "Apakah data percakapan saya aman?", s3_content: "Privasi Anda penting. Percakapan disimpan secara lokal di browser Anda (Local Storage) dan tidak dikirim ke server kami. Jika Anda menghapus riwayat atau cache browser, percakapan akan hilang.",
-                s4_title: "Siapa developer di balik MirAI?", s4_content: "MirAI dikembangkan oleh <strong>Allwaysever</strong>, seorang developer individu yang bersemangat tentang teknologi AI dan pembuatan aplikasi yang bermanfaat.",
-                s5_title: "Bagaimana cara mengubah Pengaturan?", s5_content: "Klik <strong>ikon menu (tiga garis)</strong> di pojok kiri atas layar utama untuk membuka halaman <strong>Pengaturan</strong>.",
-                s6_title: "Apa itu fitur 'Persona AI'?", s6_content: "Persona AI memungkinkan Anda mengubah gaya bicara MirAI. Pilih 'Formal' untuk jawaban profesional, 'Santai' untuk obrolan kasual, atau 'Kreatif' untuk ide-ide imajinatif.",
-                s7_title: "Apa itu Kunci API Google?", s7_content: "Kunci API adalah kode unik yang memberikan akses ke layanan Google AI Gemini. MirAI menyediakan kunci default, tetapi memiliki batas penggunaan harian.",
-                s8_title: "Kenapa saya harus pakai Kunci API sendiri?", s8_content: "Menggunakan Kunci API pribadi memastikan Anda tidak akan terganggu oleh batas penggunaan kunci default, memberikan pengalaman yang lebih stabil.",
-                s9_title: "Di mana saya bisa mendapatkan Kunci API?", s9_content: "Anda bisa mendapatkan Kunci API Google Gemini secara gratis melalui <strong>Google AI Studio</strong>. Buat akun, lalu buat kunci baru di sana.",
-                s10_title: "Bagaimana cara memulai chat baru?", s10_content: "Pada layar utama, klik <strong>ikon tempat sampah</strong> di bawah tombol menu untuk menghapus riwayat percakapan saat ini dan memulai sesi yang baru.",
-                s11_title: "Bagaimana cara menyalin teks jawaban AI?", s11_content: "Di setiap gelembung chat dari AI, klik <strong>ikon salin (copy)</strong> kecil di bawahnya untuk menyalin seluruh teks jawaban ke clipboard Anda.",
-                s12_title: "Perintah slash (/) apa saja yang ada?", s12_content: "Ketik <code>/</code> di kotak input untuk melihat daftar lengkap perintah yang tersedia, seperti <code>/search</code>, <code>/translate</code>, <code>/summarize</code>, dan lainnya.",
-                s13_title: "Detail Perintah: /search", s13_content: "Gunakan <code>/search [topik]</code> untuk meminta MirAI mencari informasi di web. Contoh: <code>/search berita teknologi terbaru</code>.",
-                s14_title: "Detail Perintah: /translate", s14_content: "Gunakan <code>/translate [teks] to [bahasa]</code> untuk menerjemahkan. Contoh: <code>/translate selamat pagi to japanese</code>.",
-                s15_title: "Detail Perintah: /summarize", s15_content: "Gunakan <code>/summarize [teks panjang]</code> untuk membuat ringkasan. Tempelkan artikel atau teks panjang setelah perintah.",
-                s16_title: "Detail Perintah: /code", s16_content: "Gunakan <code>/code [deskripsi]</code> untuk meminta potongan kode. Contoh: <code>/code fungsi javascript untuk validasi email</code>.",
-                s17_title: "Detail Perintah: /explain", s17_content: "Gunakan <code>/explain [konsep] like i'm [audiens]</code> untuk penjelasan sederhana. Contoh: <code>/explain blockchain like i'm 10 years old</code>.",
-                s18_title: "Tips: Jadilah Spesifik Saat Bertanya", s18_content: "Semakin detail dan berkonteks pertanyaan Anda, semakin baik jawaban AI. Alih-alih \"cerita tentang mobil\", coba \"jelaskan kelebihan mobil listrik untuk keluarga di perkotaan\".",
-                s19_title: "Tips: Gunakan Perintah Berantai", s19_content: "Anda bisa menggunakan hasil dari satu perintah sebagai masukan untuk perintah berikutnya. Contoh: gunakan <code>/search</code>, lalu salin hasilnya dan gunakan <code>/summarize</code> untuk meringkasnya.",
-                s20_title: "Masalah: Koneksi Internet Terputus", s20_content: "MirAI membutuhkan koneksi internet aktif. Jika Anda melihat pesan ini, periksa kembali koneksi WiFi atau data seluler Anda dan coba muat ulang aplikasi.",
-                s21_title: "Masalah: Pesan Error 'Terjadi kesalahan...'", s21_content: "Ini paling sering disebabkan oleh Kunci API default yang mencapai batas penggunaan. Solusi terbaik adalah memasukkan <strong>Kunci API Google pribadi</strong> Anda di Pengaturan.",
-                s22_title: "Masalah: Tampilan teks jawaban rusak", s22_content: "Terkadang, pemformatan kompleks (seperti tabel) mungkin tidak ditampilkan dengan sempurna. Coba minta AI untuk menyajikan data dalam format yang lebih sederhana, seperti daftar.",
-                s23_title: "Masalah: Aplikasi terasa lambat", s23_content: "Jika percakapan sudah sangat panjang, aplikasi mungkin melambat. Coba mulai sesi chat baru. Membersihkan cache browser juga dapat membantu.",
-                s24_title: "Kontribusi: Bagaimana cara saya membantu?", s24_content: "Anda dapat berkontribusi dengan melaporkan bug, menyarankan fitur, atau mengirimkan kode melalui <em>Pull Request</em> di repositori GitHub kami.",
-                s25_title: "Kontribusi: Di mana kode sumbernya?", s25_content: "MirAI adalah proyek sumber terbuka (open-source). Anda dapat melihat seluruh kode sumbernya di <a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a>.",
-                s26_title: "Tentang: Model AI apa yang digunakan?", s26_content: "MirAI ditenagai oleh model <strong>Gemini 2.5 Flash</strong> dari Google, yang dioptimalkan untuk kecepatan dan efisiensi.",
-                s27_title: "Detail Perintah: /rephrase", s27_content: "Gunakan <code>/rephrase [teks] as [gaya]</code> untuk mengubah gaya tulisan. Contoh: <code>/rephrase tulisan ini as lebih profesional</code>.",
-                s28_title: "Detail Perintah: /ideate", s28_content: "Gunakan <code>/ideate [jumlah] ide untuk [topik]</code> untuk brainstorming. Contoh: <code>/ideate 5 ide untuk nama toko online</code>.",
-                s29_title: "Detail Perintah: /fix", s29_content: "Gunakan <code>/fix [teks]</code> untuk memperbaiki ejaan dan tata bahasa. Tempelkan kalimat yang salah setelah perintah.",
-                s30_title: "Masalah: AI berhenti merespons di tengah jalan", s30_content: "Ini bisa terjadi karena batasan panjang output model AI atau filter keamanan yang terpicu. Coba sederhanakan pertanyaan Anda.",
-                s31_title: "Masalah: Pengaturan tidak tersimpan", s31_content: "Pengaturan disimpan di Local Storage browser. Masalah ini bisa terjadi jika Anda menggunakan mode penyamaran (Incognito) atau jika penyimpanan browser Anda penuh.",
-                s32_title: "Masalah: Kunci API kustom saya tidak bekerja", s32_content: "Pastikan Anda menyalin kunci dengan benar tanpa spasi tambahan dan periksa statusnya di Google AI Studio.",
-                s33_title: "Tentang: Apakah MirAI gratis?", s33_content: "Ya, MirAI gratis untuk digunakan. Aplikasi ini berjalan menggunakan kunci API default atau kunci API pribadi Anda (yang juga memiliki tingkatan gratis dari Google).",
-                s34_title: "Tentang: Di perangkat apa saja MirAI bisa digunakan?", s34_content: "MirAI adalah aplikasi web (PWA), artinya dapat diakses melalui browser modern apa pun di desktop dan seluler.",
-                s35_title: "Tentang: Bagaimana percakapan disimpan?", s35_content: "Riwayat percakapan Anda disimpan secara eksklusif di perangkat Anda menggunakan Local Storage browser. Tidak ada data chat yang disimpan di server MirAI.",
-                s36_title: "Tentang: Di mana Syarat & Ketentuan aplikasi?", s36_content: "Anda dapat membaca Syarat & Ketentuan lengkap melalui tautan yang tersedia di bagian bawah halaman <strong>Pengaturan</strong> di aplikasi utama.",
-                s37_title: "Tips: Mendapatkan hasil kode yang lebih baik", s37_content: "Saat menggunakan <code>/code</code>, sebutkan bahasa pemrograman, pustaka (library), dan tujuan fungsi secara spesifik untuk hasil yang lebih akurat.",
-                s38_title: "Tips: Menggunakan MirAI untuk tulisan kreatif", s38_content: "Gunakan persona 'Kreatif' di Pengaturan. Anda bisa memintanya untuk membuat puisi, skrip pendek, lirik lagu, atau membantumu melanjutkan cerita.",
-                s39_title: "Tips: Gunakan 'Prompt Negatif'", s39_content: "Anda bisa memberi tahu AI apa yang tidak boleh dilakukan. Contoh: <code>/search fotosintesis, jelaskan tanpa istilah ilmiah</code>.",
-                s40_title: "Tentang: Di mana saya bisa melihat daftar perubahan (Changelog)?", s40_content: "Daftar perubahan untuk setiap versi baru MirAI tersedia di repositori <a href='https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md' target='_blank'>GitHub</a> proyek.",
-                s41_title: "UI: Apa arti indikator koneksi di pojok kanan atas?", s41_content: "Indikator tersebut menunjukkan status koneksi internet Anda. Hijau berarti 'Terhubung', dan Merah berarti 'Terputus'.",
-                s42_title: "UI: Mengapa kotak input pindah dari tengah ke bawah?", s42_content: "Ini adalah bagian dari desain. Saat aplikasi pertama kali dibuka, fokus ada di tengah. Setelah Anda mulai chat, kotak input pindah ke bawah untuk memberikan ruang maksimal bagi percakapan.",
-                s43_title: "UI: Apa fungsi tombol '+' di sebelah kotak input?", s43_content: "Tombol '+' membuka 'Toko Perkakas', yang berisi daftar semua perintah slash (/) yang tersedia sehingga Anda tidak perlu menghafalnya.",
-                s44_title: "UI: Mengapa logo MirAI menghilang saat saya mulai chat?", s44_content: "Logo disembunyikan untuk memberikan pengalaman membaca yang lebih bersih dan fokus pada percakapan Anda dengan AI.",
-                s45_title: "UI: Bisakah saya mengubah ukuran font?", s45_content: "Saat ini, fitur untuk mengubah ukuran font secara langsung di aplikasi belum tersedia. Anda dapat menggunakan fitur zoom bawaan browser Anda untuk sementara.",
-                s46_title: "UI: Apakah ada shortcut keyboard?", s46_content: "Ya, Anda bisa menekan <code>Enter</code> untuk mengirim pesan (jika tidak menekan <code>Shift</code>). Kami sedang menjajaki penambahan shortcut lainnya di masa depan.",
-                s47_title: "Privasi: Apakah developer bisa melihat percakapan saya?", s47_content: "Tidak. Karena semua data disimpan secara lokal di browser Anda, developer (Allwaysever) tidak memiliki akses sama sekali ke riwayat percakapan Anda.",
-                s48_title: "Privasi: Apakah Google bisa melihat percakapan saya?", s48_content: "Saat Anda mengirim permintaan, data dikirim ke server Google untuk diproses oleh model Gemini. Tinjau kebijakan privasi Google untuk informasi lebih lanjut tentang bagaimana mereka menangani data.",
-                s49_title: "Privasi: Bagaimana cara menghapus total semua data saya?", s49_content: "Untuk menghapus semua data MirAI (termasuk riwayat dan pengaturan), Anda perlu membersihkan data situs (site data) atau cache untuk halaman ini melalui pengaturan browser Anda.",
-                s50_title: "Privasi: Apa itu 'Local Storage'?", s50_content: "'Local Storage' adalah ruang penyimpanan kecil di dalam browser Anda. Situs web dapat menggunakannya untuk menyimpan data (seperti pengaturan atau riwayat chat) di perangkat Anda sehingga data tersebut tetap ada bahkan setelah Anda menutup tab.",
-                s51_title: "Teknis: Mengapa AI terkadang menolak menjawab?", s51_content: "Model AI memiliki filter keamanan bawaan untuk mencegah pembuatan konten berbahaya, tidak etis, atau tidak pantas. Jika permintaan Anda terdeteksi mendekati topik-topik tersebut, AI akan menolak menjawab.",
-                s52_title: "Teknis: Apa itu 'token' dalam konteks AI?", s52_content: "Token adalah potongan kata atau karakter yang digunakan AI untuk memproses teks. Setiap permintaan dan jawaban memiliki batas jumlah token. Percakapan yang sangat panjang dapat melebihi batas ini.",
-                s53_title: "Teknis: Apakah MirAI belajar dari percakapan saya?", s53_content: "Tidak. Model AI yang digunakan tidak dilatih secara terus-menerus menggunakan percakapan Anda. Setiap sesi chat dimulai dengan 'ingatan' yang baru, kecuali untuk riwayat yang Anda lihat di layar.",
-                s54_title: "Teknis: Bagaimana cara kerja fitur 'persona'?", s54_content: "Saat Anda memilih persona, sebuah instruksi sistem khusus (system prompt) ditambahkan di awal percakapan Anda (secara tersembunyi). Instruksi ini memberitahu AI untuk mengadopsi gaya bicara tertentu selama sesi tersebut.",
-                s55_title: "Teknis: Apa beda Gemini 2.5 Flash dengan model lain?", s55_content: "Gemini 2.5 Flash dirancang untuk menjadi sangat cepat dan efisien dari segi biaya, menjadikannya ideal untuk aplikasi chat yang responsif. Model lain mungkin lebih kuat tetapi lebih lambat.",
-                s56_title: "Teknis: Dengan teknologi apa aplikasi ini dibuat?", s56_content: "Antarmuka (front-end) MirAI dibuat menggunakan teknologi web standar: HTML, CSS, dan JavaScript murni, tanpa framework yang berat.",
-                s57_title: "Komunitas: Bagaimana cara melaporkan masalah di Pusat Bantuan ini?", s57_content: "Jika Anda menemukan kesalahan atau informasi yang kurang jelas di sini, cara terbaik adalah dengan membuat 'Issue' di repositori <a href='https://github.com/Allwaysever/MirAI/issues' target='_blank'>GitHub</a> proyek.",
-                s58_title: "Komunitas: Bagaimana cara mengikuti perkembangan MirAI?", s58_content: "Anda dapat 'membintangi' (star) atau 'mengawasi' (watch) repositori proyek di <a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a> untuk mendapatkan notifikasi tentang pembaruan dan rilis baru.",
-                s59_title: "Komunitas: Apakah ada forum untuk pengguna MirAI?", s59_content: "Saat ini belum ada forum khusus. Namun, Anda dapat menggunakan tab 'Discussions' di repositori <a href='https://github.com/Allwaysever/MirAI/discussions' target='_blank'>GitHub</a> untuk bertanya atau berbagi ide dengan pengguna lain.",
-                s60_title: "Lainnya: Apa lisensi MirAI?", s60_content: "MirAI dirilis di bawah Lisensi MIT, yang sangat permisif. Ini berarti Anda bebas menggunakan, memodifikasi, dan mendistribusikan kode, bahkan untuk tujuan komersial, selama Anda menyertakan lisensi aslinya.",
-                s61_title: "Lainnya: Bisakah saya meng-host MirAI di server saya sendiri?", s61_content: "Tentu saja. Karena MirAI adalah proyek open-source, Anda dapat mengkloning repositori dari GitHub dan meng-host-nya di server web Anda sendiri. Anda hanya perlu mengganti kunci API default dengan milik Anda.",
-                s62_title: "Lainnya: Bisakah saya menggunakan MirAI untuk tujuan komersial?", s62_content: "Ya, Lisensi MIT mengizinkan penggunaan komersial. Namun, Anda bertanggung jawab untuk mematuhi Syarat & Ketentuan dari Google API yang Anda gunakan.",
-                s63_title: "Use Case: Merencanakan perjalanan", s63_content: "Coba minta: <code>/ideate 5 aktivitas seru di Yogyakarta untuk 3 hari</code> atau <code>Bantu saya membuat itinerary perjalanan ke Jepang selama seminggu dengan budget terbatas</code>.",
-                s64_title: "Use Case: Menulis email", s64_content: "Gunakan perintah <code>/rephrase</code> atau minta langsung. Contoh: <code>Tulis email profesional untuk bos saya, meminta izin cuti minggu depan karena urusan keluarga.</code>",
-                s65_title: "Use Case: Bermain peran (RPG)", s65_content: "Atur persona ke 'Kreatif' dan minta MirAI menjadi Dungeon Master. Contoh: <code>Kamu adalah DM. Saya adalah seorang ksatria yang memasuki gua gelap. Apa yang saya lihat?</code>",
-                s66_title: "Use Case: Belajar bahasa baru", s66_content: "Gunakan <code>/translate</code> untuk kata-kata atau minta penjelasan. Contoh: <code>Jelaskan penggunaan partikel 'wa' dan 'ga' dalam bahasa Jepang dengan contoh sederhana.</code>",
-                s67_title: "Use Case: Mencari ide resep", s67_content: "Berikan bahan-bahan yang Anda miliki. Contoh: <code>Saya punya ayam, bawang, dan kentang. Beri saya 3 ide resep makan malam yang mudah.</code>",
-                s68_title: "Use Case: Memecahkan teka-teki", s68_content: "Tulis teka-teki yang Anda temukan dan minta MirAI untuk membantumu menyelesaikannya atau memberikan petunjuk.",
-                s69_title: "Troubleshooting: Pesan 'Rate limit exceeded'", s69_content: "Pesan ini secara eksplisit berarti kunci API yang digunakan telah mencapai batas permintaan dalam satu menit atau satu hari. Gunakan kunci API pribadi adalah satu-satunya solusi jangka panjang.",
-                s70_title: "Troubleshooting: Teks bahasa Jepang/asing tampil sebagai kotak-kotak", s70_content: "Ini adalah masalah font di sistem operasi Anda, bukan di aplikasi MirAI. Pastikan Anda telah menginstal paket font yang diperlukan untuk bahasa tersebut di perangkat Anda.",
-                s71_title: "API: Apakah saya akan ditagih biaya jika menggunakan kunci sendiri?", s71_content: "Google AI Platform (Gemini) memiliki tingkatan gratis (free tier) yang sangat besar. Untuk penggunaan normal, kemungkinan besar Anda tidak akan ditagih. Namun, selalu periksa dasbor penagihan Google Anda untuk memastikannya.",
-                s72_title: "API: Bagaimana cara mengamankan Kunci API saya?", s72_content: "Jangan pernah membagikan Kunci API Anda secara publik atau menyimpannya di kode yang bisa diakses umum. Di aplikasi MirAI, kunci Anda disimpan secara lokal dan aman di browser Anda.",
-                s73_title: "Fitur: Apakah ada riwayat versi?", s73_content: "Ya, riwayat versi atau changelog lengkap untuk setiap pembaruan dapat ditemukan di file <code>CHANGELOG.md</code> di repositori GitHub.",
-                s74_title: "Fitur: Bisakah MirAI mengingat percakapan sebelumnya?", s74_content: "MirAI dapat 'mengingat' apa yang telah Anda katakan dalam sesi percakapan saat ini. Namun, jika Anda memulai chat baru, ia tidak akan mengingat percakapan dari sesi sebelumnya.",
-                s75_title: "Fitur: Apakah ada mode offline?", s75_content: "Tidak. Karena MirAI perlu berkomunikasi dengan server Google AI untuk setiap permintaan, koneksi internet yang aktif selalu diperlukan.",
-                s76_title: "Fitur: Bisakah MirAI mengakses internet secara real-time?", s76_content: "Secara default, tidak. Pengetahuan model AI terbatas pada data latihnya. Namun, dengan menggunakan perintah <code>/search</code>, Anda dapat memintanya untuk mencari informasi terkini.",
-                s77_title: "Fitur: Bahasa apa saja yang didukung antarmuka?", s77_content: "Saat ini, antarmuka (tombol, menu) MirAI mendukung Bahasa Indonesia, Inggris (US), dan Jepang. Kami berencana untuk menambahkan lebih banyak bahasa di masa depan.",
-                s78_title: "Tips: Memperbaiki koreksi yang salah dari /fix", s78_content: "Jika <code>/fix</code> memberikan koreksi yang tidak Anda inginkan, Anda bisa mencoba lagi dengan memberikan lebih banyak konteks. Contoh: <code>/fix 'teks salah' - konteks: ini adalah tulisan informal</code>.",
-                s79_title: "Tips: Mengontrol panjang ringkasan /summarize", s79_content: "Anda bisa menambahkan instruksi panjang pada prompt. Contoh: <code>/summarize [teks] dalam satu paragraf pendek</code> atau <code>/summarize [teks] dalam 3 poin utama</code>.",
-                s80_title: "Tips: Menggabungkan beberapa perintah", s80_content: "Anda dapat mencoba menggabungkan tugas dalam satu prompt. Contoh: <code>Cari biografi singkat Albert Einstein, lalu terjemahkan ke Bahasa Indonesia.</code>",
-                s81_title: "Perbandingan: MirAI vs Google Assistant/Siri", s81_content: "Google Assistant/Siri terintegrasi erat dengan sistem operasi perangkat untuk tugas seperti menyetel alarm atau menelepon. MirAI lebih fokus pada tugas-tugas berbasis teks dan konten, seperti menulis, meringkas, dan coding.",
-                s82_title: "Perbandingan: MirAI vs ChatGPT", s82_content: "Keduanya adalah chatbot AI. Perbedaan utamanya terletak pada model AI yang digunakan (Gemini vs GPT) dan antarmukanya. MirAI dirancang sebagai aplikasi web yang ringan, cepat, dan open-source.",
-                s83_title: "Hukum: Siapa pemilik konten yang dihasilkan AI?", s83_content: "Ini adalah area hukum yang kompleks. Umumnya, Anda bebas menggunakan konten yang dihasilkan. Namun, kebijakan spesifik bergantung pada Syarat & Ketentuan dari penyedia model AI (Google).",
-                s84_title: "Hukum: Apakah saya bisa menggunakan nama 'MirAI' di proyek saya?", s84_content: "Nama 'MirAI' dan logonya adalah bagian dari identitas proyek ini. Sebaiknya jangan gunakan nama yang sama untuk menghindari kebingungan. Kode sumbernya bebas Anda gunakan di bawah lisensi MIT.",
-                s85_title: "Lainnya: Apa arti 'MirAI'?", s85_content: "'Mirai' (未来) adalah kata dalam bahasa Jepang yang berarti 'masa depan'. Penggunaan huruf 'AI' di akhir adalah permainan kata yang merujuk pada Artificial Intelligence.",
-                s86_title: "Lainnya: Di mana aplikasi ini di-host?", s86_content: "Versi publik dari aplikasi ini di-host di GitHub Pages, sebuah layanan hosting situs web statis gratis yang disediakan oleh GitHub.",
-                s87_title: "Masalah: Tombol 'Salin' tidak berfungsi", s87_content: "Ini mungkin disebabkan oleh pengaturan keamanan atau ekstensi di browser Anda yang memblokir akses ke clipboard. Coba di browser lain atau nonaktifkan sementara ekstensi pemblokir skrip.",
-                s88_title: "Masalah: Perubahan tema tidak berfungsi", s88_content: "Ini sangat jarang terjadi, tetapi bisa jadi karena Local Storage browser Anda bermasalah. Coba bersihkan cache dan data situs untuk MirAI, lalu coba lagi.",
-                s89_title: "UI: Bagaimana cara kembali ke halaman utama dari Pengaturan?", s89_content: "Di halaman Pengaturan, klik tombol 'X' di pojok kanan atas untuk menutupnya dan kembali ke layar chat Anda.",
-                s90_title: "UI: Bisakah saya mencari di dalam percakapan?", s90_content: "Aplikasi MirAI tidak memiliki fitur pencarian di dalam chat. Namun, Anda dapat menggunakan fitur pencarian halaman bawaan browser Anda (biasanya Ctrl+F atau Cmd+F).",
-                s91_title: "Tips: Menggunakan MirAI untuk debugging kode", s91_content: "Tempelkan potongan kode Anda yang error dan jelaskan pesan error yang Anda dapatkan. MirAI bisa mencoba menemukan kesalahan logika atau sintaks di dalam kode tersebut.",
-                s92_title: "Tips: Mengubah format output", s92_content: "Anda bisa meminta format output yang spesifik. Contoh: <code>Berikan saya 5 ibu kota di Eropa dalam format tabel markdown</code> atau <code>Jelaskan prosesnya dalam bentuk daftar bernomor</code>.",
-                s93_title: "Privasi: Apakah MirAI menggunakan cookie?", s93_content: "MirAI tidak menggunakan cookie pelacakan (tracking cookies). Ia hanya menggunakan Local Storage untuk menyimpan pengaturan dan riwayat chat Anda, yang hanya dapat diakses oleh Anda.",
-                s94_title: "Teknis: Apa itu 'system prompt'?", s94_content: "'System prompt' adalah instruksi awal yang diberikan kepada model AI untuk mengatur konteks, nada, dan aturan percakapan. Fitur persona di MirAI bekerja dengan mengubah system prompt ini.",
-                s95_title: "Teknis: Seberapa 'baru' pengetahuan AI?", s95_content: "Pengetahuan bawaan model AI memiliki 'knowledge cutoff date', yaitu tanggal terakhir data pelatihannya. Untuk informasi setelah tanggal tersebut, Anda harus menggunakan perintah <code>/search</code>.",
-                s96_title: "Kontribusi: Saya bukan programmer, bagaimana saya bisa membantu?", s96_content: "Anda tetap bisa membantu! Memberikan feedback, melaporkan bug, menyarankan fitur, memperbaiki kesalahan ketik di Pusat Bantuan, atau membagikan MirAI kepada teman-teman Anda sangatlah berharga.",
-                s97_title: "Use Case: Meringkas video YouTube", s97_content: "MirAI tidak bisa 'menonton' video. Tapi jika video tersebut memiliki transkrip, Anda bisa menyalin transkripnya dan memintanya untuk meringkas menggunakan <code>/summarize</code>.",
-                s98_title: "Use Case: Membandingkan produk", s98_content: "Anda bisa meminta perbandingan. Contoh: <code>Bandingkan kelebihan dan kekurangan antara laptop A dan laptop B dalam bentuk tabel.</code>",
-                s99_title: "Lainnya: Apakah ada batasan jumlah karakter input?", s99_content: "Kotak input dapat menampung banyak teks, tetapi model AI itu sendiri memiliki batas input token. Untuk teks yang sangat panjang (misalnya, seluruh buku), lebih baik memecahnya menjadi beberapa bagian.",
-                s100_title: "Lainnya: Saya punya ide gila untuk MirAI!", s100_content: "Kami suka ide gila! Silakan bagikan ide Anda di tab 'Discussions' atau 'Issues' di repositori <a href='https://github.com/Allwaysever/MirAI/discussions' target='_blank'>GitHub</a>. Siapa tahu ide Anda akan menjadi fitur besar berikutnya."
-            }, 'en-US': { docTitle: "MirAI Help Center", pageTitle: "Help Center", searchPlaceholder: "Search for topics or questions...", noResults: "No results found for your search.", s1_title: "What is MirAI?", s1_content: "MirAI is an AI chat assistant created by developer <strong>Allwaysever</strong>. Its goal is to be a fun conversational partner and a lightweight tool for daily tasks.", s2_title: "Are MirAI's answers always accurate?", s2_content: "No. As stated in the app, \"MirAI can provide inaccurate answers.\" Always verify important information from other sources.", s3_title: "Is my conversation data safe?", s3_content: "Your privacy is important. Conversations are stored locally in your browser (Local Storage) and are not sent to our servers. If you clear your history or browser cache, the conversation will be lost.", s4_title: "Who is the developer behind MirAI?", s4_content: "MirAI is developed by <strong>Allwaysever</strong>, an individual developer passionate about AI technology and creating useful applications.", s5_title: "How do I change the Settings?", s5_content: "Click the <strong>menu icon (three lines)</strong> in the top-left corner of the main screen to open the <strong>Settings</strong> page.", s6_title: "What is the 'AI Persona' feature?", s6_content: "AI Persona allows you to change MirAI's speaking style. Choose 'Formal' for professional answers, 'Chill' for casual chats, or 'Creative' for imaginative ideas.", s7_title: "What is a Google API Key?", s7_content: "An API Key is a unique code that grants access to the Google AI Gemini service. MirAI provides a default key, but it has a daily usage limit.", s8_title: "Why should I use my own API Key?", s8_content: "Using your personal API Key ensures you won't be affected by the default key's usage limit, providing a more stable experience.", s9_title: "Where can I get an API Key?", s9_content: "You can get a Google Gemini API Key for free from <strong>Google AI Studio</strong>. Create an account, then create a new key there.", s10_title: "How do I start a new chat?", s10_content: "On the main screen, click the <strong>trash can icon</strong> below the menu button to delete the current chat history and start a fresh session.", s11_title: "How do I copy the AI's response text?", s11_content: "In each AI chat bubble, click the small <strong>copy icon</strong> underneath it to copy the entire response text to your clipboard.", s12_title: "What slash (/) commands are available?", s12_content: "Type <code>/</code> in the input box to see a full list of available commands, such as <code>/search</code>, <code>/translate</code>, <code>/summarize</code>, and more.", s13_title: "Command Detail: /search", s13_content: "Use <code>/search [topic]</code> to ask MirAI to search the web for information. Example: <code>/search latest tech news</code>.", s14_title: "Command Detail: /translate", s14_content: "Use <code>/translate [text] to [language]</code> to translate. Example: <code>/translate good morning to japanese</code>.", s15_title: "Command Detail: /summarize", s15_content: "Use <code>/summarize [long text]</code> to create a summary. Paste an article or long text after the command.", s16_title: "Command Detail: /code", s16_content: "Use <code>/code [description]</code> to request code snippets. Example: <code>/code javascript function for email validation</code>.",
-                s17_title: "Command Detail: /explain", s17_content: "Use <code>/explain [concept] like i'm [audience]</code> for simple explanations. Example: <code>/explain blockchain like i'm 10 years old</code>.",
-                s18_title: "Tip: Be Specific When Asking", s18_content: "The more detailed and contextual your question, the better the AI's answer. Instead of \"tell me about cars\", try \"explain the advantages of electric cars for urban families.\"",
-                s19_title: "Tip: Use Chained Commands", s19_content: "You can use the result of one command as input for the next. Example: use <code>/search</code>, then copy the result and use <code>/summarize</code> to summarize it.",
-                s20_title: "Issue: Lost Internet Connection", s20_content: "MirAI requires an active internet connection. If you see this message, check your WiFi or mobile data connection and try reloading the application.",
-                s21_title: "Issue: 'An error occurred...' Error Message", s21_content: "This is most often caused by the default API Key reaching its usage limit. The best solution is to enter your <strong>personal Google API Key</strong> in Settings.",
-                s22_title: "Issue: Broken display of response text", s22_content: "Sometimes, complex formatting (like tables) may not display perfectly. Try asking the AI to present the data in a simpler format, such as a list.",
-                s23_title: "Issue: App feels slow", s23_content: "If the conversation is very long, the application might slow down. Try starting a new chat session. Clearing your browser cache can also help.",
-                s24_title: "Contribution: How can I help?", s24_content: "You can contribute by reporting bugs, suggesting features, or submitting code via a <em>Pull Request</em> on our GitHub repository.",
-                s25_title: "Contribution: Where is the source code?", s25_content: "MirAI is an open-source project. You can view the entire source code on <a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a>.",
-                s26_title: "About: What AI model is used?", s26_content: "MirAI is powered by Google's <strong>Gemini 2.5 Flash</strong> model, optimized for speed and efficiency.",
-                s27_title: "Command Detail: /rephrase", s27_content: "Use <code>/rephrase [text] as [style]</code> to change writing style. Example: <code>/rephrase this text as more professional</code>.",
-                s28_title: "Command Detail: /ideate", s28_content: "Use <code>/ideate [number] ideas for [topic]</code> for brainstorming. Example: <code>/ideate 5 ideas for an online store name</code>.",
-                s29_title: "Command Detail: /fix", s29_content: "Use <code>/fix [text]</code> to correct spelling and grammar. Paste the incorrect sentence after the command.",
-                s30_title: "Issue: AI stops responding halfway", s30_content: "This can happen due to the AI model's output length limit or a triggered safety filter. Try simplifying your question.",
-                s31_title: "Issue: Settings are not saved", s31_content: "Settings are stored in the browser's Local Storage. This issue can occur if you are using Incognito mode or if your browser storage is full.",
-                s32_title: "Issue: My custom API Key is not working", s32_content: "Ensure you copied the key correctly without extra spaces and check its status in Google AI Studio.",
-                s33_title: "About: Is MirAI free?", s33_content: "Yes, MirAI is free to use. The application runs using the default API key or your personal API key (which also has a free tier from Google).",
-                s34_title: "About: What devices can MirAI be used on?", s34_content: "MirAI is a web application (PWA), meaning it can be accessed through any modern browser on desktop and mobile.",
-                s35_title: "About: How are conversations stored?", s35_content: "Your conversation history is stored exclusively on your device using the browser's Local Storage. No chat data is stored on MirAI's servers.",
-                s36_title: "About: Where are the application's Terms & Conditions?", s36_content: "You can read the full Terms & Conditions via the link available at the bottom of the <strong>Settings</strong> page in the main application.",
-                s37_title: "Tip: Getting better code results", s37_content: "When using <code>/code</code>, specify the programming language, library, and the function's purpose for more accurate results.",
-                s38_title: "Tip: Using MirAI for creative writing", s38_content: "Set the persona to 'Creative' in Settings. You can ask it to write poetry, short scripts, song lyrics, or help you continue a story.",
-                s39_title: "Tip: Use 'Negative Prompts'", s39_content: "You can tell the AI what not to do. Example: <code>/search photosynthesis, explain without scientific terms</code>.",
-                s40_title: "About: Where can I see the Changelog?", s40_content: "The changelog for every new version of MirAI is available in the project's <a href='https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md' target='_blank'>GitHub</a> repository.",
-                s41_title: "UI: What does the connection indicator in the top-right corner mean?", s41_content: "The indicator shows your internet connection status. Green means 'Connected', and Red means 'Disconnected'.",
-                s42_title: "UI: Why did the input box move from the center to the bottom?", s42_content: "This is part of the design. When the app is first opened, the focus is in the center. After you start chatting, the input box moves to the bottom to give maximum space for the conversation.",
-                s43_title: "UI: What is the purpose of the '+' button next to the input box?", s43_content: "The '+' button opens the 'Tool Store', which contains a list of all available slash (/) commands so you don't have to memorize them.",
-                s44_title: "UI: Why does the MirAI logo disappear when I start chatting?", s44_content: "The logo is hidden to provide a cleaner reading experience and focus on your conversation with the AI.",
-                s45_title: "UI: Can I change the font size?", s45_content: "Currently, the feature to directly change the font size in the app is not available. You can use your browser's built-in zoom feature temporarily.",
-                s46_title: "UI: Are there keyboard shortcuts?", s46_content: "Yes, you can press <code>Enter</code> to send a message (if you don't press <code>Shift</code>). We are exploring adding more shortcuts in the future.",
-                s47_title: "Privacy: Can the developer see my conversations?", s47_content: "No. Since all data is stored locally in your browser, the developer (Allwaysever) has absolutely no access to your conversation history.",
-                s48_title: "Privacy: Can Google see my conversations?", s48_content: "When you send a request, the data is sent to Google's servers to be processed by the Gemini model. Review Google's privacy policy for more information on how they handle data.",
-                s49_title: "Privacy: How do I completely delete all my data?", s49_content: "To delete all MirAI data (including history and settings), you need to clear the site data or cache for this page via your browser settings.",
-                s50_title: "Privacy: What is 'Local Storage'?", s50_content: "'Local Storage' is a small storage space within your browser. Websites can use it to store data (like settings or chat history) on your device so that the data persists even after you close the tab.",
-                s51_title: "Technical: Why does the AI sometimes refuse to answer?", s51_content: "AI models have built-in safety filters to prevent the creation of harmful, unethical, or inappropriate content. If your request is detected as approaching those topics, the AI will refuse to answer.",
-                s52_title: "Technical: What is a 'token' in the context of AI?", s52_content: "A token is a piece of a word or character that the AI uses to process text. Every request and answer has a token limit. Very long conversations can exceed this limit.",
-                s53_title: "Technical: Does MirAI learn from my conversations?", s53_content: "No. The AI model used is not continuously trained using your conversations. Each chat session starts with a new 'memory', except for the history you see on the screen.",
-                s54_title: "Technical: How does the 'persona' feature work?", s54_content: "When you select a persona, a special system instruction (system prompt) is added at the beginning of your conversation (hidden). This instruction tells the AI to adopt a specific speaking style during that session.",
-                s55_title: "Technical: What's the difference between Gemini 2.5 Flash and other models?", s55_content: "Gemini 2.5 Flash is designed to be very fast and cost-efficient, making it ideal for responsive chat applications. Other models may be more powerful but slower.",
-                s56_title: "Technical: What technology is this application built with?", s56_content: "The MirAI interface (front-end) is built using standard web technologies: pure HTML, CSS, and JavaScript, without heavy frameworks.",
-                s57_title: "Community: How do I report issues with this Help Center?", s57_content: "If you find errors or unclear information here, the best way is to create an 'Issue' on the project's <a href='https://github.com/Allwaysever/MirAI/issues' target='_blank'>GitHub</a> repository.",
-                s58_title: "Community: How do I follow MirAI's development?", s58_content: "You can 'star' or 'watch' the project repository on <a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a> to get notifications about updates and new releases.",
-                s59_title: "Community: Is there a forum for MirAI users?", s59_content: "Currently, there is no dedicated forum. However, you can use the 'Discussions' tab on the <a href='https://github.com/Allwaysever/MirAI/discussions' target='_blank'>GitHub</a> repository to ask questions or share ideas with other users.",
-                s60_title: "Other: What is MirAI's license?", s60_content: "MirAI is released under the MIT License, which is very permissive. This means you are free to use, modify, and distribute the code, even for commercial purposes, as long as you include the original license.",
-                s61_title: "Other: Can I host MirAI on my own server?", s61_content: "Of course. Since MirAI is an open-source project, you can clone the repository from GitHub and host it on your own web server. You just need to replace the default API key with your own.",
-                s62_title: "Other: Can I use MirAI for commercial purposes?", s62_content: "Yes, the MIT License allows commercial use. However, you are responsible for complying with the Terms & Conditions of the Google API you use.",
-                s63_title: "Use Case: Planning a trip", s63_content: "Try asking: <code>/ideate 5 fun activities in Yogyakarta for 3 days</code> or <code>Help me create a one-week travel itinerary to Japan with a limited budget</code>.",
-                s64_title: "Use Case: Writing an email", s64_content: "Use the <code>/rephrase</code> command or ask directly. Example: <code>Write a professional email to my boss, asking for leave next week due to a family matter.</code>",
-                s65_title: "Use Case: Role-playing (RPG)", s65_content: "Set the persona to 'Creative' and ask MirAI to be the Dungeon Master. Example: <code>You are the DM. I am a knight entering a dark cave. What do I see?</code>",
-                s66_title: "Use Case: Learning a new language", s66_content: "Use <code>/translate</code> for words or ask for explanations. Example: <code>Explain the use of particles 'wa' and 'ga' in Japanese with simple examples.</code>",
-                s67_title: "Use Case: Looking for recipe ideas", s67_content: "Provide the ingredients you have. Example: <code>I have chicken, onions, and potatoes. Give me 3 easy dinner recipe ideas.</code>",
-                s68_title: "Use Case: Solving a puzzle", s68_content: "Write down the puzzle you found and ask MirAI to help you solve it or provide hints.",
-                s69_title: "Troubleshooting: 'Rate limit exceeded' message", s69_content: "This message explicitly means the API key used has reached the request limit within one minute or one day. Using a private API key is the only long-term solution.",
-                s70_title: "Troubleshooting: Japanese/foreign text appears as boxes", s70_content: "This is a font issue on your operating system, not in the MirAI application. Make sure you have the necessary font packages installed for that language on your device.",
-                s71_title: "API: Will I be charged if I use my own key?", s71_content: "The Google AI Platform (Gemini) has a very generous free tier. For normal usage, you are unlikely to be charged. However, always check your Google billing dashboard to be sure.",
-                s72_title: "API: How do I secure my API Key?", s72_content: "Never share your API Key publicly or store it in publicly accessible code. In the MirAI application, your key is stored locally and securely in your browser.",
-                s73_title: "Feature: Is there a version history?", s73_content: "Yes, the complete version history or changelog for every update can be found in the <code>CHANGELOG.md</code> file in the GitHub repository.",
-                s74_title: "Feature: Can MirAI remember previous conversations?", s74_content: "MirAI can 'remember' what you have said in the current conversation session. However, if you start a new chat, it will not remember conversations from previous sessions.",
-                s75_title: "Feature: Is there an offline mode?", s75_content: "No. Since MirAI needs to communicate with the Google AI server for every request, an active internet connection is always required.",
-                s76_title: "Feature: Can MirAI access the internet in real-time?", s76_content: "By default, no. The AI model's knowledge is limited to its training data. However, by using the <code>/search</code> command, you can ask it to search for current information.",
-                s77_title: "Feature: What interface languages are supported?", s77_content: "Currently, the MirAI interface (buttons, menus) supports Indonesian, English (US), and Japanese. We plan to add more languages in the future.",
-                s78_title: "Tip: Fixing incorrect corrections from /fix", s78_content: "If <code>/fix</code> provides a correction you didn't want, you can try again by giving more context. Example: <code>/fix 'wrong text' - context: this is informal writing</code>.",
-                s79_title: "Tip: Controlling the length of /summarize summary", s79_content: " You can add length instructions to the prompt. Example: <code>/summarize [text] in one short paragraph</code> or <code>/summarize [text] in 3 main points</code>.",
-                s80_title: "Tip: Combining multiple commands", s80_content: "You can try combining tasks in one prompt. Example: <code>Search for a brief biography of Albert Einstein, then translate it into Indonesian.</code>",
-                s81_title: "Comparison: MirAI vs Google Assistant/Siri", s81_content: "Google Assistant/Siri are tightly integrated with the device's operating system for tasks like setting alarms or making calls. MirAI focuses more on text and content-based tasks, such as writing, summarizing, and coding.",
-                s82_title: "Comparison: MirAI vs ChatGPT", s82_content: "Both are AI chatbots. The main differences lie in the AI model used (Gemini vs GPT) and the interface. MirAI is designed as a lightweight, fast, and open-source web application.",
-                s83_title: "Legal: Who owns AI-generated content?", s83_content: "This is a complex legal area. Generally, you are free to use the generated content. However, specific policies depend on the Terms & Conditions of the AI model provider (Google).",
-                s84_title: "Legal: Can I use the name 'MirAI' in my project?", s84_content: "The name 'MirAI' and its logo are part of this project's identity. It is best not to use the same name to avoid confusion. The source code is free for you to use under the MIT license.",
-                s85_title: "Other: What does 'MirAI' mean?", s85_content: "'Mirai' (未来) is a Japanese word meaning 'future'. The use of 'AI' at the end is a wordplay referring to Artificial Intelligence.",
-                s86_title: "Other: Where is this application hosted?", s86_content: "The public version of this application is hosted on GitHub Pages, a free static website hosting service provided by GitHub.",
-                s87_title: "Issue: The 'Copy' button is not working", s87_content: "This may be caused by security settings or extensions in your browser blocking clipboard access. Try in another browser or temporarily disable script-blocking extensions.",
-                s88_title: "Issue: Theme change is not working", s88_content: "This is very rare, but it could be due to an issue with your browser's Local Storage. Try clearing the cache and site data for MirAI, then try again.",
-                s89_title: "UI: How do I go back to the main page from Settings?", s89_content: "On the Settings page, click the 'X' button in the top-right corner to close it and return to your chat screen.",
-                s90_title: "UI: Can I search within the conversation?", s90_content: "The MirAI application does not have a search feature within the chat. However, you can use your browser's built-in page search feature (usually Ctrl+F or Cmd+F).",
-                s91_title: "Tip: Using MirAI for code debugging", s91_content: "Paste your error code snippet and explain the error message you received. MirAI can try to find logic or syntax errors in the code.",
-                s92_title: "Tip: Changing the output format", s92_content: "You can ask for a specific output format. Example: <code>Give me 5 European capitals in markdown table format</code> or <code>Explain the process in a numbered list form</code>.",
-                s93_title: "Privacy: Does MirAI use cookies?", s93_content: "MirAI does not use tracking cookies. It only uses Local Storage to save your settings and chat history, which is only accessible to you.",
-                s94_title: "Technical: What is a 'system prompt'?", s94_content: "A 'system prompt' is an initial instruction given to the AI model to set the context, tone, and conversation rules. The persona feature in MirAI works by changing this system prompt.",
-                s95_title: "Technical: How 'recent' is the AI's knowledge?", s95_content: "The AI model's built-in knowledge has a 'knowledge cutoff date', which is the date of its last training data. For information after that date, you must use the <code>/search</code> command.",
-                s96_title: "Contribution: I'm not a programmer, how can I help?", s96_content: "You can still help! Providing feedback, reporting bugs, suggesting features, fixing typos in the Help Center, or sharing MirAI with your friends is invaluable.",
-                s97_title: "Use Case: Summarizing YouTube videos", s97_content: "MirAI cannot 'watch' videos. But if the video has a transcript, you can copy the transcript and ask it to summarize using <code>/summarize</code>.",
-                s98_title: "Use Case: Comparing products", s98_content: "You can ask for a comparison. Example: <code>Compare the advantages and disadvantages of laptop A and laptop B in a table format.</code>",
-                s99_title: "Other: Is there an input character limit?", s99_content: "The input box can hold a lot of text, but the AI model itself has a token input limit. For very long texts (e.g., an entire book), it is better to break it down into several parts.",
-                s100_title: "Other: I have a crazy idea for MirAI!", s100_content: "We love crazy ideas! Please share your ideas in the 'Discussions' or 'Issues' tab on the <a href='https://github.com/Allwaysever/MirAI/discussions' target='_blank'>GitHub</a> repository. Who knows, your idea might be the next big feature."
+    <main class="w-full mx-auto pb-20">
+        
+        <section class="py-10 container-padding max-w-6xl mx-auto">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-extrabold mb-4 leading-tight" data-lang-key="main_title">
+                    Pusat Bantuan MirAI
+                </h1>
+                <p class="text-lg text-gray-400 max-w-3xl mx-auto" data-lang-key="main_description">
+                    Temukan jawaban untuk pertanyaan umum, panduan penggunaan, dan pemecahan masalah
+                </p>
+            </div>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Cari topik atau pertanyaan...">
+            </div>
+
+            <div id="noResults" class="text-center py-10 hidden">
+                <p class="text-gray-500 text-lg" data-lang-key="noResults">Tidak ada hasil yang ditemukan untuk pencarian Anda.</p>
+            </div>
+
+            <div id="accordionContainer" class="mt-6">
+                <!-- Accordion items will be generated here by JavaScript -->
+            </div>
+        </section>
+    </main>
+    
+    <footer class="text-center py-6 text-sm text-gray-600 border-t border-gray-900">
+        &copy; 2025 Allwaysever Project: MirAI. Powered by Google Gemini API.
+    </footer>
+
+<script>
+    // === UI STRING DATABASE (100 SECTIONS) ===
+    const UIStrings = {
+        'id': {
+            docTitle: "Pusat Bantuan MirAI", 
+            pageTitle: "Pusat Bantuan", 
+            main_title: "Pusat Bantuan MirAI",
+            main_description: "Temukan jawaban untuk pertanyaan umum, panduan penggunaan, dan pemecahan masalah",
+            searchPlaceholder: "Cari topik atau pertanyaan...", 
+            noResults: "Tidak ada hasil yang ditemukan untuk pencarian Anda.",
+            s1_title: "Apa itu MirAI?", s1_content: "MirAI adalah asisten chat AI yang dibuat oleh <strong>Allwaysever</strong>. Tujuannya adalah menjadi teman ngobrol yang menyenangkan dan alat ringan untuk tugas sehari-hari.",
+            s2_title: "Apakah jawaban MirAI selalu akurat?", s2_content: "Tidak. Sebagaimana yang tertera di aplikasi, \"MirAI bisa memberikan jawaban yang tidak akurat.\" Selalu verifikasi informasi penting dari sumber lain.",
+            s3_title: "Apakah data percakapan saya aman?", s3_content: "Privasi Anda penting. Percakapan disimpan secara lokal di browser Anda (Local Storage) dan tidak dikirim ke server kami. Jika Anda menghapus riwayat atau cache browser, percakapan akan hilang.",
+            s4_title: "Siapa developer di balik MirAI?", s4_content: "MirAI dikembangkan oleh <strong>Allwaysever</strong>, seorang developer individu yang bersemangat tentang teknologi AI dan pembuatan aplikasi yang bermanfaat.",
+            s5_title: "Bagaimana cara mengubah Pengaturan?", s5_content: "Klik <strong>ikon menu (tiga garis)</strong> di pojok kiri atas layar utama untuk membuka halaman <strong>Pengaturan</strong>.",
+            s6_title: "Apa itu fitur 'Persona AI'?", s6_content: "Persona AI memungkinkan Anda mengubah gaya bicara MirAI. Pilih 'Formal' untuk jawaban profesional, 'Santai' untuk obrolan kasual, atau 'Kreatif' untuk ide-ide imajinatif.",
+            s7_title: "Apa itu Kunci API Google?", s7_content: "Kunci API adalah kode unik yang memberikan akses ke layanan Google AI Gemini. MirAI menyediakan kunci default, tetapi memiliki batas penggunaan harian.",
+            s8_title: "Kenapa saya harus pakai Kunci API sendiri?", s8_content: "Menggunakan Kunci API pribadi memastikan Anda tidak akan terganggu oleh batas penggunaan kunci default, memberikan pengalaman yang lebih stabil.",
+            s9_title: "Di mana saya bisa mendapatkan Kunci API?", s9_content: "Anda bisa mendapatkan Kunci API Google Gemini secara gratis melalui <strong>Google AI Studio</strong>. Buat akun, lalu buat kunci baru di sana.",
+            s10_title: "Bagaimana cara memulai chat baru?", s10_content: "Pada layar utama, klik <strong>ikon tempat sampah</strong> di bawah tombol menu untuk menghapus riwayat percakapan saat ini dan memulai sesi yang baru.",
+            s11_title: "Bagaimana cara menyalin teks jawaban AI?", s11_content: "Di setiap gelembung chat dari AI, klik <strong>ikon salin (copy)</strong> kecil di bawahnya untuk menyalin seluruh teks jawaban ke clipboard Anda.",
+            s12_title: "Perintah slash (/) apa saja yang ada?", s12_content: "Ketik <code>/</code> di kotak input untuk melihat daftar lengkap perintah yang tersedia, seperti <code>/search</code>, <code>/translate</code>, <code>/summarize</code>, dan lainnya.",
+            s13_title: "Detail Perintah: /search", s13_content: "Gunakan <code>/search [topik]</code> untuk meminta MirAI mencari informasi di web. Contoh: <code>/search berita teknologi terbaru</code>.",
+            s14_title: "Detail Perintah: /translate", s14_content: "Gunakan <code>/translate [teks] to [bahasa]</code> untuk menerjemahkan. Contoh: <code>/translate selamat pagi to japanese</code>.",
+            s15_title: "Detail Perintah: /summarize", s15_content: "Gunakan <code>/summarize [teks panjang]</code> untuk membuat ringkasan. Tempelkan artikel atau teks panjang setelah perintah.",
+            s16_title: "Detail Perintah: /code", s16_content: "Gunakan <code>/code [deskripsi]</code> untuk meminta potongan kode. Contoh: <code>/code fungsi javascript untuk validasi email</code>.",
+            s17_title: "Detail Perintah: /explain", s17_content: "Gunakan <code>/explain [konsep] like i'm [audiens]</code> untuk penjelasan sederhana. Contoh: <code>/explain blockchain like i'm 10 years old</code>.",
+            s18_title: "Tips: Jadilah Spesifik Saat Bertanya", s18_content: "Semakin detail dan berkonteks pertanyaan Anda, semakin baik jawaban AI. Alih-alih \"cerita tentang mobil\", coba \"jelaskan kelebihan mobil listrik untuk keluarga di perkotaan\".",
+            s19_title: "Tips: Gunakan Perintah Berantai", s19_content: "Anda bisa menggunakan hasil dari satu perintah sebagai masukan untuk perintah berikutnya. Contoh: gunakan <code>/search</code>, lalu salin hasilnya dan gunakan <code>/summarize</code> untuk meringkasnya.",
+            s20_title: "Masalah: Koneksi Internet Terputus", s20_content: "MirAI membutuhkan koneksi internet aktif. Jika Anda melihat pesan ini, periksa kembali koneksi WiFi atau data seluler Anda dan coba muat ulang aplikasi.",
+            s21_title: "Masalah: Pesan Error 'Terjadi kesalahan...'", s21_content: "Ini paling sering disebabkan oleh Kunci API default yang mencapai batas penggunaan. Solusi terbaik adalah memasukkan <strong>Kunci API Google pribadi</strong> Anda di Pengaturan.",
+            s22_title: "Masalah: Tampilan teks jawaban rusak", s22_content: "Terkadang, pemformatan kompleks (seperti tabel) mungkin tidak ditampilkan dengan sempurna. Coba minta AI untuk menyajikan data dalam format yang lebih sederhana, seperti daftar.",
+            s23_title: "Masalah: Aplikasi terasa lambat", s23_content: "Jika percakapan sudah sangat panjang, aplikasi mungkin melambat. Coba mulai sesi chat baru. Membersihkan cache browser juga dapat membantu.",
+            s24_title: "Kontribusi: Bagaimana cara saya membantu?", s24_content: "Anda dapat berkontribusi dengan melaporkan bug, menyarankan fitur, atau mengirimkan kode melalui <em>Pull Request</em> di repositori GitHub kami.",
+            s25_title: "Kontribusi: Di mana kode sumbernya?", s25_content: "MirAI adalah proyek sumber terbuka (open-source). Anda dapat melihat seluruh kode sumbernya di <a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a>.",
+            s26_title: "Tentang: Model AI apa yang digunakan?", s26_content: "MirAI ditenagai oleh model <strong>Gemini 2.5 Flash</strong> dari Google, yang dioptimalkan untuk kecepatan dan efisiensi.",
+            s27_title: "Detail Perintah: /rephrase", s27_content: "Gunakan <code>/rephrase [teks] as [gaya]</code> untuk mengubah gaya tulisan. Contoh: <code>/rephrase tulisan ini as lebih profesional</code>.",
+            s28_title: "Detail Perintah: /ideate", s28_content: "Gunakan <code>/ideate [jumlah] ide untuk [topik]</code> untuk brainstorming. Contoh: <code>/ideate 5 ide untuk nama toko online</code>.",
+            s29_title: "Detail Perintah: /fix", s29_content: "Gunakan <code>/fix [teks]</code> untuk memperbaiki ejaan dan tata bahasa. Tempelkan kalimat yang salah setelah perintah.",
+            s30_title: "Masalah: AI berhenti merespons di tengah jalan", s30_content: "Ini bisa terjadi karena batasan panjang output model AI atau filter keamanan yang terpicu. Coba sederhanakan pertanyaan Anda.",
+            s31_title: "Masalah: Pengaturan tidak tersimpan", s31_content: "Pengaturan disimpan di Local Storage browser. Masalah ini bisa terjadi jika Anda menggunakan mode penyamaran (Incognito) atau jika penyimpanan browser Anda penuh.",
+            s32_title: "Masalah: Kunci API kustom saya tidak bekerja", s32_content: "Pastikan Anda menyalin kunci dengan benar tanpa spasi tambahan dan periksa statusnya di Google AI Studio.",
+            s33_title: "Tentang: Apakah MirAI gratis?", s33_content: "Ya, MirAI gratis untuk digunakan. Aplikasi ini berjalan menggunakan kunci API default atau kunci API pribadi Anda (yang juga memiliki tingkatan gratis dari Google).",
+            s34_title: "Tentang: Di perangkat apa saja MirAI bisa digunakan?", s34_content: "MirAI adalah aplikasi web (PWA), artinya dapat diakses melalui browser modern apa pun di desktop dan seluler.",
+            s35_title: "Tentang: Bagaimana percakapan disimpan?", s35_content: "Riwayat percakapan Anda disimpan secara eksklusif di perangkat Anda menggunakan Local Storage browser. Tidak ada data chat yang disimpan di server MirAI.",
+            s36_title: "Tentang: Di mana Syarat & Ketentuan aplikasi?", s36_content: "Anda dapat membaca Syarat & Ketentuan lengkap melalui tautan yang tersedia di bagian bawah halaman <strong>Pengaturan</strong> di aplikasi utama.",
+            s37_title: "Tips: Mendapatkan hasil kode yang lebih baik", s37_content: "Saat menggunakan <code>/code</code>, sebutkan bahasa pemrograman, pustaka (library), dan tujuan fungsi secara spesifik untuk hasil yang lebih akurat.",
+            s38_title: "Tips: Menggunakan MirAI untuk tulisan kreatif", s38_content: "Gunakan persona 'Kreatif' di Pengaturan. Anda bisa memintanya untuk membuat puisi, skrip pendek, lirik lagu, atau membantumu melanjutkan cerita.",
+            s39_title: "Tips: Gunakan 'Prompt Negatif'", s39_content: "Anda bisa memberi tahu AI apa yang tidak boleh dilakukan. Contoh: <code>/search fotosintesis, jelaskan tanpa istilah ilmiah</code>.",
+            s40_title: "Tentang: Di mana saya bisa melihat daftar perubahan (Changelog)?", s40_content: "Daftar perubahan untuk setiap versi baru MirAI tersedia di repositori <a href='https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md' target='_blank'>GitHub</a> proyek.",
+            s41_title: "UI: Apa arti indikator koneksi di pojok kanan atas?", s41_content: "Indikator tersebut menunjukkan status koneksi internet Anda. Hijau berarti 'Terhubung', dan Merah berarti 'Terputus'.",
+            s42_title: "UI: Mengapa kotak input pindah dari tengah ke bawah?", s42_content: "Ini adalah bagian dari desain. Saat aplikasi pertama kali dibuka, fokus ada di tengah. Setelah Anda mulai chat, kotak input pindah ke bawah untuk memberikan ruang maksimal bagi percakapan.",
+            s43_title: "UI: Apa fungsi tombol '+' di sebelah kotak input?", s43_content: "Tombol '+' membuka 'Toko Perkakas', yang berisi daftar semua perintah slash (/) yang tersedia sehingga Anda tidak perlu menghafalnya.",
+            s44_title: "UI: Mengapa logo MirAI menghilang saat saya mulai chat?", s44_content: "Logo disembunyikan untuk memberikan pengalaman membaca yang lebih bersih dan fokus pada percakapan Anda dengan AI.",
+            s45_title: "UI: Bisakah saya mengubah ukuran font?", s45_content: "Saat ini, fitur untuk mengubah ukuran font secara langsung di aplikasi belum tersedia. Anda dapat menggunakan fitur zoom bawaan browser Anda untuk sementara.",
+            s46_title: "UI: Apakah ada shortcut keyboard?", s46_content: "Ya, Anda bisa menekan <code>Enter</code> untuk mengirim pesan (jika tidak menekan <code>Shift</code>). Kami sedang menjajaki penambahan shortcut lainnya di masa depan.",
+            s47_title: "Privasi: Apakah developer bisa melihat percakapan saya?", s47_content: "Tidak. Karena semua data disimpan secara lokal di browser Anda, developer (Allwaysever) tidak memiliki akses sama sekali ke riwayat percakapan Anda.",
+            s48_title: "Privasi: Apakah Google bisa melihat percakapan saya?", s48_content: "Saat Anda mengirim permintaan, data dikirim ke server Google untuk diproses oleh model Gemini. Tinjau kebijakan privasi Google untuk informasi lebih lanjut tentang bagaimana mereka menangani data.",
+            s49_title: "Privasi: Bagaimana cara menghapus total semua data saya?", s49_content: "Untuk menghapus semua data MirAI (termasuk riwayat dan pengaturan), Anda perlu membersihkan data situs (site data) atau cache untuk halaman ini melalui pengaturan browser Anda.",
+            s50_title: "Privasi: Apa itu 'Local Storage'?", s50_content: "'Local Storage' adalah ruang penyimpanan kecil di dalam browser Anda. Situs web dapat menggunakannya untuk menyimpan data (seperti pengaturan atau riwayat chat) di perangkat Anda sehingga data tersebut tetap ada bahkan setelah Anda menutup tab.",
+            s51_title: "Teknis: Mengapa AI terkadang menolak menjawab?", s51_content: "Model AI memiliki filter keamanan bawaan untuk mencegah pembuatan konten berbahaya, tidak etis, atau tidak pantas. Jika permintaan Anda terdeteksi mendekati topik-topik tersebut, AI akan menolak menjawab.",
+            s52_title: "Teknis: Apa itu 'token' dalam konteks AI?", s52_content: "Token adalah potongan kata atau karakter yang digunakan AI untuk memproses teks. Setiap permintaan dan jawaban memiliki batas jumlah token. Percakapan yang sangat panjang dapat melebihi batas ini.",
+            s53_title: "Teknis: Apakah MirAI belajar dari percakapan saya?", s53_content: "Tidak. Model AI yang digunakan tidak dilatih secara terus-menerus menggunakan percakapan Anda. Setiap sesi chat dimulai dengan 'ingatan' yang baru, kecuali untuk riwayat yang Anda lihat di layar.",
+            s54_title: "Teknis: Bagaimana cara kerja fitur 'persona'?", s54_content: "Saat Anda memilih persona, sebuah instruksi sistem khusus (system prompt) ditambahkan di awal percakapan Anda (secara tersembunyi). Instruksi ini memberitahu AI untuk mengadopsi gaya bicara tertentu selama sesi tersebut.",
+            s55_title: "Teknis: Apa beda Gemini 2.5 Flash dengan model lain?", s55_content: "Gemini 2.5 Flash dirancang untuk menjadi sangat cepat dan efisien dari segi biaya, menjadikannya ideal untuk aplikasi chat yang responsif. Model lain mungkin lebih kuat tetapi lebih lambat.",
+            s56_title: "Teknis: Dengan teknologi apa aplikasi ini dibuat?", s56_content: "Antarmuka (front-end) MirAI dibuat menggunakan teknologi web standar: HTML, CSS, dan JavaScript murni, tanpa framework yang berat.",
+            s57_title: "Komunitas: Bagaimana cara melaporkan masalah di Pusat Bantuan ini?", s57_content: "Jika Anda menemukan kesalahan atau informasi yang kurang jelas di sini, cara terbaik adalah dengan membuat 'Issue' di repositori <a href='https://github.com/Allwaysever/MirAI/issues' target='_blank'>GitHub</a> proyek.",
+            s58_title: "Komunitas: Bagaimana cara mengikuti perkembangan MirAI?", s58_content: "Anda dapat 'membintangi' (star) atau 'mengawasi' (watch) repositori proyek di <a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a> untuk mendapatkan notifikasi tentang pembaruan dan rilis baru.",
+            s59_title: "Komunitas: Apakah ada forum untuk pengguna MirAI?", s59_content: "Saat ini belum ada forum khusus. Namun, Anda dapat menggunakan tab 'Discussions' di repositori <a href='https://github.com/Allwaysever/MirAI/discussions' target='_blank'>GitHub</a> untuk bertanya atau berbagi ide dengan pengguna lain.",
+            s60_title: "Lainnya: Apa lisensi MirAI?", s60_content: "MirAI dirilis di bawah Lisensi MIT, yang sangat permisif. Ini berarti Anda bebas menggunakan, memodifikasi, dan mendistribusikan kode, bahkan untuk tujuan komersial, selama Anda menyertakan lisensi aslinya.",
+            s61_title: "Lainnya: Bisakah saya meng-host MirAI di server saya sendiri?", s61_content: "Tentu saja. Karena MirAI adalah proyek open-source, Anda dapat mengkloning repositori dari GitHub dan meng-host-nya di server web Anda sendiri. Anda hanya perlu mengganti kunci API default dengan milik Anda.",
+            s62_title: "Lainnya: Bisakah saya menggunakan MirAI untuk tujuan komersial?", s62_content: "Ya, Lisensi MIT mengizinkan penggunaan komersial. Namun, Anda bertanggung jawab untuk mematuhi Syarat & Ketentuan dari Google API yang Anda gunakan.",
+            s63_title: "Use Case: Merencanakan perjalanan", s63_content: "Coba minta: <code>/ideate 5 aktivitas seru di Yogyakarta untuk 3 hari</code> atau <code>Bantu saya membuat itinerary perjalanan ke Jepang selama seminggu dengan budget terbatas</code>.",
+            s64_title: "Use Case: Menulis email", s64_content: "Gunakan perintah <code>/rephrase</code> atau minta langsung. Contoh: <code>Tulis email profesional untuk bos saya, meminta izin cuti minggu depan karena urusan keluarga.</code>",
+            s65_title: "Use Case: Bermain peran (RPG)", s65_content: "Atur persona ke 'Kreatif' dan minta MirAI menjadi Dungeon Master. Contoh: <code>Kamu adalah DM. Saya adalah seorang ksatria yang memasuki gua gelap. Apa yang saya lihat?</code>",
+            s66_title: "Use Case: Belajar bahasa baru", s66_content: "Gunakan <code>/translate</code> untuk kata-kata atau minta penjelasan. Contoh: <code>Jelaskan penggunaan partikel 'wa' dan 'ga' dalam bahasa Jepang dengan contoh sederhana.</code>",
+            s67_title: "Use Case: Mencari ide resep", s67_content: "Berikan bahan-bahan yang Anda miliki. Contoh: <code>Saya punya ayam, bawang, dan kentang. Beri saya 3 ide resep makan malam yang mudah.</code>",
+            s68_title: "Use Case: Memecahkan teka-teki", s68_content: "Tulis teka-teki yang Anda temukan dan minta MirAI untuk membantumu menyelesaikannya atau memberikan petunjuk.",
+            s69_title: "Troubleshooting: Pesan 'Rate limit exceeded'", s69_content: "Pesan ini secara eksplisit berarti kunci API yang digunakan telah mencapai batas permintaan dalam satu menit atau satu hari. Gunakan kunci API pribadi adalah satu-satunya solusi jangka panjang.",
+            s70_title: "Troubleshooting: Teks bahasa Jepang/asing tampil sebagai kotak-kotak", s70_content: "Ini adalah masalah font di sistem operasi Anda, bukan di aplikasi MirAI. Pastikan Anda telah menginstal paket font yang diperlukan untuk bahasa tersebut di perangkat Anda.",
+            s71_title: "API: Apakah saya akan ditagih biaya jika menggunakan kunci sendiri?", s71_content: "Google AI Platform (Gemini) memiliki tingkatan gratis (free tier) yang sangat besar. Untuk penggunaan normal, kemungkinan besar Anda tidak akan ditagih. Namun, selalu periksa dasbor penagihan Google Anda untuk memastikannya.",
+            s72_title: "API: Bagaimana cara mengamankan Kunci API saya?", s72_content: "Jangan pernah membagikan Kunci API Anda secara publik atau menyimpannya di kode yang bisa diakses umum. Di aplikasi MirAI, kunci Anda disimpan secara lokal dan aman di browser Anda.",
+            s73_title: "Fitur: Apakah ada riwayat versi?", s73_content: "Ya, riwayat versi atau changelog lengkap untuk setiap pembaruan dapat ditemukan di file <code>CHANGELOG.md</code> di repositori GitHub.",
+            s74_title: "Fitur: Bisakah MirAI mengingat percakapan sebelumnya?", s74_content: "MirAI dapat 'mengingat' apa yang telah Anda katakan dalam sesi percakapan saat ini. Namun, jika Anda memulai chat baru, ia tidak akan mengingat percakapan dari sesi sebelumnya.",
+            s75_title: "Fitur: Apakah ada mode offline?", s75_content: "Tidak. Karena MirAI perlu berkomunikasi dengan server Google AI untuk setiap permintaan, koneksi internet yang aktif selalu diperlukan.",
+            s76_title: "Fitur: Bisakah MirAI mengakses internet secara real-time?", s76_content: "Secara default, tidak. Pengetahuan model AI terbatas pada data latihnya. Namun, dengan menggunakan perintah <code>/search</code>, Anda dapat memintanya untuk mencari informasi terkini.",
+            s77_title: "Fitur: Bahasa apa saja yang didukung antarmuka?", s77_content: "Saat ini, antarmuka (tombol, menu) MirAI mendukung Bahasa Indonesia, Inggris (US), dan Jepang. Kami berencana untuk menambahkan lebih banyak bahasa di masa depan.",
+            s78_title: "Tips: Memperbaiki koreksi yang salah dari /fix", s78_content: "Jika <code>/fix</code> memberikan koreksi yang tidak Anda inginkan, Anda bisa mencoba lagi dengan memberikan lebih banyak konteks. Contoh: <code>/fix 'teks salah' - konteks: ini adalah tulisan informal</code>.",
+            s79_title: "Tips: Mengontrol panjang ringkasan /summarize", s79_content: "Anda bisa menambahkan instruksi panjang pada prompt. Contoh: <code>/summarize [teks] dalam satu paragraf pendek</code> atau <code>/summarize [teks] dalam 3 poin utama</code>.",
+            s80_title: "Tips: Menggabungkan beberapa perintah", s80_content: "Anda dapat mencoba menggabungkan tugas dalam satu prompt. Contoh: <code>Cari biografi singkat Albert Einstein, lalu terjemahkan ke Bahasa Indonesia.</code>",
+            s81_title: "Perbandingan: MirAI vs Google Assistant/Siri", s81_content: "Google Assistant/Siri terintegrasi erat dengan sistem operasi perangkat untuk tugas seperti menyetel alarm atau menelepon. MirAI lebih fokus pada tugas-tugas berbasis teks dan konten, seperti menulis, meringkas, dan coding.",
+            s82_title: "Perbandingan: MirAI vs ChatGPT", s82_content: "Keduanya adalah chatbot AI. Perbedaan utamanya terletak pada model AI yang digunakan (Gemini vs GPT) dan antarmukanya. MirAI dirancang sebagai aplikasi web yang ringan, cepat, dan open-source.",
+            s83_title: "Hukum: Siapa pemilik konten yang dihasilkan AI?", s83_content: "Ini adalah area hukum yang kompleks. Umumnya, Anda bebas menggunakan konten yang dihasilkan. Namun, kebijakan spesifik bergantung pada Syarat & Ketentuan dari penyedia model AI (Google).",
+            s84_title: "Hukum: Apakah saya bisa menggunakan nama 'MirAI' di proyek saya?", s84_content: "Nama 'MirAI' dan logonya adalah bagian dari identitas proyek ini. Sebaiknya jangan gunakan nama yang sama untuk menghindari kebingungan. Kode sumbernya bebas Anda gunakan di bawah lisensi MIT.",
+            s85_title: "Lainnya: Apa arti 'MirAI'?", s85_content: "'Mirai' (未来) adalah kata dalam bahasa Jepang yang berarti 'masa depan'. Penggunaan huruf 'AI' di akhir adalah permainan kata yang merujuk pada Artificial Intelligence.",
+            s86_title: "Lainnya: Di mana aplikasi ini di-host?", s86_content: "Versi publik dari aplikasi ini di-host di GitHub Pages, sebuah layanan hosting situs web statis gratis yang disediakan oleh GitHub.",
+            s87_title: "Masalah: Tombol 'Salin' tidak berfungsi", s87_content: "Ini mungkin disebabkan oleh pengaturan keamanan atau ekstensi di browser Anda yang memblokir akses ke clipboard. Coba di browser lain atau nonaktifkan sementara ekstensi pemblokir skrip.",
+            s88_title: "Masalah: Perubahan tema tidak berfungsi", s88_content: "Ini sangat jarang terjadi, tetapi bisa jadi karena Local Storage browser Anda bermasalah. Coba bersihkan cache dan data situs untuk MirAI, lalu coba lagi.",
+            s89_title: "UI: Bagaimana cara kembali ke halaman utama dari Pengaturan?", s89_content: "Di halaman Pengaturan, klik tombol 'X' di pojok kanan atas untuk menutupnya dan kembali ke layar chat Anda.",
+            s90_title: "UI: Bisakah saya mencari di dalam percakapan?", s90_content: "Aplikasi MirAI tidak memiliki fitur pencarian di dalam chat. Namun, Anda dapat menggunakan fitur pencarian halaman bawaan browser Anda (biasanya Ctrl+F atau Cmd+F).",
+            s91_title: "Tips: Menggunakan MirAI untuk debugging kode", s91_content: "Tempelkan potongan kode Anda yang error dan jelaskan pesan error yang Anda dapatkan. MirAI bisa mencoba menemukan kesalahan logika atau sintaks di dalam kode tersebut.",
+            s92_title: "Tips: Mengubah format output", s92_content: "Anda bisa meminta format output yang spesifik. Contoh: <code>Berikan saya 5 ibu kota di Eropa dalam format tabel markdown</code> atau <code>Jelaskan prosesnya dalam bentuk daftar bernomor</code>.",
+            s93_title: "Privasi: Apakah MirAI menggunakan cookie?", s93_content: "MirAI tidak menggunakan cookie pelacakan (tracking cookies). Ia hanya menggunakan Local Storage untuk menyimpan pengaturan dan riwayat chat Anda, yang hanya dapat diakses oleh Anda.",
+            s94_title: "Teknis: Apa itu 'system prompt'?", s94_content: "'System prompt' adalah instruksi awal yang diberikan kepada model AI untuk mengatur konteks, nada, dan aturan percakapan. Fitur persona di MirAI bekerja dengan mengubah system prompt ini.",
+            s95_title: "Teknis: Seberapa 'baru' pengetahuan AI?", s95_content: "Pengetahuan bawaan model AI memiliki 'knowledge cutoff date', yaitu tanggal terakhir data pelatihannya. Untuk informasi setelah tanggal tersebut, Anda harus menggunakan perintah <code>/search</code>.",
+            s96_title: "Kontribusi: Saya bukan programmer, bagaimana saya bisa membantu?", s96_content: "Anda tetap bisa membantu! Memberikan feedback, melaporkan bug, menyarankan fitur, memperbaiki kesalahan ketik di Pusat Bantuan, atau membagikan MirAI kepada teman-teman Anda sangatlah berharga.",
+            s97_title: "Use Case: Meringkas video YouTube", s97_content: "MirAI tidak bisa 'menonton' video. Tapi jika video tersebut memiliki transkrip, Anda bisa menyalin transkripnya dan memintanya untuk meringkas menggunakan <code>/summarize</code>.",
+            s98_title: "Use Case: Membandingkan produk", s98_content: "Anda bisa meminta perbandingan. Contoh: <code>Bandingkan kelebihan dan kekurangan antara laptop A dan laptop B dalam bentuk tabel.</code>",
+            s99_title: "Lainnya: Apakah ada batasan jumlah karakter input?", s99_content: "Kotak input dapat menampung banyak teks, tetapi model AI itu sendiri memiliki batas input token. Untuk teks yang sangat panjang (misalnya, seluruh buku), lebih baik memecahnya menjadi beberapa bagian.",
+            s100_title: "Lainnya: Saya punya ide gila untuk MirAI!", s100_content: "Kami suka ide gila! Silakan bagikan ide Anda di tab 'Discussions' atau 'Issues' di repositori <a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a>. Siapa tahu ide Anda akan menjadi fitur besar berikutnya."
+        },
+        'en-US': {
+            docTitle: "MirAI Help Center", 
+            pageTitle: "Help Center", 
+            main_title: "MirAI Help Center",
+            main_description: "Find answers to common questions, usage guides, and troubleshooting",
+            searchPlaceholder: "Search for topics or questions...", 
+            noResults: "No results found for your search.",
+            s1_title: "What is MirAI?", s1_content: "MirAI is an AI chat assistant created by developer <strong>Allwaysever</strong>. Its goal is to be a fun conversational partner and a lightweight tool for daily tasks.",
+            s2_title: "Are MirAI's answers always accurate?", s2_content: "No. As stated in the app, \"MirAI can provide inaccurate answers.\" Always verify important information from other sources.",
+            s3_title: "Is my conversation data safe?", s3_content: "Your privacy is important. Conversations are stored locally in your browser (Local Storage) and are not sent to our servers. If you clear your history or browser cache, the conversation will be lost.",
+            s4_title: "Who is the developer behind MirAI?", s4_content: "MirAI is developed by <strong>Allwaysever</strong>, an individual developer passionate about AI technology and creating useful applications.",
+            s5_title: "How do I change the Settings?", s5_content: "Click the <strong>menu icon (three lines)</strong> in the top-left corner of the main screen to open the <strong>Settings</strong> page.",
+            s6_title: "What is the 'AI Persona' feature?", s6_content: "AI Persona allows you to change MirAI's speaking style. Choose 'Formal' for professional answers, 'Chill' for casual chats, or 'Creative' for imaginative ideas.",
+            s7_title: "What is a Google API Key?", s7_content: "An API Key is a unique code that grants access to the Google AI Gemini service. MirAI provides a default key, but it has a daily usage limit.",
+            s8_title: "Why should I use my own API Key?", s8_content: "Using your personal API Key ensures you won't be affected by the default key's usage limit, providing a more stable experience.",
+            s9_title: "Where can I get an API Key?", s9_content: "You can get a Google Gemini API Key for free from <strong>Google AI Studio</strong>. Create an account, then create a new key there.",
+            s10_title: "How do I start a new chat?", s10_content: "On the main screen, click the <strong>trash can icon</strong> below the menu button to delete the current chat history and start a fresh session.",
+            s11_title: "How do I copy the AI's response text?", s11_content: "In each AI chat bubble, click the small <strong>copy icon</strong> underneath it to copy the entire response text to your clipboard.",
+            s12_title: "What slash (/) commands are available?", s12_content: "Type <code>/</code> in the input box to see the full list of available commands, such as <code>/search</code>, <code>/translate</code>, <code>/summarize</code>, and more.",
+            s13_title: "Command Details: /search", s13_content: "Use <code>/search [topic]</code> to ask MirAI to search the web. Example: <code>/search latest tech news</code>.",
+            s14_title: "Command Details: /translate", s14_content: "Use <code>/translate [text] to [language]</code> for translations. Example: <code>/translate good morning to spanish</code>.",
+            s15_title: "Command Details: /summarize", s15_content: "Use <code>/summarize [long text]</code> to create a summary. Paste an article after the command.",
+            s16_title: "Command Details: /code", s16_content: "Use <code>/code [description]</code> to request a code snippet. Example: <code>/code a python function to validate an email</code>.",
+            s17_title: "Command Details: /explain", s17_content: "Use <code>/explain [concept] like i'm [audience]</code> for a simple explanation. Example: <code>/explain AI like i'm a 5-year-old</code>.",
+            s18_title: "Tip: Be Specific With Your Questions", s18_content: "The more detail and context you provide, the better the AI's answer will be. Instead of \"tell me about cars,\" try \"explain the pros of electric cars for an urban family.\"",
+            s19_title: "Tip: Chain Your Commands", s19_content: "You can use the output of one command as the input for another. For example, use <code>/search</code>, then copy the result and use <code>/summarize</code> to condense it.",
+            s20_title: "Issue: Internet Connection Lost", s20_content: "MirAI requires an active internet connection. If you see this message, please check your WiFi or mobile data connection and try reloading the app.",
+            s21_title: "Issue: Error Message 'An error occurred...'", s21_content: "This is most often caused by the default API Key hitting its usage limit. The best solution is to enter your personal <strong>Google API Key</strong> in the Settings.",
+            s22_title: "Issue: The response text looks broken", s22_content: "Sometimes, complex formatting (like tables) might not render perfectly. Try asking the AI to present the data in a simpler format, like a list.",
+            s23_title: "Issue: The app feels slow", s23_content: "If a conversation becomes very long, the app might slow down. Try starting a new chat session. Clearing your browser's cache can also help.",
+            s24_title: "Contribute: How can I help?", s24_content: "You can contribute by reporting bugs, suggesting features, or submitting code via a <em>Pull Request</em> on our GitHub repository.",
+            s25_title: "Contribute: Where is the source code?", s25_content: "MirAI is an open-source project. You can view the entire source code on <a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a>.",
+            s26_title: "About: What AI model is used?", s26_content: "MirAI is powered by Google's <strong>Gemini 2.5 Flash</strong> model, which is optimized for speed and efficiency.",
+            s27_title: "Command Details: /rephrase", s27_content: "Use <code>/rephrase [text] as [style]</code> to change the writing style. Example: <code>/rephrase this text as more professional</code>.",
+            s28_title: "Command Details: /ideate", s28_content: "Use <code>/ideate [number] ideas for [topic]</code> for brainstorming. Example: <code>/ideate 5 ideas for a brand name</code>.",
+            s29_title: "Command Details: /fix", s29_content: "Use <code>/fix [text]</code> to correct spelling and grammar. Simply paste the incorrect sentence after the command.",
+            s30_title: "Issue: AI stops responding mid-sentence", s30_content: "This can happen due to the AI model's output length limit or a safety filter being triggered. Try simplifying your question.",
+            s31_title: "Issue: Settings are not saving", s31_content: "Settings are saved in your browser's Local Storage. This can occur if you are in incognito/private mode or if your browser's storage is full.",
+            s32_title: "Issue: My custom API key is not working", s32_content: "Ensure you have copied the key correctly with no extra spaces and check its status in your Google AI Studio.",
+            s33_title: "About: Is MirAI free to use?", s33_content: "Yes, MirAI is free. It runs on the provided default API key or your personal API key (which also has a free tier from Google).",
+            s34_title: "About: What devices can I use MirAI on?", s34_content: "MirAI is a progressive web app (PWA), meaning it can be accessed through any modern browser on desktop and mobile.",
+            s35_title: "About: How are conversations saved?", s35_content: "Your chat history is stored exclusively on your device using the browser's Local Storage. No chat data is stored on MirAI's servers.",
+            s36_title: "About: Where are the Terms & Conditions?", s36_content: "You can read the full Terms & Conditions via the link at the bottom of the <strong>Settings</strong> page in the main app.",
+            s37_title: "Tip: Getting better code results", s37_content: "When using <code>/code</code>, specify the programming language, any libraries, and the function's purpose for more accurate results.",
+            s38_title: "Tip: Using MirAI for creative writing", s38_content: "Use the 'Creative' persona in Settings. Ask it to write poems, short scripts, song lyrics, or help you continue a story.",
+            s39_title: "Tip: Use 'Negative Prompts'", s39_content: "You can tell the AI what not to do. For example: <code>/search photosynthesis, explain it without complex scientific terms</code>.",
+            s40_title: "About: Where can I see the Changelog?", s40_content: "The changelog for each new version of MirAI is available on the project's <a href='https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md' target='_blank'>GitHub</a> repository.",
+            s41_title: "UI: What does the connection status indicator mean?", s41_content: "It shows your internet connection status. Green means 'Connected', and Red means 'Disconnected'.",
+            s42_title: "UI: Why does the input box move?", s42_content: "It's a design choice. It's centered on launch for focus, then moves to the bottom during chat to maximize conversation space.",
+            s43_title: "UI: What is the '+' button for?", s43_content: "The '+' button opens the 'Tools Shop', which lists all available slash (/) commands so you don't have to memorize them.",
+            s44_title: "UI: Why does the logo disappear during chat?", s44_content: "The logo is hidden to provide a cleaner, more focused reading experience for your conversation with the AI.",
+            s45_title: "UI: Can I change the font size?", s45_content: "Currently, there is no in-app feature to change the font size. You can use your browser's built-in zoom feature for now.",
+            s46_title: "UI: Are there keyboard shortcuts?", s46_content: "Yes, you can press <code>Enter</code> to send a message (without <code>Shift</code>). We are exploring adding more shortcuts in the future.",
+            s47_title: "Privacy: Can the developer see my conversations?", s47_content: "No. Since all data is stored locally in your browser, the developer (Allwaysever) has zero access to your chat history.",
+            s48_title: "Privacy: Can Google see my conversations?", s48_content: "When you send a prompt, the data is sent to Google's servers to be processed by the Gemini model. Review Google's privacy policy for more information on how they handle data.",
+            s49_title: "Privacy: How do I completely delete all my data?", s49_content: "To erase all MirAI data (including history and settings), you need to clear the site data or cache for this page through your browser's settings.",
+            s50_title: "Privacy: What is 'Local Storage'?", s50_content: "'Local Storage' is a small storage space within your browser. Websites can use it to save data (like settings or chat history) on your device so it persists even after you close the tab.",
+            s51_title: "Technical: Why does the AI sometimes refuse to answer?", s51_content: "The AI model has built-in safety filters to prevent the generation of harmful, unethical, or inappropriate content. If your prompt is flagged as approaching these topics, it will refuse to answer.",
+            s52_title: "Technical: What is a 'token' in the context of AI?", s52_content: "A token is a piece of a word or character that the AI uses to process text. Each prompt and response has a token limit. Very long conversations can exceed this limit.",
+            s53_title: "Technical: Does MirAI learn from my conversations?", s53_content: "No. The AI model used is not continuously trained on your conversations. Each chat session starts with a fresh 'memory', aside from the history you see on screen.",
+            s54_title: "Technical: How does the 'persona' feature work?", s54_content: "When you select a persona, a special system instruction (a system prompt) is added to the beginning of your conversation (hidden from view). This tells the AI to adopt a certain style for that session.",
+            s55_title: "Technical: What's the difference between Gemini 2.5 Flash and other models?", s55_content: "Gemini 2.5 Flash is designed to be extremely fast and cost-effective, making it ideal for responsive chat applications. Other models may be more powerful but slower.",
+            s56_title: "Technical: What technology is this app built with?", s56_content: "The MirAI front-end is built with standard web technologies: vanilla HTML, CSS, and JavaScript, with no heavy frameworks.",
+            s57_title: "Community: How to report a problem with this Help Center?", s57_content: "If you find a mistake or unclear information here, the best way is to create an 'Issue' on the project's <a href='https://github.com/Allwaysever/MirAI/issues' target='_blank'>GitHub</a> repository.",
+            s58_title: "Community: How can I follow MirAI for updates?", s58_content: "You can 'star' or 'watch' the project repository on <a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a> to get notifications about updates and new releases.",
+            s59_title: "Community: Is there a forum for MirAI users?", s59_content: "There is no dedicated forum yet. However, you can use the 'Discussions' tab on the <a href='https://github.com/Allwaysever/MirAI/discussions' target='_blank'>GitHub</a> repository to ask questions or share ideas.",
+            s60_title: "Legal: What is the license for MirAI?", s60_content: "MirAI is released under the very permissive MIT License. This means you are free to use, modify, and distribute the code, even for commercial purposes, as long as you include the original license.",
+            s61_title: "Legal: Can I self-host MirAI on my own server?", s61_content: "Absolutely. Since MirAI is open-source, you can clone the repository from GitHub and host it on your own web server. You'll just need to use your own API key.",
+            s62_title: "Legal: Can I use MirAI for commercial purposes?", s62_content: "Yes, the MIT License allows for commercial use. However, you are responsible for complying with the Terms of Service of the Google API you use.",
+            s63_title: "Use Case: Planning a trip", s63_content: "Try asking: <code>/ideate 5 fun activities in Tokyo for 3 days</code> or <code>Help me create a week-long travel itinerary for Italy on a budget</code>.",
+            s64_title: "Use Case: Writing an email", s64_content: "Use the <code>/rephrase</code> command or ask directly. Example: <code>Write a professional email to my boss requesting a day off next week for a family matter.</code>",
+            s65_title: "Use Case: Role-playing (RPG)", s65_content: "Set the persona to 'Creative' and ask MirAI to be a Dungeon Master. Example: <code>You are the DM. I am a knight entering a dark cave. What do I see?</code>",
+            s66_title: "Use Case: Learning a new language", s66_content: "Use <code>/translate</code> for words or ask for explanations. Example: <code>Explain the use of the particles 'wa' and 'ga' in Japanese with simple examples.</code>",
+            s67_title: "Use Case: Getting recipe ideas", s67_content: "Provide the ingredients you have. Example: <code>I have chicken, onions, and potatoes. Give me 3 easy dinner recipe ideas.</code>",
+            s68_title: "Use Case: Solving a riddle", s68_content: "Write down a riddle you've found and ask MirAI to help you solve it or provide a hint.",
+            s69_title: "Troubleshooting: 'Rate limit exceeded' message", s69_content: "This message explicitly means the API key in use has hit its request limit for the minute or day. Using a personal API key is the only long-term solution.",
+            s70_title: "Troubleshooting: Foreign text appears as squares", s70_content: "This is a font issue on your operating system, not a MirAI app issue. Ensure you have the necessary font packs for that language installed on your device.",
+            s71_title: "API: Will I be billed for using my own key?", s71_content: "The Google AI Platform (Gemini) has a very generous free tier. For normal usage, it's highly unlikely you will be billed. However, always check your Google billing dashboard to be sure.",
+            s72_title: "API: How do I keep my API Key secure?", s72_content: "Never share your API Key publicly or commit it to public code. In the MirAI app, your key is stored safely and locally in your browser.",
+            s73_title: "Features: Is there a version history?", s73_content: "Yes, a complete version history or changelog for every update can be found in the <code>CHANGELOG.md</code> file on the GitHub repository.",
+            s74_title: "Features: Can MirAI remember past conversations?", s74_content: "MirAI can 'remember' what you've said within the current chat session. However, if you start a new chat, it will not remember conversations from previous sessions.",
+            s75_title: "Features: Is there an offline mode?", s75_content: "No. As MirAI needs to communicate with Google's AI servers for every request, an active internet connection is always required.",
+            s76_title: "Features: Can MirAI access the internet in real-time?", s76_content: "By default, no. The AI model's knowledge is limited to its training data. However, by using the <code>/search</code> command, you can prompt it to find current information.",
+            s77_title: "Features: What languages does the interface support?", s77_content: "Currently, the MirAI interface (buttons, menus) supports Indonesian, English (US), and Japanese. We plan to add more languages in the future.",
+            s78_title: "Tips: Fixing a wrong correction from /fix", s78_content: "If <code>/fix</code> gives you a correction you didn't want, you can try again by providing more context. Example: <code>/fix 'wrong text' - context: this is informal writing</code>.",
+            s79_title: "Tips: Controlling the length of /summarize", s79_content: "You can add length instructions to the prompt. Example: <code>/summarize [text] in one short paragraph</code> or <code>/summarize [text] in 3 bullet points</code>.",
+            s80_title: "Tips: Combining multiple commands", s80_content: "You can try to combine tasks in a single prompt. Example: <code>Find a short biography of Albert Einstein, then translate it to Indonesian.</code>",
+            s81_title: "Comparison: MirAI vs Google Assistant/Siri", s81_content: "Google Assistant/Siri are tightly integrated with the device's OS for tasks like setting alarms or making calls. MirAI is focused on text and content-based tasks, like writing, summarizing, and coding.",
+            s82_title: "Comparison: MirAI vs ChatGPT", s82_content: "Both are AI chatbots. The main differences are the underlying AI model (Gemini vs GPT) and the interface. MirAI is designed to be a lightweight, fast, open-source web application.",
+            s83_title: "Legal: Who owns the AI-generated content?", s83_content: "This is a complex area of law. Generally, you are free to use the generated content. However, specific policies depend on the Terms of Service of the AI model provider (Google).",
+            s84_title: "Legal: Can I use the name 'MirAI' in my project?", s84_content: "The name 'MirAI' and its logo are part of this project's identity. It is best not to use the same name to avoid confusion. The source code, however, is free for you to use under the MIT license.",
+            s85_title: "Misc: What does 'MirAI' mean?", s85_content: "'Mirai' (未来) is the Japanese word for 'future'. The capitalization of 'AI' at the end is a play on words, referring to Artificial Intelligence.",
+            s86_title: "Misc: Where is this app hosted?", s86_content: "The public version of this application is hosted on GitHub Pages, a free static website hosting service provided by GitHub.",
+            s87_title: "Troubleshooting: The 'Copy' button doesn't work", s87_content: "This may be caused by a security setting or extension in your browser that blocks clipboard access. Try in a different browser or temporarily disable script-blocking extensions.",
+            s88_title: "Troubleshooting: The theme switch is not working", s88_content: "This is very rare, but it could be due to a problem with your browser's Local Storage. Try clearing the site data and cache for MirAI, then try again.",
+            s89_title: "UI: How do I get back to the main page from Settings?", s89_content: "On the Settings page, click the 'X' button in the top-right corner to close it and return to your chat screen.",
+            s90_title: "UI: Can I search within my conversation?", s90_content: "The MirAI app does not have a built-in chat search feature. However, you can use your browser's native page search function (usually Ctrl+F or Cmd+F).",
+            s91_title: "Tips: Using MirAI for debugging code", s91_content: "Paste your code snippet that has an error and describe the error message you are getting. MirAI can try to find logical or syntactical errors in the code.",
+            s92_title: "Tips: Changing the output format", s92_content: "You can ask for a specific output format. Example: <code>Give me 5 European capitals in a markdown table format</code> or <code>Explain the process in a numbered list</code>.",
+            s93_title: "Privacy: Does MirAI use cookies?", s93_content: "MirAI does not use tracking cookies. It only uses Local Storage to save your settings and chat history, which is only accessible by you.",
+            s94_title: "Technical: What is a 'system prompt'?", s94_content: "A 'system prompt' is an initial instruction given to an AI model to set the context, tone, and rules of the conversation. The persona feature in MirAI works by changing this system prompt.",
+            s95_title: "Technical: How 'new' is the AI's knowledge?", s95_content: "The model's built-in knowledge has a 'knowledge cutoff date'. For any information after that date, you must use the <code>/search</code> command.",
+            s96_title: "Contribute: I'm not a programmer, how can I help?", s96_content: "You can still help! Providing feedback, reporting bugs, suggesting features, fixing typos in this Help Center, or sharing MirAI with your friends is incredibly valuable.",
+            s97_title: "Use Case: Summarizing a YouTube video", s97_content: "MirAI cannot 'watch' videos. But if the video has a transcript, you can copy the transcript and ask it to summarize using <code>/summarize</code>.",
+            s98_title: "Use Case: Comparing products", s98_content: "You can ask for a comparison. Example: <code>Compare the pros and cons of laptop A and laptop B in a table.</code>",
+            s99_title: "Misc: Is there an input character limit?", s99_content: "The input box can hold a lot of text, but the AI model itself has a token input limit. For extremely long texts (e.g., an entire book), it's better to break it into parts.",
+            s100_title: "Misc: I have a crazy idea for MirAI!", s100_content: "We love crazy ideas! Please share your idea in the 'Discussions' or 'Issues' tab on the <a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a> repository. Who knows, your idea might become the next big feature."
+        },
+        'ja': {
+            docTitle: "MirAI ヘルプセンター", 
+            pageTitle: "ヘルプセンター", 
+            main_title: "MirAI ヘルプセンター",
+            main_description: "よくある質問、使用方法、トラブルシューティングの回答を見つけましょう",
+            searchPlaceholder: "トピックや質問を検索...", 
+            noResults: "検索結果が見つかりませんでした。",
+            s1_title: "MirAIとは何ですか？", s1_content: "MirAIは、開発者<strong>Allwaysever</strong>によって作成されたAIチャットアシスタントです。楽しい会話相手であり、日常的なタスクのための軽量ツールとなることを目指しています。",
+            s2_title: "MirAIの回答は常に正確ですか？", s2_content: "いいえ。アプリに記載されている通り、「MirAIは不正確な回答をすることがあります。」重要な情報は他の情報源で必ず確認してください。",
+            s3_title: "会話データは安全ですか？", s3_content: "あなたのプライバシーは重要です。会話はブラウザのローカルに保存され（ローカルストレージ使用）、私たちのサーバーには送信されません。",
+            s4_title: "MirAIの開発者は誰ですか？", s4_content: "MirAIは、AI技術と便利なアプリケーション作成に情熱を注ぐ個人開発者、<strong>Allwaysever</strong>によって開発されています。",
+            s5_title: "設定を変更するには？", s5_content: "メイン画面の左上にある<strong>メニューアイコン（三本線）</strong>をクリックして<strong>設定</strong>ページを開きます。",
+            s6_title: "「AIペルソナ」機能とは？", s6_content: "AIペルソナ機能で、MirAIの話し方を変更できます。「フォーマル」で専門的な回答、「のんびり」でカジュアルな会話、「クリエイティブ」で想像力豊かなアイデアを得られます。",
+            s7_title: "Google APIキーとは何ですか？", s7_content: "APIキーは、Google AI Geminiサービスへのアクセスを許可するユニークなコードです。MirAIにはデフォルトキーが付属しますが、1日の使用制限があります。",
+            s8_title: "なぜ自分のAPIキーを使うべきですか？", s8_content: "個人のAPIキーを使用すると、デフォルトキーの使用制限に影響されることなく、より安定した体験が得られます。",
+            s9_title: "APIキーはどこで入手できますか？", s9_content: "Google Gemini APIキーは<strong>Google AI Studio</strong>から無料で入手できます。アカウントを作成し、新しいキーを作成してください。",
+            s10_title: "新しいチャットを始めるには？", s10_content: "メイン画面で、メニューボタンの下にある<strong>ゴミ箱アイコン</strong>をクリックすると、現在のチャット履歴を削除して新しいセッションを開始できます。",
+            s11_title: "AIの回答をコピーするには？", s11_content: "AIからの各チャットバブルの下にある小さな<strong>コピーアイコン</strong>をクリックするだけで、回答テキスト全体をコピーできます。",
+            s12_title: "利用可能なスラッシュコマンドは何ですか？", s12_content: "入力ボックスに<code>/</code>と入力すると、<code>/search</code>, <code>/translate</code>, <code>/summarize</code>など、利用可能なコマンドの全リストが表示されます。",
+            s13_title: "コマンド詳細: /search", s13_content: "<code>/search [トピック]</code>を使って、特定のトピックに関する情報をウェブで検索させます。例: <code>/search 最新の技術ニュース</code>。",
+            s14_title: "コマンド詳細: /translate", s14_content: "<code>/translate [テキスト] to [言語]</code>で翻訳します。例: <code>/translate おはよう to english</code>。",
+            s15_title: "コマンド詳細: /summarize", s15_content: "<code>/summarize [長いテキスト]</code>で要約を作成します。コマンドの後に記事を貼り付けます。",
+            s16_title: "コマンド詳細: /code", s16_content: "<code>/code [説明]</code>でコードスニペットを要求します。例: <code>/code Eメールを検証するjavascript関数</code>。",
+            s17_title: "コマンド詳細: /explain", s17_content: "<code>/explain [概念] like i'm [対象者]</code>で簡単な説明を求めます。例: <code>/explain ブロックチェーン like i'm 10歳</code>。",
+            s18_title: "ヒント: 質問は具体的に", s18_content: "より詳細で文脈のある質問をするほど、AIの回答は良くなります。「車について」ではなく、「都市部の家族向けの電気自動車の利点」のように試してみてください。",
+            s19_title: "ヒント: コマンドを連鎖させる", s19_content: "あるコマンドの出力を次のコマンドの入力として使えます。例えば、<code>/search</code>を使い、その結果をコピーして<code>/summarize</code>で要約します。",
+            s20_title: "問題: インターネット接続が切断されました", s20_content: "MirAIはアクティブなインターネット接続が必要です。このメッセージが表示された場合は、WiFiやモバイルデータ接続を確認し、アプリを再読み込みしてください。",
+            s21_title: "問題: エラーメッセージ「エラーが発生しました…」", s21_content: "これは、デフォルトのAPIキーが使用制限に達したことが最も一般的な原因です。最善の解決策は、設定で個人の<strong>Google APIキー</strong>を入力することです。",
+            s22_title: "問題: 回答のテキスト表示が崩れる", s22_content: "時々、複雑なフォーマット（表など）が完璧に表示されないことがあります。AIにデータをよりシンプルな形式（リストなど）で提示するように頼んでみてください。",
+            s23_title: "問題: アプリが遅く感じる", s23_content: "会話が非常に長くなると、アプリが遅くなることがあります。新しいチャットセッションを開始してみてください。ブラウザのキャッシュをクリアすることも助けになります。",
+            s24_title: "貢献: どうすれば協力できますか？", s24_content: "バグの報告、新機能の提案、GitHubリポジトリでの<em>プルリクエスト</em>によるコードの提供などで貢献できます。",
+            s25_title: "貢献: ソースコードはどこにありますか？", s25_content: "MirAIはオープンソースプロジェクトです。全てのソースコードは<a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a>で閲覧できます。",
+            s26_title: "概要: 使用されているAIモデルは？", s26_content: "MirAIは、速度と効率に最適化されたGoogleの<strong>Gemini 2.5 Flash</strong>モデルを搭載しています。",
+            s27_title: "コマンド詳細: /rephrase", s27_content: "<code>/rephrase [テキスト] as [スタイル]</code> を使って文章のスタイルを変更します。例: <code>/rephrase この文章 as より丁寧に</code>。",
+            s28_title: "コマンド詳細: /ideate", s28_content: "<code>/ideate [数] アイデア for [トピック]</code> を使ってブレインストーミングします。例: <code>/ideate 5 アイデア for ブランド名</code>。",
+            s29_title: "コマンド詳細: /fix", s29_content: "<code>/fix [テキスト]</code> を使ってスペルと文法を修正します。コマンドの後に間違った文を貼り付けるだけです。",
+            s30_title: "問題: AIが途中で応答を停止する", s30_content: "これにはAIモデルの出力長制限や安全フィルターの作動などの理由が考えられます。質問を単純化してみてください。",
+            s31_title: "問題: 設定が保存されない", s31_content: "設定はブラウザのローカルストレージに保存されます。シークレットモードを使用している場合や、ブラウザのストレージがいっぱいの場合にこの問題が発生することがあります。",
+            s32_title: "問題: カスタムAPIキーが機能しない", s32_content: "キーを余分なスペースなしで正しくコピーしたことを確認し、Google AI Studioでのステータスを確認してください。",
+            s33_title: "概要: MirAIは無料ですか？", s33_content: "はい、MirAIは無料です。提供されているデフォルトのAPIキーまたは個人のAPIキー（Googleからの無料利用枠もあります）で動作します。",
+            s34_title: "概要: MirAIはどのデバイスで使えますか？", s34_content: "MirAIはPWAであり、デスクトップおよびモバイルのどのモダンブラウザからでもアクセスできます。",
+            s35_title: "概要: 会話はどのように保存されますか？", s35_content: "チャット履歴は、ブラウザのローカルストレージを使用して、あなたのデバイスにのみ保存されます。MirAIのサーバーには保存されません。",
+            s36_title: "概要: 利用規約はどこにありますか？", s36_content: "完全な利用規約は、メインアプリケーションの<strong>設定</strong>ページの下部にあるリンクから読むことができます。",
+            s37_title: "ヒント: より良いコード結果を得るために", s37_content: "<code>/code</code>を使用する際は、プログラミング言語、ライブラリ、関数の目的を具体的に指定すると、より正確な結果が得られます。",
+            s38_title: "ヒント: 創作活動にMirAIを使う", s38_content: "設定で「クリエイティブ」ペルソナを使用してください。詩、短い脚本、歌詞の作成を依頼したり、物語の続きを考えてもらうこともできます。",
+            s39_title: "ヒント: 「ネガティブプロンプト」を使う", s39_content: "AIに何をしてほしくないかを伝えることができます。例: <code>/search 光合成とは, 複雑な科学用語を使わずに説明して</code>。",
+            s40_title: "概要: 変更履歴(Changelog)はどこで見られますか？", s40_content: "MirAIの各新バージョンの変更履歴は、プロジェクトの<a href='https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md' target='_blank'>GitHub</a>リポジトリで確認できます。",
+            s41_title: "UI: 接続ステータスインジケータの意味は？", s41_content: "インターネット接続の状態を示します。緑は「接続済み」、赤は「切断」を意味します。",
+            s42_title: "UI: なぜ入力ボックスが移動するのですか？", s42_content: "デザイン上の選択です。起動時は中央に配置され、チャットが始まると会話スペースを最大化するために下に移動します。",
+            s43_title: "UI: '+'ボタンの機能は？", s43_content: "「+」ボタンは「ツールショップ」を開き、利用可能なすべてのスラッシュコマンドを一覧表示するので、覚える必要がありません。",
+            s44_title: "UI: なぜチャット中にロゴが消えるのですか？", s44_content: "ロゴを非表示にすることで、よりクリーンで会話に集中できる読書体験を提供するためです。",
+            s45_title: "UI: フォントサイズを変更できますか？", s45_content: "現在、アプリ内でフォントサイズを変更する機能はありません。ブラウザのズーム機能をご利用ください。",
+            s46_title: "UI: キーボードショートカットはありますか？", s46_content: "はい、<code>Enter</code>キーでメッセージを送信できます（<code>Shift</code>なし）。将来的にはさらにショートカットを追加する予定です。",
+            s47_title: "プライバシー: 開発者は私の会話を見ることができますか？", s47_content: "いいえ。すべてのデータはブラウザにローカル保存されるため、開発者(Allwaysever)はあなたのチャット履歴に一切アクセスできません。",
+            s48_title: "プライバシー: Googleは私の会話を見ることができますか？", s48_content: "プロンプトを送信すると、データはGeminiモデルによって処理されるためにGoogleのサーバーに送信されます。詳細はGoogleのプライバシーポリシーをご確認ください。",
+            s49_title: "プライバシー: 全てのデータを完全に削除するには？", s49_content: "すべてのMirAIデータ（履歴と設定を含む）を消去するには、ブラウザの設定からこのページのサイトデータをクリアする必要があります。",
+            s50_title: "プライバシー: 「ローカルストレージ」とは何ですか？", s50_content: "「ローカルストレージ」はブラウザ内の小さな保存領域です。ウェブサイトはこれを使ってデバイスにデータを保存し、タブを閉じてもデータが残るようにします。",
+            s51_title: "技術: AIが時々回答を拒否するのはなぜですか？", s51_content: "AIモデルには、有害または不適切なコンテンツの生成を防ぐための安全フィルターが組み込まれています。プロンプトがこれらのトピックに触れると、回答を拒否します。",
+            s52_title: "技術: AIにおける「トークン」とは何ですか？", s52_content: "トークンは、AIがテキストを処理するために使用する単語や文字の一部です。各プロンプトと応答にはトークン制限があります。",
+            s53_title: "技術: MirAIは私の会話から学習しますか？", s53_content: "いいえ。使用されているAIモデルはあなたの会話で継続的にトレーニングされません。各チャットセッションは新しい「記憶」で始まります。",
+            s54_title: "技術: 「ペルソナ」機能はどのように機能しますか？", s54_content: "ペルソナを選択すると、特別なシステム指示（システムプロンプト）が会話の冒頭に（非表示で）追加されます。これによりAIは特定の話し方を採用します。",
+            s55_title: "技術: Gemini 2.5 Flashと他のモデルの違いは？", s55_content: "Gemini 2.5 Flashは非常に高速で費用対効果が高いように設計されており、応答性の高いチャットアプリに最適です。",
+            s56_title: "技術: このアプリはどの技術で構築されていますか？", s56_content: "MirAIのフロントエンドは、標準的なウェブ技術（HTML, CSS, JavaScript）のみで構築されており、重いフレームワークは使用していません。",
+            s57_title: "コミュニティ: このヘルプセンターの問題を報告するには？", s57_content: "間違いや不明確な情報を見つけた場合は、プロジェクトの<a href='https://github.com/Allwaysever/MirAI/issues' target='_blank'>GitHub</a>リポジトリで「Issue」を作成するのが最善の方法です。",
+            s58_title: "コミュニティ: MirAIの最新情報を追うには？", s58_content: "<a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a>でプロジェクトリポジトリを「star」または「watch」すると、更新の通知を受け取ることができます。",
+            s59_title: "コミュニティ: MirAIユーザーのフォーラムはありますか？", s59_content: "専用のフォーラムはまだありませんが、<a href='https://github.com/Allwaysever/MirAI/discussions' target='_blank'>GitHub</a>リポジトリの「Discussions」タブで質問やアイデアを共有できます。",
+            s60_title: "法務: MirAIのライセンスは何ですか？", s60_content: "MirAIは非常に寛容なMITライセンスの下でリリースされています。これにより、商用目的であっても、元のライセンスを含めればコードを自由に使用、変更、配布できます。",
+            s61_title: "法務: 自分のサーバーでMirAIをホストできますか？", s61_content: "はい。オープンソースなので、GitHubからリポジトリをクローンし、自分のウェブサーバーでホストできます。独自のAPIキーを使用するだけです。",
+            s62_title: "法務: MirAIを商用目的で使用できますか？", s62_content: "はい、MITライセンスは商用利用を許可しています。ただし、使用するGoogle APIの利用規約を遵守する責任があります。",
+            s63_title: "使用例: 旅行の計画", s63_content: "試してみてください: <code>/ideate 東京での3日間の楽しいアクティビティ5つ</code> や <code>予算を抑えた1週間のイタリア旅行プランを作成して</code>。",
+            s64_title: "使用例: Eメールの作成", s64_content: "<code>/rephrase</code>コマンドを使うか、直接依頼します。例: <code>来週、家族の用事で休暇を取りたいと上司に伝えるプロフェッショナルなメールを書いて。</code>",
+            s65_title: "使用例: ロールプレイング(RPG)", s65_content: "ペルソナを「クリエイティブ」に設定し、MirAIにダンジョンマスターを依頼します。例: <code>あなたはDMです。私は暗い洞窟に入る騎士です。何が見えますか？</code>",
+            s66_title: "使用例: 新しい言語の学習", s66_content: "単語は<code>/translate</code>を使い、説明を求めます。例: <code>日本語の助詞「は」と「が」の使い方を簡単な例で説明して。</code>",
+            s67_title: "使用例: レシピのアイデア探し", s67_content: "持っている材料を伝えます。例: <code>鶏肉、玉ねぎ、じゃがいもがあります。簡単な夕食のレシピを3つ教えて。</code>",
+            s68_title: "使用例: なぞなぞを解く", s68_content: "見つけたなぞなぞを書き、MirAIに解いてもらうか、ヒントを求めてください。",
+            s69_title: "問題: 「Rate limit exceeded」メッセージ", s69_content: "このメッセージは、使用中のAPIキーが1分または1日のリクエスト上限に達したことを意味します。個人のAPIキーを使用することが唯一の長期的な解決策です。",
+            s70_title: "問題: 外国語のテキストが四角（豆腐）になる", s70_content: "これはMirAIアプリの問題ではなく、お使いのOSのフォントの問題です。デバイスにその言語の必要なフォントパックがインストールされているか確認してください。",
+            s71_title: "API: 自分のキーを使うと請求されますか？", s71_content: "Google AI Platform (Gemini)には非常に寛大な無料利用枠があります。通常の利用であれば請求される可能性は低いですが、Googleの請求ダッシュボードで確認してください。",
+            s72_title: "API: APIキーを安全に保つには？", s72_content: "APIキーを絶対に公開したり、公開コードにコミットしたりしないでください。MirAIアプリでは、キーはブラウザに安全にローカル保存されます。",
+            s73_title: "機能: バージョン履歴はありますか？", s73_content: "はい、すべての更新に関する完全なバージョン履歴は、GitHubリポジトリの<code>CHANGELOG.md</code>ファイルで確認できます。",
+            s74_title: "機能: MirAIは過去の会話を覚えていますか？", s74_content: "MirAIは現在のチャットセッション内の会話を「記憶」できますが、新しいチャットを開始すると以前のセッションの会話は記憶していません。",
+            s75_title: "機能: オフラインモードはありますか？", s75_content: "いいえ。MirAIは各リクエストでGoogleのAIサーバーと通信する必要があるため、常にアクティブなインターネット接続が必要です。",
+            s76_title: "機能: MirAIはリアルタイムでインターネットにアクセスできますか？", s76_content: "デフォルトではできません。AIモデルの知識はトレーニングデータに限定されます。ただし、<code>/search</code>コマンドを使用すると、最新の情報を検索させることができます。",
+            s77_title: "機能: インターフェースはどの言語をサポートしていますか？", s77_content: "目前、MirAIのインターフェース（ボタン、メニュー）はインドネシア語、英語（米国）、日本語をサポートしています。将来的にはさらに言語を追加する予定です。",
+            s78_title: "ヒント: /fixの間違った修正を直す", s78_content: "<code>/fix</code>が望まない修正をした場合、より多くの文脈を与えて再試行できます。例: <code>/fix 「間違ったテキスト」 - 文脈: これはインフォーマルな文章です</code>。",
+            s79_title: "ヒント: /summarizeの長さを制御する", s79_content: "プロンプトに長さの指示を追加できます。例: <code>/summarize [テキスト] 短い段落一つで</code> や <code>/summarize [テキスト] 3つの箇条書きで</code>。",
+            s80_title: "ヒント: 複数のコマンドを組み合わせる", s80_content: "一つのプロンプトで複数のタスクを組み合わせることができます。例: <code>アインシュタインの短い伝記を探して、それを日本語に翻訳して。</code>",
+            s81_title: "比較: MirAI vs Googleアシスタント/Siri", s81_content: "Googleアシスタント/Siriは、アラーム設定や通話など、OSと密接に統合されています。MirAIは、執筆、要約、コーディングなど、テキストベースのタスクに重点を置いています。",
+            s82_title: "比較: MirAI vs ChatGPT", s82_content: "どちらもAIチャットボットです。主な違いは使用されているAIモデル（Gemini vs GPT）とインターフェースです。MirAIは軽量で高速なオープンソースのウェブアプリとして設計されています。",
+            s83_title: "法務: AIが生成したコンテンツの所有者は誰ですか？", s83_content: "これは複雑な法分野です。一般的に、生成されたコンテンツは自由に使用できますが、具体的なポリシーはAIモデルの提供元（Google）の利用規約に依存します。",
+            s84_title: "法務: 「MirAI」という名前を自分のプロジェクトで使えますか？", s84_content: "「MirAI」という名前とロゴはこのプロジェクトのアイデンティティの一部です。混乱を避けるため、同じ名前は使用しないでください。ただし、ソースコードはMITライセンスの下で自由に使用できます。",
+            s85_title: "その他: 「MirAI」の意味は何ですか？", s85_content: "「Mirai」（未来）は日本語で「将来」を意味します。最後の「AI」を大文字にしているのは、人工知能（Artificial Intelligence）を指す言葉遊びです。",
+            s86_title: "その他: このアプリはどこでホストされていますか？", s86_content: "このアプリケーションの公開バージョンは、GitHubが提供する無料の静的ウェブサイトホスティングサービスであるGitHub Pagesでホストされています。",
+            s87_title: "問題: 「コピー」ボタンが機能しない", s87_content: "これは、クリップボードへのアクセスをブロックするブラウザのセキュリティ設定や拡張機能が原因である可能性があります。別のブラウザで試すか、スクリプトブロック拡張機能を一時的に無効にしてください。",
+            s88_title: "問題: テーマの切り替えが機能しない", s88_content: "これは非常に稀ですが、ブラウザのローカルストレージに問題がある可能性があります。MirAIのサイトデータとキャッシュをクリアしてから、もう一度試してみてください。",
+            s89_title: "UI: 設定からメインページに戻るには？", s89_content: "設定ページで、右上隅の「X」ボタンをクリックして閉じ、チャット画面に戻ります。",
+            s90_title: "UI: 会話内を検索できますか？", s90_content: "MirAIアプリにはチャット内検索機能はありません。ただし、ブラウザのページ内検索機能（通常はCtrl+FまたはCmd+F）を使用できます。",
+            s91_title: "ヒント: コードのデバッグにMirAIを使う", s91_content: "エラーのあるコードスニペットを貼り付け、表示されるエラーメッセージを説明してください。MirAIはコード内の論理エラーや構文エラーを見つけようとします。",
+            s92_title: "ヒント: 出力形式を変更する", s92_content: "特定の出力形式を要求できます。例: <code>ヨーロッパの首都5つをマークダウンテーブル形式で教えて</code> または <code>そのプロセスを番号付きリストで説明して</code>。",
+            s93_title: "プライバシー: MirAIはクッキーを使用しますか？", s93_content: "MirAIは追跡クッキーを使用しません。設定とチャット履歴を保存するためにローカルストレージのみを使用し、これにはあなただけがアクセスできます。",
+            s94_title: "技術: 「システムプロンプト」とは何ですか？", s94_content: "「システムプロンプト」は、会話の文脈、トーン、ルールを設定するためにAIモデルに給えられる初期指示です。MirAIのペルソナ機能は、このシステムプロンプトを変更することで機能します。",
+            s95_title: "技術: AIの知識はどのくらい新しいですか？", s95_content: "モデルの知識には「知識のカットオフ日」があります。その日以降の情報については、<code>/search</code>コマンドを使用する必要があります。",
+            s96_title: "貢献: プログラマーではないのですが、どうすれば協力できますか？", s96_content: "それでも協力できます！フィードバックの提供、バグの報告、機能の提案、このヘルプセンターの誤字脱字の修正、または友人にMirAIを共有することは非常に価値があります。",
+            s97_title: "使用例: YouTube動画の要約", s97_content: "MirAIは動画を「見る」ことはできません。しかし、動画にトランスクリプトがある場合は、それをコピーして<code>/summarize</code>で要約を依頼できます。",
+            s98_title: "使用例: 製品の比較", s98_content: "比較を依頼できます。例: <code>ノートパソコンAとノートパソコンBの長所と短所を表で比較して。</code>",
+            s99_title: "その他: 入力文字数に制限はありますか？", s99_content: "入力ボックスには多くのテキストを保持できますが、AIモデル自体には入力トークン制限があります。非常に長いテキスト（本一冊など）の場合は、分割することをお勧めします。",
+            s100_title: "その他: MirAIにクレイジーなアイデアがあります！", s100_content: "クレイジーなアイデアが大好きです！<a href='https://github.com/Allwaysever/MirAI' target='_blank'>GitHub</a>リポジトリの「Discussions」または「Issues」タブであなたのアイデアを共有してください。あなたのアイデアが次の大きな機能になるかもしれません。"
+        }
+    };
+
+    const sectionIcons = {
+        s1: "fas fa-info-circle", s2: "fas fa-exclamation-triangle", s3: "fas fa-shield-alt", s4: "fas fa-user-astronaut",
+        s5: "fas fa-sliders-h", s6: "fas fa-theater-masks", s7: "fas fa-key", s8: "fas fa-rocket",
+        s9: "fas fa-search-plus", s10: "fas fa-comment-medical", s11: "fas fa-copy", s12: "fas fa-terminal",
+        s13: "fas fa-globe", s14: "fas fa-language", s15: "fas fa-align-left", s16: "fas fa-code",
+        s17: "fas fa-user-graduate", s18: "fas fa-lightbulb", s19: "fas fa-link", s20: "fas fa-wifi",
+        s21: "fas fa-plug", s22: "fas fa-palette", s23: "fas fa-tachometer-alt", s24: "fas fa-hands-helping",
+        s25: "fab fa-github", s26: "fas fa-brain", s27: "fas fa-paragraph", s28: "fas fa-lightbulb",
+        s29: "fas fa-spell-check", s30: "fas fa-comment-slash", s31: "fas fa-save", s32: "fas fa-key-slash",
+        s33: "fas fa-dollar-sign", s34: "fas fa-mobile-alt", s35: "fas fa-database", s36: "fas fa-file-contract",
+        s37: "fas fa-code-branch", s38: "fas fa-paint-brush", s39: "fas fa-ban", s40: "fas fa-history",
+        s41: "fas fa-broadcast-tower", s42: "fas fa-arrows-alt-v", s43: "fas fa-plus-square", s44: "fas fa-eye-slash",
+        s45: "fas fa-font", s46: "fas fa-keyboard", s47: "fas fa-user-secret", s48: "fab fa-google",
+        s49: "fas fa-trash-alt", s50: "fas fa-box-open", s51: "fas fa-hand-paper", s52: "fas fa-puzzle-piece",
+        s53: "fas fa-sync-alt", s54: "fas fa-mask", s55: "fas fa-bolt", s56: "fab fa-js-square",
+        s57: "fas fa-bug", s58: "fas fa-star", s59: "fas fa-users", s60: "fas fa-balance-scale",
+        s61: "fas fa-server", s62: "fas fa-briefcase", s63: "fas fa-plane-departure", s64: "fas fa-envelope",
+        s65: "fas fa-dragon", s66: "fas fa-language", s67: "fas fa-utensils", s68: "fas fa-question",
+        s69: "fas fa-hourglass-end", s70: "far fa-square", s71: "fas fa-credit-card", s72: "fas fa-lock",
+        s73: "fas fa-file-alt", s74: "fas fa-memory", s75: "fas fa-power-off", s76: "fas fa-wifi-slash",
+        s77: "fas fa-flag", s78: "fas fa-highlighter", s79: "fas fa-compress-arrows-alt", s80: "fas fa-cogs",
+        s81: "fas fa-robot", s82: "fas fa-exchange-alt", s83: "fas fa-gavel", s84: "far fa-copyright",
+        s85: "fas fa-signature", s86: "fas fa-cloud-upload-alt", s87: "far fa-hand-pointer", s88: "fas fa-toggle-off",
+        s89: "fas fa-times-circle", s90: "fas fa-search", s91: "fas fa-bug-slash", s92: "fas fa-table",
+        s93: "fas fa-cookie-bite", s94: "fas fa-file-code", s95: "fas fa-calendar-times", s96: "fas fa-heart",
+        s97: "fab fa-youtube", s98: "fas fa-balance-scale-right", s99: "fas fa-text-height", s100: "fas fa-meteor"
+    };
+
+    // Language Management System with Auto-Detect
+    class LanguageManager {
+        constructor() {
+            this.currentLang = localStorage.getItem('mirai-language') || 'auto';
+            this.supportedLangs = {
+                'id': { name: 'Bahasa Indonesia', flag: '🇮🇩' },
+                'en-US': { name: 'English (US)', flag: '🇺🇸' },
+                'ja': { name: '日本語', flag: '🇯🇵' }
+            };
+        }
+        
+        detectRegionAndSetLanguage() {
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const browserLang = navigator.language || navigator.userLanguage;
+            
+            let detectedLang = 'id';
+            
+            if (timezone.includes('Asia/Jakarta') || 
+                timezone.includes('Asia/Makassar') || 
+                timezone.includes('Asia/Jayapura') ||
+                browserLang.startsWith('id')) {
+                detectedLang = 'id';
+            } else if (timezone.includes('Asia/Tokyo') || 
+                       timezone.includes('Asia/Osaka') ||
+                       browserLang.startsWith('ja')) {
+                detectedLang = 'ja';
+            } else if (browserLang.startsWith('en')) {
+                detectedLang = 'en-US';
             }
-        };
-
-        // Icon mapping for each section (e.g., s1 -> s_title)
-        const sectionIcons = {
-            s1: 'fas fa-info-circle',
-            s2: 'fas fa-shield-alt',
-            s3: 'fas fa-user-lock',
-            s4: 'fas fa-code',
-            s5: 'fas fa-cog',
-            s6: 'fas fa-mask',
-            s7: 'fas fa-key',
-            s8: 'fas fa-key',
-            s9: 'fas fa-link',
-            s10: 'fas fa-trash-alt',
-            s11: 'fas fa-copy',
-            s12: 'fas fa-terminal',
-            s13: 'fas fa-search',
-            s14: 'fas fa-language',
-            s15: 'fas fa-compress-alt',
-            s16: 'fas fa-laptop-code',
-            s17: 'fas fa-book-reader',
-            s18: 'fas fa-lightbulb',
-            s19: 'fas fa-project-diagram',
-            s20: 'fas fa-wifi',
-            s21: 'fas fa-exclamation-triangle',
-            s22: 'fas fa-table',
-            s23: 'fas fa-tachometer-alt',
-            s24: 'fas fa-hands-helping',
-            s25: 'fab fa-github',
-            s26: 'fas fa-robot',
-            s27: 'fas fa-pen-nib',
-            s28: 'fas fa-brain',
-            s29: 'fas fa-check-double',
-            s30: 'fas fa-stop-circle',
-            s31: 'fas fa-save',
-            s32: 'fas fa-lock',
-            s33: 'fas fa-gift',
-            s34: 'fas fa-mobile-alt',
-            s35: 'fas fa-history',
-            s36: 'fas fa-file-contract',
-            s37: 'fas fa-tools',
-            s38: 'fas fa-feather-alt',
-            s39: 'fas fa-times-circle',
-            s40: 'fas fa-list-alt',
-            s41: 'fas fa-plug',
-            s42: 'fas fa-arrows-alt-v',
-            s43: 'fas fa-plus-circle',
-            s44: 'fas fa-eye-slash',
-            s45: 'fas fa-text-height',
-            s46: 'fas fa-keyboard',
-            s47: 'fas fa-user-secret',
-            s48: 'fab fa-google',
-            s49: 'fas fa-eraser',
-            s50: 'fas fa-hdd',
-            s51: 'fas fa-ban',
-            s52: 'fas fa-tag',
-            s53: 'fas fa-graduation-cap',
-            s54: 'fas fa-user-tag',
-            s55: 'fas fa-microchip',
-            s56: 'fas fa-laptop-code',
-            s57: 'fas fa-bug',
-            s58: 'fas fa-star',
-            s59: 'fas fa-comments',
-            s60: 'fas fa-gavel',
-            s61: 'fas fa-server',
-            s62: 'fas fa-dollar-sign',
-            s63: 'fas fa-plane-departure',
-            s64: 'fas fa-envelope',
-            s65: 'fas fa-dice-d20',
-            s66: 'fas fa-book-open',
-            s67: 'fas fa-utensils',
-            s68: 'fas fa-puzzle-piece',
-            s69: 'fas fa-hourglass-half',
-            s70: 'fas fa-font',
-            s71: 'fas fa-money-check-alt',
-            s72: 'fas fa-user-shield',
-            s73: 'fas fa-scroll',
-            s74: 'fas fa-memory',
-            s75: 'fas fa-unlink',
-            s76: 'fas fa-globe',
-            s77: 'fas fa-language',
-            s78: 'fas fa-redo-alt',
-            s79: 'fas fa-cut',
-            s80: 'fas fa-link',
-            s81: 'fas fa-robot',
-            s82: 'fas fa-comment-dots',
-            s83: 'fas fa-balance-scale',
-            s84: 'fas fa-trademark',
-            s85: 'fas fa-sun',
-            s86: 'fas fa-cloud',
-            s87: 'fas fa-clipboard',
-            s88: 'fas fa-palette',
-            s89: 'fas fa-times',
-            s90: 'fas fa-search-plus',
-            s91: 'fas fa-wrench',
-            s92: 'fas fa-list-ol',
-            s93: 'fas fa-cookie-bite',
-            s94: 'fas fa-comment-alt',
-            s95: 'fas fa-calendar-alt',
-            s96: 'fas fa-user-check',
-            s97: 'fab fa-youtube',
-            s98: 'fas fa-sliders-h',
-            s99: 'fas fa-text-width',
-            s100: 'fas fa-lightbulb',
-        };
-
-
-        const preferredLang = 'id';
-        const strings = UIStrings[preferredLang];
-
-        // Apply initial language strings
-        document.title = strings.docTitle;
-        document.querySelector('[data-lang-key="pageTitle"]').textContent = strings.pageTitle;
-        document.getElementById('searchInput').placeholder = strings.searchPlaceholder;
-        document.querySelector('[data-lang-key="noResults"]').textContent = strings.noResults;
-
-        const accordionContainer = document.getElementById('accordionContainer');
-
-        function createAccordion() {
-            for (let i = 1; i <= 100; i++) {
-                const sectionKey = 's' + i;
-                if (strings[sectionKey + '_title']) {
-                    const item = document.createElement('div');
-                    item.className = 'accordion-item';
-                    item.dataset.title = strings[sectionKey + '_title'];
-                    item.dataset.content = strings[sectionKey + '_content'];
-                    item.dataset.titleKey = sectionKey + '_title';
-
-                    const header = document.createElement('div');
-                    header.className = 'accordion-header';
-                    header.innerHTML = `
-                        <h2><i class="${sectionIcons[sectionKey] || 'fas fa-question-circle'}"></i>${strings[sectionKey + '_title']}</h2>
-                        <i class="fas fa-chevron-down icon"></i>
-                    `;
-                    header.onclick = function() {
-                        const isActive = item.classList.toggle('active');
-                        const content = item.querySelector('.accordion-content');
-                        if (isActive) {
-                            content.style.maxHeight = content.scrollHeight + "px";
-                        } else {
-                            content.style.maxHeight = null;
-                        }
-                    };
-
-                    const content = document.createElement('div');
-                    content.className = 'accordion-content';
-                    content.innerHTML = `<div class="content-inner">${strings[sectionKey + '_content']}</div>`;
-
-                    item.appendChild(header);
-                    item.appendChild(content);
-                    accordionContainer.appendChild(item);
+            
+            return detectedLang;
+        }
+        
+        getCurrentLanguage() {
+            if (this.currentLang === 'auto') {
+                return this.detectRegionAndSetLanguage();
+            }
+            return this.currentLang;
+        }
+        
+        setLanguage(langCode) {
+            this.currentLang = langCode;
+            localStorage.setItem('mirai-language', langCode);
+            this.applyTranslations();
+        }
+        
+        applyTranslations() {
+            const lang = this.getCurrentLanguage();
+            const strings = UIStrings[lang] || UIStrings['id'];
+            
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (strings[key]) {
+                    element.innerHTML = strings[key];
                 }
+            });
+            
+            document.title = strings.docTitle;
+            document.getElementById('searchInput').placeholder = strings.searchPlaceholder;
+            document.documentElement.lang = lang === 'ja' ? 'ja' : lang === 'en-US' ? 'en' : 'id';
+            
+            // Update accordion items
+            document.querySelectorAll('.accordion-item').forEach(item => {
+                const titleKey = item.dataset.titleKey;
+                if (strings[titleKey]) {
+                    item.querySelector('.accordion-header h2').innerHTML = `<i class="${sectionIcons[titleKey.split('_')[0]] || 'fas fa-question-circle'}"></i>${strings[titleKey]}`;
+                    item.dataset.title = strings[titleKey];
+                }
+                
+                const contentKey = item.dataset.contentKey;
+                if (strings[contentKey]) {
+                    item.querySelector('.content-inner').innerHTML = strings[contentKey];
+                }
+            });
+        }
+        
+        initialize() {
+            this.applyTranslations();
+            
+            const selector = document.getElementById('language-select');
+            if (selector) {
+                selector.value = this.currentLang;
+                selector.addEventListener('change', (e) => {
+                    this.setLanguage(e.target.value);
+                });
             }
         }
+    }
 
-        createAccordion();
-
-        // Theme Switcher Logic
-        const themeSwitcher = document.getElementById('themeSwitcher');
-        const body = document.body;
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-
-        if (currentTheme === 'light') {
-            body.classList.add('light-theme');
-            themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
-        } else {
-            themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
-        }
-
-        themeSwitcher.addEventListener('click', () => {
-            if (body.classList.contains('light-theme')) {
-                body.classList.remove('light-theme');
-                themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                body.classList.add('light-theme');
-                themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
-                localStorage.setItem('theme', 'light');
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const languageManager = new LanguageManager();
+        languageManager.initialize();
+        
+        // Generate accordion items
+        function generateAccordionItems() {
+            const container = document.getElementById('accordionContainer');
+            const lang = languageManager.getCurrentLanguage();
+            const strings = UIStrings[lang] || UIStrings['id'];
+            
+            let i = 1;
+            while (strings[`s${i}_title`]) {
+                const key_title = `s${i}_title`;
+                const key_content = `s${i}_content`;
+                const iconClass = sectionIcons[`s${i}`] || "fas fa-question-circle";
+                
+                const item = document.createElement('div');
+                item.className = 'accordion-item';
+                item.dataset.titleKey = key_title;
+                item.dataset.contentKey = key_content;
+                item.dataset.title = strings[key_title];
+                
+                item.innerHTML = `
+                    <div class="accordion-header">
+                        <h2 data-lang-key="${key_title}"><i class="${iconClass}"></i>${strings[key_title]}</h2>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="content-inner" data-lang-key="${key_content}">${strings[key_content]}</div>
+                    </div>`;
+                
+                container.appendChild(item);
+                i++;
             }
-        });
-
-        // Search/Filter Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchInput = document.getElementById('searchInput');
+            
+            // Initialize accordion functionality
             const accordionItems = document.querySelectorAll('.accordion-item');
-            const noResults = document.getElementById('noResults');
-
-            searchInput.addEventListener('input', (e) => {
-                const query = e.target.value.toLowerCase().trim();
-                let resultsFound = false;
-
-                accordionItems.forEach(item => {
-                    const title = item.dataset.title.toLowerCase();
-                    const contentText = item.dataset.content.toLowerCase();
-                    const content = item.querySelector('.accordion-content .content-inner');
-
-                    // Reset content and title highlight
-                    const headerH2 = item.querySelector('.accordion-header h2');
-                    headerH2.innerHTML = item.dataset.title;
-                    const iconKey = item.dataset.titleKey.split('_')[0];
-                    headerH2.insertAdjacentHTML('afterbegin', `<i class="${sectionIcons[iconKey] || 'fas fa-question-circle'}"></i>`);
-
-                    // Reset content visibility
-                    if (item.classList.contains('active')) {
-                        item.classList.remove('active');
-                        item.querySelector('.accordion-content').style.maxHeight = null;
+            accordionItems.forEach(item => {
+                item.querySelector('.accordion-header').addEventListener('click', () => {
+                    const content = item.querySelector('.accordion-content');
+                    const wasActive = item.classList.contains('active');
+                    
+                    accordionItems.forEach(i => {
+                        i.classList.remove('active');
+                        i.querySelector('.accordion-content').style.maxHeight = null;
+                    });
+                    
+                    if (!wasActive) {
+                        item.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
                     }
-                    content.innerHTML = item.dataset.content;
-
-                    if (query.length > 0 && (title.includes(query) || contentText.includes(query))) {
+                });
+            });
+            
+            // Initialize search functionality
+            const searchInput = document.getElementById('searchInput');
+            const noResults = document.getElementById('noResults');
+            
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase().trim();
+                let resultsFound = false;
+                
+                accordionItems.forEach(item => {
+                    const content = item.querySelector('.content-inner');
+                    const title = item.dataset.title.toLowerCase();
+                    const text = content.innerText.toLowerCase();
+                    
+                    // Remove previous highlights
+                    content.innerHTML = content.innerHTML.replace(/<\/?mark class="highlight">/g, '');
+                    
+                    if (query.length > 0 && (title.includes(query) || text.includes(query))) {
                         item.style.display = 'block';
                         resultsFound = true;
-
-                        // Highlight logic
-                        if (query) {
-                            const regex = new RegExp(query.replace(/[-\/\\^$*+?.()|\[\]{}]/g, '\\$&'), 'gi');
+                        
+                        if (query.length > 1) {
+                            const regex = new RegExp(query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
                             const headerH2 = item.querySelector('.accordion-header h2');
                             const originalTitle = item.dataset.title;
                             headerH2.innerHTML = originalTitle.replace(regex, match => `<mark class="highlight">${match}</mark>`);
                             const iconKey = item.dataset.titleKey.split('_')[0];
                             headerH2.insertAdjacentHTML('afterbegin', `<i class="${sectionIcons[iconKey] || 'fas fa-question-circle'}"></i>`);
+                            
                             content.innerHTML = content.innerHTML.replace(regex, match => `<mark class="highlight">${match}</mark>`);
                         }
                     } else if (query.length === 0) {
                         item.style.display = 'block';
                         resultsFound = true;
-                         const headerH2 = item.querySelector('.accordion-header h2');
-                         headerH2.innerHTML = item.dataset.title;
-                         const iconKey = item.dataset.titleKey.split('_')[0];
-                         headerH2.insertAdjacentHTML('afterbegin', `<i class="${sectionIcons[iconKey] || 'fas fa-question-circle'}"></i>`);
+                        
+                        const headerH2 = item.querySelector('.accordion-header h2');
+                        headerH2.innerHTML = item.dataset.title;
+                        const iconKey = item.dataset.titleKey.split('_')[0];
+                        headerH2.insertAdjacentHTML('afterbegin', `<i class="${sectionIcons[iconKey] || 'fas fa-question-circle'}"></i>`);
                     } else {
                         item.style.display = 'none';
                     }
                 });
+                
                 noResults.style.display = resultsFound ? 'none' : 'block';
             });
-        });
-    </script>
+        }
+        
+        generateAccordionItems();
+    });
+</script>
+
 </body>
 </html>
