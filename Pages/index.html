@@ -60,6 +60,18 @@
             background-color: #e6b800; 
             transform: translateY(-1px);
         }
+        .secondary-button {
+            background-color: transparent;
+            color: var(--color-primary);
+            font-weight: 600;
+            border-radius: 9999px;
+            transition: all 0.2s ease-in-out;
+            border: 2px solid var(--color-border); 
+        }
+        .secondary-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--color-accent);
+        }
         .container-padding {
             padding-left: 1rem;
             padding-right: 1rem;
@@ -95,6 +107,31 @@
         }
         .language-flag {
             display: none;
+        }
+        .countdown-timer {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-top: 8px;
+        }
+        .skip-button {
+            margin-left: 12px;
+            padding: 4px 12px;
+            font-size: 0.9rem;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--color-border);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--color-accent);
+            border-radius: 2px;
+            transition: width 1s linear;
         }
     </style>
 </head>
@@ -153,12 +190,15 @@
             
             <div id="status-area" class="mt-8 text-sm text-gray-500">
                 <span id="welcome-message" class="font-medium"></span>
-                <span id="redirect-loading" class="hidden">
-                    <span data-i18n="redirecting">Redirecting</span>
-                    <span class="loading-dot">.</span>
-                    <span class="loading-dot">.</span>
-                    <span class="loading-dot">.</span>
-                </span>
+                <div id="countdown-container" class="hidden">
+                    <div class="countdown-timer flex items-center justify-center">
+                        <span id="countdown-text">Redirecting in 120s...</span>
+                        <button id="skip-button" class="secondary-button skip-button" data-i18n="skip_button">Skip</button>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -419,7 +459,7 @@
                     'main_title': 'Asisten Pribadi Cerdas Anda,',
                     'main_description': 'MirAI adalah antarmuka web yang ringan dan cepat untuk API Gemini. Dirancang dengan intuitif, mengusung <b>SuperRoundedUI</b> dan sepenuhnya responsif. Dapatkan ide dan jawaban instan tanpa <b>bloat</b>.',
                     'try_button': 'Mulai Berbicara dengan MirAI',
-                    'redirecting': 'Mengalihkan',
+                    'skip_button': 'Lewati',
                     
                     // Features
                     'features_title': 'Mengapa MirAI Sangat Cepat?',
@@ -495,7 +535,7 @@
                     'main_title': 'Your Smart Personal Assistant,',
                     'main_description': 'MirAI is a lightweight and fast web interface for the Gemini API. It features an intuitive, <b>SuperRoundedUI</b>-oriented design and is fully responsive. Start getting instant ideas and answers without <b>bloat</b>.',
                     'try_button': 'Start Talking with MirAI',
-                    'redirecting': 'Redirecting',
+                    'skip_button': 'Skip',
                     
                     // Features
                     'features_title': 'Why is MirAI So Fast?',
@@ -571,7 +611,7 @@
                     'main_title': 'Your Smart Personal Assistant,',
                     'main_description': 'MirAI is a lightweight and fast web interface for the Gemini API. It features an intuitive, <b>SuperRoundedUI</b>-oriented design and is fully responsive. Start getting instant ideas and answers without <b>bloat</b>.',
                     'try_button': 'Start Talking with MirAI',
-                    'redirecting': 'Redirecting',
+                    'skip_button': 'Skip',
                     
                     // Features
                     'features_title': 'Why is MirAI So Fast?',
@@ -647,7 +687,7 @@
                     'main_title': 'スマートなパーソナルアシスタント、',
                     'main_description': 'MirAIは、Gemini API用の軽量で高速なWebインターフェースです。直感的で<b>SuperRoundedUI</b>を志向したデザインを特徴とし、完全なレスポンシブ対応です。<b>無駄</b>なく瞬時にアイデアや回答を得られます。',
                     'try_button': 'MirAIとの会話を始める',
-                    'redirecting': 'リダイレクト中',
+                    'skip_button': 'スキップ',
                     
                     // Features
                     'features_title': 'MirAIが高速な理由',
@@ -839,15 +879,21 @@
     // Initialize language manager
     const languageManager = new LanguageManager();
 
-    // Redirect functionality
-    const APP_LINK = 'https://allwaysevermirai.netlify.app/c'; 
+    // Redirect functionality dengan countdown 1 menit
+    const APP_LINK = 'https://allwaysevermirai.netlify.app/chat'; 
     const COUNT_KEY = 'miraiVisitCount';
-    const REDIRECT_DELAY_MS = 10;
+    const REDIRECT_DELAY_MS = 120000; // 1 menit = 60000 ms
 
     const tryBtns = document.querySelectorAll('#try-mirai-btn, #try-mirai-btn-footer');
     const welcomeMessage = document.getElementById('welcome-message');
-    const redirectLoading = document.getElementById('redirect-loading');
+    const countdownContainer = document.getElementById('countdown-container');
+    const countdownText = document.getElementById('countdown-text');
+    const skipButton = document.getElementById('skip-button');
+    const progressFill = document.getElementById('progress-fill');
     
+    let countdownTimer;
+    let timeLeft = REDIRECT_DELAY_MS / 1000;
+
     function getVisitCount() {
         return parseInt(localStorage.getItem(COUNT_KEY) || '0');
     }
@@ -863,6 +909,34 @@
         return count;
     }
 
+    function startCountdown() {
+        countdownContainer.classList.remove('hidden');
+        
+        const totalTime = REDIRECT_DELAY_MS;
+        let elapsed = 0;
+        
+        countdownTimer = setInterval(() => {
+            timeLeft--;
+            elapsed += 1000;
+            
+            // Update progress bar
+            const progressPercent = (elapsed / totalTime) * 100;
+            progressFill.style.width = `${100 - progressPercent}%`;
+            
+            // Update countdown text
+            countdownText.textContent = `${languageManager.t('redirecting') || 'Redirecting'} in ${timeLeft}s...`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(countdownTimer);
+                redirectToApp();
+            }
+        }, 1000);
+    }
+
+    function redirectToApp() {
+        window.location.replace(APP_LINK);
+    }
+
     function setupPage() {
         const count = getVisitCount();
         
@@ -871,21 +945,21 @@
         
         const isLinkConfigured = APP_LINK && APP_LINK !== '#' && APP_LINK !== 'APP_LINK';
 
-        // Auto-Redirect Logic
+        // Auto-Redirect Logic dengan countdown (HANYA untuk returning visitors)
         if (count > 0 && isLinkConfigured) {
-            const visitText = languageManager.t('visit_count');
-            welcomeMessage.textContent = visitText ? visitText.replace('${count}', count) : `Welcome back! You have visited this page ${count} times.`;
-            redirectLoading.classList.remove('hidden');
+            const visitText = `Welcome back! You have visited this page ${count} times.`;
+            welcomeMessage.textContent = visitText;
+            
+            // Start countdown otomatis untuk returning visitors
+            startCountdown();
 
+            // TOMBOL TETAP AKTIF - HAPUS DISABLED STATE
             tryBtns.forEach(btn => {
-                btn.disabled = true;
-                btn.textContent = languageManager.t('redirecting') || 'Redirecting...';
+                // HAPUS baris yang disable button
+                // btn.disabled = true;  // <-- INI DIHAPUS
+                // btn.textContent = languageManager.t('redirecting') || 'Redirecting...';  // <-- INI DIHAPUS
             });
             
-            setTimeout(() => {
-                window.location.replace(APP_LINK); 
-            }, REDIRECT_DELAY_MS);
-
         } else if (!isLinkConfigured) {
             welcomeMessage.textContent = '⚠️ Please replace "APP_LINK" in the JavaScript code to enable button and auto-redirect functions.';
             tryBtns.forEach(btn => {
@@ -899,11 +973,20 @@
             incrementVisitCount();
         }
 
-        // Add event listener to buttons for manual redirect
+        // Add event listener ke skip button
+        skipButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearInterval(countdownTimer);
+            redirectToApp();
+        });
+
+        // Add event listener ke buttons untuk manual redirect 
+        // (BERLAKU UNTUK SEMUA VISITOR - FIRST TIME & RETURNING)
         if (isLinkConfigured) {
             tryBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
+                    clearInterval(countdownTimer); // Hentikan countdown jika sedang berjalan
                     incrementVisitCount();
                     window.location.href = APP_LINK;
                 });
