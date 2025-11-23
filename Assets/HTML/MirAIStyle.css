@@ -3095,3 +3095,53 @@ body.chat-active #toolsMenu {
         margin-top: 5px;
 
     }
+
+/* === [START] CSS UNTUK TOMBOL COPY CODE ONLY === */
+.copy-code-btn {
+    position: absolute;
+    bottom: -20px;
+    margin-bottom: 25px;
+    left: 62px;
+    color: #666666;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+body.light-theme .copy-code-btn {
+    color: #666666;
+}
+
+.copy-code-btn:hover {
+    color: #4CAF50;
+    transform: scale(1.1);
+}
+
+body.light-theme .copy-code-btn:hover {
+    color: #2E7D32;
+}
+
+/* Animasi sukses copy */
+.copy-code-btn.copied {
+    color: #4CAF50 !important;
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+}
+
+/* Penyesuaian spacing untuk multiple buttons */
+.ai-bubble {
+    padding-bottom: 30px; /* Beri ruang untuk tombol tambahan */
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 480px) {
+    .copy-code-btn {
+        left: 55px;
+        font-size: 13px;
+    }
+}
+/* === [END] CSS UNTUK TOMBOL COPY CODE ONLY === */
