@@ -175,9 +175,9 @@
     <main class="w-full mx-auto pb-20">
         
         <section class="text-center py-16 md:py-24 container-padding max-w-6xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight" data-i18n="main_title">
+           <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight" data-i18n="main_title">
                 Your Smart Personal Assistant,
-                <span class="text-yellow-400 block md:inline-block">Powered by Google Gemini</span>
+                <span id="powered-gemini" class="text-yellow-400 block md:inline-block" data-i18n="main_suffix">Powered by Google Gemini</span>
             </h1>
 
             <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-3xl mx-auto" data-i18n="main_description">
@@ -456,7 +456,8 @@
             return {
                 'id-ID': {
                     // Main section
-                    'main_title': 'Asisten Pribadi Cerdas Anda,',
+                    'main_prefix': 'Asisten Pribadi Cerdas Anda,',
+                    'main_suffix': 'Didukung Google Gemini',
                     'main_description': 'MirAI adalah antarmuka web yang ringan dan cepat untuk API Gemini. Dirancang dengan intuitif, mengusung <b>SuperRoundedUI</b> dan sepenuhnya responsif. Dapatkan ide dan jawaban instan tanpa <b>bloat</b>.',
                     'try_button': 'Mulai Berbicara dengan MirAI',
                     'skip_button': 'Lewati',
@@ -532,7 +533,8 @@
                 },
                 'en-US': {
                     // Main section
-                    'main_title': 'Your Smart Personal Assistant,',
+                    'main_prefix': 'Your Smart Personal Assistant,',
+                    'main_suffix': 'Powered by Google Gemini',
                     'main_description': 'MirAI is a lightweight and fast web interface for the Gemini API. It features an intuitive, <b>SuperRoundedUI</b>-oriented design and is fully responsive. Start getting instant ideas and answers without <b>bloat</b>.',
                     'try_button': 'Start Talking with MirAI',
                     'skip_button': 'Skip',
@@ -608,7 +610,8 @@
                 },
                 'en-GB': {
                     // Main section
-                    'main_title': 'Your Smart Personal Assistant,',
+                    'main_prefix': 'Your Smart Personal Assistant,',
+                    'main_suffix': 'Powered by Google Gemini',
                     'main_description': 'MirAI is a lightweight and fast web interface for the Gemini API. It features an intuitive, <b>SuperRoundedUI</b>-oriented design and is fully responsive. Start getting instant ideas and answers without <b>bloat</b>.',
                     'try_button': 'Start Talking with MirAI',
                     'skip_button': 'Skip',
@@ -684,7 +687,8 @@
                 },
                 'ja-JP': {
                     // Main section
-                    'main_title': 'スマートなパーソナルアシスタント、',
+                    'main_prefix': 'あなたのスマートパーソナルアシスタント、',
+                    'main_suffix': 'Google Gemini を搭載',
                     'main_description': 'MirAIは、Gemini API用の軽量で高速なWebインターフェースです。直感的で<b>SuperRoundedUI</b>を志向したデザインを特徴とし、完全なレスポンシブ対応です。<b>無駄</b>なく瞬時にアイデアや回答を得られます。',
                     'try_button': 'MirAIとの会話を始める',
                     'skip_button': 'スキップ',
