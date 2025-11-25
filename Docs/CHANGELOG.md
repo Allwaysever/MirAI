@@ -1,15 +1,18 @@
 # Changelogs
 ## What's new?
+### v2.11.x
+- **``Upgrade UI``:** We've made an update to our design language system, SuperRoundedUI, which we've implemented in this app.
+  
+---
+
+## Previous version:
 ### v2.11 - **``Best Update``**
 - **``UI Bug Fix``:** Fixed image preview UI bug.
 - **``UI Enhancement``:** Improved UI, supported by our Design Language System, [SuperRoundedUI](https://allwaysevermirai.netlify.app/otherapps/srui).
 - **``Position Change``:** Moved the "Trash" position from below the settings button to the right side.
 - **``UI Bug Fix``:** Fixed UI bug for the copy and speaker (TTS) buttons.
 - **``Monthly Update``:** Final Update for this month. (November)
-  
----
 
-## Previous version:
 ### v2.11-BETA - **``Multimodal Upgrade``**
 - Added multimodal functionality for image uploads
 - added "paperlink" button for uploading images and so on
