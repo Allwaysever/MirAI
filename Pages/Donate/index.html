@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirAI | Dukung Dengan Kopi Pagi</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <meta name="description" content="Dukung MirAI dengan membelikan kopi dan kuota server untuk menjaga proyek tetap gratis.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Arial:wght=400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* SRUI Custom Styling & Variables */
+        :root {
+            --color-accent: #ffce00; 
+            --color-primary: #ffffff; 
+            --color-dark-bg: #0f0f0f; 
+            --color-card-bg: rgba(33, 33, 33, 0.7); 
+            --color-border: #4B4F50; 
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--color-dark-bg); 
+            color: var(--color-primary);
+            min-height: 100vh;
+            display: flex; 
+            justify-content: center;
+            align-items: center; /* Center content vertically */
+        }
+        .card-srui {
+            border-radius: 25px; 
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
+        }
+        .accent-button {
+            background-color: var(--color-accent);
+            color: var(--color-dark-bg);
+            font-weight: 700;
+            border-radius: 9999px;
+            transition: all 0.2s ease-in-out;
+            border: 2px solid var(--color-accent); 
+        }
+        .accent-button:hover {
+            background-color: #e6b800; 
+            transform: translateY(-1px);
+        }
+        /* Styling untuk konten tersembunyi */
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="p-4">
+
+    <main class="w-full max-w-lg mx-auto py-10">
+
+        <header class="text-center mb-8">
+            <div class="flex items-center justify-center space-x-3">
+                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="MirAI Logo">
+                <span><span style ="font-weight: bold; font-size: 1.5em;">MirAI</span> <span style ="font-weight: 100; font-size: 1.5em;">Donate</span></span>
+            </div>
+        </header>
+
+        <section id="donate" class="page-content active p-8 card-srui text-center">
+            <h1 class="text-3xl font-extrabold mb-2 text-yellow-400">
+                Belikan Kami Kopi dan Kuota Server ☕
+            </h1>
+            <p class="text-lg text-gray-300 mb-6">
+                Dukunganmu sangat berharga. Mari kita jaga MirAI tetap hidup dan terus berkembang.
+            </p>
+
+            <div class="space-y-4 mb-10 text-left p-4 bg-gray-800 rounded-xl">
+                <p class="text-white font-regular flex items-center space-x-3">
+                    <span class="text-xl text-yellow-400"><i class="fas fa-check"></i></span>
+                    <span>100% untuk biaya <b>real-time</b> API Google Gemini.</span>
+                </p>
+                <p class="text-white font-regular flex items-center space-x-3">
+                    <span class="text-xl text-yellow-400"><i class="fas fa-check"></i></span>
+                    <span>Untuk <b>maintenance</b> server dan fitur baru.</span>
+                </p>
+                <p class="text-white font-regular flex items-center space-x-3">
+                    <span class="text-xl text-yellow-400"><i class="fas fa-check"></i></span>
+                    <span>Proyek MirAI akan tetap menjadi <b>open-source</b>!</span>
+                </p>
+            </div>
+            
+            <div class="text-center">
+                 <button id="checkout-button" class="accent-button text-xl px-8 py-3 shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 min-w-[300px] inline-block">
+                    Dukung Sekarang
+                </button>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-gray-700">
+                <p class="text-sm text-gray-400 text-center">
+                    Anda akan diarahkan ke halaman donasi di Saweria.
+                </p>
+            </div>
+
+        </section>
+
+        <section id="thanks" class="page-content p-8 card-srui text-center">
+            <div class="text-5xl mb-4">🎉</div>
+            <h1 class="text-3xl font-extrabold mb-4 text-yellow-400">
+                Terima Kasih Banyak!
+            </h1>
+
+            <p class="text-lg text-gray-300 mb-4">
+                Kamu telah memilih untuk mendukung dengan <b>Satu Kopi  Pagi</b>.
+            </p>
+
+            <p class="text-md text-red-400 font-semibold mb-8 border border-red-400 p-3 rounded-lg bg-red-900 bg-opacity-30">
+                ⚠️ <b>PENTING:</b> Halaman pembayaran telah dibuka di tab baru. Mohon masukkan nominal <b>minimal Rp 1.000</b> secara manual di sana.
+            </p>
+            
+            <p class="text-md font-medium text-gray-400 mb-10">
+                Dukunganmu langsung membuat MirAI bisa menjawab pertanyaan-pertanyaan selanjutnya! ❤️
+            </p>
+
+            <a href="https://allwaysevermirai.netlify.app/" class="accent-button text-lg px-6 py-3 shadow-md focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 inline-block">
+                Kembali ke MirAI →
+            </a>
+            <p class="text-sm text-gray-500 mt-6">
+                Salam, Tim Allwaysever.
+            </p>
+        </section>
+
+    </main>
+    
+    <iframe 
+        src="https://saweria.co/widgets/milestone?streamKey=4a3b8d3e241654954c1ea098f8f871e9" 
+        style="
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            width: 300px; /* Lebar yang wajar */
+            height: 100px; /* Tinggi yang wajar, sesuaikan jika perlu */
+            border: none; 
+            z-index: 1000; /* Pastikan di atas elemen lain */
+            overflow: hidden; 
+        "
+        allowtransparency="true" 
+        scrolling="no" 
+        frameborder="0"
+    ></iframe>
+    <script>
+        // --- Konfigurasi ---
+        // GANTI DENGAN LINK SAWERIA/TRAKTEER STANDAR KAMU! (contoh: "https://saweria.co/mirai")
+        const EXTERNAL_DONATE_BASE_URL = "https://saweria.co/Allwaysever"; 
+        const SUGGESTED_AMOUNT = 1000; // Nominal yang disarankan untuk display
+        
+        // --- Elemen DOM ---
+        const checkoutButton = document.getElementById('checkout-button');
+        
+        // --- Fungsi Utama ---
+
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'decimal',
+                minimumFractionDigits: 0
+            }).format(number);
+        }
+
+        // --- Event Listeners ---
+
+        // 1. Listener untuk Checkout Button (Fixed Amount Logic)
+        checkoutButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            const formattedAmount = formatRupiah(SUGGESTED_AMOUNT);
+
+            // 1. Arahkan ke link donasi eksternal STANDAR di tab baru
+            const donationUrl = EXTERNAL_DONATE_BASE_URL; 
+            window.open(donationUrl, '_blank');
+            
+            // 2. Pindah ke halaman terima kasih di tab saat ini
+            setTimeout(() => {
+                window.location.hash = 'thanks';
+                
+                // Tampilkan alert singkat sebagai pengingat terakhir
+                alert(`Tab pembayaran telah dibuka. Mohon masukkan nominal minimal Rp ${formattedAmount} secara manual. Terima kasih!`);
+            }, 300); 
+        });
+
+
+        // --- Navigasi Hash (#donate / #thanks) ---
+        function handleHashChange() {
+            const hash = window.location.hash.substring(1) || 'donate'; 
+            
+            document.querySelectorAll('.page-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const activeSection = document.getElementById(hash);
+            if (activeSection) {
+                activeSection.classList.add('active');
+            } else {
+                document.getElementById('donate').classList.add('active');
+            }
+        }
+        
+        window.addEventListener('load', handleHashChange);
+        window.addEventListener('hashchange', handleHashChange);
+
+    </script>
+
+</body>
+</html>
