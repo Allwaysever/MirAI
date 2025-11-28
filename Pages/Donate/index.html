@@ -1,32 +1,31 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MirAI | Dukung Pengembangan Kami</title>
+    <title>MirAI | About Project & Features</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-    <meta name="description" content="Dukung pengembangan MirAI dengan berkontribusi pada biaya server dan menjaga proyek tetap gratis untuk semua.">
+    <meta name="description" content="In-depth information about MirAI: A lightweight, fast, and responsive web interface for Google Gemini API. Learn about features, technology, and exclusive SRUI design.">
+    <meta name="keywords" content="MirAI, About, Features, Google Gemini API, SuperRoundedUI, Vanilla JS, Open Source">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Arial:wght=400;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* SRUI Custom Styling & Variables (Aligned with MirAI Dark Theme) */
         :root {
-            --color-accent: #ffce00; 
-            --color-primary: #ffffff; 
-            --color-dark-bg: #0f0f0f; 
-            --color-card-bg: rgba(33, 33, 33, 0.7); 
-            --color-border: #4B4F50; 
+            --color-accent: #ffce00; /* SRUI Accent Color (Bright Yellow) */
+            --color-primary: #ffffff; /* White Text */
+            --color-dark-bg: #0f0f0f; /* Main MirAI Background (Dark) */
+            --color-card-bg: rgba(33, 33, 33, 0.7); /* Card/Input Background MirAI (Blurry Dark) */
+            --color-border: #4B4F50; /* MirAI Border Color */
+            --color-light-text: #9ca3af; /* gray-400 */
         }
         body {
             font-family: Arial, sans-serif;
             background-color: var(--color-dark-bg); 
             color: var(--color-primary);
             min-height: 100vh;
-            display: flex; 
-            justify-content: center;
-            align-items: center;
         }
         .card-srui {
             border-radius: 25px; 
@@ -35,274 +34,759 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .accent-button {
+        .card-srui:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px -8px rgba(0, 0, 0, 0.3);
+        }
+        /* Style for buttons that are usually accent, but here only for navigation/links */
+        .link-button {
             background-color: var(--color-accent);
             color: var(--color-dark-bg);
             font-weight: 700;
-            border-radius: 9999px;
+            border-radius: 9999px; /* rounded-full */
             transition: all 0.2s ease-in-out;
             border: 2px solid var(--color-accent); 
         }
-        .accent-button:hover {
+        .link-button:hover {
             background-color: #e6b800; 
             transform: translateY(-1px);
         }
-        .page-content {
-            display: none;
+        /* Utility */
+        .container-padding {
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
-        .page-content.active {
-            display: block;
+        @media (min-width: 768px) {
+            .container-padding {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
+        }
+        /* Style for FAQ */
+        .faq-item {
+            border-bottom: 1px solid var(--color-border);
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        /* Sticky header */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            background-color: rgba(15, 15, 15, 0.9); /* Slightly transparent */
+        }
+        /* Custom style for screenshot images (from README) */
+        .screenshot-box {
+            background-color: var(--color-card-bg);
+            padding: 20px;
+            border-radius: 25px;
+            border: 1px solid var(--color-border);
+            text-align: center;
+        }
+        /* Language Selector Styles */
+        .language-selector select {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 25px;
+            color: var(--color-primary);
+            padding: 8px 12px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .language-selector select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+        }
+        .language-badge {
+            display: none;
         }
     </style>
 </head>
-<body class="p-4">
+<body>
 
-    <main class="w-full max-w-lg mx-auto py-10">
-
-        <header class="text-center mb-8">
-            <div class="flex items-center justify-center space-x-3">
+    <header class="w-full py-6 container-padding border-b border-gray-800 sticky-header">
+        <div class="flex justify-between items-center max-w-6xl mx-auto">
+            <div class="flex items-center space-x-3">
                 <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="MirAI Logo">
-                <span><span style="font-weight: bold; font-size: 1.5em;">MirAI</span> <span style="font-weight: 100; font-size: 1.5em;">Support</span></span>
+                <span><span class="text-lg font-bold text-white">MirAI</span> <span style="color: #EFEFE; font-weight: 100;" data-i18n="about_title">About Project</span></span>
+                <span id="current-language-badge" class="language-badge hidden">
+                    <span id="language-flag"></span>
+                    <span id="language-name"></span>
+                </span>
             </div>
-        </header>
-
-        <section id="donate" class="page-content active p-8 card-srui text-center">
-            <h1 class="text-3xl font-extrabold mb-2 text-yellow-400">
-                Dukung Pengembangan Kami ☕
-            </h1>
-            <p class="text-lg text-gray-300 mb-6">
-                Kontribusi Anda membantu menjaga keberlangsungan MirAI dan memungkinkan pengembangan berkelanjutan.
-            </p>
-
-            <div class="space-y-4 mb-10 text-left p-4 bg-gray-800 rounded-xl">
-                <p class="text-white font-regular flex items-center space-x-3">
-                    <span class="text-xl text-yellow-400"><i class="fas fa-check"></i></span>
-                    <span><span style="color: #ffce00;">45%</span> dialokasikan untuk biaya API Google Gemini <b>real-time</b>.</span>
-                </p>
-                <p class="text-white font-regular flex items-center space-x-3">
-                    <span class="text-xl text-yellow-400"><i class="fas fa-check"></i></span>
-                    <span>Mendukung <b>pemeliharaan server</b> dan <span style="color: #ffce00;">55%</span> untuk pengembangan fitur baru.</span>
-                </p>
-                <p class="text-white font-regular flex items-center space-x-3">
-                    <span class="text-xl text-yellow-400"><i class="fas fa-check"></i></span>
-                    <span>MirAI tetap sepenuhnya <b>open-source</b> dan gratis!</span>
-                </p>
-            </div>
-            
-            <div class="text-center">
-                 <button id="checkout-button" class="accent-button text-xl px-8 py-3 shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 min-w-[300px] inline-block">
-                    Dukung Sekarang
-                </button>
-            </div>
-
-            <div class="mt-8 pt-6 border-t border-gray-700">
-                <p class="text-sm text-gray-400 text-center">
-                    Anda akan diarahkan ke portal donasi kami yang aman.
-                </p>
-            </div>
-
-        </section>
-
-        <section id="thanks" class="page-content p-8 card-srui text-center">
-            <div class="text-5xl mb-4">🎉</div>
-            <h1 class="text-3xl font-extrabold mb-4 text-yellow-400">
-                Terima Kasih atas Dukungannya!
-            </h1>
-
-            <p class="text-lg text-gray-300 mb-4">
-                Kontribusi Anda secara langsung mendukung kemampuan MirAI.
-            </p>
-
-            <p class="text-md text-red-400 font-semibold mb-8 border border-red-400 p-3 rounded-lg bg-red-900 bg-opacity-30">
-                ⚠️ <b>PENTING:</b> Donasi Anda sangat membantu. Silakan klik tombol di bawah untuk kembali ke MirAI.
-            </p>
-            
-            <p class="text-md font-medium text-gray-400 mb-10">
-                Dukungan Anda memungkinkan MirAI terus menjawab pertanyaan dan berkembang! ❤️
-            </p>
-            
-            <a href="https://allwaysevermirai.netlify.app/" onclick="localStorage.removeItem('mirai_last_donate_click');" class="accent-button text-lg px-6 py-3 shadow-md focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 inline-block">
-                Kembali ke MirAI →
-            </a>
-            
-            <p class="text-sm text-gray-500 mt-6">
-                Hormat kami, Tim Allwaysever.
-            </p>
-        </section>
-
-        <section id="areyousure" class="page-content p-8 card-srui text-center">
-            <div class="text-5xl mb-4">🤔</div>
-            <h1 class="text-3xl font-extrabold mb-4 text-yellow-400">
-                Menyelesaikan Donasi Anda?
-            </h1>
-
-            <p class="text-lg text-gray-300 mb-4">
-                Kami melihat Anda memulai donasi baru-baru ini. Halaman pembayaran seharusnya terbuka di tab baru.
-            </p>
-
-            <p class="text-md text-gray-400 mb-10">
-                Silakan selesaikan donasi Anda untuk membantu kami melanjutkan pengembangan!
-            </p>
-            
-            <div id="countdown-are-you-sure" class="text-sm text-yellow-400 font-bold mb-4">
-                Halaman ini akan otomatis berlanjut dalam <span id="areyousure-timer">90</span> detik.
-            </div>
-
-            <div class="space-y-3">
-                <a href="https://saweria.co/Allwaysever" target="_blank" class="accent-button text-lg px-6 py-3 shadow-md focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 inline-block w-full">
-                    Kembali ke Halaman Pembayaran (Tab Baru)
-                </a>
+            <div class="flex items-center space-x-4">
+                <nav class="space-x-4 hidden sm:flex">
+                    <a href="#overview" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150" data-i18n="nav_overview">Overview</a>
+                    <a href="#features" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150" data-i18n="nav_features">Key Features</a>
+                    <a href="#design" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150" data-i18n="nav_design">SRUI Design</a>
+                    <a href="#tech-stack" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150" data-i18n="nav_tech">Tech Stack</a>
+                    <a href="#setup" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150" data-i18n="nav_setup">API Setup</a>
+                </nav>
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="auto">Auto Detect</option>
+                        <option value="id-ID">Bahasa Indonesia</option>
+                        <option value="en-US">English (US)</option>
+                        <option value="en-GB">English (UK)</option>
+                        <option value="ja-JP">日本語</option>
+                    </select>
                 </div>
-            <p class="text-sm text-gray-500 mt-6">
-                Kami menghargai dukungan tulus untuk keberlangsungan proyek kami.
+                <a href="https://allwaysevermirai.netlify.app" target="_self" class="link-button text-sm px-4 py-2 hidden sm:inline-block" data-i18n="try_button">
+                    Open MirAI
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full mx-auto pb-20">
+        
+        <section id="overview" class="text-center py-16 md:py-24 container-padding max-w-6xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight" data-i18n="main_title">
+                MirAI: A Lightweight <span class="text-yellow-400 block md:inline-block">Personal AI Assistant</span>
+            </h1>
+
+            <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-3xl mx-auto" data-i18n="main_description">
+                MirAI is a <b>simple, lightweight, and responsive</b> web interface for direct interaction with Google Gemini API. Built without heavy <i>frameworks</i> for super fast performance.
             </p>
+            
+            <div class="screenshot-box max-w-4xl mx-auto">
+                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI_v2.11.png" class="w-full rounded-xl" alt="MirAI Screenshot (v2.11)">
+                <p class="text-sm text-gray-500 mt-3" data-i18n="screenshot_caption">MirAI Interface View (v2.11)</p>
+            </div>
+            
+            <div class="mt-12 flex justify-center space-x-4">
+                 <a href="https://allwaysevermirai.netlify.app" target="_blank" class="link-button text-base px-6 py-3 shadow-md" data-i18n="try_now_button">
+                    Try MirAI Now
+                </a>
+                <a href="https://github.com/Allwaysever/MirAI" target="_blank" class="link-button text-base px-6 py-3 shadow-md bg-transparent text-yellow-400 border-yellow-400 hover:bg-yellow-400 hover:text-gray-900" data-i18n="view_code_button">
+                    View Source Code
+                </a>
+            </div>
+            
+        </section>
+
+        <hr class="max-w-6xl mx-auto border-gray-800" />
+
+        <section id="features" class="py-16 container-padding max-w-6xl mx-auto">
+             <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="features_title">✨ Key Features (The Good Stuff)</h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-0">
+                
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">💾 <span data-i18n="feature1_title">Session Persistence</span></h3>
+                    <p class="text-gray-400" data-i18n="feature1_description">Your conversations are automatically saved in the <i>browser</i>. You can continue chatting whenever you want! (Saved in <i>local storage</i>).</p>
+                </div>
+
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">🎭 <span data-i18n="feature2_title">Customizable AI Persona</span></h3>
+                    <p class="text-gray-400" data-i18n="feature2_description">Choose AI personality: <b>Default</b> (Relaxed & Casual), <b>Formal</b>, or <b>Creative</b>. Get results according to your needs.</p>
+                </div>
+
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">🌐 <span data-i18n="feature3_title">Multi-language Support</span></h3>
+                    <p class="text-gray-400" data-i18n="feature3_description">Available in <b>Indonesian</b>, <b>English</b> (US & UK), and <b>Japanese</b>.</p>
+                </div>
+                
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">🚀 <span data-i18n="feature4_title">Enhanced Slash Commands</span></h3>
+                    <p class="text-gray-400" data-i18n="feature4_description">Use the '+' menu or type commands like <code>/translate</code>, <code>/summarize</code>, <code>/code</code>, and <code>/fix</code> for specific tasks. Faster and more focused!</p>
+                </div>
+                
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">🖼️ <span data-i18n="feature5_title">Multimodal Input</span></h3>
+                    <p class="text-gray-400" data-i18n="feature5_description">Support for image uploads (JPEG, PNG, WebP) along with text <i>prompts</i>, thanks to Gemini's <i>multimodal</i> capabilities.</p>
+                </div>
+                
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">🔊 <span data-i18n="feature6_title">Text-to-Speech (TTS)</span></h3>
+                    <p class="text-gray-400" data-i18n="feature6_description">Click the speaker icon to listen to AI responses read aloud in the selected language. Perfect for <i>multitasking</i>!</p>
+                </div>
+            </div>
+        </section>
+        
+        <hr class="max-w-6xl mx-auto border-gray-800" />
+
+        <section id="design" class="py-16 container-padding max-w-6xl mx-auto">
+             <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="design_title">🎨 UI/UX Design: SuperRoundedUI (SRUI)</h2>
+
+            <div class="grid md:grid-cols-2 gap-10 items-center">
+                <div class="text-left">
+                    <h3 class="text-2xl font-semibold mb-4 text-white" data-i18n="design_quote">"Flat never felt this round."</h3>
+                    <p class="text-gray-400 mb-4" data-i18n="design_description">MirAI's visual design is powered by <b>SuperRoundedUI (SRUI)</b>, an exclusive design system from Allwaysever™ that emphasizes:</p>
+                    <ul class="space-y-3 text-gray-300 list-disc list-inside">
+                        <li data-i18n="design_feature1">
+                            <b>Rounded Corners:</b> Consistently using <b>25px border-radius</b>.
+                        </li>
+                        <li data-i18n="design_feature2">
+                            <b>Smooth Transitions:</b> Providing a comfortable visual experience.
+                        </li>
+                        <li data-i18n="design_feature3">
+                            <b>Clean Layout:</b> Focus on ease of use (<i>usability</i>) across various devices (responsive).
+                        </li>
+                        <li data-i18n="design_feature4">
+                            <b>Blur Effects:</b> Using <code>backdrop-filter</code> for a modern and premium look.
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-6 card-srui border-none flex justify-center items-center min-h-[300px]">
+                    <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/SRUI Logo (Cropped).png" class="w-full max-w-md" alt="SuperRoundedUI Logo">
+                </div>
+            </div>
+        </section>
+        
+        <hr class="max-w-6xl mx-auto border-gray-800" />
+
+        <section id="tech-stack" class="py-16 container-padding max-w-6xl mx-auto">
+             <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="tech_title">💻 Tech Stack: Lightweight and Fast</h2>
+
+            <p class="text-center text-lg text-gray-400 mb-8" data-i18n="tech_description">This project is built purely with basic web technologies (<b>Vanilla Stack</b>) without heavy <i>frameworks</i> to ensure speed and efficiency.</p>
+
+            <div class="grid md:grid-cols-4 gap-8 px-4 md:px-0 text-center">
+                
+                <div class="p-6 card-srui">
+                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">HTML</p>
+                    <h3 class="text-lg font-semibold mb-1 text-white" data-i18n="tech_html_title">The Skeleton</h3>
+                    <p class="text-sm text-gray-400" data-i18n="tech_html_description">Clean and semantic basic structure.</p>
+                </div>
+                
+                <div class="p-6 card-srui">
+                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">CSS</p>
+                    <h3 class="text-lg font-semibold mb-1 text-white" data-i18n="tech_css_title">The Style (SRUI)</h3>
+                    <p class="text-sm text-gray-400" data-i18n="tech_css_description">Implementing SuperRoundedUI and comfortable Dark Theme.</p>
+                </div>
+                
+                <div class="p-6 card-srui">
+                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">Vanilla JS</p>
+                    <h3 class="text-lg font-semibold mb-1 text-white" data-i18n="tech_js_title">The Brain</h3>
+                    <p class="text-sm text-gray-400" data-i18n="tech_js_description">Efficient and fast client-side interaction logic.</p>
+                </div>
+                
+                <div class="p-6 card-srui">
+                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">Gemini API</p>
+                    <h3 class="text-lg font-semibold mb-1 text-white" data-i18n="tech_api_title">The Core Model</h3>
+                    <p class="text-sm text-gray-400" data-i18n="tech_api_description">Using the <code class="bg-gray-800 text-yellow-400 px-1 rounded">gemini-2.5-flash</code> model for best performance.</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="https://github.com/Allwaysever/MirAI" target="_blank" class="link-button px-6 py-3 text-lg inline-flex items-center space-x-2">
+                    <span data-i18n="github_button">View Source Code on GitHub</span>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.417 2.865 8.16 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.705-2.782.603-3.37-1.34-3.37-1.34-.454-1.15-.11-1.458-.11-1.458.93-.635 1.408.081 1.408.081.823 1.406 2.152.997 2.67.761.083-.59.324-.997.593-1.226-2.046-.231-4.197-1.025-4.197-4.555 0-1.006.357-1.83.948-2.474-.095-.231-.41-.1.1-.986 1.428.005 2.825.706 2.825.706.77-.213 1.597-.32 2.42-.325.823.005 1.65.112 2.42.325 0 0 1.397-.7 2.825-.706.51 1.094.195.755.1.986.591.644.948 1.468.948 2.474 0 3.53-2.154 4.32-4.204 4.549.33.284.625.845.625 1.705 0 1.226-.01 2.219-.01 2.525 0 .267.18.579.688.482 3.967-1.345 6.83-5.088 6.83-9.504C22 6.484 17.523 2 12 2z" clip-rule="evenodd"></path></svg>
+                </a>
+            </div>
+        </section>
+        
+        <hr class="max-w-6xl mx-auto border-gray-800" />
+
+        <section id="setup" class="py-16 container-padding max-w-6xl mx-auto">
+             <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="setup_title">🛠️ Setup Guide (API Key)</h2>
+             
+             <p class="text-center text-lg text-gray-400 mb-8 max-w-4xl mx-auto" data-i18n="setup_description">For the best performance and security, you are <b>highly recommended</b> to use your own Google Gemini API Key. The process is easy!</p>
+
+            <div class="max-w-3xl mx-auto">
+                <details class="faq-item py-4 cursor-pointer" open>
+                <summary class="font-semibold text-xl text-yellow-400 hover:text-white transition duration-150" data-i18n="setup_step1_title">Step 1: Getting API Key</summary>
+                <div class="text-gray-400 mt-3 pl-4 space-y-4">
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li data-i18n="setup_step1_1">Open <b>Google AI Studio</b> at <a href="https://aistudio.google.com/" target="_blank" class="text-yellow-400 underline hover:no-underline">https://aistudio.google.com/</a>.</li>
+                        <li data-i18n="setup_step1_2">Sign in with your Google account.</li>
+                        <li data-i18n="setup_step1_3">Click <b>"Get API Key"</b> in the <i>sidebar</i>.</li>
+                        <li data-i18n="setup_step1_4">Then, click <b>"Create API key"</b> and create a key in an <i>existing project</i>.</li>
+                        <li data-i18n="setup_step1_5"><b>Copy</b> the created API Key. This key is confidential, don't let it leak!</li>
+                    </ol>
+                    <div class="space-y-4">
+                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/20250919_151650.jpg" class="w-full rounded-lg" alt="Tutorial Step 1.1">
+                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/20250919_152101.jpg" class="w-full rounded-lg" alt="Tutorial Step 1.5">
+                    </div>
+                </div>
+                </details>
+
+                <details class="faq-item py-4 cursor-pointer">
+                <summary class="font-semibold text-xl text-yellow-400 hover:text-white transition duration-150" data-i18n="setup_step2_title">Step 2: Entering API Key into MirAI</summary>
+                <div class="text-gray-400 mt-3 pl-4 space-y-4">
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li data-i18n="setup_step2_1">Open the <code class="bg-gray-800 text-yellow-400 px-1 rounded">MirAI.html</code> file or <a href="https://allwaysevermirai.netlify.app" class="text-yellow-400 underline hover:no-underline">MirAI Web</a>.</li>
+                        <li data-i18n="setup_step2_2">Click the <b>menu icon</b> in the top left corner to open <b>Settings</b>.</li>
+                        <li data-i18n="setup_step2_3">Find the <b>API Key</b> section.</li>
+                        <li data-i18n="setup_step2_4"><b>Paste</b> the API Key you copied.</li>
+                        <li data-i18n="setup_step2_5">Click the <b>"Save Key"</b> button.</li>
+                    </ol>
+                    <div class="space-y-4">
+                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/APIKEYSTEP2.png" class="w-full rounded-lg" alt="Tutorial Step 2.2">
+                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/APIKEYSTEP3.2.png" class="w-full rounded-lg" alt="Tutorial Step 2.4">
+                    </div>
+                    <p class="font-bold text-white" data-i18n="setup_complete">Done! MirAI is ready to use with your personal API Key.</p>
+                </div>
+                </details>
+            </div>
+            
+        </section>
+
+
+        <section id="documentation" class="py-16 container-padding max-w-6xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-8 text-white" data-i18n="docs_title">📚 Documentation & Further Information</h2>
+            <p class="text-gray-400 mb-6" data-i18n="docs_description">Want to know more? Check out these documents!</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="Docs/FAQ.md" target="_blank" class="link-button px-6 py-3 bg-gray-700 border-gray-700 text-white hover:bg-gray-600" data-i18n="docs_faq">
+                    ❓ FAQ (Frequently Asked Questions)
+                </a>
+                <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/TROUBLESHOOTING.md" target="_blank" class="link-button px-6 py-3 bg-gray-700 border-gray-700 text-white hover:bg-gray-600" data-i18n="docs_troubleshooting">
+                    🛠️ Troubleshooting Guide
+                </a>
+                <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CHANGELOG.md" target="_blank" class="link-button px-6 py-3 bg-gray-700 border-gray-700 text-white hover:bg-gray-600" data-i18n="docs_changelog">
+                    🔄 Changelog
+                </a>
+                <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="link-button px-6 py-3 bg-gray-700 border-gray-700 text-white hover:bg-gray-600" data-i18n="docs_contributing">
+                    🤝 Contributing Guide
+                </a>
+            </div>
+        </section>
+        
+        <hr class="max-w-6xl mx-auto border-gray-800" />
+        
+        <section id="license" class="py-10 container-padding max-w-6xl mx-auto text-center">
+             <h3 class="text-xl font-bold mb-4 text-white" data-i18n="license_title">📄 License</h3>
+             <p class="text-gray-400 mb-4" data-i18n="license_description">This project is licensed under the <b>GNU Affero General Public License v3.0</b>.</p>
+             <a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" target="_blank" class="link-button text-sm px-4 py-2 bg-transparent text-yellow-400 border-yellow-400 hover:bg-yellow-400 hover:text-gray-900" data-i18n="license_button">
+                Read Full License
+             </a>
         </section>
 
     </main>
+    
+    <footer class="text-center py-6 text-sm text-gray-600 border-t border-gray-900">
+        &copy; 2025 Allwaysever Project: MirAI. Powered by Google Gemini API.
+    </footer>
 
-    <script>
-        const EXTERNAL_DONATE_BASE_URL = "https://saweria.co/Allwaysever"; 
-        const SUGGESTED_AMOUNT = 1000; 
-        
-        // Konstanta Waktu: Hanya AREYOUSURE_TIMEOUT_MS yang dipakai untuk timer pindah
-        const AREYOUSURE_TIMEOUT_MS = 1.5 * 60 * 1000; // 1.5 menit (90000 ms)
-
-        const LAST_CLICK_KEY = 'mirai_last_donate_click';
-        let timeoutTimer; // Timer untuk mengurus perpindahan otomatis
-        let intervalTimer; // Timer untuk countdown
-        
-        const checkoutButton = document.getElementById('checkout-button');
-
-        function formatRupiah(number) {
-            return new Intl.NumberFormat('id-ID', {
-                style: 'decimal',
-                minimumFractionDigits: 0
-            }).format(number);
+<script>
+    // Language Management System for About Page
+    class LanguageManager {
+        constructor() {
+            this.currentLang = localStorage.getItem('mirai-language') || 'auto';
+            this.supportedLangs = {
+                'id-ID': { name: 'Bahasa Indonesia', flag: '🇮🇩' },
+                'en-US': { name: 'English (US)', flag: '🇺🇸' },
+                'en-GB': { name: 'English (UK)', flag: '🇬🇧' },
+                'ja-JP': { name: '日本語', flag: '🇯🇵' }
+            };
+            this.translations = this.loadTranslations();
         }
-
-        // Fungsi untuk menghentikan semua timer yang berjalan
-        function stopAllTimers() {
-            if (timeoutTimer) clearTimeout(timeoutTimer);
-            if (intervalTimer) clearInterval(intervalTimer);
-        }
-
-        // Fungsi handleConfirmation dihilangkan karena tombolnya dihilangkan.
-
-        checkoutButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const formattedAmount = formatRupiah(SUGGESTED_AMOUNT);
-            localStorage.setItem(LAST_CLICK_KEY, Date.now());
-
-            const donationUrl = EXTERNAL_DONATE_BASE_URL; 
-            window.open(donationUrl, '_blank');
-            
-            // PINDAH KE #areyousure
-            window.location.hash = 'areyousure'; 
-            
-            alert(`Tab pembayaran telah dibuka. Mohon masukkan nominal minimal Rp ${formattedAmount} secara manual. Terima kasih!`);
-        });
-
-        function handleHashChange() {
-            stopAllTimers(); // Hentikan timer sebelumnya
-            
-            const currentHash = window.location.hash.substring(1);
-            const lastClickTime = localStorage.getItem(LAST_CLICK_KEY);
-            const now = Date.now();
-            let targetHash = currentHash || 'donate';
-
-            // Logika utama untuk menetapkan hash yang benar
-            if (lastClickTime) {
-                const lastClick = parseInt(lastClickTime);
-                
-                if (isNaN(lastClick)) {
-                    // Pencegahan jika lastClickTime tidak valid
-                    localStorage.removeItem(LAST_CLICK_KEY);
-                    targetHash = 'donate';
-                } else {
-                    const timeElapsed = now - lastClick;
+        
+        loadTranslations() {
+            return {
+                'id-ID': {
+                    // Navigation
+                    'about_title': 'Tentang Proyek',
+                    'nav_overview': 'Gambaran',
+                    'nav_features': 'Fitur Utama',
+                    'nav_design': 'Desain SRUI',
+                    'nav_tech': 'Tech Stack',
+                    'nav_setup': 'Setup API',
+                    'try_button': 'Coba Versi Web ↗',
                     
-                    if (timeElapsed < AREYOUSURE_TIMEOUT_MS) {
-                        // Masih dalam waktu 1.5 menit donasi
-                        if (targetHash !== 'thanks') {
-                            targetHash = 'areyousure'; 
-                        }
-                    } else {
-                        // Sudah lewat 1.5 menit donasi
-                        
-                        if (targetHash === 'areyousure') {
-                            // Pindah OTOMATIS KE #thanks setelah waktu habis
-                            targetHash = 'thanks'; 
-                        } else if (targetHash !== 'thanks') {
-                            // Jika sudah lewat waktu dan bukan di #thanks, anggap selesai
-                            localStorage.removeItem(LAST_CLICK_KEY);
-                            targetHash = 'donate';
-                        }
-                        // Catatan: Jika sudah di #thanks, biarkan tetap di #thanks.
-                    }
+                    // Main section
+                    'main_title': 'MirAI: Asisten AI Pribadi yang Ringan',
+                    'main_description': 'MirAI adalah antarmuka web yang <b>sederhana, ringan, dan responsif</b> untuk interaksi langsung dengan Google Gemini API. Dibuat tanpa <i>framework</i> berat untuk performa super cepat.',
+                    'screenshot_caption': 'Tampilan Antarmuka MirAI (v2.11)',
+                    'try_now_button': 'Coba MirAI Sekarang',
+                    'view_code_button': 'Lihat Kode Sumber',
+                    
+                    // Features
+                    'features_title': '✨ Fitur Utama (Yang Bagus)',
+                    'feature1_title': 'Pertahanan Sesi',
+                    'feature1_description': 'Percakapan Anda secara otomatis disimpan di <i>browser</i>. Anda dapat melanjutkan obrolan kapan saja! (Disimpan di <i>local storage</i>).',
+                    'feature2_title': 'Persona AI yang Dapat Disesuaikan',
+                    'feature2_description': 'Pilih kepribadian AI: <b>Default</b> (Santai & Kasual), <b>Formal</b>, atau <b>Kreatif</b>. Dapatkan hasil sesuai kebutuhan Anda.',
+                    'feature3_title': 'Dukungan Multi-bahasa',
+                    'feature3_description': 'Tersedia dalam <b>Bahasa Indonesia</b>, <b>Inggris</b> (US & UK), dan <b>Jepang</b>.',
+                    'feature4_title': 'Perintah Slash yang Ditingkatkan',
+                    'feature4_description': 'Gunakan menu \'+\' atau ketik perintah seperti <code>/translate</code>, <code>/summarize</code>, <code>/code</code>, dan <code>/fix</code> untuk tugas spesifik. Lebih cepat dan lebih fokus!',
+                    'feature5_title': 'Input Multimodal',
+                    'feature5_description': 'Dukungan untuk upload gambar (JPEG, PNG, WebP) bersama dengan <i>prompts</i> teks, berkat kemampuan <i>multimodal</i> Gemini.',
+                    'feature6_title': 'Text-to-Speech (TTS)',
+                    'feature6_description': 'Klik ikon speaker untuk mendengarkan respons AI dibacakan dalam bahasa yang dipilih. Sempurna untuk <i>multitasking</i>!',
+                    
+                    // Design section
+                    'design_title': '🎨 Desain UI/UX: SuperRoundedUI (SRUI)',
+                    'design_quote': '"Flat tidak pernah terasa seround ini."',
+                    'design_description': 'Desain visual MirAI didukung oleh <b>SuperRoundedUI (SRUI)</b>, sistem desain eksklusif dari Allwaysever™ yang menekankan:',
+                    'design_feature1': '<b>Sudut Membulat:</b> Secara konsisten menggunakan <b>border-radius 25px</b>.',
+                    'design_feature2': '<b>Transisi Halus:</b> Memberikan pengalaman visual yang nyaman.',
+                    'design_feature3': '<b>Layout Bersih:</b> Fokus pada kemudahan penggunaan (<i>usability</i>) di berbagai perangkat (responsif).',
+                    'design_feature4': '<b>Efek Blur:</b> Menggunakan <code>backdrop-filter</code> untuk tampilan modern dan premium.',
+                    
+                    // Tech stack
+                    'tech_title': '💻 Tech Stack: Ringan dan Cepat',
+                    'tech_description': 'Proyek ini dibangun murni dengan teknologi web dasar (<b>Vanilla Stack</b>) tanpa <i>framework</i> berat untuk memastikan kecepatan dan efisiensi.',
+                    'tech_html_title': 'Kerangka',
+                    'tech_html_description': 'Struktur dasar yang bersih dan semantik.',
+                    'tech_css_title': 'Gaya (SRUI)',
+                    'tech_css_description': 'Mengimplementasikan SuperRoundedUI dan Tema Gelap yang nyaman.',
+                    'tech_js_title': 'Otak',
+                    'tech_js_description': 'Logika interaksi client-side yang efisien dan cepat.',
+                    'tech_api_title': 'Model Inti',
+                    'tech_api_description': 'Menggunakan model <code>gemini-2.5-flash</code> untuk performa terbaik.',
+                    'github_button': 'Lihat Kode Sumber di GitHub',
+                    
+                    // Setup guide
+                    'setup_title': '🛠️ Panduan Setup (Kunci API)',
+                    'setup_description': 'Untuk performa dan keamanan terbaik, Anda <b>sangat disarankan</b> untuk menggunakan Kunci API Google Gemini sendiri. Prosesnya mudah!',
+                    'setup_step1_title': 'Langkah 1: Mendapatkan Kunci API',
+                    'setup_step1_1': 'Buka <b>Google AI Studio</b> di <a href="https://aistudio.google.com/" target="_blank" class="text-yellow-400 underline hover:no-underline">https://aistudio.google.com/</a>.',
+                    'setup_step1_2': 'Masuk dengan akun Google Anda.',
+                    'setup_step1_3': 'Klik <b>"Get API Key"</b> di <i>sidebar</i>.',
+                    'setup_step1_4': 'Kemudian, klik <b>"Create API key"</b> dan buat kunci dalam <i>proyek yang sudah ada</i>.',
+                    'setup_step1_5': '<b>Salin</b> Kunci API yang dibuat. Kunci ini bersifat rahasia, jangan sampai bocor!',
+                    'setup_step2_title': 'Langkah 2: Memasukkan Kunci API ke MirAI',
+                    'setup_step2_1': 'Buka file <code>MirAI.html</code> atau <a href="https://allwaysevermirai.netlify.app" class="text-yellow-400 underline hover:no-underline">MirAI Web</a>.',
+                    'setup_step2_2': 'Klik <b>ikon menu</b> di pojok kiri atas untuk membuka <b>Pengaturan</b>.',
+                    'setup_step2_3': 'Temukan bagian <b>Kunci API</b>.',
+                    'setup_step2_4': '<b>Tempel</b> Kunci API yang Anda salin.',
+                    'setup_step2_5': 'Klik tombol <b>"Simpan Kunci"</b>.',
+                    'setup_complete': 'Selesai! MirAI siap digunakan dengan Kunci API pribadi Anda.',
+                    
+                    // Documentation
+                    'docs_title': '📚 Dokumentasi & Informasi Lebih Lanjut',
+                    'docs_description': 'Ingin tahu lebih banyak? Lihat dokumen-dokumen ini!',
+                    'docs_faq': '❓ FAQ (Pertanyaan yang Sering Diajukan)',
+                    'docs_troubleshooting': '🛠️ Panduan Troubleshooting',
+                    'docs_changelog': '🔄 Changelog',
+                    'docs_contributing': '🤝 Panduan Kontribusi',
+                    
+                    // License
+                    'license_title': '📄 Lisensi',
+                    'license_description': 'Proyek ini dilisensikan di bawah <b>GNU Affero General Public License v3.0</b>.',
+                    'license_button': 'Baca Lisensi Lengkap'
+                },
+                'en-US': {
+                    // Keep all original English texts as they are
+                    'about_title': 'About Project',
+                    'nav_overview': 'Overview',
+                    'nav_features': 'Key Features',
+                    'nav_design': 'SRUI Design',
+                    'nav_tech': 'Tech Stack',
+                    'nav_setup': 'API Setup',
+                    'try_button': 'Try Web Version ↗',
+                    'main_title': 'MirAI: A Lightweight Personal AI Assistant',
+                    'main_description': 'MirAI is a <b>simple, lightweight, and responsive</b> web interface for direct interaction with Google Gemini API. Built without heavy <i>frameworks</i> for super fast performance.',
+                    'screenshot_caption': 'MirAI Interface View (v2.11)',
+                    'try_now_button': 'Try MirAI Now',
+                    'view_code_button': 'View Source Code',
+                    'features_title': '✨ Key Features (The Good Stuff)',
+                    'feature1_title': 'Session Persistence',
+                    'feature1_description': 'Your conversations are automatically saved in the <i>browser</i>. You can continue chatting whenever you want! (Saved in <i>local storage</i>).',
+                    'feature2_title': 'Customizable AI Persona',
+                    'feature2_description': 'Choose AI personality: <b>Default</b> (Relaxed & Casual), <b>Formal</b>, or <b>Creative</b>. Get results according to your needs.',
+                    'feature3_title': 'Multi-language Support',
+                    'feature3_description': 'Available in <b>Indonesian</b>, <b>English</b> (US & UK), and <b>Japanese</b>.',
+                    'feature4_title': 'Enhanced Slash Commands',
+                    'feature4_description': 'Use the \'+\' menu or type commands like <code>/translate</code>, <code>/summarize</code>, <code>/code</code>, and <code>/fix</code> for specific tasks. Faster and more focused!',
+                    'feature5_title': 'Multimodal Input',
+                    'feature5_description': 'Support for image uploads (JPEG, PNG, WebP) along with text <i>prompts</i>, thanks to Gemini\'s <i>multimodal</i> capabilities.',
+                    'feature6_title': 'Text-to-Speech (TTS)',
+                    'feature6_description': 'Click the speaker icon to listen to AI responses read aloud in the selected language. Perfect for <i>multitasking</i>!',
+                    'design_title': '🎨 UI/UX Design: SuperRoundedUI (SRUI)',
+                    'design_quote': '"Flat never felt this round."',
+                    'design_description': 'MirAI\'s visual design is powered by <b>SuperRoundedUI (SRUI)</b>, an exclusive design system from Allwaysever™ that emphasizes:',
+                    'design_feature1': '<b>Rounded Corners:</b> Consistently using <b>25px border-radius</b>.',
+                    'design_feature2': '<b>Smooth Transitions:</b> Providing a comfortable visual experience.',
+                    'design_feature3': '<b>Clean Layout:</b> Focus on ease of use (<i>usability</i>) across various devices (responsive).',
+                    'design_feature4': '<b>Blur Effects:</b> Using <code>backdrop-filter</code> for a modern and premium look.',
+                    'tech_title': '💻 Tech Stack: Lightweight and Fast',
+                    'tech_description': 'This project is built purely with basic web technologies (<b>Vanilla Stack</b>) without heavy <i>frameworks</i> to ensure speed and efficiency.',
+                    'tech_html_title': 'The Skeleton',
+                    'tech_html_description': 'Clean and semantic basic structure.',
+                    'tech_css_title': 'The Style (SRUI)',
+                    'tech_css_description': 'Implementing SuperRoundedUI and comfortable Dark Theme.',
+                    'tech_js_title': 'The Brain',
+                    'tech_js_description': 'Efficient and fast client-side interaction logic.',
+                    'tech_api_title': 'The Core Model',
+                    'tech_api_description': 'Using the <code>gemini-2.5-flash</code> model for best performance.',
+                    'github_button': 'View Source Code on GitHub',
+                    'setup_title': '🛠️ Setup Guide (API Key)',
+                    'setup_description': 'For the best performance and security, you are <b>highly recommended</b> to use your own Google Gemini API Key. The process is easy!',
+                    'setup_step1_title': 'Step 1: Getting API Key',
+                    'setup_step1_1': 'Open <b>Google AI Studio</b> at <a href="https://aistudio.google.com/" target="_blank" class="text-yellow-400 underline hover:no-underline">https://aistudio.google.com/</a>.',
+                    'setup_step1_2': 'Sign in with your Google account.',
+                    'setup_step1_3': 'Click <b>"Get API Key"</b> in the <i>sidebar</i>.',
+                    'setup_step1_4': 'Then, click <b>"Create API key"</b> and create a key in an <i>existing project</i>.',
+                    'setup_step1_5': '<b>Copy</b> the created API Key. This key is confidential, don\'t let it leak!',
+                    'setup_step2_title': 'Step 2: Entering API Key into MirAI',
+                    'setup_step2_1': 'Open the <code>MirAI.html</code> file or <a href="https://allwaysevermirai.netlify.app" class="text-yellow-400 underline hover:no-underline">MirAI Web</a>.',
+                    'setup_step2_2': 'Click the <b>menu icon</b> in the top left corner to open <b>Settings</b>.',
+                    'setup_step2_3': 'Find the <b>API Key</b> section.',
+                    'setup_step2_4': '<b>Paste</b> the API Key you copied.',
+                    'setup_step2_5': 'Click the <b>"Save Key"</b> button.',
+                    'setup_complete': 'Done! MirAI is ready to use with your personal API Key.',
+                    'docs_title': '📚 Documentation & Further Information',
+                    'docs_description': 'Want to know more? Check out these documents!',
+                    'docs_faq': '❓ FAQ (Frequently Asked Questions)',
+                    'docs_troubleshooting': '🛠️ Troubleshooting Guide',
+                    'docs_changelog': '🔄 Changelog',
+                    'docs_contributing': '🤝 Contributing Guide',
+                    'license_title': '📄 License',
+                    'license_description': 'This project is licensed under the <b>GNU Affero General Public License v3.0</b>.',
+                    'license_button': 'Read Full License'
+                },
+                'en-GB': {
+                    // Similar to en-US but with British English spelling
+                    'about_title': 'About Project',
+                    'nav_overview': 'Overview',
+                    'nav_features': 'Key Features',
+                    'nav_design': 'SRUI Design',
+                    'nav_tech': 'Tech Stack',
+                    'nav_setup': 'API Setup',
+                    'try_button': 'Try Web Version ↗',
+                    'main_title': 'MirAI: A Lightweight Personal AI Assistant',
+                    'main_description': 'MirAI is a <b>simple, lightweight, and responsive</b> web interface for direct interaction with Google Gemini API. Built without heavy <i>frameworks</i> for super fast performance.',
+                    'screenshot_caption': 'MirAI Interface View (v2.11)',
+                    'try_now_button': 'Try MirAI Now',
+                    'view_code_button': 'View Source Code',
+                    'features_title': '✨ Key Features (The Good Stuff)',
+                    'feature1_title': 'Session Persistence',
+                    'feature1_description': 'Your conversations are automatically saved in the <i>browser</i>. You can continue chatting whenever you want! (Saved in <i>local storage</i>).',
+                    'feature2_title': 'Customisable AI Persona',
+                    'feature2_description': 'Choose AI personality: <b>Default</b> (Relaxed & Casual), <b>Formal</b>, or <b>Creative</b>. Get results according to your needs.',
+                    'feature3_title': 'Multi-language Support',
+                    'feature3_description': 'Available in <b>Indonesian</b>, <b>English</b> (US & UK), and <b>Japanese</b>.',
+                    'feature4_title': 'Enhanced Slash Commands',
+                    'feature4_description': 'Use the \'+\' menu or type commands like <code>/translate</code>, <code>/summarize</code>, <code>/code</code>, and <code>/fix</code> for specific tasks. Faster and more focused!',
+                    'feature5_title': 'Multimodal Input',
+                    'feature5_description': 'Support for image uploads (JPEG, PNG, WebP) along with text <i>prompts</i>, thanks to Gemini\'s <i>multimodal</i> capabilities.',
+                    'feature6_title': 'Text-to-Speech (TTS)',
+                    'feature6_description': 'Click the speaker icon to listen to AI responses read aloud in the selected language. Perfect for <i>multitasking</i>!',
+                    'design_title': '🎨 UI/UX Design: SuperRoundedUI (SRUI)',
+                    'design_quote': '"Flat never felt this round."',
+                    'design_description': 'MirAI\'s visual design is powered by <b>SuperRoundedUI (SRUI)</b>, an exclusive design system from Allwaysever™ that emphasises:',
+                    'design_feature1': '<b>Rounded Corners:</b> Consistently using <b>25px border-radius</b>.',
+                    'design_feature2': '<b>Smooth Transitions:</b> Providing a comfortable visual experience.',
+                    'design_feature3': '<b>Clean Layout:</b> Focus on ease of use (<i>usability</i>) across various devices (responsive).',
+                    'design_feature4': '<b>Blur Effects:</b> Using <code>backdrop-filter</code> for a modern and premium look.',
+                    'tech_title': '💻 Tech Stack: Lightweight and Fast',
+                    'tech_description': 'This project is built purely with basic web technologies (<b>Vanilla Stack</b>) without heavy <i>frameworks</i> to ensure speed and efficiency.',
+                    'tech_html_title': 'The Skeleton',
+                    'tech_html_description': 'Clean and semantic basic structure.',
+                    'tech_css_title': 'The Style (SRUI)',
+                    'tech_css_description': 'Implementing SuperRoundedUI and comfortable Dark Theme.',
+                    'tech_js_title': 'The Brain',
+                    'tech_js_description': 'Efficient and fast client-side interaction logic.',
+                    'tech_api_title': 'The Core Model',
+                    'tech_api_description': 'Using the <code>gemini-2.5-flash</code> model for best performance.',
+                    'github_button': 'View Source Code on GitHub',
+                    'setup_title': '🛠️ Setup Guide (API Key)',
+                    'setup_description': 'For the best performance and security, you are <b>highly recommended</b> to use your own Google Gemini API Key. The process is easy!',
+                    'setup_step1_title': 'Step 1: Getting API Key',
+                    'setup_step1_1': 'Open <b>Google AI Studio</b> at <a href="https://aistudio.google.com/" target="_blank" class="text-yellow-400 underline hover:no-underline">https://aistudio.google.com/</a>.',
+                    'setup_step1_2': 'Sign in with your Google account.',
+                    'setup_step1_3': 'Click <b>"Get API Key"</b> in the <i>sidebar</i>.',
+                    'setup_step1_4': 'Then, click <b>"Create API key"</b> and create a key in an <i>existing project</i>.',
+                    'setup_step1_5': '<b>Copy</b> the created API Key. This key is confidential, don\'t let it leak!',
+                    'setup_step2_title': 'Step 2: Entering API Key into MirAI',
+                    'setup_step2_1': 'Open the <code>MirAI.html</code> file or <a href="https://allwaysevermirai.netlify.app" class="text-yellow-400 underline hover:no-underline">MirAI Web</a>.',
+                    'setup_step2_2': 'Click the <b>menu icon</b> in the top left corner to open <b>Settings</b>.',
+                    'setup_step2_3': 'Find the <b>API Key</b> section.',
+                    'setup_step2_4': '<b>Paste</b> the API Key you copied.',
+                    'setup_step2_5': 'Click the <b>"Save Key"</b> button.',
+                    'setup_complete': 'Done! MirAI is ready to use with your personal API Key.',
+                    'docs_title': '📚 Documentation & Further Information',
+                    'docs_description': 'Want to know more? Check out these documents!',
+                    'docs_faq': '❓ FAQ (Frequently Asked Questions)',
+                    'docs_troubleshooting': '🛠️ Troubleshooting Guide',
+                    'docs_changelog': '🔄 Changelog',
+                    'docs_contributing': '🤝 Contributing Guide',
+                    'license_title': '📄 License',
+                    'license_description': 'This project is licensed under the <b>GNU Affero General Public License v3.0</b>.',
+                    'license_button': 'Read Full License'
+                },
+                'ja-JP': {
+                    // Navigation
+                    'about_title': 'プロジェクトについて',
+                    'nav_overview': '概要',
+                    'nav_features': '主な機能',
+                    'nav_design': 'SRUIデザイン',
+                    'nav_tech': '技術スタック',
+                    'nav_setup': 'API設定',
+                    'try_button': 'Web版を試す ↗',
+                    
+                    // Main section
+                    'main_title': 'MirAI: 軽量なパーソナルAIアシスタント',
+                    'main_description': 'MirAIは、Google Gemini APIと直接対話するための<b>シンプルで軽量、レスポンシブ</b>なWebインターフェースです。重い<i>フレームワーク</i>を使用せずに構築され、超高速なパフォーマンスを実現。',
+                    'screenshot_caption': 'MirAIインターフェースビュー (v2.11)',
+                    'try_now_button': 'MirAIを今すぐ試す',
+                    'view_code_button': 'ソースコードを表示',
+                    
+                    // Features
+                    'features_title': '✨ 主な機能 (素晴らしい点)',
+                    'feature1_title': 'セッション持続性',
+                    'feature1_description': '会話は自動的に<i>ブラウザ</i>に保存されます。いつでも会話を続けることができます！(<i>ローカルストレージ</i>に保存)。',
+                    'feature2_title': 'カスタマイズ可能なAIペルソナ',
+                    'feature2_description': 'AIの性格を選択: <b>デフォルト</b> (リラックス＆カジュアル)、<b>フォーマル</b>、または<b>クリエイティブ</b>。ニーズに合わせた結果を得られます。',
+                    'feature3_title': '多言語サポート',
+                    'feature3_description': '<b>インドネシア語</b>、<b>英語</b> (US & UK)、<b>日本語</b>で利用可能。',
+                    'feature4_title': '強化されたスラッシュコマンド',
+                    'feature4_description': '\'+\'メニューを使用するか、<code>/translate</code>、<code>/summarize</code>、<code>/code</code>、<code>/fix</code>などのコマンドを入力して特定のタスクを実行。より速く、より集中した操作が可能！',
+                    'feature5_title': 'マルチモーダル入力',
+                    'feature5_description': 'Geminiの<i>マルチモーダル</i>機能により、テキスト<i>プロンプト</i>とともに画像（JPEG、PNG、WebP）のアップロードをサポート。',
+                    'feature6_title': 'テキスト読み上げ (TTS)',
+                    'feature6_description': 'スピーカーアイコンをクリックすると、AIの応答が選択した言語で読み上げられます。<i>マルチタスク</i>に最適！',
+                    
+                    // Design section
+                    'design_title': '🎨 UI/UXデザイン: SuperRoundedUI (SRUI)',
+                    'design_quote': '"フラットがこれほどラウンドに感じられたことはない"',
+                    'design_description': 'MirAIのビジュアルデザインは、Allwaysever™の独占的なデザインシステムである<b>SuperRoundedUI (SRUI)</b>によって支えられており、以下を重視しています:',
+                    'design_feature1': '<b>丸みを帯びたコーナー:</b> 一貫して<b>25pxのボーダー半径</b>を使用。',
+                    'design_feature2': '<b>スムーズなトランジション:</b> 快適な視覚体験を提供。',
+                    'design_feature3': '<b>クリーンなレイアウト:</b> 様々なデバイスでの使いやすさ(<i>ユーザビリティ</i>)に焦点を当てたレスポンシブ設計。',
+                    'design_feature4': '<b>ブラー効果:</b> モダンでプレミアムな外観のために<code>backdrop-filter</code>を使用。',
+                    
+                    // Tech stack
+                    'tech_title': '💻 技術スタック: 軽量かつ高速',
+                    'tech_description': 'このプロジェクトは、速度と効率を確保するために、重い<i>フレームワーク</i>を使用せず、基本的なWeb技術(<b>バニラスタック</b>)のみで構築されています。',
+                    'tech_html_title': '骨組み',
+                    'tech_html_description': 'クリーンで意味的な基本構造。',
+                    'tech_css_title': 'スタイル (SRUI)',
+                    'tech_css_description': 'SuperRoundedUIと快適なダークテーマの実装。',
+                    'tech_js_title': '頭脳',
+                    'tech_js_description': '効率的で高速なクライアントサイドのインタラクションロジック。',
+                    'tech_api_title': 'コアモデル',
+                    'tech_api_description': '最高のパフォーマンスのために<code>gemini-2.5-flash</code>モデルを使用。',
+                    'github_button': 'GitHubでソースコードを表示',
+                    
+                    // Setup guide
+                    'setup_title': '🛠️ セットアップガイド (APIキー)',
+                    'setup_description': '最高のパフォーマンスとセキュリティのために、独自のGoogle Gemini APIキーの使用を<b>強くお勧めします</b>。プロセスは簡単です！',
+                    'setup_step1_title': 'ステップ1: APIキーの取得',
+                    'setup_step1_1': '<b>Google AI Studio</b>を<a href="https://aistudio.google.com/" target="_blank" class="text-yellow-400 underline hover:no-underline">https://aistudio.google.com/</a>で開く。',
+                    'setup_step1_2': 'Googleアカウントでサインインする。',
+                    'setup_step1_3': '<i>サイドバー</i>の<b>"Get API Key"</b>をクリックする。',
+                    'setup_step1_4': '次に、<b>"Create API key"</b>をクリックし、<i>既存のプロジェクト</i>でキーを作成する。',
+                    'setup_step1_5': '作成されたAPIキーを<b>コピー</b>する。このキーは機密情報ですので、漏洩しないように注意してください！',
+                    'setup_step2_title': 'ステップ2: MirAIへのAPIキーの入力',
+                    'setup_step2_1': '<code>MirAI.html</code>ファイルまたは<a href="https://allwaysevermirai.netlify.app" class="text-yellow-400 underline hover:no-underline">MirAI Web</a>を開く。',
+                    'setup_step2_2': '左上隅の<b>メニューアイコン</b>をクリックして<b>設定</b>を開く。',
+                    'setup_step2_3': '<b>APIキー</b>セクションを見つける。',
+                    'setup_step2_4': 'コピーしたAPIキーを<b>貼り付ける</b>。',
+                    'setup_step2_5': '<b>"キーを保存"</b>ボタンをクリックする。',
+                    'setup_complete': '完了！MirAIはあなたの個人APIキーで使用する準備が整いました。',
+                    
+                    // Documentation
+                    'docs_title': '📚 ドキュメントと詳細情報',
+                    'docs_description': 'もっと知りたいですか？これらのドキュメントをチェックしてください！',
+                    'docs_faq': '❓ FAQ (よくある質問)',
+                    'docs_troubleshooting': '🛠️ トラブルシューティングガイド',
+                    'docs_changelog': '🔄 変更履歴',
+                    'docs_contributing': '🤝 貢献ガイド',
+                    
+                    // License
+                    'license_title': '📄 ライセンス',
+                    'license_description': 'このプロジェクトは<b>GNU Affero General Public License v3.0</b>の下でライセンスされています。',
+                    'license_button': '完全なライセンスを読む'
                 }
-            } else if (targetHash === 'thanks' || targetHash === 'areyousure') {
-                // Kalau tidak ada catatan klik, kembalikan ke donate
-                 targetHash = 'donate';
+            };
+        }
+        
+        detectRegionAndSetLanguage() {
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const browserLang = navigator.language || navigator.userLanguage;
+            
+            let detectedLang = 'en-US';
+            
+            if (timezone.includes('Asia/Jakarta') || 
+                timezone.includes('Asia/Makassar') || 
+                timezone.includes('Asia/Jayapura') ||
+                browserLang.startsWith('id')) {
+                detectedLang = 'id-ID';
+            } else if (timezone.includes('Asia/Tokyo') || 
+                       timezone.includes('Asia/Osaka') ||
+                       browserLang.startsWith('ja')) {
+                detectedLang = 'ja-JP';
+            } else if (timezone.includes('Europe/London') ||
+                       browserLang.startsWith('en-GB')) {
+                detectedLang = 'en-GB';
+            } else if (browserLang.startsWith('en')) {
+                detectedLang = 'en-US';
             }
-
-
-            document.querySelectorAll('.page-content').forEach(section => {
-                section.classList.remove('active');
+            
+            return detectedLang;
+        }
+        
+        getCurrentLanguage() {
+            if (this.currentLang === 'auto') {
+                return this.detectRegionAndSetLanguage();
+            }
+            return this.currentLang;
+        }
+        
+        setLanguage(langCode) {
+            this.currentLang = langCode;
+            localStorage.setItem('mirai-language', langCode);
+            this.applyTranslations();
+            this.updateLanguageBadge();
+        }
+        
+        applyTranslations() {
+            const lang = this.getCurrentLanguage();
+            const texts = this.translations[lang];
+            
+            if (!texts) return;
+            
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (texts[key]) {
+                    element.innerHTML = texts[key];
+                }
             });
             
-            const activeSection = document.getElementById(targetHash);
-            if (activeSection) {
-                activeSection.classList.add('active');
+            document.documentElement.lang = lang.split('-')[0];
+        }
+        
+        updateLanguageBadge() {
+            const badge = document.getElementById('current-language-badge');
+            const flag = document.getElementById('language-flag');
+            const name = document.getElementById('language-name');
+            const selector = document.getElementById('language-select');
+            
+            const currentLang = this.getCurrentLanguage();
+            const langInfo = this.supportedLangs[currentLang];
+            
+            if (langInfo) {
+                flag.textContent = langInfo.flag;
+                name.textContent = langInfo.name;
+                badge.classList.remove('hidden');
             } else {
-                document.getElementById('donate').classList.add('active');
+                badge.classList.add('hidden');
             }
-
-
-            // Logika COUNTDOWN dan TIMER
-            if (targetHash === 'areyousure') {
-                const lastClick = parseInt(lastClickTime);
-                const timeElapsed = now - lastClick;
-                const timeRemaining = AREYOUSURE_TIMEOUT_MS - timeElapsed;
-                
-                // Atur timer untuk pindah ke #thanks setelah waktu habis
-                timeoutTimer = setTimeout(() => {
-                    window.location.hash = 'thanks';
-                }, timeRemaining);
-
-                // Atur interval untuk countdown di UI
-                let secondsLeft = Math.ceil(timeRemaining / 1000);
-                const timerElement = document.getElementById('areyousure-timer');
-                if (timerElement) {
-                    timerElement.textContent = secondsLeft;
-                }
-
-                intervalTimer = setInterval(() => {
-                    secondsLeft--;
-                    if (timerElement) {
-                        timerElement.textContent = secondsLeft;
-                    }
-                    if (secondsLeft <= 0) {
-                        clearInterval(intervalTimer);
-                    }
-                }, 1000);
-
-            } else if (targetHash === 'thanks') {
-                // Halaman #thanks: Hilangkan semua timer dan auto-redirect.
-                localStorage.removeItem(LAST_CLICK_KEY); // Hapus catatan klik setelah mencapai halaman thanks
-                
-                // Sembunyikan countdown timer element (jika ada, walau dihilangkan di HTML)
-                const countdownElement = document.getElementById('countdown-thanks');
-                if (countdownElement) {
-                    countdownElement.style.display = 'none';
-                }
+            
+            if (selector) {
+                selector.value = this.currentLang;
             }
         }
         
-        handleHashChange();
-        window.addEventListener('hashchange', handleHashChange);
-    </script>
+        initialize() {
+            this.applyTranslations();
+            this.updateLanguageBadge();
+            
+            const selector = document.getElementById('language-select');
+            if (selector) {
+                selector.value = this.currentLang;
+                selector.addEventListener('change', (e) => {
+                    this.setLanguage(e.target.value);
+                });
+            }
+        }
+    }
+
+    // Initialize language manager when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const languageManager = new LanguageManager();
+        languageManager.initialize();
+    });
+</script>
 
 </body>
 </html>
