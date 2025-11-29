@@ -323,7 +323,15 @@ const VERSION = generateVersion(2, 11, 0); // "2.11.0.241125"
 
     // Variabel global yang tidak bergantung pada elemen HTML
 
-const DEFAULT_API_KEY = import.meta?.env?.VITE_GEMINI_API_KEY || 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
+// Jangan pake import.meta.env - itu buat Vite
+const DEFAULT_API_KEY = (() => {
+  // Coba ambil dari Netlify Functions
+  if (window.ENV && window.ENV.GEMINI_API_KEY) {
+    return window.ENV.GEMINI_API_KEY;
+  }
+  // Fallback
+  return 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
+})();
 
     let currentApiKey = DEFAULT_API_KEY; 
 
