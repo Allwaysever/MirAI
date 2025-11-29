@@ -323,7 +323,13 @@ const VERSION = generateVersion(2, 11, 0); // "2.11.0.241125"
 
     // Variabel global yang tidak bergantung pada elemen HTML
 
-const DEFAULT_API_KEY = window._env_?.GEMINI_API_KEY || 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
+const DEFAULT_API_KEY = (() => {
+    // Cuma di runtime, gak ada di build output
+    if (typeof window !== 'undefined' && window.netlifyEnv) {
+        return window.netlifyEnv.VITE_GEMINI_API_KEY;
+    }
+    return 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
+})();
 
     let currentApiKey = DEFAULT_API_KEY; 
 
