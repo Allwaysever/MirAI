@@ -31,8 +31,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSJYJCXGC4"></script>
-    
     <script>
 // Auto-generate version based on date
 function generateVersion(major, minor, patch) {
@@ -45,7 +43,7 @@ function generateVersion(major, minor, patch) {
 }
 
 // Usage
-const VERSION = generateVersion(2, 11, 1); // "2.11.0.241125"
+const VERSION = generateVersion(2, 11, 0); // "2.11.0.241125"
 </script>
 </head>
 
@@ -325,7 +323,7 @@ const VERSION = generateVersion(2, 11, 1); // "2.11.0.241125"
 
     // Variabel global yang tidak bergantung pada elemen HTML
 
-    const DEFAULT_API_KEY = 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
+const DEFAULT_API_KEY = window._env_?.GEMINI_API_KEY || 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
 
     let currentApiKey = DEFAULT_API_KEY; 
 
@@ -433,39 +431,7 @@ const VERSION = generateVersion(2, 11, 1); // "2.11.0.241125"
 
             saveApiKeyBtn: 'Simpan',
 
-            apiKeyPlaceholder: 'Kosongkan untuk menggunakan kunci default',
-
-            slashCmdSearchTitle: 'Cari Informasi',
-
-            slashCmdSearchDesc: 'Contoh: /search berita terkini',
-
-            slashCmdTranslateTitle: 'Terjemahkan Teks',
-
-            slashCmdTranslateDesc: 'Contoh: /translate halo to english',
-
-            slashCmdSummarizeTitle: 'Ringkas Teks',
-
-            slashCmdSummarizeDesc: 'Contoh: /summarize [tempel teks panjang]',
-
-            slashCmdRephraseTitle: 'Ubah Gaya Bahasa',
-
-            slashCmdRephraseDesc: 'Contoh: /rephrase teks ini as profesional',
-
-            slashCmdIdeateTitle: 'Hasilkan Ide',
-
-            slashCmdIdeateDesc: 'Contoh: /ideate 3 ide untuk judul artikel',
-
-            slashCmdFixTitle: 'Perbaiki Ejaan & Tata Bahasa',
-
-            slashCmdFixDesc: 'Contoh: /fix teks saya yang salah',
-
-            slashCmdExplainTitle: 'Jelaskan Konsep',
-
-            slashCmdExplainDesc: 'Contoh: /explain apa itu API',
-
-            slashCmdCodeTitle: 'Buat Potongan Kode',
-
-            slashCmdCodeDesc: 'Contoh: /code fungsi python untuk hello world'
+            apiKeyPlaceholder: 'Kosongkan untuk menggunakan kunci default'
 
         },
 
@@ -561,39 +527,7 @@ const VERSION = generateVersion(2, 11, 1); // "2.11.0.241125"
 
             saveApiKeyBtn: 'Save',
 
-            apiKeyPlaceholder: 'Leave blank to use the default key',
-
-            slashCmdSearchTitle: 'Search Information',
-
-            slashCmdSearchDesc: 'e.g., /search latest tech news',
-
-            slashCmdTranslateTitle: 'Translate Text',
-
-            slashCmdTranslateDesc: 'e.g., /translate hello to japanese',
-
-            slashCmdSummarizeTitle: 'Summarize Text',
-
-            slashCmdSummarizeDesc: 'e.g., /summarize [paste long text here]',
-
-            slashCmdRephraseTitle: 'Rephrase Text',
-
-            slashCmdRephraseDesc: 'e.g., /rephrase this text as more formal',
-
-            slashCmdIdeateTitle: 'Generate Ideas',
-
-            slashCmdIdeateDesc: 'e.g., /ideate 3 ideas for a blog post',
-
-            slashCmdFixTitle: 'Fix Spelling & Grammar',
-
-            slashCmdFixDesc: 'e.g., /fix this incorect text',
-
-            slashCmdExplainTitle: 'Explain a Concept',
-
-            slashCmdExplainDesc: "e.g., /explain what is blockchain",
-
-            slashCmdCodeTitle: 'Generate a Code Snippet',
-
-            slashCmdCodeDesc: 'e.g., /code a javascript function for a button'
+            apiKeyPlaceholder: 'Leave blank to use the default key'
 
         },
 
@@ -689,39 +623,7 @@ const VERSION = generateVersion(2, 11, 1); // "2.11.0.241125"
 
             saveApiKeyBtn: 'Save',
 
-            apiKeyPlaceholder: 'Leave blank to use the default key',
-
-            slashCmdSearchTitle: 'Search Information',
-
-            slashCmdSearchDesc: 'e.g., /search latest tech news',
-
-            slashCmdTranslateTitle: 'Translate Text',
-
-            slashCmdTranslateDesc: 'e.g., /translate hello to japanese',
-
-            slashCmdSummarizeTitle: 'Summarize Text',
-
-            slashCmdSummarizeDesc: 'e.g., /summarize [paste long text here]',
-
-            slashCmdRephraseTitle: 'Rephrase Text',
-
-            slashCmdRephraseDesc: 'e.g., /rephrase this text as more formal',
-
-            slashCmdIdeateTitle: 'Generate Ideas',
-
-            slashCmdIdeateDesc: 'e.g., /ideate 3 ideas for a blog post',
-
-            slashCmdFixTitle: 'Fix Spelling & Grammar',
-
-            slashCmdFixDesc: 'e.g., /fix this incorect text',
-
-            slashCmdExplainTitle: 'Explain a Concept',
-
-            slashCmdExplainDesc: "e.g., /explain what is blockchain",
-
-            slashCmdCodeTitle: 'Generate a Code Snippet',
-
-            slashCmdCodeDesc: 'e.g., /code a javascript function for a button'
+            apiKeyPlaceholder: 'Leave blank to use the default key'
 
         },
 
@@ -817,39 +719,7 @@ const VERSION = generateVersion(2, 11, 1); // "2.11.0.241125"
 
             saveApiKeyBtn: '保存',
 
-            apiKeyPlaceholder: 'デフォルトキーを使用する場合は空欄',
-
-            slashCmdSearchTitle: '情報を検索',
-
-            slashCmdSearchDesc: '例: /search 最新のニュース',
-
-            slashCmdTranslateTitle: 'テキストを翻訳',
-
-            slashCmdTranslateDesc: '例: /translate こんにちは to english',
-
-            slashCmdSummarizeTitle: 'テキストを要約',
-
-            slashCmdSummarizeDesc: '例: /summarize [ここに長い文章を貼り付け]',
-
-            slashCmdRephraseTitle: '表現を変更',
-
-            slashCmdRephraseDesc: '例: /rephrase この文 as より丁寧に',
-
-            slashCmdIdeateTitle: 'アイデアを生成',
-
-            slashCmdIdeateDesc: '例: /ideate 3個 ブログのタイトル',
-
-            slashCmdFixTitle: '誤字脱字を修正',
-
-            slashCmdFixDesc: '例: /fix この間違った文章',
-
-            slashCmdExplainTitle: '概念を説明',
-
-            slashCmdExplainDesc: '例: /explain APIとは',
-
-            slashCmdCodeTitle: 'コードスニペットを作成',
-
-            slashCmdCodeDesc: '例: /code javascript ボタンの関数'
+            apiKeyPlaceholder: 'デフォルトキーを使用する場合は空欄'
 
         }
 
@@ -885,21 +755,21 @@ const VERSION = generateVersion(2, 11, 1); // "2.11.0.241125"
 
         slashCommands = [
 
-            { command: '/search', title: s.slashCmdSearchTitle, description: s.slashCmdSearchDesc },
+            { command: '/search', title: s.slashCmdSearchTitle, description: '/search [search query]' },
 
-            { command: '/translate', title: s.slashCmdTranslateTitle, description: s.slashCmdTranslateDesc },
+            { command: '/translate', title: s.slashCmdTranslateTitle, description: '/translate [text] to [language]' },
 
-            { command: '/summarize', title: s.slashCmdSummarizeTitle, description: s.slashCmdSummarizeDesc },
+            { command: '/summarize', title: s.slashCmdSummarizeTitle, description: '/summarize [long text]' },
 
-            { command: '/rephrase', title: s.slashCmdRephraseTitle, description: s.slashCmdRephraseDesc },
+            { command: '/rephrase', title: s.slashCmdRephraseTitle, description: '/rephrase [text] as [tone]' },
 
-            { command: '/ideate', title: s.slashCmdIdeateTitle, description: s.slashCmdIdeateDesc },
+            { command: '/ideate', title: s.slashCmdIdeateTitle, description: '/ideate [amount] ideas for [topic]' },
 
-            { command: '/fix', title: s.slashCmdFixTitle, description: s.slashCmdFixDesc },
+            { command: '/fix', title: s.slashCmdFixTitle, description: '/fix [text that needs to be corrected]' },
 
-            { command: '/explain', title: s.slashCmdExplainTitle, description: s.slashCmdExplainDesc },
+            { command: '/explain', title: s.slashCmdExplainTitle, description: '/explain [concept] like I\'m [audience]' },
 
-            { command: '/code', title: s.slashCmdCodeTitle, description: s.slashCmdCodeDesc }
+            { command: '/code', title: s.slashCmdCodeTitle, description: '/code a [programming language] function to [description]' }
 
         ];
 
