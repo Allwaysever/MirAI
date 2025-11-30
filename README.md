@@ -91,6 +91,12 @@ Done! MirAI is now ready to use with your personal API Key.
 
 </details>
 
+Or you can **watch this video** 👇
+
+<a href="https://youtu.be/fgjnE2wL8qk">
+  <img src="https://img.youtube.com/vi/fgjnE2wL8qk/hqdefault.jpg" alt="Tutorial: How to Apply your API Key | MirAI Tutorial" width="1280" height="720"/>
+</a>
+
 ---
 
 ## 💻 Tech Stack
