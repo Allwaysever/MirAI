@@ -4,8 +4,14 @@
 
 ![Project](https://img.shields.io/badge/Type-HTML%20App-blue)
 ![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
-
 ![Status](https://img.shields.io/badge/Status-Active-%234CAF50?logo=googlegemini&logoColor=ffce00&labelColor=%23000)
+
+![Follow IG MirAI](https://img.shields.io/badge/Follow-Instagram_MirAI-405DE6?style=flat&logo=instagram&logoColor=C13584&labelColor=833AB4&link=https%3A%2F%2Finstagram.com%2Fallwaysevermirai)
+![Follow Channel WA MirAI](https://img.shields.io/badge/Follow-WhatsApp_Channel_MirAI-%23FFFFFF?style=flat&logo=Whatsapp&logoColor=075E54&labelColor=25D366&link=https%3A%2F%2Fwhatsapp.com%2Fchannel%2F0029Vb6hyuk6mYPGjI2E5g31)
+![Subscribe Channel YT MirAI](https://img.shields.io/badge/Subscribe-Channel_MirAI-282828?style=flat&logo=youtube&logoColor=FF0000&labelColor=FFFFFF&link=https%3A%2F%2Fyoutube.com%2F%40AllwayseverMirAI)
+
+
+
 
 <br>
 
