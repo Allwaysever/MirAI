@@ -2,7 +2,7 @@
 ## What's new?
 ### v2.11.x
 - **``Upgrade UI``:** We've made an update to our design language system, SuperRoundedUI, which we've implemented in this app.
-  - **``Fix Bug UI``:** Changed the example prompt in the ``Slash Command`` feature which was found to be invalid with the original prompt format.
+- **``Fix Bug UI``:** Changed the example prompt in the ``Slash Command`` feature which was found to be invalid with the original prompt format.
   
 ---
 
