@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirAI</title>
+    <meta name="description" content="MirAI is a multimodal AI assistant powered by Google Gemini. Supports text, images, documents, audio, and video. Get answers, creative ideas, translations, and other help instantly.">
+    <meta name="keywords" content="Allwaysever, AI, Artificial Intelligence, Chatbot AI, AI Chatbot, Gemini 2.5 flash, Google Gemini, Gemini API, MirAI, Multimodal AI, Document Analysis, Audio Processing, Video Analysis">
+    <meta name="google-site-verification" content="Ww9spnmeAgguaCwvLVAw-0SV0_ZS-bA7bjNgyWKaeQU"/>
+    
+    <meta property="og:title" content="MirAI - Multimodal AI Assistant" />
+    <meta property="og:description" content="MirAI is a multimodal AI assistant powered by Google Gemini. Supports text, images, documents, audio, and video. Get answers, creative ideas, translations, and other help instantly." />
+    <meta property="og:url" content="https://allwaysevermirai.netlify.app/" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Banner.png" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="MirAI by Allwaysever" />
+
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIStyle.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        /* Tambahan CSS untuk file preview */
+        .file-preview-container {
+            display: none;
+            flex-direction: column;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .file-preview-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-icon {
+            font-size: 24px;
+            color: #4285f4;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+        
+        .file-size {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .file-progress {
+            width: 100%;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .file-progress-bar {
+            height: 100%;
+            background: #4285f4;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .file-status {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .file-preview-img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+        
+        .file-remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dark-theme .file-preview-container {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .dark-theme .file-size,
+        .dark-theme .file-status {
+            color: #aaa;
+        }
+        
+        .file-type-badge {
+            background: #4285f4;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+        
+        /* Drop zone styling */
+        .drop-zone {
+            border: 2px dashed #4285f4;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            display: none;
+        }
+        
+        .drop-zone.active {
+            border-color: #34a853;
+            background: rgba(52, 168, 83, 0.1);
+        }
+        
+        .drop-zone.drag-over {
+            border-color: #ea4335;
+            background: rgba(234, 67, 53, 0.1);
+        }
+        
+        .drop-text {
+            color: #4285f4;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .drop-subtext {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .dark-theme .drop-subtext {
+            color: #aaa;
+        }
+        
+        .supported-formats {
+            font-size: 11px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .dark-theme .supported-formats {
+            color: #777;
+        }
+        
+        /* File type specific colors */
+        .file-icon.image { color: #4285f4; }
+        .file-icon.pdf { color: #ea4335; }
+        .file-icon.word { color: #2b579a; }
+        .file-icon.excel { color: #217346; }
+        .file-icon.powerpoint { color: #d24726; }
+        .file-icon.text { color: #34a853; }
+        .file-icon.audio { color: #fbbc04; }
+        .file-icon.video { color: #673ab7; }
+        .file-icon.archive { color: #ff6d00; }
+        
+        /* Upload button styling */
+        .upload-btn-group {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .upload-btn {
+            background: transparent;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+        
+        .upload-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark-theme .upload-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* File bubble styling */
+        .chat-bubble.file-bubble {
+            max-width: 300px;
+            padding: 10px;
+        }
+        
+        .file-bubble-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+    
+    <script>
+        // Auto-generate version based on date
+        function generateVersion(major, minor, patch) {
+            const now = new Date();
+            const yymmdd = now.getFullYear().toString().slice(-2) + 
+                           String(now.getMonth() + 1).padStart(2, '0') + 
+                           String(now.getDate()).padStart(2, '0');
+            
+            return `${major}.${minor}.${patch}.${yymmdd}`;
+        }
+
+        // Usage
+        const VERSION = generateVersion(3, 0, 0, Beta); // "3.0.0.241125" untuk versi multimodal
+        
+        // File type detection and MIME types
+        const FILE_TYPES = {
+            // Images
+            'image/jpeg': { icon: 'fa-file-image', type: 'image', category: 'image' },
+            'image/png': { icon: 'fa-file-image', type: 'image', category: 'image' },
+            'image/webp': { icon: 'fa-file-image', type: 'image', category: 'image' },
+            'image/gif': { icon: 'fa-file-image', type: 'image', category: 'image' },
+            'image/bmp': { icon: 'fa-file-image', type: 'image', category: 'image' },
+            'image/svg+xml': { icon: 'fa-file-image', type: 'image', category: 'image' },
+            'image/heic': { icon: 'fa-file-image', type: 'image', category: 'image' },
+            'image/heif': { icon: 'fa-file-image', type: 'image', category: 'image' },
+            
+            // Documents
+            'application/pdf': { icon: 'fa-file-pdf', type: 'pdf', category: 'document' },
+            'application/msword': { icon: 'fa-file-word', type: 'word', category: 'document' },
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document': { icon: 'fa-file-word', type: 'word', category: 'document' },
+            'application/vnd.ms-excel': { icon: 'fa-file-excel', type: 'excel', category: 'document' },
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': { icon: 'fa-file-excel', type: 'excel', category: 'document' },
+            'application/vnd.ms-powerpoint': { icon: 'fa-file-powerpoint', type: 'powerpoint', category: 'document' },
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation': { icon: 'fa-file-powerpoint', type: 'powerpoint', category: 'document' },
+            'text/plain': { icon: 'fa-file-alt', type: 'text', category: 'document' },
+            'text/csv': { icon: 'fa-file-csv', type: 'text', category: 'document' },
+            'application/rtf': { icon: 'fa-file-alt', type: 'text', category: 'document' },
+            
+            // Audio
+            'audio/mpeg': { icon: 'fa-file-audio', type: 'audio', category: 'audio' },
+            'audio/wav': { icon: 'fa-file-audio', type: 'audio', category: 'audio' },
+            'audio/ogg': { icon: 'fa-file-audio', type: 'audio', category: 'audio' },
+            'audio/mp4': { icon: 'fa-file-audio', type: 'audio', category: 'audio' },
+            'audio/webm': { icon: 'fa-file-audio', type: 'audio', category: 'audio' },
+            'audio/aac': { icon: 'fa-file-audio', type: 'audio', category: 'audio' },
+            'audio/flac': { icon: 'fa-file-audio', type: 'audio', category: 'audio' },
+            
+            // Video
+            'video/mp4': { icon: 'fa-file-video', type: 'video', category: 'video' },
+            'video/mpeg': { icon: 'fa-file-video', type: 'video', category: 'video' },
+            'video/ogg': { icon: 'fa-file-video', type: 'video', category: 'video' },
+            'video/webm': { icon: 'fa-file-video', type: 'video', category: 'video' },
+            'video/quicktime': { icon: 'fa-file-video', type: 'video', category: 'video' },
+            'video/x-msvideo': { icon: 'fa-file-video', type: 'video', category: 'video' },
+            
+            // Archives
+            'application/zip': { icon: 'fa-file-archive', type: 'archive', category: 'archive' },
+            'application/x-rar-compressed': { icon: 'fa-file-archive', type: 'archive', category: 'archive' },
+            'application/x-7z-compressed': { icon: 'fa-file-archive', type: 'archive', category: 'archive' },
+            'application/x-tar': { icon: 'fa-file-archive', type: 'archive', category: 'archive' },
+            'application/gzip': { icon: 'fa-file-archive', type: 'archive', category: 'archive' }
+        };
+        
+        // File size limits (25MB for Gemini API)
+        const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25MB in bytes
+        
+        // Supported Gemini file types
+        const GEMINI_SUPPORTED_TYPES = [
+            // Images
+            'image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif',
+            // Documents
+            'application/pdf', 
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'text/plain'
+        ];
+    </script>
+</head>
+
+<body>
+
+<div id="splash-screen">
+  <div class="splash-content">
+    <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Name%20Logo.png" alt="MirAI" class="splash-logo logo-img">
+    <div class="loading-bar-container" id="splash-loader">
+        <div class="loading-bar"></div>
+    </div>
+  </div>
+ <p style="font-size: 0.5em; color: #aaa; bottom: 5px;"  id="settingsVersionText"></p>
+</div>
+
+<div id="settingsBtnContainer">
+    <button id="settingsBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+</div>
+
+<div id="clearBtnContainer">
+    <button id="clearBtn">
+        <i class="fas fa-trash-alt"></i>
+    </button>
+</div>
+
+<div id="connectionStatus">
+    <span id="statusDot" class="status-dot"></span>
+    <span id="statusLabel" class="status-label"></span>
+</div>
+
+<div class="logo-container">
+    <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/HI%20new.png" alt="what are we talking about?" class="hi-img">
+</div>
+
+<div id="languageSwitcher">
+    <select id="langDropdown" class="lang-dropdown">
+        <option value="id">🇮🇩 Bahasa Indonesia</option>
+        <option value="en">🇺🇸 English (US)</option>
+        <option value="en-uk">🇬🇧 English (UK)</option>
+        <option value="jp">🇯🇵 日本語</option>
+    </select>
+</div>
+
+<div class="chat-container">
+    <div id="chatMessages"></div>
+</div>
+
+<div id="toolsMenu" class="suggestion-box"></div>
+
+<div id="inputContainer" class="input-container centered">
+    
+    <!-- File Drop Zone -->
+    <div id="dropZone" class="drop-zone">
+        <div class="drop-text">
+            <i class="fas fa-cloud-upload-alt"></i> Drop files here
+        </div>
+        <div class="drop-subtext">or click to browse</div>
+        <div class="supported-formats">
+            Supports: Images, PDF, Word, Excel, PowerPoint, Text, Audio, Video
+        </div>
+    </div>
+    
+    <!-- File Preview Container -->
+    <div id="filePreviewContainer" class="file-preview-container">
+        <div class="file-preview-wrapper">
+            <i id="fileIcon" class="file-icon"></i>
+            <div class="file-info">
+                <div id="fileName" class="file-name"></div>
+                <div id="fileSize" class="file-size"></div>
+            </div>
+            <button id="removeFileBtn" class="file-remove-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="file-progress" id="fileProgress">
+            <div class="file-progress-bar" id="fileProgressBar"></div>
+        </div>
+        <div id="fileStatus" class="file-status"></div>
+    </div>
+    
+    <!-- Image Preview Container (existing) -->
+    <div id="imagePreviewContainer" class="imagePreviewContainer">
+       <div class="imagePreviewWrapper">
+        <img id="imagePreview" src="" alt="Image Preview" class="imagePreview">
+        <button id="removeImageBtn" class="imgRemoveBtn"><i class="fas fa-times"></i></button>
+    </div>
+</div>
+    
+    <div id="suggestionBox" class="suggestion-box"></div>
+    
+    <div class="input-box">
+        <button id="toolsBtn">
+            <i class="fas fa-plus"></i>
+        </button>
+        
+        <!-- Upload Button Group -->
+        <div class="upload-btn-group">
+            <button id="uploadImageBtn" class="upload-btn" title="Upload Image">
+                <i class="fas fa-image"></i>
+            </button>
+            <button id="uploadFileBtn" class="upload-btn" title="Upload File">
+                <i class="fas fa-file-upload"></i>
+            </button>
+        </div>
+        
+        <!-- Hidden File Inputs -->
+        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+        <input type="file" id="fileInput" accept="*/*" style="display: none;">
+        
+        <textarea id="questionInput" rows="1"></textarea>
+        
+        <button id="sendBtn">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+        <button id="stopBtn" style="display: none;">
+            <i class="fas fa-stop"></i>
+        </button>
+    </div>
+    
+    <p id="infoText" class="info-text"></p>
+</div>
+
+<!-- Settings Page (unchanged) -->
+<div id="settingsPage">
+    <div class="settings-header">
+        <h2 id="settingsHeaderTitle"></h2>
+        <button id="backBtn"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="settings-content">
+        <h3 id="settingsAppearanceTitle"></h3>
+        <div class="settings-option">
+            <p id="settingsThemeText"></p>
+            <select id="themeSelect">
+                <option value="light" id="themeLightOption"></option>
+                <option value="dark" id="themeDarkOption"></option>
+            </select>
+        </div>
+        
+        <h3 id="settingsAITitle"></h3>
+        <div class="settings-option">
+            <p id="settingsPersonaText"></p>
+            <select id="personaSelect">
+                <option value="formal" id="personaFormalOption"></option>
+                <option value="default" id="personaDefaultOption"></option>
+                <option value="creative" id="personaCreativeOption"></option>
+            </select>
+        </div>
+
+        <h3 id="settingsApiTitle"></h3>
+        <div class="settings-option">
+            <p id="settingsApiText"></p>
+            <div class="api-key-container">
+                <input type="password" id="apiKeyInput">
+                <i class="fas fa-eye" id="toggleApiKey"></i>
+            </div>
+            <button id="saveApiBtn" class="settings-credits-btn"></button>
+        </div>
+        
+        <h3 id="settingsAboutTitle"></h3>
+        <div class="settings-about">
+            <p id="settingsAuthorText"></p>
+            <p><a href="https://allwaysevermirai.netlify.app/about" target="_blank" id="githubLink"><i class="fas fa-info-circle"></i></a></p>
+            <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"></a></p>
+            <p><a href="help/index.html" id="helpLink" target="_self"></a></p>
+            
+            <!-- Multimodal Feature Info -->
+            <div class="settings-option" style="margin-top: 20px;">
+                <p style="font-weight: bold;">Multimodal Features:</p>
+                <p style="font-size: 0.9em; color: #666;">
+                    <i class="fas fa-image"></i> Images: JPEG, PNG, WebP, HEIC<br>
+                    <i class="fas fa-file-pdf"></i> PDF Documents<br>
+                    <i class="fas fa-file-word"></i> Word Documents<br>
+                    <i class="fas fa-file-excel"></i> Excel Spreadsheets<br>
+                    <i class="fas fa-file-powerpoint"></i> PowerPoint Presentations<br>
+                    <i class="fas fa-file-alt"></i> Text Files<br>
+                    <i class="fas fa-file-audio"></i> Audio Files<br>
+                    <i class="fas fa-file-video"></i> Video Files<br>
+                    <small>Max file size: 25MB per file</small>
+                </p>
+            </div>
+            
+            <div class="gemini-container">
+               <a href="https://deepmind.google/models/gemini/flash/" target="_blank"><img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Gemini%202.5%20Flash%20Logo.png" alt="Google Gemini 2.5 Flash" class="gemini-logo"></a>
+            </div>
+            
+            <p id="termsText"></p>
+        </div>
+    </div>
+</div>
+
+<div id="customConfirmOverlay">
+    <div id="customConfirmBox">
+        <p id="customConfirmMessage"></p>
+        <div class="custom-confirm-buttons">
+            <button id="confirmBtnYes"></button>
+            <button id="confirmBtnNo"></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const DEFAULT_API_KEY = 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
+    let currentApiKey = DEFAULT_API_KEY; 
+    const model = 'gemini-2.5-flash';
+    
+    // Multimodal supported file types
+    const SUPPORTED_FILE_TYPES = GEMINI_SUPPORTED_TYPES;
+    
+    const faqDatabase = {
+        "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information.",
+        "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a DiamondStars](https://trakteer.id/Allwaysever)",
+        "multimodal": "# Multimodal Features\n\nMirAI now supports multiple file types:\n\n- **Images**: Analyze and describe images\n- **Documents**: Read and summarize PDFs, Word, Excel, PowerPoint\n- **Audio**: Transcribe and analyze audio content\n- **Video**: Extract information from video files\n\nSimply upload any file and ask questions about it!"
+    };
+
+    const uiStrings = {
+        'id': {
+            // Existing strings...
+            offlineTitle: 'Koneksi Internet Terputus',
+            offlineText: 'Silakan periksa koneksi WiFi atau data seluler Anda, lalu coba kembali.',
+            retryButton: 'Coba Lagi',
+            inputPlaceholder: 'Ketik pertanyaan Anda di sini...',
+            copyFeedback: 'Teks berhasil disalin!',
+            langSwitchFeedback: 'Bahasa telah diubah ke',
+            errorAPI: 'Terjadi kesalahan. Silakan muat ulang atau coba beberapa saat lagi.',
+            errorFallback: 'Maaf, jawaban tidak ditemukan. Coba gunakan kata kunci yang berbeda.',
+            errorConnection: 'Koneksi internet tidak tersedia. Mohon periksa kembali.',
+            checkingConnection: 'Memeriksa koneksi internet...',
+            copySuffix: '\n\n-- Dihasilkan oleh MirAI',
+            infoText: 'Informasi yang dihasilkan AI mungkin tidak akurat. Verifikasi kembali fakta penting.',
+            settingsHeaderTitle: 'Pengaturan',
+            settingsAppearanceTitle: 'Tampilan',
+            settingsThemeText: 'Pilih preferensi tema Anda:',
+            themeLightOption: 'Terang',
+            themeDarkOption: 'Gelap',
+            settingsAITitle: 'Persona AI',
+            settingsPersonaText: 'Pilih gaya respons AI:',
+            personaFormalOption: 'Formal & Profesional',
+            personaDefaultOption: 'Santai & Bercanda',
+            personaCreativeOption: 'Kreatif & Ekspresif',
+            settingsAboutTitle: 'Tentang Aplikasi',
+            settingsVersionText: `Versi: v${VERSION}`,
+            settingsAuthorText: 'Dikembangkan oleh Allwaysever',
+            githubLink: 'Tentang MirAI',
+            licenseLink: 'Lisensi',
+            helpLink: 'Pusat Bantuan',
+            termsText: 'Dengan menggunakan MirAI, Anda menyetujui <a href="T&C/index.html" target="_blank">Syarat & Ketentuan</a>.',
+            personaDefaultPrompt: 'Anda adalah MirAI, asisten AI yang santai dan suka bercanda. Jawab semua pertanyaan dengan gaya yang ramah, sedikit humor, namun tetap informatif.',
+            personaFormalPrompt: 'Anda adalah MirAI, asisten AI profesional. Berikan jawaban yang terstruktur, akurat, dan menggunakan bahasa formal.',
+            personaCreativePrompt: 'Anda adalah MirAI, asisten AI yang kreatif. Berikan jawaban yang unik, imajinatif, dan ekspresif untuk setiap pertanyaan.',
+            placeholderMessages: ['Ajukan pertanyaan apa pun.', 'Butuh bantuan untuk ide?', 'Minta terjemahan atau ringkasan.', 'Bagaimana saya bisa membantu?'],
+            onlineStatus: 'Terhubung',
+            offlineStatus: 'Terputus',
+            settingsApiTitle: 'Kunci API Google',
+            settingsApiText: 'Masukkan Kunci API kustom Anda:',
+            apiKeySaved: 'Kunci API berhasil disimpan.',
+            apiKeyRemoved: 'Kunci API dihapus. Menggunakan kunci default.',
+            dateTimeContextPrompt: '[{dateTime}]:',
+            confirmClearMessage: 'Apakah Anda yakin ingin menghapus riwayat percakapan ini? Tindakan ini tidak dapat diurungkan.',
+            confirmClearYes: 'Ya, Hapus',
+            confirmClearNo: 'Batal',
+            pageTitle: 'MirAI | Asisten Multimodal AI Anda',
+            saveApiKeyBtn: 'Simpan',
+            apiKeyPlaceholder: 'Kosongkan untuk menggunakan kunci default',
+            
+            // New multimodal strings
+            fileTooLarge: 'Ukuran file terlalu besar. Maksimal 25MB.',
+            unsupportedFileType: 'Tipe file tidak didukung oleh Gemini.',
+            uploadingFile: 'Mengupload file...',
+            uploadComplete: 'Upload selesai',
+            uploadFailed: 'Upload gagal',
+            fileUploaded: 'File berhasil diupload',
+            dropFilesHere: 'Seret dan lepas file di sini',
+            orClickToBrowse: 'atau klik untuk memilih',
+            supportsFormats: 'Mendukung: Gambar, PDF, Word, Excel, PowerPoint, Teks, Audio, Video',
+            processingFile: 'Memproses file...',
+            analyzeThisFile: 'Analisis file ini',
+            describeThisImage: 'Deskripsikan gambar ini',
+            transcribeThisAudio: 'Transkripsikan audio ini',
+            summarizeThisDocument: 'Ringkas dokumen ini'
+        },
+        'en': {
+            // Existing strings...
+            offlineTitle: 'Internet Connection Lost',
+            offlineText: 'Please check your WiFi or cellular data connection, then try again.',
+            retryButton: 'Retry',
+            inputPlaceholder: 'Type your question here...',
+            copyFeedback: 'Text copied to clipboard!',
+            langSwitchFeedback: 'Language has been changed to',
+            errorAPI: 'An error occurred. Please reload the page or try again shortly.',
+            errorFallback: 'Sorry, no answer was found. Please try different keywords.',
+            errorConnection: 'Internet connection is unavailable. Please check and try again.',
+            checkingConnection: 'Checking internet connection...',
+            copySuffix: '\n\n-- Generated by MirAI',
+            infoText: 'AI-generated information may be inaccurate. Please verify important facts.',
+            settingsHeaderTitle: 'Settings',
+            settingsAppearanceTitle: 'Appearance',
+            settingsThemeText: 'Select your theme preference:',
+            themeLightOption: 'Light',
+            themeDarkOption: 'Dark',
+            settingsAITitle: 'AI Persona',
+            settingsPersonaText: 'Choose the AI\'s response style:',
+            personaFormalOption: 'Formal & Professional',
+            personaDefaultOption: 'Chill & joking',
+            personaCreativeOption: 'Creative & Expressive',
+            settingsAboutTitle: 'About',
+            settingsVersionText: `Version: v${VERSION}`,
+            settingsAuthorText: 'Developed by Allwaysever',
+            githubLink: 'About MirAI',
+            licenseLink: 'License',
+            helpLink: 'Help Center',
+            termsText: 'By using MirAI, you agree to the <a href="T&C/index.html" target="_blank">Terms & Conditions</a>.',
+            personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humor, while remaining informative.',
+            personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
+            personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
+            placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
+            onlineStatus: 'Connected',
+            offlineStatus: 'Disconnected',
+            settingsApiTitle: 'Google API Key',
+            settingsApiText: 'Enter your custom API Key:',
+            apiKeySaved: 'API Key saved successfully.',
+            apiKeyRemoved: 'API Key removed. Using default key.',
+            dateTimeContextPrompt: '[{dateTime}]:',
+            confirmClearMessage: 'Are you sure you want to delete this chat history? This action cannot be undone.',
+            confirmClearYes: 'Yes, Delete',
+            confirmClearNo: 'Cancel',
+            pageTitle: 'MirAI | Your Multimodal AI Assistant',
+            saveApiKeyBtn: 'Save',
+            apiKeyPlaceholder: 'Leave blank to use the default key',
+            
+            // New multimodal strings
+            fileTooLarge: 'File is too large. Maximum 25MB.',
+            unsupportedFileType: 'File type not supported by Gemini.',
+            uploadingFile: 'Uploading file...',
+            uploadComplete: 'Upload complete',
+            uploadFailed: 'Upload failed',
+            fileUploaded: 'File uploaded successfully',
+            dropFilesHere: 'Drag and drop files here',
+            orClickToBrowse: 'or click to browse',
+            supportsFormats: 'Supports: Images, PDF, Word, Excel, PowerPoint, Text, Audio, Video',
+            processingFile: 'Processing file...',
+            analyzeThisFile: 'Analyze this file',
+            describeThisImage: 'Describe this image',
+            transcribeThisAudio: 'Transcribe this audio',
+            summarizeThisDocument: 'Summarize this document'
+        },
+        // ... other languages (en-uk, jp) follow same pattern
+        'en-uk': {
+            // Similar to 'en' with UK spelling variations
+            // ... [existing strings]
+            // Add multimodal strings
+            fileTooLarge: 'File is too large. Maximum 25MB.',
+            unsupportedFileType: 'File type not supported by Gemini.',
+            uploadingFile: 'Uploading file...',
+            uploadComplete: 'Upload complete',
+            uploadFailed: 'Upload failed',
+            fileUploaded: 'File uploaded successfully',
+            dropFilesHere: 'Drag and drop files here',
+            orClickToBrowse: 'or click to browse',
+            supportsFormats: 'Supports: Images, PDF, Word, Excel, PowerPoint, Text, Audio, Video',
+            processingFile: 'Processing file...',
+            analyzeThisFile: 'Analyse this file',
+            describeThisImage: 'Describe this image',
+            transcribeThisAudio: 'Transcribe this audio',
+            summarizeThisDocument: 'Summarise this document'
+        },
+        'jp': {
+            // ... [existing strings]
+            // Add multimodal strings
+            fileTooLarge: 'ファイルが大きすぎます。最大25MBです。',
+            unsupportedFileType: 'Geminiでサポートされていないファイルタイプです。',
+            uploadingFile: 'ファイルをアップロード中...',
+            uploadComplete: 'アップロード完了',
+            uploadFailed: 'アップロード失敗',
+            fileUploaded: 'ファイルが正常にアップロードされました',
+            dropFilesHere: 'ここにファイルをドラッグ＆ドロップ',
+            orClickToBrowse: 'またはクリックして参照',
+            supportsFormats: 'サポート: 画像、PDF、Word、Excel、PowerPoint、テキスト、音声、動画',
+            processingFile: 'ファイルを処理中...',
+            analyzeThisFile: 'このファイルを分析',
+            describeThisImage: 'この画像を説明',
+            transcribeThisAudio: 'この音声を文字起こし',
+            summarizeThisDocument: 'この文書を要約'
+        }
+    };
+
+    let slashCommands = [];
+    let chatHistory = [];
+    let abortController = null;
+    let currentLanguage = 'en';
+    let currentPersona = 'default';
+    let currentImageData = null;
+    let currentFileData = null; // New: For storing file data
+    let elements;
+
+    // File handling functions
+    function getFileIcon(mimeType) {
+        const fileType = FILE_TYPES[mimeType] || { icon: 'fa-file', type: 'unknown' };
+        return `<i class="fas ${fileType.icon} file-icon ${fileType.type}"></i>`;
+    }
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    function getFileCategory(mimeType) {
+        return (FILE_TYPES[mimeType] || {}).category || 'unknown';
+    }
+    
+    function isGeminiSupported(mimeType) {
+        return GEMINI_SUPPORTED_TYPES.includes(mimeType);
+    }
+    
+    function validateFile(file) {
+        const lang = uiStrings[currentLanguage];
+        
+        // Check file size
+        if (file.size > MAX_FILE_SIZE) {
+            alert(lang.fileTooLarge);
+            return false;
+        }
+        
+        // Check if supported by Gemini
+        if (!isGeminiSupported(file.type)) {
+            alert(lang.unsupportedFileType);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // Convert file to base64
+    function convertFileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const base64String = reader.result.split(',')[1];
+                resolve({
+                    mimeType: file.type,
+                    data: base64String,
+                    name: file.name,
+                    size: file.size,
+                    category: getFileCategory(file.type)
+                });
+            };
+            reader.onerror = error => reject(error);
+        });
+    }
+    
+    // Handle file upload
+    async function handleFileUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        if (!validateFile(file)) {
+            elements.fileInput.value = '';
+            return;
+        }
+        
+        // Reset input
+        elements.fileInput.value = '';
+        
+        // Remove any existing image
+        removeImage();
+        
+        // Show upload progress
+        elements.fileProgress.style.display = 'block';
+        elements.fileProgressBar.style.width = '0%';
+        elements.fileStatus.textContent = uiStrings[currentLanguage].uploadingFile;
+        
+        try {
+            const fileData = await convertFileToBase64(file);
+            
+            // Update progress to 100%
+            elements.fileProgressBar.style.width = '100%';
+            elements.fileStatus.textContent = uiStrings[currentLanguage].uploadComplete;
+            
+            // Store file data
+            currentFileData = fileData;
+            
+            // Update UI
+            elements.fileIcon.innerHTML = getFileIcon(file.mimeType);
+            elements.fileName.textContent = file.name;
+            elements.fileSize.textContent = formatFileSize(file.size);
+            
+            // If it's an image, also show in image preview
+            if (file.type.startsWith('image/')) {
+                currentImageData = {
+                    mimeType: file.type,
+                    data: fileData.data
+                };
+                elements.imagePreview.src = `data:${file.type};base64,${fileData.data}`;
+                elements.imagePreviewContainer.style.display = 'flex';
+            }
+            
+            // Show file preview container
+            elements.filePreviewContainer.style.display = 'flex';
+            
+            // Hide drop zone
+            elements.dropZone.style.display = 'none';
+            
+            // Toggle to chat UI
+            toggleChatUI(true);
+            updateSendButtonState();
+            
+            // Auto-suggest question based on file type
+            suggestFileQuestion(file.type);
+            
+        } catch (error) {
+            console.error('Error converting file:', error);
+            elements.fileStatus.textContent = uiStrings[currentLanguage].uploadFailed;
+            setTimeout(() => {
+                removeFile();
+            }, 2000);
+        }
+    }
+    
+    function suggestFileQuestion(mimeType) {
+        const lang = uiStrings[currentLanguage];
+        let suggestion = '';
+        
+        if (mimeType.startsWith('image/')) {
+            suggestion = lang.describeThisImage;
+        } else if (mimeType.startsWith('audio/')) {
+            suggestion = lang.transcribeThisAudio;
+        } else if (mimeType.startsWith('application/') || mimeType.startsWith('text/')) {
+            suggestion = lang.summarizeThisDocument;
+        } else {
+            suggestion = lang.analyzeThisFile;
+        }
+        
+        elements.questionInput.value = suggestion;
+        updateSendButtonState();
+    }
+    
+    function removeFile() {
+        currentFileData = null;
+        elements.filePreviewContainer.style.display = 'none';
+        elements.fileInput.value = '';
+        elements.fileStatus.textContent = '';
+        elements.fileProgress.style.display = 'none';
+        
+        // Show drop zone if no files are uploaded
+        if (!currentImageData) {
+            elements.dropZone.style.display = 'block';
+        }
+        
+        updateSendButtonState();
+    }
+    
+    function showDropZone() {
+        elements.dropZone.style.display = 'block';
+    }
+    
+    function hideDropZone() {
+        elements.dropZone.style.display = 'none';
+    }
+    
+    // Drag and drop functionality
+    function initializeDragAndDrop() {
+        const dropZone = elements.dropZone;
+        
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        // Highlight drop zone when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+        
+        // Handle dropped files
+        dropZone.addEventListener('drop', handleDrop, false);
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        function highlight(e) {
+            dropZone.classList.add('drag-over');
+        }
+        
+        function unhighlight(e) {
+            dropZone.classList.remove('drag-over');
+        }
+        
+        async function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                const file = files[0];
+                
+                // Create a fake event object
+                const fakeEvent = {
+                    target: {
+                        files: [file]
+                    }
+                };
+                
+                await handleFileUpload(fakeEvent);
+            }
+        }
+    }
+
+    // Modified askAI function to handle files
+    async function askAI() {
+        const userQuestion = elements.questionInput.value;
+
+        // Don't send if no text AND no file/image
+        if (userQuestion.trim() === '' && !currentImageData && !currentFileData) return;
+
+        const clientDateTime = getCurrentDateTimeString();
+        const promptTemplate = uiStrings[currentLanguage].dateTimeContextPrompt;
+        const contextPrompt = promptTemplate.replace('{dateTime}', clientDateTime);
+        
+        let promptToSendToAI;
+
+        // Process slash command only if no file/image
+        if (!currentImageData && !currentFileData) {
+            const processedPrompt = handleSlashCommand(userQuestion);
+            if (processedPrompt !== null) {
+                if (processedPrompt.startsWith('Error:')) {
+                    return;
+                }
+                promptToSendToAI = `${contextPrompt}\n\n"${processedPrompt}"`;
+            } else {
+                promptToSendToAI = `${contextPrompt}\n\n"${userQuestion}"`;
+            }
+        } else {
+            // If there's a file/image, send text as is
+            promptToSendToAI = `${contextPrompt}\n\n"${userQuestion}"`;
+        }
+
+        toggleChatUI(true);
+        elements.questionInput.value = '';
+        elements.questionInput.style.height = 'auto';
+        elements.suggestionBox.classList.remove('visible');
+        updateSendButtonState();
+        elements.sendBtn.style.display = 'none';
+        elements.clearBtnContainer.style.display = 'none';
+        elements.stopBtn.style.display = 'block';
+
+        // Create user bubble with file preview if exists
+        const userBubble = document.createElement('div');
+        userBubble.classList.add('chat-bubble', 'user-bubble', 'file-bubble');
+        
+        let userBubbleHTML = '';
+        
+        // If there's an image, show it
+        if (currentImageData) {
+            userBubbleHTML += `<img src="${elements.imagePreview.src}" style="width: 100%; max-width: 200px; border-radius: 10px; margin-bottom: 5px;"><br>`;
+        }
+        
+        // If there's a file (non-image), show file info
+        if (currentFileData && !currentImageData) {
+            userBubbleHTML += `
+                <div class="file-bubble-content">
+                    ${getFileIcon(currentFileData.mimeType)}
+                    <div>
+                        <strong>${currentFileData.name}</strong><br>
+                        <small>${formatFileSize(currentFileData.size)}</small>
+                    </div>
+                </div>`;
+        }
+        
+        // Add text if exists
+        if (userQuestion.trim() !== '') {
+            if (userBubbleHTML) userBubbleHTML += '<br>';
+            const textNode = document.createTextNode(userQuestion);
+            userBubble.appendChild(document.createTextNode(userQuestion));
+        }
+        
+        if (userBubbleHTML) {
+            userBubble.innerHTML = userBubbleHTML;
+        }
+        
+        elements.chatMessages.appendChild(userBubble);
+        setTimeout(() => userBubble.classList.add('fade-in'), 10);
+        elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+
+        // Construct 'parts' for multimodal request
+        const userParts = [];
+        
+        // 1. Add text part
+        userParts.push({ text: promptToSendToAI });
+
+        // 2. Add image part if exists
+        if (currentImageData) {
+            userParts.push({
+                inlineData: {
+                    mimeType: currentImageData.mimeType,
+                    data: currentImageData.data
+                }
+            });
+        }
+        
+        // 3. Add file part if exists (and not image)
+        if (currentFileData && !currentImageData) {
+            userParts.push({
+                inlineData: {
+                    mimeType: currentFileData.mimeType,
+                    data: currentFileData.data
+                }
+            });
+        }
+        
+        // Push to chatHistory
+        chatHistory.push({ role: "user", parts: userParts }); 
+        saveChatHistory(); 
+        
+        // Save status of what was sent
+        const hasFile = !!currentFileData || !!currentImageData;
+        
+        // Clear file data for next message
+        removeFile();
+        removeImage();
+
+        const loadingBubble = showLoading();
+
+        // Skip local answers if there's a file
+        if (!hasFile) {
+            const localAnswer = findSmartAnswer(userQuestion);
+            if (localAnswer) {
+                loadingBubble.remove();
+                const aiBubble = createAiBubble(localAnswer, true);
+                elements.chatMessages.appendChild(aiBubble);
+                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+                elements.sendBtn.style.display = 'block';
+                elements.stopBtn.style.display = 'none';
+                elements.clearBtnContainer.style.display = 'block';
+                return; 
+            }
+        }
+
+        try {
+            abortController = new AbortController();
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${currentApiKey}`;
+            
+            const requestBody = { contents: chatHistory };
+            
+            const response = await fetch(url, { 
+                method: "POST", 
+                headers: { "Content-Type": "application/json" }, 
+                body: JSON.stringify(requestBody), 
+                signal: abortController.signal 
+            });
+            
+            if (!response.ok) { 
+                throw new Error(`HTTP error! status: ${response.status}`); 
+            }
+            
+            const data = await response.json();
+            let answer = uiStrings[currentLanguage].errorFallback;
+            
+            if (data.candidates?.[0]?.content?.parts?.[0]) {
+                answer = data.candidates[0].content.parts[0].text;
+                chatHistory.push({ role: "model", parts: [{ text: answer }] });
+                saveChatHistory(); 
+            }
+            
+            loadingBubble.remove();
+            const aiBubble = createAiBubble(answer, false);
+            elements.chatMessages.appendChild(aiBubble);
+            await typeWriterEffect(aiBubble, answer);
+            
+            // Add copy and speak buttons
+            const copyBtn = document.createElement('i');
+            copyBtn.classList.add('fas', 'fa-copy', 'copy-btn');
+            copyBtn.setAttribute('onclick', 'copyToClipboard(this)');
+            aiBubble.appendChild(copyBtn);
+
+            const speakBtn = document.createElement('i');
+            speakBtn.classList.add('fas', 'fa-volume-up', 'speak-btn');
+            speakBtn.setAttribute('onclick', 'speakText(this)');
+            aiBubble.appendChild(speakBtn);
+
+            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+            
+        } catch (error) {
+            console.error('Error:', error);
+            if (error.name !== 'AbortError') {
+                const errorMessage = navigator.onLine ? uiStrings[currentLanguage].errorAPI : uiStrings[currentLanguage].errorConnection;
+                loadingBubble.remove();
+                const errorBubble = createAiBubble(errorMessage);
+                elements.chatMessages.appendChild(errorBubble);
+                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+            }
+        } finally {
+            elements.sendBtn.style.display = 'block';
+            elements.stopBtn.style.display = 'none';
+            elements.clearBtnContainer.style.display = 'block';
+        }
+    }
+
+    // Modified updateSendButtonState to check for files
+    function updateSendButtonState() { 
+        if (elements.questionInput.value.trim() === '' && !currentImageData && !currentFileData) { 
+            elements.sendBtn.classList.add('disabled'); 
+            elements.sendBtn.disabled = true; 
+        } else { 
+            elements.sendBtn.classList.remove('disabled'); 
+            elements.sendBtn.disabled = false; 
+        } 
+    }
+
+    // Modified toggleChatUI to show/hide drop zone
+    function toggleChatUI(active) {
+        if (active) {
+            elements.body.classList.add('chat-active');
+            elements.inputContainer.classList.remove('centered');
+            elements.inputContainer.classList.add('bottom');
+            elements.logoContainer.classList.add('logo-hidden');
+            elements.languageSwitcher.classList.add('lang-hidden');
+            elements.infoText.style.display = 'block';
+            
+            // Hide drop zone when in chat mode
+            hideDropZone();
+        } else {
+            elements.body.classList.remove('chat-active');
+            elements.inputContainer.classList.remove('bottom');
+            elements.inputContainer.classList.add('centered');
+            elements.logoContainer.classList.remove('logo-hidden');
+            elements.languageSwitcher.classList.remove('lang-hidden');
+            elements.infoText.style.display = 'none';
+            
+            // Show drop zone when not in chat mode
+            showDropZone();
+        }
+    }
+
+    // Modified clearChat to also clear files
+    function clearChat() {
+        elements.chatMessages.innerHTML = '';
+        localStorage.removeItem('miraiChatHistory'); 
+        initializeNewChatSession(); 
+        toggleChatUI(false);
+        updateDynamicPlaceholder();
+        
+        // Clear any uploaded files
+        removeFile();
+        removeImage();
+        
+        // Stop TTS if playing
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    // Initialize app with multimodal features
+    function initializeApp() {
+        const savedLang = localStorage.getItem('miraiLanguage');
+        if (savedLang && uiStrings.hasOwnProperty(savedLang)) {
+            currentLanguage = savedLang;
+        } else {
+            currentLanguage = 'id';
+        }
+
+        currentPersona = localStorage.getItem('miraiPersona') || 'default';
+        const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
+        const savedApiKey = localStorage.getItem('miraiApiKey');
+        
+        elements.langDropdown.value = currentLanguage;
+        elements.personaSelect.value = currentPersona;
+        
+        if (savedApiKey) {
+            currentApiKey = savedApiKey;
+            elements.apiKeyInput.value = savedApiKey;
+        }
+        
+        initializeSlashCommands(currentLanguage);
+        setTheme(savedTheme);
+        updateUI();
+        
+        const historyLoaded = loadChatHistory();
+        if (!historyLoaded) {
+            initializeNewChatSession();
+        }
+        
+        // Initialize drop zone text
+        updateDropZoneText();
+    }
+    
+    function updateDropZoneText() {
+        const lang = uiStrings[currentLanguage];
+        elements.dropZone.querySelector('.drop-text').innerHTML = 
+            `<i class="fas fa-cloud-upload-alt"></i> ${lang.dropFilesHere}`;
+        elements.dropZone.querySelector('.drop-subtext').textContent = lang.orClickToBrowse;
+        elements.dropZone.querySelector('.supported-formats').textContent = lang.supportsFormats;
+    }
+
+    // Update UI to include drop zone text
+    function updateUI() {
+        const lang = uiStrings[currentLanguage];
+        elements.infoText.innerText = lang.infoText;
+        updateSettingsUI();
+        updateDynamicPlaceholder();
+        updateConnectionStatus();
+        updateDropZoneText(); // Add this line
+    }
+
+    // ... [existing functions remain the same]
+
+    document.addEventListener('DOMContentLoaded', () => {
+        elements = { 
+            questionInput: document.getElementById('questionInput'),
+            sendBtn: document.getElementById('sendBtn'),
+            stopBtn: document.getElementById('stopBtn'),
+            clearBtn: document.getElementById('clearBtn'),
+            clearBtnContainer: document.getElementById('clearBtnContainer'),
+            settingsBtn: document.getElementById('settingsBtn'),
+            chatMessages: document.getElementById('chatMessages'),
+            suggestionBox: document.getElementById('suggestionBox'),
+            body: document.body,
+            inputContainer: document.getElementById('inputContainer'),
+            logoContainer: document.querySelector('.logo-container'),
+            splashScreen: document.getElementById('splash-screen'),
+            langDropdown: document.getElementById('langDropdown'),
+            languageSwitcher: document.getElementById('languageSwitcher'),
+            infoText: document.getElementById('infoText'),
+            settingsPage: document.getElementById('settingsPage'),
+            backBtn: document.getElementById('backBtn'),
+            themeSelect: document.getElementById('themeSelect'),
+            personaSelect: document.getElementById('personaSelect'),
+            settingsHeaderTitle: document.getElementById('settingsHeaderTitle'),
+            settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'),
+            settingsThemeText: document.getElementById('settingsThemeText'),
+            themeLightOption: document.getElementById('themeLightOption'),
+            themeDarkOption: document.getElementById('themeDarkOption'),
+            settingsAITitle: document.getElementById('settingsAITitle'),
+            settingsPersonaText: document.getElementById('settingsPersonaText'),
+            personaFormalOption: document.getElementById('personaFormalOption'),
+            personaDefaultOption: document.getElementById('personaDefaultOption'),
+            personaCreativeOption: document.getElementById('personaCreativeOption'),
+            settingsAboutTitle: document.getElementById('settingsAboutTitle'),
+            settingsVersionText: document.getElementById('settingsVersionText'),
+            settingsAuthorText: document.getElementById('settingsAuthorText'),
+            githubLink: document.getElementById('githubLink'),
+            licenseLink: document.getElementById('licenseLink'),
+            statusDot: document.getElementById('statusDot'),
+            statusLabel: document.getElementById('statusLabel'),
+            apiKeyInput: document.getElementById('apiKeyInput'),
+            toggleApiKey: document.getElementById('toggleApiKey'),
+            saveApiBtn: document.getElementById('saveApiBtn'),
+            settingsApiTitle: document.getElementById('settingsApiTitle'),
+            settingsApiText: document.getElementById('settingsApiText'),
+            toolsBtn: document.getElementById('toolsBtn'),
+            toolsMenu: document.getElementById('toolsMenu'),
+            customConfirmOverlay: document.getElementById('customConfirmOverlay'),
+            customConfirmMessage: document.getElementById('customConfirmMessage'),
+            confirmBtnYes: document.getElementById('confirmBtnYes'),
+            confirmBtnNo: document.getElementById('confirmBtnNo'),
+            helpLink: document.getElementById('helpLink'),
+            termsText: document.getElementById('termsText'),
+            
+            // Image elements
+            uploadImageBtn: document.getElementById('uploadImageBtn'),
+            imageInput: document.getElementById('imageInput'),
+            imagePreviewContainer: document.getElementById('imagePreviewContainer'),
+            imagePreview: document.getElementById('imagePreview'),
+            removeImageBtn: document.getElementById('removeImageBtn'),
+            
+            // File elements
+            uploadFileBtn: document.getElementById('uploadFileBtn'),
+            fileInput: document.getElementById('fileInput'),
+            filePreviewContainer: document.getElementById('filePreviewContainer'),
+            fileIcon: document.getElementById('fileIcon'),
+            fileName: document.getElementById('fileName'),
+            fileSize: document.getElementById('fileSize'),
+            fileProgress: document.getElementById('fileProgress'),
+            fileProgressBar: document.getElementById('fileProgressBar'),
+            fileStatus: document.getElementById('fileStatus'),
+            removeFileBtn: document.getElementById('removeFileBtn'),
+            
+            // Drop zone
+            dropZone: document.getElementById('dropZone')
+        };
+
+        // Event listeners
+        elements.sendBtn.addEventListener('click', askAI);
+        elements.stopBtn.addEventListener('click', stopAI);
+        elements.clearBtn.addEventListener('click', showClearConfirmation);
+        elements.settingsBtn.addEventListener('click', showSettingsPage);
+        elements.backBtn.addEventListener('click', hideSettingsPage);
+        elements.themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
+        elements.personaSelect.addEventListener('change', (e) => setPersona(e.target.value, true));
+        elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value, true));
+        
+        elements.questionInput.addEventListener('keydown', (event) => { 
+            if (event.key === 'Enter' && !event.shiftKey) { 
+                event.preventDefault(); 
+                if (!elements.sendBtn.disabled) { 
+                    askAI(); 
+                } 
+            } 
+        });
+        
+        elements.questionInput.addEventListener('input', () => { 
+            showSuggestions(); 
+            updateSendButtonState(); 
+            elements.questionInput.style.height = 'auto'; 
+            elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px'; 
+        });
+        
+        elements.saveApiBtn.addEventListener('click', saveApiKey);
+        elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
+        
+        // Image upload
+        elements.uploadImageBtn.addEventListener('click', () => elements.imageInput.click());
+        elements.imageInput.addEventListener('change', handleImageUpload);
+        elements.removeImageBtn.addEventListener('click', removeImage);
+        
+        // File upload
+        elements.uploadFileBtn.addEventListener('click', () => elements.fileInput.click());
+        elements.fileInput.addEventListener('change', handleFileUpload);
+        elements.removeFileBtn.addEventListener('click', removeFile);
+        
+        // Click on drop zone to trigger file input
+        elements.dropZone.addEventListener('click', () => elements.fileInput.click());
+        
+        // Other event listeners
+        elements.confirmBtnYes.addEventListener('click', () => { 
+            clearChat(); 
+            hideClearConfirmation();
+        });
+        
+        elements.confirmBtnNo.addEventListener('click', hideClearConfirmation);
+        
+        elements.toolsBtn.addEventListener('click', (event) => { 
+            event.stopPropagation(); 
+            const isActive = elements.toolsBtn.classList.contains('active'); 
+            elements.suggestionBox.classList.remove('visible'); 
+            if (!isActive) { 
+                elements.toolsMenu.classList.add('visible'); 
+                elements.toolsBtn.classList.add('active'); 
+            } else { 
+                elements.toolsMenu.classList.remove('visible'); 
+                elements.toolsBtn.classList.remove('active'); 
+            } 
+        });
+        
+        document.addEventListener('click', (event) => { 
+            if (elements.toolsMenu && !elements.toolsMenu.contains(event.target) && !elements.toolsBtn.contains(event.target)) { 
+                elements.toolsMenu.classList.remove('visible'); 
+                elements.toolsBtn.classList.remove('active'); 
+            } 
+        });
+        
+        window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
+        
+        // Initialize app
+        initializeApp();
+        simulateLoading(3000); 
+        updateConnectionStatus();
+        populateToolsMenu();
+        updateSendButtonState();
+        initializeDragAndDrop();
+        
+        // Stop TTS on page unload
+        window.addEventListener('beforeunload', () => {
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+        });
+    });
+
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+    
+    // Keep existing functions that haven't been modified
+    // ... [all other existing functions]
+</script>
+</body>
+</html>
