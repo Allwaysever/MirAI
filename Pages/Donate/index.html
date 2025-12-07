@@ -54,199 +54,745 @@
         .page-content.active {
             display: block;
         }
+        .language-selector {
+           display: none;
+        }
+        .language-selector select {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 25px;
+            color: var(--color-primary);
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        .language-selector select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+        }
+        
+        .platform-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .platform-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffce00;
+            background: rgba(255, 206, 0, 0.05);
+            box-shadow: 0 10px 25px rgba(255, 206, 0, 0.1);
+        }
+        
+        .platform-card.selected {
+            border-color: #ffce00;
+            background: rgba(255, 206, 0, 0.1);
+        }
+        
+        .platform-card.coming-soon {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .platform-card.coming-soon:hover {
+            transform: none;
+            border-color: transparent;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: none;
+        }
+        
+        .platform-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .platform-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ffce00;
+            color: #0f0f0f;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .platform-features {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .platform-features li {
+            padding: 5px 0;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        
+        .platform-features li:before {
+            content: "✓";
+            color: #ffce00;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        
+        .recommended-tag {
+            background: linear-gradient(45deg, #ffce00, #ffaa00);
+            color: #0f0f0f;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .coming-soon-tag {
+            background: linear-gradient(45deg, #666, #888);
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .back-button {
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-primary);
+            border-radius: 9999px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .premium-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+            background: linear-gradient(45deg, #ffce00, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
     </style>
 </head>
 <body class="p-4">
+
+    <div class="language-selector">
+        <select id="language-select">
+            <option value="auto">Auto Detect</option>
+            <option value="id-ID">Bahasa Indonesia</option>
+            <option value="en-US">English (US)</option>
+            <option value="en-GB">English (UK)</option>
+            <option value="ja-JP">日本語</option>
+        </select>
+    </div>
 
     <main class="w-full max-w-lg mx-auto py-10">
 
         <header class="text-center mb-8">
             <div class="flex items-center justify-center space-x-3">
                 <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="MirAI Logo">
-                <span><span style="font-weight: bold; font-size: 1.5em;">MirAI</span> <span style="font-weight: 100; font-size: 1.5em;">Support</span></span>
+                <span><span style="font-weight: bold; font-size: 1.5em;">MirAI</span> <span style="font-weight: 100; font-size: 1.5em;" data-i18n="support_text">Support</span></span>
             </div>
         </header>
 
         <section id="donate" class="page-content active p-8 card-srui text-center">
-            <h1 class="text-3xl font-extrabold mb-2 text-yellow-400">
+            <h1 class="text-3xl font-extrabold mb-2 text-yellow-400" data-i18n="donate_title">
                 Support Our Development ☕
             </h1>
-            <p class="text-lg text-gray-300 mb-6">
+            <p class="text-lg text-gray-300 mb-6" data-i18n="donate_description">
                 Your contribution helps sustain MirAI and enables continuous development.
             </p>
 
             <div class="space-y-4 mb-10 text-left p-4 bg-gray-800 rounded-xl">
                 <p class="text-white font-regular flex items-center space-x-3">
                     <span class="text-xl text-yellow-400"><i class="fas fa-check"></i></span>
-                    <span><span style="color: #ffce00;">45%</span> is allocated for <b>real-time</b> Google Gemini API costs.</span>
+                    <span data-i18n="donate_feature1"><span style="color: #ffce00;">45%</span> is allocated for <b>real-time</b> Google Gemini API costs.</span>
                 </p>
                 <p class="text-white font-regular flex items-center space-x-3">
                     <span class="text-xl text-yellow-400"><i class="fas fa-check"></i></span>
-                    <span>Supports <b>server maintenance</b> and <span style="color: #ffce00;">55%</span> for new feature development.</span>
+                    <span data-i18n="donate_feature2">Supports <b>server maintenance</b> and <span style="color: #ffce00;">55%</span> for new feature development.</span>
                 </p>
                 <p class="text-white font-regular flex items-center space-x-3">
                     <span class="text-xl text-yellow-400"><i class="fas fa-check"></i></span>
-                    <span>MirAI remains fully <b>open-source</b> and free!</span>
+                    <span data-i18n="donate_feature3">MirAI remains fully <b>open-source</b> and free!</span>
                 </p>
             </div>
             
             <div class="text-center">
-                 <button id="checkout-button" class="accent-button text-xl px-8 py-3 shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 min-w-[300px] inline-block">
+                 <button id="checkout-button" class="accent-button text-xl px-8 py-3 shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 min-w-[300px] inline-block" data-i18n="support_button">
                     Support Now
                 </button>
             </div>
 
             <div class="mt-8 pt-6 border-t border-gray-700">
-                <p class="text-sm text-gray-400 text-center">
+                <p class="text-sm text-gray-400 text-center" data-i18n="donate_note">
                     You will be redirected to our secure donation portal.
                 </p>
             </div>
-
         </section>
 
-        <section id="thanks" class="page-content p-8 card-srui text-center">
-            <div class="text-5xl mb-4">🎉</div>
-            <h1 class="text-3xl font-extrabold mb-4 text-yellow-400">
-                Thank You for Your Support!
-            </h1>
+        <section id="whereyougo" class="page-content p-8 card-srui">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-extrabold mb-2 text-yellow-400" data-i18n="whereyougo_title">
+                    Choose Your Payment Method
+                </h1>
+                <p class="text-lg text-gray-300 mb-6" data-i18n="whereyougo_description">
+                    Select your preferred platform to continue
+                </p>
+            </div>
 
-            <p class="text-lg text-gray-300 mb-4">
-                Your contribution directly supports MirAI's capabilities.
-            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="platform-card" id="platform-saweria" data-platform="saweria">
+                    <div class="recommended-tag" data-i18n="recommended">Recommended</div>
+                    <div class="platform-icon">🎁</div>
+                    <h3 class="text-xl font-bold mb-2">Saweria</h3>
+                    <p class="text-gray-300 mb-4 text-sm" data-i18n="saweria_description">
+                        Indonesia's #1 donation platform
+                    </p>
+                    
+                    <ul class="platform-features">
+                        <li data-i18n="saweria_feature1">Minimum: Rp 5,000</li>
+                        <li data-i18n="saweria_feature2">Instant processing</li>
+                        <li data-i18n="saweria_feature3">Supports all e-wallets</li>
+                        <li data-i18n="saweria_feature4">8% platform fee</li>
+                    </ul>
+                    
+                    <div class="mt-6">
+                        <button class="accent-button px-6 py-2 w-full" onclick="selectPlatform('saweria')" data-i18n="select_button">
+                            Select Saweria
+                        </button>
+                    </div>
+                </div>
 
-            <p class="text-md text-red-400 font-semibold mb-8 border border-red-400 p-3 rounded-lg bg-red-900 bg-opacity-30">
-                ⚠️ <b>IMPORTANT:</b> Your donation helps a lot. Please click the button below to return to MirAI.
-            </p>
-            
-            <p class="text-md font-medium text-gray-400 mb-10">
-                Your support allows MirAI to continue answering questions and evolving! ❤️
-            </p>
-            
-            <a href="https://allwaysevermirai.netlify.app/" onclick="localStorage.removeItem('mirai_last_donate_click');" class="accent-button text-lg px-6 py-3 shadow-md focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 inline-block">
-                Return to MirAI →
-            </a>
-            
-            <p class="text-sm text-gray-500 mt-6">
-                Sincerely, The Allwaysever Team.
-            </p>
+                <div class="platform-card" id="platform-trakteer" data-platform="trakteer">
+                    <div class="platform-icon">☕</div>
+                    <h3 class="text-xl font-bold mb-2">Trakteer</h3>
+                    <p class="text-gray-300 mb-4 text-sm" data-i18n="trakteer_description">
+                        Popular alternative platform
+                    </p>
+                    
+                    <ul class="platform-features">
+                        <li data-i18n="trakteer_feature1">Minimum: Rp 10,000</li>
+                        <li data-i18n="trakteer_feature2">Lower fees (5%)</li>
+                        <li data-i18n="trakteer_feature3">Clean interface</li>
+                        <li data-i18n="trakteer_feature4">Supports bank transfer</li>
+                    </ul>
+                    
+                    <div class="mt-6">
+                        <button class="accent-button px-6 py-2 w-full" onclick="selectPlatform('trakteer')" data-i18n="select_button">
+                            Select Trakteer
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Premium Option -->
+                <div class="platform-card coming-soon col-span-1 md:col-span-2" id="platform-premium">
+                    <div class="coming-soon-tag" data-i18n="coming_soon">Coming Soon</div>
+                    <div class="premium-icon">👑</div>
+                    <h3 class="text-xl font-bold mb-2 text-yellow-400">MirAI Premium</h3>
+                    <p class="text-gray-300 mb-4 text-sm" data-i18n="premium_description">
+                        Subscribe for exclusive features and priority support
+                    </p>
+                    
+                    <ul class="platform-features">
+                        <li data-i18n="premium_feature1">Priority access to new features</li>
+                        <li data-i18n="premium_feature2">Higher API limits</li>
+                        <li data-i18n="premium_feature3">Advanced AI models</li>
+                        <li data-i18n="premium_feature4">Direct developer support</li>
+                    </ul>
+                    
+                    <div class="mt-6">
+                        <button class="border border-gray-600 text-gray-400 px-6 py-2 w-full rounded-lg cursor-not-allowed" disabled data-i18n="coming_soon_button">
+                            Coming Soon
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-6">
+                <button onclick="window.location.hash = 'donate'" class="back-button px-6 py-2">
+                    ← <span data-i18n="back_button">Back to Donation Info</span>
+                </button>
+            </div>
+
+            <div class="pt-6 border-t border-gray-700 text-center">
+                <p class="text-sm text-gray-400" data-i18n="whereyougo_note">
+                    Your choice will be remembered for future donations
+                </p>
+            </div>
         </section>
 
         <section id="areyousure" class="page-content p-8 card-srui text-center">
             <div class="text-5xl mb-4">🤔</div>
-            <h1 class="text-3xl font-extrabold mb-4 text-yellow-400">
+            <h1 class="text-3xl font-extrabold mb-4 text-yellow-400" data-i18n="confirmation_title">
                 Completing Your Donation?
             </h1>
 
-            <p class="text-lg text-gray-300 mb-4">
+            <p class="text-lg text-gray-300 mb-4" data-i18n="confirmation_description">
                 We noticed you recently started a donation. The payment page should have opened in a new tab.
             </p>
 
-            <p class="text-md text-gray-400 mb-10">
+            <p class="text-md text-gray-400 mb-10" data-i18n="confirmation_instruction">
                 Please complete your donation to help us continue development!
             </p>
             
+            <div class="p-3 bg-gray-800 rounded-lg mb-4">
+                <p class="text-yellow-400">
+                    <i class="fas fa-external-link-alt mr-2"></i>
+                    <span data-i18n="selected_platform">Selected Platform:</span>
+                    <span id="selected-platform-display" class="font-bold">Saweria</span>
+                </p>
+            </div>
+            
             <div id="countdown-are-you-sure" class="text-sm text-yellow-400 font-bold mb-4">
-                This page will automatically proceed in <span id="areyousure-timer">90</span> seconds.
+                <span data-i18n="countdown_text">This page will automatically proceed in</span> 
+                <span id="areyousure-timer">90</span> 
+                <span data-i18n="seconds_text">seconds.</span>
             </div>
 
             <div class="space-y-3">
-                <a href="https://saweria.co/Allwaysever" target="_blank" class="accent-button text-lg px-6 py-3 shadow-md focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 inline-block w-full">
+                <a href="#" id="return-payment-link" target="_blank" class="accent-button text-lg px-6 py-3 shadow-md focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 inline-block w-full" data-i18n="payment_button">
                     Return to Payment Page (New Tab)
                 </a>
-                </div>
-            <p class="text-sm text-gray-500 mt-6">
+            </div>
+            <p class="text-sm text-gray-500 mt-6" data-i18n="appreciation_note">
                 We appreciate your genuine support for our project's sustainability.
+            </p>
+        </section>
+
+        <section id="thanks" class="page-content p-8 card-srui text-center">
+            <div class="text-5xl mb-4">🎉</div>
+            <h1 class="text-3xl font-extrabold mb-4 text-yellow-400" data-i18n="thanks_title">
+                Thank You for Your Support!
+            </h1>
+
+            <p class="text-lg text-gray-300 mb-4" data-i18n="thanks_description">
+                Your contribution directly supports MirAI's capabilities.
+            </p>
+
+            <p class="text-md text-red-400 font-semibold mb-8 border border-red-400 p-3 rounded-lg bg-red-900 bg-opacity-30" data-i18n="thanks_warning">
+                ⚠️ <b>IMPORTANT:</b> Your donation helps a lot. Please click the button below to return to MirAI.
+            </p>
+            
+            <p class="text-md font-medium text-gray-400 mb-10" data-i18n="thanks_appreciation">
+                Your support allows MirAI to continue answering questions and evolving! ❤️
+            </p>
+            
+            <a href="https://allwaysevermirai.netlify.app/" onclick="localStorage.removeItem('mirai_last_donate_click');" class="accent-button text-lg px-6 py-3 shadow-md focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 inline-block" data-i18n="return_button">
+                Return to MirAI →
+            </a>
+            
+            <p class="text-sm text-gray-500 mt-6" data-i18n="signature">
+                Sincerely, The Allwaysever Team.
             </p>
         </section>
 
     </main>
 
     <script>
-        const EXTERNAL_DONATE_BASE_URL = "https://trakteer.id/Allwaysever"; 
-        const SUGGESTED_AMOUNT = 1000; 
-        
-        // Time Constants: Only AREYOUSURE_TIMEOUT_MS is used for the transition timer
-        const AREYOUSURE_TIMEOUT_MS = 1.5 * 60 * 1000; // 1.5 minutes (90000 ms)
+        class LanguageManager {
+            constructor() {
+                this.currentLang = localStorage.getItem('mirai-language') || 'auto';
+                this.supportedLangs = {
+                    'id-ID': { name: 'Bahasa Indonesia', flag: '🇮🇩' },
+                    'en-US': { name: 'English (US)', flag: '🇺🇸' },
+                    'en-GB': { name: 'English (UK)', flag: '🇬🇧' },
+                    'ja-JP': { name: '日本語', flag: '🇯🇵' }
+                };
+                this.translations = this.loadTranslations();
+            }
+            
+            loadTranslations() {
+                return {
+                    'id-ID': {
+                        'support_text': 'Dukungan',
+                        'donate_title': 'Dukung Pengembangan Kami ☕',
+                        'donate_description': 'Kontribusi Anda membantu menjaga MirAI dan memungkinkan pengembangan berkelanjutan.',
+                        'donate_feature1': '<span style="color: #ffce00;">45%</span> dialokasikan untuk biaya API Google Gemini <b>real-time</b>.',
+                        'donate_feature2': 'Mendukung <b>pemeliharaan server</b> dan <span style="color: #ffce00;">55%</span> untuk pengembangan fitur baru.',
+                        'donate_feature3': 'MirAI tetap sepenuhnya <b>open-source</b> dan gratis!',
+                        'support_button': 'Dukung Sekarang',
+                        'donate_note': 'Anda akan diarahkan ke portal donasi aman kami.',
+                        
+                        'whereyougo_title': 'Pilih Metode Pembayaran',
+                        'whereyougo_description': 'Pilih platform yang Anda sukai untuk melanjutkan',
+                        'recommended': 'Direkomendasikan',
+                        'saweria_description': 'Platform donasi #1 Indonesia',
+                        'saweria_feature1': 'Minimum: Rp 5.000',
+                        'saweria_feature2': 'Proses instan',
+                        'saweria_feature3': 'Mendukung semua e-wallet',
+                        'saweria_feature4': 'Biaya platform 8%',
+                        'trakteer_description': 'Platform alternatif populer',
+                        'trakteer_feature1': 'Minimum: Rp 10.000',
+                        'trakteer_feature2': 'Biaya lebih rendah (5%)',
+                        'trakteer_feature3': 'Antarmuka bersih',
+                        'trakteer_feature4': 'Mendukung transfer bank',
+                        'select_button': 'Pilih',
+                        'back_button': 'Kembali ke Info Donasi',
+                        'whereyougo_note': 'Pilihan Anda akan diingat untuk donasi berikutnya',
+                        
+                        'coming_soon': 'Segera Hadir',
+                        'premium_description': 'Berlangganan untuk fitur eksklusif dan dukungan prioritas',
+                        'premium_feature1': 'Akses prioritas ke fitur baru',
+                        'premium_feature2': 'Limit API lebih tinggi',
+                        'premium_feature3': 'Model AI lanjutan',
+                        'premium_feature4': 'Dukungan developer langsung',
+                        'coming_soon_button': 'Segera Hadir',
+                        
+                        'selected_platform': 'Platform Terpilih:',
+                        
+                        'confirmation_title': 'Menyelesaikan Donasi Anda?',
+                        'confirmation_description': 'Kami perhatikan Anda baru saja memulai donasi. Halaman pembayaran seharusnya terbuka di tab baru.',
+                        'confirmation_instruction': 'Silakan selesaikan donasi Anda untuk membantu kami melanjutkan pengembangan!',
+                        'countdown_text': 'Halaman ini akan otomatis melanjutkan dalam',
+                        'seconds_text': 'detik.',
+                        'payment_button': 'Kembali ke Halaman Pembayaran (Tab Baru)',
+                        'appreciation_note': 'Kami menghargai dukungan tulus Anda untuk keberlanjutan proyek kami.',
+                        'thanks_title': 'Terima Kasih atas Dukungan Anda!',
+                        'thanks_description': 'Kontribusi Anda langsung mendukung kemampuan MirAI.',
+                        'thanks_warning': '⚠️ <b>PENTING:</b> Donasi Anda sangat membantu. Silakan klik tombol di bawah untuk kembali ke MirAI.',
+                        'thanks_appreciation': 'Dukungan Anda memungkinkan MirAI terus menjawab pertanyaan dan berkembang! ❤️',
+                        'return_button': 'Kembali ke MirAI →',
+                        'signature': 'Hormat kami, Tim Allwaysever.'
+                    },
+                    'en-US': {
+                        'support_text': 'Support',
+                        'donate_title': 'Support Our Development ☕',
+                        'donate_description': 'Your contribution helps sustain MirAI and enables continuous development.',
+                        'donate_feature1': '<span style="color: #ffce00;">45%</span> is allocated for <b>real-time</b> Google Gemini API costs.',
+                        'donate_feature2': 'Supports <b>server maintenance</b> and <span style="color: #ffce00;">55%</span> for new feature development.',
+                        'donate_feature3': 'MirAI remains fully <b>open-source</b> and free!',
+                        'support_button': 'Support Now',
+                        'donate_note': 'You will be redirected to our secure donation portal.',
+                        
+                        'whereyougo_title': 'Choose Your Payment Method',
+                        'whereyougo_description': 'Select your preferred platform to continue',
+                        'recommended': 'Recommended',
+                        'saweria_description': 'Indonesia\'s #1 donation platform',
+                        'saweria_feature1': 'Minimum: Rp 5,000',
+                        'saweria_feature2': 'Instant processing',
+                        'saweria_feature3': 'Supports all e-wallets',
+                        'saweria_feature4': '8% platform fee',
+                        'trakteer_description': 'Popular alternative platform',
+                        'trakteer_feature1': 'Minimum: Rp 10,000',
+                        'trakteer_feature2': 'Lower fees (5%)',
+                        'trakteer_feature3': 'Clean interface',
+                        'trakteer_feature4': 'Supports bank transfer',
+                        'select_button': 'Select',
+                        'back_button': 'Back to Donation Info',
+                        'whereyougo_note': 'Your choice will be remembered for future donations',
+                        
+                        'coming_soon': 'Coming Soon',
+                        'premium_description': 'Subscribe for exclusive features and priority support',
+                        'premium_feature1': 'Priority access to new features',
+                        'premium_feature2': 'Higher API limits',
+                        'premium_feature3': 'Advanced AI models',
+                        'premium_feature4': 'Direct developer support',
+                        'coming_soon_button': 'Coming Soon',
+                        
+                        'selected_platform': 'Selected Platform:',
+                        
+                        'confirmation_title': 'Completing Your Donation?',
+                        'confirmation_description': 'We noticed you recently started a donation. The payment page should have opened in a new tab.',
+                        'confirmation_instruction': 'Please complete your donation to help us continue development!',
+                        'countdown_text': 'This page will automatically proceed in',
+                        'seconds_text': 'seconds.',
+                        'payment_button': 'Return to Payment Page (New Tab)',
+                        'appreciation_note': 'We appreciate your genuine support for our project\'s sustainability.',
+                        'thanks_title': 'Thank You for Your Support!',
+                        'thanks_description': 'Your contribution directly supports MirAI\'s capabilities.',
+                        'thanks_warning': '⚠️ <b>IMPORTANT:</b> Your donation helps a lot. Please click the button below to return to MirAI.',
+                        'thanks_appreciation': 'Your support allows MirAI to continue answering questions and evolving! ❤️',
+                        'return_button': 'Return to MirAI →',
+                        'signature': 'Sincerely, The Allwaysever Team.'
+                    },
+                    'en-GB': {
+                        'support_text': 'Support',
+                        'donate_title': 'Support Our Development ☕',
+                        'donate_description': 'Your contribution helps sustain MirAI and enables continuous development.',
+                        'donate_feature1': '<span style="color: #ffce00;">45%</span> is allocated for <b>real-time</b> Google Gemini API costs.',
+                        'donate_feature2': 'Supports <b>server maintenance</b> and <span style="color: #ffce00;">55%</span> for new feature development.',
+                        'donate_feature3': 'MirAI remains fully <b>open-source</b> and free!',
+                        'support_button': 'Support Now',
+                        'donate_note': 'You will be redirected to our secure donation portal.',
+                        
+                        'whereyougo_title': 'Choose Your Payment Method',
+                        'whereyougo_description': 'Select your preferred platform to continue',
+                        'recommended': 'Recommended',
+                        'saweria_description': 'Indonesia\'s #1 donation platform',
+                        'saweria_feature1': 'Minimum: Rp 5,000',
+                        'saweria_feature2': 'Instant processing',
+                        'saweria_feature3': 'Supports all e-wallets',
+                        'saweria_feature4': '8% platform fee',
+                        'trakteer_description': 'Popular alternative platform',
+                        'trakteer_feature1': 'Minimum: Rp 10,000',
+                        'trakteer_feature2': 'Lower fees (5%)',
+                        'trakteer_feature3': 'Clean interface',
+                        'trakteer_feature4': 'Supports bank transfer',
+                        'select_button': 'Select',
+                        'back_button': 'Back to Donation Info',
+                        'whereyougo_note': 'Your choice will be remembered for future donations',
+                        
+                        'coming_soon': 'Coming Soon',
+                        'premium_description': 'Subscribe for exclusive features and priority support',
+                        'premium_feature1': 'Priority access to new features',
+                        'premium_feature2': 'Higher API limits',
+                        'premium_feature3': 'Advanced AI models',
+                        'premium_feature4': 'Direct developer support',
+                        'coming_soon_button': 'Coming Soon',
+                        
+                        'selected_platform': 'Selected Platform:',
+                        
+                        'confirmation_title': 'Completing Your Donation?',
+                        'confirmation_description': 'We noticed you recently started a donation. The payment page should have opened in a new tab.',
+                        'confirmation_instruction': 'Please complete your donation to help us continue development!',
+                        'countdown_text': 'This page will automatically proceed in',
+                        'seconds_text': 'seconds.',
+                        'payment_button': 'Return to Payment Page (New Tab)',
+                        'appreciation_note': 'We appreciate your genuine support for our project\'s sustainability.',
+                        'thanks_title': 'Thank You for Your Support!',
+                        'thanks_description': 'Your contribution directly supports MirAI\'s capabilities.',
+                        'thanks_warning': '⚠️ <b>IMPORTANT:</b> Your donation helps a lot. Please click the button below to return to MirAI.',
+                        'thanks_appreciation': 'Your support allows MirAI to continue answering questions and evolving! ❤️',
+                        'return_button': 'Return to MirAI →',
+                        'signature': 'Sincerely, The Allwaysever Team.'
+                    },
+                    'ja-JP': {
+                        'support_text': 'サポート',
+                        'donate_title': '開発をサポート ☕',
+                        'donate_description': 'あなたの貢献はMirAIを持続させ、継続的な開発を可能にします。',
+                        'donate_feature1': '<span style="color: #ffce00;">45%</span>は<b>リアルタイム</b>のGoogle Gemini APIコストに割り当てられます。',
+                        'donate_feature2': '<b>サーバー維持</b>と新機能開発のために<span style="color: #ffce00;">55%</span>をサポートします。',
+                        'donate_feature3': 'MirAIは完全な<b>オープンソース</b>で無料のままです！',
+                        'support_button': '今すぐサポート',
+                        'donate_note': '安全な寄付ポータルにリダイレクトされます。',
+                        
+                        'whereyougo_title': 'お支払い方法を選択',
+                        'whereyougo_description': '続行するプラットフォームを選択してください',
+                        'recommended': 'おすすめ',
+                        'saweria_description': 'インドネシアNo.1の寄付プラットフォーム',
+                        'saweria_feature1': '最低額: Rp 5,000',
+                        'saweria_feature2': '即時処理',
+                        'saweria_feature3': 'すべての電子ウォレットをサポート',
+                        'saweria_feature4': 'プラットフォーム手数料8%',
+                        'trakteer_description': '人気のある代替プラットフォーム',
+                        'trakteer_feature1': '最低額: Rp 10,000',
+                        'trakteer_feature2': '手数料が低い（5%）',
+                        'trakteer_feature3': 'クリーンなインターフェース',
+                        'trakteer_feature4': '銀行振込対応',
+                        'select_button': '選択',
+                        'back_button': '寄付情報に戻る',
+                        'whereyougo_note': 'あなたの選択は今後の寄付で記憶されます',
+                        
+                        'coming_soon': '近日公開',
+                        'premium_description': '限定機能と優先サポートのために購読する',
+                        'premium_feature1': '新機能への優先アクセス',
+                        'premium_feature2': 'より高いAPI制限',
+                        'premium_feature3': '高度なAIモデル',
+                        'premium_feature4': '開発者による直接サポート',
+                        'coming_soon_button': '近日公開',
+                        
+                        'selected_platform': '選択されたプラットフォーム:',
+                        
+                        'confirmation_title': '寄付を完了しますか？',
+                        'confirmation_description': '最近寄付を開始されたことに気づきました。支払いページは新しいタブで開いているはずです。',
+                        'confirmation_instruction': '開発を続けるために、寄付を完了してください！',
+                        'countdown_text': 'このページは自動的に進行します',
+                        'seconds_text': '秒。',
+                        'payment_button': '支払いページに戻る（新しいタブ）',
+                        'appreciation_note': 'プロジェクトの持続可能性に対するあなたの真摯な支援に感謝します。',
+                        'thanks_title': 'ご支援ありがとうございます！',
+                        'thanks_description': 'あなたの貢献はMirAIの機能を直接サポートします。',
+                        'thanks_warning': '⚠️ <b>重要：</b>あなたの寄付は大いに役立ちます。以下のボタンをクリックしてMirAIに戻ってください。',
+                        'thanks_appreciation': 'あなたのサポートにより、MirAIは質問に答え続け、進化し続けることができます！ ❤️',
+                        'return_button': 'MirAIに戻る →',
+                        'signature': 'Allwayseverチームより。'
+                    }
+                };
+            }
+            
+            detectRegionAndSetLanguage() {
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const browserLang = navigator.language || navigator.userLanguage;
+                
+                let detectedLang = 'en-US';
+                
+                if (timezone.includes('Asia/Jakarta') || 
+                    timezone.includes('Asia/Makassar') || 
+                    timezone.includes('Asia/Jayapura') ||
+                    browserLang.startsWith('id')) {
+                    detectedLang = 'id-ID';
+                } else if (timezone.includes('Asia/Tokyo') || 
+                           timezone.includes('Asia/Osaka') ||
+                           browserLang.startsWith('ja')) {
+                    detectedLang = 'ja-JP';
+                } else if (timezone.includes('Europe/London') ||
+                           browserLang.startsWith('en-GB')) {
+                    detectedLang = 'en-GB';
+                } else if (browserLang.startsWith('en')) {
+                    detectedLang = 'en-US';
+                }
+                
+                return detectedLang;
+            }
+            
+            getCurrentLanguage() {
+                if (this.currentLang === 'auto') {
+                    return this.detectRegionAndSetLanguage();
+                }
+                return this.currentLang;
+            }
+            
+            setLanguage(langCode) {
+                this.currentLang = langCode;
+                localStorage.setItem('mirai-language', langCode);
+                this.applyTranslations();
+            }
+            
+            applyTranslations() {
+                const lang = this.getCurrentLanguage();
+                const texts = this.translations[lang];
+                
+                if (!texts) return;
+                
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (texts[key]) {
+                        element.innerHTML = texts[key];
+                    }
+                });
+                
+                document.documentElement.lang = lang.split('-')[0];
+            }
+            
+            t(key) {
+                const lang = this.getCurrentLanguage();
+                return this.translations[lang]?.[key] || key;
+            }
+            
+            initialize() {
+                this.applyTranslations();
+                
+                const selector = document.getElementById('language-select');
+                if (selector) {
+                    selector.value = this.currentLang;
+                    selector.addEventListener('change', (e) => {
+                        this.setLanguage(e.target.value);
+                    });
+                }
+            }
+        }
+
+        const languageManager = new LanguageManager();
+
+        const PLATFORMS = {
+            'saweria': {
+                name: 'Saweria',
+                url: 'https://saweria.co/Allwaysever',
+                minAmount: 5000,
+                fee: '8%',
+                icon: '🎁',
+                color: '#FF6B6B'
+            },
+            'trakteer': {
+                name: 'Trakteer',
+                url: 'https://trakteer.id/Allwaysever',
+                minAmount: 10000,
+                fee: '5%',
+                icon: '☕',
+                color: '#4ECDC4'
+            }
+        };
+
+        const AREYOUSURE_TIMEOUT_MS = 1.5 * 60 * 1000;
 
         const LAST_CLICK_KEY = 'mirai_last_donate_click';
-        let timeoutTimer; // Timer for handling automatic transitions
-        let intervalTimer; // Timer for countdown
-        
-        const checkoutButton = document.getElementById('checkout-button');
+        const SELECTED_PLATFORM_KEY = 'mirai_selected_platform';
 
-        function formatRupiah(number) {
-            return new Intl.NumberFormat('id-ID', {
-                style: 'decimal',
-                minimumFractionDigits: 0
-            }).format(number);
-        }
+        let timeoutTimer;
+        let intervalTimer;
 
-        // Function to stop all running timers
-        function stopAllTimers() {
-            if (timeoutTimer) clearTimeout(timeoutTimer);
-            if (intervalTimer) clearInterval(intervalTimer);
-        }
-
-        // handleConfirmation function removed as its button was removed.
-
-        checkoutButton.addEventListener('click', (e) => {
-            e.preventDefault();
+        function selectPlatform(platformId) {
+            const platform = PLATFORMS[platformId];
+            if (!platform) return;
             
-            const formattedAmount = formatRupiah(SUGGESTED_AMOUNT);
+            localStorage.setItem(SELECTED_PLATFORM_KEY, platformId);
+            
+            document.querySelectorAll('.platform-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById(`platform-${platformId}`).classList.add('selected');
+            
+            startPaymentProcess(platform);
+        }
+
+        function startPaymentProcess(platform) {
+            const formattedAmount = platform.minAmount.toLocaleString('id-ID');
             localStorage.setItem(LAST_CLICK_KEY, Date.now());
-
-            const donationUrl = EXTERNAL_DONATE_BASE_URL; 
-            window.open(donationUrl, '_blank');
             
-            // MOVE TO #areyousure
-            window.location.hash = 'areyousure'; 
+            localStorage.setItem('mirai_last_platform', platform.name);
+            
+            window.open(platform.url, '_blank');
             
             alert(`Payment tab has been opened. Please manually enter a minimum amount of Rp ${formattedAmount}. Thank you!`);
-        });
+            
+            window.location.hash = 'areyousure';
+        }
 
         function handleHashChange() {
-            stopAllTimers(); // Stop previous timers
+            if (timeoutTimer) clearTimeout(timeoutTimer);
+            if (intervalTimer) clearInterval(intervalTimer);
             
             const currentHash = window.location.hash.substring(1);
             const lastClickTime = localStorage.getItem(LAST_CLICK_KEY);
             const now = Date.now();
             let targetHash = currentHash || 'donate';
 
-            // Main logic for setting the correct hash
-            if (lastClickTime) {
+            if (currentHash === 'whereyougo') {
+                targetHash = 'whereyougo';
+            } else if (lastClickTime) {
                 const lastClick = parseInt(lastClickTime);
                 
                 if (isNaN(lastClick)) {
-                    // Prevention if lastClickTime is invalid
                     localStorage.removeItem(LAST_CLICK_KEY);
                     targetHash = 'donate';
                 } else {
                     const timeElapsed = now - lastClick;
                     
                     if (timeElapsed < AREYOUSURE_TIMEOUT_MS) {
-                        // Still within the 1.5-minute donation window
                         if (targetHash !== 'thanks') {
-                            targetHash = 'areyousure'; 
+                            targetHash = 'areyousure';
                         }
                     } else {
-                        // Past the 1.5-minute donation window
-                        
                         if (targetHash === 'areyousure') {
-                            // AUTOMATICALLY MOVE TO #thanks after time expires
-                            targetHash = 'thanks'; 
+                            targetHash = 'thanks';
                         } else if (targetHash !== 'thanks') {
-                            // If time has passed and not on #thanks, consider it finished
                             localStorage.removeItem(LAST_CLICK_KEY);
                             targetHash = 'donate';
                         }
-                        // Note: If already on #thanks, remain on #thanks.
                     }
                 }
-            } else if (targetHash === 'thanks' || targetHash === 'areyousure') {
-                // If there's no click record, return to donate
-                 targetHash = 'donate';
+            } else if (targetHash === 'thanks' || targetHash === 'areyousure' || targetHash === 'whereyougo') {
+                targetHash = 'donate';
             }
-
 
             document.querySelectorAll('.page-content').forEach(section => {
                 section.classList.remove('active');
@@ -255,52 +801,75 @@
             const activeSection = document.getElementById(targetHash);
             if (activeSection) {
                 activeSection.classList.add('active');
-            } else {
-                document.getElementById('donate').classList.add('active');
-            }
-
-
-            // COUNTDOWN and TIMER Logic
-            if (targetHash === 'areyousure') {
-                const lastClick = parseInt(lastClickTime);
-                const timeElapsed = now - lastClick;
-                const timeRemaining = AREYOUSURE_TIMEOUT_MS - timeElapsed;
                 
-                // Set timer to move to #thanks after time expires
-                timeoutTimer = setTimeout(() => {
-                    window.location.hash = 'thanks';
-                }, timeRemaining);
+                if (targetHash === 'whereyougo') {
+                    const selectedPlatform = localStorage.getItem(SELECTED_PLATFORM_KEY);
+                    if (selectedPlatform) {
+                        document.querySelectorAll('.platform-card').forEach(card => {
+                            card.classList.remove('selected');
+                        });
+                        document.getElementById(`platform-${selectedPlatform}`).classList.add('selected');
+                    }
+                    
+                } else if (targetHash === 'areyousure') {
+                    const lastPlatform = localStorage.getItem('mirai_last_platform') || 'Saweria';
+                    const platformDisplay = document.getElementById('selected-platform-display');
+                    if (platformDisplay) {
+                        platformDisplay.textContent = lastPlatform;
+                    }
+                    
+                    const lastPlatformId = localStorage.getItem(SELECTED_PLATFORM_KEY) || 'saweria';
+                    const returnLink = document.getElementById('return-payment-link');
+                    if (returnLink && PLATFORMS[lastPlatformId]) {
+                        returnLink.href = PLATFORMS[lastPlatformId].url;
+                    }
+                    
+                    const lastClick = parseInt(lastClickTime);
+                    const timeElapsed = now - lastClick;
+                    const timeRemaining = AREYOUSURE_TIMEOUT_MS - timeElapsed;
+                    
+                    timeoutTimer = setTimeout(() => {
+                        window.location.hash = 'thanks';
+                    }, timeRemaining);
 
-                // Set interval for countdown in the UI
-                let secondsLeft = Math.ceil(timeRemaining / 1000);
-                const timerElement = document.getElementById('areyousure-timer');
-                if (timerElement) {
-                    timerElement.textContent = secondsLeft;
-                }
-
-                intervalTimer = setInterval(() => {
-                    secondsLeft--;
+                    let secondsLeft = Math.ceil(timeRemaining / 1000);
+                    const timerElement = document.getElementById('areyousure-timer');
                     if (timerElement) {
                         timerElement.textContent = secondsLeft;
                     }
-                    if (secondsLeft <= 0) {
-                        clearInterval(intervalTimer);
-                    }
-                }, 1000);
 
-            } else if (targetHash === 'thanks') {
-                // #thanks page: Remove all timers and auto-redirect.
-                localStorage.removeItem(LAST_CLICK_KEY); // Remove click record after reaching the thanks page
-                
-                // Hide countdown timer element (if it exists, even though it's removed in the HTML)
-                const countdownElement = document.getElementById('countdown-thanks');
-                if (countdownElement) {
-                    countdownElement.style.display = 'none';
+                    intervalTimer = setInterval(() => {
+                        secondsLeft--;
+                        if (timerElement) {
+                            timerElement.textContent = secondsLeft;
+                        }
+                        if (secondsLeft <= 0) {
+                            clearInterval(intervalTimer);
+                        }
+                    }, 1000);
+                    
+                } else if (targetHash === 'thanks') {
+                    localStorage.removeItem(LAST_CLICK_KEY);
                 }
+            } else {
+                document.getElementById('donate').classList.add('active');
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            languageManager.initialize();
+            
+            const checkoutButton = document.getElementById('checkout-button');
+            if (checkoutButton) {
+                checkoutButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = 'whereyougo';
+                });
+            }
+            
+            handleHashChange();
+        });
         
-        handleHashChange();
         window.addEventListener('hashchange', handleHashChange);
     </script>
 
