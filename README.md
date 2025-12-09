@@ -2,7 +2,7 @@
 
 **A simple, lightweight, and responsive web interface to interact directly with the Google Gemini API.**
 
-![Project](https://img.shields.io/badge/Type-HTML%20App-blue)
+![Project](https://img.shields.io/badge/Type-Web%20App-blue)
 ![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
 ![Status](https://img.shields.io/badge/Status-Active-%234CAF50?logo=googlegemini&logoColor=ffce00&labelColor=%23000)
 
