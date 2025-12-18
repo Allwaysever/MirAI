@@ -1,12 +1,15 @@
 # Changelogs
 ## What's new?
-### v2.11.x
-- **``Upgrade UI``:** We've made an update to our design language system, SuperRoundedUI, which we've implemented in this app.
-- **``Fix Bug UI``:** Changed the example prompt in the ``Slash Command`` feature which was found to be invalid with the original prompt format.
+### v2.12.0-BetaModelUpdate
+- **``Model Update``:** We're updating Google's previously released AI model, Gemini 3 Flash. However, the current version is still under development by Google. Therefore, we're using the preview model first.
   
 ---
 
 ## Previous version:
+### v2.11.x
+- **``Upgrade UI``:** We've made an update to our design language system, SuperRoundedUI, which we've implemented in this app.
+- **``Fix Bug UI``:** Changed the example prompt in the ``Slash Command`` feature which was found to be invalid with the original prompt format.
+
 ### v2.11 - **``Best Update``**
 - **``UI Bug Fix``:** Fixed image preview UI bug.
 - **``UI Enhancement``:** Improved UI, supported by our Design Language System, [SuperRoundedUI](https://allwaysevermirai.netlify.app/otherapps/srui).
