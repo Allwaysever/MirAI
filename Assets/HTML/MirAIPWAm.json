@@ -1,18 +1,23 @@
 {
-  "id": "allwaysevermirai",
+  "id": "https://allwaysevermirai.netlify.app/",
   "name": "MirAI by Allwaysever",
   "short_name": "MirAI",
-  "description": "MirAI is a display and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.",
+  "description": "MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.",
   "lang": "id-ID",
   "dir": "ltr",
   "categories": [
     "personalization",
-    "productivity"
+    "productivity",
+    "utilities"
   ],
   "start_url": "/chat",
-  "scope": "/",
-  "display": "standalone", 
-  "display_override": ["fullscreen", "standalone", "minimal-ui"],
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
   "background_color": "#000000",
   "theme_color": "#000000",
   "icons": [
@@ -35,16 +40,29 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Tampilan MirAI Desktop"
+      "label": "MirAI Desktop View"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI Banner.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "MirAI Mobile View"
     }
   ],
   "shortcuts": [
     {
-      "name": "Buka Chat",
+      "name": "Mulai Chat",
       "short_name": "Chat",
-      "description": "Langsung mulai chat dengan MirAI",
+      "description": "Langsung ngobrol dengan MirAI",
       "url": "/chat",
-      "icons": [{ "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png",
+          "sizes": "192x192"
+        }
+      ]
     }
-  ]
+  ],
+  "prefer_related_applications": false
 }
