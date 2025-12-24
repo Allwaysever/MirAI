@@ -32,6 +32,10 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <script>
+  if (typeof navigator.serviceWorker !== 'undefined') {
+    navigator.serviceWorker.register('https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAsw.js')
+  }
+
 // Auto-generate version based on date
 function generateVersion(major, minor, patch) {
     const now = new Date();
