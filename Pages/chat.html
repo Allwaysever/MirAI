@@ -32,9 +32,31 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <script>
-  if (typeof navigator.serviceWorker !== 'undefined') {
-    navigator.serviceWorker.register('https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAsw.js')
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAsw.js')
+        .then(function(registration) {
+          console.log('ServiceWorker registered successfully');
+        })
+        .catch(function(err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+    });
   }
+  
+// Cek apakah service worker terdaftar
+navigator.serviceWorker.getRegistrations().then(registrations => {
+  console.log('Registered Service Workers:', registrations);
+});
+
+// Atau cek spesifik
+if ('serviceWorker' in navigator) {
+  console.log('Service Worker supported');
+  
+  navigator.serviceWorker.ready.then(registration => {
+    console.log('Service Worker is ready:', registration);
+  });
+}
 
 // Auto-generate version based on date
 function generateVersion(major, minor, patch) {
