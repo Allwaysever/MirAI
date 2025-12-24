@@ -7,7 +7,7 @@
   "orientation": "any",
   "scope": "/",
   "short_name": "MirAI",
-  "start_url": "/",
+  "start_url": "/chat",
   "theme_color": "#ffffff",
   "icons": [
     {
@@ -35,5 +35,10 @@
       "is192x192": false
     }
   ],
-  "id": "allwaysevermirai"
+  "id": "allwaysevermirai",
+  "categories": [
+    "personalization",
+    "productivity",
+    "social"
+  ]
 }
