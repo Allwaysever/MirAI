@@ -31,7 +31,79 @@
    <link rel="manifest" href="https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAm.json">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
+<!-- Untuk fullscreen di iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MirAI">
+
+<!-- Untuk Android/Chrome -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a1a1a">
+
+<!-- Untuk Windows -->
+<meta name="msapplication-TileColor" content="#1a1a1a">
+<meta name="msapplication-TileImage" content="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+<meta name="msapplication-config" content="browserconfig.xml">
+
+<!-- Icons untuk berbagai platform -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+<link rel="mask-icon" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png" color="#1a1a1a">
+
     <script>
+// Di dalam script utama (setelah DOMContentLoaded)
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Mencegah tampilan prompt otomatis
+  e.preventDefault();
+  // Simpan event untuk digunakan nanti
+  deferredPrompt = e;
+  
+  // Tampilkan tombol install custom
+  showInstallButton();
+});
+
+function showInstallButton() {
+  const installBtn = document.createElement('button');
+  installBtn.id = 'installBtn';
+  installBtn.innerHTML = '<i class="fas fa-download"></i> Install App';
+  installBtn.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  `;
+  
+  installBtn.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response to the install prompt: ${outcome}`);
+      deferredPrompt = null;
+      installBtn.remove();
+    }
+  });
+  
+  document.body.appendChild(installBtn);
+}
+
+// Cek jika app sudah diinstall
+window.addEventListener('appinstalled', (evt) => {
+  console.log('PWA was installed successfully!');
+  // Hapus tombol install jika ada
+  const installBtn = document.getElementById('installBtn');
+  if (installBtn) installBtn.remove();
+});
+
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
       navigator.serviceWorker.register('https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAsw.js')
