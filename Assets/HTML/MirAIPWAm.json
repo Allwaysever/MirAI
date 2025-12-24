@@ -1,44 +1,34 @@
 {
-  "background_color": "#ffffff",
+  "background_color": "#1a1a1a",
   "description": "MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.",
   "dir": "ltr",
-  "display": "fullscreen",
-  "name": "MirAI by Allwaysever",
-  "orientation": "any",
+  "display": "standalone",
+  "name": "MirAI",
+  "orientation": "portrait",
   "scope": "/",
   "short_name": "MirAI",
-  "start_url": "/chat",
-  "theme_color": "#ffffff",
+  "start_url": "/",
+  "theme_color": "#1a1a1a",
   "icons": [
     {
       "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "sizes": "3264x3264",
-      "isSquare": true,
-      "isPng": true,
-      "isWebp": false,
-      "isJpg": false,
-      "width": 3264,
-      "is512x512": false,
-      "is256x256": false,
-      "is192x192": false
+      "purpose": "any maskable"
     },
     {
-      "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI Banner.png",
-      "isSquare": false,
-      "isPng": true,
-      "isWebp": false,
-      "isJpg": false,
-      "width": 0,
-      "is512x512": false,
-      "is256x256": false,
-      "is192x192": false
+      "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
-  "id": "allwaysevermirai",
-  "categories": [
-    "personalization",
-    "productivity",
-    "social"
-  ]
+  "categories": ["productivity", "utilities", "education"],
+  "prefer_related_applications": false
 }
