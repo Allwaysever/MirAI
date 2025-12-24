@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MirAI PWA Download</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <!-- Font Awesome 6.0.0-BETA3 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        window.onload = function() {
+            // Fungsi untuk mendeteksi OS
+            function detectOS() {
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                
+                // Deteksi Windows
+                if (/windows/i.test(userAgent)) {
+                    return 'Windows';
+                }
+                
+                // Deteksi Android
+                if (/android/i.test(userAgent)) {
+                    return 'Android';
+                }
+                
+                // Deteksi iOS/iPadOS
+                if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                    return 'iOS';
+                }
+                
+                // Deteksi macOS
+                if (/macintosh|mac os x/i.test(userAgent)) {
+                    return 'macOS';
+                }
+                
+                // Deteksi Linux
+                if (/linux/i.test(userAgent)) {
+                    return 'Linux';
+                }
+                
+                // Default/unknown
+                return 'Unknown';
+            }
+            
+            // Fungsi untuk mendapatkan URL file berdasarkan OS
+            function getDownloadUrl(os) {
+                const baseUrl = 'https://github.com/Allwaysever/MirAI/raw/refs/heads/main/Assets/PWA/';
+                
+                switch(os) {
+                    case 'Android':
+                        return baseUrl + 'Android/MirAI%20Android%20PWA.zip';
+                    case 'iOS':
+                        return baseUrl + 'iOS/MirAI%20iOS%20PWA.zip';
+                    case 'Windows':
+                        return baseUrl + 'Windows/MirAI%20Windows%20PWA.zip';
+                    case 'macOS':
+                        return baseUrl + 'macOS/MirAI%20macOS%20PWA.zip';
+                    default:
+                        return baseUrl + 'Android/MirAI%20Android%20PWA.zip';
+                }
+            }
+            
+            // Fungsi untuk mendapatkan nama file berdasarkan OS
+            function getFileName(os) {
+                switch(os) {
+                    case 'Android':
+                        return 'MirAI_Android_PWA.zip';
+                    case 'iOS':
+                        return 'MirAI_iOS_PWA.zip';
+                    case 'Windows':
+                        return 'MirAI_Windows_PWA.zip';
+                    case 'macOS':
+                        return 'MirAI_macOS_PWA.zip';
+                    default:
+                        return 'MirAI_PWA.zip';
+                }
+            }
+            
+            // Fungsi untuk mendapatkan pesan berdasarkan OS
+            function getOSMessage(os) {
+                switch(os) {
+                    case 'Android':
+                        return '<i class="fab fa-android"></i> Downloading MirAI PWA for Android...';
+                    case 'iOS':
+                        return '<i class="fab fa-apple"></i> Downloading MirAI PWA for iOS...';
+                    case 'Windows':
+                        return '<i class="fab fa-windows"></i> Downloading MirAI PWA for Windows...';
+                    case 'macOS':
+                        return '<i class="fab fa-apple"></i> Downloading MirAI PWA for macOS...';
+                    case 'Linux':
+                        return '<i class="fab fa-linux"></i> Downloading MirAI PWA for Linux...';
+                    default:
+                        return '<i class="fas fa-download"></i> Downloading MirAI PWA...';
+                }
+            }
+            
+            // Fungsi untuk mendapatkan ikon OS
+            function getOSIcon(os) {
+                switch(os) {
+                    case 'Android':
+                        return '<i class="fab fa-android fa-3x"></i>';
+                    case 'iOS':
+                        return '<i class="fab fa-apple fa-3x"></i>';
+                    case 'Windows':
+                        return '<i class="fab fa-windows fa-3x"></i>';
+                    case 'macOS':
+                        return '<i class="fab fa-apple fa-3x"></i>';
+                    case 'Linux':
+                        return '<i class="fab fa-linux fa-3x"></i>';
+                    default:
+                        return '<i class="fas fa-desktop fa-3x"></i>';
+                }
+            }
+            
+            // Deteksi OS
+            const os = detectOS();
+            
+            // Update elemen UI
+            const osIconElement = document.getElementById('osIcon');
+            const osMessageElement = document.getElementById('osMessage');
+            const downloadMessageElement = document.getElementById('downloadMessage');
+            
+            if (osIconElement) {
+                osIconElement.innerHTML = getOSIcon(os);
+            }
+            
+            if (osMessageElement) {
+                osMessageElement.textContent = 'OS Detected: ' + os;
+            }
+            
+            if (downloadMessageElement) {
+                downloadMessageElement.innerHTML = getOSMessage(os);
+            }
+            
+            // Dapatkan URL dan nama file berdasarkan OS
+            const fileUrl = getDownloadUrl(os);
+            const fileName = getFileName(os);
+            
+            console.log('OS Detected:', os);
+            console.log('Download URL:', fileUrl);
+            console.log('File Name:', fileName);
+            
+            // Buat link tersembunyi untuk auto-download
+            var link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = fileName;
+            document.body.appendChild(link);
+            
+            // Tambahkan efek micro-bounce sebelum download
+            const downloadBtn = document.getElementById('autoDownloadBtn');
+            if (downloadBtn) {
+                downloadBtn.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    downloadBtn.style.transform = 'scale(1)';
+                }, 100);
+            }
+            
+            // Delay sedikit untuk memberikan feedback visual
+            setTimeout(function() {
+                link.click();
+                document.body.removeChild(link);
+                
+                // Tampilkan pesan sukses
+                const statusElement = document.getElementById('downloadStatus');
+                if (statusElement) {
+                    statusElement.innerHTML = '<i class="fas fa-check-circle success-icon"></i> Download started successfully!';
+                    statusElement.style.display = 'block';
+                }
+                
+                // Tampilkan manual download link sebagai fallback
+                const manualLink = document.getElementById('manualLink');
+                if (manualLink) {
+                    manualLink.href = fileUrl;
+                    manualLink.download = fileName;
+                    manualLink.style.display = 'flex';
+                }
+                
+                // Sembunyikan tombol utama
+                if (downloadBtn) {
+                    downloadBtn.style.display = 'none';
+                }
+                
+            }, 500);
+            
+            // Setup event listener untuk tombol manual download
+            const manualBtn = document.getElementById('manualDownloadBtn');
+            if (manualBtn) {
+                manualBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                        window.location.href = fileUrl;
+                    }, 100);
+                });
+            }
+        };
+    </script>
+    
+    <style>
+        /* Variabel CSS SRUI - Tema Gelap (Default) */
+        :root {
+            /* Warna Primer SRUI */
+            --srui-accent: #ffce00;
+            --srui-accent-text: #000000;
+            --srui-background: #1B1C1E;
+            --srui-card: #0f0f0f;
+            --srui-text: #ffffff;
+            
+            /* Warna Netral */
+            --srui-neutral-border: #4B4F50;
+            --srui-neutral-mid: #999999;
+            --srui-neutral-dark: #666666;
+            
+            /* Warna Semantik */
+            --srui-success: #4CAF50;
+            --srui-warning: #FFce00;
+            --srui-error: #F44336;
+            --srui-info: #2196F3;
+            
+            /* Border Radius SRUI */
+            --srui-radius-sm: 10px;
+            --srui-radius-md: 15px;
+            --srui-radius-lg: 25px;
+            --srui-radius-pill: 9999px;
+            
+            /* Shadow Minimalis SRUI */
+            --srui-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --srui-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.15);
+            
+            /* Transisi */
+            --srui-transition: all 0.3s ease-in-out;
+            --srui-micro-transition: transform 0.1s ease-out;
+        }
+        
+        /* Reset dan Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--srui-background);
+            color: var(--srui-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: var(--srui-transition);
+        }
+        
+        /* Container Utama dengan GlassLayer Effect */
+        .container {
+            background: rgba(15, 15, 15, 0.9); /* GlassLayer effect */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: var(--srui-radius-lg);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--srui-shadow);
+            border: 1px solid rgba(75, 79, 80, 0.3);
+            text-align: center;
+        }
+        
+        /* Header */
+        .header {
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 48px;
+            color: var(--srui-accent);
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            color: var(--srui-text);
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            color: var(--srui-neutral-mid);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        /* OS Info Card */
+        .os-card {
+            background-color: var(--srui-card);
+            border-radius: var(--srui-radius-md);
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--srui-neutral-border);
+        }
+        
+        .os-icon {
+            color: var(--srui-accent);
+            margin-bottom: 15px;
+        }
+        
+        .os-message {
+            color: var(--srui-text);
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .download-message {
+            color: var(--srui-neutral-mid);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        /* Button SRUI dengan Micro-Bounce Effect */
+        .srui-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--srui-accent);
+            color: var(--srui-accent-text);
+            border: none;
+            border-radius: var(--srui-radius-md);
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--srui-transition);
+            box-shadow: var(--srui-shadow);
+            margin-bottom: 20px;
+        }
+        
+        .srui-btn:hover {
+            box-shadow: var(--srui-shadow-hover);
+            transform: translateY(-2px);
+        }
+        
+        .srui-btn:active {
+            transform: scale(0.98);
+            transition: var(--srui-micro-transition);
+        }
+        
+        .srui-btn i {
+            font-size: 20px;
+        }
+        
+        /* SRUI Chip untuk status */
+        .srui-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--srui-info);
+            color: white;
+            border-radius: var(--srui-radius-pill);
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        
+        .success-icon {
+            color: var(--srui-success);
+            font-size: 24px;
+            margin-right: 8px;
+        }
+        
+        /* Manual Link Fallback */
+        .manual-fallback {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--srui-neutral-border);
+        }
+        
+        .fallback-text {
+            color: var(--srui-neutral-mid);
+            font-size: 14px;
+        }
+        
+        .srui-btn-secondary {
+            background-color: transparent;
+            color: var(--srui-accent);
+            border: 2px solid var(--srui-accent);
+        }
+        
+        .srui-btn-secondary:hover {
+            background-color: rgba(255, 206, 0, 0.1);
+        }
+        
+        /* Status Message */
+        .status-message {
+            display: none;
+            color: var(--srui-success);
+            font-size: 14px;
+            margin-top: 15px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--srui-neutral-border);
+        }
+        
+        .footer-text {
+            color: var(--srui-neutral-dark);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .footer-link {
+            color: var(--srui-accent);
+            text-decoration: none;
+        }
+        
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .srui-btn {
+                padding: 14px 24px;
+                font-size: 14px;
+            }
+        }
+        
+        /* Animation for loading state */
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png" width="128px">
+            </div>
+            <h1>MirAI PWA Download</h1>
+            <div class="subtitle">
+                Allwaysever Project
+            </div>
+        </div>
+        
+        <div class="os-card">
+            <div class="os-icon" id="osIcon">
+                <i class="fas fa-spinner fa-spin fa-3x pulse"></i>
+            </div>
+            <div class="os-message" id="osMessage">
+                Detecting your operating system...
+            </div>
+            <div class="download-message" id="downloadMessage">
+                <i class="fas fa-spinner fa-spin"></i> Preparing your download...
+            </div>
+            
+            <button class="srui-btn" id="autoDownloadBtn">
+                <i class="fas fa-download"></i>
+                <span>Start Automatic Download</span>
+            </button>
+            
+            <div class="status-message" id="downloadStatus">
+                <!-- Status akan diisi oleh JavaScript -->
+            </div>
+            
+            <div class="srui-chip">
+                <i class="fas fa-shield-alt"></i>
+                Secure Download - Verified File
+            </div>
+        </div>
+        
+        <div class="manual-fallback" id="manualLink">
+            <div class="fallback-text">
+                <i class="fas fa-info-circle"></i>
+                If download doesn't start automatically:
+            </div>
+            <button class="srui-btn srui-btn-secondary" id="manualDownloadBtn">
+                <i class="fas fa-hand-pointer"></i>
+                Click Here for Manual Download
+            </button>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-text">
+                <p><i class="fas fa-copyright"></i> 2025 Allwaysever Project: MirAI</p>
+                <p>Powered by <strong>SuperRoundedUI v1.3</strong> - <em>"Flat never felt this round."</em></p>
+                <p>Need help? Visit our <a href="https://github.com/Allwaysever/MirAI" class="footer-link">GitHub Repository</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Setup untuk tombol auto download
+        document.getElementById('autoDownloadBtn').addEventListener('click', function() {
+            // Trigger auto download
+            window.onload();
+        });
+    </script>
+</body>
+</html>
