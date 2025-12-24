@@ -2,7 +2,7 @@
   "background_color": "#ffffff",
   "description": "MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.",
   "dir": "ltr",
-  "display": "standalone",
+  "display": "fullscreen",
   "name": "MirAI by Allwaysever",
   "orientation": "any",
   "scope": "/",
