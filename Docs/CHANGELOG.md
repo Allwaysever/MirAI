@@ -1,11 +1,15 @@
 # Changelogs
 ## What's new?
-### v2.12.0-BetaModelUpdate
-- **``Model Update``:** We're updating Google's previously released AI model, Gemini 3 Flash. However, the current version is still under development by Google. Therefore, we're using the preview model first.
+### v2.12.0-Beta2
+- **``New System``:** We've just added a snazzy new URL parameter system! So, if your URL looks like ``https://xxx.xxx.xxx/chat``, it will magically use the super speedy **Gemini 2.5 Flash** Model.
+  But wait, there's more! If you're feeling adventurous and the URL is ``https://xxx.xxx.xxx/chat?betamodel``, then you'll get to play with the shiny new **Gemini 3 Flash Preview** Model. We'll keep you posted and update everything once Google decides to bless us with the stable Gemini 3 Flash model. Stay tuned!
   
 ---
 
 ## Previous version:
+### v2.12.0-BetaModelUpdate
+- **``Model Update``:** We're updating Google's previously released AI model, Gemini 3 Flash. However, the current version is still under development by Google. Therefore, we're using the preview model first.
+
 ### v2.11.x
 - **``Upgrade UI``:** We've made an update to our design language system, SuperRoundedUI, which we've implemented in this app.
 - **``Fix Bug UI``:** Changed the example prompt in the ``Slash Command`` feature which was found to be invalid with the original prompt format.
