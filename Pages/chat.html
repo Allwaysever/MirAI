@@ -43,7 +43,7 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '2.12.0-BetaModelUpdate'; // generateVersion(2, 12, 0);
+const VERSION = '2.12.0-Beta2'; // generateVersion(2, 12, 0);
 </script>
 </head>
 
@@ -324,7 +324,14 @@ const VERSION = '2.12.0-BetaModelUpdate'; // generateVersion(2, 12, 0);
 
     let currentApiKey = DEFAULT_API_KEY; 
 
-    const model = 'gemini-3-flash-preview';
+    // [PEMBARUAN] Deteksi model berdasarkan parameter URL
+const urlParams = new URLSearchParams(window.location.search);
+const isBeta = urlParams.has('betamodel');
+
+// Jika ada ?betamodel di URL, pakai seri 3, jika tidak pakai 2.5
+const model = isBeta ? 'gemini-3-flash-preview' : 'gemini-2.5-flash';
+
+console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Kilat)' : 'Stabil (2.5 Kilat)'}`);
 
     const faqDatabase = {
 
@@ -929,6 +936,14 @@ const VERSION = '2.12.0-BetaModelUpdate'; // generateVersion(2, 12, 0);
             initializeNewChatSession();
 
         }
+// Tambahkan teks (Beta) di samping versi kalau mode betamodel aktif
+if (isBeta) {
+    const versionText = document.getElementById('settingsVersionText');
+    if (versionText) {
+        versionText.innerText += '#3FlashPreviewMode';
+        versionText.style.color = '#00ff00'; // Kasih warna hijau biar kelihatan canggih
+    }
+}
 
     }
 
