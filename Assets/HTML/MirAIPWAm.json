@@ -1,14 +1,14 @@
 {
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "description": "MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.",
   "dir": "ltr",
-  "display": "fullscreen",
+  "display": "standalone",
   "name": "MirAI by Allwaysever",
   "orientation": "any",
   "scope": "/",
   "short_name": "MirAI",
   "start_url": "/chat",
-  "theme_color": "#ffffff",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png",
@@ -19,9 +19,9 @@
       "isWebp": false,
       "isJpg": false,
       "width": 3264,
-      "is512x512": false,
-      "is256x256": false,
-      "is192x192": false
+      "is512x512": true,
+      "is256x256": true,
+      "is192x192": true
     },
     {
       "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI Banner.png",
@@ -37,6 +37,7 @@
   ],
   "id": "allwaysevermirai",
   "categories": [
+    "personalization",
     "productivity"
   ]
 }
