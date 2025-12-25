@@ -2,7 +2,7 @@
       "relation": ["delegate_permission/common.handle_all_urls"],
       "target": {
         "namespace": "android_app",
-        "package_name": "app.netlify.allwaysevermirai.twa",
-        "sha256_cert_fingerprints": ["0E:A5:FE:41:18:2F:B4:F7:87:97:05:D7:AF:D8:9D:B0:F0:08:45:74:68:32:32:62:8F:EB:C4:0B:D0:C1:9B:15"]
+        "package_name": "xyz.allwaysever.mirai.pwa",
+        "sha256_cert_fingerprints": ["7D:65:82:1F:36:44:8C:37:4A:DD:B6:24:FC:1D:78:B4:2E:02:BC:ED:11:00:7E:DE:B2:7A:FB:30:73:2B:DE:30"]
       }
     }]
