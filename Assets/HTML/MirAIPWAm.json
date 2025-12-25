@@ -1,68 +1,43 @@
 {
-  "id": "https://allwaysevermirai.netlify.app/",
-  "name": "MirAI by Allwaysever",
-  "short_name": "MirAI",
-  "description": "MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.",
-  "lang": "id-ID",
-  "dir": "ltr",
-  "categories": [
-    "personalization",
-    "productivity",
-    "utilities"
-  ],
-  "start_url": "/chat",
-  "display": "standalone",
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui"
-  ],
-  "orientation": "any",
   "background_color": "#000000",
+  "description": "MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "MirAI by Allwaysever",
+  "orientation": "natural",
+  "scope": "/",
+  "short_name": "MirAI",
+  "start_url": "/chat",
   "theme_color": "#000000",
   "icons": [
     {
       "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png",
-      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI Banner.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "MirAI Desktop View"
+      "sizes": "3264x3264",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 3264,
+      "is512x512": true,
+      "is256x256": true,
+      "is192x192": true
     },
     {
       "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI Banner.png",
-      "sizes": "720x1280",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "MirAI Mobile View"
+      "isSquare": false,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
     }
   ],
-  "shortcuts": [
-    {
-      "name": "Mulai Chat",
-      "short_name": "Chat",
-      "description": "Langsung ngobrol dengan MirAI",
-      "url": "/chat",
-      "icons": [
-        {
-          "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
-  ],
-  "prefer_related_applications": false
+  "id": "allwaysevermirai",
+  "categories": [
+    "personalization",
+    "productivity"
+  ]
 }
