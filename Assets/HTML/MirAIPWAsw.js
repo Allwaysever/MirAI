@@ -300,3 +300,28 @@ self.addEventListener('notificationclick', event => {
       })
   );
 });
+
+// Offline Page
+const CACHE_NAME = 'offline-page-v1';
+const OFFLINE_URL = '/PWA/offline.html'; // Path ke file offline-mu
+
+// 1. Simpan halaman offline ke cache saat PWA di-install
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.add(OFFLINE_URL);
+    })
+  );
+});
+
+// 2. Cek koneksi setiap kali ada request
+self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        // Jika fetch gagal (artinya offline), ambil dari cache
+        return caches.match(OFFLINE_URL);
+      })
+    );
+  }
+});
