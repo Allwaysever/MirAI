@@ -1,5 +1,5 @@
 // sw.js
-const CACHE_NAME = 'mirai-cache-v1';
+const CACHE_NAME = 'mirai-cache-v2';
 const PRECACHE_ASSETS = [
   '/',
   '/index.html',
