@@ -371,6 +371,13 @@ body.chat-active #toolsMenu {
         justify-content: flex-start;
     }
 
+/* Tambahkan ini di CSS kamu */
+.force-hide {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
     .chat-container {
         width: 100%;
         max-width: 600px;
