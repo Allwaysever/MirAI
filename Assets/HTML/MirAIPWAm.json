@@ -7,7 +7,7 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "short_name": "MirAI",
-  "start_url": "/chat",
+  "start_url": "/chat?pwa",
   "theme_color": "#0f0f0f",
   "icons": [
     {
