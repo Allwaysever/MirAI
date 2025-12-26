@@ -141,15 +141,22 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '2.12.0-Beta2'; // generateVersion(2, 12, 0);
+const VERSION = '2.12.0-Beta3'; // generateVersion(2, 12, 0);
 </script>
 </head>
 
 <body>
-
-
-
-<div id="splash-screen">
+    <script>
+        if (new URLSearchParams(window.location.search).has('pwa')) {
+            document.documentElement.classList.add('pwa-mode');
+            // Tambahkan gaya instan ke head agar tidak ada jeda
+            const style = document.createElement('style');
+            style.innerHTML = '#splash-screen { display: none !important; }';
+            document.head.appendChild(style);
+        }
+    </script>
+    
+    <div id="splash-screen">
 
   <div class="splash-content">
 
@@ -422,9 +429,10 @@ const VERSION = '2.12.0-Beta2'; // generateVersion(2, 12, 0);
 
     let currentApiKey = DEFAULT_API_KEY; 
 
-    // [PEMBARUAN] Deteksi model berdasarkan parameter URL
+// [PEMBARUAN] Deteksi model dan mode PWA berdasarkan parameter URL
 const urlParams = new URLSearchParams(window.location.search);
 const isBeta = urlParams.has('betamodel');
+const isPWA = urlParams.has('pwa'); // Tambahkan ini bro
 
 // Jika ada ?betamodel di URL, pakai seri 3, jika tidak pakai 2.5
 const model = isBeta ? 'gemini-3-flash-preview' : 'gemini-2.5-flash';
@@ -1535,7 +1543,38 @@ if (isBeta) {
 
     function toggleChatUI(active) { if (active) { elements.body.classList.add('chat-active'); elements.inputContainer.classList.remove('centered'); elements.inputContainer.classList.add('bottom'); elements.logoContainer.classList.add('logo-hidden'); elements.languageSwitcher.classList.add('lang-hidden'); elements.infoText.style.display = 'block'; } else { elements.body.classList.remove('chat-active'); elements.inputContainer.classList.remove('bottom'); elements.inputContainer.classList.add('centered'); elements.logoContainer.classList.remove('logo-hidden'); elements.languageSwitcher.classList.remove('lang-hidden'); elements.infoText.style.display = 'none'; } }
 
-    function simulateLoading(duration) { const startTime = Date.now(); const splashBar = document.querySelector('.loading-bar'); if (!splashBar) { console.error("Elemen .loading-bar tidak ditemukan."); setTimeout(() => { if (elements.splashScreen) { elements.splashScreen.classList.add('hidden'); } }, duration); return; } const updateInterval = 50; const intervalId = setInterval(updateProgress, updateInterval); function updateProgress() { const elapsedTime = Date.now() - startTime; let progress = (elapsedTime / duration) * 100; if (progress >= 100) { progress = 100; clearInterval(intervalId); setTimeout(() => { elements.splashScreen.classList.add('hidden'); }, 500); } splashBar.style.width = `${progress}%`; } }
+function simulateLoading(duration) {
+    const splashBar = document.querySelector('.loading-bar');
+    
+    // Jika durasi 0 (Mode PWA), langsung eksekusi penghapusan
+    if (duration === 0) {
+        if (elements.splashScreen) {
+            elements.splashScreen.style.display = 'none';
+            elements.splashScreen.classList.add('hidden');
+        }
+        return; // Berhenti di sini, jangan lanjut ke bawah
+    }
+
+    // --- Logic untuk User Biasa (Duration > 0) ---
+    if (!splashBar || !elements.splashScreen) return;
+
+    const startTime = Date.now();
+    const intervalId = setInterval(() => {
+        const elapsedTime = Date.now() - startTime;
+        let progress = (elapsedTime / duration) * 100;
+
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(intervalId);
+            setTimeout(() => {
+                elements.splashScreen.classList.add('hidden');
+                // Kasih delay dikit biar halus hilangnya
+                setTimeout(() => { elements.splashScreen.style.display = 'none'; }, 500);
+            }, 500);
+        }
+        splashBar.style.width = `${progress}%`;
+    }, 50);
+}
 
     function showSuggestions() { const query = elements.questionInput.value.toLowerCase().trim(); elements.suggestionBox.innerHTML = ''; elements.suggestionBox.classList.remove('visible'); if (query.startsWith('/')) { const commandQuery = query.substring(1); const matchingCommands = slashCommands.filter(cmd => cmd.command.substring(1).startsWith(commandQuery) ); if (matchingCommands.length > 0) { elements.suggestionBox.classList.add('visible'); matchingCommands.forEach(cmd => { const div = document.createElement('div'); div.classList.add('suggestion-item-slash'); div.innerHTML = `<strong>${cmd.command}</strong><span>${cmd.description}</span>`; div.addEventListener('click', () => { elements.questionInput.value = cmd.command + ' '; elements.suggestionBox.classList.remove('visible'); elements.questionInput.focus(); }); elements.suggestionBox.appendChild(div); }); } } else { if (query.length < 2) return; const suggestions = Object.keys(faqDatabase) .filter(key => key.toLowerCase().includes(query)) .slice(0, 5); if (suggestions.length > 0) { elements.suggestionBox.classList.add('visible'); suggestions.forEach(suggestion => { const div = document.createElement('div'); div.classList.add('suggestion-item'); div.innerText = suggestion; div.addEventListener('click', () => { elements.questionInput.value = suggestion; elements.suggestionBox.classList.remove('visible'); askAI(); }); elements.suggestionBox.appendChild(div); }); } } }
 
@@ -1838,13 +1877,20 @@ elements.uploadImageBtn.addEventListener('click', () => elements.imageInput.clic
 
         window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
 
-        
+// Jalankan inisialisasi aplikasi
+initializeApp();
 
-        // Jalankan inisialisasi aplikasi
-
-        initializeApp();
-
-        simulateLoading(3000); 
+if (!isPWA) {
+    // Kalo BUKAN PWA, baru kita paksa munculin pake JS
+    if (elements.splashScreen) {
+        elements.splashScreen.style.display = 'flex';
+        simulateLoading(3000);
+    }
+} else {
+    // Kalo PWA, biarin aja display:none, langsung gas inisialisasi
+    console.log("PWA Mode: Skip total!");
+    initializeApp(); 
+}
 
         updateConnectionStatus();
 
