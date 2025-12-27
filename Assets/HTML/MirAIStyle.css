@@ -882,7 +882,6 @@ body.chat-active #toolsMenu {
         gap: 10px;
     }
 
-/* Cari bagian ini di MirAIStyle.css */
 #splash-screen {
     position: fixed;
     top: 0;
@@ -890,7 +889,7 @@ body.chat-active #toolsMenu {
     width: 100%;
     height: 100%;
     background-color: #1a1a1a;
-    display: flex; /* UBAH DARI flex JADI none */
+    display: flex; /* Tetap flex sebagai default */
     justify-content: center;
     align-items: center;
     z-index: 100;
