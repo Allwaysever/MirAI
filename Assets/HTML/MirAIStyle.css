@@ -217,16 +217,6 @@ body.chat-active #toolsMenu {
         pointer-events: none;
     }
 
-    .mirai-container {
-        width: 90%; 
-        max-width: 450px; 
-        margin-bottom: 30px;
-        transition: opacity var(--srui-transition-slow), visibility var(--srui-transition-slow);
-        z-index: 099;
-        text-align: center;
-        pointer-events: none;
-    }
-
     .hi-img {
         width: 75%;
         height: auto;
@@ -892,30 +882,117 @@ body.chat-active #toolsMenu {
         gap: 10px;
     }
 
-/* Menyamakan layout splash dengan welcome-container */
-.splash-screen {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center vertikal */
-    align-items: center;    /* Center horizontal */
-    background-color: var(--srui-bg-primary);
-}
-
-.splash-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Cari bagian ini di MirAIStyle.css */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a1a;
+    display: none; /* UBAH DARI flex JADI none */
     justify-content: center;
-    /* Jarak ini harus mirip dengan yang ada di welcome-container */
-    margin-top: -50px; 
+    align-items: center;
+    z-index: 100;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
-/* Pastikan transisinya halus banget */
-.splash-screen.hidden {
-    opacity: 0;
-    pointer-events: none; /* Supaya nggak bisa di-klik pas transisi */
-    transition: opacity 0.8s ease-in-out;
-}
+    body.light-theme #splash-screen {
+      background-color: var(--srui-bg-card-light);
+      color: var(--srui-text-primary-light);
+    }
+
+    #splash-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .splash-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .splash-logo {
+      max-width: 200px;
+    }
+
+    .splash-title {
+      font-size: 2em;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    .splash-text {
+      font-size: 0.8em;
+      color: var(--srui-neutral-mid);
+    }
+    
+    body.light-theme .splash-text {
+        color: var(--srui-neutral-mid-light);
+    }
+
+    .splash-text2 {
+      font-size: 0.5em;
+      color: var(--srui-neutral-mid);
+    }
+    
+    body.light-theme .splash-text2 {
+        color: var(--srui-neutral-mid-light);
+    }
+    
+    .loading-bar-container {
+        width: 200px;
+        height: 4px;
+        background-color: #212121;
+        border-radius: var(--srui-radius-lg);
+        overflow: hidden;
+        position: relative;
+    }
+    
+    body.light-theme .loading-bar-container {
+        background-color: var(--srui-border-input-light);
+    }
+
+    .loading-bar {
+        width: 0%;
+        height: 100%;
+        background-color: var(--srui-accent);
+        position: absolute;
+        transition: width var(--srui-transition-slow);
+    }
+    
+    body.light-theme .loading-bar {
+        background-color: var(--srui-accent-alt);
+    }
+    
+    #retry-button {
+      background-color: var(--srui-accent);
+      color: var(--srui-accent-text);
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--srui-radius-lg);
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 1em;
+      transition: all var(--srui-transition-normal);
+    }
+        
+    #retry-button:hover,
+    #retry-button:active {
+        transform: scale(1.05);
+        background-color: #eab308;
+    }
+        
+    body.light-theme #retry-button {
+        background-color: var(--srui-accent-alt);
+        color: var(--srui-accent-text-alt);
+    }
+    
+    body.light-theme #retry-button:hover {
+        background-color: #222222;
+    }
         
     #languageSwitcher {
         position: fixed;
