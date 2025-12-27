@@ -217,6 +217,16 @@ body.chat-active #toolsMenu {
         pointer-events: none;
     }
 
+    .mirai-container {
+        width: 90%; 
+        max-width: 450px; 
+        margin-bottom: 30px;
+        transition: opacity var(--srui-transition-slow), visibility var(--srui-transition-slow);
+        z-index: 099;
+        text-align: center;
+        pointer-events: none;
+    }
+
     .hi-img {
         width: 75%;
         height: auto;
