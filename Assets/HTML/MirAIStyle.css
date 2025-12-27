@@ -890,7 +890,7 @@ body.chat-active #toolsMenu {
     width: 100%;
     height: 100%;
     background-color: #1a1a1a;
-    display: none; /* UBAH DARI flex JADI none */
+    display: flex; /* UBAH DARI flex JADI none */
     justify-content: center;
     align-items: center;
     z-index: 100;
