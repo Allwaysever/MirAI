@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirAI Search</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            /* Variabel Warna SRUI Tema Gelap  */
+            --srui-accent: #ffce00;
+            --srui-bg: #1B1C1E;
+            --srui-card: #0f0f0f;
+            --srui-text: #ffffff;
+            --srui-accent-text: #000000;
+            --srui-border: #4B4F50;
+            --srui-info: #2196F3;
+            /* Radius SRUI (10px - 25px) [cite: 15] */
+            --srui-radius: 20px;
+        }
+
+        body {
+            background-color: var(--srui-bg); /*  */
+            color: var(--srui-text); /*  */
+            font-family: Arial, sans-serif; /* [cite: 19] */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 550px;
+            text-align: center;
+        }
+
+        /* SRUI Input Box  */
+        .input-container {
+            margin-bottom: 25px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px 25px;
+            background-color: var(--srui-bg);
+            border: 2px solid var(--srui-border);
+            border-radius: 9999px; /* Pill-shaped sesuai SRUI Chip  */
+            color: var(--srui-text);
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease-in-out; /* Transisi halus [cite: 47] */
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--srui-accent);
+        }
+
+        /* Tombol dengan Micro-Bounce [cite: 81] */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 9999px; /* Pill-shaped  */
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            transition: transform 0.1s ease-out; /* Micro-Bounce mechanism [cite: 87] */
+        }
+
+        /* Micro-Bounce States [cite: 85, 86] */
+        .btn:hover { transform: scale(1.02); }
+        .btn:active { transform: scale(0.98); }
+
+        .btn-google {
+            background-color: var(--srui-accent); /*  */
+            color: var(--srui-accent-text);
+        }
+
+        .btn-ai {
+            background-color: var(--srui-info); /* Warna Semantik Info [cite: 36] */
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+         <div>
+            <div class="input-container">
+                <input type="text" id="query" placeholder="Ketik pencarian..." autocomplete="off">
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-google" onclick="handleSearch('google')">
+                    <i class="fas fa-search"></i> Google
+                </button>
+                <button class="btn btn-ai" onclick="handleSearch('ai')">
+                    <i class="fas fa-robot"></i> Mode AI
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleSearch(type) {
+            const val = document.getElementById('query').value;
+            if (!val) return;
+
+            if (type === 'google') {
+                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(val)}`;
+            } else {
+                // Redirect ke chatbot yang sudah ada
+                window.location.href = `https://allwaysevermirai.netlify.app/chat?search=${encodeURIComponent(val)}`;
+            }
+        }
+
+        // Support Enter key
+        document.getElementById('query').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') handleSearch('google');
+        });
+    </script>
+</body>
+</html>
