@@ -217,7 +217,7 @@ body.chat-active #toolsMenu {
         pointer-events: none;
     }
 
-    .miraiLogo-container {
+    .mirai-logo-container {
         width: 90%; 
         max-width: 450px; 
         margin-bottom: 30px;
