@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MirAI Search</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Search%20Icon.png">
     <style>
         :root {
             /* Variabel Warna SRUI Tema Gelap  */
@@ -93,14 +94,21 @@
             color: white;
         }
 
+.miraisearchlogo {
+max-width: 255px;
+height: auto;
+}
     </style>
 </head>
 <body>
 
     <div class="container">
+<div style="display: grid; place-items: center; margin-bottom: 25px;">
+           <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Search%20Logo.png" class="miraisearchlogo">
+</div>
          <div>
             <div class="input-container">
-                <input type="text" id="query" placeholder="Ketik pencarian..." autocomplete="off">
+                <input type="text" id="query" placeholder="Type search..." autocomplete="off">
             </div>
 
             <div class="btn-group">
@@ -108,7 +116,7 @@
                     <i class="fas fa-search"></i> Google
                 </button>
                 <button class="btn btn-ai" onclick="handleSearch('ai')">
-                    <i class="fas fa-robot"></i> Mode AI
+                    <i class="fas fa-robot"></i> AI Mode
                 </button>
             </div>
         </div>
