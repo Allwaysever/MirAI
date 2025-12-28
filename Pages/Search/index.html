@@ -100,6 +100,35 @@ max-width: 255px;
 height: auto;
 }
     </style>
+
+    <script>
+        // Register Service Worker langsung dari HTML
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('https://cdn.jsdelivr.net/gh/Allwaysever/MirAI/Assets/HTML/MirAIPWAsw.js')
+                .then(reg => {
+                    console.log('Service Worker registered!', reg);
+                    
+                    // Periodic sync check (setiap jam)
+                    setInterval(() => {
+                        reg.update();
+                    }, 60 * 60 * 1000);
+                })
+                .catch(err => {
+                    console.log('Service Worker registration failed:', err);
+                });
+        }
+        
+        // Cek jika offline
+        window.addEventListener('online', () => {
+            console.log('You are online!');
+            document.body.classList.remove('offline');
+        });
+        
+        window.addEventListener('offline', () => {
+            console.log('You are offline!');
+            document.body.classList.add('offline');
+        });
+    </script>
 </head>
 <body>
 
