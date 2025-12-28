@@ -1,0 +1,30 @@
+{
+  "background_color": "#0f0f0f",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "MirAI Search",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "MirAI Search",
+  "start_url": "/search",
+  "theme_color": "#0f0f0f",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI Search Icon.png",
+      "type": "image/png",
+      "sizes": "3264x3264",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 3264,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "allwaysevermiraisearch",
+  "categories": [
+    "productivity"
+  ]
+}
