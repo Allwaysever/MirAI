@@ -50,8 +50,21 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
 <link rel="mask-icon" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png" color="#1a1a1a">
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 
     <script>
+        // notif sw onesignal
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "9b77aea2-462f-498d-be06-bc4f75ab7ab7",
+      safari_web_id: "web.onesignal.auto.31f2bfbe-48d0-4a72-b7e0-d44022a2d3bb",
+      notifyButton: {
+        enable: true,
+      },
+    });
+  });
+    
 // Di dalam script utama (setelah DOMContentLoaded)
 let deferredPrompt;
 
