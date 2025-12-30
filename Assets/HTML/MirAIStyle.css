@@ -1019,89 +1019,142 @@ body.light-theme .loading-bar {
     background-color: var(--srui-accent-alt);
 }
 
-/* Di file MirAIStyle.css, tambahkan ini: */
+/* ============================================
+   SETTINGS PAGE STYLES - FIXED & SCROLLABLE
+   ============================================ */
+
+/* Container utama settings */
 #settingsPage {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh; /* PAKAI vh, bukan % */
     background-color: var(--srui-bg-primary);
     z-index: 2000;
-    overflow-y: auto; /* Ini membuat seluruh page bisa discroll */
-    -webkit-overflow-scrolling: touch;
     display: none;
+    flex-direction: column;
+    overflow: hidden; /* PENTING: Container utama tidak scroll */
 }
 
 #settingsPage.active {
-    display: block; /* Ganti dari flex ke block */
+    display: flex;
 }
 
+/* Header settings - TETAP DI ATAS */
 .settings-header {
-    position: sticky; /* Header tetap di atas saat scroll */
-    top: 0;
-    z-index: 10;
     background-color: var(--srui-bg-card);
     padding: 20px;
     border-bottom: 1px solid var(--srui-border-neutral);
+    flex-shrink: 0; /* PENTING: Header tidak menyusut */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    position: relative;
 }
 
+.settings-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--srui-text-primary);
+    font-weight: bold;
+}
+
+#backBtn {
+    background: none;
+    border: none;
+    color: var(--srui-text-primary);
+    font-size: 1.2em;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--srui-radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--srui-transition-normal);
+}
+
+#backBtn:hover {
+    background-color: rgba(255, 206, 0, 0.1);
+    color: var(--srui-accent);
+    transform: rotate(90deg);
+}
+
+/* Container untuk scroll - INI YANG SCROLL */
+.settings-scroll-container {
+    flex: 1; /* Ambil sisa space */
+    overflow-y: auto; /* BISA SCROLL */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* Smooth scroll di iOS */
+    padding-bottom: 20px; /* Tambah ruang di bawah */
+}
+
+/* Konten settings */
 .settings-content {
     padding: 20px;
-    max-width: 800px;
+    max-width: 600px;
     margin: 0 auto;
-    padding-bottom: 40px;
+    padding-bottom: 40px; /* Extra padding agar konten terakhir tidak ketutup */
 }
 
-/* Light theme adjustments tetap sama */
-body.light-theme .settings-header {
-    background-color: var(--srui-bg-card-light);
-    border-bottom: 1px solid var(--srui-border-neutral-light);
-}
-
-/* Settings content styling */
+/* Settings option styling */
 .settings-content h3 {
     color: var(--srui-accent);
-    margin-top: 30px;
-    margin-bottom: 10px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
 }
 
 .settings-option {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    background-color: var(--srui-bg-card);
+    padding: 15px;
+    border-radius: var(--srui-radius-md);
+    border: 1px solid var(--srui-border-neutral);
 }
 
 .settings-option p {
-    margin: 0 0 5px 0;
+    margin: 0 0 8px 0;
     color: var(--srui-text-primary);
+    font-size: 0.95em;
 }
 
 .settings-option select {
-    background-color: var(--srui-bg-card);
+    background-color: var(--srui-bg-primary);
     color: var(--srui-text-primary);
-    border: 1px solid var(--srui-accent);
+    border: 1px solid var(--srui-border-input);
     border-radius: var(--srui-radius-lg);
-    padding: 8px 12px;
+    padding: 10px 15px;
     width: 100%;
-    font-size: 14px;
+    font-size: 0.95em;
+    transition: all var(--srui-transition-normal);
 }
 
-/* API Key container */
+.settings-option select:focus {
+    border-color: var(--srui-accent);
+    outline: none;
+}
+
+/* API Key Container */
 .api-key-container {
     position: relative;
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     width: 100%;
 }
 
 #apiKeyInput {
     width: 100%;
-    padding: 8px 40px 8px 15px;
+    padding: 10px 40px 10px 15px;
     border-radius: var(--srui-radius-lg);
-    border: 1px solid var(--srui-accent);
-    background-color: var(--srui-bg-card);
+    border: 1px solid var(--srui-border-input);
+    background-color: var(--srui-bg-primary);
     color: var(--srui-text-primary);
-    font-size: 0.9em;
+    font-size: 0.95em;
     box-sizing: border-box;
 }
 
@@ -1112,17 +1165,18 @@ body.light-theme .settings-header {
     color: var(--srui-neutral-mid);
 }
 
-/* Save API button */
+/* Save API Button */
 #saveApiBtn {
-    margin-top: 0;
-    padding: 8px 20px;
-    font-size: 0.9em;
+    margin-top: 5px;
+    padding: 10px 20px;
+    font-size: 0.95em;
     background-color: var(--srui-bg-card);
     color: var(--srui-accent);
     border: 1px solid var(--srui-accent);
     border-radius: var(--srui-radius-lg);
     cursor: pointer;
     transition: all var(--srui-transition-normal);
+    width: 100%;
 }
 
 #saveApiBtn:hover {
@@ -1130,22 +1184,28 @@ body.light-theme .settings-header {
     color: var(--srui-accent-text);
 }
 
-/* About section */
+/* About Section */
 .settings-about {
     text-align: center;
-    padding: 20px 0;
+    padding: 20px;
+    background-color: var(--srui-bg-card);
+    border-radius: var(--srui-radius-md);
+    border: 1px solid var(--srui-border-neutral);
+    margin-top: 10px;
 }
 
 .settings-about p,
 .settings-about a {
     font-size: 0.9em;
     color: var(--srui-neutral-mid);
-    margin: 5px 0;
+    margin: 8px 0;
 }
 
 .settings-about a {
     color: var(--srui-accent);
     text-decoration: none;
+    display: inline-block;
+    padding: 5px 10px;
 }
 
 .settings-about a:hover {
@@ -1153,38 +1213,67 @@ body.light-theme .settings-header {
 }
 
 .gemini-container {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
-/* Export/Import buttons */
+#settingsVersionText {
+    font-size: 0.8em;
+    color: var(--srui-neutral-dark) !important;
+    margin-top: 15px !important;
+}
+
+/* Export/Import Buttons */
 .settings-credits-btn {
     background-color: var(--srui-bg-card);
     color: var(--srui-accent);
     border: 1px solid var(--srui-accent);
-    padding: 8px 15px;
+    padding: 10px 15px;
     border-radius: var(--srui-radius-lg);
     cursor: pointer;
-    font-size: 1em;
-    margin-top: 10px;
+    font-size: 0.95em;
+    margin-top: 5px;
     transition: all var(--srui-transition-normal);
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .settings-credits-btn:hover {
     background-color: var(--srui-accent);
     color: var(--srui-accent-text);
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
-/* Light theme adjustments for popup */
-body.light-theme .settings-popup {
-    background: var(--srui-bg-card-light);
-    border: 1px solid var(--srui-border-input-light);
+/* CUSTOM SCROLLBAR untuk settings */
+.settings-scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.settings-scroll-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: var(--srui-radius-lg);
+}
+
+.settings-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--srui-accent);
+    border-radius: var(--srui-radius-lg);
+}
+
+.settings-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #eab308;
+}
+
+/* ============================================
+   LIGHT THEME OVERRIDES
+   ============================================ */
+body.light-theme #settingsPage {
+    background-color: var(--srui-bg-primary-light);
 }
 
 body.light-theme .settings-header {
+    background-color: var(--srui-bg-card-light);
     border-bottom: 1px solid var(--srui-border-neutral-light);
 }
 
@@ -1192,17 +1281,18 @@ body.light-theme .settings-header h2 {
     color: var(--srui-text-primary-light);
 }
 
-body.light-theme .popup-close-btn {
+body.light-theme #backBtn {
     color: var(--srui-text-primary-light);
 }
 
-body.light-theme .popup-close-btn:hover {
+body.light-theme #backBtn:hover {
     background-color: rgba(68, 68, 68, 0.1);
     color: var(--srui-accent-alt);
 }
 
-body.light-theme .settings-content h3 {
-    color: var(--srui-accent-alt);
+body.light-theme .settings-option {
+    background-color: var(--srui-bg-card-light);
+    border: 1px solid var(--srui-border-neutral-light);
 }
 
 body.light-theme .settings-option p {
@@ -1210,15 +1300,19 @@ body.light-theme .settings-option p {
 }
 
 body.light-theme .settings-option select {
-    background-color: var(--srui-bg-neutral-light);
+    background-color: var(--srui-bg-primary-light);
     color: var(--srui-text-primary-light);
     border: 1px solid var(--srui-border-input-light);
 }
 
+body.light-theme .settings-content h3 {
+    color: var(--srui-accent-alt);
+}
+
 body.light-theme #apiKeyInput {
-    border: 1px solid var(--srui-border-input-light);
-    background-color: var(--srui-bg-neutral-light);
+    background-color: var(--srui-bg-primary-light);
     color: var(--srui-text-primary-light);
+    border: 1px solid var(--srui-border-input-light);
 }
 
 body.light-theme #toggleApiKey {
@@ -1226,7 +1320,7 @@ body.light-theme #toggleApiKey {
 }
 
 body.light-theme #saveApiBtn {
-    background-color: var(--srui-bg-neutral-light);
+    background-color: var(--srui-bg-card-light);
     color: var(--srui-accent-alt);
     border: 1px solid var(--srui-border-input-light);
 }
@@ -1234,6 +1328,11 @@ body.light-theme #saveApiBtn {
 body.light-theme #saveApiBtn:hover {
     background-color: var(--srui-accent-alt);
     color: var(--srui-accent-text-alt);
+}
+
+body.light-theme .settings-about {
+    background-color: var(--srui-bg-card-light);
+    border: 1px solid var(--srui-border-neutral-light);
 }
 
 body.light-theme .settings-about p,
@@ -1246,7 +1345,7 @@ body.light-theme .settings-about a {
 }
 
 body.light-theme .settings-credits-btn {
-    background-color: var(--srui-bg-neutral-light);
+    background-color: var(--srui-bg-card-light);
     color: var(--srui-accent-alt);
     border: 1px solid var(--srui-border-input-light);
 }
@@ -1256,12 +1355,92 @@ body.light-theme .settings-credits-btn:hover {
     color: var(--srui-accent-text-alt);
 }
 
-body.light-theme .settings-content.scrollable::-webkit-scrollbar-thumb {
+body.light-theme .settings-scroll-container::-webkit-scrollbar-thumb {
     background: var(--srui-accent-alt);
 }
 
-body.light-theme .settings-content.scrollable::-webkit-scrollbar-thumb:hover {
+body.light-theme .settings-scroll-container::-webkit-scrollbar-thumb:hover {
     background: #222222;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    .settings-header {
+        padding: 15px;
+    }
+    
+    .settings-content {
+        padding: 15px;
+        padding-bottom: 30px;
+    }
+    
+    .settings-option {
+        padding: 12px;
+    }
+    
+    .settings-scroll-container::-webkit-scrollbar {
+        width: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .settings-header {
+        padding: 12px;
+    }
+    
+    .settings-header h2 {
+        font-size: 1.3em;
+    }
+    
+    .settings-content {
+        padding: 12px;
+        padding-bottom: 25px;
+    }
+    
+    #backBtn {
+        width: 36px;
+        height: 36px;
+        font-size: 1em;
+    }
+    
+    .settings-option {
+        padding: 10px;
+    }
+}
+
+/* ============================================
+   ANIMASI UNTUK SETTINGS PAGE
+   ============================================ */
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutToRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+#settingsPage {
+    animation: slideInFromRight 0.3s ease-out;
+}
+
+#settingsPage:not(.active) {
+    animation: slideOutToRight 0.3s ease-out;
 }
 
 /* === CUSTOM CONFIRMATION DIALOG === */
