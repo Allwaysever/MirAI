@@ -1019,79 +1019,44 @@ body.light-theme .loading-bar {
     background-color: var(--srui-accent-alt);
 }
 
-/* === SETTINGS POPUP STYLING === */
-
-/* Overlay backdrop */
-.settings-overlay {
+/* === SETTINGS SCROLLABLE LAYOUT === */
+#settingsPage {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
-    z-index: 1999;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.settings-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Popup container */
-.settings-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    width: 90%;
-    max-width: 500px;
-    max-height: 85vh;
-    background: var(--srui-bg-card);
-    border-radius: var(--srui-radius-lg);
-    border: var(--srui-glass-border);
+    background-color: var(--srui-bg-primary);
     z-index: 2000;
-    opacity: 0;
-    visibility: hidden;
     overflow: hidden;
-    box-shadow: var(--srui-shadow-modal);
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.settings-popup.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.settings-popup-content {
-    display: flex;
+    display: none;
     flex-direction: column;
-    height: 100%;
 }
 
-/* Header popup */
-.settings-header {
+#settingsPage.active {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+}
+
+/* Header tetap di atas */
+.settings-header {
+    background-color: var(--srui-bg-card);
     padding: 20px;
     border-bottom: 1px solid var(--srui-border-neutral);
     flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
 }
 
 .settings-header h2 {
     margin: 0;
     font-size: 1.5em;
-    font-weight: bold;
     color: var(--srui-text-primary);
 }
 
-.popup-close-btn {
+#backBtn {
     background: none;
     border: none;
     color: var(--srui-text-primary);
@@ -1106,37 +1071,102 @@ body.light-theme .loading-bar {
     transition: all var(--srui-transition-normal);
 }
 
-.popup-close-btn:hover {
+#backBtn:hover {
     background-color: rgba(255, 206, 0, 0.1);
     color: var(--srui-accent);
     transform: rotate(90deg);
 }
 
-/* Konten scrollable */
-.settings-content.scrollable {
+/* Wrapper untuk konten yang bisa discroll */
+.settings-scroll-wrapper {
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Konten settings */
+.settings-content {
     padding: 20px;
-    padding-top: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 40px; /* Tambahkan padding bawah agar konten terakhir tidak ketutup */
 }
 
-/* Scrollbar styling */
-.settings-content.scrollable::-webkit-scrollbar {
-    width: 6px;
+/* Styling untuk Light Theme */
+body.light-theme #settingsPage {
+    background-color: var(--srui-bg-primary-light);
 }
 
-.settings-content.scrollable::-webkit-scrollbar-track {
+body.light-theme .settings-header {
+    background-color: var(--srui-bg-card-light);
+    border-bottom: 1px solid var(--srui-border-neutral-light);
+}
+
+body.light-theme .settings-header h2 {
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme #backBtn {
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme #backBtn:hover {
+    background-color: rgba(68, 68, 68, 0.1);
+    color: var(--srui-accent-alt);
+}
+
+/* Custom Scrollbar untuk Settings */
+.settings-scroll-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.settings-scroll-wrapper::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.1);
     border-radius: var(--srui-radius-lg);
 }
 
-.settings-content.scrollable::-webkit-scrollbar-thumb {
+.settings-scroll-wrapper::-webkit-scrollbar-thumb {
     background: var(--srui-accent);
     border-radius: var(--srui-radius-lg);
 }
 
-.settings-content.scrollable::-webkit-scrollbar-thumb:hover {
+.settings-scroll-wrapper::-webkit-scrollbar-thumb:hover {
     background: #eab308;
+}
+
+body.light-theme .settings-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: var(--srui-accent-alt);
+}
+
+body.light-theme .settings-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #222222;
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 768px) {
+    .settings-content {
+        padding: 15px;
+        padding-bottom: 30px;
+    }
+    
+    .settings-header {
+        padding: 15px;
+    }
+    
+    .settings-scroll-wrapper::-webkit-scrollbar {
+        width: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .settings-content {
+        padding: 12px;
+        padding-bottom: 25px;
+    }
+    
+    .settings-header h2 {
+        font-size: 1.3em;
+    }
 }
 
 /* Settings content styling */
