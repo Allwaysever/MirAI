@@ -1752,3 +1752,118 @@ body.light-theme .ai-bubble pre {
         animation: none;
     }
 }
+
+/* ============================================
+   SETTINGS PAGE SCROLL FIX - ULTIMATE SOLUTION
+   ============================================ */
+
+/* 1. Reset total untuk settings page */
+#settingsPage {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: var(--srui-bg-primary) !important;
+    z-index: 9999 !important;
+    display: none !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+#settingsPage.active {
+    display: flex !important;
+}
+
+/* 2. Header settings - PASTI DI ATAS */
+.settings-header {
+    background-color: var(--srui-bg-card) !important;
+    padding: 20px !important;
+    border-bottom: 1px solid var(--srui-border-neutral) !important;
+    flex-shrink: 0 !important; /* INI PENTING! */
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+.settings-header h2 {
+    margin: 0 !important;
+    font-size: 1.5em !important;
+    color: var(--srui-text-primary) !important;
+}
+
+#backBtn {
+    background: none !important;
+    border: none !important;
+    color: var(--srui-text-primary) !important;
+    font-size: 1.2em !important;
+    cursor: pointer !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#backBtn:hover {
+    background-color: rgba(255, 206, 0, 0.1) !important;
+    color: var(--srui-accent) !important;
+}
+
+/* 3. CONTAINER UTAMA YANG BISA SCROLL */
+.settings-scroll-container {
+    flex: 1 !important; /* Ambil semua sisa space */
+    overflow-y: auto !important; /* INI YANG BIKIN SCROLL */
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    height: calc(100vh - 80px) !important; /* Height dinamis */
+}
+
+/* 4. Konten settings */
+.settings-content {
+    padding: 20px !important;
+    padding-bottom: 100px !important; /* Extra padding biar konten bawah kebaca */
+    max-width: 600px !important;
+    margin: 0 auto !important;
+    min-height: 100% !important;
+}
+
+/* 5. Pastikan semua elemen dalam settings visible */
+.settings-content > * {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* 6. Force show semua */
+#settingsPage.active * {
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* 7. TEST SCROLL DENGAN BORDER WARNA (sementara) */
+#settingsPage {
+    border: 3px solid red !important; /* Untuk test */
+}
+
+.settings-scroll-container {
+    border: 2px solid blue !important; /* Untuk test */
+}
+
+.settings-content {
+    border: 2px solid green !important; /* Untuk test */
+}
+
+/* 8. Media Query untuk mobile */
+@media (max-width: 768px) {
+    .settings-scroll-container {
+        height: calc(100vh - 70px) !important;
+    }
+    
+    .settings-content {
+        padding: 15px !important;
+        padding-bottom: 80px !important;
+    }
+}
