@@ -2173,26 +2173,41 @@ elements.uploadImageBtn.addEventListener('click', () => elements.imageInput.clic
 
 // Ganti fungsi export kamu dengan versi yang lebih 'kuat' ini:
 document.getElementById('exportBtn').addEventListener('click', () => {
-    // Ambil SEMUA yang ada di localStorage ke dalam satu objek
-    const allData = {};
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        allData[key] = localStorage.getItem(key);
-    }
+    // Whitelist: Hanya data ini yang boleh masuk ke file backup
+    const whitelist = [
+        'miraiChatHistory', 
+        'miraiLanguage', 
+        'miraiTheme', 
+        'miraiApiKey', 
+        'miraiPersona'
+    ];
+
+    const backupData = {};
     
-    const backupData = JSON.stringify(allData); // Pakai allData, bukan localStorage langsung
-    const blob = new Blob([backupData], { type: 'application/json' });
+    // Looping hanya pada daftar whitelist
+    whitelist.forEach(key => {
+        const value = localStorage.getItem(key);
+        if (value !== null) {
+            backupData[key] = value;
+        }
+    });
+    // mengambil tanggal dan waktu
+const now = new Date();
+    const date = now.toISOString().slice(0, 10); // Format: YYYY-MM-DD
+    const time = now.getHours().toString().padStart(2, '0') + '-' + now.getMinutes().toString().padStart(2, '0'); // Format: HH-mm
+
+    const jsonString = JSON.stringify(backupData);
+    const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
     const a = document.createElement('a');
     a.href = url;
-    a.download = `mirai_full_backup_${new Date().toISOString().slice(0,10)}.json`;
+    a.download = `MirAIDataBackup_${date}-${time}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     showCopyFeedback(uiStrings[currentLanguage].exportSuccessText);
-
 });
 
 // Trigger input file pas tombol Import diklik
