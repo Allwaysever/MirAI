@@ -1,4 +1,4 @@
-/* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan (SRUI: Transisi Halus) */
+/* ANIMATION UPGRADE: Transisi tema yang lebih lembut dan performan */
 /* SRUI VARIABLES - Implementasi variabel CSS untuk konsistensi */
 :root {
   /* SRUI Accent Colors */
@@ -68,6 +68,7 @@
   --srui-glass-border: 1px solid rgba(75, 79, 80, 0.3);
 }
 
+/* === BASE STYLES === */
 body {
     display: flex;
     flex-direction: column;
@@ -78,24 +79,546 @@ body {
     font-family: Arial, sans-serif;
     position: relative;
     transition: all var(--srui-transition-normal);
-    chatHistorycolor: var(--srui-text-primary);
+    color: var(--srui-text-primary);
+    background-color: var(--srui-bg-primary);
 }
 
+body.popup-open {
+    overflow: hidden;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+}
+
+/* === TEMA GELAP (DEFAULT) === */
+body.dark-theme {
+    background-color: var(--srui-bg-primary);
+    color: var(--srui-text-primary);
+}
+
+body.dark-theme .chat-bubble.ai-bubble {
+    background-color: var(--srui-bg-card);
+    color: var(--srui-text-primary);
+}
+
+body.dark-theme .chat-bubble.user-bubble {
+    background-color: var(--srui-accent);
+    color: var(--srui-accent-text);
+}
+
+body.dark-theme .input-box {
+    background-color: var(--srui-bg-neutral);
+    border: 1px solid var(--srui-border-input);
+}
+
+body.dark-theme .input-box textarea {
+    color: var(--srui-text-primary);
+}
+
+body.dark-theme .input-box button {
+    background-color: var(--srui-accent);
+    color: var(--srui-accent-text);
+}
+
+body.dark-theme .ai-bubble strong {
+    color: var(--srui-accent);
+}
+
+body.dark-theme .ai-bubble h1, 
+body.dark-theme .ai-bubble h2, 
+body.dark-theme .ai-bubble h3 {
+    border-bottom: 1px solid var(--srui-accent);
+}
+
+body.dark-theme .typing-indicator span {
+    background-color: var(--srui-accent);
+}
+
+/* === TEMA TERANG === */
+body.light-theme {
+    background-color: var(--srui-bg-primary-light);
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .chat-bubble.ai-bubble {
+    background-color: var(--srui-bg-card-light);
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .chat-bubble.user-bubble {
+    background-color: #888888;
+    color: #ffffff;
+}
+
+body.light-theme .logo-version {
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .input-box {
+    background-color: var(--srui-bg-neutral-light);
+    border: 1px solid var(--srui-border-input-light);
+}
+
+body.light-theme .input-box textarea {
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .suggestion-box {
+    background-color: var(--srui-bg-neutral-light);
+    border: 1px solid var(--srui-border-input-light);
+}
+
+body.light-theme .ai-bubble strong {
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .ai-bubble h1, 
+body.light-theme .ai-bubble h2, 
+body.light-theme .ai-bubble h3 {
+    border-bottom: 1px solid var(--srui-text-primary-light);
+}
+
+body.light-theme .logo-img, 
+body.light-theme .gemini-logo, 
+body.light-theme .hi-img {
+    filter: grayscale(100%) brightness(0.5);
+}
+
+body.light-theme .typing-indicator span {
+    background-color: var(--srui-text-primary-light);
+}
+
+/* === LOGO CONTAINER === */
+.logo-container {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity var(--srui-transition-slow), visibility var(--srui-transition-slow);
+    z-index: 99;
+    text-align: center;
+    pointer-events: none;
+    width: 90%;
+    max-width: 450px;
+    margin-bottom: 30px;
+}
+
+.logo-container.logo-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.logo-img {
+    max-width: 450px;
+    height: auto;
+    filter: none;
+}
+
+.hi-img {
+    width: 75%;
+    height: auto;
+    align-items: flex-start;
+    filter: none;
+    z-index: 100;
+    display: block;
+    margin: 0 auto;
+}
+
+.gemini-logo {
+    max-width: 200px;
+    height: auto;
+    filter: none;
+}
+
+.logo-version {
+    color: var(--srui-text-primary);
+    font-size: 0.5em;
+    font-weight: bold;
+    margin-top: 10px;
+    letter-spacing: 2px;
+    opacity: 0.5;
+}
+
+/* === CHAT CONTAINER === */
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-bottom: 250px;
+    opacity: 0;
+    transition: opacity var(--srui-transition-slow);
+}
+
+body.chat-active .chat-container {
+    opacity: 1;
+}
+
+#chatMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* === CHAT BUBBLES === */
+.chat-bubble {
+    max-width: 100%;
+    padding: 10px 20px;
+    border-radius: var(--srui-radius-lg);
+    box-shadow: var(--srui-shadow-minimal);
+    font-size: 16px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all var(--srui-transition-normal);
+}
+
+.chat-bubble.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.user-bubble {
+    align-self: flex-end;
+    border-bottom-right-radius: var(--srui-radius-sm);
+}
+
+.ai-bubble {
+    align-self: flex-start;
+    border-bottom-left-radius: var(--srui-radius-sm);
+    position: relative;
+    margin-bottom: 25px;
+}
+
+/* === BUTTONS IN AI BUBBLES === */
+.copy-btn {
+    position: absolute;
+    bottom: -20px;
+    margin-bottom: 25px;
+    left: 8px;
+    color: var(--srui-neutral-dark);
+    cursor: pointer;
+    font-size: 14px;
+    transition: color var(--srui-transition-normal);
+}
+
+.speak-btn {
+    position: absolute;
+    bottom: -20px;
+    margin-bottom: 25px;
+    left: 35px;
+    color: var(--srui-neutral-dark);
+    cursor: pointer;
+    font-size: 14px;
+    transition: color var(--srui-transition-normal);
+}
+
+.copy-btn:hover,
+.speak-btn:hover {
+    color: var(--srui-accent);
+}
+
+body.light-theme .copy-btn,
+body.light-theme .speak-btn {
+    color: var(--srui-neutral-dark);
+}
+
+body.light-theme .copy-btn:hover,
+body.light-theme .speak-btn:hover {
+    color: var(--srui-accent-alt);
+}
+
+/* === TYPING INDICATOR === */
+.typing-indicator {
+    align-self: flex-start;
+    margin-left: 10px;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+    background-color: var(--srui-accent);
+    border-radius: 50%;
+    animation: bounce 1.0s infinite alternate;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-5px);
+    }
+}
+
+/* === HEADER BUTTONS === */
+#settingsBtnContainer,
+#clearBtnContainer {
+    position: fixed;
+    left: 20px;
+    z-index: 101;
+    transition: all var(--srui-transition-normal);
+}
+
+#settingsBtnContainer {
+    top: 20px;
+}
+
+#clearBtnContainer {
+    left: 70px;
+    top: 20px;
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+body.chat-active #clearBtnContainer {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+#clearBtn,
+#settingsBtn {
+    background-color: var(--srui-accent);
+    color: var(--srui-accent-text);
+    border: none;
+    border-radius: var(--srui-radius-xl);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all var(--srui-transition-normal);
+    box-shadow: none;
+}
+
+body.light-theme #clearBtn,
+body.light-theme #settingsBtn {
+    background-color: var(--srui-accent-alt);
+    color: var(--srui-accent-text-alt);
+}
+
+#clearBtn:hover,
+#settingsBtn:hover,
+#clearBtn:active,
+#settingsBtn:active {
+    color: var(--srui-accent-text);
+    transform: scale(1.1);
+    background-color: #eab308;
+}
+
+body.light-theme #clearBtn:hover,
+body.light-theme #settingsBtn:hover,
+body.light-theme #clearBtn:active,
+body.light-theme #settingsBtn:active {
+    color: var(--srui-accent-text-alt);
+    background-color: #222222;
+}
+
+/* === CONNECTION STATUS === */
+#connectionStatus {
+    background: var(--srui-glass-bg);
+    -webkit-backdrop-filter: var(--srui-glass-blur);
+    backdrop-filter: var(--srui-glass-blur);
+    border: var(--srui-glass-border);
+    padding: 8px 12px;
+    border-radius: var(--srui-radius-lg);
+    right: 20px;
+    top: 20px;
+    position: fixed;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: var(--srui-text-primary);
+    transition: all var(--srui-transition-normal);
+}
+
+#connectionStatus .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+#connectionStatus .online {
+    background-color: var(--srui-success);
+}
+
+#connectionStatus .offline {
+    background-color: var(--srui-error);
+}
+
+body.light-theme #connectionStatus {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--srui-border-input-light);
+    color: var(--srui-text-primary-light);
+}
+
+body.chat-active #connectionStatus {
+    transform: translateX(calc(125% - 32px));
+}
+
+#connectionStatus.hidden-by-scroll {
+    transform: translateX(200px);
+    opacity: 0;
+}
+
+/* === INPUT CONTAINER === */
+.input-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    background-color: none;
+    z-index: 100;
+    transition: all var(--srui-transition-slow);
+}
+
+.input-container.centered {
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(50%);
+}
+
+.input-container.bottom {
+    position: fixed;
+    bottom: 0;
+}
+
+.info-text {
+    color: var(--srui-neutral-dark);
+    font-size: 12px;
+    text-align: center;
+    bottom: 3px;
+    display: none;
+    transition: opacity var(--srui-transition-slow);
+}
+
+body.light-theme .info-text {
+    color: var(--srui-neutral-dark);
+}
+
+body.chat-active .info-text {
+    display: block;
+}
+
+/* === INPUT BOX === */
 .input-box {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: var(--srui-radius-lg);
+    box-shadow: var(--srui-shadow-medium);
     background-color: var(--srui-bg-neutral);
     border: 1px solid var(--srui-border-input);
     -webkit-backdrop-filter: var(--srui-glass-blur);
     backdrop-filter: var(--srui-glass-blur);
-    border-radius: var(--srui-radius-lg);
 }
 
 .input-box textarea {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    padding: 0 5px;
+    margin-left: 5px;
+    background-color: transparent;
+    resize: none;
+    overflow: hidden;
+    max-height: 250px;
+    font-family: Arial, sans-serif;
+    border-radius: 0;
     color: var(--srui-text-primary);
 }
 
-/* === [START] CSS untuk Fitur "Toko Perkakas" (VERSI FINAL & BENAR) === */
+/* === SEND BUTTON === */
+#sendBtn {
+    background-color: var(--srui-accent);
+    color: var(--srui-accent-text);
+    border: none;
+    border-radius: var(--srui-radius-lg);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all var(--srui-transition-normal);
+}
 
-/* Styling untuk tombol + */
+#sendBtn.disabled {
+    opacity: 0.5;
+    transform: scale(0.9);
+    cursor: not-allowed;
+}
+
+body.light-theme #sendBtn {
+    background-color: var(--srui-accent-alt);
+    color: var(--srui-accent-text-alt);
+}
+
+#sendBtn:not(.disabled):hover,
+#sendBtn:not(.disabled):active {
+    background-color: #eab308;
+    transform: scale(1.1);
+}
+
+body.light-theme #sendBtn:not(.disabled):hover,
+body.light-theme #sendBtn:not(.disabled):active {
+    background-color: #222222;
+}
+
+/* === STOP BUTTON === */
+#stopBtn {
+    background-color: var(--srui-error);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--srui-radius-lg);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all var(--srui-transition-normal);
+}
+
+body.light-theme #stopBtn {
+    background-color: var(--srui-error);
+    color: #ffffff;
+}
+
+/* === TOOLS BUTTON === */
 #toolsBtn {
     background-color: #212121;
     color: var(--srui-text-primary);
@@ -111,27 +634,23 @@ body {
     transition: all var(--srui-transition-normal);
 }
 
-/* State AKTIF saat menu terbuka (tombol jadi 'x') */
 #toolsBtn.active {
     transform: rotate(135deg);
     background-color: var(--srui-accent);
     color: var(--srui-accent-text);
 }
 
-/* Efek hover biasa */
 #toolsBtn:not(.active):hover {
     transform: scale(1.1);
     background-color: var(--srui-accent);
     color: var(--srui-accent-text);
 }
 
-/* Efek hover saat menu aktif */
 #toolsBtn.active:hover {
     transform: rotate(135deg) scale(1.1);
     background-color: #eab308;
 }
 
-/* Penyesuaian untuk Light Theme */
 body.light-theme #toolsBtn {
     color: var(--srui-accent-text-alt);
     background-color: var(--srui-accent-alt);
@@ -147,10 +666,95 @@ body.light-theme #toolsBtn.active {
     color: var(--srui-accent-text-alt);
 }
 
-/* Styling untuk Menu Pop-up (FIXED & DYNAMIC V2) */
+/* === UPLOAD IMAGE BUTTON === */
+#uploadImageBtn {
+    background-color: #212121;
+    color: #ffffff;
+    border: none;
+    border-radius: var(--srui-radius-xl);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all var(--srui-transition-normal);
+    margin-left: 5px;
+}
+
+#uploadImageBtn:hover {
+    transform: scale(1.1);
+    background-color: var(--srui-accent);
+    color: var(--srui-accent-text);
+}
+
+body.light-theme #uploadImageBtn {
+    color: #ffffff;
+    background-color: var(--srui-accent-alt);
+}
+
+body.light-theme #uploadImageBtn:hover {
+    background-color: #222222;
+    color: #ffffff;
+}
+
+/* === IMAGE PREVIEW === */
+.imagePreviewContainer {
+    display: none;
+    margin-bottom: 0px;
+    z-index: 20;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: flex-start;
+}
+
+.imagePreviewWrapper {
+    position: relative;
+    width: fit-content;
+    margin-top: 5px;
+}
+
+.imagePreview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: var(--srui-radius-md);
+    border: 1px solid var(--srui-border-input);
+}
+
+body.light-theme #imagePreview {
+    border: 1px solid var(--srui-border-input-light);
+}
+
+.imgRemoveBtn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--srui-error);
+    color: white;
+    border: 1px solid white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+/* === TOOLS MENU === */
 #toolsMenu {
     position: fixed;
-    top: calc(50% + 30px); 
+    top: calc(50% + 30px);
     bottom: auto;
     left: 50%;
     transform: translateX(-50%);
@@ -174,13 +778,11 @@ body.light-theme #toolsBtn.active {
     transition: all var(--srui-transition-normal);
 }
 
-/* Penyesuaian Light Theme untuk #toolsMenu */
 body.light-theme #toolsMenu {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid var(--srui-border-input-light);
 }
 
-/* Kelas untuk menampilkan menu */
 #toolsMenu.visible {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
@@ -188,701 +790,175 @@ body.light-theme #toolsMenu {
     pointer-events: auto;
 }
 
-/* ATURAN BARU: Saat chat aktif, pindah ke ATAS input box */
 body.chat-active #toolsMenu {
     top: auto;
     bottom: 85px;
 }
-    /* === [END] CSS untuk Fitur "Toko Perkakas" === */
-    
-    .logo-img {
-        max-width: 450px;
-        height: auto;
-        filter: none;
-    }
 
-    .gemini-logo {
-        max-width: 200px;
-        height: auto;
-        filter: none;
-    }
-
-    .logo-container {
-        width: 90%; 
-        max-width: 450px; 
-        margin-bottom: 30px;
-        transition: opacity var(--srui-transition-slow), visibility var(--srui-transition-slow);
-        z-index: 099;
-        text-align: center;
-        pointer-events: none;
-    }
-
-    .hi-img {
-        width: 75%;
-        height: auto;
-        align-items: flex-start;
-        filter: none;
-        z-index: 100;
-        display: block; 
-        margin: 0 auto;
-    }
-
-    /* TEMA TERANG */
-    body.light-theme {
-        background-color: var(--srui-bg-primary-light);
-        color: var(--srui-text-primary-light);
-    }
-
-    body.light-theme .chat-bubble.ai-bubble {
-        background-color: var(--srui-bg-card-light);
-        color: var(--srui-text-primary-light);
-    }
-
-    body.light-theme .chat-bubble.user-bubble {
-        background-color: #888888;
-        color: #ffffff;
-    }
-    
-    body.light-theme .logo-version {
-        color: var(--srui-text-primary-light);
-    }
-
-    body.light-theme .input-box {
-        background-color: var(--srui-bg-neutral-light);
-        border: 1px solid var(--srui-border-input-light);
-    }
-
-    body.light-theme .input-box textarea {
-        color: var(--srui-text-primary-light);
-    }
-
-    body.light-theme .suggestion-box {
-        background-color: var(--srui-bg-neutral-light);
-        border: 1px solid var(--srui-border-input-light);
-    }
-    
-    body.light-theme .ai-bubble strong {
-        color: var(--srui-text-primary-light);
-    }
-
-    body.light-theme .ai-bubble h1, body.light-theme .ai-bubble h2, body.light-theme .ai-bubble h3 {
-        border-bottom: 1px solid var(--srui-text-primary-light);
-    }
-    
-    body.light-theme .logo-img, body.light-theme .gemini-logo, body.light-theme .hi-img {
-        filter: grayscale(100%) brightness(0.5);
-    }
-
-    /* ================================== */
-    /* TEMA GELAP (KUNING) - DEFAULT SRUI */
-    /* ================================== */
-    body.dark-theme {
-        background-color: var(--srui-bg-primary);
-        color: var(--srui-text-primary);
-    }
-
-    body.dark-theme .chat-bubble.ai-bubble {
-        background-color: var(--srui-bg-card);
-        color: var(--srui-text-primary);
-    }
-
-    body.dark-theme .chat-bubble.user-bubble {
-        background-color: var(--srui-accent);
-        color: var(--srui-accent-text);
-    }
-
-    body.dark-theme .input-box {
-        background-color: var(--srui-bg-neutral);
-        border: 1px solid var(--srui-border-input);
-    }
-
-    body.dark-theme .input-box textarea {
-        color: var(--srui-text-primary);
-    }
-
-    body.dark-theme .input-box button {
-        background-color: var(--srui-accent);
-        color: var(--srui-accent-text);
-    }
-
-    body.dark-theme .ai-bubble strong {
-        color: var(--srui-accent);
-    }
-
-    body.dark-theme .ai-bubble h1, 
-    body.dark-theme .ai-bubble h2, 
-    body.dark-theme .ai-bubble h3 {
-        border-bottom: 1px solid var(--srui-accent);
-    }
-
-    body.dark-theme .typing-indicator span {
-        background-color: var(--srui-accent);
-    }
-
-    * {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .logo-container {
-        position: absolute;
-        top: 25%;
-        left: 50%;
-        transform: translate(-50% , -50%);
-        transition: opacity var(--srui-transition-slow), visibility var(--srui-transition-slow);
-        z-index: 099;
-        text-align: center;
-        pointer-events: none;
-    }
-
-    .logo-container.logo-hidden {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    .logo-container img {
-        max-width: 450px;
-        height: auto;
-    }
-
-    .logo-version {
-        color: var(--srui-text-primary);
-        font-size: 0.5em;
-        font-weight: bold;
-        margin-top: 10px;
-        letter-spacing: 2px;
-        opacity: 0.5;
-    }
-    
-    .logo-text-img {
-        height: auto;
-        width: 35%;
-        vertical-align: middle;
-        opacity: 0.5;
-    }
-
-    .google-gemini b {
-        font-family: Arial, sans-serif;
-        color: white;
-        letter-spacing: normal;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-    }
-
-    body.chat-active {
-        justify-content: flex-start;
-    }
-
-/* Tambahkan ini di CSS kamu */
-.force-hide {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
+/* === SUGGESTION BOX === */
+.suggestion-box {
+    background: var(--srui-glass-bg);
+    -webkit-backdrop-filter: var(--srui-glass-blur);
+    backdrop-filter: var(--srui-glass-blur);
+    border: var(--srui-glass-border);
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: var(--srui-radius-md);
+    padding: 10px;
+    position: relative;
+    top: -10px;
+    z-index: 10;
+    width: calc(100% - 20px);
+    margin-top: 5px;
+    box-sizing: border-box;
+    box-shadow: var(--srui-shadow-medium);
+    opacity: 0;
+    transform: translateY(10px);
+    visibility: hidden;
+    pointer-events: none;
+    transition: all var(--srui-transition-normal);
 }
 
-    .chat-container {
-        width: 100%;
-        max-width: 600px;
-        padding: 20px;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-        flex-grow: 1;
-        padding-bottom: 250px;
-        opacity: 0;
-        transition: opacity var(--srui-transition-slow);
-    }
+.suggestion-box.visible {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+}
 
-    body.chat-active .chat-container {
-        opacity: 1;
-    }
-    
-    #chatMessages {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-  
-    .chat-bubble {
-        max-width: 100%;
-        padding: 10px 20px;
-        border-radius: var(--srui-radius-lg);
-        box-shadow: var(--srui-shadow-minimal);
-        font-size: 16px;
-        line-height: 1.5;
-        word-wrap: break-word;
-        margin-bottom: 10px;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: all var(--srui-transition-normal);
-    }
+body.light-theme .suggestion-box {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--srui-border-input-light);
+}
 
-    .chat-bubble.fade-in {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* === SUGGESTION ITEMS === */
+.suggestion-item {
+    color: var(--srui-text-primary);
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--srui-border-neutral);
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
 
-    /* Menghapus radius tajam untuk SRUI */
-    .user-bubble {
-        align-self: flex-end;
-        border-bottom-right-radius: var(--srui-radius-sm);
-    }
+body.light-theme .suggestion-item {
+    color: var(--srui-text-primary-light);
+    border-bottom: 1px solid var(--srui-border-neutral-light);
+}
 
-    .ai-bubble {
-        align-self: flex-start;
-        border-bottom-left-radius: var(--srui-radius-sm);
-        position: relative;
-        margin-bottom: 25px;
-    }
+.suggestion-item:last-child {
+    border-bottom: none;
+}
 
-    .copy-btn {
-        position: absolute;
-        bottom: -20px;
-        margin-bottom: 25px;
-        left: 8px;
-        color: var(--srui-neutral-dark);
-        cursor: pointer;
-        font-size: 14px;
-        transition: color var(--srui-transition-normal);
-    }
-    
-    body.light-theme .copy-btn {
-        color: var(--srui-neutral-dark);
-    }
+.suggestion-item:hover {
+    background-color: rgba(255, 206, 0, 0.2);
+    color: var(--srui-accent);
+}
 
-    .copy-btn:hover {
-        color: var(--srui-accent);
-    }
-    
-    body.light-theme .copy-btn:hover {
-        color: var(--srui-accent-alt);
-    }
+body.light-theme .suggestion-item:hover {
+    background-color: rgba(68, 68, 68, 0.2);
+    color: var(--srui-accent-alt);
+}
 
-    /* === [BARU] CSS UNTUK TOMBOL TTS === */
-    .speak-btn {
-        position: absolute;
-        bottom: -20px;
-        margin-bottom: 25px;
-        left: 35px;
-        color: var(--srui-neutral-dark);
-        cursor: pointer;
-        font-size: 14px;
-        transition: color var(--srui-transition-normal);
-    }
+.suggestion-item-slash {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--srui-border-neutral);
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
 
-    body.light-theme .speak-btn {
-        color: var(--srui-neutral-dark);
-    }
+body.light-theme .suggestion-item-slash {
+    border-bottom: 1px solid var(--srui-border-neutral-light);
+}
 
-    .speak-btn:hover {
-        color: var(--srui-accent);
-    }
-    
-    body.light-theme .speak-btn:hover {
-        color: var(--srui-accent-alt);
-    }
-    /* === [AKHIR] CSS UNTUK TOMBOL TTS === */
+.suggestion-item-slash:last-child {
+    border-bottom: none;
+}
 
-    .typing-indicator {
-        align-self: flex-start;
-        margin-left: 10px;
-    }
+.suggestion-item-slash:hover {
+    background-color: rgba(255, 206, 0, 0.2);
+}
 
-    .typing-indicator span {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        margin: 0 2px;
-        background-color: var(--srui-accent);
-        border-radius: 50%;
-        animation: bounce 1.0s infinite alternate;
-    }
-    
-    body.light-theme .typing-indicator span {
-        background-color: var(--srui-text-primary-light);
-    }
+body.light-theme .suggestion-item-slash:hover {
+    background-color: rgba(68, 68, 68, 0.2);
+}
 
-    .typing-indicator span:nth-child(2) {
-        animation-delay: 0.2s;
-    }
+.suggestion-item-slash strong {
+    display: block;
+    font-size: 15px;
+    color: var(--srui-accent);
+}
 
-    .typing-indicator span:nth-child(3) {
-        animation-delay: 0.4s;
-    }
+body.light-theme .suggestion-item-slash strong {
+    color: var(--srui-accent-alt);
+}
 
-    @keyframes bounce {
-        from {
-            transform: translateY(0);
-        }
-        to {
-            transform: translateY(-5px);
-        }
-    }
+.suggestion-item-slash span {
+    font-size: 12px;
+    color: var(--srui-neutral-mid);
+}
 
-    #settingsBtnContainer, #clearBtnContainer {
-        position: fixed;
-        left: 20px;
-        z-index: 101;
-        transition: all var(--srui-transition-normal);
-    }
-    
-    #settingsBtnContainer {
-        top: 20px;
-    }
+body.light-theme .suggestion-item-slash span {
+    color: var(--srui-neutral-mid-light);
+}
 
-    #clearBtnContainer {
-        left: 70px;
-        top: 20px;
-        opacity: 0;
-        transform: translateY(-20px);
-        pointer-events: none;
-    }
+/* === LANGUAGE SWITCHER === */
+#languageSwitcher {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    transition: opacity var(--srui-transition-slow), visibility var(--srui-transition-slow);
+    text-align: center;
+}
 
-    body.chat-active #clearBtnContainer {
-        opacity: 1;
-        transform: translateX(0);
-        pointer-events: auto;
-    }
-    
-    #connectionStatus {
-        background: var(--srui-glass-bg);
-        -webkit-backdrop-filter: var(--srui-glass-blur);
-        backdrop-filter: var(--srui-glass-blur);
-        border: var(--srui-glass-border);
-        padding: 8px 12px;
-        border-radius: var(--srui-radius-lg);
-        right: 20px;
-        top: 20px;
-        position: fixed;
-        z-index: 101;
-        display: flex;
-        align-items: center;
-        font-size: 0.8em;
-        font-weight: bold;
-        color: var(--srui-text-primary);
-        transition: all var(--srui-transition-normal);
-    }
+#languageSwitcher.lang-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
 
-    #connectionStatus .status-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 8px;
-        transition: transform 0.3s ease;
-    }
-    
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.3); }
-        100% { transform: scale(1); }
-    }
+.lang-dropdown {
+    background-color: var(--srui-bg-card);
+    color: var(--srui-text-primary);
+    border: 1px solid var(--srui-accent);
+    border-radius: var(--srui-radius-lg);
+    padding: 4px 25px 4px 7.5px;
+    font-size: 0.5em;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 2.5px top 50%;
+    margin-top: 20px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
 
-    .status-changed .status-dot {
-        animation: pulse 0.5s ease-in-out;
-    }
-    
-    #connectionStatus .online {
-        background-color: var(--srui-success);
-    }
-    
-    #connectionStatus .offline {
-        background-color: var(--srui-error);
-    }
+body.light-theme .lang-dropdown {
+    background-color: var(--srui-bg-neutral-light);
+    color: var(--srui-text-primary-light);
+    border: 1px solid var(--srui-border-input-light);
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+}
 
-    body.light-theme #connectionStatus {
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid var(--srui-border-input-light);
-        color: var(--srui-text-primary-light);
-    }
+.lang-dropdown option {
+    background-color: var(--srui-bg-card);
+    color: var(--srui-text-primary);
+}
 
-    body.light-theme #connectionStatus .status-label {
-        color: var(--srui-text-primary-light);
-    }
-    
-    body.chat-active #connectionStatus {
-        transform: translateX(calc(125% - 32px));
-    }
+body.light-theme .lang-dropdown option {
+    background-color: var(--srui-bg-neutral-light);
+    color: var(--srui-text-primary-light);
+}
 
-    #connectionStatus.hidden-by-scroll {
-        transform: translateX(200px); 
-        opacity: 0;
-    }
-
-    #connectionStatus .status-label {
-        color: var(--srui-text-primary);
-    }
-    
-    #clearBtn, #settingsBtn {
-        background-color: var(--srui-accent);
-        color: var(--srui-accent-text);
-        border: none;
-        border-radius: var(--srui-radius-xl);
-        width: 40px;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: all var(--srui-transition-normal);
-        box-shadow: none;
-    }
-    
-    body.light-theme #clearBtn, body.light-theme #settingsBtn {
-        background-color: var(--srui-accent-alt);
-        color: var(--srui-accent-text-alt);
-    }
-    
-    #clearBtn:hover, #settingsBtn:hover,
-    #clearBtn:active, #settingsBtn:active { 
-        color: var(--srui-accent-text);
-        transform: scale(1.1);
-        background-color: #eab308;
-    }
-
-    body.light-theme #clearBtn:hover, body.light-theme #settingsBtn:hover,
-    body.light-theme #clearBtn:active, body.light-theme #settingsBtn:active {
-        color: var(--srui-accent-text-alt);
-        background-color: #222222;
-    }
-
-    .input-container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        box-sizing: border-box;
-        background-color: none;
-        z-index: 100;
-        transition: all var(--srui-transition-slow);
-    }
-
-    .input-container.centered {
-        position: absolute;
-        bottom: 50%;
-        transform: translateY(50%);
-    }
-
-    .input-container.bottom {
-        position: fixed;
-        bottom: 0;
-    }
-    
-    .info-text {
-        color: var(--srui-neutral-dark);
-        font-size: 12px;
-        text-align: center;
-        bottom: 3px;
-        display: none;
-        transition: opacity var(--srui-transition-slow);
-    }
-    
-    body.light-theme .info-text {
-        color: var(--srui-neutral-dark);
-    }
-
-    body.chat-active .info-text {
-        display: block;
-    }
-
-    .input-box {
-        display: flex;
-        align-items: center;
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 10px;
-        border-radius: var(--srui-radius-lg);
-        box-shadow: var(--srui-shadow-medium);
-    }
-
-    .input-box textarea {
-        flex-grow: 1;
-        border: none;
-        outline: none;
-        font-size: 15px;
-        padding: 0 5px;
-        margin-left: 5px;
-        background-color: transparent;
-        resize: none;
-        overflow: hidden;
-        max-height: 250px;
-        font-family: Arial, sans-serif;
-        border-radius: 0;
-    }
-
-    #sendBtn {
-        background-color: var(--srui-accent);
-        color: var(--srui-accent-text);
-        border: none;
-        border-radius: var(--srui-radius-lg);
-        width: 40px;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        flex-shrink: 0;
-        transition: all var(--srui-transition-normal);
-    }
-    
-    /* Style untuk tombol kirim saat non-aktif */
-    #sendBtn.disabled {
-        opacity: 0.5;
-        transform: scale(0.9);
-        cursor: not-allowed;
-    }
-
-    body.light-theme #sendBtn {
-        background-color: var(--srui-accent-alt);
-        color: var(--srui-accent-text-alt);
-    }
-
-    #sendBtn:not(.disabled):hover,
-    #sendBtn:not(.disabled):active { 
-        background-color: #eab308;
-        transform: scale(1.1);
-    }
-    
-    body.light-theme #sendBtn:not(.disabled):hover,
-    body.light-theme #sendBtn:not(.disabled):active {
-        background-color: #222222;
-    }
-
-    #stopBtn {
-        background-color: var(--srui-error);
-        color: #ffffff;
-        border: none;
-        border-radius: var(--srui-radius-lg);
-        width: 40px;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        flex-shrink: 0;
-        transition: all var(--srui-transition-normal);
-    }
-    
-    body.light-theme #stopBtn {
-        background-color: var(--srui-error);
-        color: #ffffff;
-    }
-
-    .suggestion-box {
-        background: var(--srui-glass-bg);
-        -webkit-backdrop-filter: var(--srui-glass-blur);
-        backdrop-filter: var(--srui-glass-blur);
-        border: var(--srui-glass-border);
-        max-width: 600px;
-        margin: 0 auto;
-        border-radius: var(--srui-radius-md);
-        padding: 10px;
-        position: relative;
-        top: -10px;
-        z-index: 10;
-        width: calc(100% - 20px);
-        margin-top: 5px;
-        box-sizing: border-box;
-        box-shadow: var(--srui-shadow-medium);
-        opacity: 0;
-        transform: translateY(10px);
-        visibility: hidden;
-        pointer-events: none;
-        transition: all var(--srui-transition-normal);
-    }
-    
-    /* Kelas untuk menampilkan suggestion box */
-    .suggestion-box.visible {
-        opacity: 1;
-        transform: translateY(0);
-        visibility: visible;
-        pointer-events: auto;
-    }
-
-    body.light-theme .suggestion-box {
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid var(--srui-border-input-light);
-    }
-
-    .suggestion-item {
-        color: var(--srui-text-primary);
-        padding: 8px 10px;
-        cursor: pointer;
-        border-bottom: 1px solid var(--srui-border-neutral);
-        font-size: 14px;
-        transition: all 0.2s ease;
-        border-radius: 8px;
-    }
-    
-    body.light-theme .suggestion-item {
-        color: var(--srui-text-primary-light);
-        border-bottom: 1px solid var(--srui-border-neutral-light);
-    }
-
-    .suggestion-item:last-child {
-        border-bottom: none;
-    }
-
-    .suggestion-item:hover {
-        background-color: rgba(255, 206, 0, 0.2);
-        color: var(--srui-accent);
-    }
-    
-    body.light-theme .suggestion-item:hover {
-        background-color: rgba(68, 68, 68, 0.2);
-        color: var(--srui-accent-alt);
-    }
-
-    .suggestion-item-slash {
-        padding: 10px 12px;
-        cursor: pointer;
-        border-bottom: 1px solid var(--srui-border-neutral);
-        transition: all 0.2s ease;
-        border-radius: 8px;
-    }
-
-    body.light-theme .suggestion-item-slash {
-        border-bottom: 1px solid var(--srui-border-neutral-light);
-    }
-
-    .suggestion-item-slash:last-child {
-        border-bottom: none;
-    }
-
-    .suggestion-item-slash:hover {
-        background-color: rgba(255, 206, 0, 0.2);
-    }
-
-    body.light-theme .suggestion-item-slash:hover {
-        background-color: rgba(68, 68, 68, 0.2);
-    }
-
-    .suggestion-item-slash strong {
-        display: block;
-        font-size: 15px;
-        color: var(--srui-accent);
-    }
-
-    body.light-theme .suggestion-item-slash strong {
-        color: var(--srui-accent-alt);
-    }
-
-    .suggestion-item-slash span {
-        font-size: 12px;
-        color: var(--srui-neutral-mid);
-    }
-
-    body.light-theme .suggestion-item-slash span {
-        color: var(--srui-neutral-mid-light);
-    }
-
-    .loading-text {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-/* Cari bagian ini di MirAIStyle.css */
+/* === SPLASH SCREEN === */
 #splash-screen {
     position: fixed;
     top: 0;
@@ -890,191 +966,62 @@ body.chat-active #toolsMenu {
     width: 100%;
     height: 100%;
     background-color: #1a1a1a;
-    display: none; /* UBAH DARI flex JADI none */
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 1000;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
-    body.light-theme #splash-screen {
-      background-color: var(--srui-bg-card-light);
-      color: var(--srui-text-primary-light);
-    }
-
-    #splash-screen.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .splash-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .splash-logo {
-      max-width: 200px;
-    }
-
-    .splash-title {
-      font-size: 2em;
-      margin: 0;
-      letter-spacing: 2px;
-    }
-
-    .splash-text {
-      font-size: 0.8em;
-      color: var(--srui-neutral-mid);
-    }
-    
-    body.light-theme .splash-text {
-        color: var(--srui-neutral-mid-light);
-    }
-
-    .splash-text2 {
-      font-size: 0.5em;
-      color: var(--srui-neutral-mid);
-    }
-    
-    body.light-theme .splash-text2 {
-        color: var(--srui-neutral-mid-light);
-    }
-    
-    .loading-bar-container {
-        width: 200px;
-        height: 4px;
-        background-color: #212121;
-        border-radius: var(--srui-radius-lg);
-        overflow: hidden;
-        position: relative;
-    }
-    
-    body.light-theme .loading-bar-container {
-        background-color: var(--srui-border-input-light);
-    }
-
-    .loading-bar {
-        width: 0%;
-        height: 100%;
-        background-color: var(--srui-accent);
-        position: absolute;
-        transition: width var(--srui-transition-slow);
-    }
-    
-    body.light-theme .loading-bar {
-        background-color: var(--srui-accent-alt);
-    }
-    
-    #retry-button {
-      background-color: var(--srui-accent);
-      color: var(--srui-accent-text);
-      border: none;
-      padding: 10px 20px;
-      border-radius: var(--srui-radius-lg);
-      cursor: pointer;
-      margin-top: 20px;
-      font-size: 1em;
-      transition: all var(--srui-transition-normal);
-    }
-        
-    #retry-button:hover,
-    #retry-button:active {
-        transform: scale(1.05);
-        background-color: #eab308;
-    }
-        
-    body.light-theme #retry-button {
-        background-color: var(--srui-accent-alt);
-        color: var(--srui-accent-text-alt);
-    }
-    
-    body.light-theme #retry-button:hover {
-        background-color: #222222;
-    }
-        
-    #languageSwitcher {
-        position: fixed;
-        bottom: 25px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 100;
-        transition: opacity var(--srui-transition-slow), visibility var(--srui-transition-slow);
-        text-align: center;
-    }
-    
-    #languageSwitcher.lang-hidden {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    .lang-dropdown {
-        background-color: var(--srui-bg-card);
-        color: var(--srui-text-primary);
-        border: 1px solid var(--srui-accent);
-        border-radius: var(--srui-radius-lg);
-        padding: 4px 25px 4px 7.5px;
-        font-size: 0.5em;
-        cursor: pointer;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-        background-repeat: no-repeat;
-        background-position: right 2.5px top 50%;
-        margin-top: 20px;
-        width: fit-content;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-    }
-    
-    body.light-theme .lang-dropdown {
-        background-color: var(--srui-bg-neutral-light);
-        color: var(--srui-text-primary-light);
-        border: 1px solid var(--srui-border-input-light);
-        background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-    }
-
-    .lang-dropdown option {
-        background-color: var(--srui-bg-card);
-        color: var(--srui-text-primary);
-    }
-    
-    body.light-theme .lang-dropdown option {
-        background-color: var(--srui-bg-neutral-light);
-        color: var(--srui-text-primary-light);
-    }
-
-/* Update Halaman Settings jadi Popup */
-.settings-page {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9); /* Efek zoom out dikit pas tutup */
-    width: 90%;
-    max-width: 500px;
-    height: auto;
-    max-height: 85vh; /* Biar nggak mentok banget atas-bawah */
-    background: var(--srui-bg-card); /* Pakai variabel warna kamu */
-    border-radius: 20px;
-    z-index: 3000;
-    display: none; /* Default sembunyi */
-    flex-direction: column;
-    overflow-y: auto; /* KUNCI: Biar bisa scroll kalau layar 16:9 */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    transition: all 0.3s ease;
-    padding: 20px;
+body.light-theme #splash-screen {
+    background-color: var(--srui-bg-card-light);
+    color: var(--srui-text-primary-light);
 }
 
-.settings-page.visible {
+#splash-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.splash-content {
     display: flex;
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
-/* Tambahkan Overlay Gelap di belakang popup */
+.splash-logo {
+    max-width: 200px;
+}
+
+.loading-bar-container {
+    width: 200px;
+    height: 4px;
+    background-color: #212121;
+    border-radius: var(--srui-radius-lg);
+    overflow: hidden;
+    position: relative;
+}
+
+body.light-theme .loading-bar-container {
+    background-color: var(--srui-border-input-light);
+}
+
+.loading-bar {
+    width: 0%;
+    height: 100%;
+    background-color: var(--srui-accent);
+    position: absolute;
+    transition: width var(--srui-transition-slow);
+}
+
+body.light-theme .loading-bar {
+    background-color: var(--srui-accent-alt);
+}
+
+/* === SETTINGS POPUP STYLING === */
+
+/* Overlay backdrop */
 .settings-overlay {
     position: fixed;
     top: 0;
@@ -1082,581 +1029,469 @@ body.chat-active #toolsMenu {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
-    z-index: 2999;
-    display: none;
+    z-index: 1999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.settings-overlay.visible {
-    display: block;
-}
-    
-    body.light-theme #settingsPage {
-        background-color: var(--srui-bg-primary-light);
-        color: var(--srui-text-primary-light);
-    }
-
-    #settingsPage.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .settings-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid var(--srui-border-input);
-    }
-    
-    body.light-theme .settings-header {
-        border-bottom: 1px solid var(--srui-border-input-light);
-    }
-    
-    .settings-header h2 {
-        margin: 0;
-        font-size: 1.5em;
-    }
-    .settings-header #backBtn {
-        background: none;
-        border: none;
-        color: var(--srui-text-primary);
-        font-size: 1.5em;
-        cursor: pointer;
-    }
-    
-    body.light-theme .settings-header #backBtn {
-        color: var(--srui-text-primary-light);
-    }
-    
-    .settings-content h3 {
-        color: var(--srui-accent);
-        margin-top: 30px;
-        margin-bottom: 10px;
-    }
-
-    body.light-theme .settings-content h3 {
-        color: var(--srui-accent-alt);
-    }
-    .settings-option {
-        margin-bottom: 15px;
-    }
-    .settings-option p {
-        margin: 0 0 5px 0;
-    }
-    .settings-option select {
-        background-color: var(--srui-bg-card);
-        color: var(--srui-text-primary);
-        border: 1px solid var(--srui-accent);
-        border-radius: var(--srui-radius-lg);
-        padding: 5px;
-    }
-    
-    body.light-theme .settings-option select {
-        background-color: var(--srui-bg-neutral-light);
-        color: var(--srui-text-primary-light);
-        border: 1px solid var(--srui-border-input-light);
-    }
-
-    .settings-about {
-        text-align: center;
-    }
-    
-    .settings-about p, .settings-about a {
-        font-size: 0.9em;
-        color: var(--srui-neutral-mid);
-        margin: 5px 0;
-    }
-    
-    body.light-theme .settings-about p, body.light-theme .settings-about a {
-        color: var(--srui-neutral-mid-light);
-    }
-    
-    .settings-about a {
-        color: var(--srui-accent);
-        text-decoration: none;
-    }
-    
-    body.light-theme .settings-about a {
-        color: var(--srui-accent-alt);
-    }
-    
-    .settings-about a:hover {
-        text-decoration: underline;
-    }
-    
-    .gemini-container {
-        margin-top: 20px;
-    }
-
-    .api-key-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-        width: 100%;
-        max-width: 500px;
-    }
-
-    #apiKeyInput {
-        width: 100%;
-        padding: 8px 40px 8px 15px;
-        border-radius: var(--srui-radius-lg);
-        border: 1px solid var(--srui-accent);
-        background-color: var(--srui-bg-card);
-        color: var(--srui-text-primary);
-        font-size: 0.9em;
-        box-sizing: border-box;
-    }
-
-    #toggleApiKey {
-        position: absolute;
-        right: 15px;
-        cursor: pointer;
-        color: var(--srui-neutral-mid);
-    }
-
-    #saveApiBtn {
-        margin-top: 0;
-        padding: 6px 12px;
-        font-size: 0.9em;
-    }
-    
-    body.light-theme #apiKeyInput {
-        border: 1px solid var(--srui-border-input-light);
-        background-color: var(--srui-bg-neutral-light);
-        color: var(--srui-text-primary-light);
-    }
-    
-    body.light-theme #toggleApiKey {
-        color: var(--srui-neutral-mid-light);
-    }
-
-    .ai-bubble pre {
-        background-color: #0d1117;
-        color: #c9d1d9;
-        padding: 15px;
-        border-radius: var(--srui-radius-lg);
-        overflow-x: auto;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 0.9em;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-    
-    .ai-bubble code {
-        font-family: inherit;
-    }
-
-    .body.light-theme .ai-bubble pre {
-        background-color: #f6f8fa;
-        color: #24292e;
-        border: 1px solid #d0d7de;
-    }
-
-    /* Style dasar untuk tombol credits & save key (Dark Theme) */
-    .settings-credits-btn {
-        background-color: var(--srui-bg-card);
-        color: var(--srui-accent);
-        border: 1px solid var(--srui-accent);
-        padding: 8px 15px;
-        border-radius: var(--srui-radius-lg);
-        cursor: pointer;
-        font-size: 1em;
-        margin-top: 10px;
-        transition: all var(--srui-transition-normal);
-        text-decoration: none;
-        display: inline-block;
-    }
-
-    /* Penyesuaian untuk Light Theme */
-    body.light-theme .settings-credits-btn {
-        background-color: var(--srui-bg-neutral-light);
-        color: var(--srui-accent-alt);
-        border: 1px solid var(--srui-border-input-light);
-    }
-
-    /* Efek saat disentuh (hover) - Dark Theme */
-    .settings-credits-btn:hover {
-        background-color: var(--srui-accent);
-        color: var(--srui-accent-text);
-        transform: scale(1.05);
-    }
-
-    /* Efek hover untuk Light Theme */
-    body.light-theme .settings-credits-btn:hover {
-        background-color: var(--srui-accent-alt);
-        color: var(--srui-accent-text-alt);
-    }
-
-    /* === [START] CSS UNTUK POPUP KONFIRMASI KUSTOM === */
-    #customConfirmOverlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        -webkit-backdrop-filter: blur(5px);
-        backdrop-filter: blur(5px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 2000;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: opacity var(--srui-transition-normal), visibility var(--srui-transition-normal);
-    }
-
-    #customConfirmOverlay.visible {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
-
-    #customConfirmBox {
-        background: var(--srui-glass-bg);
-        -webkit-backdrop-filter: var(--srui-glass-blur);
-        backdrop-filter: var(--srui-glass-blur);
-        color: var(--srui-text-primary);
-        padding: 25px;
-        border-radius: var(--srui-radius-lg);
-        border: var(--srui-glass-border);
-        width: 75%;
-        max-width: 400px;
-        text-align: center;
-        transform: scale(0.95);
-        transition: transform var(--srui-transition-normal);
-        box-shadow: var(--srui-shadow-modal);
-    }
-
-    #customConfirmOverlay.visible #customConfirmBox {
-        transform: scale(1);
-    }
-
-    #customConfirmMessage {
-        margin: 0 0 20px 0;
-        font-size: 1em;
-        line-height: 1.6;
-        white-space: pre-wrap;
-    }
-
-    .custom-confirm-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .custom-confirm-buttons button {
-        padding: 10px 20px;
-        border-radius: var(--srui-radius-lg);
-        cursor: pointer;
-        font-size: 1em;
-        font-weight: bold;
-        min-width: 100px;
-        transition: all 0.2s ease;
-    }
-
-    /* Tombol Ya (Confirm/Destructive) - Dibuat jadi outline */
-    #confirmBtnYes {
-        background-color: transparent;
-        color: var(--srui-accent);
-        border: 1px solid var(--srui-accent);
-    }
-
-    #confirmBtnYes:hover {
-        background-color: var(--srui-accent);
-        color: var(--srui-accent-text);
-    }
-
-    /* Tombol Tidak (Cancel/Safe) - Dibuat jadi solid */
-    #confirmBtnNo {
-        background-color: var(--srui-accent);
-        border: 1px solid var(--srui-accent);
-        color: var(--srui-accent-text);
-    }
-
-    #confirmBtnNo:hover {
-        background-color: #ffee00;
-        border: 1px solid var(--srui-accent);
-        transform: scale(1.05);
-        color: #ffffff;
-    }
-
-    /* Tema Terang */
-    body.light-theme #customConfirmBox {
-        background: rgba(255, 255, 255, 0.9);
-        color: var(--srui-text-primary-light);
-        border: 1px solid var(--srui-border-input-light);
-    }
-
-    body.light-theme #confirmBtnYes {
-        background-color: transparent;
-        color: var(--srui-accent-alt);
-        border: 1px solid var(--srui-border-input-light);
-    }
-
-    body.light-theme #confirmBtnYes:hover {
-        background-color: var(--srui-accent-alt);
-        color: var(--srui-accent-text-alt);
-    }
-
-    body.light-theme #confirmBtnNo {
-        background-color: var(--srui-neutral-mid);
-        color: #ffffff;
-        border-color: var(--srui-neutral-mid);
-    }
-
-    body.light-theme #confirmBtnNo:hover {
-        background-color: var(--srui-neutral-dark);
-        border-color: var(--srui-neutral-dark);
-    }
-
-    /* === [END] CSS UNTUK POPUP KONFIRMASI KUSTOM === */
-    .tombol-spesial {
-        background-color: var(--srui-accent);
-        border-radius: var(--srui-radius-lg);
-        border: none;
-        color: var(--srui-accent-text);
-        padding: 12px 24px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        transition: all var(--srui-transition-normal);
-    }
-
-    .tombol-spesial:hover {
-        background-color: #eab308;
-    }
-    
-    body.light-theme .tombol-spesial {
-        background-color: var(--srui-accent-alt);
-        color: var(--srui-accent-text-alt);
-    }
-
-    body.light-theme .tombol-spesial:hover {
-        background-color: #222222;
-    }
-
-    /* [BARU] Styling untuk tombol upload */
-    #uploadImageBtn {
-        background-color: #212121;
-        color: #ffffff;
-        border: none;
-        border-radius: var(--srui-radius-xl);
-        width: 40px;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        flex-shrink: 0;
-        transition: all var(--srui-transition-normal);
-        margin-left: 5px;
-    }
-
-    #uploadImageBtn:hover {
-        transform: scale(1.1);
-        background-color: var(--srui-accent);
-        color: var(--srui-accent-text);
-    }
-
-    body.light-theme #uploadImageBtn {
-        color: #ffffff;
-        background-color: var(--srui-accent-alt);
-    }
-
-    body.light-theme #uploadImageBtn:hover {
-        background-color: #222222;
-        color: #ffffff;
-    }
-
-    /* [BARU] Styling untuk preview gambar (disempurnakan dari HTML) */
-    #imagePreview {
-        border: 1px solid var(--srui-border-input);
-    }
-
-    body.light-theme #imagePreview {
-        border: 1px solid var(--srui-border-input-light);
-    }
-
-    .imgRemoveBtn {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background-color: var(--srui-error);
-        color: white;
-        border: 1px solid white;
-        border-radius: 50%;
-        width: 22px;
-        height: 22px;
-        cursor: pointer;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
-        box-shadow: 0 0 5px rgba(0,0,0,0.5);
-    }
-
-    .imagePreviewContainer {
-        display: none;
-        margin-bottom: 0px;
-        z-index: 20;
-        background: transparent;
-        border-radius: 0;
-        padding: 0;
-        box-shadow: none;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        justify-content: flex-start;
-    }
-
-    .imagePreview {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: var(--srui-radius-md);
-    }
-
-    /* [BARU] Tambahkan CSS untuk wrapper */
-    .imagePreviewWrapper {
-        position: relative;
-        width: fit-content;
-        margin-top: 5px;
-    }
-
-/* === [START] CSS UNTUK TOMBOL COPY CODE ONLY === */
-.copy-code-btn {
-    position: absolute;
-    bottom: -20px;
-    margin-bottom: 25px;
-    left: 62px;
-    color: var(--srui-neutral-dark);
-    cursor: pointer;
-    font-size: 14px;
-    transition: all var(--srui-transition-normal);
+.settings-overlay.active {
+    opacity: 1;
+    visibility: visible;
 }
 
-body.light-theme .copy-code-btn {
-    color: var(--srui-neutral-dark);
+/* Popup container */
+.settings-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    max-width: 500px;
+    max-height: 85vh;
+    background: var(--srui-bg-card);
+    border-radius: var(--srui-radius-lg);
+    border: var(--srui-glass-border);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    box-shadow: var(--srui-shadow-modal);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.copy-code-btn:hover {
-    color: var(--srui-success);
-    transform: scale(1.1);
+.settings-popup.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
 }
 
-body.light-theme .copy-code-btn:hover {
-    color: #2E7D32;
+.settings-popup-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-/* Animasi sukses copy */
-.copy-code-btn.copied {
-    color: var(--srui-success) !important;
-    animation: bounce 0.5s ease;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-}
-
-/* Penyesuaian spacing untuk multiple buttons */
-.ai-bubble {
-    padding-bottom: 30px;
-}
-
-/* Responsive untuk mobile */
-@media (max-width: 480px) {
-    .copy-code-btn {
-        left: 55px;
-        font-size: 13px;
-    }
-}
-/* === [END] CSS UNTUK TOMBOL COPY CODE ONLY === */
-
-/* === SRUI CHIP COMPONENT === */
-.srui-chip {
-    display: inline-flex;
+/* Header popup */
+.settings-header {
+    display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: var(--srui-radius-xl);
-    font-size: 0.8em;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid var(--srui-border-neutral);
+    flex-shrink: 0;
+}
+
+.settings-header h2 {
+    margin: 0;
+    font-size: 1.5em;
     font-weight: bold;
-    white-space: nowrap;
-    transition: all var(--srui-transition-normal);
+    color: var(--srui-text-primary);
+}
+
+.popup-close-btn {
+    background: none;
     border: none;
-    cursor: default;
-}
-
-.srui-chip.interactive {
+    color: var(--srui-text-primary);
+    font-size: 1.2em;
     cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--srui-radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--srui-transition-normal);
 }
 
-.srui-chip.interactive:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--srui-shadow-minimal);
+.popup-close-btn:hover {
+    background-color: rgba(255, 206, 0, 0.1);
+    color: var(--srui-accent);
+    transform: rotate(90deg);
 }
 
-/* Chip Variants */
-.srui-chip--primary {
+/* Konten scrollable */
+.settings-content.scrollable {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    padding-top: 10px;
+}
+
+/* Scrollbar styling */
+.settings-content.scrollable::-webkit-scrollbar {
+    width: 6px;
+}
+
+.settings-content.scrollable::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: var(--srui-radius-lg);
+}
+
+.settings-content.scrollable::-webkit-scrollbar-thumb {
+    background: var(--srui-accent);
+    border-radius: var(--srui-radius-lg);
+}
+
+.settings-content.scrollable::-webkit-scrollbar-thumb:hover {
+    background: #eab308;
+}
+
+/* Settings content styling */
+.settings-content h3 {
+    color: var(--srui-accent);
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.settings-option {
+    margin-bottom: 15px;
+}
+
+.settings-option p {
+    margin: 0 0 5px 0;
+    color: var(--srui-text-primary);
+}
+
+.settings-option select {
+    background-color: var(--srui-bg-card);
+    color: var(--srui-text-primary);
+    border: 1px solid var(--srui-accent);
+    border-radius: var(--srui-radius-lg);
+    padding: 8px 12px;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* API Key container */
+.api-key-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+#apiKeyInput {
+    width: 100%;
+    padding: 8px 40px 8px 15px;
+    border-radius: var(--srui-radius-lg);
+    border: 1px solid var(--srui-accent);
+    background-color: var(--srui-bg-card);
+    color: var(--srui-text-primary);
+    font-size: 0.9em;
+    box-sizing: border-box;
+}
+
+#toggleApiKey {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    color: var(--srui-neutral-mid);
+}
+
+/* Save API button */
+#saveApiBtn {
+    margin-top: 0;
+    padding: 8px 20px;
+    font-size: 0.9em;
+    background-color: var(--srui-bg-card);
+    color: var(--srui-accent);
+    border: 1px solid var(--srui-accent);
+    border-radius: var(--srui-radius-lg);
+    cursor: pointer;
+    transition: all var(--srui-transition-normal);
+}
+
+#saveApiBtn:hover {
     background-color: var(--srui-accent);
     color: var(--srui-accent-text);
 }
 
-.srui-chip--secondary {
-    background-color: var(--srui-neutral-dark);
+/* About section */
+.settings-about {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.settings-about p,
+.settings-about a {
+    font-size: 0.9em;
+    color: var(--srui-neutral-mid);
+    margin: 5px 0;
+}
+
+.settings-about a {
+    color: var(--srui-accent);
+    text-decoration: none;
+}
+
+.settings-about a:hover {
+    text-decoration: underline;
+}
+
+.gemini-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Export/Import buttons */
+.settings-credits-btn {
+    background-color: var(--srui-bg-card);
+    color: var(--srui-accent);
+    border: 1px solid var(--srui-accent);
+    padding: 8px 15px;
+    border-radius: var(--srui-radius-lg);
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    transition: all var(--srui-transition-normal);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.settings-credits-btn:hover {
+    background-color: var(--srui-accent);
+    color: var(--srui-accent-text);
+    transform: scale(1.05);
+}
+
+/* Light theme adjustments for popup */
+body.light-theme .settings-popup {
+    background: var(--srui-bg-card-light);
+    border: 1px solid var(--srui-border-input-light);
+}
+
+body.light-theme .settings-header {
+    border-bottom: 1px solid var(--srui-border-neutral-light);
+}
+
+body.light-theme .settings-header h2 {
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .popup-close-btn {
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .popup-close-btn:hover {
+    background-color: rgba(68, 68, 68, 0.1);
+    color: var(--srui-accent-alt);
+}
+
+body.light-theme .settings-content h3 {
+    color: var(--srui-accent-alt);
+}
+
+body.light-theme .settings-option p {
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .settings-option select {
+    background-color: var(--srui-bg-neutral-light);
+    color: var(--srui-text-primary-light);
+    border: 1px solid var(--srui-border-input-light);
+}
+
+body.light-theme #apiKeyInput {
+    border: 1px solid var(--srui-border-input-light);
+    background-color: var(--srui-bg-neutral-light);
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme #toggleApiKey {
+    color: var(--srui-neutral-mid-light);
+}
+
+body.light-theme #saveApiBtn {
+    background-color: var(--srui-bg-neutral-light);
+    color: var(--srui-accent-alt);
+    border: 1px solid var(--srui-border-input-light);
+}
+
+body.light-theme #saveApiBtn:hover {
+    background-color: var(--srui-accent-alt);
+    color: var(--srui-accent-text-alt);
+}
+
+body.light-theme .settings-about p,
+body.light-theme .settings-about a {
+    color: var(--srui-neutral-mid-light);
+}
+
+body.light-theme .settings-about a {
+    color: var(--srui-accent-alt);
+}
+
+body.light-theme .settings-credits-btn {
+    background-color: var(--srui-bg-neutral-light);
+    color: var(--srui-accent-alt);
+    border: 1px solid var(--srui-border-input-light);
+}
+
+body.light-theme .settings-credits-btn:hover {
+    background-color: var(--srui-accent-alt);
+    color: var(--srui-accent-text-alt);
+}
+
+body.light-theme .settings-content.scrollable::-webkit-scrollbar-thumb {
+    background: var(--srui-accent-alt);
+}
+
+body.light-theme .settings-content.scrollable::-webkit-scrollbar-thumb:hover {
+    background: #222222;
+}
+
+/* === CUSTOM CONFIRMATION DIALOG === */
+#customConfirmOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--srui-transition-normal), visibility var(--srui-transition-normal);
+}
+
+#customConfirmOverlay.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+#customConfirmBox {
+    background: var(--srui-glass-bg);
+    -webkit-backdrop-filter: var(--srui-glass-blur);
+    backdrop-filter: var(--srui-glass-blur);
     color: var(--srui-text-primary);
+    padding: 25px;
+    border-radius: var(--srui-radius-lg);
+    border: var(--srui-glass-border);
+    width: 75%;
+    max-width: 400px;
+    text-align: center;
+    transform: scale(0.95);
+    transition: transform var(--srui-transition-normal);
+    box-shadow: var(--srui-shadow-modal);
 }
 
-.srui-chip--success {
-    background-color: var(--srui-success);
-    color: white;
+#customConfirmOverlay.visible #customConfirmBox {
+    transform: scale(1);
 }
 
-.srui-chip--warning {
-    background-color: var(--srui-warning);
+#customConfirmMessage {
+    margin: 0 0 20px 0;
+    font-size: 1em;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.custom-confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.custom-confirm-buttons button {
+    padding: 10px 20px;
+    border-radius: var(--srui-radius-lg);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    min-width: 100px;
+    transition: all 0.2s ease;
+}
+
+/* Tombol Ya (Confirm/Destructive) */
+#confirmBtnYes {
+    background-color: transparent;
+    color: var(--srui-accent);
+    border: 1px solid var(--srui-accent);
+}
+
+#confirmBtnYes:hover {
+    background-color: var(--srui-accent);
     color: var(--srui-accent-text);
 }
 
-.srui-chip--error {
-    background-color: var(--srui-error);
-    color: white;
+/* Tombol Tidak (Cancel/Safe) */
+#confirmBtnNo {
+    background-color: var(--srui-accent);
+    border: 1px solid var(--srui-accent);
+    color: var(--srui-accent-text);
 }
 
-.srui-chip--info {
-    background-color: var(--srui-info);
-    color: white;
+#confirmBtnNo:hover {
+    background-color: #ffee00;
+    border: 1px solid var(--srui-accent);
+    transform: scale(1.05);
+    color: #ffffff;
 }
 
-/* === SRUI MICRO-BOUNCE ANIMATIONS === */
-@keyframes micro-bounce-in {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
+/* Light theme for confirmation dialog */
+body.light-theme #customConfirmBox {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--srui-text-primary-light);
+    border: 1px solid var(--srui-border-input-light);
 }
 
-@keyframes micro-bounce-out {
-    0% { transform: scale(1); }
-    50% { transform: scale(0.98); }
-    100% { transform: scale(1); }
+body.light-theme #confirmBtnYes {
+    background-color: transparent;
+    color: var(--srui-accent-alt);
+    border: 1px solid var(--srui-border-input-light);
 }
 
-.micro-bounce-hover:hover {
-    animation: micro-bounce-in var(--srui-transition-fast);
+body.light-theme #confirmBtnYes:hover {
+    background-color: var(--srui-accent-alt);
+    color: var(--srui-accent-text-alt);
 }
 
-.micro-bounce-active:active {
-    animation: micro-bounce-out var(--srui-transition-fast);
+body.light-theme #confirmBtnNo {
+    background-color: var(--srui-neutral-mid);
+    color: #ffffff;
+    border-color: var(--srui-neutral-mid);
 }
 
-/* === RESPONSIVE DESIGN ENHANCEMENTS === */
+body.light-theme #confirmBtnNo:hover {
+    background-color: var(--srui-neutral-dark);
+    border-color: var(--srui-neutral-dark);
+}
+
+/* === AI BUBBLE CODE STYLING === */
+.ai-bubble pre {
+    background-color: #0d1117;
+    color: #c9d1d9;
+    padding: 15px;
+    border-radius: var(--srui-radius-lg);
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ai-bubble code {
+    font-family: inherit;
+}
+
+body.light-theme .ai-bubble pre {
+    background-color: #f6f8fa;
+    color: #24292e;
+    border: 1px solid #d0d7de;
+}
+
+/* === RESPONSIVE DESIGN === */
 @media (max-width: 768px) {
     .logo-img {
         max-width: 300px;
@@ -1670,6 +1505,19 @@ body.light-theme .copy-code-btn:hover {
     .input-container {
         padding: 8px;
     }
+    
+    .settings-popup {
+        width: 95%;
+        max-height: 90vh;
+    }
+    
+    .settings-header {
+        padding: 15px;
+    }
+    
+    .settings-content.scrollable {
+        padding: 15px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1682,31 +1530,79 @@ body.light-theme .copy-code-btn:hover {
         font-size: 14px;
     }
     
-    .copy-btn, .speak-btn, .copy-code-btn {
+    .copy-btn, .speak-btn {
         font-size: 13px;
         bottom: -18px;
     }
     
     .copy-btn { left: 5px; }
     .speak-btn { left: 30px; }
-    .copy-code-btn { left: 55px; }
-}
-
-/* === ACCESSIBILITY ENHANCEMENTS === */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+    
+    .settings-popup {
+        width: 98%;
+        max-height: 95vh;
+        border-radius: var(--srui-radius-md);
     }
     
-    .micro-bounce-hover:hover,
-    .micro-bounce-active:active {
-        animation: none;
+    .custom-confirm-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .custom-confirm-buttons button {
+        width: 100%;
+        min-width: unset;
     }
 }
 
-/* === SRUI UTILITY CLASSES === */
+/* === ANIMATIONS === */
+@keyframes popupIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes popupOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+.settings-popup.active {
+    animation: popupIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.settings-popup:not(.active) {
+    animation: popupOut 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.status-changed .status-dot {
+    animation: pulse 0.5s ease-in-out;
+}
+
+/* === UTILITY CLASSES === */
+.force-hide {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
 .srui-text-truncate {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1735,4 +1631,19 @@ body.light-theme .copy-code-btn:hover {
 
 .srui-shadow-strong {
     box-shadow: var(--srui-shadow-strong);
+}
+
+/* === ACCESSIBILITY === */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .settings-popup,
+    .settings-popup.active,
+    .settings-popup:not(.active) {
+        animation: none;
+    }
 }
