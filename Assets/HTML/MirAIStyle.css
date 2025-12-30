@@ -1047,23 +1047,49 @@ body.chat-active #toolsMenu {
         color: var(--srui-text-primary-light);
     }
 
-    #settingsPage {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--srui-bg-primary);
-        color: var(--srui-text-primary);
-        z-index: 750;
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        box-sizing: border-box;
-        opacity: 0;
-        transform: translateY(100%);
-        transition: all 0.4s ease-in-out;
-    }
+/* Update Halaman Settings jadi Popup */
+.settings-page {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9); /* Efek zoom out dikit pas tutup */
+    width: 90%;
+    max-width: 500px;
+    height: auto;
+    max-height: 85vh; /* Biar nggak mentok banget atas-bawah */
+    background: var(--srui-bg-card); /* Pakai variabel warna kamu */
+    border-radius: 20px;
+    z-index: 3000;
+    display: none; /* Default sembunyi */
+    flex-direction: column;
+    overflow-y: auto; /* KUNCI: Biar bisa scroll kalau layar 16:9 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    padding: 20px;
+}
+
+.settings-page.visible {
+    display: flex;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+/* Tambahkan Overlay Gelap di belakang popup */
+.settings-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 2999;
+    display: none;
+}
+
+.settings-overlay.visible {
+    display: block;
+}
     
     body.light-theme #settingsPage {
         background-color: var(--srui-bg-primary-light);
