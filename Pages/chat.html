@@ -154,7 +154,7 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '2.12.0-Beta3'; // generateVersion(2, 12, 0);
+const VERSION = '2.12.0-Beta4'; // generateVersion(2, 12, 0);
 </script>
 </head>
 
@@ -180,11 +180,8 @@ const VERSION = '2.12.0-Beta3'; // generateVersion(2, 12, 0);
         <div class="loading-bar"></div>
 
     </div>
-
+<p style="font-size: 0.5em; color: #aaa; bottom: 5px;"  id="settingsVersionText"></p>
   </div>
-
- <p style="font-size: 0.5em; color: #aaa; bottom: 5px;"  id="settingsVersionText"></p>
-
 </div>
 
 
@@ -319,104 +316,77 @@ const VERSION = '2.12.0-Beta3'; // generateVersion(2, 12, 0);
 
 
 
+<!-- GANTI SEMUA bagian #settingsPage di chat.html dengan ini: -->
 <div id="settingsPage">
-
+    <!-- Header tetap di atas -->
     <div class="settings-header">
-
-        <h2 id="settingsHeaderTitle"></h2>
-
+        <h2 id="settingsHeaderTitle">Pengaturan</h2>
         <button id="backBtn"><i class="fas fa-times"></i></button>
-
     </div>
 
-
-
-    <div class="settings-content">
-
-        <h3 id="settingsAppearanceTitle"></h3>
-
-        <div class="settings-option">
-
-            <p id="settingsThemeText"></p>
-
-            <select id="themeSelect">
-
-                <option value="light" id="themeLightOption"></option>
-
-                <option value="dark" id="themeDarkOption"></option>
-
-            </select>
-
-        </div>
-
-        
-
-        <h3 id="settingsAITitle"></h3>
-
-        <div class="settings-option">
-
-            <p id="settingsPersonaText"></p>
-
-            <select id="personaSelect">
-
-                <option value="formal" id="personaFormalOption"></option>
-
-                <option value="default" id="personaDefaultOption"></option>
-
-                <option value="creative" id="personaCreativeOption"></option>
-
-            </select>
-
-        </div>
-
-
-
-        <h3 id="settingsApiTitle"></h3>
-
-        <div class="settings-option">
-
-            <p id="settingsApiText"></p>
-
-            <div class="api-key-container">
-
-                <input type="password" id="apiKeyInput">
-
-                <i class="fas fa-eye" id="toggleApiKey"></i>
-
+    <!-- Container untuk konten yang bisa discroll -->
+    <div class="settings-scroll-container">
+        <!-- Semua konten settings pindah ke sini -->
+        <div class="settings-content">
+            <h3 id="settingsAppearanceTitle">Tampilan</h3>
+            <div class="settings-option">
+                <p id="settingsThemeText">Pilih preferensi tema Anda:</p>
+                <select id="themeSelect">
+                    <option value="light" id="themeLightOption">Terang</option>
+                    <option value="dark" id="themeDarkOption">Gelap</option>
+                </select>
+            </div>
+            
+            <h3 id="settingsAITitle">Persona AI</h3>
+            <div class="settings-option">
+                <p id="settingsPersonaText">Pilih gaya respons AI:</p>
+                <select id="personaSelect">
+                    <option value="formal" id="personaFormalOption">Formal & Profesional</option>
+                    <option value="default" id="personaDefaultOption">Santai & Bercanda</option>
+                    <option value="creative" id="personaCreativeOption">Kreatif & Ekspresif</option>
+                </select>
             </div>
 
-            <button id="saveApiBtn" class="settings-credits-btn"></button>
-
-        </div>
-
-        
-
-        <h3 id="settingsAboutTitle"></h3>
-
-        <div class="settings-about">
-
-            <p id="settingsAuthorText"></p>
-
-            <p><a href="https://allwaysevermirai.netlify.app/about" target="_blank" id="githubLink"><i class="fas fa-info-circle"></i></a></p>
- 
-            <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"></a></p>
-
-            <p><a href="help/index.html" id="helpLink" target="_self"></a></p>
-
-            <div class="gemini-container">
-
-               <a href="https://deepmind.google/models/gemini/flash/" target="_blank"><img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Gemini%202.5%20Flash%20Logo.png" alt="Google Gemini 2.5 Flash" class="gemini-logo"></a>
-
+            <h3 id="settingsApiTitle">Kunci API Google</h3>
+            <div class="settings-option">
+                <p id="settingsApiText">Masukkan Kunci API kustom Anda:</p>
+                <div class="api-key-container">
+                    <input type="password" id="apiKeyInput">
+                    <i class="fas fa-eye" id="toggleApiKey"></i>
+                </div>
+                <button id="saveApiBtn" class="settings-credits-btn">Simpan</button>
             </div>
 
-            <p id="termsText"></p>
-
+            <h3 id="settingsBackupTitle">Backup & Restore</h3>
+            <div class="settings-option" style="flex-direction: column; align-items: flex-start; gap: 10px;">
+                <p style="font-size: 0.8em; color: #aaa;" id="backupDescText">Save or move your chat history via JSON file.</p>
+                <div style="display: flex; gap: 10px; width: 100%;">
+                    <button id="exportBtn" class="settings-credits-btn" style="flex: 1; background: #28a745;">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <button id="importBtn" class="settings-credits-btn" style="flex: 1; background: #ffc107; color: #000;">
+                        <i class="fas fa-upload"></i> Import
+                    </button>
+                </div>
+                <input type="file" id="importFileInput" accept=".json" style="display: none;">
+            </div>
+            
+            <h3 id="settingsAboutTitle"></h3>
+            <div class="settings-about">
+                <p id="settingsAuthorText"></p>
+                <p><a href="https://allwaysevermirai.netlify.app/about" target="_blank" id="githubLink"><i class="fas fa-info-circle"></i></a></p>
+                <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"></a></p>
+                <p><a href="help/index.html" id="helpLink" target="_self"></a></p>
+                <div class="gemini-container">
+                    <a href="https://deepmind.google/models/gemini/flash/" target="_blank">
+                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Gemini%202.5%20Flash%20Logo.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
+                    </a>
+                </div>
+                <p id="termsText"></p>
+            </div>
         </div>
-
     </div>
-
 </div>
-
 
 
 <div id="customConfirmOverlay">
@@ -554,9 +524,72 @@ console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Kilat)' : 'Stabil (2.5 Kilat)'
 
             saveApiKeyBtn: 'Simpan',
 
-            apiKeyPlaceholder: 'Kosongkan untuk menggunakan kunci default'
+            apiKeyPlaceholder: 'Kosongkan untuk menggunakan kunci default',
 
-        },
+    // Dari HTML settings section:
+    'settingsBackupTitle': 'Backup & Pulihkan', // Sudah ada di request sebelumnya
+    
+    // Dari backup description di HTML:
+    'backupDescText': 'Simpan atau pindahkan riwayat chat kamu lewat file JSON.',
+    
+    // Dari export/import button text di HTML:
+    'exportBtnText': 'Export', // Ini teks tombol di HTML
+    'importBtnText': 'Import', // Ini teks tombol di HTML
+    
+    // Untuk teks konfirmasi import yang muncul di alert:
+    'importSuccessText': 'Backup berhasil dipulihkan! Aplikasi akan dimuat ulang.',
+    'importErrorText': 'Waduh, filenya rusak atau bukan format backup MirAI! 🗿',
+    
+    // Untuk Install PWA button (ada di script PWA):
+    'installBtnText': 'Install App', // Teks tombol install
+    
+    // Untuk image upload (error alert):
+    'invalidImageText': 'Silakan unggah file gambar (jpeg, png, webp).',
+    
+    // Untuk beta mode indicator (di splash screen):
+    'betaModelActive': '#3FlashPreviewMode', // Sudah ada
+    
+    // Untuk slash commands description (di tools menu):
+    'slashCmdSearchTitle': 'Cari',
+    'slashCmdSearchDesc': '/search [kata kunci pencarian]',
+    'slashCmdTranslateTitle': 'Terjemahkan',
+    'slashCmdTranslateDesc': '/translate [teks] to [bahasa]',
+    'slashCmdSummarizeTitle': 'Ringkas',
+    'slashCmdSummarizeDesc': '/summarize [teks panjang]',
+    'slashCmdRephraseTitle': 'Ubah Kalimat',
+    'slashCmdRephraseDesc': '/rephrase [teks] as [gaya]',
+    'slashCmdIdeateTitle': 'Buat Ide',
+    'slashCmdIdeateDesc': '/ideate [jumlah] ideas for [topik]',
+    'slashCmdFixTitle': 'Perbaiki',
+    'slashCmdFixDesc': '/fix [teks yang perlu diperbaiki]',
+    'slashCmdExplainTitle': 'Jelaskan',
+    'slashCmdExplainDesc': '/explain [konsep] like I\'m [audiens]',
+    'slashCmdCodeTitle': 'Buat Kode',
+    'slashCmdCodeDesc': '/code a [bahasa pemrograman] function to [deskripsi]',
+    
+    // Untuk error messages slash commands (muncul di chat):
+    'slashErrorInvalidFormat': 'Error: Format tidak valid.',
+    'slashErrorInvalidFormatTranslate': 'Error: Format tidak valid. Gunakan /translate [teks] to [bahasa]',
+    'slashErrorInvalidFormatRephrase': 'Error: Format tidak valid. Gunakan /rephrase [teks] as [gaya]',
+    'slashErrorInvalidFormatIdeate': 'Error: Format tidak valid. Gunakan /ideate [jumlah] ideas for [topik]',
+    'slashErrorInvalidFormatExplain': 'Error: Format tidak valid. Gunakan /explain [konsep] like I\'m [audiens]',
+    'slashErrorInvalidFormatCode': 'Error: Format tidak valid. Gunakan /code a [bahasa] function to [deskripsi]',
+    'slashErrorInvalidFormatSearch': 'Error: Format tidak valid. Gunakan /search [kata kunci]',
+    'slashErrorUnknownCommand': 'Error: Perintah tidak dikenal.',
+    
+    // Untuk button di custom confirm (clear chat):
+    'confirmBtnYes': 'Ya, Hapus', // Sudah ada
+    'confirmBtnNo': 'Batal', // Sudah ada
+    
+    // Untuk feedback copy (muncul sebagai toast):
+    'copyFeedback': 'Teks berhasil disalin!', // Sudah ada
+    
+    // Untuk teks placeholder saat PWA sudah terinstall:
+    'pwaInstalledText': 'PWA was installed successfully!', // Teks di console.log
+    
+    // Untuk alert saat API limit:
+    'apiLimitError': 'Hmm... sepertinya kunci API ini telah terkena batas penggunaan. Jika Anda masih menggunakan kunci API bawaan, mohon segera ganti dengan kunci API pribadi Anda.'
+},
 
         'en': {
 
@@ -650,9 +683,67 @@ console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Kilat)' : 'Stabil (2.5 Kilat)'
 
             saveApiKeyBtn: 'Save',
 
-            apiKeyPlaceholder: 'Leave blank to use the default key'
+            apiKeyPlaceholder: 'Leave blank to use the default key',
 
-        },
+  
+    // Backup & Restore
+    'settingsBackupTitle': 'Backup & Restore',
+    'backupDescText': 'Save or transfer your chat history via JSON file.',
+    'exportBtnText': 'Export',
+    'importBtnText': 'Import',
+    'importSuccessText': 'Backup restored successfully! App will reload.',
+    'importErrorText': 'File corrupted or not a MirAI backup! 🗿',
+    
+    // Install PWA
+    'installBtnText': 'Install App',
+    
+    // Image upload
+    'invalidImageText': 'Please upload an image file (jpeg, png, webp).',
+    
+    // Beta mode
+    'betaModelActive': '#3FlashPreviewMode',
+    
+    // Slash commands
+    'slashCmdSearchTitle': 'Search',
+    'slashCmdSearchDesc': '/search [search query]',
+    'slashCmdTranslateTitle': 'Translate',
+    'slashCmdTranslateDesc': '/translate [text] to [language]',
+    'slashCmdSummarizeTitle': 'Summarize',
+    'slashCmdSummarizeDesc': '/summarize [long text]',
+    'slashCmdRephraseTitle': 'Rephrase',
+    'slashCmdRephraseDesc': '/rephrase [text] as [tone]',
+    'slashCmdIdeateTitle': 'Ideate',
+    'slashCmdIdeateDesc': '/ideate [amount] ideas for [topic]',
+    'slashCmdFixTitle': 'Fix',
+    'slashCmdFixDesc': '/fix [text that needs to be corrected]',
+    'slashCmdExplainTitle': 'Explain',
+    'slashCmdExplainDesc': '/explain [concept] like I\'m [audience]',
+    'slashCmdCodeTitle': 'Code',
+    'slashCmdCodeDesc': '/code a [programming language] function to [description]',
+    
+    // Slash command errors
+    'slashErrorInvalidFormat': 'Error: Invalid format.',
+    'slashErrorInvalidFormatTranslate': 'Error: Invalid format. Use /translate [text] to [language]',
+    'slashErrorInvalidFormatRephrase': 'Error: Invalid format. Use /rephrase [text] as [tone]',
+    'slashErrorInvalidFormatIdeate': 'Error: Invalid format. Use /ideate [number] ideas for [topic]',
+    'slashErrorInvalidFormatExplain': 'Error: Invalid format. Use /explain [concept] like I\'m [audience]',
+    'slashErrorInvalidFormatCode': 'Error: Invalid format. Use /code a [language] function to [description]',
+    'slashErrorInvalidFormatSearch': 'Error: Invalid format. Use /search [query]',
+    'slashErrorUnknownCommand': 'Error: Unknown command.',
+    
+    // Confirm buttons
+    'confirmBtnYes': 'Yes, Delete',
+    'confirmBtnNo': 'Cancel',
+    
+    // Copy feedback
+    'copyFeedback': 'Text copied to clipboard!',
+    
+    // PWA installed
+    'pwaInstalledText': 'PWA was installed successfully!',
+    
+    // API limit error
+    'apiLimitError': 'Hmm... it seems that this API key has reached its usage limit. If you are still using the default API key, please replace it with your personal API key immediately.'
+},
 
         'en-uk': {
 
@@ -746,9 +837,67 @@ console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Kilat)' : 'Stabil (2.5 Kilat)'
 
             saveApiKeyBtn: 'Save',
 
-            apiKeyPlaceholder: 'Leave blank to use the default key'
+            apiKeyPlaceholder: 'Leave blank to use the default key',
 
-        },
+  
+    // Backup & Restore
+    'settingsBackupTitle': 'Backup & Restore',
+    'backupDescText': 'Save or transfer your chat history via JSON file.',
+    'exportBtnText': 'Export',
+    'importBtnText': 'Import',
+    'importSuccessText': 'Backup restored successfully! App will reload.',
+    'importErrorText': 'File corrupted or not a MirAI backup! 🗿',
+    
+    // Install PWA
+    'installBtnText': 'Install App',
+    
+    // Image upload
+    'invalidImageText': 'Please upload an image file (jpeg, png, webp).',
+    
+    // Beta mode
+    'betaModelActive': '#3FlashPreviewMode',
+    
+    // Slash commands
+    'slashCmdSearchTitle': 'Search',
+    'slashCmdSearchDesc': '/search [search query]',
+    'slashCmdTranslateTitle': 'Translate',
+    'slashCmdTranslateDesc': '/translate [text] to [language]',
+    'slashCmdSummarizeTitle': 'Summarize',
+    'slashCmdSummarizeDesc': '/summarize [long text]',
+    'slashCmdRephraseTitle': 'Rephrase',
+    'slashCmdRephraseDesc': '/rephrase [text] as [tone]',
+    'slashCmdIdeateTitle': 'Ideate',
+    'slashCmdIdeateDesc': '/ideate [amount] ideas for [topic]',
+    'slashCmdFixTitle': 'Fix',
+    'slashCmdFixDesc': '/fix [text that needs to be corrected]',
+    'slashCmdExplainTitle': 'Explain',
+    'slashCmdExplainDesc': '/explain [concept] like I\'m [audience]',
+    'slashCmdCodeTitle': 'Code',
+    'slashCmdCodeDesc': '/code a [programming language] function to [description]',
+    
+    // Slash command errors
+    'slashErrorInvalidFormat': 'Error: Invalid format.',
+    'slashErrorInvalidFormatTranslate': 'Error: Invalid format. Use /translate [text] to [language]',
+    'slashErrorInvalidFormatRephrase': 'Error: Invalid format. Use /rephrase [text] as [tone]',
+    'slashErrorInvalidFormatIdeate': 'Error: Invalid format. Use /ideate [number] ideas for [topic]',
+    'slashErrorInvalidFormatExplain': 'Error: Invalid format. Use /explain [concept] like I\'m [audience]',
+    'slashErrorInvalidFormatCode': 'Error: Invalid format. Use /code a [language] function to [description]',
+    'slashErrorInvalidFormatSearch': 'Error: Invalid format. Use /search [query]',
+    'slashErrorUnknownCommand': 'Error: Unknown command.',
+    
+    // Confirm buttons
+    'confirmBtnYes': 'Yes, Delete',
+    'confirmBtnNo': 'Cancel',
+    
+    // Copy feedback
+    'copyFeedback': 'Text copied to clipboard!',
+    
+    // PWA installed
+    'pwaInstalledText': 'PWA was installed successfully!',
+    
+    // API limit error
+    'apiLimitError': 'Hmm... it seems that this API key has reached its usage limit. If you are still using the default API key, please replace it with your personal API key immediately.'
+},
 
         'jp': {
 
@@ -842,9 +991,66 @@ console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Kilat)' : 'Stabil (2.5 Kilat)'
 
             saveApiKeyBtn: '保存',
 
-            apiKeyPlaceholder: 'デフォルトキーを使用する場合は空欄'
+            apiKeyPlaceholder: 'デフォルトキーを使用する場合は空欄',
 
-        }
+    // Backup & Restore
+    'settingsBackupTitle': 'バックアップと復元',
+    'backupDescText': 'JSONファイルでチャット履歴を保存または転送します。',
+    'exportBtnText': 'エクスポート',
+    'importBtnText': 'インポート',
+    'importSuccessText': 'バックアップが正常に復元されました！アプリを再読み込みします。',
+    'importErrorText': 'ファイルが壊れているか、MirAIのバックアップ形式ではありません！🗿',
+    
+    // Install PWA
+    'installBtnText': 'アプリをインストール',
+    
+    // Image upload
+    'invalidImageText': '画像ファイル（JPEG、PNG、WebP）をアップロードしてください。',
+    
+    // Beta mode
+    'betaModelActive': '#3Flashプレビューモード',
+    
+    // Slash commands
+    'slashCmdSearchTitle': '検索',
+    'slashCmdSearchDesc': '/search [検索クエリ]',
+    'slashCmdTranslateTitle': '翻訳',
+    'slashCmdTranslateDesc': '/translate [テキスト] to [言語]',
+    'slashCmdSummarizeTitle': '要約',
+    'slashCmdSummarizeDesc': '/summarize [長いテキスト]',
+    'slashCmdRephraseTitle': '言い換え',
+    'slashCmdRephraseDesc': '/rephrase [テキスト] as [口調]',
+    'slashCmdIdeateTitle': 'アイデア生成',
+    'slashCmdIdeateDesc': '/ideate [数] ideas for [トピック]',
+    'slashCmdFixTitle': '修正',
+    'slashCmdFixDesc': '/fix [修正が必要なテキスト]',
+    'slashCmdExplainTitle': '説明',
+    'slashCmdExplainDesc': '/explain [概念] like I\'m [対象]',
+    'slashCmdCodeTitle': 'コード',
+    'slashCmdCodeDesc': '/code a [プログラミング言語] function to [説明]',
+    
+    // Slash command errors
+    'slashErrorInvalidFormat': 'エラー: 形式が無効です。',
+    'slashErrorInvalidFormatTranslate': 'エラー: 形式が無効です。 /translate [テキスト] to [言語] を使用してください',
+    'slashErrorInvalidFormatRephrase': 'エラー: 形式が無効です。 /rephrase [テキスト] as [口調] を使用してください',
+    'slashErrorInvalidFormatIdeate': 'エラー: 形式が無効です。 /ideate [数] ideas for [トピック] を使用してください',
+    'slashErrorInvalidFormatExplain': 'エラー: 形式が無効です。 /explain [概念] like I\'m [対象] を使用してください',
+    'slashErrorInvalidFormatCode': 'エラー: 形式が無効です。 /code a [言語] function to [説明] を使用してください',
+    'slashErrorInvalidFormatSearch': 'エラー: 形式が無効です。 /search [クエリ] を使用してください',
+    'slashErrorUnknownCommand': 'エラー: 不明なコマンドです。',
+    
+    // Confirm buttons
+    'confirmBtnYes': 'はい、削除します',
+    'confirmBtnNo': 'キャンセル',
+    
+    // Copy feedback
+    'copyFeedback': 'テキストをコピーしました。',
+    
+    // PWA installed
+    'pwaInstalledText': 'PWAが正常にインストールされました！',
+    
+    // API limit error
+    'apiLimitError': 'このAPIキーは使用制限に達したようです。デフォルトのAPIキーをまだ使用している場合は、すぐに個人用のAPIキーに変更してください。'
+}
 
     };
 
@@ -870,7 +1076,54 @@ console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Kilat)' : 'Stabil (2.5 Kilat)'
 
     // --- Semua deklarasi fungsi ditaruh di sini (global scope) ---
 
+    // DEBUG FUNCTION untuk cek settings scroll
+function debugSettingsScroll() {
+    console.log("=== DEBUG SETTINGS SCROLL ===");
     
+    const settingsPage = document.getElementById('settingsPage');
+    const scrollContainer = document.querySelector('.settings-scroll-container');
+    const content = document.querySelector('.settings-content');
+    
+    if (settingsPage) {
+        console.log("Settings Page Found:", settingsPage);
+        console.log("Display:", window.getComputedStyle(settingsPage).display);
+        console.log("Height:", settingsPage.offsetHeight, "px");
+    }
+    
+    if (scrollContainer) {
+        console.log("Scroll Container Found:", scrollContainer);
+        console.log("Scroll Height:", scrollContainer.scrollHeight, "px");
+        console.log("Client Height:", scrollContainer.clientHeight, "px");
+        console.log("Overflow-Y:", window.getComputedStyle(scrollContainer).overflowY);
+        console.log("Can Scroll?", scrollContainer.scrollHeight > scrollContainer.clientHeight);
+    }
+    
+    if (content) {
+        console.log("Content Height:", content.offsetHeight, "px");
+    }
+    
+    console.log("Window Height:", window.innerHeight, "px");
+    console.log("Body Height:", document.body.offsetHeight, "px");
+    console.log("=== END DEBUG ===");
+}
+
+// Panggil debug saat settings dibuka
+function showSettingsPage() {
+    elements.settingsPage.classList.add('active');
+    document.body.classList.add('settings-open');
+    document.body.style.overflow = 'hidden';
+    
+    // Debug setelah dibuka
+    setTimeout(debugSettingsScroll, 100);
+}
+
+// Panggil debug saat settings ditutup
+function hideSettingsPage() {
+    elements.settingsPage.classList.remove('active');
+    document.body.classList.remove('settings-open');
+    document.body.style.overflow = '';
+}
+
 
     function initializeSlashCommands(lang) {
 
@@ -1018,7 +1271,7 @@ console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Kilat)' : 'Stabil (2.5 Kilat)'
 
         } else {
 
-            currentLanguage = 'id'; // Fallback ke bahasa default jika tidak valid
+            currentLanguage = 'en'; // Fallback ke bahasa default jika tidak valid
 
         }
 
@@ -1550,9 +1803,35 @@ if (isBeta) {
 
     function setTheme(theme) { elements.body.classList.remove('light-theme', 'dark-theme'); if (theme === 'light') { elements.body.classList.add('light-theme'); } else { elements.body.classList.add('dark-theme'); } localStorage.setItem('miraiTheme', theme); elements.themeSelect.value = theme; }
 
-    function showSettingsPage() { elements.settingsPage.classList.add('active'); elements.body.classList.remove('chat-active'); }
+// Di function showSettingsPage(), tambahkan:
+function showSettingsPage() {
+    elements.settingsPage.classList.add('active');
+    
+    // Force calculate height
+    setTimeout(() => {
+        const scrollContainer = document.querySelector('.settings-scroll-container');
+        const content = document.querySelector('.settings-content');
+        
+        if (scrollContainer && content) {
+            // Set height manual
+            const windowHeight = window.innerHeight;
+            const headerHeight = 80; // approximate
+            scrollContainer.style.height = (windowHeight - headerHeight) + 'px';
+            
+            // Force scrollable
+            scrollContainer.style.overflowY = 'auto';
+            scrollContainer.style.webkitOverflowScrolling = 'touch';
+            
+            console.log("Settings Height Set:", scrollContainer.style.height);
+        }
+    }, 50);
+}
 
-    function hideSettingsPage() { elements.settingsPage.classList.remove('active'); if (chatHistory.length > 1) { elements.body.classList.add('chat-active'); } }
+function hideSettingsPage() {
+    elements.settingsPage.classList.remove('active');
+    document.body.classList.remove('settings-open');
+    document.body.style.overflow = ''; // Unlock body scroll
+}
 
     function toggleChatUI(active) { if (active) { elements.body.classList.add('chat-active'); elements.inputContainer.classList.remove('centered'); elements.inputContainer.classList.add('bottom'); elements.logoContainer.classList.add('logo-hidden'); elements.languageSwitcher.classList.add('lang-hidden'); elements.infoText.style.display = 'block'; } else { elements.body.classList.remove('chat-active'); elements.inputContainer.classList.remove('bottom'); elements.inputContainer.classList.add('centered'); elements.logoContainer.classList.remove('logo-hidden'); elements.languageSwitcher.classList.remove('lang-hidden'); elements.infoText.style.display = 'none'; } }
 
@@ -1889,6 +2168,60 @@ elements.uploadImageBtn.addEventListener('click', () => elements.imageInput.clic
         document.addEventListener('click', (event) => { if (elements.toolsMenu && !elements.toolsMenu.contains(event.target) && !elements.toolsBtn.contains(event.target)) { elements.toolsMenu.classList.remove('visible'); elements.toolsBtn.classList.remove('active'); } });
 
         window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
+
+// --- LOGIKA EXPORT/IMPORT JSON [BARU] ---
+
+// Ganti fungsi export kamu dengan versi yang lebih 'kuat' ini:
+document.getElementById('exportBtn').addEventListener('click', () => {
+    // Ambil SEMUA yang ada di localStorage ke dalam satu objek
+    const allData = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        allData[key] = localStorage.getItem(key);
+    }
+    
+    const backupData = JSON.stringify(allData); // Pakai allData, bukan localStorage langsung
+    const blob = new Blob([backupData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `mirai_full_backup_${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showCopyFeedback(uiStrings[currentLanguage].exportSuccessText);
+
+});
+
+// Trigger input file pas tombol Import diklik
+document.getElementById('importBtn').addEventListener('click', () => {
+    document.getElementById('importFileInput').click();
+});
+
+// Fungsi Import (Baca file JSON dan masukkan ke localStorage)
+document.getElementById('importFileInput').addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            // Bersihkan storage lama (opsional) atau langsung timpa
+            Object.keys(data).forEach(key => {
+                localStorage.setItem(key, data[key]);
+            });
+            alert(uiStrings[currentLanguage].importSuccessText);
+            location.reload();
+        } catch (err) {
+            alert(uiStrings[currentLanguage].importErrorText);
+            console.error(err);
+        }
+    };
+    reader.readAsText(file);
+});
 
 // Jalankan inisialisasi aplikasi
 initializeApp();
