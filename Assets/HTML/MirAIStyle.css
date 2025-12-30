@@ -1019,7 +1019,7 @@ body.light-theme .loading-bar {
     background-color: var(--srui-accent-alt);
 }
 
-/* === SETTINGS SCROLLABLE LAYOUT === */
+/* Di file MirAIStyle.css, tambahkan ini: */
 #settingsPage {
     position: fixed;
     top: 0;
@@ -1028,145 +1028,35 @@ body.light-theme .loading-bar {
     height: 100%;
     background-color: var(--srui-bg-primary);
     z-index: 2000;
-    overflow: hidden;
+    overflow-y: auto; /* Ini membuat seluruh page bisa discroll */
+    -webkit-overflow-scrolling: touch;
     display: none;
-    flex-direction: column;
 }
 
 #settingsPage.active {
-    display: flex;
+    display: block; /* Ganti dari flex ke block */
 }
 
-/* Header tetap di atas */
 .settings-header {
+    position: sticky; /* Header tetap di atas saat scroll */
+    top: 0;
+    z-index: 10;
     background-color: var(--srui-bg-card);
     padding: 20px;
     border-bottom: 1px solid var(--srui-border-neutral);
-    flex-shrink: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 2;
 }
 
-.settings-header h2 {
-    margin: 0;
-    font-size: 1.5em;
-    color: var(--srui-text-primary);
-}
-
-#backBtn {
-    background: none;
-    border: none;
-    color: var(--srui-text-primary);
-    font-size: 1.2em;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--srui-radius-xl);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--srui-transition-normal);
-}
-
-#backBtn:hover {
-    background-color: rgba(255, 206, 0, 0.1);
-    color: var(--srui-accent);
-    transform: rotate(90deg);
-}
-
-/* Wrapper untuk konten yang bisa discroll */
-.settings-scroll-wrapper {
-    flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* Konten settings */
 .settings-content {
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
-    padding-bottom: 40px; /* Tambahkan padding bawah agar konten terakhir tidak ketutup */
+    padding-bottom: 40px;
 }
 
-/* Styling untuk Light Theme */
-body.light-theme #settingsPage {
-    background-color: var(--srui-bg-primary-light);
-}
-
+/* Light theme adjustments tetap sama */
 body.light-theme .settings-header {
     background-color: var(--srui-bg-card-light);
     border-bottom: 1px solid var(--srui-border-neutral-light);
-}
-
-body.light-theme .settings-header h2 {
-    color: var(--srui-text-primary-light);
-}
-
-body.light-theme #backBtn {
-    color: var(--srui-text-primary-light);
-}
-
-body.light-theme #backBtn:hover {
-    background-color: rgba(68, 68, 68, 0.1);
-    color: var(--srui-accent-alt);
-}
-
-/* Custom Scrollbar untuk Settings */
-.settings-scroll-wrapper::-webkit-scrollbar {
-    width: 8px;
-}
-
-.settings-scroll-wrapper::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: var(--srui-radius-lg);
-}
-
-.settings-scroll-wrapper::-webkit-scrollbar-thumb {
-    background: var(--srui-accent);
-    border-radius: var(--srui-radius-lg);
-}
-
-.settings-scroll-wrapper::-webkit-scrollbar-thumb:hover {
-    background: #eab308;
-}
-
-body.light-theme .settings-scroll-wrapper::-webkit-scrollbar-thumb {
-    background: var(--srui-accent-alt);
-}
-
-body.light-theme .settings-scroll-wrapper::-webkit-scrollbar-thumb:hover {
-    background: #222222;
-}
-
-/* Responsive untuk mobile */
-@media (max-width: 768px) {
-    .settings-content {
-        padding: 15px;
-        padding-bottom: 30px;
-    }
-    
-    .settings-header {
-        padding: 15px;
-    }
-    
-    .settings-scroll-wrapper::-webkit-scrollbar {
-        width: 6px;
-    }
-}
-
-@media (max-width: 480px) {
-    .settings-content {
-        padding: 12px;
-        padding-bottom: 25px;
-    }
-    
-    .settings-header h2 {
-        font-size: 1.3em;
-    }
 }
 
 /* Settings content styling */
