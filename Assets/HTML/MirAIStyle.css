@@ -308,6 +308,9 @@ body.chat-active .chat-container {
 }
 
 /* ===== CHAT BUBBLES ===== */
+/* ... (variabel CSS yang ada tetap sama) ... */
+
+/* ===== CHAT BUBBLES ===== */
 #chatMessages {
     display: flex;
     flex-direction: column;
@@ -349,16 +352,175 @@ body.chat-active .chat-container {
     color: var(--srui-text-primary);
 }
 
+/* Special text elements inside AI bubble - SUPER SIMPLE! */
+.ai-bubble b,
+.ai-bubble strong {
+    color: var(--srui-accent);
+    font-weight: 600;
+}
+
+.ai-bubble i,
+.ai-bubble em {
+    color: #ffdb4d;
+    font-style: italic;
+}
+
+.ai-bubble a {
+    color: var(--srui-accent);
+    text-decoration: none;
+    font-style: italic;
+}
+
+.ai-bubble a:hover {
+    color: #ffdb4d;
+    text-decoration: underline;
+}
+
+.ai-bubble code {
+    background-color: #0d1117;
+    color: #c9d1d9;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
 .ai-bubble pre {
     background-color: #0d1117;
     color: #c9d1d9;
     padding: 15px;
-    border-radius: var(--srui-radius-lg);
+    border-radius: var(--srui-radius-md);
     overflow-x: auto;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Courier New', monospace;
     font-size: 0.9em;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
+}
+
+.ai-bubble blockquote {
+    border-left: 3px solid var(--srui-accent);
+    padding-left: 15px;
+    margin: 10px 0;
+    font-style: italic;
+    color: var(--srui-neutral-mid);
+}
+
+.ai-bubble mark {
+    background-color: rgba(255, 206, 0, 0.2);
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.ai-bubble small {
+    font-size: 0.85em;
+    color: var(--srui-neutral-mid);
+}
+
+/* ===== SRUI DIVIDER - MUDAH & ELEGAN ===== */
+.srui-divider {
+    height: 1px;
+    background: linear-gradient(
+        to right, 
+        transparent 0%, 
+        var(--srui-accent) 50%, 
+        transparent 100%
+    );
+    margin: 20px 0;
+    border: none;
+}
+
+.srui-divider-thick {
+    height: 2px;
+    background: var(--srui-accent);
+    margin: 25px 0;
+    border: none;
+    border-radius: 1px;
+}
+
+.srui-divider-dashed {
+    height: 1px;
+    background: repeating-linear-gradient(
+        to right,
+        var(--srui-accent),
+        var(--srui-accent) 5px,
+        transparent 5px,
+        transparent 10px
+    );
+    margin: 20px 0;
+    border: none;
+}
+
+.srui-divider-dotted {
+    height: 1px;
+    background: repeating-linear-gradient(
+        to right,
+        var(--srui-accent),
+        var(--srui-accent) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    margin: 20px 0;
+    border: none;
+}
+
+/* Divider dengan teks di tengah */
+.srui-divider-text {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: var(--srui-neutral-mid);
+    font-size: 0.9em;
+}
+
+.srui-divider-text::before,
+.srui-divider-text::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--srui-accent);
+}
+
+.srui-divider-text::before {
+    margin-right: 15px;
+}
+
+.srui-divider-text::after {
+    margin-left: 15px;
+}
+
+/* Divider dalam chat bubble */
+.ai-bubble hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+        to right, 
+        transparent 0%, 
+        var(--srui-accent) 50%, 
+        transparent 100%
+    );
+    margin: 15px 0;
+}
+
+/* Light theme overrides - SINGKAT! */
+body.light-theme .ai-bubble b,
+body.light-theme .ai-bubble strong {
+    color: var(--srui-accent-alt);
+}
+
+body.light-theme .ai-bubble a {
+    color: var(--srui-accent-alt);
+}
+
+body.light-theme .ai-bubble a:hover {
+    color: #222222;
+}
+
+body.light-theme .srui-divider {
+    background: linear-gradient(
+        to right, 
+        transparent 0%, 
+        var(--srui-accent-alt) 50%, 
+        transparent 100%
+    );
 }
 
 /* ===== BUTTONS ===== */
