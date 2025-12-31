@@ -154,7 +154,7 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '2.12.0-Beta4'; // generateVersion(2, 12, 0);
+const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
 </script>
 </head>
 
@@ -368,7 +368,7 @@ const VERSION = '2.12.0-Beta4'; // generateVersion(2, 12, 0);
                         <i class="fas fa-upload"></i> Import
                     </button>
                 </div>
-                <input type="file" id="importFileInput" accept=".json" style="display: none;">
+<input type="file" id="importFileInput" accept=".json,.mdf,.medf" style="display: none;">
             </div>
             
             <h3 id="settingsAboutTitle"></h3>
@@ -2097,7 +2097,59 @@ function simulateLoading(duration) {
     function checkIndicatorPosition() { const connectionStatus = document.getElementById('connectionStatus'); if (!connectionStatus) return; const indicatorRect = connectionStatus.getBoundingClientRect(); const userBubbles = document.querySelectorAll('.user-bubble'); let isOverlapping = false; for (const bubble of userBubbles) { const bubbleRect = bubble.getBoundingClientRect(); const verticalOverlap = indicatorRect.bottom > bubbleRect.top && indicatorRect.top < bubbleRect.bottom; const horizontalOverlap = indicatorRect.right > bubbleRect.left && indicatorRect.right < bubbleRect.right; if (verticalOverlap && horizontalOverlap) { isOverlapping = true; break; } } connectionStatus.classList.toggle('hidden-by-scroll', isOverlapping); }
 
 
+// --- LOGIKA UTAMA MIRAI ENCRYPTED DATA FILE (.medf) ---
+const MIRAI_CONFIG = {
+    saltLength: 16,
+    ivLength: 12,
+    iterations: 100000
+};
 
+async function processExportMEDF(dataJSON, password) {
+    const encoder = new TextEncoder();
+    const salt = window.crypto.getRandomValues(new Uint8Array(MIRAI_CONFIG.saltLength));
+    const iv = window.crypto.getRandomValues(new Uint8Array(MIRAI_CONFIG.ivLength));
+
+    const passwordKey = await window.crypto.subtle.importKey(
+        "raw", encoder.encode(password), "PBKDF2", false, ["deriveKey"]
+    );
+    const key = await window.crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: salt, iterations: MIRAI_CONFIG.iterations, hash: "SHA-256" },
+        passwordKey, { name: "AES-GCM", length: 256 }, false, ["encrypt"]
+    );
+
+    const encrypted = await window.crypto.subtle.encrypt(
+        { name: "AES-GCM", iv: iv }, key, encoder.encode(JSON.stringify(dataJSON))
+    );
+
+    const finalBlob = new Blob([salt, iv, new Uint8Array(encrypted)], {type: "application/octet-stream"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(finalBlob);
+    a.download = `MirAI_Backup_${Date.now()}.medf`;
+    a.click();
+}
+
+async function processImportMEDF(file, password) {
+    const buffer = await file.arrayBuffer();
+    const salt = buffer.slice(0, 16);
+    const iv = buffer.slice(16, 28);
+    const data = buffer.slice(28);
+
+    const encoder = new TextEncoder();
+    try {
+        const passwordKey = await window.crypto.subtle.importKey(
+            "raw", encoder.encode(password), "PBKDF2", false, ["deriveKey"]
+        );
+        const key = await window.crypto.subtle.deriveKey(
+            { name: "PBKDF2", salt: salt, iterations: MIRAI_CONFIG.iterations, hash: "SHA-256" },
+            passwordKey, { name: "AES-GCM", length: 256 }, false, ["decrypt"]
+        );
+
+        const decrypted = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, data);
+        return JSON.parse(new TextDecoder().decode(decrypted));
+    } catch (e) {
+        throw new Error("Password salah atau file .medf rusak!");
+    }
+}
     // --- Titik Eksekusi Utama ---
 
 
@@ -2109,7 +2161,11 @@ function simulateLoading(duration) {
         elements = { 
 
             questionInput: document.getElementById('questionInput'), sendBtn: document.getElementById('sendBtn'), stopBtn: document.getElementById('stopBtn'), clearBtn: document.getElementById('clearBtn'), clearBtnContainer: document.getElementById('clearBtnContainer'), settingsBtn: document.getElementById('settingsBtn'), chatMessages: document.getElementById('chatMessages'), suggestionBox: document.getElementById('suggestionBox'), body: document.body, inputContainer: document.getElementById('inputContainer'), logoContainer: document.querySelector('.logo-container'), splashScreen: document.getElementById('splash-screen'), langDropdown: document.getElementById('langDropdown'), languageSwitcher: document.getElementById('languageSwitcher'), infoText: document.getElementById('infoText'), settingsPage: document.getElementById('settingsPage'), backBtn: document.getElementById('backBtn'), themeSelect: document.getElementById('themeSelect'), personaSelect: document.getElementById('personaSelect'), settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), settingsThemeText: document.getElementById('settingsThemeText'), themeLightOption: document.getElementById('themeLightOption'), themeDarkOption: document.getElementById('themeDarkOption'), settingsAITitle: document.getElementById('settingsAITitle'), settingsPersonaText: document.getElementById('settingsPersonaText'), personaFormalOption: document.getElementById('personaFormalOption'), personaDefaultOption: document.getElementById('personaDefaultOption'), personaCreativeOption: document.getElementById('personaCreativeOption'), settingsAboutTitle: document.getElementById('settingsAboutTitle'), settingsVersionText: document.getElementById('settingsVersionText'), settingsAuthorText: document.getElementById('settingsAuthorText'), githubLink: document.getElementById('githubLink'), licenseLink: document.getElementById('licenseLink'), statusDot: document.getElementById('statusDot'), statusLabel: document.getElementById('statusLabel'), apiKeyInput: document.getElementById('apiKeyInput'), toggleApiKey: document.getElementById('toggleApiKey'), saveApiBtn: document.getElementById('saveApiBtn'), settingsApiTitle: document.getElementById('settingsApiTitle'), settingsApiText: document.getElementById('settingsApiText'), toolsBtn: document.getElementById('toolsBtn'), toolsMenu: document.getElementById('toolsMenu'), customConfirmOverlay: document.getElementById('customConfirmOverlay'), customConfirmMessage: document.getElementById('customConfirmMessage'), confirmBtnYes: document.getElementById('confirmBtnYes'), confirmBtnNo: document.getElementById('confirmBtnNo'), helpLink: document.getElementById('helpLink'), termsText: document.getElementById('termsText'),
-
+// --- TAMBAHAN BARU (WAJIB ADA) ---
+    exportBtn: document.getElementById('exportBtn'), // <--- INI PENTING
+    importBtn: document.getElementById('importBtn'), // <--- INI PENTING
+    importFileInput: document.getElementById('importFileInput'), // <--- INI PENTING
+    // ---------------------------------
 uploadImageBtn: document.getElementById('uploadImageBtn'),
 
             imageInput: document.getElementById('imageInput'),
@@ -2171,72 +2227,62 @@ elements.uploadImageBtn.addEventListener('click', () => elements.imageInput.clic
 
 // --- LOGIKA EXPORT/IMPORT JSON [BARU] ---
 
-// Ganti fungsi export kamu dengan versi yang lebih 'kuat' ini:
-document.getElementById('exportBtn').addEventListener('click', () => {
-    // Whitelist: Hanya data ini yang boleh masuk ke file backup
-    const whitelist = [
-        'miraiChatHistory', 
-        'miraiLanguage', 
-        'miraiTheme', 
-        'miraiApiKey', 
-        'miraiPersona'
-    ];
+// GANTI BAGIAN EXPORT
+elements.exportBtn.addEventListener('click', () => {
+    const password = prompt("Enter a password to lock your backup file.");
+    if (!password) return alert("Export canceled. Password is required!");
 
-    const backupData = {};
-    
-    // Looping hanya pada daftar whitelist
-    whitelist.forEach(key => {
-        const value = localStorage.getItem(key);
-        if (value !== null) {
-            backupData[key] = value;
-        }
-    });
-    // mengambil tanggal dan waktu
-const now = new Date();
-    const date = now.toISOString().slice(0, 10); // Format: YYYY-MM-DD
-    const time = now.getHours().toString().padStart(2, '0') + '-' + now.getMinutes().toString().padStart(2, '0'); // Format: HH-mm
+    const dataToExport = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        dataToExport[key] = localStorage.getItem(key);
+    }
 
-    const jsonString = JSON.stringify(backupData);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `MirAIDataBackup_${date}-${time}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    showCopyFeedback(uiStrings[currentLanguage].exportSuccessText);
+    processExportMEDF(dataToExport, password)
+        .then(() => alert("The .medf file has been successfully created! Please save it safely."))
+        .catch(err => console.error("Export Failed:", err));
 });
 
-// Trigger input file pas tombol Import diklik
-document.getElementById('importBtn').addEventListener('click', () => {
-    document.getElementById('importFileInput').click();
+elements.importBtn.addEventListener('click', () => {
+    elements.importFileInput.click();
 });
 
-// Fungsi Import (Baca file JSON dan masukkan ke localStorage)
-document.getElementById('importFileInput').addEventListener('change', (event) => {
+// GANTI BAGIAN IMPORT
+// Baru lanjut ke logika change file
+elements.importFileInput.addEventListener('change', async function(event) {
     const file = event.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
+    // Backward Compatibility untuk file lama (.json / .mdf)
+    if (file.name.endsWith('.json') || file.name.endsWith('.mdf')) {
+        const text = await file.text();
         try {
-            const data = JSON.parse(e.target.result);
-            // Bersihkan storage lama (opsional) atau langsung timpa
-            Object.keys(data).forEach(key => {
-                localStorage.setItem(key, data[key]);
-            });
-            alert(uiStrings[currentLanguage].importSuccessText);
-            location.reload();
-        } catch (err) {
-            alert(uiStrings[currentLanguage].importErrorText);
-            console.error(err);
-        }
-    };
-    reader.readAsText(file);
+            const data = JSON.parse(text);
+            restoreDataToLocal(data);
+        } catch(e) { alert("Old file format is corrupted!"); }
+        return;
+    }
+
+    // Proses file .medf baru
+    const password = prompt("Enter the password to open this .medf file:");
+    if (!password) return;
+
+    try {
+        const data = await processImportMEDF(file, password);
+        restoreDataToLocal(data);
+    } catch (err) {
+        alert(err.message);
+    }
 });
+
+// Fungsi pembantu buat simpen data ke LocalStorage
+function restoreDataToLocal(data) {
+    Object.keys(data).forEach(key => {
+        localStorage.setItem(key, data[key]);
+    });
+    alert(uiStrings[currentLanguage].importSuccessText);
+    location.reload();
+}
 
 // Jalankan inisialisasi aplikasi
 initializeApp();
