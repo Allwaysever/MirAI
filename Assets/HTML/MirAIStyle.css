@@ -784,7 +784,7 @@ body.chat-active .info-text {
     height: 100%;
     background-color: var(--srui-bg-primary);
     color: var(--srui-text-primary);
-    z-index: 2000;
+    z-index: 9999;
     display: none;
     flex-direction: column;
     overflow: hidden;
@@ -831,7 +831,7 @@ body.chat-active .info-text {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 20px;
-    padding-bottom: 80px; /* Ruang untuk footer */
+    padding-bottom: 120px; /* Ruang untuk footer */
 }
 
 .settings-footer {
