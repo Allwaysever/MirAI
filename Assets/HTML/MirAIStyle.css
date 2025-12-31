@@ -50,22 +50,35 @@
   --srui-radius-md: 15px;
   --srui-radius-lg: 25px;
   --srui-radius-xl: 9999px;
+  --srui-radius-chip: 9999px;
   
   /* SRUI Transitions */
   --srui-transition-fast: 0.1s ease-out;
   --srui-transition-normal: 0.3s ease-in-out;
   --srui-transition-slow: 0.5s ease-in-out;
+  --srui-transition-micro: 0.08s ease-out;
   
   /* SRUI Shadows */
-  --srui-shadow-minimal: 0 1px 5px rgba(0, 0, 0, 0.2);
-  --srui-shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --srui-shadow-strong: 0 4px 10px rgba(0, 0, 0, 0.3);
-  --srui-shadow-modal: 0 8px 20px rgba(0, 0, 0, 0.4);
+  --srui-shadow-minimal: 0 1px 5px rgba(0, 0, 0, 0.15);
+  --srui-shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.18);
+  --srui-shadow-strong: 0 4px 10px rgba(0, 0, 0, 0.25);
+  --srui-shadow-modal: 0 8px 20px rgba(0, 0, 0, 0.35);
   
-  /* SRUI GlassLayer Effect */
+  /* SRUI GlassLayer Effect - Sesuai dengan 7.1 */
   --srui-glass-bg: rgba(15, 15, 15, 0.9);
+  --srui-glass-bg-light: rgba(255, 255, 255, 0.9);
   --srui-glass-blur: blur(8px);
-  --srui-glass-border: 1px solid rgba(75, 79, 80, 0.3);
+  --srui-glass-border: 1px solid rgba(75, 79, 80, 0.25);
+  --srui-glass-border-light: 1px solid rgba(179, 179, 179, 0.25);
+  
+  /* SRUI Micro-Bounce Effects */
+  --srui-bounce-scale-hover: 1.02;
+  --srui-bounce-scale-active: 0.98;
+  
+  /* SRUI Chip Variables */
+  --srui-chip-padding: 6px 12px;
+  --srui-chip-font-size: 0.85em;
+  --srui-chip-icon-size: 0.9em;
 }
 
 /* ===== BASE STYLES ===== */
@@ -85,6 +98,137 @@ body {
 
 * {
   -webkit-tap-highlight-color: transparent;
+}
+
+/* ===== MICRO-BOUNCE EFFECTS (7.2) ===== */
+.micro-bounce {
+  transition: transform var(--srui-transition-micro), 
+              background-color var(--srui-transition-fast);
+}
+
+.micro-bounce:hover:not(:disabled) {
+  transform: scale(var(--srui-bounce-scale-hover));
+}
+
+.micro-bounce:active:not(:disabled) {
+  transform: scale(var(--srui-bounce-scale-active));
+}
+
+/* ===== SRUI CHIP COMPONENT (7.3) ===== */
+.srui-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--srui-chip-padding);
+  border-radius: var(--srui-radius-chip);
+  font-size: var(--srui-chip-font-size);
+  font-weight: 500;
+  border: none;
+  cursor: default;
+  transition: all var(--srui-transition-fast);
+  user-select: none;
+}
+
+.srui-chip.interactive {
+  cursor: pointer;
+}
+
+.srui-chip.interactive:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.srui-chip.interactive:active {
+  transform: translateY(0);
+}
+
+/* Semantic Chip Variants */
+.srui-chip-success {
+  background-color: var(--srui-success);
+  color: white;
+}
+
+.srui-chip-warning {
+  background-color: var(--srui-warning);
+  color: var(--srui-accent-text);
+}
+
+.srui-chip-error {
+  background-color: var(--srui-error);
+  color: white;
+}
+
+.srui-chip-info {
+  background-color: var(--srui-info);
+  color: white;
+}
+
+.srui-chip-neutral {
+  background-color: var(--srui-neutral-mid);
+  color: var(--srui-bg-primary);
+}
+
+.srui-chip-accent {
+  background-color: var(--srui-accent);
+  color: var(--srui-accent-text);
+}
+
+.srui-chip-alt {
+  background-color: var(--srui-accent-alt);
+  color: var(--srui-accent-text-alt);
+}
+
+/* Chip with Icons */
+.srui-chip-icon {
+  font-size: var(--srui-chip-icon-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Chip Container for multiple chips */
+.srui-chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+/* ===== GLASSLAYER ENHANCEMENTS (7.1) ===== */
+.glass-layer {
+  background: var(--srui-glass-bg);
+  -webkit-backdrop-filter: var(--srui-glass-blur);
+  backdrop-filter: var(--srui-glass-blur);
+  border: var(--srui-glass-border);
+  border-radius: var(--srui-radius-md);
+  box-shadow: var(--srui-shadow-medium);
+  transition: all var(--srui-transition-normal);
+}
+
+.glass-layer-light {
+  background: var(--srui-glass-bg-light);
+  border: var(--srui-glass-border-light);
+}
+
+/* Enhanced GlassLayer for specific components */
+.glass-layer-modal {
+  background: rgba(15, 15, 15, 0.92);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 206, 0, 0.15);
+  border-radius: var(--srui-radius-lg);
+  box-shadow: var(--srui-shadow-modal);
+}
+
+.glass-layer-tooltip {
+  background: rgba(27, 28, 30, 0.85);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(75, 79, 80, 0.2);
+  border-radius: var(--srui-radius-sm);
+  padding: 8px 12px;
+  font-size: 0.85em;
+  max-width: 250px;
 }
 
 /* ===== LAYOUT CONTAINERS ===== */
@@ -257,6 +401,27 @@ body.chat-active #clearBtnContainer {
     transition: all var(--srui-transition-normal);
 }
 
+/* Enhanced Micro-Bounce for buttons */
+#clearBtn, #settingsBtn, #sendBtn, #toolsBtn, #uploadImageBtn {
+    composes: micro-bounce;
+}
+
+#clearBtn:hover:not(:disabled),
+#settingsBtn:hover:not(:disabled),
+#sendBtn:hover:not(.disabled),
+#toolsBtn:hover:not(:disabled),
+#uploadImageBtn:hover:not(:disabled) {
+    transform: scale(var(--srui-bounce-scale-hover));
+}
+
+#clearBtn:active:not(:disabled),
+#settingsBtn:active:not(:disabled),
+#sendBtn:active:not(.disabled),
+#toolsBtn:active:not(:disabled),
+#uploadImageBtn:active:not(:disabled) {
+    transform: scale(var(--srui-bounce-scale-active));
+}
+
 /* ===== INPUT AREA ===== */
 .input-box {
     display: flex;
@@ -270,6 +435,7 @@ body.chat-active #clearBtnContainer {
     border: 1px solid var(--srui-border-input);
     -webkit-backdrop-filter: var(--srui-glass-blur);
     backdrop-filter: var(--srui-glass-blur);
+    composes: glass-layer;
 }
 
 .input-box textarea {
@@ -312,7 +478,6 @@ body.chat-active #clearBtnContainer {
 #sendBtn:not(.disabled):hover,
 #sendBtn:not(.disabled):active {
     background-color: #eab308;
-    transform: scale(1.1);
 }
 
 #stopBtn {
@@ -353,14 +518,8 @@ body.chat-active #clearBtnContainer {
 }
 
 #toolsBtn:not(.active):hover {
-    transform: scale(1.1);
     background-color: var(--srui-accent);
     color: var(--srui-accent-text);
-}
-
-#toolsBtn.active:hover {
-    transform: rotate(135deg) scale(1.1);
-    background-color: #eab308;
 }
 
 #toolsMenu {
@@ -496,6 +655,7 @@ body.chat-active #toolsMenu {
     font-weight: bold;
     color: var(--srui-text-primary);
     transition: all var(--srui-transition-normal);
+    composes: glass-layer;
 }
 
 #connectionStatus .status-dot {
@@ -619,7 +779,6 @@ body.chat-active #connectionStatus {
 }
 
 #uploadImageBtn:hover {
-    transform: scale(1.1);
     background-color: var(--srui-accent);
     color: var(--srui-accent-text);
 }
@@ -1440,6 +1599,12 @@ body.light-theme #confirmBtnNo:hover {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+    
+    .micro-bounce,
+    .micro-bounce:hover,
+    .micro-bounce:active {
+        transform: none !important;
+    }
 }
 
 /* ===== UTILITY CLASSES ===== */
@@ -1477,4 +1642,58 @@ body.light-theme #confirmBtnNo:hover {
 
 .srui-shadow-strong {
     box-shadow: var(--srui-shadow-strong);
+}
+
+/* ===== NEW SRUI UTILITY CLASSES ===== */
+.srui-micro-bounce {
+    composes: micro-bounce;
+}
+
+.srui-glass-layer {
+    composes: glass-layer;
+}
+
+.srui-glass-layer-light {
+    composes: glass-layer-light;
+}
+
+.srui-glass-layer-modal {
+    composes: glass-layer-modal;
+}
+
+.srui-glass-layer-tooltip {
+    composes: glass-layer-tooltip;
+}
+
+.srui-rounded-sm {
+    border-radius: var(--srui-radius-sm);
+}
+
+.srui-rounded-md {
+    border-radius: var(--srui-radius-md);
+}
+
+.srui-rounded-lg {
+    border-radius: var(--srui-radius-lg);
+}
+
+.srui-rounded-xl {
+    border-radius: var(--srui-radius-xl);
+}
+
+.srui-rounded-chip {
+    border-radius: var(--srui-radius-chip);
+}
+
+/* ===== ENHANCED SHADOWS FOR GLASSLAYER ===== */
+.srui-glass-shadow-minimal {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.srui-glass-shadow-medium {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.srui-glass-shadow-strong {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
