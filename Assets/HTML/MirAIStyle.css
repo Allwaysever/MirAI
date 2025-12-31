@@ -775,8 +775,8 @@ body.chat-active .info-text {
     transition: width var(--srui-transition-slow);
 }
 
-/* ===== SETTINGS PAGE ===== */
-#settingsPage {
+/* ===== SETTINGS PANEL (Hash-based Navigation) ===== */
+#settingsPanel {
     position: fixed;
     top: 0;
     left: 0;
@@ -785,33 +785,26 @@ body.chat-active .info-text {
     background-color: var(--srui-bg-primary);
     color: var(--srui-text-primary);
     z-index: 2000;
-    display: flex;
+    display: none;
     flex-direction: column;
-    transform: translateY(100%);
-    opacity: 0;
-    transition: transform var(--srui-transition-slow), opacity var(--srui-transition-slow);
-    padding: 20px;
-    box-sizing: border-box;
     overflow: hidden;
-}
-
-#settingsPage.active {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 .settings-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
+    padding: 20px;
     border-bottom: 1px solid var(--srui-border-input);
+    flex-shrink: 0;
+    background-color: var(--srui-bg-primary);
+    z-index: 10;
 }
 
 .settings-header h2 {
     margin: 0;
     font-size: 1.5em;
+    font-weight: 600;
 }
 
 .settings-header #backBtn {
@@ -820,34 +813,76 @@ body.chat-active .info-text {
     color: var(--srui-text-primary);
     font-size: 1.5em;
     cursor: pointer;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--srui-radius-xl);
+    transition: all var(--srui-transition-normal);
 }
 
-.settings-scroll-container {
-    flex: 1;
+.settings-header #backBtn:hover {
+    background-color: rgba(255, 206, 0, 0.1);
+}
+
+.settings-body {
+    flex-grow: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    padding: 20px;
+    padding-bottom: 80px; /* Ruang untuk footer */
+}
+
+.settings-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: var(--srui-bg-primary);
+    border-top: 1px solid var(--srui-border-input);
+    z-index: 10;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .settings-content h3 {
     color: var(--srui-accent);
     margin-top: 30px;
     margin-bottom: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
 }
 
 .settings-option {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .settings-option p {
-    margin: 0 0 5px 0;
+    margin: 0 0 8px 0;
+    font-size: 0.9em;
+    color: var(--srui-text-secondary);
 }
 
 .settings-option select {
+    width: 100%;
     background-color: var(--srui-bg-card);
     color: var(--srui-text-primary);
-    border: 1px solid var(--srui-accent);
+    border: 1px solid var(--srui-border-input);
     border-radius: var(--srui-radius-lg);
-    padding: 5px;
+    padding: 12px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all var(--srui-transition-normal);
+}
+
+.settings-option select:focus {
+    outline: none;
+    border-color: var(--srui-accent);
+    box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
 }
 
 .api-key-container {
@@ -856,18 +891,24 @@ body.chat-active .info-text {
     align-items: center;
     margin-bottom: 10px;
     width: 100%;
-    max-width: 500px;
 }
 
 #apiKeyInput {
     width: 100%;
-    padding: 8px 40px 8px 15px;
+    padding: 12px 50px 12px 15px;
     border-radius: var(--srui-radius-lg);
-    border: 1px solid var(--srui-accent);
+    border: 1px solid var(--srui-border-input);
     background-color: var(--srui-bg-card);
     color: var(--srui-text-primary);
-    font-size: 0.9em;
+    font-size: 1em;
     box-sizing: border-box;
+    transition: all var(--srui-transition-normal);
+}
+
+#apiKeyInput:focus {
+    outline: none;
+    border-color: var(--srui-accent);
+    box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
 }
 
 #toggleApiKey {
@@ -875,14 +916,27 @@ body.chat-active .info-text {
     right: 15px;
     cursor: pointer;
     color: var(--srui-neutral-mid);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--srui-transition-normal);
+}
+
+#toggleApiKey:hover {
+    color: var(--srui-accent);
 }
 
 .settings-about {
     text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--srui-border-input);
 }
 
 .settings-about p, .settings-about a {
-    font-size: 0.9em;
+    font-size: 0.85em;
     color: var(--srui-neutral-mid);
     margin: 5px 0;
 }
@@ -890,14 +944,17 @@ body.chat-active .info-text {
 .settings-about a {
     color: var(--srui-accent);
     text-decoration: none;
+    transition: color var(--srui-transition-normal);
 }
 
 .settings-about a:hover {
     text-decoration: underline;
+    color: #ffd700;
 }
 
 .gemini-container {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .gemini-logo {
@@ -910,20 +967,88 @@ body.chat-active .info-text {
     background-color: var(--srui-bg-card);
     color: var(--srui-accent);
     border: 1px solid var(--srui-accent);
-    padding: 8px 15px;
+    padding: 12px 20px;
     border-radius: var(--srui-radius-lg);
     cursor: pointer;
     font-size: 1em;
-    margin-top: 10px;
+    font-weight: 500;
     transition: all var(--srui-transition-normal);
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 95%;
 }
 
 .settings-credits-btn:hover {
     background-color: var(--srui-accent);
     color: var(--srui-accent-text);
-    transform: scale(1.05);
+    transform: translateY(-2px);
+    box-shadow: var(--srui-shadow-medium);
+}
+
+/* ===== LIGHT THEME OVERRIDES untuk Settings Panel ===== */
+body.light-theme #settingsPanel {
+    background-color: var(--srui-bg-primary-light);
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .settings-header {
+    border-bottom: 1px solid var(--srui-border-input-light);
+    background-color: var(--srui-bg-primary-light);
+}
+
+body.light-theme .settings-header #backBtn {
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .settings-option select {
+    background-color: var(--srui-bg-neutral-light);
+    color: var(--srui-text-primary-light);
+    border: 1px solid var(--srui-border-input-light);
+}
+
+body.light-theme #apiKeyInput {
+    border: 1px solid var(--srui-border-input-light);
+    background-color: var(--srui-bg-neutral-light);
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .settings-footer {
+    background-color: var(--srui-bg-primary-light);
+    border-top: 1px solid var(--srui-border-input-light);
+}
+
+/* ===== RESPONSIVE DESIGN untuk Settings Panel ===== */
+@media (max-width: 768px) {
+    .settings-body {
+        padding: 15px;
+        padding-bottom: 70px;
+    }
+    
+    .settings-footer {
+        padding: 12px;
+    }
+    
+    .settings-header {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .settings-body {
+        padding: 12px;
+        padding-bottom: 60px;
+    }
+    
+    .settings-footer {
+        padding: 12px;
+    }
+    
+    .settings-header h2 {
+        font-size: 1.3em;
+    }
 }
 
 /* ===== CUSTOM CONFIRM DIALOG ===== */
