@@ -1,12 +1,20 @@
 # Changelogs
 ## What's new?
-### v2.12.0-Beta3
-- **``New system``:** We added another URL parameter system for ``?pwa`` which will skip the splash screen, useful for our [TWA MirAI](https://bit.ly/AwsMirAIDown).
-- **``Fixed some bugs``:** we have been doing this for days until we apologize for the bugs we made, in the next update we added new features.
+### v2.12.0-Beta4
+- **``New features``:** new feature added, called Backup & Restore, you can back up your data in MirAI for safekeeping, or you want to install and continue your conversation at any time and any device. This is what will be backed up:
+  1. Conversation data
+  2. Your Gemini API key
+  3. Your MirAI Persona Selected
+  4. Language used
+  5. The UI theme you choose
   
 ---
 
 ## Previous version:
+### v2.12.0-Beta3
+- **``New system``:** We added another URL parameter system for ``?pwa`` which will skip the splash screen, useful for our [TWA MirAI](https://bit.ly/AwsMirAIDown).
+- **``Fixed some bugs``:** we have been doing this for days until we apologize for the bugs we made, in the next update we added new features.
+
 ### v2.12.0-Beta2
 - **``New System``:** We've just added a snazzy new URL parameter system! So, if your URL looks like ``https://xxx.xxx.xxx/chat``, it will magically use the super speedy **Gemini 2.5 Flash** Model.
   But wait, there's more! If you're feeling adventurous and the URL is ``https://xxx.xxx.xxx/chat?betamodel``, then you'll get to play with the shiny new **Gemini 3 Flash Preview** Model. We'll keep you posted and update everything once Google decides to bless us with the stable Gemini 3 Flash model. Stay tuned!
