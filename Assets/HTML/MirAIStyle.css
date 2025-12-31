@@ -364,13 +364,13 @@ body.chat-active .chat-container {
 /* ===== BUTTONS ===== */
 #settingsBtnContainer, #clearBtnContainer {
     position: fixed;
-    left: 20px;
     z-index: 101;
     transition: all var(--srui-transition-normal);
 }
 
 #settingsBtnContainer {
     top: 20px;
+    left: 20px;
 }
 
 #clearBtnContainer {
