@@ -159,16 +159,6 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
 </head>
 
 <body>
-    <script>
-        if (new URLSearchParams(window.location.search).has('pwa')) {
-            document.documentElement.classList.add('pwa-mode');
-            // Tambahkan gaya instan ke head agar tidak ada jeda
-            const style = document.createElement('style');
-            style.innerHTML = '#splash-screen { display: none !important; }';
-            document.head.appendChild(style);
-        }
-    </script>
-    
     <div id="splash-screen">
 
   <div class="splash-content">
@@ -316,17 +306,16 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
 
 
 
-<!-- GANTI SEMUA bagian #settingsPage di chat.html dengan ini: -->
-<div id="settingsPage">
-    <!-- Header tetap di atas -->
+<!-- Settings Panel -->
+<div id="settingsPanel">
+    <!-- Header -->
     <div class="settings-header">
         <h2 id="settingsHeaderTitle">Pengaturan</h2>
         <button id="backBtn"><i class="fas fa-times"></i></button>
     </div>
 
-    <!-- Container untuk konten yang bisa discroll -->
-    <div class="settings-scroll-container">
-        <!-- Semua konten settings pindah ke sini -->
+    <!-- Body (Scrollable) -->
+    <div class="settings-body">
         <div class="settings-content">
             <h3 id="settingsAppearanceTitle">Tampilan</h3>
             <div class="settings-option">
@@ -351,43 +340,51 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             <div class="settings-option">
                 <p id="settingsApiText">Masukkan Kunci API kustom Anda:</p>
                 <div class="api-key-container">
-                    <input type="password" id="apiKeyInput">
+                    <input type="password" id="apiKeyInput" placeholder="Kosongkan untuk menggunakan kunci default">
                     <i class="fas fa-eye" id="toggleApiKey"></i>
                 </div>
-                <button id="saveApiBtn" class="settings-credits-btn">Simpan</button>
             </div>
 
             <h3 id="settingsBackupTitle">Backup & Restore</h3>
-            <div class="settings-option" style="flex-direction: column; align-items: flex-start; gap: 10px;">
-                <p style="font-size: 0.8em; color: #aaa;" id="backupDescText">Save or move your chat history via JSON file.</p>
-                <div style="display: flex; gap: 10px; width: 100%;">
-                    <button id="exportBtn" class="settings-credits-btn" style="flex: 1; background: #28a745;">
+            <div class="settings-option">
+                <p style="font-size: 0.8em; color: var(--srui-text-tertiary);" id="backupDescText">Save or move your chat history via JSON file.</p>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button id="exportBtn" class="settings-credits-btn" style="background: var(--srui-success);">
                         <i class="fas fa-download"></i> Export
                     </button>
-                    <button id="importBtn" class="settings-credits-btn" style="flex: 1; background: #ffc107; color: #000;">
+                    <button id="importBtn" class="settings-credits-btn" style="background: var(--srui-warning); color: var(--srui-accent-text);">
                         <i class="fas fa-upload"></i> Import
                     </button>
                 </div>
-<input type="file" id="importFileInput" accept=".json,.mdf,.medf" style="display: none;">
+                <input type="file" id="importFileInput" accept=".json,.mdf,.medf" style="display: none;">
             </div>
             
-            <h3 id="settingsAboutTitle"></h3>
             <div class="settings-about">
-                <p id="settingsAuthorText"></p>
-                <p><a href="https://allwaysevermirai.netlify.app/about" target="_blank" id="githubLink"><i class="fas fa-info-circle"></i></a></p>
-                <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"></a></p>
-                <p><a href="help/index.html" id="helpLink" target="_self"></a></p>
+                <h3 id="settingsAboutTitle">Tentang Aplikasi</h3>
+                <p id="settingsVersionText">Versi: v2.12.0-Beta5</p>
+                <p id="settingsAuthorText">Dikembangkan oleh Allwaysever</p>
+                <p><a href="https://allwaysevermirai.netlify.app/about" target="_blank" id="githubLink"><i class="fas fa-info-circle"></i> Tentang MirAI</a></p>
+                <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"><i class="fas fa-file-contract"></i> Lisensi</a></p>
+                <p><a href="help/index.html" id="helpLink" target="_self"><i class="fas fa-question-circle"></i> Pusat Bantuan</a></p>
                 <div class="gemini-container">
                     <a href="https://deepmind.google/models/gemini/flash/" target="_blank">
                         <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Gemini%202.5%20Flash%20Logo.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
                     </a>
                 </div>
-                <p id="termsText"></p>
+                <p id="termsText" style="margin-top: 20px; font-size: 0.8em; color: var(--srui-text-secondary);">
+                    Dengan menggunakan MirAI, Anda menyetujui <a href="T&C/index.html" target="_blank">Syarat & Ketentuan</a>.
+                </p>
             </div>
         </div>
     </div>
-</div>
 
+    <!-- Footer (Fixed) -->
+    <div class="settings-footer">
+        <button id="saveApiBtn" class="settings-credits-btn">
+            <i class="fas fa-save"></i> Simpan Pengaturan
+        </button>
+    </div>
+</div>
 
 <div id="customConfirmOverlay">
 
@@ -778,6 +775,17 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
     let currentImageData = null;
     let elements;
 
+const now = new Date();
+
+const year = now.getFullYear();
+const month = String(now.getMonth() + 1).padStart(2, '0'); // +1 karena bulan mulai dari 0
+const day = String(now.getDate()).padStart(2, '0');
+const hours = String(now.getHours()).padStart(2, '0');
+const minutes = String(now.getMinutes()).padStart(2, '0');
+
+const formattedDate = `${year}-${month}-${day}_${hours}-${minutes}`;
+console.log(formattedDate); // Contoh output: 2023-10-25 14-30
+
     // --- LOGIKA UTAMA MIRAI ENCRYPTED DATA FILE (.medf) ---
     const MIRAI_CONFIG = {
         saltLength: 16,
@@ -805,7 +813,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         const finalBlob = new Blob([salt, iv, new Uint8Array(encrypted)], {type: "application/octet-stream"});
         const a = document.createElement("a");
         a.href = URL.createObjectURL(finalBlob);
-        a.download = `MirAI_Backup_${Date.now()}.medf`;
+        a.download = `MirAIBackup_ENCRYPTED_${formattedDate}.medf`;
         a.click();
     }
 
@@ -1018,11 +1026,11 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
       
       // Tampilkan pesan sukses
       const restoredChats = restoredHistory ? JSON.parse(restoredHistory).length : 0;
-      const successMsg = `✅ BACKUP BERHASIL DIPULIHKAN!\n\n` +
+      const successMsg = `✅ BACKUP RESTORED SUCCESSFUL!\n\n` +
                         `• Persona: ${backupPersona}\n` +
-                        `• Bahasa: ${backupLanguage}\n` +
-                        `• Chat: ${restoredChats} pesan\n\n` +
-                        `Aplikasi akan dimuat ulang...`;
+                        `• Language: ${backupLanguage}\n` +
+                        `• Chat: ${restoredChats} massages\n\n` +
+                        `App will be reloading...`;
       
       alert(successMsg);
       
@@ -1484,28 +1492,139 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         elements.themeSelect.value = theme; 
     }
 
-    function showSettingsPage() {
-        elements.settingsPage.classList.add('active');
-        
-        setTimeout(() => {
-            const scrollContainer = document.querySelector('.settings-scroll-container');
-            const content = document.querySelector('.settings-content');
-            
-            if (scrollContainer && content) {
-                const windowHeight = window.innerHeight;
-                const headerHeight = 80;
-                scrollContainer.style.height = (windowHeight - headerHeight) + 'px';
-                scrollContainer.style.overflowY = 'auto';
-                scrollContainer.style.webkitOverflowScrolling = 'touch';
-            }
-        }, 50);
-    }
+// --- HASH NAVIGATION UNTUK SETTINGS PANEL ---
+let isHashNavigating = false;
 
-    function hideSettingsPage() {
-        elements.settingsPage.classList.remove('active');
-        document.body.classList.remove('settings-open');
-        document.body.style.overflow = '';
+// Fungsi utama untuk menangani navigasi berdasarkan hash
+function handleHashNavigation() {
+    if (isHashNavigating) return;
+    
+    isHashNavigating = true;
+    
+    const currentHash = window.location.hash;
+    const settingsPanel = document.getElementById('settingsPanel');
+    
+    console.log('🔗 Hash navigation:', currentHash);
+    
+    if (currentHash === '#settings') {
+        // BUKA SETTINGS PANEL
+        if (settingsPanel) {
+            settingsPanel.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            console.log('✅ Settings panel opened');
+        }
+    } else {
+        // TUTUP SETTINGS PANEL
+        if (settingsPanel) {
+            settingsPanel.style.display = 'none';
+            document.body.style.overflow = '';
+            console.log('❌ Settings panel closed');
+        }
     }
+    
+    setTimeout(() => {
+        isHashNavigating = false;
+    }, 50);
+}
+
+// Fungsi untuk membuka settings panel
+function openSettings() {
+    console.log('🎯 Opening settings...');
+    
+    // Jika sudah di #settings, tidak perlu lakukan apa-apa
+    if (window.location.hash === '#settings') return;
+    
+    // Simpan scroll position sebelum membuka settings
+    sessionStorage.setItem('mainScrollPos', window.scrollY);
+    
+    // Push state ke history dengan hash #settings
+    history.pushState({ settings: true }, '', '#settings');
+    
+    // Panggil handler langsung
+    handleHashNavigation();
+}
+
+// Fungsi untuk menutup settings panel
+function closeSettings() {
+    console.log('🎯 Closing settings...');
+    
+    // Jika tidak di #settings, tidak perlu lakukan apa-apa
+    if (window.location.hash !== '#settings') return;
+    
+    // Kembali ke state sebelumnya
+    history.back();
+}
+
+// Fungsi untuk menangani popstate (tombol back browser)
+function handlePopState() {
+    console.log('🔙 Popstate event');
+    // Beri sedikit delay agar hashchange event selesai
+    setTimeout(handleHashNavigation, 10);
+}
+
+// Setup hash navigation
+function setupHashNavigation() {
+    console.log('🔧 Setting up hash navigation...');
+    
+    const settingsPanel = document.getElementById('settingsPanel');
+    if (!settingsPanel) {
+        console.error('❌ Settings panel not found!');
+        return;
+    }
+    
+    // 1. Pastikan panel hidden di awal
+    settingsPanel.style.display = 'none';
+    
+    // 2. Setup event listener untuk hashchange
+    window.addEventListener('hashchange', handleHashNavigation);
+    
+    // 3. Setup event listener untuk popstate (tombol back)
+    window.addEventListener('popstate', handlePopState);
+    
+    // 4. Cek hash saat pertama kali load
+    setTimeout(() => {
+        console.log('🌐 Initial hash:', window.location.hash);
+        handleHashNavigation();
+    }, 100);
+    
+    // 5. Event listener untuk Escape key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && window.location.hash === '#settings') {
+            closeSettings();
+        }
+    });
+    
+    // 6. Setup click handlers untuk tombol
+    const settingsBtn = document.getElementById('settingsBtn');
+    const backBtn = document.getElementById('backBtn');
+    
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', openSettings);
+    }
+    
+    if (backBtn) {
+        backBtn.addEventListener('click', closeSettings);
+    }
+    
+    console.log('✅ Hash navigation setup complete');
+}
+
+
+// Fungsi kompatibilitas untuk kode lama
+function showSettingsPage() {
+    openSettings();
+}
+
+function hideSettingsPage() {
+    closeSettings();
+}
+
+// Pastikan settings panel tertutup saat page unload
+window.addEventListener('beforeunload', () => {
+    if (window.location.hash === '#settings') {
+        history.replaceState(null, null, ' ');
+    }
+});
 
     function toggleChatUI(active) { 
         if (active) { 
@@ -1841,6 +1960,8 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
 
     // --- EVENT LISTENER UTAMA ---
     document.addEventListener('DOMContentLoaded', () => {
+        console.log('🚀 MirAI Initializing...');
+        
         elements = { 
             questionInput: document.getElementById('questionInput'), 
             sendBtn: document.getElementById('sendBtn'), 
@@ -1857,7 +1978,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             langDropdown: document.getElementById('langDropdown'), 
             languageSwitcher: document.getElementById('languageSwitcher'), 
             infoText: document.getElementById('infoText'), 
-            settingsPage: document.getElementById('settingsPage'), 
+            settingsPanel: document.getElementById('settingsPanel'),
             backBtn: document.getElementById('backBtn'), 
             themeSelect: document.getElementById('themeSelect'), 
             personaSelect: document.getElementById('personaSelect'), 
@@ -1901,12 +2022,14 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             removeImageBtn: document.getElementById('removeImageBtn')
         };
 
+        console.log('✅ Elements initialized:', Object.keys(elements).length, 'elements');
+
         // Pasang semua event listener
         elements.sendBtn.addEventListener('click', askAI);
         elements.stopBtn.addEventListener('click', stopAI);
         elements.clearBtn.addEventListener('click', showClearConfirmation);
-        elements.settingsBtn.addEventListener('click', showSettingsPage);
-        elements.backBtn.addEventListener('click', hideSettingsPage);
+        elements.settingsBtn.addEventListener('click', openSettings);
+        elements.backBtn.addEventListener('click', closeSettings);
         elements.themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
         elements.personaSelect.addEventListener('change', (e) => setPersona(e.target.value, true));
         elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value, true));
@@ -1954,6 +2077,8 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         });
         window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
 
+setupHashNavigation();
+
         // --- EXPORT/IMPORT HANDLER ---
         elements.exportBtn.addEventListener('click', () => {
             // Kumpulkan semua data
@@ -1995,7 +2120,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 const blob = new Blob([JSON.stringify(allData, null, 2)], {type: "application/json"});
                 const a = document.createElement("a");
                 a.href = URL.createObjectURL(blob);
-                a.download = `MirAI_Backup_${Date.now()}.mdf`;
+                a.download = `MirAIBackup_${formattedDate}.mdf`;
                 a.click();
                 alert("✅ .mdf backup successfully created!");
             }
@@ -2098,6 +2223,44 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             alert("❌ File format not supported!\n\nUse file with extension:\n• .medf (encrypted backup)\n• .mdf (JSON backup)\n• .json (JSON backup)");
         });
 
+        // --- HASH NAVIGATION SETUP ---
+        console.log('🔧 Setting up hash navigation...');
+        
+        // Pastikan panel hidden di awal
+        if (elements.settingsPanel) {
+            elements.settingsPanel.style.display = 'none';
+        }
+        
+        // Handler untuk hashchange dengan debounce
+        let hashChangeDebounce;
+        window.addEventListener('hashchange', () => {
+            clearTimeout(hashChangeDebounce);
+            hashChangeDebounce = setTimeout(handleHashNavigation, 30);
+        });
+        
+        // Handler untuk popstate (tombol back browser) - delay lebih lama
+        window.addEventListener('popstate', () => {
+            setTimeout(handleHashNavigation, 100); // 100ms untuk tombol back
+        });
+        
+        // Pastikan URL bersih saat pertama kali load
+        if (window.location.hash && !window.location.hash.includes('settings')) {
+            history.replaceState(null, null, ' ');
+        }
+        
+        // Cek hash saat pertama kali load
+        setTimeout(() => {
+            console.log('🌐 Initial hash:', window.location.hash);
+            handleHashNavigation();
+        }, 200);
+        
+        // Event listener untuk Escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && window.location.hash === '#settings') {
+                closeSettings();
+            }
+        });
+
         // Jalankan inisialisasi aplikasi
         initializeApp();
 
@@ -2107,7 +2270,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 simulateLoading(3000);
             }
         } else {
-            console.log("PWA Mode: Skip splash screen!");
+            console.log("📱 PWA Mode: Skip splash screen!");
             initializeApp();
         }
 
@@ -2115,13 +2278,22 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         populateToolsMenu();
         updateSendButtonState();
 
+        // Simpan state saat sebelum unload
         window.addEventListener('beforeunload', () => {
             if (window.speechSynthesis.speaking) {
                 window.speechSynthesis.cancel();
             }
+            
+            // Reset hash untuk mencegah panel terbuka saat reload
+            if (window.location.hash === '#settings') {
+                history.replaceState(null, null, ' ');
+            }
         });
+        
+        console.log('🎉 MirAI initialization complete!');
     });
 
+    // Event listener untuk online/offline status
     window.addEventListener('online', updateConnectionStatus);
     window.addEventListener('offline', updateConnectionStatus);
 </script>
