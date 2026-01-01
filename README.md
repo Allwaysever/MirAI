@@ -131,4 +131,4 @@ For more detailed information about the project, please refer to the following d
 
 ## 📄 License
 
-This project is licensed under the **Apache License 2.0**. For full details, please [read the license file here](LICENSE).
+This project is licensed under **Apache 2.0**. However, the **.medf (MirAI Encrypted Data Files)** format specification is an original innovation of **Alwaysever**. We would appreciate any modifications that maintain the format's identity. For full details, please [read the license file here](LICENSE).
