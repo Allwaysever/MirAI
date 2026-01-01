@@ -1471,7 +1471,7 @@ body.light-theme {
     color: var(--srui-text-primary-light);
 }
 
-body.light-theme img {
+body.light-theme .hi-img.logo-img.gemini-logo {
   filter: grayscale (100%);
 }
 
