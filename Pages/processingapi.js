@@ -8,6 +8,12 @@ const MEDF_CONFIG = {
     passwordCode: 271828  // Kode perhitungan default (e = 2.71828 ≈ 271828)
 };
 
+const PUBLIC_API_LIMITS = {
+    MAX_BUBBLES_WARNING: 10,
+    MAX_BUBBLES_BLOCK: 12,
+    STORAGE_KEY: 'mirai_public_api_usage'
+};
+
 /**
  * Menghasilkan password dari kode perhitungan
  * @param {number} code - Kode perhitungan
@@ -33,6 +39,44 @@ function generatePasswordFromCode(code) {
     result += alphabet[checksum];
     
     return result;
+}
+
+/**
+ * Menghitung total bubbles yang telah digunakan dengan API publik
+ * @returns {number} Jumlah bubbles yang sudah digunakan
+ */
+function countPublicApiBubbles() {
+    try {
+        const usage = JSON.parse(localStorage.getItem(PUBLIC_API_LIMITS.STORAGE_KEY) || '{}');
+        return usage.bubbleCount || 0;
+    } catch {
+        return 0;
+    }
+}
+
+/**
+ * Meningkatkan counter bubbles untuk API publik
+ */
+function incrementPublicApiBubbles() {
+    try {
+        const usage = JSON.parse(localStorage.getItem(PUBLIC_API_LIMITS.STORAGE_KEY) || '{}');
+        usage.bubbleCount = (usage.bubbleCount || 0) + 1;
+        usage.lastUsed = new Date().toISOString();
+        localStorage.setItem(PUBLIC_API_LIMITS.STORAGE_KEY, JSON.stringify(usage));
+        
+        console.log(`📊 Public API Usage: ${usage.bubbleCount} bubbles`);
+        return usage.bubbleCount;
+    } catch {
+        return 0;
+    }
+}
+
+/**
+ * Reset counter bubbles (untuk debugging)
+ */
+function resetPublicApiBubbles() {
+    localStorage.removeItem(PUBLIC_API_LIMITS.STORAGE_KEY);
+    console.log('🔄 Public API counter reset');
 }
 
 /**
@@ -194,7 +238,11 @@ if (typeof window !== 'undefined') {
         encryptToMEDF,
         extractApiKeyFromConfig,
         generatePasswordFromCode,
-        DEFAULT_CODE: MEDF_CONFIG.passwordCode
+        countPublicApiBubbles,
+        incrementPublicApiBubbles,
+        resetPublicApiBubbles,
+        DEFAULT_CODE: MEDF_CONFIG.passwordCode,
+        PUBLIC_API_LIMITS
     };
 }
 
@@ -205,6 +253,10 @@ if (typeof module !== 'undefined' && module.exports) {
         encryptToMEDF,
         extractApiKeyFromConfig,
         generatePasswordFromCode,
-        DEFAULT_CODE: MEDF_CONFIG.passwordCode
+        countPublicApiBubbles,
+        incrementPublicApiBubbles,
+        resetPublicApiBubbles,
+        DEFAULT_CODE: MEDF_CONFIG.passwordCode,
+        PUBLIC_API_LIMITS
     };
 }
