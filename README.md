@@ -115,6 +115,7 @@ This project was built purely with basic web technologies, without any framework
 * **Google Gemini API** (using the `gemini-2.5-flash` model)
 * **Marked.js** (For Markdown parsing)
 * **SuperRoundedUI by Allwaysever** as UI Guidelines
+* **.medf (MirAI Encrypted Data Files)** - Original encrypted data format by Allwaysever for secure and efficient data handling.
 
 ---
 
@@ -131,4 +132,7 @@ For more detailed information about the project, please refer to the following d
 
 ## 📄 License
 
-This project is licensed under **Apache 2.0**. However, the **.medf (MirAI Encrypted Data Files)** format specification is an original innovation of **Alwaysever**. We would appreciate any modifications that maintain the format's identity. For full details, please [read the license file here](LICENSE).
+This project is licensed under the **Apache License 2.0**.
+
+> [!NOTE]
+> The **.medf (MirAI Encrypted Data Files)** format specification is an original innovation by **Allwaysever**. While the implementation in this repository is open source, we encourage developers to respect the branding and integrity of this format.
