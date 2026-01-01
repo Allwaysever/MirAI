@@ -429,7 +429,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                     try {
                         code = parseInt(savedCode);
                     } catch (e) {
-                        console.warn('Kode invalid, menggunakan default');
+                        console.warn('Invalid code, using default');
                     }
                 }
                 
@@ -517,7 +517,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 
             } catch (e) {
                 console.error('Decryption error:', e);
-                throw new Error("Kode perhitungan salah atau file rusak");
+                throw new Error("Incorrect calculation code or corrupted file");
             }
         },
         
@@ -539,10 +539,15 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             return result;
         },
         
-        DEFAULT_CODE: 271828
+        DEFAULT_CODE: 271828,
+        countPublicApiBubbles: () => window.MEDFProcessor?.countPublicApiBubbles?.() || 0,
+        incrementPublicApiBubbles: () => window.MEDFProcessor?.incrementPublicApiBubbles?.() || 0,
+        resetPublicApiBubbles: () => window.MEDFProcessor?.resetPublicApiBubbles?.() || null,
+        PUBLIC_API_LIMITS: window.MEDFProcessor?.PUBLIC_API_LIMITS || { MAX_BUBBLES_WARNING: 10, MAX_BUBBLES_BLOCK: 12 }
     };
 
     let currentApiKey = DEFAULT_API_KEY;
+    let isUsingPublicApi = false;
 
     // [PEMBARUAN] Deteksi model dan mode PWA berdasarkan parameter URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -1001,7 +1006,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         
       } catch (e) {
         console.error('MEDF Import Error:', e);
-        throw new Error("Password salah atau file .medf rusak!");
+        throw new Error("Wrong password or corrupted .medf file!");
       }
     }
 
@@ -1057,7 +1062,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
       const data = normalizeBackupData(originalData);
       
       if (!data) {
-        alert('❌ File backup tidak valid atau rusak!');
+        alert('❌ The backup file is invalid or corrupted!');
         return;
       }
       
@@ -1151,6 +1156,154 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
       }, 800);
     }
 
+    // === FUNGSI LIMIT API PUBLIK ===
+    function isPublicApiKey(apiKey) {
+        return apiKey === DEFAULT_API_KEY;
+    }
+
+    function showApiLimitPopup(level, bubbleCount) {
+        const lang = uiStrings[currentLanguage];
+        
+        let message, showSettingsBtn = false;
+        
+        if (level === 'warning') {
+            message = `⚠️ PUBLIC FIRE LIMIT WARNING\n\n` +
+                     `You have used ${bubbleCount} bubbles with public API Key.\n` +
+                     `The maximum limit is ${MEDF_PROCESSOR.PUBLIC_API_LIMITS.MAX_BUBBLES_WARNING} bubbles.\n\n` +
+                     `To continue unlimited chat, please use your personal API Key.`;
+        } else if (level === 'block') {
+            message = `🚫 PUBLIC API BLOCKED\n\n` +
+                     `You have reached the limit ${bubbleCount} bubbles with public API Key.\n` +
+                     `Access to the public API is now disabled.\n\n` +
+                     `To continue using MirAI, please enter your personal API Key.`;
+            showSettingsBtn = true;
+        }
+        
+        const popupOverlay = document.createElement('div');
+        popupOverlay.id = 'apiLimitPopup';
+        popupOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        `;
+        
+        const popupContent = document.createElement('div');
+        popupContent.style.cssText = `
+            background: var(--srui-bg-primary, #1a1a1a);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid ${level === 'warning' ? '#ff9800' : '#f44336'};
+        `;
+        
+        const messageEl = document.createElement('p');
+        messageEl.style.cssText = `
+            color: var(--srui-text-primary, #fff);
+            margin-bottom: 20px;
+            line-height: 1.5;
+            white-space: pre-line;
+        `;
+        messageEl.textContent = message;
+        
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = `
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        `;
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = 'Close';
+        closeBtn.style.cssText = `
+            background: #666;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        `;
+        closeBtn.onclick = () => {
+            document.body.removeChild(popupOverlay);
+        };
+        
+        popupContent.appendChild(messageEl);
+        
+        if (showSettingsBtn) {
+            const settingsBtn = document.createElement('button');
+            settingsBtn.textContent = 'Install My API Key';
+            settingsBtn.style.cssText = `
+                background: #4285f4;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin: 10px auto;
+            `;
+            settingsBtn.onclick = () => {
+                document.body.removeChild(popupOverlay);
+                if (window.location.hash !== '#settings') {
+                    history.pushState({ settings: true }, '', '#settings');
+                    setTimeout(handleHashNavigation, 50);
+                }
+            };
+            popupContent.appendChild(settingsBtn);
+        }
+        
+        popupContent.appendChild(buttonContainer);
+        buttonContainer.appendChild(closeBtn);
+        popupOverlay.appendChild(popupContent);
+        
+        document.body.appendChild(popupOverlay);
+    }
+
+    function checkAndUpdatePublicApiLimit() {
+        if (!isUsingPublicApi) return true;
+        
+        const bubbleCount = MEDF_PROCESSOR.countPublicApiBubbles();
+        
+        if (bubbleCount === MEDF_PROCESSOR.PUBLIC_API_LIMITS.MAX_BUBBLES_WARNING) {
+            console.log('⚠️ Public API warning limit reached');
+            setTimeout(() => {
+                showApiLimitPopup('warning', bubbleCount);
+            }, 1000);
+        }
+        
+        if (bubbleCount >= MEDF_PROCESSOR.PUBLIC_API_LIMITS.MAX_BUBBLES_BLOCK) {
+            console.log('🚫 Public API blocked - maximum limit reached');
+            setTimeout(() => {
+                showApiLimitPopup('block', bubbleCount);
+            }, 1000);
+            return false;
+        }
+        
+        return true;
+    }
+
+    function trackPublicApiUsage() {
+        if (isUsingPublicApi) {
+            const newCount = MEDF_PROCESSOR.incrementPublicApiBubbles();
+            console.log(`📈 Public API bubble count: ${newCount}`);
+        }
+    }
+
     // --- FUNGSI UTAMA MIRAI ---
     function initializeSlashCommands(lang) {
         const s = uiStrings[lang];
@@ -1227,6 +1380,21 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             currentApiKey = DEFAULT_API_KEY;
         }
         
+        // Tentukan apakah menggunakan API publik
+        isUsingPublicApi = isPublicApiKey(currentApiKey);
+        console.log(`🌐 Using ${isUsingPublicApi ? 'PUBLIC' : 'PRIVATE'} API Key`);
+        
+        if (isUsingPublicApi) {
+            const bubbleCount = MEDF_PROCESSOR.countPublicApiBubbles();
+            console.log(`📊 Public API usage: ${bubbleCount} bubbles used`);
+            
+            if (bubbleCount >= MEDF_PROCESSOR.PUBLIC_API_LIMITS.MAX_BUBBLES_WARNING) {
+                setTimeout(() => {
+                    showApiLimitPopup('warning', bubbleCount);
+                }, 2000);
+            }
+        }
+        
         const savedLang = localStorage.getItem('miraiLanguage');
         if (savedLang && uiStrings.hasOwnProperty(savedLang)) {
             currentLanguage = savedLang;
@@ -1242,10 +1410,10 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         elements.personaSelect.value = currentPersona;
         
         if (savedApiKey) {
-            // Prioritaskan API Key dari localStorage jika ada
             currentApiKey = savedApiKey;
             elements.apiKeyInput.value = savedApiKey;
             console.log('🔑 Using API Key from localStorage');
+            isUsingPublicApi = isPublicApiKey(currentApiKey);
         }
 
         initializeSlashCommands(currentLanguage);
@@ -1342,6 +1510,15 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         const userQuestion = elements.questionInput.value;
 
         if (userQuestion.trim() === '' && !currentImageData) return;
+
+        // CEK LIMIT API PUBLIK SEBELUM MENGIRIM
+        if (isUsingPublicApi && !checkAndUpdatePublicApiLimit()) {
+            toggleChatUI(false);
+            elements.sendBtn.style.display = 'block';
+            elements.stopBtn.style.display = 'none';
+            elements.clearBtnContainer.style.display = 'block';
+            return;
+        }
 
         const clientDateTime = getCurrentDateTimeString();
         const promptTemplate = uiStrings[currentLanguage].dateTimeContextPrompt;
@@ -1451,6 +1628,11 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 answer = data.candidates[0].content.parts[0].text;
                 chatHistory.push({ role: "model", parts: [{ text: answer }] });
                 saveChatHistory();
+                
+                // JIKA BERHASIL, TRACK USAGE
+                if (isUsingPublicApi) {
+                    trackPublicApiUsage();
+                }
             }
             
             loadingBubble.remove();
@@ -1528,10 +1710,12 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         if (newKey) { 
             localStorage.setItem('miraiApiKey', newKey); 
             currentApiKey = newKey; 
+            isUsingPublicApi = isPublicApiKey(currentApiKey);
             showCopyFeedback(uiStrings[currentLanguage].apiKeySaved); 
         } else { 
             localStorage.removeItem('miraiApiKey'); 
             currentApiKey = DEFAULT_API_KEY; 
+            isUsingPublicApi = true;
             showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); 
         } 
     }
@@ -1639,6 +1823,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 document.body.style.overflow = '';
                 console.log('❌ Settings panel closed');
             }
+        
         }
         
         setTimeout(() => {
@@ -2055,6 +2240,35 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         } 
         connectionStatus.classList.toggle('hidden-by-scroll', isOverlapping); 
     }
+
+    // === DEBUG FUNCTIONS ===
+    window.debugMirAI = {
+        resetApiLimit: () => {
+            MEDF_PROCESSOR.resetPublicApiBubbles();
+            alert('Public API limit counter has been reset');
+            location.reload();
+        },
+        getApiUsage: () => {
+            const count = MEDF_PROCESSOR.countPublicApiBubbles();
+            alert(`Public API usage: ${count} bubbles`);
+            return count;
+        },
+        forcePublicApi: () => {
+            currentApiKey = DEFAULT_API_KEY;
+            isUsingPublicApi = true;
+            localStorage.removeItem('miraiApiKey');
+            alert('Switched to PUBLIC API for testing');
+            location.reload();
+        },
+        checkApiStatus: () => {
+            return {
+                isPublic: isUsingPublicApi,
+                apiKey: currentApiKey.substring(0, 10) + '...',
+                bubbleCount: MEDF_PROCESSOR.countPublicApiBubbles(),
+                limits: MEDF_PROCESSOR.PUBLIC_API_LIMITS
+            };
+        }
+    };
 
     // --- EVENT LISTENER UTAMA ---
     document.addEventListener('DOMContentLoaded', () => {
