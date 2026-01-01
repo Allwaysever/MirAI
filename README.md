@@ -131,4 +131,4 @@ For more detailed information about the project, please refer to the following d
 
 ## 📄 License
 
-This project is licensed under the GNU Affero General Public License v3.0. For full details, please [read the license file here](Docs/LICENSE).
+This project is licensed under the **Apache License 2.0**. For full details, please [read the license file here](LICENSE).
