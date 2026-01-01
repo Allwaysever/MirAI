@@ -1471,6 +1471,10 @@ body.light-theme {
     color: var(--srui-text-primary-light);
 }
 
+body.light-theme img {
+  filter: grayscale (100%);
+}
+
 body.light-theme .chat-bubble.ai-bubble {
     background-color: var(--srui-bg-card-light);
     color: var(--srui-text-primary-light);
