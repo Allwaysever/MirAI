@@ -406,6 +406,142 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
 
 <script>
     const DEFAULT_API_KEY = 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
+
+    // === SISTEM API KEY TERENKRIPSI (.medf) ===
+    const MEDF_PROCESSOR = {
+        async loadEncryptedApiKey() {
+            try {
+                // Cek apakah ada config.medf di server
+                const response = await fetch('config.medf');
+                if (!response.ok) {
+                    console.log('config.medf not found, using default');
+                    return DEFAULT_API_KEY;
+                }
+                
+                // Baca file
+                const buffer = await response.arrayBuffer();
+                
+                // Kode perhitungan default (bisa disimpan di localStorage)
+                const savedCode = localStorage.getItem('miraiConfigCode');
+                let code = MEDF_PROCESSOR.DEFAULT_CODE;
+                
+                if (savedCode) {
+                    try {
+                        code = parseInt(savedCode);
+                    } catch (e) {
+                        console.warn('Kode invalid, menggunakan default');
+                    }
+                }
+                
+                // Dekripsi file
+                const apiKey = await MEDF_PROCESSOR.extractApiKeyFromConfig(buffer, code);
+                console.log('✅ API Key berhasil didekripsi dari config.medf');
+                return apiKey;
+                
+            } catch (error) {
+                console.error('❌ Gagal memuat config.medf:', error);
+                
+                // Tampilkan prompt untuk memasukkan kode
+                if (confirm('Failed to read config.medf\n\nWant to enter manual calculation code?')) {
+                    const userCode = prompt('Enter the calculation code for config.medf:');
+                    if (userCode) {
+                        try {
+                            const code = parseInt(userCode);
+                            localStorage.setItem('miraiConfigCode', code);
+                            
+                            // Coba lagi dengan kode baru
+                            const response = await fetch('config.medf');
+                            const buffer = await response.arrayBuffer();
+                            const apiKey = await MEDF_PROCESSOR.extractApiKeyFromConfig(buffer, code);
+                            return apiKey;
+                        } catch (e) {
+                            console.error('Invalid code:', e);
+                        }
+                    }
+                }
+                
+                return DEFAULT_API_KEY;
+            }
+        },
+        
+        async extractApiKeyFromConfig(fileBuffer, code) {
+            // Gunakan fungsi dari processingapi.js jika ada
+            if (window.MEDFProcessor && window.MEDFProcessor.extractApiKeyFromConfig) {
+                return await window.MEDFProcessor.extractApiKeyFromConfig(fileBuffer, code);
+            }
+            
+            // Fallback: Dekripsi sederhana menggunakan Web Crypto API langsung
+            try {
+                // Generate password dari kode
+                const password = this.generatePasswordFromCode(code);
+                
+                const encoder = new TextEncoder();
+                const salt = fileBuffer.slice(0, 16);
+                const iv = fileBuffer.slice(16, 28);
+                const encryptedData = fileBuffer.slice(28);
+                
+                // Import key dari password
+                const passwordKey = await crypto.subtle.importKey(
+                    "raw", 
+                    encoder.encode(password), 
+                    "PBKDF2", 
+                    false, 
+                    ["deriveKey"]
+                );
+                
+                // Derive key menggunakan salt
+                const key = await crypto.subtle.deriveKey(
+                    { 
+                        name: "PBKDF2", 
+                        salt: salt, 
+                        iterations: 100000, 
+                        hash: "SHA-256" 
+                    },
+                    passwordKey, 
+                    { name: "AES-GCM", length: 256 }, 
+                    false, 
+                    ["decrypt"]
+                );
+                
+                // Decrypt data
+                const decrypted = await crypto.subtle.decrypt(
+                    { name: "AES-GCM", iv: iv }, 
+                    key, 
+                    encryptedData
+                );
+                
+                // Parse JSON hasil decrypt
+                const decryptedText = new TextDecoder().decode(decrypted);
+                const data = JSON.parse(decryptedText);
+                return data.apiKey || DEFAULT_API_KEY;
+                
+            } catch (e) {
+                console.error('Decryption error:', e);
+                throw new Error("Kode perhitungan salah atau file rusak");
+            }
+        },
+        
+        generatePasswordFromCode(code) {
+            let num = Math.abs(code);
+            let result = '';
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            
+            while (num > 0) {
+                const remainder = num % 26;
+                result = alphabet[remainder] + result;
+                num = Math.floor(num / 26);
+            }
+            
+            if (!result) result = 'MIRAI';
+            const checksum = code.toString().split('').reduce((a, b) => a + parseInt(b), 0) % 26;
+            result += alphabet[checksum];
+            
+            return result;
+        },
+        
+        DEFAULT_CODE: 271828
+    };
+
     let currentApiKey = DEFAULT_API_KEY;
 
     // [PEMBARUAN] Deteksi model dan mode PWA berdasarkan parameter URL
@@ -775,16 +911,14 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
     let currentImageData = null;
     let elements;
 
-const now = new Date();
-
-const year = now.getFullYear();
-const month = String(now.getMonth() + 1).padStart(2, '0'); // +1 karena bulan mulai dari 0
-const day = String(now.getDate()).padStart(2, '0');
-const hours = String(now.getHours()).padStart(2, '0');
-const minutes = String(now.getMinutes()).padStart(2, '0');
-
-const formattedDate = `${year}-${month}-${day}_${hours}-${minutes}`;
-console.log(formattedDate); // Contoh output: 2023-10-25 14-30
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}_${hours}-${minutes}`;
+    console.log(formattedDate);
 
     // --- LOGIKA UTAMA MIRAI ENCRYPTED DATA FILE (.medf) ---
     const MIRAI_CONFIG = {
@@ -822,7 +956,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         const buffer = await file.arrayBuffer();
         const uint8View = new Uint8Array(buffer);
         
-        // Ekstrak bagian-bagian dengan Uint8Array
         const salt = uint8View.slice(0, 16);
         const iv = uint8View.slice(16, 28);
         const encryptedData = uint8View.slice(28);
@@ -836,7 +969,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         
         const encoder = new TextEncoder();
         
-        // Import key dari password
         const passwordKey = await window.crypto.subtle.importKey(
           "raw", 
           encoder.encode(password), 
@@ -845,7 +977,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
           ["deriveKey"]
         );
         
-        // Derive key menggunakan salt
         const key = await window.crypto.subtle.deriveKey(
           { 
             name: "PBKDF2", 
@@ -859,14 +990,12 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
           ["decrypt"]
         );
         
-        // Decrypt data
         const decrypted = await window.crypto.subtle.decrypt(
           { name: "AES-GCM", iv: iv }, 
           key, 
           encryptedData
         );
         
-        // Parse JSON hasil decrypt
         const decryptedText = new TextDecoder().decode(decrypted);
         return JSON.parse(decryptedText);
         
@@ -878,7 +1007,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
 
     // --- FUNGSI BACKUP & RESTORE ---
     function normalizeBackupData(data) {
-      // Jika data adalah string (format lama), parse dulu
       if (typeof data === 'string') {
         try {
           data = JSON.parse(data);
@@ -887,7 +1015,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         }
       }
       
-      // Jika data hanya berisi chatHistory (format sangat lama)
       if (Array.isArray(data)) {
         return {
           miraiChatHistory: JSON.stringify(data),
@@ -899,9 +1026,7 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         };
       }
       
-      // Jika data adalah object tanpa metadata (format menengah)
       if (data && typeof data === 'object' && !data._metadata) {
-        // Cek jika ini langsung chatHistory array
         if (Array.isArray(data.chatHistory) || Array.isArray(data.history)) {
           const chatArray = data.chatHistory || data.history || [];
           return {
@@ -916,7 +1041,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
           };
         }
         
-        // Jika sudah format localStorage key-value
         return {
           ...data,
           _metadata: {
@@ -926,12 +1050,10 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         };
       }
       
-      // Format baru (sudah ada metadata)
       return data;
     }
 
     function restoreDataWithPersonaSync(originalData) {
-      // Normalize data dulu
       const data = normalizeBackupData(originalData);
       
       if (!data) {
@@ -939,7 +1061,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         return;
       }
       
-      // Ekstrak metadata
       const metadata = data._metadata || {};
       const backupPersona = metadata.persona || data.miraiPersona || 'default';
       const backupLanguage = metadata.language || currentLanguage;
@@ -950,28 +1071,23 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         metadata: metadata
       });
       
-      // Hapus metadata dari data sebelum disimpan
       const dataToStore = { ...data };
       delete dataToStore._metadata;
       
-      // CLEAR localStorage terlebih dahulu
       localStorage.clear();
       
-      // Simpan semua data ke localStorage
       Object.keys(dataToStore).forEach(key => {
         if (key && dataToStore[key] !== null && dataToStore[key] !== undefined) {
           localStorage.setItem(key, dataToStore[key]);
         }
       });
       
-      // --- PERSONA SYNCHRONIZATION ---
       const restoredHistory = localStorage.getItem('miraiChatHistory');
       
       if (restoredHistory) {
         try {
           let chatHistory = JSON.parse(restoredHistory);
           
-          // Hapus prompt persona lama jika ada
           chatHistory = chatHistory.filter(item => {
             if (item.parts && item.parts[0] && item.parts[0].text) {
               const text = item.parts[0].text.toLowerCase();
@@ -985,7 +1101,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
             return true;
           });
           
-          // Tambahkan prompt persona yang sesuai
           const lang = backupLanguage || localStorage.getItem('miraiLanguage') || 'en';
           const personaPromptKey = `persona${backupPersona.charAt(0).toUpperCase() + backupPersona.slice(1)}Prompt`;
           let personaPromptText = uiStrings[lang]?.[personaPromptKey];
@@ -998,7 +1113,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
             personaPromptText = `You are MirAI, an AI assistant with ${backupPersona} personality.`;
           }
           
-          // Tambahkan di awal chat history
           if (personaPromptText && ['default', 'formal', 'creative'].includes(backupPersona)) {
             chatHistory.unshift({ 
               role: "user", 
@@ -1010,7 +1124,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
             console.log('✅ Added persona prompt:', backupPersona);
           }
           
-          // Simpan kembali
           localStorage.setItem('miraiChatHistory', JSON.stringify(chatHistory));
           
         } catch (e) {
@@ -1018,13 +1131,11 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         }
       }
       
-      // Set persona dan language
       if (backupPersona) localStorage.setItem('miraiPersona', backupPersona);
       if (backupLanguage && uiStrings[backupLanguage]) {
         localStorage.setItem('miraiLanguage', backupLanguage);
       }
       
-      // Tampilkan pesan sukses
       const restoredChats = restoredHistory ? JSON.parse(restoredHistory).length : 0;
       const successMsg = `✅ BACKUP RESTORED SUCCESSFUL!\n\n` +
                         `• Persona: ${backupPersona}\n` +
@@ -1034,7 +1145,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
       
       alert(successMsg);
       
-      // Delay reload
       setTimeout(() => {
         console.log('🔄 Reloading application after restore...');
         location.reload();
@@ -1105,7 +1215,18 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         updateSendButtonState();
     }
 
-    function initializeApp() {
+    async function initializeApp() {
+        console.log('🔧 Initializing app...');
+        
+        // Load API Key dari config.medf TERLEBIH DAHULU
+        try {
+            currentApiKey = await MEDF_PROCESSOR.loadEncryptedApiKey();
+            console.log('🔑 API Key loaded from config.medf:', currentApiKey.substring(0, 10) + '...');
+        } catch (error) {
+            console.error('Failed to load API key from config.medf:', error);
+            currentApiKey = DEFAULT_API_KEY;
+        }
+        
         const savedLang = localStorage.getItem('miraiLanguage');
         if (savedLang && uiStrings.hasOwnProperty(savedLang)) {
             currentLanguage = savedLang;
@@ -1121,8 +1242,10 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         elements.personaSelect.value = currentPersona;
         
         if (savedApiKey) {
+            // Prioritaskan API Key dari localStorage jika ada
             currentApiKey = savedApiKey;
             elements.apiKeyInput.value = savedApiKey;
+            console.log('🔑 Using API Key from localStorage');
         }
 
         initializeSlashCommands(currentLanguage);
@@ -1199,7 +1322,6 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         elements.personaSelect.value = persona;
         localStorage.setItem('miraiPersona', persona);
         
-        // Update prompt persona di chatHistory jika ada
         if (chatHistory.length > 0 && chatHistory[0].role === "user") {
             const personaPromptText = uiStrings[currentLanguage][`persona${currentPersona.charAt(0).toUpperCase() + currentPersona.slice(1)}Prompt`];
             chatHistory[0].parts[0].text = personaPromptText;
@@ -1492,139 +1614,115 @@ console.log(formattedDate); // Contoh output: 2023-10-25 14-30
         elements.themeSelect.value = theme; 
     }
 
-// --- HASH NAVIGATION UNTUK SETTINGS PANEL ---
-let isHashNavigating = false;
+    // --- HASH NAVIGATION UNTUK SETTINGS PANEL ---
+    let isHashNavigating = false;
 
-// Fungsi utama untuk menangani navigasi berdasarkan hash
-function handleHashNavigation() {
-    if (isHashNavigating) return;
-    
-    isHashNavigating = true;
-    
-    const currentHash = window.location.hash;
-    const settingsPanel = document.getElementById('settingsPanel');
-    
-    console.log('🔗 Hash navigation:', currentHash);
-    
-    if (currentHash === '#settings') {
-        // BUKA SETTINGS PANEL
-        if (settingsPanel) {
-            settingsPanel.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            console.log('✅ Settings panel opened');
+    function handleHashNavigation() {
+        if (isHashNavigating) return;
+        
+        isHashNavigating = true;
+        
+        const currentHash = window.location.hash;
+        const settingsPanel = document.getElementById('settingsPanel');
+        
+        console.log('🔗 Hash navigation:', currentHash);
+        
+        if (currentHash === '#settings') {
+            if (settingsPanel) {
+                settingsPanel.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                console.log('✅ Settings panel opened');
+            }
+        } else {
+            if (settingsPanel) {
+                settingsPanel.style.display = 'none';
+                document.body.style.overflow = '';
+                console.log('❌ Settings panel closed');
+            }
         }
-    } else {
-        // TUTUP SETTINGS PANEL
-        if (settingsPanel) {
-            settingsPanel.style.display = 'none';
-            document.body.style.overflow = '';
-            console.log('❌ Settings panel closed');
-        }
+        
+        setTimeout(() => {
+            isHashNavigating = false;
+        }, 50);
     }
-    
-    setTimeout(() => {
-        isHashNavigating = false;
-    }, 50);
-}
 
-// Fungsi untuk membuka settings panel
-function openSettings() {
-    console.log('🎯 Opening settings...');
-    
-    // Jika sudah di #settings, tidak perlu lakukan apa-apa
-    if (window.location.hash === '#settings') return;
-    
-    // Simpan scroll position sebelum membuka settings
-    sessionStorage.setItem('mainScrollPos', window.scrollY);
-    
-    // Push state ke history dengan hash #settings
-    history.pushState({ settings: true }, '', '#settings');
-    
-    // Panggil handler langsung
-    handleHashNavigation();
-}
-
-// Fungsi untuk menutup settings panel
-function closeSettings() {
-    console.log('🎯 Closing settings...');
-    
-    // Jika tidak di #settings, tidak perlu lakukan apa-apa
-    if (window.location.hash !== '#settings') return;
-    
-    // Kembali ke state sebelumnya
-    history.back();
-}
-
-// Fungsi untuk menangani popstate (tombol back browser)
-function handlePopState() {
-    console.log('🔙 Popstate event');
-    // Beri sedikit delay agar hashchange event selesai
-    setTimeout(handleHashNavigation, 10);
-}
-
-// Setup hash navigation
-function setupHashNavigation() {
-    console.log('🔧 Setting up hash navigation...');
-    
-    const settingsPanel = document.getElementById('settingsPanel');
-    if (!settingsPanel) {
-        console.error('❌ Settings panel not found!');
-        return;
-    }
-    
-    // 1. Pastikan panel hidden di awal
-    settingsPanel.style.display = 'none';
-    
-    // 2. Setup event listener untuk hashchange
-    window.addEventListener('hashchange', handleHashNavigation);
-    
-    // 3. Setup event listener untuk popstate (tombol back)
-    window.addEventListener('popstate', handlePopState);
-    
-    // 4. Cek hash saat pertama kali load
-    setTimeout(() => {
-        console.log('🌐 Initial hash:', window.location.hash);
+    function openSettings() {
+        console.log('🎯 Opening settings...');
+        
+        if (window.location.hash === '#settings') return;
+        
+        sessionStorage.setItem('mainScrollPos', window.scrollY);
+        
+        history.pushState({ settings: true }, '', '#settings');
+        
         handleHashNavigation();
-    }, 100);
-    
-    // 5. Event listener untuk Escape key
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && window.location.hash === '#settings') {
-            closeSettings();
+    }
+
+    function closeSettings() {
+        console.log('🎯 Closing settings...');
+        
+        if (window.location.hash !== '#settings') return;
+        
+        history.back();
+    }
+
+    function handlePopState() {
+        console.log('🔙 Popstate event');
+        setTimeout(handleHashNavigation, 10);
+    }
+
+    function setupHashNavigation() {
+        console.log('🔧 Setting up hash navigation...');
+        
+        const settingsPanel = document.getElementById('settingsPanel');
+        if (!settingsPanel) {
+            console.error('❌ Settings panel not found!');
+            return;
+        }
+        
+        settingsPanel.style.display = 'none';
+        
+        window.addEventListener('hashchange', handleHashNavigation);
+        window.addEventListener('popstate', handlePopState);
+        
+        setTimeout(() => {
+            console.log('🌐 Initial hash:', window.location.hash);
+            handleHashNavigation();
+        }, 100);
+        
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && window.location.hash === '#settings') {
+                closeSettings();
+            }
+        });
+        
+        const settingsBtn = document.getElementById('settingsBtn');
+        const backBtn = document.getElementById('backBtn');
+        
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', openSettings);
+        }
+        
+        if (backBtn) {
+            backBtn.addEventListener('click', closeSettings);
+        }
+        
+        console.log('✅ Hash navigation setup complete');
+    }
+
+    function showSettingsPage() {
+        openSettings();
+    }
+
+    function hideSettingsPage() {
+        closeSettings();
+    }
+
+    window.addEventListener('beforeunload', () => {
+        if (window.location.hash === '#settings') {
+            history.replaceState(null, null, ' ');
         }
     });
-    
-    // 6. Setup click handlers untuk tombol
-    const settingsBtn = document.getElementById('settingsBtn');
-    const backBtn = document.getElementById('backBtn');
-    
-    if (settingsBtn) {
-        settingsBtn.addEventListener('click', openSettings);
-    }
-    
-    if (backBtn) {
-        backBtn.addEventListener('click', closeSettings);
-    }
-    
-    console.log('✅ Hash navigation setup complete');
-}
-
-
-// Fungsi kompatibilitas untuk kode lama
-function showSettingsPage() {
-    openSettings();
-}
-
-function hideSettingsPage() {
-    closeSettings();
-}
-
-// Pastikan settings panel tertutup saat page unload
-window.addEventListener('beforeunload', () => {
-    if (window.location.hash === '#settings') {
-        history.replaceState(null, null, ' ');
-    }
-});
 
     function toggleChatUI(active) { 
         if (active) { 
@@ -2077,18 +2175,16 @@ window.addEventListener('beforeunload', () => {
         });
         window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
 
-setupHashNavigation();
+        setupHashNavigation();
 
         // --- EXPORT/IMPORT HANDLER ---
         elements.exportBtn.addEventListener('click', () => {
-            // Kumpulkan semua data
             const allData = {};
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 allData[key] = localStorage.getItem(key);
             }
             
-            // Tambahkan metadata
             allData._metadata = {
                 version: VERSION,
                 persona: currentPersona,
@@ -2098,7 +2194,6 @@ setupHashNavigation();
                 format: 'mirai-backup-v2'
             };
             
-            // Tampilkan pilihan format
             const exportType = confirm(
                 "Select backup format:\n\n" +
                 "[OK] - .medf file (ENCRYPTED with password)\n" +
@@ -2157,7 +2252,6 @@ setupHashNavigation();
                 type: file.type
             });
             
-            // Handle .medf (encrypted)
             if (file.name.endsWith('.medf')) {
                 if (file.size < 50) {
                     alert('❌ The file is too small! It may be corrupted.');
@@ -2189,7 +2283,6 @@ setupHashNavigation();
                 return;
             }
             
-            // Handle .json / .mdf (plain)
             if (file.name.endsWith('.json') || file.name.endsWith('.mdf')) {
                 try {
                     console.time('JSON Parse');
@@ -2226,79 +2319,72 @@ setupHashNavigation();
         // --- HASH NAVIGATION SETUP ---
         console.log('🔧 Setting up hash navigation...');
         
-        // Pastikan panel hidden di awal
         if (elements.settingsPanel) {
             elements.settingsPanel.style.display = 'none';
         }
         
-        // Handler untuk hashchange dengan debounce
         let hashChangeDebounce;
         window.addEventListener('hashchange', () => {
             clearTimeout(hashChangeDebounce);
             hashChangeDebounce = setTimeout(handleHashNavigation, 30);
         });
         
-        // Handler untuk popstate (tombol back browser) - delay lebih lama
         window.addEventListener('popstate', () => {
-            setTimeout(handleHashNavigation, 100); // 100ms untuk tombol back
+            setTimeout(handleHashNavigation, 100);
         });
         
-        // Pastikan URL bersih saat pertama kali load
         if (window.location.hash && !window.location.hash.includes('settings')) {
             history.replaceState(null, null, ' ');
         }
         
-        // Cek hash saat pertama kali load
         setTimeout(() => {
             console.log('🌐 Initial hash:', window.location.hash);
             handleHashNavigation();
         }, 200);
         
-        // Event listener untuk Escape key
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && window.location.hash === '#settings') {
                 closeSettings();
             }
         });
 
-        // Jalankan inisialisasi aplikasi
-        initializeApp();
-
-
-        if (!isPWA) {
-            if (elements.splashScreen) {
-                elements.splashScreen.style.display = 'flex';
-                simulateLoading(3000);
-            }
-        } else {
-            console.log("📱 PWA Mode: Skip splash screen!");
-            initializeApp();
-        }
-
-        updateConnectionStatus();
-        populateToolsMenu();
-        updateSendButtonState();
-
-        // Simpan state saat sebelum unload
-        window.addEventListener('beforeunload', () => {
-            if (window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
-            }
+        // Jalankan inisialisasi aplikasi - SEKARANG ASYNC
+        initializeApp().then(() => {
+            console.log('✅ App initialized successfully');
             
-            // Reset hash untuk mencegah panel terbuka saat reload
-            if (window.location.hash === '#settings') {
-                history.replaceState(null, null, ' ');
+            if (!isPWA) {
+                if (elements.splashScreen) {
+                    elements.splashScreen.style.display = 'flex';
+                    simulateLoading(3000);
+                }
+            } else {
+                console.log("📱 PWA Mode: Skip splash screen!");
             }
+
+            updateConnectionStatus();
+            populateToolsMenu();
+            updateSendButtonState();
+
+            window.addEventListener('beforeunload', () => {
+                if (window.speechSynthesis.speaking) {
+                    window.speechSynthesis.cancel();
+                }
+                
+                if (window.location.hash === '#settings') {
+                    history.replaceState(null, null, ' ');
+                }
+            });
+            
+            console.log('🎉 MirAI initialization complete!');
+        }).catch(error => {
+            console.error('❌ Failed to initialize app:', error);
         });
-        
-        console.log('🎉 MirAI initialization complete!');
     });
 
     // Event listener untuk online/offline status
     window.addEventListener('online', updateConnectionStatus);
     window.addEventListener('offline', updateConnectionStatus);
 </script>
-
 </body>
 
 </html>
