@@ -5,14 +5,68 @@ const MEDF_CONFIG = {
     saltLength: 16,
     ivLength: 12,
     iterations: 100000,
-    passwordCode: 271828  // Kode perhitungan default (e = 2.71828 ≈ 271828)
+    passwordCode: 271828,  // Kode perhitungan default (e = 2.71828 ≈ 271828)
+    // Header Authenticity
+    HEADER_TEXT: "{MirAI Encrypted Data Files v1.0 By Allwaysever}",
+    HEADER_CODE_MULTIPLIER: 3,
+    HEADER_CODE_ADDITION: 2
 };
 
-const PUBLIC_API_LIMITS = {
-    MAX_BUBBLES_WARNING: 10,
-    MAX_BUBBLES_BLOCK: 12,
-    STORAGE_KEY: 'mirai_public_api_usage'
-};
+/**
+ * Menghasilkan kode header dari header text
+ * @param {string} text - Header text
+ * @returns {string} - Header code dalam format angka
+ */
+function generateHeaderCode(text) {
+    let code = '';
+    for (let i = 0; i < text.length; i++) {
+        const charCode = text.charCodeAt(i);
+        // Rumus: (ASCII + 2) * 3
+        const transformedCode = (charCode + MEDF_CONFIG.HEADER_CODE_ADDITION) * MEDF_CONFIG.HEADER_CODE_MULTIPLIER;
+        code += transformedCode.toString().padStart(4, '0');
+    }
+    return code;
+}
+
+/**
+ * Memvalidasi signature header
+ * @param {string} text - Header text
+ * @param {string} code - Header code
+ * @returns {boolean} - True jika valid
+ */
+function validateSignature(text, code) {
+    try {
+        // Validasi 1: Text harus sama persis
+        if (text !== MEDF_CONFIG.HEADER_TEXT) {
+            console.warn('❌ Header text tidak sesuai');
+            return false;
+        }
+        
+        // Validasi 2: Generate code dari text dan bandingkan
+        const expectedCode = generateHeaderCode(text);
+        
+        if (code !== expectedCode) {
+            console.warn('❌ Header code tidak sesuai');
+            console.log('Expected:', expectedCode);
+            console.log('Received:', code);
+            return false;
+        }
+        
+        // Validasi 3: Cek struktur code (harus hanya angka dengan panjang tertentu)
+        const expectedLength = MEDF_CONFIG.HEADER_TEXT.length * 4;
+        if (code.length !== expectedLength || !/^\d+$/.test(code)) {
+            console.warn('❌ Format header code tidak valid');
+            return false;
+        }
+        
+        console.log('✅ Signature validation passed');
+        return true;
+        
+    } catch (error) {
+        console.error('❌ Signature validation error:', error);
+        return false;
+    }
+}
 
 /**
  * Menghasilkan password dari kode perhitungan
@@ -42,45 +96,7 @@ function generatePasswordFromCode(code) {
 }
 
 /**
- * Menghitung total bubbles yang telah digunakan dengan API publik
- * @returns {number} Jumlah bubbles yang sudah digunakan
- */
-function countPublicApiBubbles() {
-    try {
-        const usage = JSON.parse(localStorage.getItem(PUBLIC_API_LIMITS.STORAGE_KEY) || '{}');
-        return usage.bubbleCount || 0;
-    } catch {
-        return 0;
-    }
-}
-
-/**
- * Meningkatkan counter bubbles untuk API publik
- */
-function incrementPublicApiBubbles() {
-    try {
-        const usage = JSON.parse(localStorage.getItem(PUBLIC_API_LIMITS.STORAGE_KEY) || '{}');
-        usage.bubbleCount = (usage.bubbleCount || 0) + 1;
-        usage.lastUsed = new Date().toISOString();
-        localStorage.setItem(PUBLIC_API_LIMITS.STORAGE_KEY, JSON.stringify(usage));
-        
-        console.log(`📊 Public API Usage: ${usage.bubbleCount} bubbles`);
-        return usage.bubbleCount;
-    } catch {
-        return 0;
-    }
-}
-
-/**
- * Reset counter bubbles (untuk debugging)
- */
-function resetPublicApiBubbles() {
-    localStorage.removeItem(PUBLIC_API_LIMITS.STORAGE_KEY);
-    console.log('🔄 Public API counter reset');
-}
-
-/**
- * Mendekripsi file .medf
+ * Mendekripsi file .medf dengan validasi authenticity header
  * @param {ArrayBuffer} fileBuffer - Buffer file .medf
  * @param {number} code - Kode perhitungan
  * @returns {Promise<Object>} - Data JSON yang didekripsi
@@ -141,7 +157,27 @@ async function decryptMEDF(fileBuffer, code) {
         
         // Parse JSON hasil decrypt
         const decryptedText = new TextDecoder().decode(decrypted);
-        return JSON.parse(decryptedText);
+        const data = JSON.parse(decryptedText);
+        
+        // === VALIDASI AUTHENTICITY HEADER ===
+        console.log('🔍 Validating MEDF authenticity...');
+        
+        if (!data._signature || !data._signature.headerText || !data._signature.headerCode) {
+            throw new Error("❌ File .medf tidak memiliki signature keaslian!");
+        }
+        
+        const isValid = validateSignature(data._signature.headerText, data._signature.headerCode);
+        
+        if (!isValid) {
+            throw new Error("❌ File .medf Tidak Otentik atau Corrupt!");
+        }
+        
+        console.log('✅ File .medf verified as authentic!');
+        
+        // Hapus signature dari data sebelum dikembalikan
+        delete data._signature;
+        
+        return data;
         
     } catch (error) {
         console.error('❌ MEDF Decryption Error:', error);
@@ -150,7 +186,7 @@ async function decryptMEDF(fileBuffer, code) {
 }
 
 /**
- * Mengenkripsi data menjadi .medf
+ * Mengenkripsi data menjadi .medf dengan authenticity header
  * @param {Object} data - Data JSON untuk dienkripsi
  * @param {number} code - Kode perhitungan
  * @returns {Promise<Blob>} - Blob file .medf
@@ -159,6 +195,22 @@ async function encryptToMEDF(data, code) {
     try {
         // Generate password dari kode
         const password = generatePasswordFromCode(code);
+        
+        // === TAMBAHKAN AUTHENTICITY HEADER ===
+        const signatureData = {
+            _signature: {
+                headerText: MEDF_CONFIG.HEADER_TEXT,
+                headerCode: generateHeaderCode(MEDF_CONFIG.HEADER_TEXT),
+                timestamp: new Date().toISOString(),
+                version: "1.0"
+            },
+            ...data
+        };
+        
+        console.log('🔐 Adding authenticity signature:', {
+            headerText: MEDF_CONFIG.HEADER_TEXT,
+            headerCodePreview: generateHeaderCode(MEDF_CONFIG.HEADER_TEXT).substring(0, 20) + '...'
+        });
         
         const encoder = new TextEncoder();
         const salt = crypto.getRandomValues(new Uint8Array(MEDF_CONFIG.saltLength));
@@ -188,7 +240,7 @@ async function encryptToMEDF(data, code) {
         const encrypted = await crypto.subtle.encrypt(
             { name: "AES-GCM", iv: iv }, 
             key, 
-            encoder.encode(JSON.stringify(data))
+            encoder.encode(JSON.stringify(signatureData))
         );
         
         // Gabungkan salt + iv + data terenkripsi
@@ -209,7 +261,7 @@ async function encryptToMEDF(data, code) {
 }
 
 /**
- * Mengekstrak API Key dari confiq.medf
+ * Mengekstrak API Key dari confiq.medf dengan validasi authenticity
  * @param {ArrayBuffer} fileBuffer - Buffer file confiq.medf
  * @param {number} code - Kode perhitungan
  * @returns {Promise<string>} - API Key yang didekripsi
@@ -238,11 +290,10 @@ if (typeof window !== 'undefined') {
         encryptToMEDF,
         extractApiKeyFromConfig,
         generatePasswordFromCode,
-        countPublicApiBubbles,
-        incrementPublicApiBubbles,
-        resetPublicApiBubbles,
+        generateHeaderCode,
+        validateSignature,
         DEFAULT_CODE: MEDF_CONFIG.passwordCode,
-        PUBLIC_API_LIMITS
+        HEADER_TEXT: MEDF_CONFIG.HEADER_TEXT
     };
 }
 
@@ -253,10 +304,9 @@ if (typeof module !== 'undefined' && module.exports) {
         encryptToMEDF,
         extractApiKeyFromConfig,
         generatePasswordFromCode,
-        countPublicApiBubbles,
-        incrementPublicApiBubbles,
-        resetPublicApiBubbles,
+        generateHeaderCode,
+        validateSignature,
         DEFAULT_CODE: MEDF_CONFIG.passwordCode,
-        PUBLIC_API_LIMITS
+        HEADER_TEXT: MEDF_CONFIG.HEADER_TEXT
     };
 }

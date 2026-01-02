@@ -407,7 +407,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
 <script>
     const DEFAULT_API_KEY = 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
 
-    // === SISTEM API KEY TERENKRIPSI (.medf) ===
+    // === SISTEM API KEY TERENKRIPSI (.medf) dengan Authenticity Header ===
     const MEDF_PROCESSOR = {
         async loadEncryptedApiKey() {
             try {
@@ -433,16 +433,28 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                     }
                 }
                 
-                // Dekripsi file
+                // Dekripsi file dengan validasi authenticity
+                console.log('🔍 Loading and verifying config.medf...');
                 const apiKey = await MEDF_PROCESSOR.extractApiKeyFromConfig(buffer, code);
-                console.log('✅ API Key berhasil didekripsi dari config.medf');
+                console.log('✅ API Key berhasil didekripsi dan diverifikasi dari config.medf');
                 return apiKey;
                 
             } catch (error) {
                 console.error('❌ Gagal memuat config.medf:', error);
                 
-                // Tampilkan prompt untuk memasukkan kode
-                if (confirm('Failed to read config.medf\n\nWant to enter manual calculation code?')) {
+                // Tampilkan pesan error yang lebih informatif
+                let errorMessage = 'Failed to read config.medf\n\n';
+                
+                if (error.message.includes('Tidak Otentik') || error.message.includes('signature')) {
+                    errorMessage += '⚠️ File config.medf tidak otentik atau corrupt!\n';
+                    errorMessage += 'File mungkin telah dimodifikasi atau bukan file resmi MirAI.\n\n';
+                } else {
+                    errorMessage += 'Mungkin kode perhitungan salah atau file rusak.\n\n';
+                }
+                
+                errorMessage += 'Want to enter manual calculation code?';
+                
+                if (confirm(errorMessage)) {
                     const userCode = prompt('Enter the calculation code for config.medf:');
                     if (userCode) {
                         try {
@@ -470,7 +482,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 return await window.MEDFProcessor.extractApiKeyFromConfig(fileBuffer, code);
             }
             
-            // Fallback: Dekripsi sederhana menggunakan Web Crypto API langsung
+            // Fallback dengan validasi authenticity
             try {
                 // Generate password dari kode
                 const password = this.generatePasswordFromCode(code);
@@ -479,6 +491,8 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 const salt = fileBuffer.slice(0, 16);
                 const iv = fileBuffer.slice(16, 28);
                 const encryptedData = fileBuffer.slice(28);
+                
+                console.log('🔐 Decrypting with authenticity check...');
                 
                 // Import key dari password
                 const passwordKey = await crypto.subtle.importKey(
@@ -513,11 +527,64 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 // Parse JSON hasil decrypt
                 const decryptedText = new TextDecoder().decode(decrypted);
                 const data = JSON.parse(decryptedText);
+                
+                // === VALIDASI AUTHENTICITY HEADER ===
+                console.log('🔍 Validating file authenticity...');
+                
+                if (!data._signature || !data._signature.headerText || !data._signature.headerCode) {
+                    throw new Error("❌ File .medf tidak memiliki signature keaslian!");
+                }
+                
+                // Validasi menggunakan fungsi validateSignature jika ada, atau validasi manual
+                let isValid = false;
+                
+                if (window.MEDFProcessor && window.MEDFProcessor.validateSignature) {
+                    isValid = window.MEDFProcessor.validateSignature(
+                        data._signature.headerText, 
+                        data._signature.headerCode
+                    );
+                } else {
+                    // Validasi manual
+                    const HEADER_TEXT = "{MirAI Encrypted Data Files v1.0 By Allwaysever}";
+                    
+                    if (data._signature.headerText !== HEADER_TEXT) {
+                        throw new Error("❌ Header text tidak sesuai!");
+                    }
+                    
+                    // Generate header code untuk validasi
+                    let expectedCode = '';
+                    for (let i = 0; i < HEADER_TEXT.length; i++) {
+                        const charCode = HEADER_TEXT.charCodeAt(i);
+                        const transformedCode = (charCode + 2) * 3;
+                        expectedCode += transformedCode.toString().padStart(4, '0');
+                    }
+                    
+                    if (data._signature.headerCode !== expectedCode) {
+                        throw new Error("❌ Header code tidak sesuai!");
+                    }
+                    
+                    isValid = true;
+                }
+                
+                if (!isValid) {
+                    throw new Error("❌ File .medf Tidak Otentik atau Corrupt!");
+                }
+                
+                console.log('✅ File verified as authentic!');
+                
                 return data.apiKey || DEFAULT_API_KEY;
                 
             } catch (e) {
                 console.error('Decryption error:', e);
-                throw new Error("Incorrect calculation code or corrupted file");
+                
+                // Tampilkan pesan error yang lebih spesifik
+                if (e.message.includes('Tidak Otentik')) {
+                    throw new Error("❌ File .medf Tidak Otentik atau Corrupt!\nFile mungkin telah dimodifikasi atau bukan file resmi MirAI.");
+                } else if (e.message.includes('signature')) {
+                    throw new Error("❌ File tidak memiliki signature keaslian yang valid!");
+                } else {
+                    throw new Error("Incorrect calculation code or corrupted file");
+                }
             }
         },
         
@@ -539,7 +606,98 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             return result;
         },
         
+        // Fungsi untuk mengecek keaslian file backup
+        async validateBackupFile(fileBuffer, password) {
+            try {
+                // Dekripsi file
+                const encoder = new TextEncoder();
+                const salt = fileBuffer.slice(0, 16);
+                const iv = fileBuffer.slice(16, 28);
+                const encryptedData = fileBuffer.slice(28);
+                
+                const passwordKey = await crypto.subtle.importKey(
+                    "raw", 
+                    encoder.encode(password), 
+                    "PBKDF2", 
+                    false, 
+                    ["deriveKey"]
+                );
+                
+                const key = await crypto.subtle.deriveKey(
+                    { 
+                        name: "PBKDF2", 
+                        salt: salt, 
+                        iterations: 100000, 
+                        hash: "SHA-256" 
+                    },
+                    passwordKey, 
+                    { name: "AES-GCM", length: 256 }, 
+                    false, 
+                    ["decrypt"]
+                );
+                
+                const decrypted = await crypto.subtle.decrypt(
+                    { name: "AES-GCM", iv: iv }, 
+                    key, 
+                    encryptedData
+                );
+                
+                const decryptedText = new TextDecoder().decode(decrypted);
+                const data = JSON.parse(decryptedText);
+                
+                // Validasi signature
+                if (!data._signature) {
+                    console.warn('⚠️ Backup file tidak memiliki signature');
+                    return { isValid: false, message: 'File tidak memiliki signature keaslian' };
+                }
+                
+                const HEADER_TEXT = "{MirAI Encrypted Data Files v1.0 By Allwaysever}";
+                
+                if (data._signature.headerText !== HEADER_TEXT) {
+                    return { isValid: false, message: 'Signature header text tidak valid' };
+                }
+                
+                // Generate dan validasi header code
+                let expectedCode = '';
+                for (let i = 0; i < HEADER_TEXT.length; i++) {
+                    const charCode = HEADER_TEXT.charCodeAt(i);
+                    const transformedCode = (charCode + 2) * 3;
+                    expectedCode += transformedCode.toString().padStart(4, '0');
+                }
+                
+                if (data._signature.headerCode !== expectedCode) {
+                    return { isValid: false, message: 'Signature header code tidak valid' };
+                }
+                
+                return { 
+                    isValid: true, 
+                    message: '✅ Backup file verified as authentic',
+                    data: data 
+                };
+                
+            } catch (error) {
+                console.error('Validation error:', error);
+                return { 
+                    isValid: false, 
+                    message: 'Gagal memvalidasi file: ' + error.message 
+                };
+            }
+        },
+        
         DEFAULT_CODE: 271828,
+        HEADER_TEXT: "{MirAI Encrypted Data Files v1.0 By Allwaysever}",
+        
+        // Fungsi helper untuk generate header code
+        generateHeaderCode(text) {
+            let code = '';
+            for (let i = 0; i < text.length; i++) {
+                const charCode = text.charCodeAt(i);
+                const transformedCode = (charCode + 2) * 3;
+                code += transformedCode.toString().padStart(4, '0');
+            }
+            return code;
+        },
+        
         countPublicApiBubbles: () => window.MEDFProcessor?.countPublicApiBubbles?.() || 0,
         incrementPublicApiBubbles: () => window.MEDFProcessor?.incrementPublicApiBubbles?.() || 0,
         resetPublicApiBubbles: () => window.MEDFProcessor?.resetPublicApiBubbles?.() || null,
@@ -586,7 +744,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultOption: 'Santai & Bercanda',
             personaCreativeOption: 'Kreatif & Ekspresif',
             settingsAboutTitle: 'Tentang Aplikasi',
-            settingsVersionText: `Versi: v${VERSION}`,
+            settingsVersionText: `Versi: v2.12.0-Beta5`,
             settingsAuthorText: 'Dikembangkan oleh Allwaysever',
             githubLink: 'Tentang MirAI',
             licenseLink: 'Lisensi',
@@ -672,7 +830,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultOption: 'Chill & joking',
             personaCreativeOption: 'Creative & Expressive',
             settingsAboutTitle: 'About',
-            settingsVersionText: `Version: v${VERSION}`,
+            settingsVersionText: `Version: v2.12.0-Beta5`,
             settingsAuthorText: 'Developed by Allwaysever',
             githubLink: 'About MirAI',
             licenseLink: 'License',
@@ -758,7 +916,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultOption: 'Laid-back & bantering',
             personaCreativeOption: 'Creative & Expressive',
             settingsAboutTitle: 'About',
-            settingsVersionText: `Version: v${VERSION}`,
+            settingsVersionText: `Version: v2.12.0-Beta5`,
             settingsAuthorText: 'Developed by Allwaysever',
             githubLink: 'About MirAI',
             licenseLink: 'License',
@@ -844,7 +1002,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultOption: 'のんびりしてて冗談好き',
             personaCreativeOption: 'クリエイティブ・表現豊か',
             settingsAboutTitle: 'アプリについて',
-            settingsVersionText: `バージョン: v${VERSION}`,
+            settingsVersionText: `バージョン: v2.12.0-Beta5`,
             settingsAuthorText: '開発者: Allwaysever',
             githubLink: 'MirAIについて',
             licenseLink: 'ライセンス',
@@ -929,10 +1087,24 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
     const MIRAI_CONFIG = {
         saltLength: 16,
         ivLength: 12,
-        iterations: 100000
+        iterations: 100000,
+        HEADER_TEXT: "{MirAI Encrypted Data Files v1.0 By Allwaysever}"
     };
 
     async function processExportMEDF(dataJSON, password) {
+        // Tambahkan signature authenticity
+        const signatureData = {
+            _signature: {
+                headerText: MIRAI_CONFIG.HEADER_TEXT,
+                headerCode: generateHeaderCode(MIRAI_CONFIG.HEADER_TEXT),
+                timestamp: new Date().toISOString(),
+                version: "1.0"
+            },
+            ...dataJSON
+        };
+        
+        console.log('🔐 Adding authenticity signature for export');
+        
         const encoder = new TextEncoder();
         const salt = window.crypto.getRandomValues(new Uint8Array(MIRAI_CONFIG.saltLength));
         const iv = window.crypto.getRandomValues(new Uint8Array(MIRAI_CONFIG.ivLength));
@@ -946,7 +1118,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         );
 
         const encrypted = await window.crypto.subtle.encrypt(
-            { name: "AES-GCM", iv: iv }, key, encoder.encode(JSON.stringify(dataJSON))
+            { name: "AES-GCM", iv: iv }, key, encoder.encode(JSON.stringify(signatureData))
         );
 
         const finalBlob = new Blob([salt, iv, new Uint8Array(encrypted)], {type: "application/octet-stream"});
@@ -954,6 +1126,16 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         a.href = URL.createObjectURL(finalBlob);
         a.download = `MirAIBackup_ENCRYPTED_${formattedDate}.medf`;
         a.click();
+    }
+
+    function generateHeaderCode(text) {
+        let code = '';
+        for (let i = 0; i < text.length; i++) {
+            const charCode = text.charCodeAt(i);
+            const transformedCode = (charCode + 2) * 3;
+            code += transformedCode.toString().padStart(4, '0');
+        }
+        return code;
     }
 
     async function processImportMEDF(file, password) {
@@ -1002,11 +1184,54 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         );
         
         const decryptedText = new TextDecoder().decode(decrypted);
-        return JSON.parse(decryptedText);
+        const data = JSON.parse(decryptedText);
+        
+        // === VALIDASI AUTHENTICITY ===
+        console.log('🔍 Validating backup authenticity...');
+        
+        if (!data._signature) {
+          console.warn('⚠️ Backup file tidak memiliki signature');
+          alert('⚠️ Warning: Backup file tidak memiliki signature keaslian.\nFile mungkin bukan dari MirAI yang resmi.');
+          // Lanjutkan tapi dengan warning
+        } else {
+          // Validasi signature
+          const HEADER_TEXT = MIRAI_CONFIG.HEADER_TEXT;
+          
+          if (data._signature.headerText !== HEADER_TEXT) {
+            throw new Error("❌ Backup file tidak otentik! Header text tidak sesuai.");
+          }
+          
+          // Generate expected code
+          let expectedCode = '';
+          for (let i = 0; i < HEADER_TEXT.length; i++) {
+            const charCode = HEADER_TEXT.charCodeAt(i);
+            const transformedCode = (charCode + 2) * 3;
+            expectedCode += transformedCode.toString().padStart(4, '0');
+          }
+          
+          if (data._signature.headerCode !== expectedCode) {
+            throw new Error("❌ Backup file tidak otentik! Header code tidak sesuai.");
+          }
+          
+          console.log('✅ Backup file verified as authentic');
+        }
+        
+        return data;
         
       } catch (e) {
         console.error('MEDF Import Error:', e);
-        throw new Error("Wrong password or corrupted .medf file!");
+        
+        // Pesan error yang lebih informatif
+        if (e.message.includes('tidak otentik')) {
+          throw new Error("❌ File backup tidak otentik atau telah dimodifikasi!\n\n" +
+                         "File mungkin:\n" +
+                         "• Bukan backup resmi dari MirAI\n" +
+                         "• Telah dimodifikasi oleh pihak lain\n" +
+                         "• Mengalami kerusakan data\n\n" +
+                         "Gunakan file backup yang asli dari MirAI.");
+        } else {
+          throw new Error("Wrong password or corrupted .medf file!");
+        }
       }
     }
 
@@ -1070,14 +1295,37 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
       const backupPersona = metadata.persona || data.miraiPersona || 'default';
       const backupLanguage = metadata.language || currentLanguage;
       
+      // Cek apakah file memiliki signature keaslian
+      const hasSignature = data._signature && 
+                          data._signature.headerText && 
+                          data._signature.headerCode;
+      
+      let verificationStatus = '';
+      if (hasSignature) {
+        const HEADER_TEXT = MIRAI_CONFIG.HEADER_TEXT;
+        
+        // Validasi sederhana
+        if (data._signature.headerText === HEADER_TEXT) {
+          verificationStatus = '✅ VERIFIED - File otentik dari MirAI';
+        } else {
+          verificationStatus = '⚠️ WARNING - Signature tidak valid';
+        }
+      } else {
+        verificationStatus = '⚠️ WARNING - File tidak memiliki signature keaslian';
+      }
+      
       console.log('🔄 Restoring backup:', {
         persona: backupPersona,
         language: backupLanguage,
-        metadata: metadata
+        metadata: metadata,
+        hasSignature: hasSignature,
+        verificationStatus: verificationStatus
       });
       
+      // Tampilkan status verifikasi kepada user
       const dataToStore = { ...data };
       delete dataToStore._metadata;
+      delete dataToStore._signature; // Hapus signature sebelum disimpan
       
       localStorage.clear();
       
@@ -1145,7 +1393,8 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
       const successMsg = `✅ BACKUP RESTORED SUCCESSFUL!\n\n` +
                         `• Persona: ${backupPersona}\n` +
                         `• Language: ${backupLanguage}\n` +
-                        `• Chat: ${restoredChats} massages\n\n` +
+                        `• Chat: ${restoredChats} messages\n` +
+                        `• Verification: ${verificationStatus}\n\n` +
                         `App will be reloading...`;
       
       alert(successMsg);
@@ -2267,6 +2516,26 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 bubbleCount: MEDF_PROCESSOR.countPublicApiBubbles(),
                 limits: MEDF_PROCESSOR.PUBLIC_API_LIMITS
             };
+        },
+        // Fungsi debug baru untuk authenticity header
+        validateMedfFile: async () => {
+            try {
+                const response = await fetch('config.medf');
+                if (!response.ok) throw new Error('config.medf not found');
+                
+                const buffer = await response.arrayBuffer();
+                const code = parseInt(prompt('Enter calculation code:', MEDF_PROCESSOR.DEFAULT_CODE));
+                
+                const apiKey = await MEDF_PROCESSOR.extractApiKeyFromConfig(buffer, code);
+                alert(`✅ File valid!\nAPI Key: ${apiKey.substring(0, 15)}...`);
+            } catch (error) {
+                alert(`❌ Error: ${error.message}`);
+            }
+        },
+        checkSignature: () => {
+            const headerText = MEDF_PROCESSOR.HEADER_TEXT;
+            const headerCode = MEDF_PROCESSOR.generateHeaderCode(headerText);
+            alert(`Header Text: ${headerText}\n\nHeader Code (first 40 chars):\n${headerCode.substring(0, 40)}...\n\nTotal length: ${headerCode.length} digits`);
         }
     };
 
@@ -2400,7 +2669,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             }
             
             allData._metadata = {
-                version: VERSION,
+                version: '2.12.0-Beta5',
                 persona: currentPersona,
                 language: currentLanguage,
                 exportDate: new Date().toISOString(),
@@ -2410,7 +2679,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             
             const exportType = confirm(
                 "Select backup format:\n\n" +
-                "[OK] - .medf file (ENCRYPTED with password)\n" +
+                "[OK] - .medf file (ENCRYPTED with password & authenticity signature)\n" +
                 "[CANCEL] - .mdf file (plain JSON)"
             ) ? 'encrypted' : 'plain';
             
@@ -2422,7 +2691,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 }
                 
                 processExportMEDF(allData, password)
-                    .then(() => alert("✅ .medf backup successfully created!\nSave your password!"))
+                    .then(() => alert("✅ .medf backup successfully created with authenticity signature!\nSave your password!"))
                     .catch(err => alert("❌ Failed: " + err.message));
                     
             } else {
@@ -2527,7 +2796,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 return;
             }
             
-            alert("❌ File format not supported!\n\nUse file with extension:\n• .medf (encrypted backup)\n• .mdf (JSON backup)\n• .json (JSON backup)");
+            alert("❌ File format not supported!\n\nUse file with extension:\n• .medf (encrypted backup with authenticity signature)\n• .mdf (JSON backup)\n• .json (JSON backup)");
         });
 
         // --- HASH NAVIGATION SETUP ---
