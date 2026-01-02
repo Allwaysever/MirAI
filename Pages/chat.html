@@ -170,7 +170,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         <div class="loading-bar"></div>
 
     </div>
-<p style="font-size: 0.5em; color: #aaa; bottom: 5px;"  id="settingsVersionText"></p>
+<p style="font-size: 0.5em; color: #aaa; bottom: 5px;">&copy 2025-2026 Allwaysever Project: MirAI</p>
   </div>
 </div>
 
@@ -361,7 +361,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             
             <div class="settings-about">
                 <h3 id="settingsAboutTitle">Tentang Aplikasi</h3>
-                <p id="settingsVersionText">Versi: v2.12.0-Beta5</p>
+                <p id="settingsVersionText"></p>
                 <p id="settingsAuthorText">Dikembangkan oleh Allwaysever</p>
                 <p><a href="https://allwaysevermirai.netlify.app/about" target="_blank" id="githubLink"><i class="fas fa-info-circle"></i> Tentang MirAI</a></p>
                 <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"><i class="fas fa-file-contract"></i> Lisensi</a></p>
@@ -446,10 +446,10 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 let errorMessage = 'Failed to read config.medf\n\n';
                 
                 if (error.message.includes('Tidak Otentik') || error.message.includes('signature')) {
-                    errorMessage += '⚠️ File config.medf tidak otentik atau corrupt!\n';
-                    errorMessage += 'File mungkin telah dimodifikasi atau bukan file resmi MirAI.\n\n';
+                    errorMessage += '⚠️ The config.medf file is not authentic or corrupt!\n';
+                    errorMessage += 'The file may have been modified or may not be an official MirAI file.\n\n';
                 } else {
-                    errorMessage += 'Mungkin kode perhitungan salah atau file rusak.\n\n';
+                    errorMessage += 'Maybe the calculation code is wrong or the file is corrupted.\n\n';
                 }
                 
                 errorMessage += 'Want to enter manual calculation code?';
@@ -532,7 +532,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 console.log('🔍 Validating file authenticity...');
                 
                 if (!data._signature || !data._signature.headerText || !data._signature.headerCode) {
-                    throw new Error("❌ File .medf tidak memiliki signature keaslian!");
+                    throw new Error("❌ The .medf file does not have an authenticity signature!");
                 }
                 
                 // Validasi menggunakan fungsi validateSignature jika ada, atau validasi manual
@@ -548,7 +548,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                     const HEADER_TEXT = "{MirAI Encrypted Data Files v1.0 By Allwaysever}";
                     
                     if (data._signature.headerText !== HEADER_TEXT) {
-                        throw new Error("❌ Header text tidak sesuai!");
+                        throw new Error("❌ Header text is incorrect!");
                     }
                     
                     // Generate header code untuk validasi
@@ -560,14 +560,14 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                     }
                     
                     if (data._signature.headerCode !== expectedCode) {
-                        throw new Error("❌ Header code tidak sesuai!");
+                        throw new Error("❌ Header code is incorrect!");
                     }
                     
                     isValid = true;
                 }
                 
                 if (!isValid) {
-                    throw new Error("❌ File .medf Tidak Otentik atau Corrupt!");
+                    throw new Error("❌ .medf File Is Inauthentic or Corrupt!");
                 }
                 
                 console.log('✅ File verified as authentic!');
@@ -579,9 +579,9 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 
                 // Tampilkan pesan error yang lebih spesifik
                 if (e.message.includes('Tidak Otentik')) {
-                    throw new Error("❌ File .medf Tidak Otentik atau Corrupt!\nFile mungkin telah dimodifikasi atau bukan file resmi MirAI.");
+                    throw new Error("❌ .medf File Is Not Authentic or Corrupt!\nThe file may have been modified or is not an official MirAI file.");
                 } else if (e.message.includes('signature')) {
-                    throw new Error("❌ File tidak memiliki signature keaslian yang valid!");
+                    throw new Error("❌ The file does not have a valid authenticity signature!");
                 } else {
                     throw new Error("Incorrect calculation code or corrupted file");
                 }
@@ -647,14 +647,14 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 
                 // Validasi signature
                 if (!data._signature) {
-                    console.warn('⚠️ Backup file tidak memiliki signature');
-                    return { isValid: false, message: 'File tidak memiliki signature keaslian' };
+                    console.warn('⚠️ Backup file does not have signature');
+                    return { isValid: false, message: 'File does not have authenticity signature' };
                 }
                 
                 const HEADER_TEXT = "{MirAI Encrypted Data Files v1.0 By Allwaysever}";
                 
                 if (data._signature.headerText !== HEADER_TEXT) {
-                    return { isValid: false, message: 'Signature header text tidak valid' };
+                    return { isValid: false, message: 'Signature header text is invalid' };
                 }
                 
                 // Generate dan validasi header code
@@ -666,7 +666,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 }
                 
                 if (data._signature.headerCode !== expectedCode) {
-                    return { isValid: false, message: 'Signature header code tidak valid' };
+                    return { isValid: false, message: 'Signature header code is invalid' };
                 }
                 
                 return { 
@@ -679,7 +679,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 console.error('Validation error:', error);
                 return { 
                     isValid: false, 
-                    message: 'Gagal memvalidasi file: ' + error.message 
+                    message: 'Failed to validate file: ' + error.message 
                 };
             }
         },
@@ -712,7 +712,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
     const isBeta = urlParams.has('betamodel');
     const isPWA = urlParams.has('pwa');
     const model = isBeta ? 'gemini-3-flash-preview' : 'gemini-2.5-flash';
-    console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Kilat)' : 'Stabil (2.5 Kilat)'}`);
+    console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Flash Preview)' : 'Stable (2.5 Flash)'}`);
 
     const faqDatabase = {
         "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information.",
@@ -744,7 +744,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultOption: 'Santai & Bercanda',
             personaCreativeOption: 'Kreatif & Ekspresif',
             settingsAboutTitle: 'Tentang Aplikasi',
-            settingsVersionText: `Versi: v2.12.0-Beta5`,
+            settingsVersionText: `Versi: v${VERSION}`,
             settingsAuthorText: 'Dikembangkan oleh Allwaysever',
             githubLink: 'Tentang MirAI',
             licenseLink: 'Lisensi',
@@ -830,7 +830,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultOption: 'Chill & joking',
             personaCreativeOption: 'Creative & Expressive',
             settingsAboutTitle: 'About',
-            settingsVersionText: `Version: v2.12.0-Beta5`,
+            settingsVersionText: `Version: v${VERSION}`,
             settingsAuthorText: 'Developed by Allwaysever',
             githubLink: 'About MirAI',
             licenseLink: 'License',
@@ -916,7 +916,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultOption: 'Laid-back & bantering',
             personaCreativeOption: 'Creative & Expressive',
             settingsAboutTitle: 'About',
-            settingsVersionText: `Version: v2.12.0-Beta5`,
+            settingsVersionText: `Version: v${VERSION}`,
             settingsAuthorText: 'Developed by Allwaysever',
             githubLink: 'About MirAI',
             licenseLink: 'License',
@@ -1002,7 +1002,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultOption: 'のんびりしてて冗談好き',
             personaCreativeOption: 'クリエイティブ・表現豊か',
             settingsAboutTitle: 'アプリについて',
-            settingsVersionText: `バージョン: v2.12.0-Beta5`,
+            settingsVersionText: `バージョン: v${VERSION}`,
             settingsAuthorText: '開発者: Allwaysever',
             githubLink: 'MirAIについて',
             licenseLink: 'ライセンス',
@@ -1190,8 +1190,8 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         console.log('🔍 Validating backup authenticity...');
         
         if (!data._signature) {
-          console.warn('⚠️ Backup file tidak memiliki signature');
-          alert('⚠️ Warning: Backup file tidak memiliki signature keaslian.\nFile mungkin bukan dari MirAI yang resmi.');
+          console.warn('⚠️ Backup file does not have signature');
+          alert('⚠️ Warning: Backup file does not have authenticity signature.\nFile may not be from official MirAI.');
           // Lanjutkan tapi dengan warning
         } else {
           // Validasi signature
@@ -1210,7 +1210,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
           }
           
           if (data._signature.headerCode !== expectedCode) {
-            throw new Error("❌ Backup file tidak otentik! Header code tidak sesuai.");
+            throw new Error("❌ Backup file is not authentic! Header code does not match.");
           }
           
           console.log('✅ Backup file verified as authentic');
@@ -1223,12 +1223,12 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         
         // Pesan error yang lebih informatif
         if (e.message.includes('tidak otentik')) {
-          throw new Error("❌ File backup tidak otentik atau telah dimodifikasi!\n\n" +
-                         "File mungkin:\n" +
-                         "• Bukan backup resmi dari MirAI\n" +
-                         "• Telah dimodifikasi oleh pihak lain\n" +
-                         "• Mengalami kerusakan data\n\n" +
-                         "Gunakan file backup yang asli dari MirAI.");
+          throw new Error("❌ The backup file is not authentic or has been modified!\n\n" +
+                         "Files may be:\n" +
+                         "• Not an official backup of MirAI\n" +
+                         "• Has been modified by another party\n" +
+                         "• Experiencing data corruption\n\n" +
+                         "Use the original backup file from MirAI.");
         } else {
           throw new Error("Wrong password or corrupted .medf file!");
         }
@@ -1306,15 +1306,15 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         
         // Validasi sederhana
         if (data._signature.headerText === HEADER_TEXT) {
-          verificationStatus = '✅ VERIFIED - File otentik dari MirAI';
+          verificationStatus = '✅ VERIFIED - Authentic files from MirAI';
         } else {
-          verificationStatus = '⚠️ WARNING - Signature tidak valid';
+          verificationStatus = '⚠️ WARNING - Invalid signature';
         }
       } else {
-        verificationStatus = '⚠️ WARNING - File tidak memiliki signature keaslian';
+        verificationStatus = '⚠️ WARNING - File does not have authenticity signature';
       }
       
-      console.log('🔄 Restoring backup:', {
+      console.log('Restoring backup:', {
         persona: backupPersona,
         language: backupLanguage,
         metadata: metadata,
@@ -1400,7 +1400,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
       alert(successMsg);
       
       setTimeout(() => {
-        console.log('🔄 Reloading application after restore...');
+        console.log('Reloading application after restore...');
         location.reload();
       }, 800);
     }
@@ -1677,7 +1677,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         if (isBeta) {
             const versionText = document.getElementById('settingsVersionText');
             if (versionText) {
-                versionText.innerText += '#3FlashPreviewMode';
+                versionText.innerText += '\n3FlashPreviewMode';
                 versionText.style.color = '#00ff00';
             }
         }
@@ -2388,7 +2388,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         if (lang === 'en') return 'en-US';
         if (lang === 'jp') return 'ja-JP';
         if (lang === 'id') return 'id-ID';
-        return 'id-ID';
+        return 'en-US';
     }
 
     function speakText(element) {
