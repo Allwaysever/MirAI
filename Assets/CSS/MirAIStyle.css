@@ -308,7 +308,6 @@ body.chat-active .chat-container {
 }
 
 /* ===== CHAT BUBBLES ===== */
-/* ... (variabel CSS yang ada tetap sama) ... */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -317,7 +316,7 @@ body.chat-active .chat-container {
 #apiLimitPopup {
     animation: fadeIn 0.3s ease;
 }
-/* ===== CHAT BUBBLES ===== */
+
 #chatMessages {
     display: flex;
     flex-direction: column;
@@ -1379,7 +1378,226 @@ body.light-theme .settings-footer {
     }
 }
 
-/* ===== CUSTOM CONFIRM DIALOG ===== */
+/* ===== SRUI UNIFIED POPUP SYSTEM ===== */
+.srui-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--srui-transition-normal), 
+                visibility var(--srui-transition-normal);
+}
+
+.srui-popup-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.srui-popup-box {
+    background: var(--srui-glass-bg);
+    -webkit-backdrop-filter: var(--srui-glass-blur);
+    backdrop-filter: var(--srui-glass-blur);
+    color: var(--srui-text-primary);
+    padding: 25px;
+    border-radius: var(--srui-radius-lg);
+    border: var(--srui-glass-border);
+    width: 85%;
+    max-width: 450px;
+    text-align: center;
+    transform: scale(0.95);
+    transition: transform var(--srui-transition-normal);
+    box-shadow: var(--srui-shadow-modal);
+}
+
+.srui-popup-overlay.visible .srui-popup-box {
+    transform: scale(1);
+}
+
+.srui-popup-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    color: var(--srui-accent);
+}
+
+.srui-popup-content {
+    margin: 0 0 25px 0;
+    font-size: 1em;
+    line-height: 1.6;
+    white-space: pre-line;
+    text-align: left;
+}
+
+.srui-popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.srui-popup-button {
+    padding: 12px 24px;
+    border-radius: var(--srui-radius-lg);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    min-width: 100px;
+    transition: all var(--srui-transition-normal);
+    border: none;
+    flex: 1;
+    max-width: 150px;
+}
+
+.srui-popup-button-primary {
+    background-color: var(--srui-accent);
+    color: var(--srui-accent-text);
+}
+
+.srui-popup-button-primary:hover {
+    background-color: #e6b800;
+    transform: translateY(-2px);
+}
+
+.srui-popup-button-secondary {
+    background-color: transparent;
+    color: var(--srui-text-primary);
+    border: 1px solid var(--srui-border-input);
+}
+
+.srui-popup-button-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--srui-accent);
+}
+
+.srui-popup-button-danger {
+    background-color: var(--srui-error);
+    color: white;
+}
+
+.srui-popup-button-danger:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+
+.srui-popup-button-success {
+    background-color: var(--srui-success);
+    color: white;
+}
+
+.srui-popup-button-success:hover {
+    background-color: #388e3c;
+    transform: translateY(-2px);
+}
+
+.srui-popup-button-warning {
+    background-color: var(--srui-warning);
+    color: var(--srui-accent-text);
+}
+
+.srui-popup-button-warning:hover {
+    background-color: #e6b800;
+    transform: translateY(-2px);
+}
+
+.srui-popup-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: var(--srui-accent);
+}
+
+.srui-popup-icon.warning {
+    color: var(--srui-warning);
+}
+
+.srui-popup-icon.error {
+    color: var(--srui-error);
+}
+
+.srui-popup-icon.success {
+    color: var(--srui-success);
+}
+
+.srui-popup-icon.info {
+    color: var(--srui-info);
+}
+
+.srui-popup-input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 15px 0;
+    border-radius: var(--srui-radius-md);
+    border: 1px solid var(--srui-border-input);
+    background-color: var(--srui-bg-card);
+    color: var(--srui-text-primary);
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: all var(--srui-transition-normal);
+}
+
+.srui-popup-input:focus {
+    outline: none;
+    border-color: var(--srui-accent);
+    box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+}
+
+/* Light theme overrides untuk popup */
+body.light-theme .srui-popup-box {
+    background: var(--srui-glass-bg-light);
+    border: var(--srui-glass-border-light);
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .srui-popup-button-secondary {
+    color: var(--srui-text-primary-light);
+    border: 1px solid var(--srui-border-input-light);
+}
+
+body.light-theme .srui-popup-button-secondary:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: var(--srui-accent-alt);
+}
+
+body.light-theme .srui-popup-input {
+    border: 1px solid var(--srui-border-input-light);
+    background-color: var(--srui-bg-neutral-light);
+    color: var(--srui-text-primary-light);
+}
+
+body.light-theme .srui-popup-input:focus {
+    border-color: var(--srui-accent-alt);
+    box-shadow: 0 0 0 2px rgba(68, 68, 68, 0.2);
+}
+
+/* Responsive adjustments untuk popup */
+@media (max-width: 480px) {
+    .srui-popup-box {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .srui-popup-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .srui-popup-button {
+        max-width: 100%;
+    }
+}
+
+/* ===== CUSTOM CONFIRM DIALOG (OLD - KEEP FOR BACKUP) ===== */
 #customConfirmOverlay {
     position: fixed;
     top: 0;
@@ -1479,7 +1697,7 @@ body.light-theme {
 }
 
 body.light-theme .hi-img.logo-img.gemini-logo {
-  filter: grayscale (100%);
+  filter: grayscale(100%);
 }
 
 body.light-theme .chat-bubble.ai-bubble {
