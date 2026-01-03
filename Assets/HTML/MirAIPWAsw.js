@@ -1,327 +1,425 @@
-// sw.js
-const CACHE_NAME = 'mirai-cache-v2';
+// MirAIPWAsw.js - Service Worker Terpadu untuk MirAI
+const CACHE_VERSION = 'mirai-pwa-v4.0';
+const OFFLINE_URL = '/offline.html';
+
+// Assets yang akan di-cache saat install
 const PRECACHE_ASSETS = [
-  '/',
-  '/index.html',
-  '/chat',
-  '/chat.html',
-  'https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIStyle.css',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'
+    '/',
+    '/offline.html',
+    '/chat',
+    '/chat.html',
+    '/PWA/offline.html',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
+    'https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/HI%20new.png',
+    'https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Name%20Logo.png',
+    'https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png'
 ];
 
-// ========== 1. OFFLINE SUPPORT (Ditingkatkan) ==========
-// Install event - precache assets saat install
+// ========== INSTALL EVENT ==========
 self.addEventListener('install', event => {
-  console.log('Service Worker: Installing...');
-  
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Service Worker: Caching app shell');
-        return cache.addAll(PRECACHE_ASSETS)
-          .catch(error => {
-            console.error('Failed to cache some assets:', error);
-          });
-      })
-      .then(() => {
-        console.log('Service Worker: Skip waiting');
-        return self.skipWaiting();
-      })
-  );
+    console.log('🚀 [SW] Install event triggered');
+    
+    event.waitUntil(
+        caches.open(CACHE_VERSION)
+            .then(cache => {
+                console.log('📦 [SW] Caching app shell dan offline page');
+                // Cache critical assets terlebih dahulu
+                return cache.addAll([
+                    OFFLINE_URL,
+                    '/',
+                    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'
+                ])
+                .then(() => {
+                    console.log('✅ [SW] Critical assets cached');
+                    // Cache sisanya di background
+                    cache.addAll(PRECACHE_ASSETS.filter(url => 
+                        !url.includes(OFFLINE_URL) && 
+                        url !== '/' &&
+                        !url.includes('font-awesome')
+                    )).catch(err => {
+                        console.log('[SW] Some assets failed to cache:', err);
+                    });
+                });
+            })
+            .then(() => {
+                console.log('⚡ [SW] Skip waiting untuk immediate activation');
+                return self.skipWaiting();
+            })
+            .catch(error => {
+                console.error('❌ [SW] Install failed:', error);
+            })
+    );
 });
-
-// Fetch event - handle offline requests
-self.addEventListener('fetch', event => {
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') return;
-  
-  // Skip chrome-extension requests
-  if (event.request.url.startsWith('chrome-extension://')) return;
-  
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return cached response
-        if (response) {
-          console.log('Service Worker: Serving from cache:', event.request.url);
-          return response;
-        }
-        
-        // Clone the request
-        const fetchRequest = event.request.clone();
-        
-        return fetch(fetchRequest)
-          .then(response => {
-            // Check if valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            
-            // Clone the response
-            const responseToCache = response.clone();
-            
-            // Cache the new response
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, responseToCache);
-                console.log('Service Worker: Caching new resource:', event.request.url);
-              })
-              .catch(error => {
-                console.error('Service Worker: Failed to cache:', error);
-              });
-            
-            return response;
-          })
-          .catch(async error => {
-            console.log('Service Worker: Fetch failed; returning offline page:', error);
-            
-            // If request is for HTML page, return offline page
-            if (event.request.headers.get('accept')?.includes('text/html')) {
-              return caches.match('/offline.html')
-                .then(offlineResponse => offlineResponse || caches.match('/index.html'));
-            }
-            
-            // For other file types, return appropriate fallback
-            const url = new URL(event.request.url);
-            if (url.pathname.endsWith('.css')) {
-              return new Response('/* Offline fallback for CSS */', {
-                headers: { 'Content-Type': 'text/css' }
-              });
-            }
-            
-            if (url.pathname.endsWith('.js')) {
-              return new Response('// Offline fallback for JS', {
-                headers: { 'Content-Type': 'application/javascript' }
-              });
-            }
-            
-            // Generic fallback
-            return new Response('Offline - No internet connection', {
-              status: 503,
-              statusText: 'Service Unavailable'
-            });
-          });
-      })
-  );
-});
-
-// ========== 2. BACKGROUND SYNC ==========
-// Listen for sync events
-self.addEventListener('sync', event => {
-  console.log('Service Worker: Background sync triggered:', event.tag);
-  
-  if (event.tag === 'sync-messages') {
-    event.waitUntil(syncMessages());
-  } else if (event.tag === 'sync-data') {
-    event.waitUntil(syncData());
-  }
-});
-
-// Function to sync messages when online
-async function syncMessages() {
-  try {
-    console.log('Service Worker: Syncing messages...');
-    // Get pending messages from IndexedDB
-    const pendingMessages = await getPendingMessages();
-    
-    for (const message of pendingMessages) {
-      await sendMessageToServer(message);
-      await removePendingMessage(message.id);
-    }
-    
-    console.log('Service Worker: Messages synced successfully');
-  } catch (error) {
-    console.error('Service Worker: Failed to sync messages:', error);
-    throw error; // Will retry on next sync
-  }
-}
-
-// Function to sync other data
-async function syncData() {
-  console.log('Service Worker: Syncing general data...');
-  // Implement your data sync logic here
-}
-
-// Helper functions for Background Sync
-async function getPendingMessages() {
-  // This would typically use IndexedDB
-  // For demo, returning empty array
-  return [];
-}
-
-async function sendMessageToServer(message) {
-  // Implement API call to send message
-  console.log('Service Worker: Sending message:', message);
-  return Promise.resolve();
-}
-
-async function removePendingMessage(id) {
-  // Remove from IndexedDB
-  console.log('Service Worker: Removing pending message:', id);
-}
-
-// ========== 3. PERIODIC SYNC ==========
-// Listen for periodic sync events
-self.addEventListener('periodicsync', event => {
-  console.log('Service Worker: Periodic sync triggered:', event.tag);
-  
-  if (event.tag === 'update-content') {
-    event.waitUntil(updateContent());
-  } else if (event.tag === 'refresh-cache') {
-    event.waitUntil(refreshCache());
-  }
-});
-
-// Update content periodically
-async function updateContent() {
-  try {
-    console.log('Service Worker: Periodic content update started');
-    
-    // Check for new content
-    const response = await fetch('/api/latest-content', {
-      headers: {
-        'Cache-Control': 'no-cache'
-      }
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      await updateCachedContent(data);
-      console.log('Service Worker: Content updated successfully');
-      
-      // Show notification if new content available
-      if (data.hasNewContent) {
-        await self.registration.showNotification('New Content Available', {
-          body: 'Check out the latest updates!',
-          icon: '/icon-192x192.png',
-          badge: '/badge-72x72.png'
-        });
-      }
-    }
-  } catch (error) {
-    console.error('Service Worker: Periodic sync failed:', error);
-  }
-}
-
-// Refresh cache periodically
-async function refreshCache() {
-  try {
-    console.log('Service Worker: Refreshing cache...');
-    
-    // Open cache
-    const cache = await caches.open(CACHE_NAME);
-    
-    // Check each cached item
-    const requests = await cache.keys();
-    
-    for (const request of requests) {
-      try {
-        const networkResponse = await fetch(request);
-        if (networkResponse.ok) {
-          await cache.put(request, networkResponse.clone());
-          console.log('Service Worker: Updated cache for:', request.url);
-        }
-      } catch (error) {
-        console.warn('Service Worker: Failed to refresh:', request.url, error);
-      }
-    }
-  } catch (error) {
-    console.error('Service Worker: Cache refresh failed:', error);
-  }
-}
-
-// Update cached content
-async function updateCachedContent(data) {
-  // Implement logic to update cache with new content
-  const cache = await caches.open(CACHE_NAME);
-  // Update specific resources based on data
-}
 
 // ========== ACTIVATE EVENT ==========
-// Clean up old caches
 self.addEventListener('activate', event => {
-  console.log('Service Worker: Activating...');
-  
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Service Worker: Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
+    console.log('🎯 [SW] Activate event triggered');
+    
+    event.waitUntil(
+        Promise.all([
+            // Hapus cache lama
+            caches.keys().then(cacheNames => {
+                return Promise.all(
+                    cacheNames.map(cacheName => {
+                        if (cacheName !== CACHE_VERSION) {
+                            console.log(`🗑️ [SW] Deleting old cache: ${cacheName}`);
+                            return caches.delete(cacheName);
+                        }
+                    })
+                );
+            }),
+            
+            // Klaim semua clients
+            self.clients.claim()
+        ])
+        .then(() => {
+            console.log('✅ [SW] Now ready to handle fetches');
+            
+            // Kirim message ke semua clients bahwa SW aktif
+            self.clients.matchAll().then(clients => {
+                clients.forEach(client => {
+                    client.postMessage({
+                        type: 'SW_ACTIVATED',
+                        version: CACHE_VERSION
+                    });
+                });
+            });
         })
-      );
-    })
-    .then(() => {
-      console.log('Service Worker: Claiming clients');
-      return self.clients.claim();
-    })
-  );
+    );
 });
 
-// ========== PUSH NOTIFICATIONS (Bonus) ==========
+// ========== FETCH EVENT ==========
+self.addEventListener('fetch', event => {
+    // Skip non-GET requests
+    if (event.request.method !== 'GET') return;
+    
+    const requestUrl = new URL(event.request.url);
+    
+    // Skip Chrome extensions
+    if (requestUrl.protocol === 'chrome-extension:') return;
+    
+    // Skip Google API calls (biarkan langsung ke network)
+    if (requestUrl.href.includes('generativelanguage.googleapis.com')) {
+        return;
+    }
+    
+    // Skip OneSignal
+    if (requestUrl.href.includes('onesignal.com')) {
+        return;
+    }
+    
+    // Skip CDNJS/CSS
+    if (requestUrl.href.includes('cdnjs.cloudflare.com') || 
+        requestUrl.href.includes('fonts.googleapis.com') ||
+        requestUrl.href.includes('fonts.gstatic.com')) {
+        return event.respondWith(
+            caches.match(event.request)
+                .then(cached => cached || fetch(event.request))
+        );
+    }
+    
+    console.log(`🔍 [SW] Fetching: ${requestUrl.pathname}`);
+    
+    // Handle navigation requests (HTML pages)
+    if (event.request.mode === 'navigate') {
+        event.respondWith(
+            fetch(event.request)
+                .then(response => {
+                    // Update cache dengan response baru
+                    const responseClone = response.clone();
+                    caches.open(CACHE_VERSION)
+                        .then(cache => cache.put(event.request, responseClone))
+                        .catch(err => console.log('[SW] Cache update failed:', err));
+                    return response;
+                })
+                .catch(async () => {
+                    console.log('📵 [SW] Offline detected for navigation, serving offline page');
+                    
+                    // Coba cari di cache dulu
+                    const cached = await caches.match(event.request);
+                    if (cached) return cached;
+                    
+                    // Fallback ke offline page
+                    const offlinePage = await caches.match(OFFLINE_URL);
+                    if (offlinePage) return offlinePage;
+                    
+                    // Ultimate fallback
+                    return new Response(
+                        '<h1>Offline</h1><p>Please check your internet connection.</p>',
+                        { 
+                            headers: { 'Content-Type': 'text/html; charset=utf-8' } 
+                        }
+                    );
+                })
+        );
+        return;
+    }
+    
+    // Handle other requests (CSS, JS, images, etc)
+    event.respondWith(
+        caches.match(event.request)
+            .then(cachedResponse => {
+                // Jika ada di cache, kembalikan
+                if (cachedResponse) {
+                    console.log(`📦 [SW] Serving from cache: ${requestUrl.pathname}`);
+                    return cachedResponse;
+                }
+                
+                // Jika tidak ada di cache, fetch dari network
+                return fetch(event.request)
+                    .then(networkResponse => {
+                        // Validasi response
+                        if (!networkResponse || networkResponse.status !== 200) {
+                            return networkResponse;
+                        }
+                        
+                        // Clone response untuk cache
+                        const responseToCache = networkResponse.clone();
+                        
+                        // Simpan ke cache untuk penggunaan selanjutnya
+                        caches.open(CACHE_VERSION)
+                            .then(cache => {
+                                cache.put(event.request, responseToCache);
+                                console.log(`💾 [SW] Cached: ${requestUrl.pathname}`);
+                            })
+                            .catch(err => {
+                                console.error('[SW] Failed to cache response:', err);
+                            });
+                        
+                        return networkResponse;
+                    })
+                    .catch(error => {
+                        console.log(`❌ [SW] Network error for ${requestUrl.pathname}:`, error);
+                        
+                        // Untuk CSS/JS, kembalikan fallback minimal
+                        if (requestUrl.pathname.endsWith('.css')) {
+                            return new Response(
+                                '/* MirAI Offline Mode */\nbody { background: #1a1a1a; color: #fff; }',
+                                { headers: { 'Content-Type': 'text/css' } }
+                            );
+                        }
+                        
+                        if (requestUrl.pathname.endsWith('.js')) {
+                            return new Response(
+                                '// MirAI Offline Mode\nconsole.log("App is offline");',
+                                { headers: { 'Content-Type': 'application/javascript' } }
+                            );
+                        }
+                        
+                        // Untuk images, kembalikan placeholder
+                        if (requestUrl.pathname.match(/\.(jpg|jpeg|png|gif|svg|webp)$/i)) {
+                            return new Response(
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2a2a2a"/><text x="50" y="50" text-anchor="middle" fill="#fff" font-family="Arial" font-size="12">Image</text></svg>',
+                                { headers: { 'Content-Type': 'image/svg+xml' } }
+                            );
+                        }
+                        
+                        return new Response(
+                            'Offline - Unable to fetch resource',
+                            { status: 503, statusText: 'Service Unavailable' }
+                        );
+                    });
+            })
+    );
+});
+
+// ========== BACKGROUND SYNC ==========
+self.addEventListener('sync', event => {
+    console.log(`🔄 [SW] Background Sync: ${event.tag}`);
+    
+    if (event.tag === 'sync-messages') {
+        event.waitUntil(syncPendingMessages());
+    }
+});
+
+async function syncPendingMessages() {
+    console.log('[SW] Syncing pending messages...');
+    // Implementasi sync untuk pesan yang belum terkirim
+    try {
+        // Baca dari IndexedDB jika ada
+        const db = await openIDB();
+        const messages = await getAllFromStore(db, 'pendingMessages');
+        
+        for (const message of messages) {
+            await sendMessageToAPI(message);
+            await deleteFromStore(db, 'pendingMessages', message.id);
+        }
+        
+        console.log('[SW] Messages synced successfully');
+        
+        // Kirim notification
+        await self.registration.showNotification('MirAI', {
+            body: 'Messages synced successfully',
+            icon: 'https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png'
+        });
+        
+    } catch (error) {
+        console.error('[SW] Sync failed:', error);
+    }
+}
+
+// ========== PUSH NOTIFICATIONS ==========
 self.addEventListener('push', event => {
-  console.log('Service Worker: Push received');
-  
-  const data = event.data ? event.data.json() : {};
-  const title = data.title || 'New Notification';
-  const options = {
-    body: data.body || 'You have a new message',
-    icon: data.icon || '/icon-192x192.png',
-    badge: '/badge-72x72.png',
-    data: data.url || '/'
-  };
-  
-  event.waitUntil(
-    self.registration.showNotification(title, options)
-  );
+    console.log('[SW] Push notification received');
+    
+    const data = event.data ? event.data.json() : {};
+    
+    const options = {
+        body: data.body || 'New notification from MirAI',
+        icon: data.icon || 'https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png',
+        badge: 'https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png',
+        data: {
+            url: data.url || '/',
+            timestamp: new Date().toISOString()
+        },
+        actions: [
+            {
+                action: 'open',
+                title: 'Open App'
+            },
+            {
+                action: 'dismiss',
+                title: 'Dismiss'
+            }
+        ]
+    };
+    
+    event.waitUntil(
+        self.registration.showNotification(data.title || 'MirAI', options)
+    );
 });
 
 self.addEventListener('notificationclick', event => {
-  console.log('Service Worker: Notification clicked');
-  
-  event.notification.close();
-  
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true })
-      .then(clientList => {
-        // If a window is already open, focus it
-        for (const client of clientList) {
-          if (client.url === event.notification.data && 'focus' in client) {
-            return client.focus();
-          }
+    console.log('[SW] Notification clicked:', event.action);
+    
+    event.notification.close();
+    
+    if (event.action === 'open' || event.action === '') {
+        event.waitUntil(
+            clients.matchAll({ type: 'window', includeUncontrolled: true })
+                .then(clientList => {
+                    // Cari client yang sudah terbuka
+                    for (const client of clientList) {
+                        if (client.url.includes('/chat') && 'focus' in client) {
+                            return client.focus();
+                        }
+                    }
+                    
+                    // Buka baru jika tidak ada
+                    if (clients.openWindow) {
+                        return clients.openWindow(event.notification.data.url || '/chat');
+                    }
+                })
+        );
+    }
+});
+
+// ========== MESSAGE HANDLER ==========
+self.addEventListener('message', event => {
+    console.log('[SW] Message received:', event.data);
+    
+    switch (event.data.type) {
+        case 'SKIP_WAITING':
+            self.skipWaiting();
+            break;
+            
+        case 'GET_CACHE_STATUS':
+            event.ports[0].postMessage({
+                cacheVersion: CACHE_VERSION,
+                isOnline: navigator.onLine
+            });
+            break;
+            
+        case 'CLEAR_CACHE':
+            caches.delete(CACHE_VERSION).then(() => {
+                event.ports[0].postMessage({ success: true });
+            });
+            break;
+    }
+});
+
+// ========== HELPER FUNCTIONS ==========
+function openIDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('MirAI_SyncDB', 1);
+        
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            
+            if (!db.objectStoreNames.contains('pendingMessages')) {
+                const store = db.createObjectStore('pendingMessages', { keyPath: 'id' });
+                store.createIndex('timestamp', 'timestamp', { unique: false });
+            }
+        };
+        
+        request.onsuccess = function(event) {
+            resolve(event.target.result);
+        };
+        
+        request.onerror = function(event) {
+            reject(event.target.error);
+        };
+    });
+}
+
+function getAllFromStore(db, storeName) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([storeName], 'readonly');
+        const store = transaction.objectStore(storeName);
+        const request = store.getAll();
+        
+        request.onsuccess = function(event) {
+            resolve(event.target.result);
+        };
+        
+        request.onerror = function(event) {
+            reject(event.target.error);
+        };
+    });
+}
+
+function deleteFromStore(db, storeName, id) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([storeName], 'readwrite');
+        const store = transaction.objectStore(storeName);
+        const request = store.delete(id);
+        
+        request.onsuccess = function(event) {
+            resolve(true);
+        };
+        
+        request.onerror = function(event) {
+            reject(event.target.error);
+        };
+    });
+}
+
+async function sendMessageToAPI(message) {
+    // Implementasi pengiriman pesan ke API
+    console.log('[SW] Sending message:', message);
+    return Promise.resolve();
+}
+
+// ========== PERIODIC BACKGROUND TASKS ==========
+// Clean up old data periodically
+setInterval(async () => {
+    try {
+        console.log('[SW] Running periodic cleanup');
+        
+        // Clean up IndexedDB
+        const db = await openIDB();
+        const oldMessages = await getAllFromStore(db, 'pendingMessages');
+        const now = Date.now();
+        const oneWeekAgo = now - (7 * 24 * 60 * 60 * 1000);
+        
+        for (const message of oldMessages) {
+            if (message.timestamp < oneWeekAgo) {
+                await deleteFromStore(db, 'pendingMessages', message.id);
+            }
         }
         
-        // Otherwise open a new window
-        if (clients.openWindow) {
-          return clients.openWindow(event.notification.data);
-        }
-      })
-  );
-});
-
-// Offline Page
-const CACHE_NAME = 'offline-page-v1';
-const OFFLINE_URL = '/PWA/offline.html'; // Path ke file offline-mu
-
-// 1. Simpan halaman offline ke cache saat PWA di-install
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.add(OFFLINE_URL);
-    })
-  );
-});
-
-// 2. Cek koneksi setiap kali ada request
-self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request).catch(() => {
-        // Jika fetch gagal (artinya offline), ambil dari cache
-        return caches.match(OFFLINE_URL);
-      })
-    );
-  }
-});
+        console.log('[SW] Cleanup completed');
+    } catch (error) {
+        console.error('[SW] Cleanup failed:', error);
+    }
+}, 24 * 60 * 60 * 1000); // Setiap 24 jam
