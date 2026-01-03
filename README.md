@@ -35,7 +35,7 @@ MirAI is designed to be an accessible and feature-rich AI chat companion, right 
 * **📝 Markdown Parsing:** Responses from the AI containing formatting (like code blocks and lists) will be displayed correctly.
 * **⏰ Time-aware Context:** The AI knows the current date and time for more relevant answers.
 * **📤 Backup & Restore:** Export your chat history and settings to encrypted `.medf` or plain `.mdf/.json` files, and import them later or on another device.
-* **📲 Progressive Web App (PWA):** Install MirAI as a native-like app on your device (Android, iOS, desktop) with offline capabilities.
+* **📲 Progressive Web App (PWA):** Install MirAI as a native-like app on your device (Android) with offline capabilities.
 * **🔒 Encrypted Config System:** Secure `.medf` file format with authenticity signatures for API key storage and data backup.
 * **⚠️ Public API Usage Limits:** Intelligent tracking and warnings for public API key usage to ensure fair usage.
 * **🔧 Dynamic Slash Command Suggestions:** Real-time command suggestions as you type `/` commands.
