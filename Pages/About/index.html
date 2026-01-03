@@ -105,6 +105,16 @@
         .language-badge {
             display: none;
         }
+        /* Tech badge styling */
+        .tech-badge {
+            background-color: rgba(255, 206, 0, 0.1);
+            border: 1px solid rgba(255, 206, 0, 0.3);
+            color: var(--color-accent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -125,15 +135,16 @@
                     <a href="#features" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150" data-i18n="nav_features">Key Features</a>
                     <a href="#design" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150" data-i18n="nav_design">SRUI Design</a>
                     <a href="#tech-stack" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150" data-i18n="nav_tech">Tech Stack</a>
+                    <a href="#advanced" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150" data-i18n="nav_advanced">Advanced</a>
                     <a href="#setup" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150" data-i18n="nav_setup">API Setup</a>
                 </nav>
                 <div class="language-selector">
                     <select id="language-select">
-                        <option value="auto">Auto Detect</option>
-                        <option value="id-ID">Bahasa Indonesia</option>
-                        <option value="en-US">English (US)</option>
-                        <option value="en-GB">English (UK)</option>
-                        <option value="ja-JP">日本語</option>
+                        <option value="auto" data-i18n="lang_auto">Auto Detect</option>
+                        <option value="id-ID" data-i18n="lang_id">Bahasa Indonesia</option>
+                        <option value="en-US" data-i18n="lang_en_us">English (US)</option>
+                        <option value="en-GB" data-i18n="lang_en_gb">English (UK)</option>
+                        <option value="ja-JP" data-i18n="lang_ja">日本語</option>
                     </select>
                 </div>
                 <a href="https://allwaysevermirai.netlify.app" target="_self" class="link-button text-sm px-4 py-2 hidden sm:inline-block" data-i18n="try_button">
@@ -206,6 +217,36 @@
                     <h3 class="text-xl font-semibold mb-2 text-white">🔊 <span data-i18n="feature6_title">Text-to-Speech (TTS)</span></h3>
                     <p class="text-gray-400" data-i18n="feature6_description">Click the speaker icon to listen to AI responses read aloud in the selected language. Perfect for <i>multitasking</i>!</p>
                 </div>
+
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">📤 <span data-i18n="feature7_title">Backup & Restore</span></h3>
+                    <p class="text-gray-400" data-i18n="feature7_description">Export chat history and settings to encrypted <code>.medf</code> or plain <code>.mdf/.json</code> files. Import later or on another device.</p>
+                </div>
+                
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">📲 <span data-i18n="feature8_title">Progressive Web App</span></h3>
+                    <p class="text-gray-400" data-i18n="feature8_description">Install MirAI as a native-like app on your device (Android) with offline capabilities and push notifications.</p>
+                </div>
+                
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">🔒 <span data-i18n="feature9_title">Encrypted Config System</span></h3>
+                    <p class="text-gray-400" data-i18n="feature9_description">Secure <code>.medf</code> file format with authenticity signatures for API key storage and data backup.</p>
+                </div>
+
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">🔄 <span data-i18n="feature10_title">Model Switching</span></h3>
+                    <p class="text-gray-400" data-i18n="feature10_description">Support for both Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models via URL parameters.</p>
+                </div>
+                
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">🛑 <span data-i18n="feature11_title">Stop Generation</span></h3>
+                    <p class="text-gray-400" data-i18n="feature11_description">Immediately halt the AI's response when needed. Full control over ongoing conversations.</p>
+                </div>
+                
+                <div class="p-6 card-srui text-left">
+                    <h3 class="text-xl font-semibold mb-2 text-white">⏰ <span data-i18n="feature12_title">Time-aware Context</span></h3>
+                    <p class="text-gray-400" data-i18n="feature12_description">The AI knows the current date and time for more relevant and contextual answers.</p>
+                </div>
             </div>
         </section>
         
@@ -219,17 +260,17 @@
                     <h3 class="text-2xl font-semibold mb-4 text-white" data-i18n="design_quote">"Flat never felt this round."</h3>
                     <p class="text-gray-400 mb-4" data-i18n="design_description">MirAI's visual design is powered by <b>SuperRoundedUI (SRUI)</b>, an exclusive design system from Allwaysever™ that emphasizes:</p>
                     <ul class="space-y-3 text-gray-300 list-disc list-inside">
-                        <li data-i18n="design_feature1">
-                            <b>Rounded Corners:</b> Consistently using <b>25px border-radius</b>.
+                        <li>
+                            <span data-i18n="design_feature1"><b>Rounded Corners:</b> Consistently using <b>25px border-radius</b>.</span>
                         </li>
-                        <li data-i18n="design_feature2">
-                            <b>Smooth Transitions:</b> Providing a comfortable visual experience.
+                        <li>
+                            <span data-i18n="design_feature2"><b>Smooth Transitions:</b> Providing a comfortable visual experience.</span>
                         </li>
-                        <li data-i18n="design_feature3">
-                            <b>Clean Layout:</b> Focus on ease of use (<i>usability</i>) across various devices (responsive).
+                        <li>
+                            <span data-i18n="design_feature3"><b>Clean Layout:</b> Focus on ease of use (<i>usability</i>) across various devices (responsive).</span>
                         </li>
-                        <li data-i18n="design_feature4">
-                            <b>Blur Effects:</b> Using <code>backdrop-filter</code> for a modern and premium look.
+                        <li>
+                            <span data-i18n="design_feature4"><b>Blur Effects:</b> Using <code>backdrop-filter</code> for a modern and premium look.</span>
                         </li>
                     </ul>
                 </div>
@@ -246,7 +287,7 @@
 
             <p class="text-center text-lg text-gray-400 mb-8" data-i18n="tech_description">This project is built purely with basic web technologies (<b>Vanilla Stack</b>) without heavy <i>frameworks</i> to ensure speed and efficiency.</p>
 
-            <div class="grid md:grid-cols-4 gap-8 px-4 md:px-0 text-center">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 md:px-0 text-center">
                 
                 <div class="p-6 card-srui">
                     <p class="text-3xl font-extrabold text-yellow-400 mb-2">HTML</p>
@@ -269,7 +310,19 @@
                 <div class="p-6 card-srui">
                     <p class="text-3xl font-extrabold text-yellow-400 mb-2">Gemini API</p>
                     <h3 class="text-lg font-semibold mb-1 text-white" data-i18n="tech_api_title">The Core Model</h3>
-                    <p class="text-sm text-gray-400" data-i18n="tech_api_description">Using the <code class="bg-gray-800 text-yellow-400 px-1 rounded">gemini-2.5-flash</code> model for best performance.</p>
+                    <p class="text-sm text-gray-400" data-i18n="tech_api_description">Using <code class="tech-badge">gemini-2.5-flash</code> & <code class="tech-badge">gemini-3-flash-preview</code> models.</p>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <h3 class="text-xl font-semibold mb-4 text-white" data-i18n="tech_libraries_title">Additional Libraries & APIs</h3>
+                <div class="flex flex-wrap justify-center gap-2 mt-4">
+                    <span class="tech-badge" data-i18n="tech_markedjs">Marked.js</span>
+                    <span class="tech-badge" data-i18n="tech_webcrypto">Web Crypto API</span>
+                    <span class="tech-badge" data-i18n="tech_serviceworkers">Service Workers</span>
+                    <span class="tech-badge" data-i18n="tech_onesignal">OneSignal</span>
+                    <span class="tech-badge" data-i18n="tech_webspeech">Web Speech API</span>
+                    <span class="tech-badge" data-i18n="tech_medf">.medf Format</span>
                 </div>
             </div>
             
@@ -278,6 +331,55 @@
                     <span data-i18n="github_button">View Source Code on GitHub</span>
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.417 2.865 8.16 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.705-2.782.603-3.37-1.34-3.37-1.34-.454-1.15-.11-1.458-.11-1.458.93-.635 1.408.081 1.408.081.823 1.406 2.152.997 2.67.761.083-.59.324-.997.593-1.226-2.046-.231-4.197-1.025-4.197-4.555 0-1.006.357-1.83.948-2.474-.095-.231-.41-.1.1-.986 1.428.005 2.825.706 2.825.706.77-.213 1.597-.32 2.42-.325.823.005 1.65.112 2.42.325 0 0 1.397-.7 2.825-.706.51 1.094.195.755.1.986.591.644.948 1.468.948 2.474 0 3.53-2.154 4.32-4.204 4.549.33.284.625.845.625 1.705 0 1.226-.01 2.219-.01 2.525 0 .267.18.579.688.482 3.967-1.345 6.83-5.088 6.83-9.504C22 6.484 17.523 2 12 2z" clip-rule="evenodd"></path></svg>
                 </a>
+            </div>
+        </section>
+
+        <hr class="max-w-6xl mx-auto border-gray-800" />
+
+        <section id="advanced" class="py-16 container-padding max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="advanced_title">⚡ Advanced Features</h2>
+
+            <div class="space-y-8">
+                <div class="p-6 card-srui">
+                    <h3 class="text-xl font-semibold mb-3 text-white" data-i18n="advanced_backup_title">📤 Backup & Restore System</h3>
+                    <p class="text-gray-400 mb-4" data-i18n="advanced_backup_description">MirAI features a comprehensive backup system that allows you to:</p>
+                    <ul class="space-y-2 text-gray-300 list-disc list-inside ml-4">
+                        <li data-i18n="advanced_backup_feature1"><b>Export</b> entire chat history, settings, and preferences</li>
+                        <li data-i18n="advanced_backup_feature2">Use <b>Encrypted Format (.medf)</b> with password protection and authenticity signatures</li>
+                        <li data-i18n="advanced_backup_feature3">Use <b>Plain Format (.mdf/.json)</b> for easy inspection</li>
+                        <li data-i18n="advanced_backup_feature4"><b>Cross-device Sync</b> to move your MirAI data between devices</li>
+                    </ul>
+                </div>
+
+                <div class="p-6 card-srui">
+                    <h3 class="text-xl font-semibold mb-3 text-white" data-i18n="advanced_security_title">🔒 Security Features</h3>
+                    <ul class="space-y-2 text-gray-300 list-disc list-inside ml-4">
+                        <li data-i18n="advanced_security_feature1"><b>.medf Encryption</b> - Proprietary encrypted data format for secure API key storage</li>
+                        <li data-i18n="advanced_security_feature2"><b>Authenticity Signatures</b> - Ensures backup files are genuine and untampered</li>
+                        <li data-i18n="advanced_security_feature3"><b>API Key Visibility Toggle</b> - Show/hide your API key in settings</li>
+                        <li data-i18n="advanced_security_feature4"><b>Public API Limiter</b> - Prevents abuse of the default public API key</li>
+                    </ul>
+                </div>
+
+                <div class="p-6 card-srui">
+                    <h3 class="text-xl font-semibold mb-3 text-white" data-i18n="advanced_pwa_title">📲 Progressive Web App (PWA)</h3>
+                    <ul class="space-y-2 text-gray-300 list-disc list-inside ml-4">
+                        <li data-i18n="advanced_pwa_feature1"><b>Installable</b> - Add MirAI to your home screen like a native app</li>
+                        <li data-i18n="advanced_pwa_feature2"><b>Offline Support</b> - Service workers enable basic offline functionality</li>
+                        <li data-i18n="advanced_pwa_feature3"><b>Push Notifications</b> - Get notified about updates via OneSignal integration</li>
+                        <li data-i18n="advanced_pwa_feature4"><b>Fullscreen Mode</b> - Immersive experience without browser UI</li>
+                    </ul>
+                </div>
+
+                <div class="p-6 card-srui">
+                    <h3 class="text-xl font-semibold mb-3 text-white" data-i18n="advanced_performance_title">⚡ Performance Optimizations</h3>
+                    <ul class="space-y-2 text-gray-300 list-disc list-inside ml-4">
+                        <li data-i18n="advanced_performance_feature1"><b>Splash Screen</b> - Professional loading screen with progress bar</li>
+                        <li data-i18n="advanced_performance_feature2"><b>Chat History Limiting</b> - Automatically trims old messages (50-message limit)</li>
+                        <li data-i18n="advanced_performance_feature3"><b>Abort Controller</b> - Cancel ongoing AI responses instantly</li>
+                        <li data-i18n="advanced_performance_feature4"><b>Debounced Input Handling</b> - Efficient suggestion system without performance lag</li>
+                    </ul>
+                </div>
             </div>
         </section>
         
@@ -293,15 +395,15 @@
                 <summary class="font-semibold text-xl text-yellow-400 hover:text-white transition duration-150" data-i18n="setup_step1_title">Step 1: Getting API Key</summary>
                 <div class="text-gray-400 mt-3 pl-4 space-y-4">
                     <ol class="list-decimal list-inside space-y-2">
-                        <li data-i18n="setup_step1_1">Open <b>Google AI Studio</b> at <a href="https://aistudio.google.com/" target="_blank" class="text-yellow-400 underline hover:no-underline">https://aistudio.google.com/</a>.</li>
-                        <li data-i18n="setup_step1_2">Sign in with your Google account.</li>
-                        <li data-i18n="setup_step1_3">Click <b>"Get API Key"</b> in the <i>sidebar</i>.</li>
-                        <li data-i18n="setup_step1_4">Then, click <b>"Create API key"</b> and create a key in an <i>existing project</i>.</li>
-                        <li data-i18n="setup_step1_5"><b>Copy</b> the created API Key. This key is confidential, don't let it leak!</li>
+                        <li><span data-i18n="setup_step1_1">Open <b>Google AI Studio</b> at <a href="https://aistudio.google.com/" target="_blank" class="text-yellow-400 underline hover:no-underline">https://aistudio.google.com/</a>.</span></li>
+                        <li><span data-i18n="setup_step1_2">Sign in with your Google account.</span></li>
+                        <li><span data-i18n="setup_step1_3">Click <b>"Get API Key"</b> in the <i>sidebar</i>.</span></li>
+                        <li><span data-i18n="setup_step1_4">Then, click <b>"Create API key"</b> and create a key in an <i>existing project</i>.</span></li>
+                        <li><span data-i18n="setup_step1_5"><b>Copy</b> the created API Key. This key is confidential, don't let it leak!</span></li>
                     </ol>
                     <div class="space-y-4">
-                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/20250919_151650.jpg" class="w-full rounded-lg" alt="Tutorial Step 1.1">
-                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/20250919_152101.jpg" class="w-full rounded-lg" alt="Tutorial Step 1.5">
+                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/20250919_151650.jpg" class="w-full rounded-lg" alt="Tutorial Step 1.1" data-i18n="setup_img1_alt">
+                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/20250919_152101.jpg" class="w-full rounded-lg" alt="Tutorial Step 1.5" data-i18n="setup_img5_alt">
                     </div>
                 </div>
                 </details>
@@ -310,15 +412,15 @@
                 <summary class="font-semibold text-xl text-yellow-400 hover:text-white transition duration-150" data-i18n="setup_step2_title">Step 2: Entering API Key into MirAI</summary>
                 <div class="text-gray-400 mt-3 pl-4 space-y-4">
                     <ol class="list-decimal list-inside space-y-2">
-                        <li data-i18n="setup_step2_1">Open the <code class="bg-gray-800 text-yellow-400 px-1 rounded">MirAI.html</code> file or <a href="https://allwaysevermirai.netlify.app" class="text-yellow-400 underline hover:no-underline">MirAI Web</a>.</li>
-                        <li data-i18n="setup_step2_2">Click the <b>menu icon</b> in the top left corner to open <b>Settings</b>.</li>
-                        <li data-i18n="setup_step2_3">Find the <b>API Key</b> section.</li>
-                        <li data-i18n="setup_step2_4"><b>Paste</b> the API Key you copied.</li>
-                        <li data-i18n="setup_step2_5">Click the <b>"Save Key"</b> button.</li>
+                        <li><span data-i18n="setup_step2_1">Open the <code class="bg-gray-800 text-yellow-400 px-1 rounded">MirAI.html</code> file or <a href="https://allwaysevermirai.netlify.app" class="text-yellow-400 underline hover:no-underline">MirAI Web</a>.</span></li>
+                        <li><span data-i18n="setup_step2_2">Click the <b>menu icon</b> in the top left corner to open <b>Settings</b>.</span></li>
+                        <li><span data-i18n="setup_step2_3">Find the <b>API Key</b> section.</span></li>
+                        <li><span data-i18n="setup_step2_4"><b>Paste</b> the API Key you copied.</span></li>
+                        <li><span data-i18n="setup_step2_5">Click the <b>"Save Key"</b> button.</span></li>
                     </ol>
                     <div class="space-y-4">
-                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/APIKEYSTEP2.png" class="w-full rounded-lg" alt="Tutorial Step 2.2">
-                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/APIKEYSTEP3.2.png" class="w-full rounded-lg" alt="Tutorial Step 2.4">
+                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/APIKEYSTEP2.png" class="w-full rounded-lg" alt="Tutorial Step 2.2" data-i18n="setup_img2_alt">
+                        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Tutorial/APIKEYSTEP3.2.png" class="w-full rounded-lg" alt="Tutorial Step 2.4" data-i18n="setup_img4_alt">
                     </div>
                     <p class="font-bold text-white" data-i18n="setup_complete">Done! MirAI is ready to use with your personal API Key.</p>
                 </div>
@@ -344,6 +446,9 @@
                 <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="link-button px-6 py-3 bg-gray-700 border-gray-700 text-white hover:bg-gray-600" data-i18n="docs_contributing">
                     🤝 Contributing Guide
                 </a>
+                <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/MEDF_SPEC.md" target="_blank" class="link-button px-6 py-3 bg-gray-700 border-gray-700 text-white hover:bg-gray-600" data-i18n="docs_medf">
+                    🔒 .medf Format Specification
+                </a>
             </div>
         </section>
         
@@ -352,6 +457,10 @@
         <section id="license" class="py-10 container-padding max-w-6xl mx-auto text-center">
              <h3 class="text-xl font-bold mb-4 text-white" data-i18n="license_title">📄 License</h3>
              <p class="text-gray-400 mb-4" data-i18n="license_description">This project is licensed under the <b>Apache License 2.0</b>.</p>
+             <div class="mb-6 p-4 card-srui max-w-2xl mx-auto text-left">
+                <p class="text-gray-300 mb-2"><span class="text-yellow-400" data-i18n="license_note_icon">📝 Note:</span> <span data-i18n="license_note_text">The <b>.medf (MirAI Encrypted Data Files)</b> format specification is an original innovation by <b>Allwaysever</b>. While the implementation in this repository is open source, we encourage developers to respect the branding and integrity of this format.</span></p>
+                <p class="text-gray-300"><span class="text-yellow-400" data-i18n="license_important_icon">⚠️ Important:</span> <span data-i18n="license_important_text">The default public API key has usage limits. For uninterrupted access, please use your personal API key as described in the setup guide.</span></p>
+             </div>
              <a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" target="_blank" class="link-button text-sm px-4 py-2 bg-transparent text-yellow-400 border-yellow-400 hover:bg-yellow-400 hover:text-gray-900" data-i18n="license_button">
                 Read Full License
              </a>
@@ -359,7 +468,7 @@
 
     </main>
     
-    <footer class="text-center py-6 text-sm text-gray-600 border-t border-gray-900">
+    <footer class="text-center py-6 text-sm text-gray-600 border-t border-gray-900" data-i18n="footer_text">
         &copy; 2025 Allwaysever Project: MirAI. Powered by Google Gemini API.
     </footer>
 
@@ -386,11 +495,19 @@
                     'nav_features': 'Fitur Utama',
                     'nav_design': 'Desain SRUI',
                     'nav_tech': 'Tech Stack',
+                    'nav_advanced': 'Fitur Lanjutan',
                     'nav_setup': 'Setup API',
-                    'try_button': 'Coba Versi Web ↗',
+                    'try_button': 'Buka MirAI',
+                    
+                    // Language selector
+                    'lang_auto': 'Deteksi Otomatis',
+                    'lang_id': 'Bahasa Indonesia',
+                    'lang_en_us': 'English (US)',
+                    'lang_en_gb': 'English (UK)',
+                    'lang_ja': '日本語',
                     
                     // Main section
-                    'main_title': 'MirAI: Asisten AI Pribadi yang Ringan',
+                    'main_title': 'MirAI: <span style="color: #ffce00">Asisten AI Pribadi</span> yang Ringan',
                     'main_description': 'MirAI adalah antarmuka web yang <b>sederhana, ringan, dan responsif</b> untuk interaksi langsung dengan Google Gemini API. Dibuat tanpa <i>framework</i> berat untuk performa super cepat.',
                     'screenshot_caption': 'Tampilan Antarmuka MirAI (v2.11)',
                     'try_now_button': 'Coba MirAI Sekarang',
@@ -410,6 +527,18 @@
                     'feature5_description': 'Dukungan untuk upload gambar (JPEG, PNG, WebP) bersama dengan <i>prompts</i> teks, berkat kemampuan <i>multimodal</i> Gemini.',
                     'feature6_title': 'Text-to-Speech (TTS)',
                     'feature6_description': 'Klik ikon speaker untuk mendengarkan respons AI dibacakan dalam bahasa yang dipilih. Sempurna untuk <i>multitasking</i>!',
+                    'feature7_title': 'Backup & Restore',
+                    'feature7_description': 'Ekspor riwayat chat dan pengaturan ke file terenkripsi <code>.medf</code> atau plain <code>.mdf/.json</code>. Impor nanti atau di perangkat lain.',
+                    'feature8_title': 'Progressive Web App',
+                    'feature8_description': 'Instal MirAI sebagai aplikasi seperti native di perangkat Anda (Android) dengan kemampuan offline dan notifikasi push.',
+                    'feature9_title': 'Sistem Konfigurasi Terenkripsi',
+                    'feature9_description': 'Format file <code>.medf</code> yang aman dengan tanda tangan keaslian untuk penyimpanan kunci API dan backup data.',
+                    'feature10_title': 'Penggantian Model',
+                    'feature10_description': 'Dukungan untuk model Gemini 2.5 Flash (stabil) dan Gemini 3 Flash Preview (beta) melalui parameter URL.',
+                    'feature11_title': 'Hentikan Generasi',
+                    'feature11_description': 'Segera hentikan respons AI ketika diperlukan. Kontrol penuh atas percakapan yang sedang berlangsung.',
+                    'feature12_title': 'Konteks Sadar Waktu',
+                    'feature12_description': 'AI tahu tanggal dan waktu saat ini untuk jawaban yang lebih relevan dan kontekstual.',
                     
                     // Design section
                     'design_title': '🎨 Desain UI/UX: SuperRoundedUI (SRUI)',
@@ -430,8 +559,39 @@
                     'tech_js_title': 'Otak',
                     'tech_js_description': 'Logika interaksi client-side yang efisien dan cepat.',
                     'tech_api_title': 'Model Inti',
-                    'tech_api_description': 'Menggunakan model <code>gemini-2.5-flash</code> untuk performa terbaik.',
+                    'tech_api_description': 'Menggunakan model <code>gemini-2.5-flash</code> & <code>gemini-3-flash-preview</code>.',
+                    'tech_libraries_title': 'Library & API Tambahan',
+                    'tech_markedjs': 'Marked.js',
+                    'tech_webcrypto': 'Web Crypto API',
+                    'tech_serviceworkers': 'Service Workers',
+                    'tech_onesignal': 'OneSignal',
+                    'tech_webspeech': 'Web Speech API',
+                    'tech_medf': '.medf Format',
                     'github_button': 'Lihat Kode Sumber di GitHub',
+                    
+                    // Advanced section
+                    'advanced_title': '⚡ Fitur Lanjutan',
+                    'advanced_backup_title': '📤 Backup & Restore System',
+                    'advanced_backup_description': 'MirAI menampilkan sistem backup komprehensif yang memungkinkan Anda untuk:',
+                    'advanced_backup_feature1': '<b>Ekspor</b> seluruh riwayat chat, pengaturan, dan preferensi',
+                    'advanced_backup_feature2': 'Gunakan <b>Format Terenkripsi (.medf)</b> dengan perlindungan password dan tanda tangan keaslian',
+                    'advanced_backup_feature3': 'Gunakan <b>Format Plain (.mdf/.json)</b> untuk inspeksi mudah',
+                    'advanced_backup_feature4': '<b>Sinkronisasi Antar-perangkat</b> untuk memindahkan data MirAI Anda antar perangkat',
+                    'advanced_security_title': '🔒 Fitur Keamanan',
+                    'advanced_security_feature1': '<b>Enkripsi .medf</b> - Format data terenkripsi proprietary untuk penyimpanan kunci API yang aman',
+                    'advanced_security_feature2': '<b>Tanda Tangan Keaslian</b> - Memastikan file backup asli dan tidak dirusak',
+                    'advanced_security_feature3': '<b>Tombol Visibilitas Kunci API</b> - Tampilkan/sembunyikan kunci API Anda di pengaturan',
+                    'advanced_security_feature4': '<b>Pembatas API Publik</b> - Mencegah penyalahgunaan kunci API publik default',
+                    'advanced_pwa_title': '📲 Progressive Web App (PWA)',
+                    'advanced_pwa_feature1': '<b>Dapat Diinstal</b> - Tambahkan MirAI ke layar beranda seperti aplikasi native',
+                    'advanced_pwa_feature2': '<b>Dukungan Offline</b> - Service workers memungkinkan fungsionalitas offline dasar',
+                    'advanced_pwa_feature3': '<b>Notifikasi Push</b> - Dapatkan pemberitahuan tentang pembaruan melalui integrasi OneSignal',
+                    'advanced_pwa_feature4': '<b>Mode Layar Penuh</b> - Pengalaman imersif tanpa UI browser',
+                    'advanced_performance_title': '⚡ Optimasi Performa',
+                    'advanced_performance_feature1': '<b>Splash Screen</b> - Layar pemuatan profesional dengan progress bar',
+                    'advanced_performance_feature2': '<b>Pembatasan Riwayat Chat</b> - Secara otomatis memangkas pesan lama (batas 50 pesan)',
+                    'advanced_performance_feature3': '<b>Abort Controller</b> - Batalkan respons AI yang sedang berlangsung secara instan',
+                    'advanced_performance_feature4': '<b>Penanganan Input Debounced</b> - Sistem saran yang efisien tanpa lag performa',
                     
                     // Setup guide
                     'setup_title': '🛠️ Panduan Setup (Kunci API)',
@@ -449,6 +609,10 @@
                     'setup_step2_4': '<b>Tempel</b> Kunci API yang Anda salin.',
                     'setup_step2_5': 'Klik tombol <b>"Simpan Kunci"</b>.',
                     'setup_complete': 'Selesai! MirAI siap digunakan dengan Kunci API pribadi Anda.',
+                    'setup_img1_alt': 'Tutorial Langkah 1.1',
+                    'setup_img2_alt': 'Tutorial Langkah 2.2',
+                    'setup_img4_alt': 'Tutorial Langkah 2.4',
+                    'setup_img5_alt': 'Tutorial Langkah 1.5',
                     
                     // Documentation
                     'docs_title': '📚 Dokumentasi & Informasi Lebih Lanjut',
@@ -457,26 +621,46 @@
                     'docs_troubleshooting': '🛠️ Panduan Troubleshooting',
                     'docs_changelog': '🔄 Changelog',
                     'docs_contributing': '🤝 Panduan Kontribusi',
+                    'docs_medf': '🔒 Spesifikasi Format .medf',
                     
                     // License
                     'license_title': '📄 Lisensi',
                     'license_description': 'Proyek ini dilisensikan di bawah <b>Apache License 2.0</b>.',
-                    'license_button': 'Baca Lisensi Lengkap'
+                    'license_note_icon': '📝 Catatan:',
+                    'license_note_text': 'Spesifikasi format <b>.medf (MirAI Encrypted Data Files)</b> adalah inovasi orisinal oleh <b>Allwaysever</b>. Meskipun implementasi di repositori ini open source, kami mendorong developer untuk menghormati branding dan integritas format ini.',
+                    'license_important_icon': '⚠️ Penting:',
+                    'license_important_text': 'Kunci API publik default memiliki batasan penggunaan. Untuk akses tanpa gangguan, harap gunakan kunci API pribadi Anda seperti yang dijelaskan dalam panduan setup.',
+                    'license_button': 'Baca Lisensi Lengkap',
+                    
+                    // Footer
+                    'footer_text': '&copy; 2025-2026 Allwaysever Project: MirAI. Didukung oleh Google Gemini API.'
                 },
                 'en-US': {
-                    // Keep all original English texts as they are
+                    // Navigation
                     'about_title': 'About Project',
                     'nav_overview': 'Overview',
                     'nav_features': 'Key Features',
                     'nav_design': 'SRUI Design',
                     'nav_tech': 'Tech Stack',
+                    'nav_advanced': 'Advanced Features',
                     'nav_setup': 'API Setup',
-                    'try_button': 'Try Web Version ↗',
-                    'main_title': 'MirAI: A Lightweight Personal AI Assistant',
+                    'try_button': 'Open MirAI',
+                    
+                    // Language selector
+                    'lang_auto': 'Auto Detect',
+                    'lang_id': 'Bahasa Indonesia',
+                    'lang_en_us': 'English (US)',
+                    'lang_en_gb': 'English (UK)',
+                    'lang_ja': '日本語',
+                    
+                    // Main section
+                    'main_title': 'MirAI: A Lightweight <span style="color: #ffce00">Personal AI Assistant</span>',
                     'main_description': 'MirAI is a <b>simple, lightweight, and responsive</b> web interface for direct interaction with Google Gemini API. Built without heavy <i>frameworks</i> for super fast performance.',
                     'screenshot_caption': 'MirAI Interface View (v2.11)',
                     'try_now_button': 'Try MirAI Now',
                     'view_code_button': 'View Source Code',
+                    
+                    // Features
                     'features_title': '✨ Key Features (The Good Stuff)',
                     'feature1_title': 'Session Persistence',
                     'feature1_description': 'Your conversations are automatically saved in the <i>browser</i>. You can continue chatting whenever you want! (Saved in <i>local storage</i>).',
@@ -490,6 +674,20 @@
                     'feature5_description': 'Support for image uploads (JPEG, PNG, WebP) along with text <i>prompts</i>, thanks to Gemini\'s <i>multimodal</i> capabilities.',
                     'feature6_title': 'Text-to-Speech (TTS)',
                     'feature6_description': 'Click the speaker icon to listen to AI responses read aloud in the selected language. Perfect for <i>multitasking</i>!',
+                    'feature7_title': 'Backup & Restore',
+                    'feature7_description': 'Export chat history and settings to encrypted <code>.medf</code> or plain <code>.mdf/.json</code> files. Import later or on another device.',
+                    'feature8_title': 'Progressive Web App',
+                    'feature8_description': 'Install MirAI as a native-like app on your device (Android) with offline capabilities and push notifications.',
+                    'feature9_title': 'Encrypted Config System',
+                    'feature9_description': 'Secure <code>.medf</code> file format with authenticity signatures for API key storage and data backup.',
+                    'feature10_title': 'Model Switching',
+                    'feature10_description': 'Support for both Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models via URL parameters.',
+                    'feature11_title': 'Stop Generation',
+                    'feature11_description': 'Immediately halt the AI\'s response when needed. Full control over ongoing conversations.',
+                    'feature12_title': 'Time-aware Context',
+                    'feature12_description': 'The AI knows the current date and time for more relevant and contextual answers.',
+                    
+                    // Design section
                     'design_title': '🎨 UI/UX Design: SuperRoundedUI (SRUI)',
                     'design_quote': '"Flat never felt this round."',
                     'design_description': 'MirAI\'s visual design is powered by <b>SuperRoundedUI (SRUI)</b>, an exclusive design system from Allwaysever™ that emphasizes:',
@@ -497,6 +695,8 @@
                     'design_feature2': '<b>Smooth Transitions:</b> Providing a comfortable visual experience.',
                     'design_feature3': '<b>Clean Layout:</b> Focus on ease of use (<i>usability</i>) across various devices (responsive).',
                     'design_feature4': '<b>Blur Effects:</b> Using <code>backdrop-filter</code> for a modern and premium look.',
+                    
+                    // Tech stack
                     'tech_title': '💻 Tech Stack: Lightweight and Fast',
                     'tech_description': 'This project is built purely with basic web technologies (<b>Vanilla Stack</b>) without heavy <i>frameworks</i> to ensure speed and efficiency.',
                     'tech_html_title': 'The Skeleton',
@@ -506,8 +706,41 @@
                     'tech_js_title': 'The Brain',
                     'tech_js_description': 'Efficient and fast client-side interaction logic.',
                     'tech_api_title': 'The Core Model',
-                    'tech_api_description': 'Using the <code>gemini-2.5-flash</code> model for best performance.',
+                    'tech_api_description': 'Using <code>gemini-2.5-flash</code> & <code>gemini-3-flash-preview</code> models.',
+                    'tech_libraries_title': 'Additional Libraries & APIs',
+                    'tech_markedjs': 'Marked.js',
+                    'tech_webcrypto': 'Web Crypto API',
+                    'tech_serviceworkers': 'Service Workers',
+                    'tech_onesignal': 'OneSignal',
+                    'tech_webspeech': 'Web Speech API',
+                    'tech_medf': '.medf Format',
                     'github_button': 'View Source Code on GitHub',
+                    
+                    // Advanced section
+                    'advanced_title': '⚡ Advanced Features',
+                    'advanced_backup_title': '📤 Backup & Restore System',
+                    'advanced_backup_description': 'MirAI features a comprehensive backup system that allows you to:',
+                    'advanced_backup_feature1': '<b>Export</b> entire chat history, settings, and preferences',
+                    'advanced_backup_feature2': 'Use <b>Encrypted Format (.medf)</b> with password protection and authenticity signatures',
+                    'advanced_backup_feature3': 'Use <b>Plain Format (.mdf/.json)</b> for easy inspection',
+                    'advanced_backup_feature4': '<b>Cross-device Sync</b> to move your MirAI data between devices',
+                    'advanced_security_title': '🔒 Security Features',
+                    'advanced_security_feature1': '<b>.medf Encryption</b> - Proprietary encrypted data format for secure API key storage',
+                    'advanced_security_feature2': '<b>Authenticity Signatures</b> - Ensures backup files are genuine and untampered',
+                    'advanced_security_feature3': '<b>API Key Visibility Toggle</b> - Show/hide your API key in settings',
+                    'advanced_security_feature4': '<b>Public API Limiter</b> - Prevents abuse of the default public API key',
+                    'advanced_pwa_title': '📲 Progressive Web App (PWA)',
+                    'advanced_pwa_feature1': '<b>Installable</b> - Add MirAI to your home screen like a native app',
+                    'advanced_pwa_feature2': '<b>Offline Support</b> - Service workers enable basic offline functionality',
+                    'advanced_pwa_feature3': '<b>Push Notifications</b> - Get notified about updates via OneSignal integration',
+                    'advanced_pwa_feature4': '<b>Fullscreen Mode</b> - Immersive experience without browser UI',
+                    'advanced_performance_title': '⚡ Performance Optimizations',
+                    'advanced_performance_feature1': '<b>Splash Screen</b> - Professional loading screen with progress bar',
+                    'advanced_performance_feature2': '<b>Chat History Limiting</b> - Automatically trims old messages (50-message limit)',
+                    'advanced_performance_feature3': '<b>Abort Controller</b> - Cancel ongoing AI responses instantly',
+                    'advanced_performance_feature4': '<b>Debounced Input Handling</b> - Efficient suggestion system without performance lag',
+                    
+                    // Setup guide
                     'setup_title': '🛠️ Setup Guide (API Key)',
                     'setup_description': 'For the best performance and security, you are <b>highly recommended</b> to use your own Google Gemini API Key. The process is easy!',
                     'setup_step1_title': 'Step 1: Getting API Key',
@@ -523,30 +756,58 @@
                     'setup_step2_4': '<b>Paste</b> the API Key you copied.',
                     'setup_step2_5': 'Click the <b>"Save Key"</b> button.',
                     'setup_complete': 'Done! MirAI is ready to use with your personal API Key.',
+                    'setup_img1_alt': 'Tutorial Step 1.1',
+                    'setup_img2_alt': 'Tutorial Step 2.2',
+                    'setup_img4_alt': 'Tutorial Step 2.4',
+                    'setup_img5_alt': 'Tutorial Step 1.5',
+                    
+                    // Documentation
                     'docs_title': '📚 Documentation & Further Information',
                     'docs_description': 'Want to know more? Check out these documents!',
                     'docs_faq': '❓ FAQ (Frequently Asked Questions)',
                     'docs_troubleshooting': '🛠️ Troubleshooting Guide',
                     'docs_changelog': '🔄 Changelog',
                     'docs_contributing': '🤝 Contributing Guide',
+                    'docs_medf': '🔒 .medf Format Specification',
+                    
+                    // License
                     'license_title': '📄 License',
                     'license_description': 'This project is licensed under the <b>Apache License 2.0</b>.',
-                    'license_button': 'Read Full License'
+                    'license_note_icon': '📝 Note:',
+                    'license_note_text': 'The <b>.medf (MirAI Encrypted Data Files)</b> format specification is an original innovation by <b>Allwaysever</b>. While the implementation in this repository is open source, we encourage developers to respect the branding and integrity of this format.',
+                    'license_important_icon': '⚠️ Important:',
+                    'license_important_text': 'The default public API key has usage limits. For uninterrupted access, please use your personal API key as described in the setup guide.',
+                    'license_button': 'Read Full License',
+                    
+                    // Footer
+                    'footer_text': '&copy; 2025-2026 Allwaysever Project: MirAI. Powered by Google Gemini API.'
                 },
                 'en-GB': {
-                    // Similar to en-US but with British English spelling
+                    // Navigation
                     'about_title': 'About Project',
                     'nav_overview': 'Overview',
                     'nav_features': 'Key Features',
                     'nav_design': 'SRUI Design',
                     'nav_tech': 'Tech Stack',
+                    'nav_advanced': 'Advanced Features',
                     'nav_setup': 'API Setup',
-                    'try_button': 'Try Web Version ↗',
-                    'main_title': 'MirAI: A Lightweight Personal AI Assistant',
+                    'try_button': 'Open MirAI',
+                    
+                    // Language selector
+                    'lang_auto': 'Auto Detect',
+                    'lang_id': 'Bahasa Indonesia',
+                    'lang_en_us': 'English (US)',
+                    'lang_en_gb': 'English (UK)',
+                    'lang_ja': '日本語',
+                    
+                    // Main section
+                    'main_title': 'MirAI: A Lightweight <span style="color: #ffce00">Personal AI Assistant</span>',
                     'main_description': 'MirAI is a <b>simple, lightweight, and responsive</b> web interface for direct interaction with Google Gemini API. Built without heavy <i>frameworks</i> for super fast performance.',
                     'screenshot_caption': 'MirAI Interface View (v2.11)',
                     'try_now_button': 'Try MirAI Now',
                     'view_code_button': 'View Source Code',
+                    
+                    // Features
                     'features_title': '✨ Key Features (The Good Stuff)',
                     'feature1_title': 'Session Persistence',
                     'feature1_description': 'Your conversations are automatically saved in the <i>browser</i>. You can continue chatting whenever you want! (Saved in <i>local storage</i>).',
@@ -560,6 +821,20 @@
                     'feature5_description': 'Support for image uploads (JPEG, PNG, WebP) along with text <i>prompts</i>, thanks to Gemini\'s <i>multimodal</i> capabilities.',
                     'feature6_title': 'Text-to-Speech (TTS)',
                     'feature6_description': 'Click the speaker icon to listen to AI responses read aloud in the selected language. Perfect for <i>multitasking</i>!',
+                    'feature7_title': 'Backup & Restore',
+                    'feature7_description': 'Export chat history and settings to encrypted <code>.medf</code> or plain <code>.mdf/.json</code> files. Import later or on another device.',
+                    'feature8_title': 'Progressive Web App',
+                    'feature8_description': 'Install MirAI as a native-like app on your device (Android) with offline capabilities and push notifications.',
+                    'feature9_title': 'Encrypted Config System',
+                    'feature9_description': 'Secure <code>.medf</code> file format with authenticity signatures for API key storage and data backup.',
+                    'feature10_title': 'Model Switching',
+                    'feature10_description': 'Support for both Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models via URL parameters.',
+                    'feature11_title': 'Stop Generation',
+                    'feature11_description': 'Immediately halt the AI\'s response when needed. Full control over ongoing conversations.',
+                    'feature12_title': 'Time-aware Context',
+                    'feature12_description': 'The AI knows the current date and time for more relevant and contextual answers.',
+                    
+                    // Design section
                     'design_title': '🎨 UI/UX Design: SuperRoundedUI (SRUI)',
                     'design_quote': '"Flat never felt this round."',
                     'design_description': 'MirAI\'s visual design is powered by <b>SuperRoundedUI (SRUI)</b>, an exclusive design system from Allwaysever™ that emphasises:',
@@ -567,6 +842,8 @@
                     'design_feature2': '<b>Smooth Transitions:</b> Providing a comfortable visual experience.',
                     'design_feature3': '<b>Clean Layout:</b> Focus on ease of use (<i>usability</i>) across various devices (responsive).',
                     'design_feature4': '<b>Blur Effects:</b> Using <code>backdrop-filter</code> for a modern and premium look.',
+                    
+                    // Tech stack
                     'tech_title': '💻 Tech Stack: Lightweight and Fast',
                     'tech_description': 'This project is built purely with basic web technologies (<b>Vanilla Stack</b>) without heavy <i>frameworks</i> to ensure speed and efficiency.',
                     'tech_html_title': 'The Skeleton',
@@ -576,8 +853,41 @@
                     'tech_js_title': 'The Brain',
                     'tech_js_description': 'Efficient and fast client-side interaction logic.',
                     'tech_api_title': 'The Core Model',
-                    'tech_api_description': 'Using the <code>gemini-2.5-flash</code> model for best performance.',
+                    'tech_api_description': 'Using <code>gemini-2.5-flash</code> & <code>gemini-3-flash-preview</code> models.',
+                    'tech_libraries_title': 'Additional Libraries & APIs',
+                    'tech_markedjs': 'Marked.js',
+                    'tech_webcrypto': 'Web Crypto API',
+                    'tech_serviceworkers': 'Service Workers',
+                    'tech_onesignal': 'OneSignal',
+                    'tech_webspeech': 'Web Speech API',
+                    'tech_medf': '.medf Format',
                     'github_button': 'View Source Code on GitHub',
+                    
+                    // Advanced section
+                    'advanced_title': '⚡ Advanced Features',
+                    'advanced_backup_title': '📤 Backup & Restore System',
+                    'advanced_backup_description': 'MirAI features a comprehensive backup system that allows you to:',
+                    'advanced_backup_feature1': '<b>Export</b> entire chat history, settings, and preferences',
+                    'advanced_backup_feature2': 'Use <b>Encrypted Format (.medf)</b> with password protection and authenticity signatures',
+                    'advanced_backup_feature3': 'Use <b>Plain Format (.mdf/.json)</b> for easy inspection',
+                    'advanced_backup_feature4': '<b>Cross-device Sync</b> to move your MirAI data between devices',
+                    'advanced_security_title': '🔒 Security Features',
+                    'advanced_security_feature1': '<b>.medf Encryption</b> - Proprietary encrypted data format for secure API key storage',
+                    'advanced_security_feature2': '<b>Authenticity Signatures</b> - Ensures backup files are genuine and untampered',
+                    'advanced_security_feature3': '<b>API Key Visibility Toggle</b> - Show/hide your API key in settings',
+                    'advanced_security_feature4': '<b>Public API Limiter</b> - Prevents abuse of the default public API key',
+                    'advanced_pwa_title': '📲 Progressive Web App (PWA)',
+                    'advanced_pwa_feature1': '<b>Installable</b> - Add MirAI to your home screen like a native app',
+                    'advanced_pwa_feature2': '<b>Offline Support</b> - Service workers enable basic offline functionality',
+                    'advanced_pwa_feature3': '<b>Push Notifications</b> - Get notified about updates via OneSignal integration',
+                    'advanced_pwa_feature4': '<b>Fullscreen Mode</b> - Immersive experience without browser UI',
+                    'advanced_performance_title': '⚡ Performance Optimisations',
+                    'advanced_performance_feature1': '<b>Splash Screen</b> - Professional loading screen with progress bar',
+                    'advanced_performance_feature2': '<b>Chat History Limiting</b> - Automatically trims old messages (50-message limit)',
+                    'advanced_performance_feature3': '<b>Abort Controller</b> - Cancel ongoing AI responses instantly',
+                    'advanced_performance_feature4': '<b>Debounced Input Handling</b> - Efficient suggestion system without performance lag',
+                    
+                    // Setup guide
                     'setup_title': '🛠️ Setup Guide (API Key)',
                     'setup_description': 'For the best performance and security, you are <b>highly recommended</b> to use your own Google Gemini API Key. The process is easy!',
                     'setup_step1_title': 'Step 1: Getting API Key',
@@ -593,15 +903,31 @@
                     'setup_step2_4': '<b>Paste</b> the API Key you copied.',
                     'setup_step2_5': 'Click the <b>"Save Key"</b> button.',
                     'setup_complete': 'Done! MirAI is ready to use with your personal API Key.',
+                    'setup_img1_alt': 'Tutorial Step 1.1',
+                    'setup_img2_alt': 'Tutorial Step 2.2',
+                    'setup_img4_alt': 'Tutorial Step 2.4',
+                    'setup_img5_alt': 'Tutorial Step 1.5',
+                    
+                    // Documentation
                     'docs_title': '📚 Documentation & Further Information',
                     'docs_description': 'Want to know more? Check out these documents!',
                     'docs_faq': '❓ FAQ (Frequently Asked Questions)',
                     'docs_troubleshooting': '🛠️ Troubleshooting Guide',
                     'docs_changelog': '🔄 Changelog',
                     'docs_contributing': '🤝 Contributing Guide',
+                    'docs_medf': '🔒 .medf Format Specification',
+                    
+                    // License
                     'license_title': '📄 License',
                     'license_description': 'This project is licensed under the <b>Apache License 2.0</b>.',
-                    'license_button': 'Read Full License'
+                    'license_note_icon': '📝 Note:',
+                    'license_note_text': 'The <b>.medf (MirAI Encrypted Data Files)</b> format specification is an original innovation by <b>Allwaysever</b>. While the implementation in this repository is open source, we encourage developers to respect the branding and integrity of this format.',
+                    'license_important_icon': '⚠️ Important:',
+                    'license_important_text': 'The default public API key has usage limits. For uninterrupted access, please use your personal API key as described in the setup guide.',
+                    'license_button': 'Read Full License',
+                    
+                    // Footer
+                    'footer_text': '&copy; 2025-2026 Allwaysever Project: MirAI. Powered by Google Gemini API.'
                 },
                 'ja-JP': {
                     // Navigation
@@ -610,11 +936,19 @@
                     'nav_features': '主な機能',
                     'nav_design': 'SRUIデザイン',
                     'nav_tech': '技術スタック',
+                    'nav_advanced': '高度な機能',
                     'nav_setup': 'API設定',
-                    'try_button': 'Web版を試す ↗',
+                    'try_button': 'MirAIを開く',
+                    
+                    // Language selector
+                    'lang_auto': '自動検出',
+                    'lang_id': 'Bahasa Indonesia',
+                    'lang_en_us': 'English (US)',
+                    'lang_en_gb': 'English (UK)',
+                    'lang_ja': '日本語',
                     
                     // Main section
-                    'main_title': 'MirAI: 軽量なパーソナルAIアシスタント',
+                    'main_title': 'MirAI: 軽量な<span style="color: #ffce00">パーソナルAIアシスタント</span>',
                     'main_description': 'MirAIは、Google Gemini APIと直接対話するための<b>シンプルで軽量、レスポンシブ</b>なWebインターフェースです。重い<i>フレームワーク</i>を使用せずに構築され、超高速なパフォーマンスを実現。',
                     'screenshot_caption': 'MirAIインターフェースビュー (v2.11)',
                     'try_now_button': 'MirAIを今すぐ試す',
@@ -634,6 +968,18 @@
                     'feature5_description': 'Geminiの<i>マルチモーダル</i>機能により、テキスト<i>プロンプト</i>とともに画像（JPEG、PNG、WebP）のアップロードをサポート。',
                     'feature6_title': 'テキスト読み上げ (TTS)',
                     'feature6_description': 'スピーカーアイコンをクリックすると、AIの応答が選択した言語で読み上げられます。<i>マルチタスク</i>に最適！',
+                    'feature7_title': 'バックアップ & リストア',
+                    'feature7_description': 'チャット履歴と設定を暗号化された<code>.medf</code>またはプレーンな<code>.mdf/.json</code>ファイルにエクスポート。後でまたは別のデバイスにインポート可能。',
+                    'feature8_title': 'プログレッシブWebアプリ',
+                    'feature8_description': 'MirAIをネイティブのようなアプリとしてデバイス（Android）にインストール。オフライン機能とプッシュ通知付き。',
+                    'feature9_title': '暗号化された設定システム',
+                    'feature9_description': 'APIキー保存とデータバックアップのための真正性署名付きの安全な<code>.medf</code>ファイル形式。',
+                    'feature10_title': 'モデル切り替え',
+                    'feature10_description': 'URLパラメータを介したGemini 2.5 Flash（安定版）とGemini 3 Flash Preview（ベータ版）の両方のモデルをサポート。',
+                    'feature11_title': '生成停止',
+                    'feature11_description': '必要に応じてAIの応答を即座に停止。進行中の会話を完全に制御。',
+                    'feature12_title': '時間を考慮したコンテキスト',
+                    'feature12_description': 'AIは現在の日付と時刻を知っており、より関連性の高い文脈に沿った回答を提供。',
                     
                     // Design section
                     'design_title': '🎨 UI/UXデザイン: SuperRoundedUI (SRUI)',
@@ -654,8 +1000,39 @@
                     'tech_js_title': '頭脳',
                     'tech_js_description': '効率的で高速なクライアントサイドのインタラクションロジック。',
                     'tech_api_title': 'コアモデル',
-                    'tech_api_description': '最高のパフォーマンスのために<code>gemini-2.5-flash</code>モデルを使用。',
+                    'tech_api_description': '<code>gemini-2.5-flash</code> & <code>gemini-3-flash-preview</code>モデルを使用。',
+                    'tech_libraries_title': '追加のライブラリ & API',
+                    'tech_markedjs': 'Marked.js',
+                    'tech_webcrypto': 'Web Crypto API',
+                    'tech_serviceworkers': 'Service Workers',
+                    'tech_onesignal': 'OneSignal',
+                    'tech_webspeech': 'Web Speech API',
+                    'tech_medf': '.medf フォーマット',
                     'github_button': 'GitHubでソースコードを表示',
+                    
+                    // Advanced section
+                    'advanced_title': '⚡ 高度な機能',
+                    'advanced_backup_title': '📤 バックアップ & リストアシステム',
+                    'advanced_backup_description': 'MirAIは包括的なバックアップシステムを備えており、以下が可能です:',
+                    'advanced_backup_feature1': '<b>エクスポート</b> チャット履歴、設定、および設定全体',
+                    'advanced_backup_feature2': '<b>暗号化フォーマット (.medf)</b> をパスワード保護と真正性署名付きで使用',
+                    'advanced_backup_feature3': '<b>プレーンフォーマット (.mdf/.json)</b> を簡単な検査のために使用',
+                    'advanced_backup_feature4': '<b>クロスデバイス同期</b> でMirAIデータをデバイス間で移動',
+                    'advanced_security_title': '🔒 セキュリティ機能',
+                    'advanced_security_feature1': '<b>.medf暗号化</b> - 安全なAPIキー保存のための独自の暗号化データフォーマット',
+                    'advanced_security_feature2': '<b>真正性署名</b> - バックアップファイルが本物で改ざんされていないことを保証',
+                    'advanced_security_feature3': '<b>APIキー表示トグル</b> - 設定でAPIキーを表示/非表示',
+                    'advanced_security_feature4': '<b>公開API制限機能</b> - デフォルトの公開APIキーの悪用を防止',
+                    'advanced_pwa_title': '📲 プログレッシブWebアプリ (PWA)',
+                    'advanced_pwa_feature1': '<b>インストール可能</b> - MirAIをネイティブアプリのようにホーム画面に追加',
+                    'advanced_pwa_feature2': '<b>オフラインサポート</b> - サービスワーカーが基本的なオフライン機能を可能に',
+                    'advanced_pwa_feature3': '<b>プッシュ通知</b> - OneSignal統合による更新通知を受け取る',
+                    'advanced_pwa_feature4': '<b>フルスクリーンモード</b> - ブラウザUIなしの没入型エクスペリエンス',
+                    'advanced_performance_title': '⚡ パフォーマンス最適化',
+                    'advanced_performance_feature1': '<b>スプラッシュスクリーン</b> - プログレスバー付きのプロフェッショナルなローディング画面',
+                    'advanced_performance_feature2': '<b>チャット履歴制限</b> - 古いメッセージを自動的に削除（50メッセージ制限）',
+                    'advanced_performance_feature3': '<b>アボートコントローラー</b> - 進行中のAI応答を即座にキャンセル',
+                    'advanced_performance_feature4': '<b>デバウンス入力処理</b> - パフォーマンスの遅延なしの効率的な提案システム',
                     
                     // Setup guide
                     'setup_title': '🛠️ セットアップガイド (APIキー)',
@@ -673,6 +1050,10 @@
                     'setup_step2_4': 'コピーしたAPIキーを<b>貼り付ける</b>。',
                     'setup_step2_5': '<b>"キーを保存"</b>ボタンをクリックする。',
                     'setup_complete': '完了！MirAIはあなたの個人APIキーで使用する準備が整いました。',
+                    'setup_img1_alt': 'チュートリアル ステップ1.1',
+                    'setup_img2_alt': 'チュートリアル ステップ2.2',
+                    'setup_img4_alt': 'チュートリアル ステップ2.4',
+                    'setup_img5_alt': 'チュートリアル ステップ1.5',
                     
                     // Documentation
                     'docs_title': '📚 ドキュメントと詳細情報',
@@ -681,11 +1062,19 @@
                     'docs_troubleshooting': '🛠️ トラブルシューティングガイド',
                     'docs_changelog': '🔄 変更履歴',
                     'docs_contributing': '🤝 貢献ガイド',
+                    'docs_medf': '🔒 .medfフォーマット仕様',
                     
                     // License
                     'license_title': '📄 ライセンス',
                     'license_description': 'このプロジェクトは<b>Apache License 2.0</b>の下でライセンスされています。',
-                    'license_button': '完全なライセンスを読む'
+                    'license_note_icon': '📝 注記:',
+                    'license_note_text': '<b>.medf (MirAI暗号化データファイル)</b>フォーマット仕様は、<b>Allwaysever</b>によるオリジナルのイノベーションです。このリポジトリでの実装はオープンソースですが、開発者がこのフォーマットのブランディングと完全性を尊重することをお勧めします。',
+                    'license_important_icon': '⚠️ 重要:',
+                    'license_important_text': 'デフォルトの公開APIキーには使用制限があります。中断のないアクセスのためには、セットアップガイドで説明されている個人APIキーを使用してください。',
+                    'license_button': '完全なライセンスを読む',
+                    
+                    // Footer
+                    'footer_text': '&copy; 2025-2026 Allwaysever Project: MirAI. Google Gemini APIにより提供。'
                 }
             };
         }
@@ -738,7 +1127,11 @@
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (texts[key]) {
-                    element.innerHTML = texts[key];
+                    if (element.tagName === 'OPTION') {
+                        element.textContent = texts[key];
+                    } else {
+                        element.innerHTML = texts[key];
+                    }
                 }
             });
             
