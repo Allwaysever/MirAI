@@ -67,8 +67,8 @@ You can try MirAI right away without any installation needed!
 
 * **<a href="https://allwaysevermirai.netlify.app" target="_blank" rel="noopener noreferrer">➡️ Try the Web Version (Netlify)</a>**
 * **<a href="https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/Allwaysever/MirAI/blob/main/index.html" target="_blank" rel="noopener noreferrer">⬇️ Download HTML File (Offline Version)</a>**
-* **<a href="https://allwaysevermirai.netlify.app?pwa=true" target="_blank" rel="noopener noreferrer">📱 Install as PWA</a>**
-* **<a href="https://allwaysevermirai.netlify.app?betamodel=true" target="_blank" rel="noopener noreferrer">🧪 Try Beta Model (Gemini 3 Flash Preview)</a>**
+* **<a href="https://allwaysevermirai.netlify.app/download" target="_blank" rel="noopener noreferrer">📱 Install as PWA (TWA Android)</a>**
+* **<a href="https://allwaysevermirai.netlify.app/chat?betamodel" target="_blank" rel="noopener noreferrer">🧪 Try Beta Model (Gemini 3 Flash Preview)</a>**
 
 ---
 
