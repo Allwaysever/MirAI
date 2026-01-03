@@ -10,9 +10,6 @@
 ![Follow WA CH](https://img.shields.io/badge/Follow-WhatsApp_Channel_MirAI-%23FFFFFF?style=flat&logo=Whatsapp&logoColor=075E54&labelColor=25D366&link=https%3A%2F%2Fwhatsapp.com%2Fchannel%2F0029Vb6hyuk6mYPGjI2E5g31)
 ![Subscribe CH YT](https://img.shields.io/badge/Subscribe-Channel_MirAI-282828?style=flat&logo=youtube&logoColor=FF0000&labelColor=FFFFFF&link=https%3A%2F%2Fyoutube.com%2F%40AllwayseverMirAI)
 
-
-
-
 <br>
 
 <p align="center">
@@ -37,6 +34,15 @@ MirAI is designed to be an accessible and feature-rich AI chat companion, right 
 * **🛑 Stop Generation:** Immediately halt the AI's response when needed.
 * **📝 Markdown Parsing:** Responses from the AI containing formatting (like code blocks and lists) will be displayed correctly.
 * **⏰ Time-aware Context:** The AI knows the current date and time for more relevant answers.
+* **📤 Backup & Restore:** Export your chat history and settings to encrypted `.medf` or plain `.mdf/.json` files, and import them later or on another device.
+* **📲 Progressive Web App (PWA):** Install MirAI as a native-like app on your device (Android, iOS, desktop) with offline capabilities.
+* **🔒 Encrypted Config System:** Secure `.medf` file format with authenticity signatures for API key storage and data backup.
+* **⚠️ Public API Usage Limits:** Intelligent tracking and warnings for public API key usage to ensure fair usage.
+* **🔧 Dynamic Slash Command Suggestions:** Real-time command suggestions as you type `/` commands.
+* **📋 One-Click Copy:** Easily copy AI responses to clipboard with proper attribution.
+* **🌐 Connection Status Indicator:** Visual indicator showing online/offline status.
+* **🔄 Model Switching:** Support for both Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models via URL parameters.
+* **🔐 Authenticity Verification:** Built-in signature verification for backup files to ensure they're genuine MirAI backups.
 
 ---
 
@@ -61,6 +67,8 @@ You can try MirAI right away without any installation needed!
 
 * **<a href="https://allwaysevermirai.netlify.app" target="_blank" rel="noopener noreferrer">➡️ Try the Web Version (Netlify)</a>**
 * **<a href="https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/Allwaysever/MirAI/blob/main/index.html" target="_blank" rel="noopener noreferrer">⬇️ Download HTML File (Offline Version)</a>**
+* **<a href="https://allwaysevermirai.netlify.app?pwa=true" target="_blank" rel="noopener noreferrer">📱 Install as PWA</a>**
+* **<a href="https://allwaysevermirai.netlify.app?betamodel=true" target="_blank" rel="noopener noreferrer">🧪 Try Beta Model (Gemini 3 Flash Preview)</a>**
 
 ---
 
@@ -105,6 +113,41 @@ Or you can **watch this video** 👇
 
 ---
 
+## 🔧 Advanced Features
+
+### 📤 Backup & Restore System
+MirAI features a comprehensive backup system:
+- **Export**: Save your entire chat history, settings, and preferences to a file
+- **Encrypted Format (.medf)**: Secure backup with password protection and authenticity signatures
+- **Plain Format (.mdf/.json)**: Simple JSON backup for easy inspection
+- **Cross-device Sync**: Move your MirAI data between devices
+
+### 📲 Progressive Web App (PWA)
+- **Installable**: Add MirAI to your home screen like a native app
+- **Offline Support**: Service workers enable basic offline functionality
+- **Push Notifications**: Get notified about updates (via OneSignal integration)
+- **Fullscreen Mode**: Immersive experience without browser UI
+
+### 🔒 Security Features
+- **.medf Encryption**: Proprietary encrypted data format for secure API key storage
+- **Authenticity Signatures**: Ensures backup files are genuine and untampered
+- **API Key Visibility Toggle**: Show/hide your API key in settings
+- **Public API Limiter**: Prevents abuse of the default public API key
+
+### ⚡ Performance Optimizations
+- **Splash Screen**: Professional loading screen with progress bar
+- **Chat History Limiting**: Automatically trims old messages to maintain performance (50-message limit)
+- **Abort Controller**: Cancel ongoing AI responses instantly
+- **Debounced Input Handling**: Efficient suggestion system without performance lag
+
+### 🎛️ Enhanced Settings Panel
+- **Hash-based Navigation**: Smooth settings panel with URL hash routing
+- **Theme Persistence**: Remembers your light/dark mode preference
+- **Persona Synchronization**: Backup/restore preserves your chosen AI personality
+- **Language Consistency**: All UI elements adapt to your selected language
+
+---
+
 ## 💻 Tech Stack
 
 This project was built purely with basic web technologies, without any frameworks.
@@ -112,10 +155,14 @@ This project was built purely with basic web technologies, without any framework
 * **HTML**
 * **CSS**
 * **JavaScript (Vanilla JS)**
-* **Google Gemini API** (using the `gemini-2.5-flash` model)
+* **Google Gemini API** (using the `gemini-2.5-flash` and `gemini-3-flash-preview` models)
 * **Marked.js** (For Markdown parsing)
 * **SuperRoundedUI by Allwaysever** as UI Guidelines
 * **.medf (MirAI Encrypted Data Files)** - Original encrypted data format by Allwaysever for secure and efficient data handling.
+* **Web Crypto API** - For encryption/decryption of .medf files
+* **Service Workers** - For PWA offline capabilities
+* **OneSignal** - For push notifications
+* **Web Speech API** - For text-to-speech functionality
 
 ---
 
@@ -126,7 +173,8 @@ For more detailed information about the project, please refer to the following d
 * **[❓ FAQ (Frequently Asked Questions)](Docs/FAQ.md)**: Find answers to common questions about MirAI's features and usage.
 * **[🛠️ Troubleshooting Guide](Docs/TROUBLESHOOTING.md)**: Solutions for common errors and issues.
 * **[🔄 Changelog](Docs/CHANGELOG.md)**: See the detailed history of changes and new features for each version.
-* **[🤝 Contributing Guide](Docs/CONTRIBUTING.md)**: Learn how you can contribute to make MirAI even better. (**Koreksi typo dari CONTRIBUTNG.md menjadi CONTRIBUTING.md**)
+* **[🤝 Contributing Guide](Docs/CONTRIBUTING.md)**: Learn how you can contribute to make MirAI even better.
+* **[🔒 .medf File Format Specification](Docs/MEDF_SPEC.md)**: Technical documentation for the MirAI Encrypted Data File format.
 
 ---
 
@@ -136,3 +184,6 @@ This project is licensed under the **Apache License 2.0**.
 
 > [!NOTE]
 > The **.medf (MirAI Encrypted Data Files)** format specification is an original innovation by **Allwaysever**. While the implementation in this repository is open source, we encourage developers to respect the branding and integrity of this format.
+
+> [!IMPORTANT]
+> The default public API key has usage limits. For uninterrupted access, please use your personal API key as described in the setup guide.
