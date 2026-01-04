@@ -81,13 +81,14 @@ window.addEventListener('beforeinstallprompt', (e) => {
 function showInstallButton() {
   const installBtn = document.createElement('button');
   installBtn.id = 'installBtn';
-  installBtn.innerHTML = '<a href="https://raw.githubusercontent.com/Allwaysever/MirAI/main/Assets/PWA/Android/MirAI%20Android%20PWA.zip"><i class="fas fa-download"></i> Install App</a>';
+  installBtn.innerHTML = '<a href="https://allwaysevemirai.netlify.app/download"><i class="fas fa-download"></i> Install App</a>';
   installBtn.style.cssText = `
     position: fixed;
     bottom: 20px;
     right: 20px;
     background: #4285f4;
     color: white;
+    text-decoration: none;
     border: none;
     padding: 10px 20px;
     border-radius: 25px;
