@@ -27,8 +27,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/CSS/MirAIStyle.css">
-   <link rel="manifest" href="https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAm.json">
+    <link rel="stylesheet" href="https://cdn.statically.io/gh/Allwaysever/MirAI@main/Assets/CSS/MirAIStyle.css">
+   <link rel="manifest" href="https://cdn.statically.io/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAm.json">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <!-- Untuk fullscreen di iOS -->
@@ -81,7 +81,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 function showInstallButton() {
   const installBtn = document.createElement('button');
   installBtn.id = 'installBtn';
-  installBtn.innerHTML = '<i class="fas fa-download"></i> Install App';
+  installBtn.innerHTML = '<a href="https://raw.githubusercontent.com/Allwaysever/MirAI/main/Assets/PWA/Android/MirAI%20Android%20PWA.zip"><i class="fas fa-download"></i> Install App</a>';
   installBtn.style.cssText = `
     position: fixed;
     bottom: 20px;
