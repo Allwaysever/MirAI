@@ -27,7 +27,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <link rel="stylesheet" href="https://esm.sh/gh/Allwaysever/MirAI@9b370c7/Assets/CSS/MirAIStyle.css">
+    <link rel="stylesheet" href="https://esm.sh/gh/Allwaysever/MirAI@main/Assets/CSS/MirAIStyle.css">
    <link rel="manifest" href="https://esm.sh/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAm.json">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -334,7 +334,18 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                     <option value="formal" id="personaFormalOption">Formal & Profesional</option>
                     <option value="default" id="personaDefaultOption">Santai & Bercanda</option>
                     <option value="creative" id="personaCreativeOption">Kreatif & Ekspresif</option>
+                    <option value="custom" id="personaCustomOption">Custom Persona</option>
                 </select>
+                
+                <!-- Custom Persona Input -->
+                <div id="customPersonaContainer" style="display: none; margin-top: 15px;">
+                    <textarea id="customPersonaInput" 
+                              class="custom-persona-input" 
+                              placeholder="Masukkan prompt custom Anda di sini..."></textarea>
+                    <p class="hint-text" id="customPersonaHint">
+                        Prompt Anda akan digabungkan dengan: "Anda adalah MirAI, Asisten AI, "
+                    </p>
+                </div>
             </div>
 
             <h3 id="settingsApiTitle">Kunci API Google</h3>
@@ -745,6 +756,9 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaFormalOption: 'Formal & Profesional',
             personaDefaultOption: 'Santai & Bercanda',
             personaCreativeOption: 'Kreatif & Ekspresif',
+            personaCustomOption: 'Custom Persona',
+            customPersonaHint: 'Prompt Anda akan digabungkan dengan: "Anda adalah MirAI, Asisten AI, "',
+            customPersonaPlaceholder: 'Masukkan prompt custom Anda di sini...',
             settingsAboutTitle: 'Tentang Aplikasi',
             settingsVersionText: `Versi: v${VERSION}`,
             settingsAuthorText: 'Dikembangkan oleh Allwaysever',
@@ -755,6 +769,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultPrompt: 'Anda adalah MirAI, asisten AI yang santai dan suka bercanda. Jawab semua pertanyaan dengan gaya yang ramah, sedikit humor, namun tetap informatif.',
             personaFormalPrompt: 'Anda adalah MirAI, asisten AI profesional. Berikan jawaban yang terstruktur, akurat, dan menggunakan bahasa formal.',
             personaCreativePrompt: 'Anda adalah MirAI, asisten AI yang kreatif. Berikan jawaban yang unik, imajinatif, dan ekspresif untuk setiap pertanyaan.',
+            personaCustomPrompt: '',
             placeholderMessages: ['Ajukan pertanyaan apa pun.', 'Butuh bantuan untuk ide?', 'Minta terjemahan atau ringkasan.', 'Bagaimana saya bisa membantu?'],
             onlineStatus: 'Terhubung',
             offlineStatus: 'Terputus',
@@ -831,6 +846,9 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaFormalOption: 'Formal & Professional',
             personaDefaultOption: 'Chill & joking',
             personaCreativeOption: 'Creative & Expressive',
+            personaCustomOption: 'Custom Persona',
+            customPersonaHint: 'Your prompt will be combined with: "You are MirAI, an AI Assistant, "',
+            customPersonaPlaceholder: 'Enter your custom prompt here...',
             settingsAboutTitle: 'About',
             settingsVersionText: `Version: v${VERSION}`,
             settingsAuthorText: 'Developed by Allwaysever',
@@ -841,6 +859,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humor, while remaining informative.',
             personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
             personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
+            personaCustomPrompt: '',
             placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
             onlineStatus: 'Connected',
             offlineStatus: 'Disconnected',
@@ -917,6 +936,9 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaFormalOption: 'Formal & Professional',
             personaDefaultOption: 'Laid-back & bantering',
             personaCreativeOption: 'Creative & Expressive',
+            personaCustomOption: 'Custom Persona',
+            customPersonaHint: 'Your prompt will be combined with: "You are MirAI, an AI Assistant, "',
+            customPersonaPlaceholder: 'Enter your custom prompt here...',
             settingsAboutTitle: 'About',
             settingsVersionText: `Version: v${VERSION}`,
             settingsAuthorText: 'Developed by Allwaysever',
@@ -927,6 +949,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humour, while remaining informative.',
             personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
             personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
+            personaCustomPrompt: '',
             placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
             onlineStatus: 'Connected',
             offlineStatus: 'Disconnected',
@@ -1003,6 +1026,9 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaFormalOption: 'フォーマル・プロ',
             personaDefaultOption: 'のんびりしてて冗談好き',
             personaCreativeOption: 'クリエイティブ・表現豊か',
+            personaCustomOption: 'カスタムペルソナ',
+            customPersonaHint: 'プロンプトは「あなたはMirAI、AIアシスタントです、」と結合されます',
+            customPersonaPlaceholder: 'カスタムプロンプトをここに入力...',
             settingsAboutTitle: 'アプリについて',
             settingsVersionText: `バージョン: v${VERSION}`,
             settingsAuthorText: '開発者: Allwaysever',
@@ -1013,6 +1039,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaDefaultPrompt: 'あなたはMirAI、リラックスして冗談好きなAIアシスタントです。フレンドリーなスタイルで、少しユーモアを交えながらも、情報を提供するようにすべての質問に答えてください。',
             personaFormalPrompt: 'あなたはMirAI、プロフェッショナルなAIアシスタントです。構造化され、正確で、フォーマルな言葉遣いで回答を提供してください。',
             personaCreativePrompt: 'あなたはMirAI、創造的なAIアシスタNTです。すべての質問に対して、ユニークで想像力に富んだ表現力豊かな回答をしてください。',
+            personaCustomPrompt: '',
             placeholderMessages: ['質問を入力してください。', 'アイデアが必要ですか？', '翻訳または要約を依頼。', '何かお手伝いできることはありますか？'],
             onlineStatus: '接続済み',
             offlineStatus: '切断',
@@ -1357,18 +1384,9 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
           });
           
           const lang = backupLanguage || localStorage.getItem('miraiLanguage') || 'en';
-          const personaPromptKey = `persona${backupPersona.charAt(0).toUpperCase() + backupPersona.slice(1)}Prompt`;
-          let personaPromptText = uiStrings[lang]?.[personaPromptKey];
+          const personaPromptText = getPersonaPrompt(backupPersona);
           
-          if (!personaPromptText && uiStrings['en']?.[personaPromptKey]) {
-            personaPromptText = uiStrings['en'][personaPromptKey];
-          }
-          
-          if (!personaPromptText) {
-            personaPromptText = `You are MirAI, an AI assistant with ${backupPersona} personality.`;
-          }
-          
-          if (personaPromptText && ['default', 'formal', 'creative'].includes(backupPersona)) {
+          if (personaPromptText) {
             chatHistory.unshift({ 
               role: "user", 
               parts: [{ 
@@ -1619,6 +1637,25 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         updateSendButtonState();
     }
 
+    // Fungsi untuk mendapatkan prompt persona berdasarkan tipe
+    function getPersonaPrompt(personaType) {
+        if (personaType === 'custom') {
+            const customText = localStorage.getItem('miraiCustomPersona') || '';
+            // Gabungkan dengan prefix default
+            const lang = uiStrings[currentLanguage];
+            if (currentLanguage === 'id') {
+                return `Anda adalah MirAI, Asisten AI, ${customText}`;
+            } else if (currentLanguage === 'jp') {
+                return `あなたはMirAI、AIアシスタントです、${customText}`;
+            } else {
+                return `You are MirAI, an AI Assistant, ${customText}`;
+            }
+        }
+        
+        const promptKey = `persona${personaType.charAt(0).toUpperCase() + personaType.slice(1)}Prompt`;
+        return uiStrings[currentLanguage][promptKey] || uiStrings['en'][promptKey];
+    }
+
     async function initializeApp() {
         console.log('🔧 Initializing app...');
         
@@ -1667,6 +1704,15 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             isUsingPublicApi = isPublicApiKey(currentApiKey);
         }
 
+        // Load custom persona jika ada
+        const savedCustomPersona = localStorage.getItem('miraiCustomPersona');
+        if (savedCustomPersona) {
+            currentPersona = 'custom';
+            elements.personaSelect.value = 'custom';
+            elements.customPersonaContainer.style.display = 'block';
+            elements.customPersonaInput.value = savedCustomPersona;
+        }
+
         initializeSlashCommands(currentLanguage);
         setTheme(savedTheme);
         updateUI();
@@ -1686,9 +1732,9 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
     }
 
     function initializeNewChatSession() {
-        const personaPromptText = uiStrings[currentLanguage][`persona${currentPersona.charAt(0).toUpperCase() + currentPersona.slice(1)}Prompt`];
+        const personaPromptText = getPersonaPrompt(currentPersona);
         chatHistory = [{ role: "user", parts: [{ text: personaPromptText }] }];
-        console.log('Sesi chat baru dimulai.');
+        console.log('Sesi chat baru dimulai dengan persona:', currentPersona);
     }
 
     function loadChatHistory() {
@@ -1741,8 +1787,20 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         elements.personaSelect.value = persona;
         localStorage.setItem('miraiPersona', persona);
         
+        // Tampilkan atau sembunyikan custom persona input
+        if (persona === 'custom') {
+            elements.customPersonaContainer.style.display = 'block';
+            const savedCustomPrompt = localStorage.getItem('miraiCustomPersona');
+            if (savedCustomPrompt) {
+                elements.customPersonaInput.value = savedCustomPrompt;
+            }
+        } else {
+            elements.customPersonaContainer.style.display = 'none';
+        }
+        
+        // Update chat history dengan persona yang dipilih
         if (chatHistory.length > 0 && chatHistory[0].role === "user") {
-            const personaPromptText = uiStrings[currentLanguage][`persona${currentPersona.charAt(0).toUpperCase() + currentPersona.slice(1)}Prompt`];
+            const personaPromptText = getPersonaPrompt(persona);
             chatHistory[0].parts[0].text = personaPromptText;
             saveChatHistory();
         }
@@ -1968,7 +2026,26 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             currentApiKey = DEFAULT_API_KEY; 
             isUsingPublicApi = true;
             showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); 
-        } 
+        }
+        
+        // Simpan custom persona jika aktif
+        if (currentPersona === 'custom' && elements.customPersonaInput) {
+            const customPrompt = elements.customPersonaInput.value.trim();
+            if (customPrompt) {
+                localStorage.setItem('miraiCustomPersona', customPrompt);
+            } else {
+                localStorage.removeItem('miraiCustomPersona');
+            }
+        }
+        
+        // Update persona prompt di chat history
+        const personaPromptText = getPersonaPrompt(currentPersona);
+        if (chatHistory.length > 0 && chatHistory[0].role === "user") {
+            chatHistory[0].parts[0].text = personaPromptText;
+            saveChatHistory();
+        }
+        
+        showCopyFeedback('Pengaturan berhasil disimpan!');
     }
 
     function toggleApiVisibility() { 
@@ -2024,6 +2101,9 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         elements.personaFormalOption.innerText = lang.personaFormalOption; 
         elements.personaDefaultOption.innerText = lang.personaDefaultOption; 
         elements.personaCreativeOption.innerText = lang.personaCreativeOption; 
+        elements.personaCustomOption.innerText = lang.personaCustomOption; 
+        elements.customPersonaHint.innerText = lang.customPersonaHint; 
+        elements.customPersonaInput.placeholder = lang.customPersonaPlaceholder; 
         elements.settingsAboutTitle.innerText = lang.settingsAboutTitle; 
         elements.settingsVersionText.innerText = lang.settingsVersionText; 
         elements.settingsAuthorText.innerText = lang.settingsAuthorText; 
@@ -2074,7 +2154,6 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
                 document.body.style.overflow = '';
                 console.log('❌ Settings panel closed');
             }
-        
         }
         
         setTimeout(() => {
@@ -2349,7 +2428,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             } 
             case '/explain': { 
                 const likeIndex = parts.findIndex(part => part.toLowerCase() === "like"); 
-                if (likeIndex === -1 || likeIndex < 2) { return "Error: Invalid format. Use /explain [concept] like I'm [audience]"; } 
+                if (likeIndex === -1 || likeIndex < 2) { return "Error: Invalid format. Use /explain [concept] like I\'m [audience]"; } 
                 const concept = parts.slice(1, likeIndex).join(' '); 
                 const audienceIndex = parts.indexOf("I'm") > -1 ? parts.indexOf("I'm") : parts.indexOf("i'm"); 
                 if (audienceIndex === -1 || audienceIndex <= likeIndex) { return "Error: Invalid audience format. Use \"like I'm ...\""; } 
@@ -2565,6 +2644,9 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             backBtn: document.getElementById('backBtn'), 
             themeSelect: document.getElementById('themeSelect'), 
             personaSelect: document.getElementById('personaSelect'), 
+            customPersonaContainer: document.getElementById('customPersonaContainer'),
+            customPersonaInput: document.getElementById('customPersonaInput'),
+            customPersonaHint: document.getElementById('customPersonaHint'),
             settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), 
             settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), 
             settingsThemeText: document.getElementById('settingsThemeText'), 
@@ -2575,6 +2657,7 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
             personaFormalOption: document.getElementById('personaFormalOption'), 
             personaDefaultOption: document.getElementById('personaDefaultOption'), 
             personaCreativeOption: document.getElementById('personaCreativeOption'), 
+            personaCustomOption: document.getElementById('personaCustomOption'), 
             settingsAboutTitle: document.getElementById('settingsAboutTitle'), 
             settingsVersionText: document.getElementById('settingsVersionText'), 
             settingsAuthorText: document.getElementById('settingsAuthorText'), 
