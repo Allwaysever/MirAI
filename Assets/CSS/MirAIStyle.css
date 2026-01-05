@@ -421,8 +421,6 @@ body.chat-active .chat-container {
     rgba(255, 206, 0, 0.05) 100%
   );
   padding: 2px 4px;
-  border-radius: 3px;
-  border-left: 2px solid var(--srui-accent);
 }
 
 /* Italic & Emphasis */
@@ -2385,6 +2383,19 @@ body.light-theme .markdown-hint {
   color: var(--srui-neutral-mid-light);
   background: rgba(68, 68, 68, 0.05);
   border-left: 3px solid var(--srui-accent-alt);
+}
+
+/* FIX: Hilangkan angka default browser yang bikin double */
+.markdown ol, 
+.prose ol,
+ol {
+    list-style-type: none !important;
+}
+
+/* Opsional: Pastikan counter custom (jika ada) posisinya pas */
+.markdown ol > li, 
+.prose ol > li {
+    position: relative;
 }
 
 /* Syntax Highlighting Classes */
