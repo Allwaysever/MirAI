@@ -27,7 +27,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <link rel="stylesheet" href="https://esm.sh/gh/Allwaysever/MirAI@main/Assets/CSS/MirAIStyle.css">
+    <link rel="stylesheet" href="MirAIStyle.css">
    <link rel="manifest" href="https://esm.sh/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAm.json">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -717,8 +717,9 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
 
     const faqDatabase = {
         "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information.",
-        "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a DiamondStars](https://trakteer.id/Allwaysever)"
-    };
+        "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a DiamondStars](https://trakteer.id/Allwaysever)",
+        "fullmd": "# Heading 1\n\n## Heading 2\n\n### Heading 3\n\n#### Heading 4\n\n##### Heading 5\n\n###### Heading 6\n\nIni **teks tebal** dan ini *teks miring* dan ini ***teks tebal miring*** dan ~~coret~~.\n\nIni [link](https://example.com) dan ini ![gambar](https://example.com/img.jpg).\n\nIni `kode inline`.\n\n```javascript\nconsole.log('code block');\nfunction test() {\n    return 'hello';\n}\n```\n\n```python\nprint('code block lain')\n```\n\n> Ini blockquote.\n>> Nested blockquote.\n\n- Unordered list item 1\n- Unordered list item 2\n  - Nested item 2.1\n  - Nested item 2.2\n- Unordered list item 3\n\n1. Ordered list item 1\n2. Ordered list item 2\n   1. Nested ordered 2.1\n   2. Nested ordered 2.2\n3. Ordered list item 3\n\n---\n\n***\n\n___\n\n| Tabel Header 1 | Tabel Header 2 | Tabel Header 3 |\n|----------------|----------------|----------------|\n| Cell 1         | Cell 2         | Cell 3         |\n| *Italic*       | **Bold**       | `Code`         |\n\n[^1]: Ini footnote.\n\nIni referensi footnote[^1].\n\n~~Ini coret~~.\n\n**Bold dengan underscore** dan __bold underscore__.\n\n*Italic dengan underscore* dan _italic underscore_.\n\n` ``backtick dalam kode`` `\n\n- [ ] Checklist belum centang\n- [x] Checklist sudah centang\n\n\\*Escape karakter asterisk\\*\n\n\\`Escape backtick\\`\n\nH~2~O (subscript) dan X^2^ (superscript).\n\n==highlight==\n\n:joy: emoji :smile:\n\n<!-- Ini komentar HTML -->\n\n[Link referensi][1]\n\n[1]: https://example.com\n\n```\nplain text code block tanpa bahasa\n```\n\nTerminal:\n\n```bash\n$ npm install\n$ npm start\n```\n\n**Daftar campur:**\n- Item 1\n  1. Sub ordered 1\n  2. Sub ordered 2\n- Item 2\n\n### Tabel kompleks:\n| Left align | Center align | Right align |\n| :--- | :---: | ---: |\n| left | center | right |\n| data | data | data |\n\n**Auto link:** <https://google.com>\n\n**Email:** <email@example.com>\n\n**Horizontal rule dengan asterisk:**\n\n***\n\n**Escape semua:** \\*\\*bold\\*\\* \\*italic\\* \\`code\\`\n\nIni adalah paragraf yang sangat panjang yang harusnya akan membentuk satu paragraf utuh meskipun ditulis dalam beberapa baris dalam kode karena markdown akan menganggapnya sebagai satu paragraf selama tidak ada baris kosong di antaranya. Ini akan terus berlanjut sampai akhir.\n\nDan ini paragraf baru.\n\n    Indented code block dengan spasi.\n\n```mermaid\ngraph TD;\n    A-->B;\n    A-->C;\n    B-->D;\n    C-->D;\n```\n\n$$ \\LaTeX $$ math: $x^2 + y^2 = z^2$\n\n$$\\nblock math\\n$$\n\nColon untuk definition list:\n\nTerm 1\n: Definition 1\n\nTerm 2\n: Definition 2\n\n**Task list lain:**\n- [ ] Task 1\n- [x] Task 2 selesai\n- [ ] Task 3\n\n~~Multiple\nlines\ncoret~~\n\n**Bold\nmultiline**\n\nEnd.",
+   };
 
     const uiStrings = {
         'id': {
