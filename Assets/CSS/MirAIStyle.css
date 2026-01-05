@@ -1493,6 +1493,37 @@ body.chat-active .info-text {
     color: var(--srui-accent);
 }
 
+.custom-persona-input {
+    width: 95%;
+    padding: 12px;
+    background: var(--srui-bg-secondary, #2a2a2a);
+    border: 1px solid var(--srui-border, #333);
+    border-radius: 10px;
+    color: var(--srui-text-primary, #fff);
+    font-size: 0.95em;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+	justify-content: center; /* Pusatkan horizontal */
+    align-items: center;   
+}
+
+.custom-persona-input:focus {
+    outline: none;
+    border-color: var(--srui-accent, #4285f4);
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+.hint-text {
+    font-size: 0.8em;
+    color: var(--srui-text-tertiary);
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
 .settings-about {
     text-align: center;
     margin-top: 40px;
