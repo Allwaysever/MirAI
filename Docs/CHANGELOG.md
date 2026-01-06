@@ -1,5 +1,43 @@
-# Changelogs
 ## What's new?
+### `2026.01.06` - v2.12.0-Beta5
+
+We've added another new feature that makes it even easier for you (the User) to access MirAI. This might be the best beta update yet, don't you think?
+
+`1. Backup & Restore System with Authenticity Signature`
+
+This new feature allows users to:
+
+1. Export conversation data, API settings, persona, language, and theme to an encrypted file with an authenticity signature.
+2. Import backup files with authenticity validation to ensure the file originates from an official MirAI source.
+3. Support for two file formats:
+   - .medf (MirAI Encrypted Data Files) - Password-encrypted file with an authenticity signature
+   - .mdf/.json - Plain JSON file
+
+`2. Authenticity Signature Feature`
+
+This new system adds a layer of security with:
+- A specific header text: {MirAI Encrypted Data Files v1.0 By Allwaysever}
+- An encrypted header code validated during import
+- Timestamp and version in the metadata
+- File authenticity verification to prevent the use of unofficial backup files
+
+`3. Custom Persona System`
+
+Main Features:
+
+1. Custom Persona selection in settings:
+   - Formal & Professional
+   - Casual & Humorous (default)
+   - Creative & Expressive
+   - Custom Persona **(new!)**
+3. Dedicated Text Input Area:
+   - Text area for writing custom persona prompts
+   - Automatically combined with the prefix: "`You are MirAI, an AI Assistant, [custom prompt]`"
+   - Saved in localStorage (miraiCustomPersona)
+  
+---
+
+## Previous version:
 ### v2.12.0-Beta4
 - **``New features``:** new feature added, called Backup & Restore, you can back up your data in MirAI for safekeeping, or you want to install and continue your conversation at any time and any device. This is what will be backed up:
   1. Conversation data
@@ -7,10 +45,7 @@
   3. Your MirAI Persona Selected
   4. Language used
   5. The UI theme you choose
-  
----
-
-## Previous version:
+ 
 ### v2.12.0-Beta3
 - **``New system``:** We added another URL parameter system for ``?pwa`` which will skip the splash screen, useful for our [TWA MirAI](https://bit.ly/AwsMirAIDown).
 - **``Fixed some bugs``:** we have been doing this for days until we apologize for the bugs we made, in the next update we added new features.
