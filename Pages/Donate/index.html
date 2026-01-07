@@ -190,6 +190,38 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        /* New Platform Styles */
+        .popular-tag {
+            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .kofi-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+            background: linear-gradient(45deg, #29ABE0, #13A8FE);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sociabuzz-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+            background: linear-gradient(45deg, #00AEEF, #1E5799);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
     </style>
 </head>
 <body class="p-4">
@@ -299,6 +331,53 @@
                     <div class="mt-6">
                         <button class="accent-button px-6 py-2 w-full" onclick="selectPlatform('trakteer')" data-i18n="select_button">
                             Select Trakteer
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ko-fi Option -->
+                <div class="platform-card" id="platform-kofi" data-platform="kofi">
+                    <div class="popular-tag" data-i18n="international">International</div>
+                    <div class="kofi-icon">
+                        <i class="fas fa-mug-hot"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-400">Ko-fi</h3>
+                    <p class="text-gray-300 mb-4 text-sm" data-i18n="kofi_description">
+                        Global donation platform with PayPal support
+                    </p>
+                    
+                    <ul class="platform-features">
+                        <li data-i18n="kofi_feature1">No minimum amount</li>
+                        <li data-i18n="kofi_feature2">Supports PayPal & cards</li>
+                        <li data-i18n="kofi_feature3">International friendly</li>
+                        <li data-i18n="kofi_feature4">0% platform fee (tips only)</li>
+                    </ul>
+                    
+                    <div class="mt-6">
+                        <button class="accent-button px-6 py-2 w-full" onclick="selectPlatform('kofi')" data-i18n="select_button">
+                            Select Ko-fi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sociabuzz Option -->
+                <div class="platform-card" id="platform-sociabuzz" data-platform="sociabuzz">
+                    <div class="platform-icon">🌟</div>
+                    <h3 class="text-xl font-bold mb-2 text-purple-400">Sociabuzz</h3>
+                    <p class="text-gray-300 mb-4 text-sm" data-i18n="sociabuzz_description">
+                        Indonesian platform with subscription options
+                    </p>
+                    
+                    <ul class="platform-features">
+                        <li data-i18n="sociabuzz_feature1">Minimum: Rp 10,000</li>
+                        <li data-i18n="sociabuzz_feature2">Monthly subscription</li>
+                        <li data-i18n="sociabuzz_feature3">Credit card support</li>
+                        <li data-i18n="sociabuzz_feature4">Community features</li>
+                    </ul>
+                    
+                    <div class="mt-6">
+                        <button class="accent-button px-6 py-2 w-full" onclick="selectPlatform('sociabuzz')" data-i18n="select_button">
+                            Select Sociabuzz
                         </button>
                     </div>
                 </div>
@@ -435,6 +514,7 @@
                         'whereyougo_title': 'Pilih Metode Pembayaran',
                         'whereyougo_description': 'Pilih platform yang Anda sukai untuk melanjutkan',
                         'recommended': 'Direkomendasikan',
+                        'international': 'Internasional',
                         'saweria_description': 'Platform donasi #1 Indonesia',
                         'saweria_feature1': 'Minimum: Rp 5.000',
                         'saweria_feature2': 'Proses instan',
@@ -445,6 +525,16 @@
                         'trakteer_feature2': 'Biaya lebih rendah (5%)',
                         'trakteer_feature3': 'Antarmuka bersih',
                         'trakteer_feature4': 'Mendukung transfer bank',
+                        'kofi_description': 'Platform donasi global dengan dukungan PayPal',
+                        'kofi_feature1': 'Tidak ada jumlah minimum',
+                        'kofi_feature2': 'Mendukung PayPal & kartu',
+                        'kofi_feature3': 'Ramah internasional',
+                        'kofi_feature4': '0% biaya platform (hanya tips)',
+                        'sociabuzz_description': 'Platform Indonesia dengan opsi langganan',
+                        'sociabuzz_feature1': 'Minimum: Rp 10.000',
+                        'sociabuzz_feature2': 'Langganan bulanan',
+                        'sociabuzz_feature3': 'Dukungan kartu kredit',
+                        'sociabuzz_feature4': 'Fitur komunitas',
                         'select_button': 'Pilih',
                         'back_button': 'Kembali ke Info Donasi',
                         'whereyougo_note': 'Pilihan Anda akan diingat untuk donasi berikutnya',
@@ -486,6 +576,7 @@
                         'whereyougo_title': 'Choose Your Payment Method',
                         'whereyougo_description': 'Select your preferred platform to continue',
                         'recommended': 'Recommended',
+                        'international': 'International',
                         'saweria_description': 'Indonesia\'s #1 donation platform',
                         'saweria_feature1': 'Minimum: Rp 5,000',
                         'saweria_feature2': 'Instant processing',
@@ -496,6 +587,16 @@
                         'trakteer_feature2': 'Lower fees (5%)',
                         'trakteer_feature3': 'Clean interface',
                         'trakteer_feature4': 'Supports bank transfer',
+                        'kofi_description': 'Global donation platform with PayPal support',
+                        'kofi_feature1': 'No minimum amount',
+                        'kofi_feature2': 'Supports PayPal & cards',
+                        'kofi_feature3': 'International friendly',
+                        'kofi_feature4': '0% platform fee (tips only)',
+                        'sociabuzz_description': 'Indonesian platform with subscription options',
+                        'sociabuzz_feature1': 'Minimum: Rp 10,000',
+                        'sociabuzz_feature2': 'Monthly subscription',
+                        'sociabuzz_feature3': 'Credit card support',
+                        'sociabuzz_feature4': 'Community features',
                         'select_button': 'Select',
                         'back_button': 'Back to Donation Info',
                         'whereyougo_note': 'Your choice will be remembered for future donations',
@@ -537,6 +638,7 @@
                         'whereyougo_title': 'Choose Your Payment Method',
                         'whereyougo_description': 'Select your preferred platform to continue',
                         'recommended': 'Recommended',
+                        'international': 'International',
                         'saweria_description': 'Indonesia\'s #1 donation platform',
                         'saweria_feature1': 'Minimum: Rp 5,000',
                         'saweria_feature2': 'Instant processing',
@@ -547,6 +649,16 @@
                         'trakteer_feature2': 'Lower fees (5%)',
                         'trakteer_feature3': 'Clean interface',
                         'trakteer_feature4': 'Supports bank transfer',
+                        'kofi_description': 'Global donation platform with PayPal support',
+                        'kofi_feature1': 'No minimum amount',
+                        'kofi_feature2': 'Supports PayPal & cards',
+                        'kofi_feature3': 'International friendly',
+                        'kofi_feature4': '0% platform fee (tips only)',
+                        'sociabuzz_description': 'Indonesian platform with subscription options',
+                        'sociabuzz_feature1': 'Minimum: Rp 10,000',
+                        'sociabuzz_feature2': 'Monthly subscription',
+                        'sociabuzz_feature3': 'Credit card support',
+                        'sociabuzz_feature4': 'Community features',
                         'select_button': 'Select',
                         'back_button': 'Back to Donation Info',
                         'whereyougo_note': 'Your choice will be remembered for future donations',
@@ -588,6 +700,7 @@
                         'whereyougo_title': 'お支払い方法を選択',
                         'whereyougo_description': '続行するプラットフォームを選択してください',
                         'recommended': 'おすすめ',
+                        'international': '国際',
                         'saweria_description': 'インドネシアNo.1の寄付プラットフォーム',
                         'saweria_feature1': '最低額: Rp 5,000',
                         'saweria_feature2': '即時処理',
@@ -598,6 +711,16 @@
                         'trakteer_feature2': '手数料が低い（5%）',
                         'trakteer_feature3': 'クリーンなインターフェース',
                         'trakteer_feature4': '銀行振込対応',
+                        'kofi_description': 'PayPalサポート付きグローバル寄付プラットフォーム',
+                        'kofi_feature1': '最低額なし',
+                        'kofi_feature2': 'PayPalとカードをサポート',
+                        'kofi_feature3': '国際的に使いやすい',
+                        'kofi_feature4': '0%プラットフォーム手数料（チップのみ）',
+                        'sociabuzz_description': 'サブスクリプションオプション付きインドネシアプラットフォーム',
+                        'sociabuzz_feature1': '最低額: Rp 10,000',
+                        'sociabuzz_feature2': '月額サブスクリプション',
+                        'sociabuzz_feature3': 'クレジットカードサポート',
+                        'sociabuzz_feature4': 'コミュニティ機能',
                         'select_button': '選択',
                         'back_button': '寄付情報に戻る',
                         'whereyougo_note': 'あなたの選択は今後の寄付で記憶されます',
@@ -719,6 +842,22 @@
                 fee: '5%',
                 icon: '☕',
                 color: '#4ECDC4'
+            },
+            'kofi': {
+                name: 'Ko-fi',
+                url: 'https://ko-fi.com/Allwaysever',
+                minAmount: 0,
+                fee: '0% (tips only)',
+                icon: '☕',
+                color: '#29ABE0'
+            },
+            'sociabuzz': {
+                name: 'Sociabuzz',
+                url: 'https://sociabuzz.com/Allwaysever',
+                minAmount: 10000,
+                fee: 'Varies',
+                icon: '🌟',
+                color: '#00AEEF'
             }
         };
 
@@ -745,14 +884,18 @@
         }
 
         function startPaymentProcess(platform) {
-            const formattedAmount = platform.minAmount.toLocaleString('id-ID');
+            const formattedAmount = platform.minAmount > 0 ? platform.minAmount.toLocaleString('id-ID') : 'any amount';
             localStorage.setItem(LAST_CLICK_KEY, Date.now());
             
             localStorage.setItem('mirai_last_platform', platform.name);
             
             window.open(platform.url, '_blank');
             
-            alert(`Payment tab has been opened. Please manually enter a minimum amount of Rp ${formattedAmount}. Thank you!`);
+            if (platform.minAmount > 0) {
+                alert(`Payment tab has been opened. Please manually enter a minimum amount of Rp ${formattedAmount}. Thank you!`);
+            } else {
+                alert(`Payment tab has been opened. You can donate any amount you wish. Thank you for your support!`);
+            }
             
             window.location.hash = 'areyousure';
         }
