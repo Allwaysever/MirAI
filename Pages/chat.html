@@ -155,7 +155,7 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
+const VERSION = '2.12.0-Beta5Fix'; // generateVersion(2, 12, 0);
 </script>
 </head>
 
@@ -2473,48 +2473,103 @@ const VERSION = '2.12.0-Beta5'; // generateVersion(2, 12, 0);
         if (lang === 'id') return 'id-ID';
         return 'en-US';
     }
+	
+	// --- FUNGSI UNTUK MEMBERSIHKAN TEKS UNTUK TTS ---
+function cleanTextForSpeech(text) {
+    if (!text) return '';
+    
+    // Hapus tanda markdown
+    let cleaned = text
+        // Hapus markdown bold/italic
+        .replace(/\*\*(.*?)\*\*/g, '$1')  // **bold** → bold
+        .replace(/\*(.*?)\*/g, '$1')       // *italic* → italic
+        .replace(/__(.*?)__/g, '$1')       // __bold__ → bold
+        .replace(/_(.*?)_/g, '$1')         // _italic_ → italic
+        
+        // Hapus backticks untuk kode
+        .replace(/`(.*?)`/g, '$1')         // `code` → code
+        
+        // Hapus markdown lainnya
+        .replace(/~~(.*?)~~/g, '$1')       // ~~strikethrough~~ → strikethrough
+        .replace(/==(.*?)==/g, '$1')       // ==highlight== → highlight
+        .replace(/\[(.*?)\]\((.*?)\)/g, '$1') // [link](url) → link
+        
+        // Hapus karakter khusus yang tidak perlu diucapkan
+        .replace(/\*/g, '')                // Hapus asterisk
+        .replace(/#/g, '')                 // Hapus hashtag
+        .replace(/&/g, ' dan ')            // & → dan
+        .replace(/@/g, '')                 // Hapus @
+        .replace(/\\n/g, '. ')             // Newline → titik
+        .replace(/\s+/g, ' ')              // Normalisasi spasi
+        
+        // Hapus karakter teknis lainnya
+        .replace(/```[\s\S]*?```/g, '')    // Hapus blok kode
+        .replace(/<[^>]*>/g, '')           // Hapus tag HTML
+        .replace(/&[a-z]+;/g, '');         // Hapus HTML entities
+    
+    // Hapus semua karakter non-alfanumerik yang tersisa kecuali tanda baca dasar
+    cleaned = cleaned.replace(/[^\w\s.,!?;:'"()-]/g, '');
+    
+    // Normalisasi spasi berlebihan
+    cleaned = cleaned.trim().replace(/\s+/g, ' ');
+    
+    return cleaned;
+}
 
-    function speakText(element) {
-        const aiBubble = element.closest('.ai-bubble');
-        const textToSpeak = aiBubble.getAttribute('data-raw-text');
-        const icon = element;
+function speakText(element) {
+    const aiBubble = element.closest('.ai-bubble');
+    const rawText = aiBubble.getAttribute('data-raw-text');
+    const icon = element;
 
-        if (icon.classList.contains('fa-stop')) {
-            window.speechSynthesis.cancel();
-            return;
-        }
-
-        if (window.speechSynthesis.speaking) {
-            window.speechSynthesis.cancel();
-            document.querySelectorAll('.speak-btn').forEach(btn => {
-                btn.classList.remove('fa-stop');
-                btn.classList.add('fa-volume-up');
-            });
-        }
-
-        if (!textToSpeak) return;
-
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        utterance.lang = getLangCodeForSpeech(currentLanguage);
-
-        utterance.onstart = () => {
-            icon.classList.remove('fa-volume-up');
-            icon.classList.add('fa-stop');
-        };
-
-        utterance.onend = () => {
-            icon.classList.remove('fa-stop');
-            icon.classList.add('fa-volume-up');
-        };
-
-        utterance.onerror = (event) => {
-            console.error('SpeechSynthesis Error:', event.error);
-            icon.classList.remove('fa-stop');
-            icon.classList.add('fa-volume-up');
-        };
-
-        window.speechSynthesis.speak(utterance);
+    if (icon.classList.contains('fa-stop')) {
+        window.speechSynthesis.cancel();
+        return;
     }
+
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        document.querySelectorAll('.speak-btn').forEach(btn => {
+            btn.classList.remove('fa-stop');
+            btn.classList.add('fa-volume-up');
+        });
+    }
+
+    if (!rawText) return;
+
+    // BERSIHKAN TEKS SEBELUM DIBACAKAN
+    const textToSpeak = cleanTextForSpeech(rawText);
+    
+    if (!textToSpeak || textToSpeak.trim() === '') {
+        console.log('No text to speak after cleaning');
+        return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = getLangCodeForSpeech(currentLanguage);
+
+    // Atur kecepatan dan pitch
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    utterance.onstart = () => {
+        icon.classList.remove('fa-volume-up');
+        icon.classList.add('fa-stop');
+    };
+
+    utterance.onend = () => {
+        icon.classList.remove('fa-stop');
+        icon.classList.add('fa-volume-up');
+    };
+
+    utterance.onerror = (event) => {
+        console.error('SpeechSynthesis Error:', event.error);
+        icon.classList.remove('fa-stop');
+        icon.classList.add('fa-volume-up');
+    };
+
+    window.speechSynthesis.speak(utterance);
+}
 
     function copyToClipboard(element) { 
         const aiBubble = element.closest('.ai-bubble'); 
