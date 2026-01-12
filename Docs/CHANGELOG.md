@@ -1,4 +1,13 @@
 ## What's new?
+
+### ``2026.01.12`` - v2.12.0-Beta5Fix
+
+We've added new features for you who love listening to MirAI's answers using TTS!
+- **``FIX``:** Fixed TTS bug that read responses along with markdown characters, like Asterisk (*).
+
+---
+
+## Previous version:
 ### `2026.01.06` - v2.12.0-Beta5
 
 We've added another new feature that makes it even easier for you (the User) to access MirAI. This might be the best beta update yet, don't you think?
@@ -34,10 +43,7 @@ Main Features:
    - Text area for writing custom persona prompts
    - Automatically combined with the prefix: "`You are MirAI, an AI Assistant, [custom prompt]`"
    - Saved in localStorage (miraiCustomPersona)
-  
----
 
-## Previous version:
 ### v2.12.0-Beta4
 - **``New features``:** new feature added, called Backup & Restore, you can back up your data in MirAI for safekeeping, or you want to install and continue your conversation at any time and any device. This is what will be backed up:
   1. Conversation data
