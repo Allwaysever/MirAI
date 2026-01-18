@@ -6,26 +6,55 @@
     <title>MirAI Events</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* ===== VARIABEL SRUI ===== */
         :root {
-            --event-bg: #1a1a1a;
-            --event-card-bg: #2a2a2a;
-            --event-accent: #4285f4;
-            --event-success: #34a853;
+            /* Tema Gelap (Default SRUI) */
+            --srui-bg: #1B1C1E;
+            --srui-card-bg: #0f0f0f;
+            --srui-text: #ffffff;
+            --srui-accent: #ffce00;
+            --srui-accent-text: #000000;
+            --srui-border: #4B4F50;
+            --srui-neutral-mid: #999999;
+            --srui-neutral-dark: #666666;
+            
+            /* Warna Semantik SRUI */
+            --srui-success: #4CAF50;
+            --srui-warning: #ffce00;
+            --srui-error: #F44336;
+            --srui-info: #2196F3;
+            
+            /* Border Radius SRUI */
+            --srui-radius-small: 10px;
+            --srui-radius-medium: 15px;
+            --srui-radius-large: 20px;
+            --srui-radius-pill: 9999px;
+            
+            /* Shadow Minimalis SRUI */
+            --srui-shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --srui-shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.2);
+            --srui-shadow-strong: 0 12px 36px rgba(0, 0, 0, 0.25);
+            
+            /* Transisi SRUI */
+            --srui-transition: all 0.3s ease-in-out;
+            --srui-transition-fast: all 0.1s ease-out;
         }
         
+        /* ===== EVENT POPUP STYLES ===== */
         .event-popup {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
+            transform: translate(-50%, -50%) scale(0.95);
             width: 90%;
             max-width: 500px;
-            background: var(--event-bg);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            background: var(--srui-card-bg);
+            border-radius: var(--srui-radius-large);
+            border: 1px solid var(--srui-border);
+            box-shadow: var(--srui-shadow-strong);
             z-index: 10000;
             opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: var(--srui-transition);
             overflow: hidden;
         }
         
@@ -40,10 +69,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px); /* GlassLayer effect */
             z-index: 9999;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s ease-in-out;
         }
         
         .event-overlay.active {
@@ -51,127 +81,234 @@
         }
         
         .event-header {
-            padding: 20px;
+            padding: 25px 20px;
             text-align: center;
-            background: linear-gradient(135deg, var(--event-accent), #8ab4f8);
-            color: white;
+            background: var(--srui-accent);
+            color: var(--srui-accent-text);
             position: relative;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
         
         .event-close {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(255,255,255,0.2);
+            background: rgba(0, 0, 0, 0.1);
             border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--srui-radius-pill);
+            color: var(--srui-accent-text);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: var(--srui-transition-fast);
+        }
+        
+        .event-close:hover {
+            background: rgba(0, 0, 0, 0.2);
+            transform: scale(1.05); /* Micro-Bounce effect */
+        }
+        
+        .event-close:active {
+            transform: scale(0.95); /* Micro-Bounce effect */
         }
         
         .event-banner {
             width: 100%;
             height: 180px;
             object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--srui-info), var(--srui-accent));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3em;
-            color: white;
+            color: var(--srui-text);
         }
         
         .event-content {
             padding: 25px;
+            background: var(--srui-card-bg);
         }
         
         .event-title {
+            font-family: Arial, sans-serif;
             font-size: 1.8em;
-            margin-bottom: 10px;
-            color: white;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--srui-text);
+            line-height: 1.3;
         }
         
         .event-description {
-            color: #ccc;
+            font-family: Arial, sans-serif;
+            color: var(--srui-neutral-mid);
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            font-size: 0.95em;
         }
         
         .event-meta {
             display: flex;
             justify-content: space-between;
-            background: var(--event-card-bg);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            align-items: center;
+            background: rgba(75, 79, 80, 0.1);
+            padding: 15px 20px;
+            border-radius: var(--srui-radius-medium);
+            margin-bottom: 25px;
+            border: 1px solid var(--srui-border);
         }
         
         .event-date {
-            color: #aaa;
+            font-family: Arial, sans-serif;
+            color: var(--srui-neutral-mid);
             font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .event-status {
-            background: var(--event-success);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
+            background: var(--srui-success);
+            color: var(--srui-text);
+            padding: 6px 14px;
+            border-radius: var(--srui-radius-pill);
             font-size: 0.8em;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
         }
         
         .event-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
         
         .btn-primary {
             flex: 1;
-            background: var(--event-accent);
-            color: white;
+            background: var(--srui-accent);
+            color: var(--srui-accent-text);
             border: none;
-            padding: 14px;
-            border-radius: 10px;
+            padding: 16px;
+            border-radius: var(--srui-radius-medium);
+            font-family: Arial, sans-serif;
             font-weight: bold;
+            font-size: 0.95em;
             cursor: pointer;
             text-decoration: none;
             text-align: center;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--srui-transition);
+            box-shadow: var(--srui-shadow-soft);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--srui-shadow-medium);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
         }
         
         .btn-secondary {
             flex: 1;
-            background: #444;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
+            background: var(--srui-border);
+            color: var(--srui-text);
+            border: 1px solid var(--srui-neutral-dark);
+            padding: 16px;
+            border-radius: var(--srui-radius-medium);
+            font-family: Arial, sans-serif;
+            font-size: 0.95em;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--srui-transition);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--srui-neutral-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary:active {
+            transform: translateY(0);
         }
         
         .event-dismiss {
             display: block;
             text-align: center;
-            margin-top: 15px;
-            color: #aaa;
-            text-decoration: underline;
+            margin-top: 20px;
+            color: var(--srui-neutral-mid);
+            text-decoration: none;
             cursor: pointer;
             font-size: 0.9em;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            transition: var(--srui-transition-fast);
         }
         
-        /* Responsive */
+        .event-dismiss:hover {
+            color: var(--srui-text);
+        }
+        
+        #dontShowAgain {
+            margin-right: 8px;
+            accent-color: var(--srui-accent);
+            transform: scale(1.1);
+        }
+        
+        /* Responsive Design */
         @media (max-width: 600px) {
             .event-popup {
                 width: 95%;
                 max-width: none;
+                border-radius: var(--srui-radius-medium);
+            }
+            
+            .event-header {
+                padding: 20px 15px;
+            }
+            
+            .event-banner {
+                height: 150px;
+                font-size: 2.5em;
+            }
+            
+            .event-content {
+                padding: 20px;
             }
             
             .event-buttons {
                 flex-direction: column;
+            }
+            
+            .event-meta {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            
+            .event-title {
+                font-size: 1.5em;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .event-popup {
+                width: 100%;
+                border-radius: 0;
+                height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .event-content {
+                padding: 15px;
             }
         }
     </style>
@@ -181,7 +318,7 @@
     
     <div id="eventPopup" class="event-popup">
         <div class="event-header">
-            <h2 style="margin:0;">🎉 Event Special</h2>
+            <h2 style="margin:0; font-family: Arial, sans-serif;">🎉 Event Special</h2>
             <button class="event-close" id="eventCloseBtn">
                 <i class="fas fa-times"></i>
             </button>
@@ -268,7 +405,7 @@
             // Set banner
             const banner = document.getElementById('eventBanner');
             if (event.banner) {
-                banner.innerHTML = `<img src="${event.banner}" alt="${event.title}" style="width:100%;height:100%;object-fit:cover;">`;
+                banner.innerHTML = `<img src="${event.banner}" alt="${event.title}" style="width:100%;height:100%;object-fit:cover;border-radius:0;">`;
             } else if (event.icon) {
                 banner.innerHTML = `<i class="${event.icon}"></i>`;
             }
@@ -276,6 +413,10 @@
             // Custom color jika ada
             if (event.backgroundColor) {
                 document.querySelector('.event-header').style.background = event.backgroundColor;
+                if (event.textColor) {
+                    document.querySelector('.event-header').style.color = event.textColor;
+                    document.querySelector('.event-close').style.color = event.textColor;
+                }
             }
             
             // Tampilkan popup
