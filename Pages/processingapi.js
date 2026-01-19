@@ -310,3 +310,67 @@ if (typeof module !== 'undefined' && module.exports) {
         HEADER_TEXT: MEDF_CONFIG.HEADER_TEXT
     };
 }
+
+// Tambah di processingapi.js (setelah extractApiKeyFromConfig)
+async function getSearchKeysFromConfig(fileBuffer, code) {
+    const data = await decryptMEDF(fileBuffer, code);
+    
+    // Cari searchConfig atau langsung keys
+    if (data.searchConfig) {
+        return data.searchConfig;
+    }
+    
+    // Fallback: cari keys individual
+    const searchKeys = {};
+    
+    if (data.googleApiKey || data.googleCx) {
+        searchKeys.google = {
+            apiKey: data.googleApiKey || '',
+            cx: data.googleCx || ''
+        };
+    }
+    
+    if (data.newsApiKey) {
+        searchKeys.newsapi = {
+            apiKey: data.newsApiKey
+        };
+    }
+    
+    return searchKeys;
+}
+
+// Export untuk global access
+if (typeof window !== 'undefined') {
+    window.MEDFProcessor = {
+        // ... existing functions ...
+        getSearchKeys: async function() {
+            try {
+                // Load config.medf
+                const response = await fetch('config.medf');
+                if (!response.ok) {
+                    console.warn('config.medf not found');
+                    return {};
+                }
+                
+                const buffer = await response.arrayBuffer();
+                const savedCode = localStorage.getItem('miraiConfigCode');
+                let code = MEDF_CONFIG.passwordCode;
+                
+                if (savedCode) {
+                    try {
+                        code = parseInt(savedCode);
+                    } catch (e) {
+                        console.warn('Invalid code, using default');
+                    }
+                }
+                
+                return await getSearchKeysFromConfig(buffer, code);
+                
+            } catch (error) {
+                console.error('Failed to get search keys:', error);
+                return {};
+            }
+        },
+        // ... rest of exports ...
+    };
+}
