@@ -781,47 +781,46 @@ const VERSION = '2.12.0-Beta5Fix'; // generateVersion(2, 12, 0);
     };
 
 // === FUNGSI LOAD SEARCH CONFIG DARI ENCRYPTED FILE ===
-function loadSearchConfigFromEncrypted() {
+async function loadSearchConfigFromEncrypted() {
     console.log('🔍 Loading search configuration from encrypted file...');
     
-    // Cek jika ada MEDFProcessor yang sudah dimodifikasi dengan getSearchKeys
-    if (window.MEDFProcessor && window.MEDFProcessor.getSearchKeys) {
-        try {
-            const searchKeys = window.MEDFProcessor.getSearchKeys();
-            console.log('✅ Search keys loaded from encrypted file:', searchKeys);
+    try {
+        if (window.MEDFProcessor && window.MEDFProcessor.getSearchKeys) {
+            console.log('✅ MEDFProcessor.getSearchKeys available');
             
-            // Update SEARCH_CONFIG dengan keys dari encrypted file
+            const searchKeys = await window.MEDFProcessor.getSearchKeys();
+            console.log('✅ Search keys loaded:', Object.keys(searchKeys));
+            
             if (searchKeys && typeof searchKeys === 'object') {
+                // Update SEARCH_CONFIG
                 Object.keys(searchKeys).forEach(key => {
                     if (SEARCH_CONFIG.engines[key]) {
+                        console.log(`🔄 Updating ${key} config`);
                         SEARCH_CONFIG.engines[key] = {
                             ...SEARCH_CONFIG.engines[key],
                             ...searchKeys[key]
                         };
-                        
-                        console.log(`✅ Updated ${key} config:`, {
-                            hasApiKey: !!searchKeys[key].apiKey,
-                            hasCx: !!searchKeys[key].cx
-                        });
                     }
                 });
                 
+                console.log('🔄 SEARCH_CONFIG updated successfully');
+                
                 // Log hasil
-                console.log('🔄 SEARCH_CONFIG setelah update:', {
+                console.log('🔍 Current search config:', {
                     google: {
                         hasApiKey: !!SEARCH_CONFIG.engines.google.apiKey,
-                        apiKeyPreview: SEARCH_CONFIG.engines.google.apiKey ? 
-                            SEARCH_CONFIG.engines.google.apiKey.substring(0, 10) + '...' : 'empty',
                         hasCx: !!SEARCH_CONFIG.engines.google.cx,
-                        cxPreview: SEARCH_CONFIG.engines.google.cx ? 
-                            SEARCH_CONFIG.engines.google.cx.substring(0, 10) + '...' : 'empty',
                         enabled: SEARCH_CONFIG.engines.google.enabled
                     },
                     newsapi: {
                         hasApiKey: !!SEARCH_CONFIG.engines.newsapi.apiKey,
-                        apiKeyPreview: SEARCH_CONFIG.engines.newsapi.apiKey ? 
-                            SEARCH_CONFIG.engines.newsapi.apiKey.substring(0, 10) + '...' : 'empty',
                         enabled: SEARCH_CONFIG.engines.newsapi.enabled
+                    },
+                    duckduckgo: {
+                        enabled: SEARCH_CONFIG.engines.duckduckgo.enabled
+                    },
+                    wikipedia: {
+                        enabled: SEARCH_CONFIG.engines.wikipedia.enabled
                     }
                 });
                 
@@ -829,13 +828,33 @@ function loadSearchConfigFromEncrypted() {
                 console.warn('⚠️ No search keys found in encrypted file');
             }
             
-        } catch (error) {
-            console.error('❌ Failed to load search config from encrypted file:', error);
+        } else {
+            console.warn('⚠️ MEDFProcessor.getSearchKeys not available, using localStorage');
+            loadSearchConfigFromLocalStorage();
         }
-    } else {
-        console.warn('⚠️ MEDFProcessor.getSearchKeys not available, using default/search config');
-        // Coba load dari localStorage sebagai fallback
+        
+    } catch (error) {
+        console.error('❌ Failed to load search config from encrypted file:', error);
+        // Fallback ke localStorage
         loadSearchConfigFromLocalStorage();
+    }
+}
+
+// Fallback function untuk load dari localStorage
+function loadSearchConfigFromLocalStorage() {
+    const savedSearchConfig = localStorage.getItem('miraiSearchConfig');
+    if (savedSearchConfig) {
+        try {
+            const config = JSON.parse(savedSearchConfig);
+            Object.keys(config).forEach(key => {
+                if (SEARCH_CONFIG.engines[key]) {
+                    SEARCH_CONFIG.engines[key] = { ...SEARCH_CONFIG.engines[key], ...config[key] };
+                }
+            });
+            console.log('✅ Search config loaded from localStorage');
+        } catch (e) {
+            console.error('Error loading search config from localStorage:', e);
+        }
     }
 }
 

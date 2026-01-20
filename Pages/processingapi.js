@@ -1,61 +1,45 @@
-// processingapi.js
-// Sistem dekripsi untuk confiq.medf dengan password kode perhitungan
+// processingapi.js (UPDATED VERSION)
+// Sistem dekripsi untuk config.medf dengan password kode perhitungan + Search Keys support
 
 const MEDF_CONFIG = {
     saltLength: 16,
     ivLength: 12,
     iterations: 100000,
-    passwordCode: 271828,  // Kode perhitungan default (e = 2.71828 ≈ 271828)
+    passwordCode: 271828,
     // Header Authenticity
-    HEADER_TEXT: "{MirAI Encrypted Data Files v1.0 By Allwaysever}",
+    HEADER_TEXT: "{MirAI Encrypted Data Files v2.0 By Allwaysever}",
     HEADER_CODE_MULTIPLIER: 3,
     HEADER_CODE_ADDITION: 2
 };
 
-/**
- * Menghasilkan kode header dari header text
- * @param {string} text - Header text
- * @returns {string} - Header code dalam format angka
- */
+// === FUNGSI UTAMA ===
 function generateHeaderCode(text) {
     let code = '';
     for (let i = 0; i < text.length; i++) {
         const charCode = text.charCodeAt(i);
-        // Rumus: (ASCII + 2) * 3
         const transformedCode = (charCode + MEDF_CONFIG.HEADER_CODE_ADDITION) * MEDF_CONFIG.HEADER_CODE_MULTIPLIER;
         code += transformedCode.toString().padStart(4, '0');
     }
     return code;
 }
 
-/**
- * Memvalidasi signature header
- * @param {string} text - Header text
- * @param {string} code - Header code
- * @returns {boolean} - True jika valid
- */
 function validateSignature(text, code) {
     try {
-        // Validasi 1: Text harus sama persis
         if (text !== MEDF_CONFIG.HEADER_TEXT) {
-            console.warn('❌ Header text tidak sesuai');
+            console.warn('❌ Header text mismatch');
             return false;
         }
         
-        // Validasi 2: Generate code dari text dan bandingkan
         const expectedCode = generateHeaderCode(text);
         
         if (code !== expectedCode) {
-            console.warn('❌ Header code tidak sesuai');
-            console.log('Expected:', expectedCode);
-            console.log('Received:', code);
+            console.warn('❌ Header code mismatch');
             return false;
         }
         
-        // Validasi 3: Cek struktur code (harus hanya angka dengan panjang tertentu)
         const expectedLength = MEDF_CONFIG.HEADER_TEXT.length * 4;
         if (code.length !== expectedLength || !/^\d+$/.test(code)) {
-            console.warn('❌ Format header code tidak valid');
+            console.warn('❌ Invalid code format');
             return false;
         }
         
@@ -63,18 +47,12 @@ function validateSignature(text, code) {
         return true;
         
     } catch (error) {
-        console.error('❌ Signature validation error:', error);
+        console.error('Signature validation error:', error);
         return false;
     }
 }
 
-/**
- * Menghasilkan password dari kode perhitungan
- * @param {number} code - Kode perhitungan
- * @returns {string} - Password dalam bentuk huruf
- */
 function generatePasswordFromCode(code) {
-    // Konversi angka ke basis 26 (A-Z)
     let num = Math.abs(code);
     let result = '';
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -85,47 +63,47 @@ function generatePasswordFromCode(code) {
         num = Math.floor(num / 26);
     }
     
-    // Jika hasil kosong, gunakan default
     if (!result) result = 'MIRAI';
-    
-    // Tambahkan checksum sederhana
     const checksum = code.toString().split('').reduce((a, b) => a + parseInt(b), 0) % 26;
     result += alphabet[checksum];
     
     return result;
 }
 
-/**
- * Mendekripsi file .medf dengan validasi authenticity header
- * @param {ArrayBuffer} fileBuffer - Buffer file .medf
- * @param {number} code - Kode perhitungan
- * @returns {Promise<Object>} - Data JSON yang didekripsi
- */
+// === FUNGSI DECRYPT UNTUK CHAT.HTML ===
+async function extractApiKeyFromConfig(fileBuffer, code) {
+    const data = await decryptMEDF(fileBuffer, code);
+    
+    // Cari API Key di berbagai kemungkinan field
+    const apiKey = data.apiKey || 
+                   data.API_KEY || 
+                   data.apikey || 
+                   data.googleApiKey || 
+                   data.geminiApiKey;
+    
+    if (!apiKey) {
+        throw new Error("API Key tidak ditemukan dalam file config!");
+    }
+    
+    return apiKey;
+}
+
 async function decryptMEDF(fileBuffer, code) {
     try {
-        // Generate password dari kode
         const password = generatePasswordFromCode(code);
         
-        // Parse buffer
         const uint8View = new Uint8Array(fileBuffer);
-        
-        // Ekstrak bagian-bagian
         const salt = uint8View.slice(0, MEDF_CONFIG.saltLength);
         const iv = uint8View.slice(MEDF_CONFIG.saltLength, MEDF_CONFIG.saltLength + MEDF_CONFIG.ivLength);
         const encryptedData = uint8View.slice(MEDF_CONFIG.saltLength + MEDF_CONFIG.ivLength);
         
-        console.log('🔓 MEDF Decryption:', {
+        console.log('🔓 MEDF Decryption for chat.html:', {
             code: code,
-            password: password,
-            totalSize: fileBuffer.byteLength,
-            saltSize: salt.length,
-            ivSize: iv.length,
-            dataSize: encryptedData.length
+            totalSize: fileBuffer.byteLength
         });
         
         const encoder = new TextEncoder();
         
-        // Import key dari password
         const passwordKey = await crypto.subtle.importKey(
             "raw", 
             encoder.encode(password), 
@@ -134,7 +112,6 @@ async function decryptMEDF(fileBuffer, code) {
             ["deriveKey"]
         );
         
-        // Derive key menggunakan salt
         const key = await crypto.subtle.deriveKey(
             { 
                 name: "PBKDF2", 
@@ -148,19 +125,17 @@ async function decryptMEDF(fileBuffer, code) {
             ["decrypt"]
         );
         
-        // Decrypt data
         const decrypted = await crypto.subtle.decrypt(
             { name: "AES-GCM", iv: iv }, 
             key, 
             encryptedData
         );
         
-        // Parse JSON hasil decrypt
         const decryptedText = new TextDecoder().decode(decrypted);
         const data = JSON.parse(decryptedText);
         
-        // === VALIDASI AUTHENTICITY HEADER ===
-        console.log('🔍 Validating MEDF authenticity...');
+        // Validasi authenticity
+        console.log('🔍 Validating MEDF authenticity for chat.html...');
         
         if (!data._signature || !data._signature.headerText || !data._signature.headerCode) {
             throw new Error("❌ File .medf tidak memiliki signature keaslian!");
@@ -185,32 +160,107 @@ async function decryptMEDF(fileBuffer, code) {
     }
 }
 
-/**
- * Mengenkripsi data menjadi .medf dengan authenticity header
- * @param {Object} data - Data JSON untuk dienkripsi
- * @param {number} code - Kode perhitungan
- * @returns {Promise<Blob>} - Blob file .medf
- */
+// === FUNGSI BARU UNTUK SEARCH KEYS ===
+async function getSearchKeysFromConfig(fileBuffer, code) {
+    const data = await decryptMEDF(fileBuffer, code);
+    
+    console.log('🔍 Looking for search keys in:', Object.keys(data));
+    
+    // Cari searchConfig dulu
+    if (data.searchConfig) {
+        console.log('✅ Found searchConfig structure');
+        return data.searchConfig;
+    }
+    
+    // Fallback: cari individual keys
+    const searchKeys = {};
+    
+    // Google keys
+    if (data.googleApiKey || data.googleCx || data.googleSearchApiKey) {
+        searchKeys.google = {
+            apiKey: data.googleApiKey || data.googleSearchApiKey || '',
+            cx: data.googleCx || data.searchEngineId || '',
+            enabled: !!(data.googleApiKey || data.googleSearchApiKey) && !!(data.googleCx || data.searchEngineId)
+        };
+    }
+    
+    // NewsAPI keys
+    if (data.newsApiKey || data.newsAPIKey) {
+        searchKeys.newsapi = {
+            apiKey: data.newsApiKey || data.newsAPIKey || '',
+            enabled: !!(data.newsApiKey || data.newsAPIKey)
+        };
+    }
+    
+    // DuckDuckGo
+    if (typeof data.enableDuckDuckGo !== 'undefined') {
+        searchKeys.duckduckgo = {
+            enabled: Boolean(data.enableDuckDuckGo)
+        };
+    }
+    
+    // Wikipedia
+    if (typeof data.enableWikipedia !== 'undefined') {
+        searchKeys.wikipedia = {
+            enabled: Boolean(data.enableWikipedia)
+        };
+    }
+    
+    console.log('🔍 Extracted search keys:', searchKeys);
+    return searchKeys;
+}
+
+async function getSearchKeys() {
+    try {
+        console.log('🔍 getSearchKeys() called - loading from config.medf');
+        
+        // Load config.medf
+        const response = await fetch('config.medf');
+        if (!response.ok) {
+            console.warn('config.medf not found, returning empty search config');
+            return {};
+        }
+        
+        const buffer = await response.arrayBuffer();
+        const savedCode = localStorage.getItem('miraiConfigCode');
+        let code = MEDF_CONFIG.passwordCode;
+        
+        if (savedCode) {
+            try {
+                code = parseInt(savedCode);
+            } catch (e) {
+                console.warn('Invalid code in localStorage, using default');
+            }
+        }
+        
+        const searchKeys = await getSearchKeysFromConfig(buffer, code);
+        console.log('✅ getSearchKeys() success:', Object.keys(searchKeys));
+        return searchKeys;
+        
+    } catch (error) {
+        console.error('❌ Failed to get search keys:', error);
+        return {};
+    }
+}
+
+// === FUNGSI ENCRYPT UNTUK GENERATOR ===
 async function encryptToMEDF(data, code) {
     try {
-        // Generate password dari kode
         const password = generatePasswordFromCode(code);
         
-        // === TAMBAHKAN AUTHENTICITY HEADER ===
+        // Tambah authenticity signature
         const signatureData = {
             _signature: {
                 headerText: MEDF_CONFIG.HEADER_TEXT,
                 headerCode: generateHeaderCode(MEDF_CONFIG.HEADER_TEXT),
                 timestamp: new Date().toISOString(),
-                version: "1.0"
+                version: "2.0",
+                generator: "MEDF Processor"
             },
             ...data
         };
         
-        console.log('🔐 Adding authenticity signature:', {
-            headerText: MEDF_CONFIG.HEADER_TEXT,
-            headerCodePreview: generateHeaderCode(MEDF_CONFIG.HEADER_TEXT).substring(0, 20) + '...'
-        });
+        console.log('🔐 Encrypting with signature');
         
         const encoder = new TextEncoder();
         const salt = crypto.getRandomValues(new Uint8Array(MEDF_CONFIG.saltLength));
@@ -260,40 +310,25 @@ async function encryptToMEDF(data, code) {
     }
 }
 
-/**
- * Mengekstrak API Key dari confiq.medf dengan validasi authenticity
- * @param {ArrayBuffer} fileBuffer - Buffer file confiq.medf
- * @param {number} code - Kode perhitungan
- * @returns {Promise<string>} - API Key yang didekripsi
- */
-async function extractApiKeyFromConfig(fileBuffer, code) {
-    const data = await decryptMEDF(fileBuffer, code);
-    
-    // Cari API Key di berbagai kemungkinan field
-    const apiKey = data.apiKey || 
-                   data.API_KEY || 
-                   data.apikey || 
-                   data.googleApiKey || 
-                   data.geminiApiKey;
-    
-    if (!apiKey) {
-        throw new Error("API Key tidak ditemukan dalam file config!");
-    }
-    
-    return apiKey;
-}
-
-// Export untuk penggunaan di browser
+// === EXPORT UNTUK GLOBAL ACCESS ===
 if (typeof window !== 'undefined') {
     window.MEDFProcessor = {
+        // Existing functions
         decryptMEDF,
         encryptToMEDF,
         extractApiKeyFromConfig,
         generatePasswordFromCode,
         generateHeaderCode,
         validateSignature,
+        
+        // NEW: Search keys support
+        getSearchKeys,
+        getSearchKeysFromConfig,
+        
+        // Constants
         DEFAULT_CODE: MEDF_CONFIG.passwordCode,
-        HEADER_TEXT: MEDF_CONFIG.HEADER_TEXT
+        HEADER_TEXT: MEDF_CONFIG.HEADER_TEXT,
+        VERSION: "2.0"
     };
 }
 
@@ -303,74 +338,13 @@ if (typeof module !== 'undefined' && module.exports) {
         decryptMEDF,
         encryptToMEDF,
         extractApiKeyFromConfig,
+        getSearchKeys,
+        getSearchKeysFromConfig,
         generatePasswordFromCode,
         generateHeaderCode,
         validateSignature,
         DEFAULT_CODE: MEDF_CONFIG.passwordCode,
-        HEADER_TEXT: MEDF_CONFIG.HEADER_TEXT
-    };
-}
-
-// Tambah di processingapi.js (setelah extractApiKeyFromConfig)
-async function getSearchKeysFromConfig(fileBuffer, code) {
-    const data = await decryptMEDF(fileBuffer, code);
-    
-    // Cari searchConfig atau langsung keys
-    if (data.searchConfig) {
-        return data.searchConfig;
-    }
-    
-    // Fallback: cari keys individual
-    const searchKeys = {};
-    
-    if (data.googleApiKey || data.googleCx) {
-        searchKeys.google = {
-            apiKey: data.googleApiKey || '',
-            cx: data.googleCx || ''
-        };
-    }
-    
-    if (data.newsApiKey) {
-        searchKeys.newsapi = {
-            apiKey: data.newsApiKey
-        };
-    }
-    
-    return searchKeys;
-}
-
-// Export untuk global access
-if (typeof window !== 'undefined') {
-    window.MEDFProcessor = {
-        // ... existing functions ...
-        getSearchKeys: async function() {
-            try {
-                // Load config.medf
-                const response = await fetch('config.medf');
-                if (!response.ok) {
-                    console.warn('config.medf not found');
-                    return {};
-                }
-                
-                const buffer = await response.arrayBuffer();
-                const savedCode = localStorage.getItem('miraiConfigCode');
-                let code = MEDF_CONFIG.passwordCode;
-                
-                if (savedCode) {
-                    try {
-                        code = parseInt(savedCode);
-                    } catch (e) {
-                        console.warn('Invalid code, using default');
-                    }
-                }
-                
-                return await getSearchKeysFromConfig(buffer, code);
-                
-            } catch (error) {
-                console.error('Failed to get search keys:', error);
-                return {};
-            }
-        },
-        // ... rest of exports ...
+        HEADER_TEXT: MEDF_CONFIG.HEADER_TEXT,
+        VERSION: "2.0"
     };
 }
