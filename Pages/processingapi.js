@@ -1,5 +1,5 @@
-// processingapi.js (UPDATED VERSION)
-// Sistem dekripsi untuk config.medf dengan password kode perhitungan + Search Keys support
+// processingapi.js (ENHANCED VERSION)
+// Sistem dekripsi untuk config.medf + Search Keys support
 
 const MEDF_CONFIG = {
     saltLength: 16,

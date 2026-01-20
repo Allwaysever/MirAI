@@ -506,6 +506,103 @@ const VERSION = '2.12.0-Beta5Fix'; // generateVersion(2, 12, 0);
         cacheDuration: 3600000
     };
 
+// === FUNGSI LOAD SEARCH CONFIG DARI ENCRYPTED FILE ===
+async function loadSearchConfigFromEncrypted() {
+    console.log('🔍 Loading search configuration from encrypted file...');
+    
+    try {
+        // Check if MEDFProcessor is available
+        if (window.MEDFProcessor && window.MEDFProcessor.getSearchKeys) {
+            console.log('✅ MEDFProcessor.getSearchKeys available');
+            
+            const searchKeys = await window.MEDFProcessor.getSearchKeys();
+            console.log('✅ Search keys loaded:', Object.keys(searchKeys));
+            
+            if (searchKeys && typeof searchKeys === 'object') {
+                // Update SEARCH_CONFIG
+                Object.keys(searchKeys).forEach(key => {
+                    if (SEARCH_CONFIG.engines[key]) {
+                        console.log(`🔄 Updating ${key} config`);
+                        SEARCH_CONFIG.engines[key] = {
+                            ...SEARCH_CONFIG.engines[key],
+                            ...searchKeys[key]
+                        };
+                    }
+                });
+                
+                console.log('🔄 SEARCH_CONFIG updated successfully');
+                
+                // Log hasil
+                console.log('🔍 Current search config:', {
+                    google: {
+                        hasApiKey: !!SEARCH_CONFIG.engines.google.apiKey,
+                        hasCx: !!SEARCH_CONFIG.engines.google.cx,
+                        enabled: SEARCH_CONFIG.engines.google.enabled
+                    },
+                    newsapi: {
+                        hasApiKey: !!SEARCH_CONFIG.engines.newsapi.apiKey,
+                        enabled: SEARCH_CONFIG.engines.newsapi.enabled
+                    },
+                    duckduckgo: {
+                        enabled: SEARCH_CONFIG.engines.duckduckgo.enabled
+                    },
+                    wikipedia: {
+                        enabled: SEARCH_CONFIG.engines.wikipedia.enabled
+                    }
+                });
+                
+            } else {
+                console.warn('⚠️ No search keys found in encrypted file');
+            }
+            
+        } else {
+            console.warn('⚠️ MEDFProcessor.getSearchKeys not available, using localStorage');
+            loadSearchConfigFromLocalStorage();
+        }
+        
+    } catch (error) {
+        console.error('❌ Failed to load search config from encrypted file:', error);
+        // Fallback ke localStorage
+        loadSearchConfigFromLocalStorage();
+    }
+}
+
+// Fallback function untuk load dari localStorage
+function loadSearchConfigFromLocalStorage() {
+    const savedSearchConfig = localStorage.getItem('miraiSearchConfig');
+    if (savedSearchConfig) {
+        try {
+            const config = JSON.parse(savedSearchConfig);
+            Object.keys(config).forEach(key => {
+                if (SEARCH_CONFIG.engines[key]) {
+                    SEARCH_CONFIG.engines[key] = { ...SEARCH_CONFIG.engines[key], ...config[key] };
+                }
+            });
+            console.log('✅ Search config loaded from localStorage');
+        } catch (e) {
+            console.error('Error loading search config from localStorage:', e);
+        }
+    }
+}
+
+// ⭐⭐ BARU: Load search config ke UI elements
+function loadSearchConfigToUI() {
+    console.log('🔄 Loading search config to UI...');
+    
+    if (!elements.googleApiKey) return;
+    
+    // Update UI fields dari SEARCH_CONFIG
+    elements.googleApiKey.value = SEARCH_CONFIG.engines.google.apiKey || '';
+    elements.googleCx.value = SEARCH_CONFIG.engines.google.cx || '';
+    elements.newsApiKey.value = SEARCH_CONFIG.engines.newsapi.apiKey || '';
+    elements.enableGoogleSearch.checked = SEARCH_CONFIG.engines.google.enabled;
+    elements.enableNewsSearch.checked = SEARCH_CONFIG.engines.newsapi.enabled;
+    elements.enableDuckDuckGo.checked = SEARCH_CONFIG.engines.duckduckgo.enabled;
+    elements.enableWikipedia.checked = SEARCH_CONFIG.engines.wikipedia.enabled;
+    
+    console.log('✅ UI elements updated with search config');
+}
+
     // Cache untuk hasil search
     let searchCache = new Map();
 
@@ -2176,7 +2273,7 @@ function loadSearchConfigToUI() {
         return uiStrings[currentLanguage][promptKey] || uiStrings['en'][promptKey];
     }
 
-    async function initializeApp() {
+async function initializeApp() {
     console.log('🔧 Initializing app...');
     
     try {
@@ -2185,7 +2282,7 @@ function loadSearchConfigToUI() {
         console.log('🔑 API Key loaded from config.medf:', currentApiKey.substring(0, 10) + '...');
         
         // ⭐⭐ BARU: Load search config dari encrypted file
-        loadSearchConfigFromEncrypted();
+        await loadSearchConfigFromEncrypted();
         
     } catch (error) {
         console.error('Failed to load API key from config.medf:', error);
@@ -2194,6 +2291,9 @@ function loadSearchConfigToUI() {
     
     isUsingPublicApi = isPublicApiKey(currentApiKey);
     console.log(`🌐 Using ${isUsingPublicApi ? 'PUBLIC' : 'PRIVATE'} API Key`);
+
+    // ⭐⭐ BARU: Load UI config untuk settings panel
+    loadSearchConfigToUI();
     
     if (isUsingPublicApi) {
         const bubbleCount = MEDF_PROCESSOR.countPublicApiBubbles();
