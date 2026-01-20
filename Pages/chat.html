@@ -511,53 +511,84 @@ async function loadSearchConfigFromEncrypted() {
     console.log('🔍 Loading search configuration from encrypted file...');
     
     try {
-        // Check if MEDFProcessor is available
-        if (window.MEDFProcessor && window.MEDFProcessor.getSearchKeys) {
-            console.log('✅ MEDFProcessor.getSearchKeys available');
+        // Check if config.medf exists
+        const response = await fetch('config.medf');
+        if (!response.ok) {
+            console.log('config.medf not found, using defaults');
+            return;
+        }
+        
+        const buffer = await response.arrayBuffer();
+        const savedCode = localStorage.getItem('miraiConfigCode');
+        let code = 271828; // default calculation code
+        
+        if (savedCode) {
+            try {
+                code = parseInt(savedCode);
+            } catch (e) {
+                console.warn('Invalid code in localStorage, using default');
+            }
+        }
+        
+        // Use MEDFProcessor to decrypt
+        const data = await window.MEDFProcessor.decryptMEDF(buffer, code);
+        
+        // Extract search config
+        if (data.searchConfig) {
+            console.log('✅ Found search config in encrypted file');
             
-            const searchKeys = await window.MEDFProcessor.getSearchKeys();
-            console.log('✅ Search keys loaded:', Object.keys(searchKeys));
-            
-            if (searchKeys && typeof searchKeys === 'object') {
-                // Update SEARCH_CONFIG
-                Object.keys(searchKeys).forEach(key => {
-                    if (SEARCH_CONFIG.engines[key]) {
-                        console.log(`🔄 Updating ${key} config`);
-                        SEARCH_CONFIG.engines[key] = {
-                            ...SEARCH_CONFIG.engines[key],
-                            ...searchKeys[key]
-                        };
-                    }
-                });
-                
-                console.log('🔄 SEARCH_CONFIG updated successfully');
-                
-                // Log hasil
-                console.log('🔍 Current search config:', {
-                    google: {
-                        hasApiKey: !!SEARCH_CONFIG.engines.google.apiKey,
-                        hasCx: !!SEARCH_CONFIG.engines.google.cx,
-                        enabled: SEARCH_CONFIG.engines.google.enabled
-                    },
-                    newsapi: {
-                        hasApiKey: !!SEARCH_CONFIG.engines.newsapi.apiKey,
-                        enabled: SEARCH_CONFIG.engines.newsapi.enabled
-                    },
-                    duckduckgo: {
-                        enabled: SEARCH_CONFIG.engines.duckduckgo.enabled
-                    },
-                    wikipedia: {
-                        enabled: SEARCH_CONFIG.engines.wikipedia.enabled
-                    }
-                });
-                
-            } else {
-                console.warn('⚠️ No search keys found in encrypted file');
+            // Update SEARCH_CONFIG with data from file
+            if (data.searchConfig.google) {
+                SEARCH_CONFIG.engines.google = {
+                    ...SEARCH_CONFIG.engines.google,
+                    ...data.searchConfig.google
+                };
             }
             
+            if (data.searchConfig.newsapi) {
+                SEARCH_CONFIG.engines.newsapi = {
+                    ...SEARCH_CONFIG.engines.newsapi,
+                    ...data.searchConfig.newsapi
+                };
+            }
+            
+            if (data.searchConfig.duckduckgo) {
+                SEARCH_CONFIG.engines.duckduckgo = {
+                    ...SEARCH_CONFIG.engines.duckduckgo,
+                    ...data.searchConfig.duckduckgo
+                };
+            }
+            
+            if (data.searchConfig.wikipedia) {
+                SEARCH_CONFIG.engines.wikipedia = {
+                    ...SEARCH_CONFIG.engines.wikipedia,
+                    ...data.searchConfig.wikipedia
+                };
+            }
+            
+            console.log('🔄 SEARCH_CONFIG updated from encrypted file');
+            
+            // Log hasil
+            console.log('🔍 Current search config:', {
+                google: {
+                    hasApiKey: !!SEARCH_CONFIG.engines.google.apiKey,
+                    hasCx: !!SEARCH_CONFIG.engines.google.cx,
+                    enabled: SEARCH_CONFIG.engines.google.enabled
+                },
+                newsapi: {
+                    hasApiKey: !!SEARCH_CONFIG.engines.newsapi.apiKey,
+                    enabled: SEARCH_CONFIG.engines.newsapi.enabled
+                },
+                duckduckgo: {
+                    enabled: SEARCH_CONFIG.engines.duckduckgo.enabled
+                },
+                wikipedia: {
+                    enabled: SEARCH_CONFIG.engines.wikipedia.enabled
+                }
+            });
+            
         } else {
-            console.warn('⚠️ MEDFProcessor.getSearchKeys not available, using localStorage');
-            loadSearchConfigFromLocalStorage();
+            console.warn('⚠️ No search config found in encrypted file');
         }
         
     } catch (error) {
