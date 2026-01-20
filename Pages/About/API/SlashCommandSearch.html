@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirAI - Setup Google Search API</title>
+    <meta name="description" content="Setup Google Search API and Search Engine ID for MirAI search feature">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Include the SRUI CSS -->
+    <style>
+        /* ANIMATION UPGRADE: Smoother and more performant theme transitions (SRUI: Smooth Transitions) */
+        /* SRUI VARIABLES - CSS variable implementation for consistency */
+        :root {
+          /* SRUI Accent Colors */
+          --srui-accent: #ffce00;
+          --srui-accent-text: #000000;
+          --srui-accent-alt: #444444;
+          --srui-accent-text-alt: #ffffff;
+          
+          /* SRUI Background Colors - Dark Theme */
+          --srui-bg-primary: #1B1C1E;
+          --srui-bg-card: #0f0f0f;
+          --srui-bg-neutral: rgba(15, 15, 15, 0.7);
+          
+          /* SRUI Text Colors - Dark Theme */
+          --srui-text-primary: #ffffff;
+          --srui-text-secondary: #999999;
+          --srui-text-tertiary: #666666;
+          
+          /* SRUI Border & Neutral Colors - Dark Theme */
+          --srui-border-input: #4B4F50;
+          --srui-border-neutral: #4B4F50;
+          --srui-neutral-mid: #999999;
+          --srui-neutral-dark: #666666;
+          
+          /* SRUI Background Colors - Light Theme */
+          --srui-bg-primary-light: #e9e9e9;
+          --srui-bg-card-light: #ffffff;
+          --srui-bg-neutral-light: rgba(217, 217, 217, 0.7);
+          
+          /* SRUI Text Colors - Light Theme */
+          --srui-text-primary-light: #444444;
+          --srui-text-secondary-light: #999999;
+          --srui-text-tertiary-light: #666666;
+          
+          /* SRUI Border & Neutral Colors - Light Theme */
+          --srui-border-input-light: #b3b3b3;
+          --srui-border-neutral-light: #b3b3b3;
+          --srui-neutral-mid-light: #999999;
+          --srui-neutral-dark-light: #666666;
+          
+          /* SRUI Semantic Colors */
+          --srui-success: #4CAF50;
+          --srui-warning: #ffce00;
+          --srui-error: #F44336;
+          --srui-info: #2196F3;
+          
+          /* SRUI Border Radius System */
+          --srui-radius-sm: 10px;
+          --srui-radius-md: 15px;
+          --srui-radius-lg: 25px;
+          --srui-radius-xl: 9999px;
+          --srui-radius-chip: 9999px;
+          
+          /* SRUI Transitions */
+          --srui-transition-fast: 0.1s ease-out;
+          --srui-transition-normal: 0.3s ease-in-out;
+          --srui-transition-slow: 0.5s ease-in-out;
+          --srui-transition-micro: 0.08s ease-out;
+          
+          /* SRUI Shadows */
+          --srui-shadow-minimal: 0 1px 5px rgba(0, 0, 0, 0.15);
+          --srui-shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.18);
+          --srui-shadow-strong: 0 4px 10px rgba(0, 0, 0, 0.25);
+          --srui-shadow-modal: 0 8px 20px rgba(0, 0, 0, 0.35);
+          
+          /* SRUI GlassLayer Effect - As per 7.1 */
+          --srui-glass-bg: rgba(15, 15, 15, 0.9);
+          --srui-glass-bg-light: rgba(255, 255, 255, 0.9);
+          --srui-glass-blur: blur(8px);
+          --srui-glass-border: 1px solid rgba(75, 79, 80, 0.25);
+          --srui-glass-border-light: 1px solid rgba(179, 179, 179, 0.25);
+          
+          /* SRUI Micro-Bounce Effects */
+          --srui-bounce-scale-hover: 1.02;
+          --srui-bounce-scale-active: 0.98;
+          
+          /* SRUI Chip Variables */
+          --srui-chip-padding: 6px 12px;
+          --srui-chip-font-size: 0.85em;
+          --srui-chip-icon-size: 0.9em;
+        }
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+          background-color: var(--srui-bg-primary);
+          color: var(--srui-text-primary);
+          line-height: 1.6;
+          min-height: 100vh;
+          padding: 20px;
+          transition: all var(--srui-transition-normal);
+        }
+
+        body.light-theme {
+          background-color: var(--srui-bg-primary-light);
+          color: var(--srui-text-primary-light);
+        }
+
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .header {
+          background:#0f0f0f;
+          color: white;
+          padding: 40px 20px;
+          border-radius: var(--srui-radius-lg);
+          margin-bottom: 30px;
+          text-align: center;
+          box-shadow: var(--srui-shadow-medium);
+        }
+
+        .logo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 15px;
+          margin-bottom: 20px;
+        }
+
+        .logo-img {
+          height: 60px;
+          border-radius: 12px;
+          filter: none;
+        }
+
+        body.light-theme .logo-img {
+          filter: none;
+        }
+
+        .logo-text {
+          font-size: 2.2rem;
+          font-weight: 700;
+        }
+
+        h1 {
+          font-size: 2.2rem;
+          margin-bottom: 15px;
+        }
+
+        .subtitle {
+          font-size: 1.1rem;
+          opacity: 0.9;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .content {
+          background-color: var(--srui-bg-card);
+          border-radius: var(--srui-radius-lg);
+          padding: 30px;
+          box-shadow: var(--srui-shadow-medium);
+          margin-bottom: 30px;
+        }
+
+        body.light-theme .content {
+          background-color: var(--srui-bg-card-light);
+        }
+
+        .section {
+          margin-bottom: 40px;
+          padding: 25px;
+          border-radius: var(--srui-radius-md);
+          background-color: var(--srui-bg-neutral);
+          border-left: 5px solid var(--srui-accent);
+        }
+
+        body.light-theme .section {
+          background-color: var(--srui-bg-neutral-light);
+          border-left-color: var(--srui-accent-alt);
+        }
+
+        .section.warning {
+          border-left-color: var(--srui-warning);
+          background-color: rgba(255, 206, 0, 0.1);
+        }
+
+        body.light-theme .section.warning {
+          background-color: rgba(255, 206, 0, 0.15);
+        }
+
+        .section.success {
+          border-left-color: var(--srui-success);
+          background-color: rgba(76, 175, 80, 0.1);
+        }
+
+        body.light-theme .section.success {
+          background-color: rgba(76, 175, 80, 0.15);
+        }
+
+        h2 {
+          font-size: 1.8rem;
+          margin-bottom: 20px;
+          color: var(--srui-text-primary);
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        body.light-theme h2 {
+          color: var(--srui-text-primary-light);
+        }
+
+        h2 i {
+          color: var(--srui-accent);
+        }
+
+        body.light-theme h2 i {
+          color: var(--srui-accent-alt);
+        }
+
+        h3 {
+          font-size: 1.4rem;
+          margin: 25px 0 15px;
+          color: var(--srui-text-primary);
+        }
+
+        body.light-theme h3 {
+          color: var(--srui-text-primary-light);
+        }
+
+        p {
+          margin-bottom: 15px;
+          font-size: 1.05rem;
+          color: var(--srui-text-secondary);
+        }
+
+        body.light-theme p {
+          color: var(--srui-text-secondary-light);
+        }
+
+        ol, ul {
+          margin-left: 25px;
+          margin-bottom: 20px;
+        }
+
+        li {
+          margin-bottom: 10px;
+          font-size: 1.05rem;
+          color: var(--srui-text-secondary);
+        }
+
+        body.light-theme li {
+          color: var(--srui-text-secondary-light);
+        }
+
+        .step-number {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          background-color: var(--srui-accent);
+          color: var(--srui-accent-text);
+          border-radius: 50%;
+          margin-right: 10px;
+          font-weight: bold;
+        }
+
+        body.light-theme .step-number {
+          background-color: var(--srui-accent-alt);
+          color: var(--srui-accent-text-alt);
+        }
+
+        .code-block {
+          background-color: #2d2d2d;
+          color: #f8f8f2;
+          padding: 20px;
+          border-radius: var(--srui-radius-md);
+          font-family: 'Courier New', monospace;
+          overflow-x: auto;
+          margin: 20px 0;
+          font-size: 0.95rem;
+          line-height: 1.5;
+          border: 1px solid var(--srui-border-input);
+        }
+
+        body.light-theme .code-block {
+          background-color: #f5f5f5;
+          color: #333;
+          border: 1px solid var(--srui-border-input-light);
+        }
+
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          padding: 14px 28px;
+          background-color: var(--srui-accent);
+          color: var(--srui-accent-text);
+          border: none;
+          border-radius: var(--srui-radius-lg);
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          text-decoration: none;
+          transition: all var(--srui-transition-normal);
+          text-align: center;
+          font-family: inherit;
+        }
+
+        .btn:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--srui-shadow-medium);
+          background-color: #ffdb4d;
+        }
+
+        .btn-secondary {
+          background-color: var(--srui-accent-alt);
+          color: var(--srui-accent-text-alt);
+        }
+
+        body.light-theme .btn-secondary {
+          background-color: var(--srui-accent-alt);
+          color: var(--srui-accent-text-alt);
+        }
+
+        .btn-secondary:hover {
+          background-color: #555;
+        }
+
+        .btn-large {
+          padding: 18px 36px;
+          font-size: 1.1rem;
+        }
+
+        .btn-group {
+          display: flex;
+          gap: 15px;
+          flex-wrap: wrap;
+          margin-top: 25px;
+        }
+
+        .form-group {
+          margin-bottom: 25px;
+        }
+
+        label {
+          display: block;
+          margin-bottom: 8px;
+          font-weight: 600;
+          font-size: 1.05rem;
+          color: var(--srui-text-primary);
+        }
+
+        body.light-theme label {
+          color: var(--srui-text-primary-light);
+        }
+
+        input, textarea, select {
+          width: 100%;
+          padding: 15px;
+          border: 2px solid var(--srui-border-input);
+          border-radius: var(--srui-radius-md);
+          font-size: 1rem;
+          font-family: inherit;
+          transition: all var(--srui-transition-normal);
+          background-color: var(--srui-bg-card);
+          color: var(--srui-text-primary);
+        }
+
+        body.light-theme input,
+        body.light-theme textarea,
+        body.light-theme select {
+          border: 2px solid var(--srui-border-input-light);
+          background-color: var(--srui-bg-card-light);
+          color: var(--srui-text-primary-light);
+        }
+
+        input:focus, textarea:focus, select:focus {
+          outline: none;
+          border-color: var(--srui-accent);
+          box-shadow: 0 0 0 3px rgba(255, 206, 0, 0.2);
+        }
+
+        body.light-theme input:focus,
+        body.light-theme textarea:focus,
+        body.light-theme select:focus {
+          border-color: var(--srui-accent-alt);
+          box-shadow: 0 0 0 3px rgba(68, 68, 68, 0.2);
+        }
+
+        .form-row {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 20px;
+        }
+
+        .api-display {
+          background-color: var(--srui-bg-neutral);
+          padding: 15px;
+          border-radius: var(--srui-radius-md);
+          border-left: 4px solid var(--srui-success);
+          word-break: break-all;
+          font-family: monospace;
+          font-size: 0.95rem;
+          color: var(--srui-text-primary);
+        }
+
+        body.light-theme .api-display {
+          background-color: var(--srui-bg-neutral-light);
+          color: var(--srui-text-primary-light);
+        }
+
+        .highlight {
+          background-color: rgba(255, 206, 0, 0.2);
+          padding: 3px 8px;
+          border-radius: 4px;
+          font-weight: 600;
+          color: var(--srui-accent);
+        }
+
+        body.light-theme .highlight {
+          background-color: rgba(68, 68, 68, 0.2);
+          color: var(--srui-accent-alt);
+        }
+
+        .note {
+          background-color: rgba(33, 150, 243, 0.1);
+          padding: 15px;
+          border-radius: var(--srui-radius-md);
+          margin: 20px 0;
+          border-left: 4px solid var(--srui-info);
+          color: var(--srui-text-primary);
+        }
+
+        body.light-theme .note {
+          background-color: rgba(33, 150, 243, 0.15);
+          color: var(--srui-text-primary-light);
+        }
+
+        .warning-note {
+          background-color: rgba(255, 206, 0, 0.1);
+          padding: 15px;
+          border-radius: var(--srui-radius-md);
+          margin: 20px 0;
+          border-left: 4px solid var(--srui-warning);
+          color: var(--srui-text-primary);
+        }
+
+        body.light-theme .warning-note {
+          background-color: rgba(255, 206, 0, 0.15);
+          color: var(--srui-text-primary-light);
+        }
+
+        .link {
+          color: var(--srui-accent);
+          text-decoration: none;
+          font-weight: 500;
+        }
+
+        body.light-theme .link {
+          color: var(--srui-accent-alt);
+        }
+
+        .link:hover {
+          text-decoration: underline;
+        }
+
+        .card {
+          background-color: var(--srui-bg-neutral);
+          border-radius: var(--srui-radius-md);
+          padding: 20px;
+          margin-bottom: 20px;
+          border: 1px solid var(--srui-border-input);
+        }
+
+        body.light-theme .card {
+          background-color: var(--srui-bg-neutral-light);
+          border: 1px solid var(--srui-border-input-light);
+        }
+
+        .card h3 {
+          margin-top: 0;
+        }
+
+        .footer {
+          text-align: center;
+          padding: 30px;
+          margin-top: 40px;
+          color: var(--srui-text-tertiary);
+          border-top: 1px solid var(--srui-border-input);
+          font-size: 0.9rem;
+        }
+
+        body.light-theme .footer {
+          color: var(--srui-text-tertiary-light);
+          border-top: 1px solid var(--srui-border-input-light);
+        }
+
+        .status-badge {
+          display: inline-block;
+          padding: 5px 12px;
+          border-radius: var(--srui-radius-chip);
+          font-size: 0.85rem;
+          font-weight: 600;
+          margin-left: 10px;
+        }
+
+        .status-active {
+          background-color: var(--srui-success);
+          color: white;
+        }
+
+        .status-inactive {
+          background-color: var(--srui-error);
+          color: white;
+        }
+
+        .tabs {
+          display: flex;
+          border-bottom: 2px solid var(--srui-border-input);
+          margin-bottom: 30px;
+          overflow-x: auto;
+        }
+
+        body.light-theme .tabs {
+          border-bottom: 2px solid var(--srui-border-input-light);
+        }
+
+        .tab {
+          padding: 15px 25px;
+          font-weight: 600;
+          cursor: pointer;
+          border-bottom: 3px solid transparent;
+          transition: all var(--srui-transition-normal);
+          color: var(--srui-text-secondary);
+          white-space: nowrap;
+        }
+
+        body.light-theme .tab {
+          color: var(--srui-text-secondary-light);
+        }
+
+        .tab:hover {
+          color: var(--srui-text-primary);
+        }
+
+        body.light-theme .tab:hover {
+          color: var(--srui-text-primary-light);
+        }
+
+        .tab.active {
+          color: var(--srui-accent);
+          border-bottom: 3px solid var(--srui-accent);
+        }
+
+        body.light-theme .tab.active {
+          color: var(--srui-accent-alt);
+          border-bottom: 3px solid var(--srui-accent-alt);
+        }
+
+        .tab-content {
+          display: none;
+          animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content.active {
+          display: block;
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background-color: var(--srui-accent);
+          color: var(--srui-accent-text);
+          border: none;
+          border-radius: var(--srui-radius-xl);
+          width: 44px;
+          height: 44px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          z-index: 100;
+          box-shadow: var(--srui-shadow-medium);
+          transition: all var(--srui-transition-normal);
+        }
+
+        .theme-toggle:hover {
+          transform: scale(1.1);
+        }
+
+        body.light-theme .theme-toggle {
+          background-color: var(--srui-accent-alt);
+          color: var(--srui-accent-text-alt);
+        }
+
+        /* Back button */
+        .back-button {
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          background-color: var(--srui-bg-card);
+          color: var(--srui-text-primary);
+          border: 1px solid var(--srui-border-input);
+          border-radius: var(--srui-radius-xl);
+          width: 44px;
+          height: 44px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          z-index: 100;
+          box-shadow: var(--srui-shadow-minimal);
+          transition: all var(--srui-transition-normal);
+          text-decoration: none;
+        }
+
+        .back-button:hover {
+          background-color: var(--srui-accent);
+          color: var(--srui-accent-text);
+          transform: translateX(-3px);
+        }
+
+        body.light-theme .back-button {
+          background-color: var(--srui-bg-card-light);
+          color: var(--srui-text-primary-light);
+          border: 1px solid var(--srui-border-input-light);
+        }
+
+        body.light-theme .back-button:hover {
+          background-color: var(--srui-accent-alt);
+          color: var(--srui-accent-text-alt);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+          .content {
+            padding: 20px;
+          }
+          
+          h1 {
+            font-size: 1.8rem;
+          }
+          
+          h2 {
+            font-size: 1.5rem;
+          }
+          
+          .btn-group {
+            flex-direction: column;
+          }
+          
+          .btn {
+            width: 100%;
+          }
+          
+          .form-row {
+            grid-template-columns: 1fr;
+          }
+          
+          .tabs {
+            flex-direction: column;
+          }
+          
+          .tab {
+            border-bottom: 1px solid var(--srui-border-input);
+          }
+          
+          body.light-theme .tab {
+            border-bottom: 1px solid var(--srui-border-input-light);
+          }
+          
+          .tab.active {
+            border-bottom: 3px solid var(--srui-accent);
+          }
+          
+          body.light-theme .tab.active {
+            border-bottom: 3px solid var(--srui-accent-alt);
+          }
+        }
+
+        @media (max-width: 480px) {
+          .header {
+            padding: 30px 15px;
+          }
+          
+          .content {
+            padding: 15px;
+          }
+          
+          .section {
+            padding: 20px;
+          }
+          
+          .logo-text {
+            font-size: 1.8rem;
+          }
+          
+          .theme-toggle, .back-button {
+            width: 40px;
+            height: 40px;
+          }
+        }
+
+        /* Checkbox styling */
+        .checkbox-container {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-top: 10px;
+          cursor: pointer;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+          width: 18px;
+          height: 18px;
+          cursor: pointer;
+          accent-color: var(--srui-accent);
+        }
+
+        body.light-theme .checkbox-container input[type="checkbox"] {
+          accent-color: var(--srui-accent-alt);
+        }
+
+        /* Password visibility toggle */
+        .password-container {
+          position: relative;
+        }
+
+        .toggle-password {
+          position: absolute;
+          right: 15px;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+          color: var(--srui-neutral-mid);
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: color var(--srui-transition-normal);
+        }
+
+        .toggle-password:hover {
+          color: var(--srui-accent);
+        }
+
+        body.light-theme .toggle-password:hover {
+          color: var(--srui-accent-alt);
+        }
+
+        /* Loading spinner */
+        .spinner {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          border: 3px solid rgba(255, 206, 0, 0.3);
+          border-radius: 50%;
+          border-top-color: var(--srui-accent);
+          animation: spin 1s ease-in-out infinite;
+        }
+
+        body.light-theme .spinner {
+          border: 3px solid rgba(68, 68, 68, 0.3);
+          border-top-color: var(--srui-accent-alt);
+        }
+
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <!-- Back Button -->
+    <a href="javascript:history.back()" class="back-button" id="backButton">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Name%20Logo.png" alt="MirAI" class="logo-img">
+            </div>
+            <h1>Setup Google Search API</h1>
+            <p class="subtitle">Get your API Key and Search Engine ID to enable advanced search features in MirAI</p>
+        </div>
+        
+        <div class="content">
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="guide">Guide</div>
+                <div class="tab" data-tab="config">Configuration</div>
+                <div class="tab" data-tab="test">API Test</div>
+            </div>
+            
+            <!-- Tab 1: Guide -->
+            <div id="guide" class="tab-content active">
+                <div class="section">
+                    <h2><i class="fas fa-info-circle"></i> About Google Search API</h2>
+                    <p>Google Custom Search API allows MirAI to search for information from the internet in real-time. With this feature, MirAI can answer questions with up-to-date data and information from across the web.</p>
+                    
+                    <div class="note">
+                        <p><strong>Important Note:</strong> Google provides 100 free searches per day for each API Key. For more intensive usage, you need to enable billing in Google Cloud Console.</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2><i class="fas fa-list-ol"></i> Setup Steps</h2>
+                    
+                    <h3><span class="step-number">1</span> Create a Project in Google Cloud</h3>
+                    <ol>
+                        <li>Open <a href="https://console.cloud.google.com/" target="_blank" class="link">Google Cloud Console</a></li>
+                        <li>Log in with your Google account</li>
+                        <li>Click the <span class="highlight">"Select a project"</span> button at the top</li>
+                        <li>Click <span class="highlight">"New Project"</span></li>
+                        <li>Name your project (example: "MirAI-Search")</li>
+                        <li>Click <span class="highlight">"Create"</span></li>
+                    </ol>
+                    
+                    <h3><span class="step-number">2</span> Enable Custom Search API</h3>
+                    <ol>
+                        <li>After creating the project, open <a href="https://console.cloud.google.com/apis/library/customsearch.googleapis.com" target="_blank" class="link">Custom Search API</a></li>
+                        <li>Make sure the selected project is the newly created one</li>
+                        <li>Click the <span class="highlight">"Enable"</span> button to activate the API</li>
+                    </ol>
+                    
+                    <h3><span class="step-number">3</span> Create API Key</h3>
+                    <ol>
+                        <li>Open <a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="link">Credentials Page</a></li>
+                        <li>Click <span class="highlight">"Create Credentials"</span> → <span class="highlight">"API Key"</span></li>
+                        <li>Copy the generated API Key</li>
+                        <li>(Optional) Restrict the API Key for security:
+                            <ul>
+                                <li>Click "Restrict Key"</li>
+                                <li>Select "HTTP referrers (web sites)"</li>
+                                <li>Add your domain (or leave empty for testing)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <h3><span class="step-number">4</span> Create Custom Search Engine</h3>
+                    <ol>
+                        <li>Open <a href="https://programmablesearchengine.google.com/" target="_blank" class="link">Google Programmable Search Engine</a></li>
+                        <li>Click <span class="highlight">"Add"</span> to create a new search engine</li>
+                        <li>Fill in the name and description (example: "MirAI Search")</li>
+                        <li>Select <span class="highlight">"Search the entire web"</span></li>
+                        <li>Click <span class="highlight">"Create"</span></li>
+                        <li>After creation, go to <span class="highlight">"Setup"</span> → <span class="highlight">"Basics"</span></li>
+                        <li>Copy the <span class="highlight">"Search engine ID"</span> (CX)</li>
+                    </ol>
+                    
+                    <h3><span class="step-number">5</span> Enter into MirAI</h3>
+                    <ol>
+                        <li>Return to this page</li>
+                        <li>Open the <span class="highlight">"Configuration"</span> tab</li>
+                        <li>Enter the obtained API Key and Search Engine ID</li>
+                        <li>Click <span class="highlight">"Save Configuration"</span></li>
+                    </ol>
+                    
+                    <div class="btn-group">
+                        <a href="https://console.cloud.google.com/" target="_blank" class="btn btn-large">
+                            <i class="fas fa-external-link-alt"></i> Open Google Cloud Console
+                        </a>
+                        <a href="https://programmablesearchengine.google.com/" target="_blank" class="btn btn-large btn-secondary">
+                            <i class="fas fa-search"></i> Create Search Engine
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="section warning">
+                    <h2><i class="fas fa-exclamation-triangle"></i> API Key Security</h2>
+                    <p>Your API Key is secret! Never share it with anyone or post it on public forums.</p>
+                    <div class="warning-note">
+                        <p><strong>Security Tips:</strong></p>
+                        <ul>
+                            <li>Always restrict your API Key in Google Cloud Console</li>
+                            <li>Use environment variables when deploying to a server</li>
+                            <li>Monitor your API usage regularly</li>
+                            <li>Immediately delete compromised API Keys</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab 2: Configuration -->
+            <div id="config" class="tab-content">
+                <div class="section">
+                    <h2><i class="fas fa-cog"></i> Search API Configuration</h2>
+                    <p>Enter the API Key and Search Engine ID you obtained from Google Cloud Console.</p>
+                    
+                    <form id="api-config-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="api-key">Google API Key <span class="highlight">*</span></label>
+                                <div class="password-container">
+                                    <input type="password" id="api-key" placeholder="AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA" required>
+                                    <span class="toggle-password" id="toggleApiKey">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="show-api-key">
+                                    <label for="show-api-key">Show API Key</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="search-engine-id">Search Engine ID (CX) <span class="highlight">*</span></label>
+                                <input type="text" id="search-engine-id" placeholder="0123456789abcdef0123456789abcdef" required>
+                                <p style="font-size: 0.9rem; margin-top: 5px; color: var(--srui-text-secondary);">Format: 16-32 alphanumeric characters</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="api-name">Configuration Name (Optional)</label>
+                            <input type="text" id="api-name" placeholder="Example: My Search Configuration">
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-large">
+                                <i class="fas fa-save"></i> Save Configuration
+                            </button>
+                            <button type="button" id="clear-config" class="btn btn-large btn-secondary">
+                                <i class="fas fa-trash-alt"></i> Clear Configuration
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="section success" id="saved-config-section" style="display: none;">
+                    <h2><i class="fas fa-check-circle"></i> Configuration Saved</h2>
+                    <div id="config-display">
+                        <!-- Saved configuration will be displayed here -->
+                    </div>
+                    
+                    <div class="btn-group">
+                        <a href="../chat.html" class="btn btn-large btn-secondary">
+                            <i class="fas fa-robot"></i> Return to MirAI
+                        </a>
+                        <button type="button" id="test-config" class="btn btn-large">
+                            <i class="fas fa-vial"></i> Test Configuration
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2><i class="fas fa-question-circle"></i> How to Use in MirAI</h2>
+                    <p>After saving the configuration, you can use the search feature in MirAI as follows:</p>
+                    
+                    <div class="code-block">
+                        <span style="color: #75715e;">// Use the /search command in MirAI chat</span><br>
+                        /search artificial intelligence<br><br>
+                        <span style="color: #75715e;">// Or with specific parameters</span><br>
+                        /search machine learning [engine:wikipedia]<br>
+                        /search latest news [type:news] [results:5]
+                    </div>
+                    
+                    <p>MirAI will use the API Key and Search Engine ID you configured to search for information from the internet.</p>
+                </div>
+            </div>
+            
+            <!-- Tab 3: API Test -->
+            <div id="test" class="tab-content">
+                <div class="section">
+                    <h2><i class="fas fa-vial"></i> Test Search API Configuration</h2>
+                    <p>Test whether your API Key and Search Engine ID are working properly.</p>
+                    
+                    <div class="form-group">
+                        <label for="test-query">Search Keywords</label>
+                        <input type="text" id="test-query" value="artificial intelligence" placeholder="Enter keywords to test">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="test-engine">Search Engine</label>
+                        <select id="test-engine">
+                            <option value="google">Google Search</option>
+                            <option value="wikipedia">Wikipedia</option>
+                            <option value="duckduckgo">DuckDuckGo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="button" id="run-test" class="btn btn-large">
+                            <i class="fas fa-play"></i> Run Test
+                        </button>
+                        <button type="button" id="load-saved-config" class="btn btn-large btn-secondary">
+                            <i class="fas fa-download"></i> Load Saved Configuration
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section" id="test-results-section" style="display: none;">
+                    <h2><i class="fas fa-chart-line"></i> Test Results</h2>
+                    <div id="test-status" class="api-display">
+                        <!-- Test status will be displayed here -->
+                    </div>
+                    
+                    <div id="test-output" style="margin-top: 20px;">
+                        <!-- Test output will be displayed here -->
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2><i class="fas fa-bug"></i> Troubleshooting</h2>
+                    
+                    <div class="card">
+                        <h3>Invalid API Key</h3>
+                        <p><strong>Solution:</strong> Make sure the entered API Key is correct. Double-check in Google Cloud Console.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Search Engine ID not found</h3>
+                        <p><strong>Solution:</strong> Make sure the entered Search Engine ID is correct. Check in Google Programmable Search Engine.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Quota exceeded</h3>
+                        <p><strong>Solution:</strong> Google provides 100 free searches per day. For more needs, enable billing in Google Cloud Console.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>API not enabled</h3>
+                        <p><strong>Solution:</strong> Make sure Custom Search API is enabled in Google Cloud Console for your project.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025-2026 Allwaysever Project: MirAI</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">This page helps you configure Google Search API for MirAI</p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+            
+            // Check saved theme
+            const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
+            if (savedTheme === 'light') {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            themeToggle.addEventListener('click', () => {
+                if (body.classList.contains('dark-theme')) {
+                    body.classList.remove('dark-theme');
+                    body.classList.add('light-theme');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    localStorage.setItem('miraiTheme', 'light');
+                } else {
+                    body.classList.remove('light-theme');
+                    body.classList.add('dark-theme');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    localStorage.setItem('miraiTheme', 'dark');
+                }
+            });
+            
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Show active content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === tabId) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Password visibility toggle
+            const togglePassword = document.getElementById('toggleApiKey');
+            const apiKeyInput = document.getElementById('api-key');
+            const showApiKeyCheckbox = document.getElementById('show-api-key');
+            
+            function updatePasswordVisibility() {
+                if (showApiKeyCheckbox.checked) {
+                    apiKeyInput.type = 'text';
+                    togglePassword.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                } else {
+                    apiKeyInput.type = 'password';
+                    togglePassword.innerHTML = '<i class="fas fa-eye"></i>';
+                }
+            }
+            
+            togglePassword.addEventListener('click', () => {
+                showApiKeyCheckbox.checked = !showApiKeyCheckbox.checked;
+                updatePasswordVisibility();
+            });
+            
+            showApiKeyCheckbox.addEventListener('change', updatePasswordVisibility);
+            
+            // Load saved configuration
+            loadSavedConfig();
+            
+            // Form submission
+            const apiConfigForm = document.getElementById('api-config-form');
+            apiConfigForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const apiKey = document.getElementById('api-key').value.trim();
+                const searchEngineId = document.getElementById('search-engine-id').value.trim();
+                const apiName = document.getElementById('api-name').value.trim() || 'Default Configuration';
+                
+                if (!apiKey || !searchEngineId) {
+                    alert('Please fill in both API Key and Search Engine ID!');
+                    return;
+                }
+                
+                // Save to localStorage
+                const config = {
+                    google: {
+                        apiKey: apiKey,
+                        cx: searchEngineId,
+                        enabled: true,
+                        name: apiName,
+                        savedAt: new Date().toISOString()
+                    }
+                };
+                
+                localStorage.setItem('miraiSearchConfig', JSON.stringify(config));
+                
+                // Show saved configuration
+                displaySavedConfig(config);
+                
+                // Show success message
+                showNotification('Configuration saved successfully!', 'success');
+            });
+            
+            // Clear configuration
+            document.getElementById('clear-config').addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete the saved configuration?')) {
+                    localStorage.removeItem('miraiSearchConfig');
+                    document.getElementById('saved-config-section').style.display = 'none';
+                    document.getElementById('api-key').value = '';
+                    document.getElementById('search-engine-id').value = '';
+                    document.getElementById('api-name').value = '';
+                    showNotification('Configuration deleted!', 'info');
+                }
+            });
+            
+            // Load saved config for testing
+            document.getElementById('load-saved-config').addEventListener('click', function() {
+                const savedConfig = localStorage.getItem('miraiSearchConfig');
+                if (!savedConfig) {
+                    showNotification('No saved configuration found!', 'warning');
+                    return;
+                }
+                
+                const config = JSON.parse(savedConfig);
+                document.getElementById('api-key').value = config.google.apiKey || '';
+                document.getElementById('search-engine-id').value = config.google.cx || '';
+                
+                // Switch to config tab
+                document.querySelector('.tab[data-tab="config"]').click();
+                
+                showNotification('Saved configuration loaded into form!', 'success');
+            });
+            
+            // Test configuration
+            document.getElementById('run-test').addEventListener('click', async function() {
+                const apiKey = document.getElementById('api-key').value.trim();
+                const searchEngineId = document.getElementById('search-engine-id').value.trim();
+                const query = document.getElementById('test-query').value.trim();
+                const engine = document.getElementById('test-engine').value;
+                
+                if (!apiKey || !searchEngineId) {
+                    showNotification('Please enter API Key and Search Engine ID first in the Configuration tab!', 'warning');
+                    document.querySelector('.tab[data-tab="config"]').click();
+                    return;
+                }
+                
+                if (!query) {
+                    showNotification('Please enter keywords to test!', 'warning');
+                    return;
+                }
+                
+                const testStatus = document.getElementById('test-status');
+                const testOutput = document.getElementById('test-output');
+                const testResultsSection = document.getElementById('test-results-section');
+                
+                testResultsSection.style.display = 'block';
+                testStatus.innerHTML = '<div class="spinner"></div> Testing configuration...';
+                testOutput.innerHTML = '';
+                
+                // Disable test button during test
+                const testBtn = document.getElementById('run-test');
+                const originalText = testBtn.innerHTML;
+                testBtn.innerHTML = '<div class="spinner"></div> Testing...';
+                testBtn.disabled = true;
+                
+                try {
+                    // Test Google Search API
+                    if (engine === 'google') {
+                        const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchEngineId}&q=${encodeURIComponent(query)}&num=3`;
+                        
+                        const response = await fetch(url);
+                        
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
+                        const data = await response.json();
+                        
+                        testStatus.innerHTML = `<i class="fas fa-check-circle" style="color: var(--srui-success);"></i> API tested successfully! Found ${data.searchInformation?.formattedTotalResults || 0} results.`;
+                        
+                        let outputHTML = '<h3>Search Results:</h3>';
+                        
+                        if (data.items && data.items.length > 0) {
+                            data.items.forEach((item, index) => {
+                                outputHTML += `
+                                    <div class="card" style="margin-bottom: 15px;">
+                                        <h4>${index + 1}. ${item.title}</h4>
+                                        <p>${item.snippet}</p>
+                                        <p><a href="${item.link}" target="_blank" class="link">${item.link}</a></p>
+                                    </div>
+                                `;
+                            });
+                        } else {
+                            outputHTML += '<p>No results found for this query.</p>';
+                        }
+                        
+                        testOutput.innerHTML = outputHTML;
+                    } else {
+                        // For other engines, just simulate
+                        testStatus.innerHTML = `<i class="fas fa-check-circle" style="color: var(--srui-success);"></i> Configuration for ${engine} is ready to use!`;
+                        testOutput.innerHTML = `<p>${engine} configuration tested successfully. You can use the command <span class="highlight">/search ${query} [engine:${engine}]</span> in MirAI.</p>`;
+                    }
+                    
+                    showNotification('Test successful! Configuration is working properly.', 'success');
+                    
+                } catch (error) {
+                    console.error('Test error:', error);
+                    testStatus.innerHTML = `<i class="fas fa-times-circle" style="color: var(--srui-error);"></i> Error: ${error.message}`;
+                    testOutput.innerHTML = `
+                        <div class="warning-note">
+                            <p><strong>Possible causes of error:</strong></p>
+                            <ul>
+                                <li>Invalid API Key</li>
+                                <li>Wrong Search Engine ID</li>
+                                <li>API not enabled in Google Cloud Console</li>
+                                <li>Quota exceeded (100 free searches/day)</li>
+                            </ul>
+                            <p style="margin-top: 10px;">Check your configuration again in the <a href="#" class="link" onclick="document.querySelector('.tab[data-tab=\\'config\\']').click(); return false;">Configuration</a> tab.</p>
+                        </div>
+                    `;
+                    
+                    showNotification(`Test failed: ${error.message}`, 'error');
+                } finally {
+                    // Re-enable test button
+                    testBtn.innerHTML = originalText;
+                    testBtn.disabled = false;
+                }
+            });
+            
+            // Test config button
+            document.getElementById('test-config')?.addEventListener('click', function() {
+                document.querySelector('.tab[data-tab="test"]').click();
+            });
+            
+            // Function to load saved configuration
+            function loadSavedConfig() {
+                const savedConfig = localStorage.getItem('miraiSearchConfig');
+                if (savedConfig) {
+                    try {
+                        const config = JSON.parse(savedConfig);
+                        displaySavedConfig(config);
+                    } catch (e) {
+                        console.error('Error parsing saved config:', e);
+                    }
+                }
+            }
+            
+            // Function to display saved configuration
+            function displaySavedConfig(config) {
+                const savedConfigSection = document.getElementById('saved-config-section');
+                const configDisplay = document.getElementById('config-display');
+                
+                if (!config.google || !config.google.apiKey) {
+                    savedConfigSection.style.display = 'none';
+                    return;
+                }
+                
+                const apiKey = config.google.apiKey;
+                const maskedApiKey = apiKey.substring(0, 10) + '...' + apiKey.substring(apiKey.length - 4);
+                
+                configDisplay.innerHTML = `
+                    <div class="api-display">
+                        <p><strong>Name:</strong> ${config.google.name || 'Default Configuration'}</p>
+                        <p><strong>API Key:</strong> ${maskedApiKey}</p>
+                        <p><strong>Search Engine ID:</strong> ${config.google.cx || 'None'}</p>
+                        <p><strong>Status:</strong> <span class="status-badge status-active">Active</span></p>
+                        <p><strong>Saved at:</strong> ${new Date(config.google.savedAt || Date.now()).toLocaleString('en-US')}</p>
+                    </div>
+                `;
+                
+                savedConfigSection.style.display = 'block';
+                
+                // Fill the form with saved values
+                document.getElementById('api-key').value = apiKey;
+                document.getElementById('search-engine-id').value = config.google.cx || '';
+                document.getElementById('api-name').value = config.google.name || '';
+            }
+            
+            // Notification function
+            function showNotification(message, type = 'info') {
+                // Remove existing notification
+                const existingNotification = document.querySelector('.notification');
+                if (existingNotification) {
+                    existingNotification.remove();
+                }
+                
+                // Create notification
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                // Add styles
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background-color: ${type === 'success' ? 'var(--srui-success)' : type === 'error' ? 'var(--srui-error)' : type === 'warning' ? 'var(--srui-warning)' : 'var(--srui-info)'};
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: var(--srui-radius-md);
+                    box-shadow: var(--srui-shadow-strong);
+                    z-index: 9999;
+                    animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    max-width: 400px;
+                `;
+                
+                // Add animation keyframes
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes fadeOut {
+                        from { opacity: 1; }
+                        to { opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                document.body.appendChild(notification);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                    if (style.parentNode) {
+                        style.remove();
+                    }
+                }, 3000);
+            }
+            
+            // Auto-fill with example if empty (for demo only)
+            // Uncomment the next line for demo purposes
+            // document.getElementById('api-key').value = 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
+        });
+    </script>
+</body>
+</html>
