@@ -358,54 +358,34 @@ const VERSION = '2.12.0-Beta5Fix'; // generateVersion(2, 12, 0);
                 </div>
             </div>
 
-            <!-- Search Configuration -->
-            <h3 id="settingsSearchTitle" style="display: none">Search Configuration</h3>
-            <div class="settings-option" style="display: none">
-                <p style="font-size: 0.8em; color: var(--srui-text-tertiary);" id="searchConfigDesc">Configure external search engines for /search command</p>
+            <!-- Google Search Configuration -->
+            <h3 id="settingsSearchTitle">Konfigurasi Google Search</h3>
+            <div class="settings-option">
+                <p style="font-size: 0.8em; color: var(--srui-text-tertiary);" id="searchConfigDesc">Konfigurasi Google Search untuk perintah /search</p>
                 <div class="search-engine-config">
                     <div class="engine-option">
                         <label>
-                            <input type="checkbox" id="enableGoogleSearch" checked>
-                            Google Search
+                            <input type="checkbox" id="enableGoogleSearch">
+                            Aktifkan Google Search
                         </label>
-                        <input type="password" id="googleApiKey" placeholder="Google API Key" style="width: 70%;" class="api-key-input">
-                        <input type="text" id="googleCx" placeholder="Search Engine ID" style="width: 70%;">
-                        <i class="fas fa-eye toggle-api-eye" data-target="googleApiKey"></i>
+                        <div class="api-key-container" style="margin-top: 10px;">
+                            <input type="password" id="googleApiKey" placeholder="Google Search API Key" style="width: 100%;" class="api-key-input">
+                            <i class="fas fa-eye toggle-api-eye" data-target="googleApiKey"></i>
+                        </div>
+                        <input type="text" id="googleCx" placeholder="Search Engine ID (cx)" style="width: 100%; margin-top: 10px;">
+                        <div class="hint-text" style="margin-top: 5px; font-size: 0.8em;">
+                            Dapatkan dari: 
+                            <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a> • 
+                            <a href="https://programmablesearchengine.google.com/" target="_blank">Search Engine ID</a>
+                        </div>
                     </div>
                     
-                    <div class="engine-option">
-                        <label>
-                            <input type="checkbox" id="enableNewsSearch">
-                            News Search
-                        </label>
-                        <input type="password" id="newsApiKey" placeholder="News API Key" style="width: 70%;" class="api-key-input">
-                        <i class="fas fa-eye toggle-api-eye" data-target="newsApiKey"></i>
-                    </div>
-                    
-                    <div class="engine-option">
-                        <label>
-                            <input type="checkbox" id="enableDuckDuckGo" checked>
-                            DuckDuckGo (No API needed)
-                        </label>
-                    </div>
-                    
-                    <div class="engine-option">
-                        <label>
-                            <input type="checkbox" id="enableWikipedia" checked>
-                            Wikipedia (No API needed)
-                        </label>
-                    </div>
-                    
-                    <p class="hint-text">
-                        Get API keys from respective services. Leave blank to disable.
-                    </p>
-                    
-                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
                         <button id="testSearchBtn" class="settings-credits-btn" style="background: var(--srui-info);">
                             <i class="fas fa-search"></i> Test Search
                         </button>
-                        <button id="clearSearchCacheBtn" class="settings-credits-btn" style="background: var(--srui-error);">
-                            <i class="fas fa-trash"></i> Clear Cache
+                        <button id="saveSearchBtn" class="settings-credits-btn" style="background: var(--srui-success);">
+                            <i class="fas fa-save"></i> Save Config
                         </button>
                     </div>
                 </div>
@@ -475,169 +455,465 @@ const VERSION = '2.12.0-Beta5Fix'; // generateVersion(2, 12, 0);
 <script>
     const DEFAULT_API_KEY = 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
 
-    // === SEARCH CONFIGURATION ===
-    const SEARCH_CONFIG = {
-        engines: {
-            google: {
-                apiKey: '',  // Will be loaded from localStorage
-                cx: '',      // Custom Search Engine ID
-                endpoint: 'https://www.googleapis.com/customsearch/v1',
-                enabled: true
-            },
-            duckduckgo: {
-                endpoint: 'https://api.duckduckgo.com/',
-                format: 'json',
-                enabled: true
-            },
-            wikipedia: {
-                endpoint: 'https://en.wikipedia.org/w/api.php',
-                enabled: true
-            },
-            newsapi: {
-                apiKey: '',
-                endpoint: 'https://newsapi.org/v2/everything',
-                enabled: false
-            }
-        },
-        
-        defaultEngine: 'google',
+    // === GOOGLE SEARCH CONFIGURATION ===
+    const GOOGLE_SEARCH_CONFIG = {
+        apiKey: '',
+        cx: '',
+        endpoint: 'https://www.googleapis.com/customsearch/v1',
+        enabled: false,
         resultsPerPage: 5,
-        timeout: 10000,
-        cacheDuration: 3600000
+        timeout: 10000
     };
 
-// === FUNGSI LOAD SEARCH CONFIG DARI ENCRYPTED FILE ===
-async function loadSearchConfigFromEncrypted() {
-    console.log('🔍 Loading search configuration from encrypted file...');
-    
-    try {
-        // Check if config.medf exists
-        const response = await fetch('config.medf');
-        if (!response.ok) {
-            console.log('config.medf not found, using defaults');
-            return;
-        }
-        
-        const buffer = await response.arrayBuffer();
-        const savedCode = localStorage.getItem('miraiConfigCode');
-        let code = 271828; // default calculation code
-        
-        if (savedCode) {
-            try {
-                code = parseInt(savedCode);
-            } catch (e) {
-                console.warn('Invalid code in localStorage, using default');
-            }
-        }
-        
-        // Use MEDFProcessor to decrypt
-        const data = await window.MEDFProcessor.decryptMEDF(buffer, code);
-        
-        // Extract search config
-        if (data.searchConfig) {
-            console.log('✅ Found search config in encrypted file');
-            
-            // Update SEARCH_CONFIG with data from file
-            if (data.searchConfig.google) {
-                SEARCH_CONFIG.engines.google = {
-                    ...SEARCH_CONFIG.engines.google,
-                    ...data.searchConfig.google
-                };
-            }
-            
-            if (data.searchConfig.newsapi) {
-                SEARCH_CONFIG.engines.newsapi = {
-                    ...SEARCH_CONFIG.engines.newsapi,
-                    ...data.searchConfig.newsapi
-                };
-            }
-            
-            if (data.searchConfig.duckduckgo) {
-                SEARCH_CONFIG.engines.duckduckgo = {
-                    ...SEARCH_CONFIG.engines.duckduckgo,
-                    ...data.searchConfig.duckduckgo
-                };
-            }
-            
-            if (data.searchConfig.wikipedia) {
-                SEARCH_CONFIG.engines.wikipedia = {
-                    ...SEARCH_CONFIG.engines.wikipedia,
-                    ...data.searchConfig.wikipedia
-                };
-            }
-            
-            console.log('🔄 SEARCH_CONFIG updated from encrypted file');
-            
-            // Log hasil
-            console.log('🔍 Current search config:', {
-                google: {
-                    hasApiKey: !!SEARCH_CONFIG.engines.google.apiKey,
-                    hasCx: !!SEARCH_CONFIG.engines.google.cx,
-                    enabled: SEARCH_CONFIG.engines.google.enabled
-                },
-                newsapi: {
-                    hasApiKey: !!SEARCH_CONFIG.engines.newsapi.apiKey,
-                    enabled: SEARCH_CONFIG.engines.newsapi.enabled
-                },
-                duckduckgo: {
-                    enabled: SEARCH_CONFIG.engines.duckduckgo.enabled
-                },
-                wikipedia: {
-                    enabled: SEARCH_CONFIG.engines.wikipedia.enabled
-                }
-            });
-            
-        } else {
-            console.warn('⚠️ No search config found in encrypted file');
-        }
-        
-    } catch (error) {
-        console.error('❌ Failed to load search config from encrypted file:', error);
-        // Fallback ke localStorage
-        loadSearchConfigFromLocalStorage();
-    }
-}
+    let currentApiKey = DEFAULT_API_KEY;
+    let isUsingPublicApi = false;
 
-// Fallback function untuk load dari localStorage
-function loadSearchConfigFromLocalStorage() {
-    const savedSearchConfig = localStorage.getItem('miraiSearchConfig');
-    if (savedSearchConfig) {
-        try {
-            const config = JSON.parse(savedSearchConfig);
-            Object.keys(config).forEach(key => {
-                if (SEARCH_CONFIG.engines[key]) {
-                    SEARCH_CONFIG.engines[key] = { ...SEARCH_CONFIG.engines[key], ...config[key] };
-                }
-            });
-            console.log('✅ Search config loaded from localStorage');
-        } catch (e) {
-            console.error('Error loading search config from localStorage:', e);
+    // Deteksi model dan mode PWA
+    const urlParams = new URLSearchParams(window.location.search);
+    const isBeta = urlParams.has('betamodel');
+    const isPWA = urlParams.has('pwa');
+    const model = isBeta ? 'gemini-3-flash-preview' : 'gemini-2.5-flash';
+    console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Flash Preview)' : 'Stable (2.5 Flash)'}`);
+
+    const faqDatabase = {
+        "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information.",
+        "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a DiamondStars](https://trakteer.id/Allwaysever)",
+        "fullmd": "# Heading 1\n\n## Heading 2\n\n### Heading 3\n\n#### Heading 4\n\n##### Heading 5\n\n###### Heading 6\n\nIni **teks tebal** dan ini *teks miring* dan ini ***teks tebal miring*** dan ~~coret~~.\n\nIni [link](https://example.com) dan ini ![gambar](https://example.com/img.jpg).\n\nIni `kode inline`.\n\n```javascript\nconsole.log('code block');\nfunction test() {\n    return 'hello';\n}\n```\n\n```python\nprint('code block lain')\n```\n\n> Ini blockquote.\n>> Nested blockquote.\n\n- Unordered list item 1\n- Unordered list item 2\n  - Nested item 2.1\n  - Nested item 2.2\n- Unordered list item 3\n\n1. Ordered list item 1\n2. Ordered list item 2\n   1. Nested ordered 2.1\n   2. Nested ordered 2.2\n3. Ordered list item 3\n\n---\n\n***\n\n___\n\n| Tabel Header 1 | Tabel Header 2 | Tabel Header 3 |\n|----------------|----------------|----------------|\n| Cell 1         | Cell 2         | Cell 3         |\n| *Italic*       | **Bold**       | `Code`         |\n\n[^1]: Ini footnote.\n\nIni referensi footnote[^1].\n\n~~Ini coret~~.\n\n**Bold dengan underscore** dan __bold underscore__.\n\n*Italic dengan underscore* dan _italic underscore_.\n\n` ``backtick dalam kode`` `\n\n- [ ] Checklist belum centang\n- [x] Checklist sudah centang\n\n\\*Escape karakter asterisk\\*\n\n\\`Escape backtick\\`\n\nH~2~O (subscript) dan X^2^ (superscript).\n\n==highlight==\n\n:joy: emoji :smile:\n\n<!-- Ini komentar HTML -->\n\n[Link referensi][1]\n\n[1]: https://example.com\n\n```\nplain text code block tanpa bahasa\n```\n\nTerminal:\n\n```bash\n$ npm install\n$ npm start\n```\n\n**Daftar campur:**\n- Item 1\n  1. Sub ordered 1\n  2. Sub ordered 2\n- Item 2\n\n### Tabel kompleks:\n| Left align | Center align | Right align |\n| :--- | :---: | ---: |\n| left | center | right |\n| data | data | data |\n\n**Auto link:** <https://google.com>\n\n**Email:** <email@example.com>\n\n**Horizontal rule dengan asterisk:**\n\n***\n\n**Escape semua:** \\*\\*bold\\*\\* \\*italic\\* \\`code\\`\n\nIni adalah paragraf yang sangat panjang yang harusnya akan membentuk satu paragraf utuh meskipun ditulis dalam beberapa baris dalam kode karena markdown akan menganggapnya sebagai satu paragraf selama tidak ada baris kosong di antaranya. Ini akan terus berlanjut sampai akhir.\n\nDan ini paragraf baru.\n\n    Indented code block dengan spasi.\n\n```mermaid\ngraph TD;\n    A-->B;\n    A-->C;\n    B-->D;\n    C-->D;\n```\n\n$$ \\LaTeX $$ math: $x^2 + y^2 = z^2$\n\n$$\\nblock math\\n$$\n\nColon untuk definition list:\n\nTerm 1\n: Definition 1\n\nTerm 2\n: Definition 2\n\n**Task list lain:**\n- [ ] Task 1\n- [x] Task 2 selesai\n- [ ] Task 3\n\n~~Multiple\nlines\ncoret~~\n\n**Bold\nmultiline**\n\nEnd.",
+   };
+
+    const uiStrings = {
+        'id': {
+            offlineTitle: 'Koneksi Internet Terputus',
+            offlineText: 'Silakan periksa koneksi WiFi atau data seluler Anda, lalu coba kembali.',
+            retryButton: 'Coba Lagi',
+            inputPlaceholder: 'Ketik pertanyaan Anda di sini...',
+            copyFeedback: 'Teks berhasil disalin!',
+            langSwitchFeedback: 'Bahasa telah diubah ke',
+            errorAPI: 'Terjadi kesalahan. Silakan muat ulang atau coba beberapa saat lagi.\n\nHmm... sepertinya kunci API ini telah terkena batas penggunaan. Jika Anda masih menggunakan kunci API bawaan, mohon segera ganti dengan kunci API pribadi Anda. Silakan cek tutorialnya di [Halaman GitHub MirAI](https://github.com/Allwaysever/MirAI?tab=readme-ov-file#%EF%B8%8F-setup-using-your-own-api-key).',
+            errorFallback: 'Maaf, jawaban tidak ditemukan. Coba gunakan kata kunci yang berbeda.',
+            errorConnection: 'Koneksi internet tidak tersedia. Mohon periksa kembali.',
+            checkingConnection: 'Memeriksa koneksi internet...',
+            copySuffix: '\n\n-- Dihasilkan oleh MirAI',
+            infoText: 'Informasi yang dihasilkan AI mungkin tidak akurat. Verifikasi kembali fakta penting.',
+            settingsHeaderTitle: 'Pengaturan',
+            settingsAppearanceTitle: 'Tampilan',
+            settingsThemeText: 'Pilih preferensi tema Anda:',
+            themeLightOption: 'Terang',
+            themeDarkOption: 'Gelap',
+            settingsAITitle: 'Persona AI',
+            settingsPersonaText: 'Pilih gaya respons AI:',
+            personaFormalOption: 'Formal & Profesional',
+            personaDefaultOption: 'Santai & Bercanda',
+            personaCreativeOption: 'Kreatif & Ekspresif',
+            personaCustomOption: 'Custom Persona',
+            customPersonaHint: 'Prompt Anda akan digabungkan dengan: "Anda adalah MirAI, Asisten AI, "',
+            customPersonaPlaceholder: 'Masukkan prompt custom Anda di sini...',
+            settingsAboutTitle: 'Tentang Aplikasi',
+            settingsVersionText: `Versi: v${VERSION}`,
+            settingsAuthorText: 'Dikembangkan oleh Allwaysever',
+            githubLink: 'Tentang MirAI',
+            licenseLink: 'Lisensi',
+            helpLink: 'Pusat Bantuan',
+            termsText: 'Dengan menggunakan MirAI, Anda menyetujui <a href="T&C/index.html" target="_blank">Syarat & Ketentuan</a>.',
+            personaDefaultPrompt: 'Anda adalah MirAI, asisten AI yang santai dan suka bercanda. Jawab semua pertanyaan dengan gaya yang ramah, sedikit humor, namun tetap informatif.',
+            personaFormalPrompt: 'Anda adalah MirAI, asisten AI profesional. Berikan jawaban yang terstruktur, akurat, dan menggunakan bahasa formal.',
+            personaCreativePrompt: 'Anda adalah MirAI, asisten AI yang kreatif. Berikan jawaban yang unik, imajinatif, dan ekspresif untuk setiap pertanyaan.',
+            personaCustomPrompt: '',
+            placeholderMessages: ['Ajukan pertanyaan apa pun.', 'Butuh bantuan untuk ide?', 'Minta terjemahan atau ringkasan.', 'Bagaimana saya bisa membantu?'],
+            onlineStatus: 'Terhubung',
+            offlineStatus: 'Terputus',
+            settingsApiTitle: 'Kunci API Google',
+            settingsApiText: 'Masukkan Kunci API kustom Anda:',
+            apiKeySaved: 'Kunci API berhasil disimpan.',
+            apiKeyRemoved: 'Kunci API dihapus. Menggunakan kunci default.',
+            dateTimeContextPrompt: '[{dateTime}]:',
+            confirmClearMessage: 'Apakah Anda yakin ingin menghapus riwayat percakapan ini? Tindakan ini tidak dapat diurungkan.',
+            confirmClearYes: 'Ya, Hapus',
+            confirmClearNo: 'Batal',
+            pageTitle: 'MirAI | Asisten AI Anda',
+            saveApiKeyBtn: 'Simpan',
+            apiKeyPlaceholder: 'Kosongkan untuk menggunakan kunci default',
+            settingsBackupTitle: 'Backup & Pulihkan',
+            backupDescText: 'Simpan atau pindahkan riwayat chat kamu lewat file JSON.',
+            exportBtnText: 'Export',
+            importBtnText: 'Import',
+            importSuccessText: 'Backup berhasil dipulihkan! Aplikasi akan dimuat ulang.',
+            importErrorText: 'Waduh, filenya rusak atau bukan format backup MirAI! 🗿',
+            installBtnText: 'Install App',
+            invalidImageText: 'Silakan unggah file gambar (jpeg, png, webp).',
+            betaModelActive: '#3FlashPreviewMode',
+            slashCmdSearchTitle: 'Cari',
+            slashCmdSearchDesc: '/search [kata kunci pencarian]',
+            slashCmdTranslateTitle: 'Terjemahkan',
+            slashCmdTranslateDesc: '/translate [teks] to [bahasa]',
+            slashCmdSummarizeTitle: 'Ringkas',
+            slashCmdSummarizeDesc: '/summarize [teks panjang]',
+            slashCmdRephraseTitle: 'Ubah Kalimat',
+            slashCmdRephraseDesc: '/rephrase [teks] as [gaya]',
+            slashCmdIdeateTitle: 'Buat Ide',
+            slashCmdIdeateDesc: '/ideate [jumlah] ideas for [topik]',
+            slashCmdFixTitle: 'Perbaiki',
+            slashCmdFixDesc: '/fix [teks yang perlu diperbaiki]',
+            slashCmdExplainTitle: 'Jelaskan',
+            slashCmdExplainDesc: '/explain [konsep] like I\'m [audiens]',
+            slashCmdCodeTitle: 'Buat Kode',
+            slashCmdCodeDesc: '/code a [bahasa pemrograman] function to [deskripsi]',
+            slashErrorInvalidFormat: 'Error: Format tidak valid.',
+            slashErrorInvalidFormatTranslate: 'Error: Format tidak valid. Gunakan /translate [teks] to [bahasa]',
+            slashErrorInvalidFormatRephrase: 'Error: Format tidak valid. Gunakan /rephrase [teks] as [gaya]',
+            slashErrorInvalidFormatIdeate: 'Error: Format tidak valid. Gunakan /ideate [jumlah] ideas for [topik]',
+            slashErrorInvalidFormatExplain: 'Error: Format tidak valid. Gunakan /explain [konsep] like I\'m [audiens]',
+            slashErrorInvalidFormatCode: 'Error: Format tidak valid. Gunakan /code a [bahasa] function to [deskripsi]',
+            slashErrorInvalidFormatSearch: 'Error: Format tidak valid. Gunakan /search [kata kunci]',
+            slashErrorUnknownCommand: 'Error: Perintah tidak dikenal.',
+            confirmBtnYes: 'Ya, Hapus',
+            confirmBtnNo: 'Batal',
+            copyFeedback: 'Teks berhasil disalin!',
+            pwaInstalledText: 'PWA was installed successfully!',
+            apiLimitError: 'Hmm... sepertinya kunci API ini telah terkena batas penggunaan. Jika Anda masih menggunakan kunci API bawaan, mohon segera ganti dengan kunci API pribadi Anda.',
+            settingsSearchTitle: 'Konfigurasi Google Search',
+            searchConfigDesc: 'Konfigurasi Google Search untuk perintah /search',
+            testSearchBtn: 'Test Search',
+            clearSearchCacheBtn: 'Hapus Cache',
+            searchTestResult: 'Hasil tes pencarian untuk "test": ',
+            searchCacheCleared: 'Cache pencarian berhasil dihapus!',
+            searchEngineNotConfigured: 'Mesin pencari tidak dikonfigurasi',
+            searchExample1: '/search artificial intelligence',
+            searchExample2: '/search machine learning [engine:wikipedia]',
+            searchExample3: '/search OpenAI [type:news] [results:3]',
+            searchConfigSaved: 'Konfigurasi Google Search disimpan!',
+            googleSearchEnabled: 'Google Search diaktifkan',
+            googleSearchDisabled: 'Google Search dinonaktifkan'
+        },
+        'en': {
+            offlineTitle: 'Internet Connection Lost',
+            offlineText: 'Please check your WiFi or cellular data connection, then try again.',
+            retryButton: 'Retry',
+            inputPlaceholder: 'Type your question here...',
+            copyFeedback: 'Text copied to clipboard!',
+            langSwitchFeedback: 'Language has been changed to',
+            errorAPI: 'An error occurred. Please reload the page or try again shortly.\n\nHmm... it seems that this API key has reached its usage limit. If you are still using the default API key, please replace it with your personal API key immediately. Please check the tutorial on the [MirAI GitHub page](https://github.com/Allwaysever/MirAI?tab=readme-ov-file#%EF%B8%8F-setup-using-your-own-api-key).',
+            errorFallback: 'Sorry, no answer was found. Please try different keywords.',
+            errorConnection: 'Internet connection is unavailable. Please check and try again.',
+            checkingConnection: 'Checking internet connection...',
+            copySuffix: '\n\n-- Generated by MirAI',
+            infoText: 'AI-generated information may be inaccurate. Please verify important facts.',
+            settingsHeaderTitle: 'Settings',
+            settingsAppearanceTitle: 'Appearance',
+            settingsThemeText: 'Select your theme preference:',
+            themeLightOption: 'Light',
+            themeDarkOption: 'Dark',
+            settingsAITitle: 'AI Persona',
+            settingsPersonaText: 'Choose the AI\'s response style:',
+            personaFormalOption: 'Formal & Professional',
+            personaDefaultOption: 'Chill & joking',
+            personaCreativeOption: 'Creative & Expressive',
+            personaCustomOption: 'Custom Persona',
+            customPersonaHint: 'Your prompt will be combined with: "You are MirAI, an AI Assistant, "',
+            customPersonaPlaceholder: 'Enter your custom prompt here...',
+            settingsAboutTitle: 'About',
+            settingsVersionText: `Version: v${VERSION}`,
+            settingsAuthorText: 'Developed by Allwaysever',
+            githubLink: 'About MirAI',
+            licenseLink: 'License',
+            helpLink: 'Help Center',
+            termsText: 'By using MirAI, you agree to the <a href="T&C/index.html" target="_blank">Terms & Conditions</a>.',
+            personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humor, while remaining informative.',
+            personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
+            personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
+            personaCustomPrompt: '',
+            placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
+            onlineStatus: 'Connected',
+            offlineStatus: 'Disconnected',
+            settingsApiTitle: 'Google API Key',
+            settingsApiText: 'Enter your custom API Key:',
+            apiKeySaved: 'API Key saved successfully.',
+            apiKeyRemoved: 'API Key removed. Using default key.',
+            dateTimeContextPrompt: '[{dateTime}]:',
+            confirmClearMessage: 'Are you sure you want to delete this chat history? This action cannot be undone.',
+            confirmClearYes: 'Yes, Delete',
+            confirmClearNo: 'Cancel',
+            pageTitle: 'MirAI | Your AI Assistant',
+            saveApiKeyBtn: 'Save',
+            apiKeyPlaceholder: 'Leave blank to use the default key',
+            settingsBackupTitle: 'Backup & Restore',
+            backupDescText: 'Save or transfer your chat history via JSON file.',
+            exportBtnText: 'Export',
+            importBtnText: 'Import',
+            importSuccessText: 'Backup restored successfully! App will reload.',
+            importErrorText: 'File corrupted or not a MirAI backup! 🗿',
+            installBtnText: 'Install App',
+            invalidImageText: 'Please upload an image file (jpeg, png, webp).',
+            betaModelActive: '#3FlashPreviewMode',
+            slashCmdSearchTitle: 'Search',
+            slashCmdSearchDesc: '/search [search query]',
+            slashCmdTranslateTitle: 'Translate',
+            slashCmdTranslateDesc: '/translate [text] to [language]',
+            slashCmdSummarizeTitle: 'Summarize',
+            slashCmdSummarizeDesc: '/summarize [long text]',
+            slashCmdRephraseTitle: 'Rephrase',
+            slashCmdRephraseDesc: '/rephrase [text] as [tone]',
+            slashCmdIdeateTitle: 'Ideate',
+            slashCmdIdeateDesc: '/ideate [amount] ideas for [topic]',
+            slashCmdFixTitle: 'Fix',
+            slashCmdFixDesc: '/fix [text that needs to be corrected]',
+            slashCmdExplainTitle: 'Explain',
+            slashCmdExplainDesc: '/explain [concept] like I\'m [audience]',
+            slashCmdCodeTitle: 'Code',
+            slashCmdCodeDesc: '/code a [programming language] function to [description]',
+            slashErrorInvalidFormat: 'Error: Invalid format.',
+            slashErrorInvalidFormatTranslate: 'Error: Invalid format. Use /translate [text] to [language]',
+            slashErrorInvalidFormatRephrase: 'Error: Invalid format. Use /rephrase [text] as [tone]',
+            slashErrorInvalidFormatIdeate: 'Error: Invalid format. Use /ideate [number] ideas for [topic]',
+            slashErrorInvalidFormatExplain: 'Error: Invalid format. Use /explain [concept] like I\'m [audience]',
+            slashErrorInvalidFormatCode: 'Error: Invalid format. Use /code a [language] function to [description]',
+            slashErrorInvalidFormatSearch: 'Error: Invalid format. Use /search [query]',
+            slashErrorUnknownCommand: 'Error: Unknown command.',
+            confirmBtnYes: 'Yes, Delete',
+            confirmBtnNo: 'Cancel',
+            copyFeedback: 'Text copied to clipboard!',
+            pwaInstalledText: 'PWA was installed successfully!',
+            apiLimitError: 'Hmm... it seems that this API key has reached its usage limit. If you are still using the default API key, please replace it with your personal API key immediately.',
+            settingsSearchTitle: 'Google Search Configuration',
+            searchConfigDesc: 'Configure Google Search for /search command',
+            testSearchBtn: 'Test Search',
+            clearSearchCacheBtn: 'Clear Cache',
+            searchTestResult: 'Search test result for "test": ',
+            searchCacheCleared: 'Search cache cleared successfully!',
+            searchEngineNotConfigured: 'Search engine not configured',
+            searchExample1: '/search artificial intelligence',
+            searchExample2: '/search machine learning [engine:wikipedia]',
+            searchExample3: '/search OpenAI [type:news] [results:3]',
+            searchConfigSaved: 'Google Search configuration saved!',
+            googleSearchEnabled: 'Google Search enabled',
+            googleSearchDisabled: 'Google Search disabled'
+        },
+        'en-uk': {
+            offlineTitle: 'Internet Connection Lost',
+            offlineText: 'Please check your WiFi or cellular data connection, then try again.',
+            retryButton: 'Retry',
+            inputPlaceholder: 'Type your question here...',
+            copyFeedback: 'Text copied to clipboard!',
+            langSwitchFeedback: 'Language has been changed to',
+            errorAPI: 'An error occurred. Please reload the page or try again shortly.\n\nHmm... it appears that this API key has reached its usage limit. If you are still using the default API key, please replace it with your personal API key immediately. Please check the tutorial on the [MirAI GitHub page](https://github.com/Allwaysever/MirAI?tab=readme-ov-file#%EF%B8%8F-setup-using-your-own-api-key).',
+            errorFallback: 'Sorry, no answer was found. Please try different keywords.',
+            errorConnection: 'Internet connection is unavailable. Please check and try again.',
+            checkingConnection: 'Checking internet connection...',
+            copySuffix: '\n\n-- Generated by MirAI',
+            infoText: 'AI-generated information may be inaccurate. Please verify important facts.',
+            settingsHeaderTitle: 'Settings',
+            settingsAppearanceTitle: 'Appearance',
+            settingsThemeText: 'Select your theme preference:',
+            themeLightOption: 'Light',
+            themeDarkOption: 'Dark',
+            settingsAITitle: 'AI Persona',
+            settingsPersonaText: 'Choose the AI\'s response style:',
+            personaFormalOption: 'Formal & Professional',
+            personaDefaultOption: 'Laid-back & bantering',
+            personaCreativeOption: 'Creative & Expressive',
+            personaCustomOption: 'Custom Persona',
+            customPersonaHint: 'Your prompt will be combined with: "You are MirAI, an AI Assistant, "',
+            customPersonaPlaceholder: 'Enter your custom prompt here...',
+            settingsAboutTitle: 'About',
+            settingsVersionText: `Version: v${VERSION}`,
+            settingsAuthorText: 'Developed by Allwaysever',
+            githubLink: 'About MirAI',
+            licenseLink: 'License',
+            helpLink: 'Help Center',
+            termsText: 'By using MirAI, you agree to the <a href="T&C/index.html" target="_blank">Terms & Conditions</a>.',
+            personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humour, while remaining informative.',
+            personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
+            personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
+            personaCustomPrompt: '',
+            placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
+            onlineStatus: 'Connected',
+            offlineStatus: 'Disconnected',
+            settingsApiTitle: 'Google API Key',
+            settingsApiText: 'Enter your custom API Key:',
+            apiKeySaved: 'API Key saved successfully.',
+            apiKeyRemoved: 'API Key removed. Using default key.',
+            dateTimeContextPrompt: '[{dateTime}]:',
+            confirmClearMessage: 'Are you sure you want to delete this chat history? This action cannot be undone.',
+            confirmClearYes: 'Yes, Delete',
+            confirmClearNo: 'Cancel',
+            pageTitle: 'MirAI | Your AI Assistant',
+            saveApiKeyBtn: 'Save',
+            apiKeyPlaceholder: 'Leave blank to use the default key',
+            settingsBackupTitle: 'Backup & Restore',
+            backupDescText: 'Save or transfer your chat history via JSON file.',
+            exportBtnText: 'Export',
+            importBtnText: 'Import',
+            importSuccessText: 'Backup restored successfully! App will reload.',
+            importErrorText: 'File corrupted or not a MirAI backup! 🗿',
+            installBtnText: 'Install App',
+            invalidImageText: 'Please upload an image file (jpeg, png, webp).',
+            betaModelActive: '#3FlashPreviewMode',
+            slashCmdSearchTitle: 'Search',
+            slashCmdSearchDesc: '/search [search query]',
+            slashCmdTranslateTitle: 'Translate',
+            slashCmdTranslateDesc: '/translate [text] to [language]',
+            slashCmdSummarizeTitle: 'Summarize',
+            slashCmdSummarizeDesc: '/summarize [long text]',
+            slashCmdRephraseTitle: 'Rephrase',
+            slashCmdRephraseDesc: '/rephrase [text] as [tone]',
+            slashCmdIdeateTitle: 'Ideate',
+            slashCmdIdeateDesc: '/ideate [amount] ideas for [topic]',
+            slashCmdFixTitle: 'Fix',
+            slashCmdFixDesc: '/fix [text that needs to be corrected]',
+            slashCmdExplainTitle: 'Explain',
+            slashCmdExplainDesc: '/explain [concept] like I\'m [audience]',
+            slashCmdCodeTitle: 'Code',
+            slashCmdCodeDesc: '/code a [programming language] function to [description]',
+            slashErrorInvalidFormat: 'Error: Invalid format.',
+            slashErrorInvalidFormatTranslate: 'Error: Invalid format. Use /translate [text] to [language]',
+            slashErrorInvalidFormatRephrase: 'Error: Invalid format. Use /rephrase [text] as [tone]',
+            slashErrorInvalidFormatIdeate: 'Error: Invalid format. Use /ideate [number] ideas for [topic]',
+            slashErrorInvalidFormatExplain: 'Error: Invalid format. Use /explain [concept] like I\'m [audience]',
+            slashErrorInvalidFormatCode: 'Error: Invalid format. Use /code a [language] function to [description]',
+            slashErrorInvalidFormatSearch: 'Error: Invalid format. Use /search [query]',
+            slashErrorUnknownCommand: 'Error: Unknown command.',
+            confirmBtnYes: 'Yes, Delete',
+            confirmBtnNo: 'Cancel',
+            copyFeedback: 'Text copied to clipboard!',
+            pwaInstalledText: 'PWA was installed successfully!',
+            apiLimitError: 'Hmm... it seems that this API key has reached its usage limit. If you are still using the default API key, please replace it with your personal API key immediately.',
+            settingsSearchTitle: 'Google Search Configuration',
+            searchConfigDesc: 'Configure Google Search for /search command',
+            testSearchBtn: 'Test Search',
+            clearSearchCacheBtn: 'Clear Cache',
+            searchTestResult: 'Search test result for "test": ',
+            searchCacheCleared: 'Search cache cleared successfully!',
+            searchEngineNotConfigured: 'Search engine not configured',
+            searchExample1: '/search artificial intelligence',
+            searchExample2: '/search machine learning [engine:wikipedia]',
+            searchExample3: '/search OpenAI [type:news] [results:3]',
+            searchConfigSaved: 'Google Search configuration saved!',
+            googleSearchEnabled: 'Google Search enabled',
+            googleSearchDisabled: 'Google Search disabled'
+        },
+        'jp': {
+            offlineTitle: 'インターネット接続がありません',
+            offlineText: 'WiFiまたはデータ接続を確認し、再度お試しください。',
+            retryButton: '再試行',
+            inputPlaceholder: 'ここに質問を入力してください...',
+            copyFeedback: 'テキストをコピーしました。',
+            langSwitchFeedback: '言語が変更されました',
+            errorAPI: 'エラーが発生しました。ページを再読み込みするか、しばらくしてからもう一度お試しください。\n\nHmm... このAPIキーは使用制限に達したようです。デフォルトのAPIキーをまだ使用している場合は、すぐに個人用のAPIキーに変更してください。詳細な手順は[MirAIのGitHubページ](https://github.com/Allwaysever/MirAI?tab=readme-ov-file#%EF%B8%8F-setup-using-your-own-api-key)のチュートリアルをご確認ください。',
+            errorFallback: '申し訳ありません、回答が見つかりませんでした。別のキーワードでお試しください。',
+            errorConnection: 'インターネットに接続されていません。接続を確認してください。',
+            checkingConnection: 'インターネット接続を確認中...',
+            copySuffix: '\n\n-- MirAIによって生成',
+            infoText: 'AIが生成した情報は不正確な場合があります。重要な事実は再度ご確認ください。',
+            settingsHeaderTitle: '設定',
+            settingsAppearanceTitle: '外観',
+            settingsThemeText: 'テーマを選択してください:',
+            themeLightOption: 'ライト',
+            themeDarkOption: 'ダーク',
+            settingsAITitle: 'AIのペルソナ',
+            settingsPersonaText: 'AIの応答スタイルを選択:',
+            personaFormalOption: 'フォーマル・プロ',
+            personaDefaultOption: 'のんびりしてて冗談好き',
+            personaCreativeOption: 'クリエイティブ・表現豊か',
+            personaCustomOption: 'カスタムペルソナ',
+            customPersonaHint: 'プロンプトは「あなたはMirAI、AIアシスタントです、」と結合されます',
+            customPersonaPlaceholder: 'カスタムプロンプトをここに入力...',
+            settingsAboutTitle: 'アプリについて',
+            settingsVersionText: `バージョン: v${VERSION}`,
+            settingsAuthorText: '開発者: Allwaysever',
+            githubLink: 'MirAIについて',
+            licenseLink: 'ライセンス',
+            helpLink: 'ヘルプセンター',
+            termsText: 'MirAIを使用することにより、<a href="T&C/index.html" target="_blank">利用規約</a>に同意したことになります。',
+            personaDefaultPrompt: 'あなたはMirAI、リラックスして冗談好きなAIアシスタントです。フレンドリーなスタイルで、少しユーモアを交えながらも、情報を提供するようにすべての質問に答えてください。',
+            personaFormalPrompt: 'あなたはMirAI、プロフェッショナルなAIアシスタントです。構造化され、正確で、フォーマルな言葉遣いで回答を提供してください。',
+            personaCreativePrompt: 'あなたはMirAI、創造的なAIアシスタNTです。すべての質問に対して、ユニークで想像力に富んだ表現力豊かな回答をしてください。',
+            personaCustomPrompt: '',
+            placeholderMessages: ['質問を入力してください。', 'アイデアが必要ですか？', '翻訳または要約を依頼。', '何かお手伝いできることはありますか？'],
+            onlineStatus: '接続済み',
+            offlineStatus: '切断',
+            settingsApiTitle: 'Google APIキー',
+            settingsApiText: 'カスタムAPIキーを入力してください:',
+            apiKeySaved: 'APIキーが保存されました。',
+            apiKeyRemoved: 'APIキーが削除されました。デフォルトキーを使用します。',
+            dateTimeContextPrompt: '[{dateTime}]:',
+            confirmClearMessage: 'このチャット履歴を削除してもよろしいですか？この操作は元に戻せません。',
+            confirmClearYes: 'はい、削除します',
+            confirmClearNo: 'キャンセル',
+            pageTitle: 'MirAI | AIアシスタント',
+            saveApiKeyBtn: '保存',
+            apiKeyPlaceholder: 'デフォルトキーを使用する場合は空欄',
+            settingsBackupTitle: 'バックアップと復元',
+            backupDescText: 'JSONファイルでチャット履歴を保存または転送します。',
+            exportBtnText: 'エクスポート',
+            importBtnText: 'インポート',
+            importSuccessText: 'バックアップが正常に復元されました！アプリを再読み込みします。',
+            importErrorText: 'ファイルが壊れているか、MirAIのバックアップ形式ではありません！🗿',
+            installBtnText: 'アプリをインストール',
+            invalidImageText: '画像ファイル（JPEG、PNG、WebP）をアップロードしてください。',
+            betaModelActive: '#3Flashプレビューモード',
+            slashCmdSearchTitle: '検索',
+            slashCmdSearchDesc: '/search [検索クエリ]',
+            slashCmdTranslateTitle: '翻訳',
+            slashCmdTranslateDesc: '/translate [テキスト] to [言語]',
+            slashCmdSummarizeTitle: '要約',
+            slashCmdSummarizeDesc: '/summarize [長いテキスト]',
+            slashCmdRephraseTitle: '言い換え',
+            slashCmdRephraseDesc: '/rephrase [テキスト] as [口調]',
+            slashCmdIdeateTitle: 'アイデア生成',
+            slashCmdIdeateDesc: '/ideate [数] ideas for [トピック]',
+            slashCmdFixTitle: '修正',
+            slashCmdFixDesc: '/fix [修正が必要なテキスト]',
+            slashCmdExplainTitle: '説明',
+            slashCmdExplainDesc: '/explain [概念] like I\'m [対象]',
+            slashCmdCodeTitle: 'コード',
+            slashCmdCodeDesc: '/code a [プログラミング言語] function to [説明]',
+            slashErrorInvalidFormat: 'エラー: 形式が無効です。',
+            slashErrorInvalidFormatTranslate: 'エラー: 形式が無効です。 /translate [テキスト] to [言語] を使用してください',
+            slashErrorInvalidFormatRephrase: 'エラー: 形式が無効です。 /rephrase [テキスト] as [口調] を使用してください',
+            slashErrorInvalidFormatIdeate: 'エラー: 形式が無効です。 /ideate [数] ideas for [トピック] を使用してください',
+            slashErrorInvalidFormatExplain: 'エラー: 形式が無効です。 /explain [概念] like I\'m [対象] を使用してください',
+            slashErrorInvalidFormatCode: 'エラー: 形式が無効です。 /code a [言語] function to [説明] を使用してください',
+            slashErrorInvalidFormatSearch: 'エラー: 形式が無効です。 /search [クエリ] を使用してください',
+            slashErrorUnknownCommand: 'エラー: 不明なコマンドです。',
+            confirmBtnYes: 'はい、削除します',
+            confirmBtnNo: 'キャンセル',
+            copyFeedback: 'テキストをコピーしました。',
+            pwaInstalledText: 'PWAが正常にインストールされました！',
+            apiLimitError: 'このAPIキーは使用制限に達したようです。デフォルトのAPIキーをまだ使用している場合は、すぐに個人用のAPIキーに変更してください。',
+            settingsSearchTitle: 'Google検索設定',
+            searchConfigDesc: '/searchコマンドのGoogle検索を設定',
+            testSearchBtn: '検索テスト',
+            clearSearchCacheBtn: 'キャッシュ削除',
+            searchTestResult: '"test"の検索テスト結果: ',
+            searchCacheCleared: '検索キャッシュが正常に削除されました！',
+            searchEngineNotConfigured: '検索エンジンが設定されていません',
+            searchExample1: '/search artificial intelligence',
+            searchExample2: '/search machine learning [engine:wikipedia]',
+            searchExample3: '/search OpenAI [type:news] [results:3]',
+            searchConfigSaved: 'Google検索設定を保存しました！',
+            googleSearchEnabled: 'Google検索を有効にしました',
+            googleSearchDisabled: 'Google検索を無効にしました'
         }
-    }
-}
+    };
 
-// ⭐⭐ BARU: Load search config ke UI elements
-function loadSearchConfigToUI() {
-    console.log('🔄 Loading search config to UI...');
-    
-    if (!elements.googleApiKey) return;
-    
-    // Update UI fields dari SEARCH_CONFIG
-    elements.googleApiKey.value = SEARCH_CONFIG.engines.google.apiKey || '';
-    elements.googleCx.value = SEARCH_CONFIG.engines.google.cx || '';
-    elements.newsApiKey.value = SEARCH_CONFIG.engines.newsapi.apiKey || '';
-    elements.enableGoogleSearch.checked = SEARCH_CONFIG.engines.google.enabled;
-    elements.enableNewsSearch.checked = SEARCH_CONFIG.engines.newsapi.enabled;
-    elements.enableDuckDuckGo.checked = SEARCH_CONFIG.engines.duckduckgo.enabled;
-    elements.enableWikipedia.checked = SEARCH_CONFIG.engines.wikipedia.enabled;
-    
-    console.log('✅ UI elements updated with search config');
-}
+    let slashCommands = [];
+    let chatHistory = [];
+    let abortController = null;
+    let currentLanguage = 'en';
+    let currentPersona = 'default';
+    let currentImageData = null;
+    let elements;
 
-    // Cache untuk hasil search
-    let searchCache = new Map();
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}_${hours}-${minutes}`;
+    console.log(formattedDate);
 
-    // === SISTEM API KEY TERENKRIPSI (.medf) dengan Authenticity Header ===
+    // === SISTEM API KEY TERENKRIPSI (.medf) ===
     const MEDF_PROCESSOR = {
         async loadEncryptedApiKey() {
             try {
@@ -649,7 +925,7 @@ function loadSearchConfigToUI() {
                 
                 const buffer = await response.arrayBuffer();
                 const savedCode = localStorage.getItem('miraiConfigCode');
-                let code = MEDF_PROCESSOR.DEFAULT_CODE;
+                let code = 271828; // default code
                 
                 if (savedCode) {
                     try {
@@ -659,9 +935,9 @@ function loadSearchConfigToUI() {
                     }
                 }
                 
-                console.log('🔍 Loading and verifying config.medf...');
+                console.log('🔍 Loading config.medf...');
                 const apiKey = await MEDF_PROCESSOR.extractApiKeyFromConfig(buffer, code);
-                console.log('✅ API Key berhasil didekripsi dan diverifikasi dari config.medf');
+                console.log('✅ API Key berhasil didekripsi dari config.medf');
                 return apiKey;
                 
             } catch (error) {
@@ -813,865 +1089,123 @@ function loadSearchConfigToUI() {
             result += alphabet[checksum];
             
             return result;
-        },
-        
-        async validateBackupFile(fileBuffer, password) {
-            try {
-                const encoder = new TextEncoder();
-                const salt = fileBuffer.slice(0, 16);
-                const iv = fileBuffer.slice(16, 28);
-                const encryptedData = fileBuffer.slice(28);
-                
-                const passwordKey = await crypto.subtle.importKey(
-                    "raw", 
-                    encoder.encode(password), 
-                    "PBKDF2", 
-                    false, 
-                    ["deriveKey"]
-                );
-                
-                const key = await crypto.subtle.deriveKey(
-                    { 
-                        name: "PBKDF2", 
-                        salt: salt, 
-                        iterations: 100000, 
-                        hash: "SHA-256" 
-                    },
-                    passwordKey, 
-                    { name: "AES-GCM", length: 256 }, 
-                    false, 
-                    ["decrypt"]
-                );
-                
-                const decrypted = await crypto.subtle.decrypt(
-                    { name: "AES-GCM", iv: iv }, 
-                    key, 
-                    encryptedData
-                );
-                
-                const decryptedText = new TextDecoder().decode(decrypted);
-                const data = JSON.parse(decryptedText);
-                
-                if (!data._signature) {
-                    console.warn('⚠️ Backup file does not have signature');
-                    return { isValid: false, message: 'File does not have authenticity signature' };
-                }
-                
-                const HEADER_TEXT = "{MirAI Encrypted Data Files v1.0 By Allwaysever}";
-                
-                if (data._signature.headerText !== HEADER_TEXT) {
-                    return { isValid: false, message: 'Signature header text is invalid' };
-                }
-                
-                let expectedCode = '';
-                for (let i = 0; i < HEADER_TEXT.length; i++) {
-                    const charCode = HEADER_TEXT.charCodeAt(i);
-                    const transformedCode = (charCode + 2) * 3;
-                    expectedCode += transformedCode.toString().padStart(4, '0');
-                }
-                
-                if (data._signature.headerCode !== expectedCode) {
-                    return { isValid: false, message: 'Signature header code is invalid' };
-                }
-                
-                return { 
-                    isValid: true, 
-                    message: '✅ Backup file verified as authentic',
-                    data: data 
-                };
-                
-            } catch (error) {
-                console.error('Validation error:', error);
-                return { 
-                    isValid: false, 
-                    message: 'Failed to validate file: ' + error.message 
-                };
-            }
-        },
-        
-        DEFAULT_CODE: 271828,
-        HEADER_TEXT: "{MirAI Encrypted Data Files v1.0 By Allwaysever}",
-        
-        generateHeaderCode(text) {
-            let code = '';
-            for (let i = 0; i < text.length; i++) {
-                const charCode = text.charCodeAt(i);
-                const transformedCode = (charCode + 2) * 3;
-                code += transformedCode.toString().padStart(4, '0');
-            }
-            return code;
-        },
-        
-        countPublicApiBubbles: () => window.MEDFProcessor?.countPublicApiBubbles?.() || 0,
-        incrementPublicApiBubbles: () => window.MEDFProcessor?.incrementPublicApiBubbles?.() || 0,
-        resetPublicApiBubbles: () => window.MEDFProcessor?.resetPublicApiBubbles?.() || null,
-        PUBLIC_API_LIMITS: window.MEDFProcessor?.PUBLIC_API_LIMITS || { MAX_BUBBLES_WARNING: 10, MAX_BUBBLES_BLOCK: 12 }
+        }
     };
 
-// === FUNGSI LOAD SEARCH CONFIG DARI ENCRYPTED FILE ===
-async function loadSearchConfigFromEncrypted() {
-    console.log('🔍 Loading search configuration from encrypted file...');
-    
-    try {
-        if (window.MEDFProcessor && window.MEDFProcessor.getSearchKeys) {
-            console.log('✅ MEDFProcessor.getSearchKeys available');
-            
-            const searchKeys = await window.MEDFProcessor.getSearchKeys();
-            console.log('✅ Search keys loaded:', Object.keys(searchKeys));
-            
-            if (searchKeys && typeof searchKeys === 'object') {
-                // Update SEARCH_CONFIG
-                Object.keys(searchKeys).forEach(key => {
-                    if (SEARCH_CONFIG.engines[key]) {
-                        console.log(`🔄 Updating ${key} config`);
-                        SEARCH_CONFIG.engines[key] = {
-                            ...SEARCH_CONFIG.engines[key],
-                            ...searchKeys[key]
-                        };
-                    }
-                });
+    // === FUNGSI LOAD GOOGLE SEARCH CONFIG ===
+    async function loadGoogleSearchConfig() {
+        console.log('🔍 Loading Google Search configuration...');
+        
+        try {
+            if (window.MEDFProcessor && window.MEDFProcessor.getSearchKeys) {
+                const searchKeys = await window.MEDFProcessor.getSearchKeys();
                 
-                console.log('🔄 SEARCH_CONFIG updated successfully');
-                
-                // Log hasil
-                console.log('🔍 Current search config:', {
-                    google: {
-                        hasApiKey: !!SEARCH_CONFIG.engines.google.apiKey,
-                        hasCx: !!SEARCH_CONFIG.engines.google.cx,
-                        enabled: SEARCH_CONFIG.engines.google.enabled
-                    },
-                    newsapi: {
-                        hasApiKey: !!SEARCH_CONFIG.engines.newsapi.apiKey,
-                        enabled: SEARCH_CONFIG.engines.newsapi.enabled
-                    },
-                    duckduckgo: {
-                        enabled: SEARCH_CONFIG.engines.duckduckgo.enabled
-                    },
-                    wikipedia: {
-                        enabled: SEARCH_CONFIG.engines.wikipedia.enabled
-                    }
-                });
-                
+                if (searchKeys.google) {
+                    GOOGLE_SEARCH_CONFIG.apiKey = searchKeys.google.apiKey || '';
+                    GOOGLE_SEARCH_CONFIG.cx = searchKeys.google.cx || '';
+                    GOOGLE_SEARCH_CONFIG.enabled = searchKeys.google.enabled && 
+                                                  !!searchKeys.google.apiKey && 
+                                                  !!searchKeys.google.cx;
+                    
+                    console.log('✅ Google Search config loaded from encrypted file:', {
+                        hasApiKey: !!GOOGLE_SEARCH_CONFIG.apiKey,
+                        hasCx: !!GOOGLE_SEARCH_CONFIG.cx,
+                        enabled: GOOGLE_SEARCH_CONFIG.enabled
+                    });
+                } else {
+                    console.warn('⚠️ Google Search config not found in encrypted file');
+                    loadSearchConfigFromLocalStorage();
+                }
             } else {
-                console.warn('⚠️ No search keys found in encrypted file');
+                console.warn('⚠️ MEDFProcessor.getSearchKeys not available, using localStorage');
+                loadSearchConfigFromLocalStorage();
             }
             
-        } else {
-            console.warn('⚠️ MEDFProcessor.getSearchKeys not available, using localStorage');
+        } catch (error) {
+            console.error('❌ Failed to load Google Search config from encrypted file:', error);
             loadSearchConfigFromLocalStorage();
         }
         
-    } catch (error) {
-        console.error('❌ Failed to load search config from encrypted file:', error);
-        // Fallback ke localStorage
-        loadSearchConfigFromLocalStorage();
+        // Update UI setelah load
+        updateSearchConfigUI();
     }
-}
 
-// Fallback function untuk load dari localStorage
-function loadSearchConfigFromLocalStorage() {
-    const savedSearchConfig = localStorage.getItem('miraiSearchConfig');
-    if (savedSearchConfig) {
-        try {
-            const config = JSON.parse(savedSearchConfig);
-            Object.keys(config).forEach(key => {
-                if (SEARCH_CONFIG.engines[key]) {
-                    SEARCH_CONFIG.engines[key] = { ...SEARCH_CONFIG.engines[key], ...config[key] };
+    // Fallback ke localStorage
+    function loadSearchConfigFromLocalStorage() {
+        const savedConfig = localStorage.getItem('miraiSearchConfig');
+        if (savedConfig) {
+            try {
+                const config = JSON.parse(savedConfig);
+                if (config.google) {
+                    GOOGLE_SEARCH_CONFIG.apiKey = config.google.apiKey || '';
+                    GOOGLE_SEARCH_CONFIG.cx = config.google.cx || '';
+                    GOOGLE_SEARCH_CONFIG.enabled = config.google.enabled || false;
+                    console.log('✅ Google Search config loaded from localStorage');
                 }
-            });
-            console.log('✅ Search config loaded from localStorage');
-        } catch (e) {
-            console.error('Error loading search config from localStorage:', e);
+            } catch (e) {
+                console.error('Error loading search config from localStorage:', e);
+            }
         }
     }
-}
 
-// Fallback function untuk load dari localStorage
-function loadSearchConfigFromLocalStorage() {
-    const savedSearchConfig = localStorage.getItem('miraiSearchConfig');
-    if (savedSearchConfig) {
-        try {
-            const config = JSON.parse(savedSearchConfig);
-            Object.keys(config).forEach(key => {
-                if (SEARCH_CONFIG.engines[key]) {
-                    SEARCH_CONFIG.engines[key] = { ...SEARCH_CONFIG.engines[key], ...config[key] };
-                }
-            });
-            console.log('✅ Search config loaded from localStorage');
-        } catch (e) {
-            console.error('Error loading search config from localStorage:', e);
-        }
+    // Update UI dengan config
+    function updateSearchConfigUI() {
+        if (!elements.googleApiKey) return;
+        
+        elements.googleApiKey.value = GOOGLE_SEARCH_CONFIG.apiKey;
+        elements.googleCx.value = GOOGLE_SEARCH_CONFIG.cx;
+        elements.enableGoogleSearch.checked = GOOGLE_SEARCH_CONFIG.enabled;
+        
+        console.log('✅ UI updated with search config');
     }
-}
 
-    let currentApiKey = DEFAULT_API_KEY;
-    let isUsingPublicApi = false;
-
-    // Deteksi model dan mode PWA
-    const urlParams = new URLSearchParams(window.location.search);
-    const isBeta = urlParams.has('betamodel');
-    const isPWA = urlParams.has('pwa');
-    const model = isBeta ? 'gemini-3-flash-preview' : 'gemini-2.5-flash';
-    console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Flash Preview)' : 'Stable (2.5 Flash)'}`);
-
-    const faqDatabase = {
-        "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information.",
-        "donate": "# Donate\n\n Please donate to add features and improve AI capabilities. [Buy us a DiamondStars](https://trakteer.id/Allwaysever)",
-        "fullmd": "# Heading 1\n\n## Heading 2\n\n### Heading 3\n\n#### Heading 4\n\n##### Heading 5\n\n###### Heading 6\n\nIni **teks tebal** dan ini *teks miring* dan ini ***teks tebal miring*** dan ~~coret~~.\n\nIni [link](https://example.com) dan ini ![gambar](https://example.com/img.jpg).\n\nIni `kode inline`.\n\n```javascript\nconsole.log('code block');\nfunction test() {\n    return 'hello';\n}\n```\n\n```python\nprint('code block lain')\n```\n\n> Ini blockquote.\n>> Nested blockquote.\n\n- Unordered list item 1\n- Unordered list item 2\n  - Nested item 2.1\n  - Nested item 2.2\n- Unordered list item 3\n\n1. Ordered list item 1\n2. Ordered list item 2\n   1. Nested ordered 2.1\n   2. Nested ordered 2.2\n3. Ordered list item 3\n\n---\n\n***\n\n___\n\n| Tabel Header 1 | Tabel Header 2 | Tabel Header 3 |\n|----------------|----------------|----------------|\n| Cell 1         | Cell 2         | Cell 3         |\n| *Italic*       | **Bold**       | `Code`         |\n\n[^1]: Ini footnote.\n\nIni referensi footnote[^1].\n\n~~Ini coret~~.\n\n**Bold dengan underscore** dan __bold underscore__.\n\n*Italic dengan underscore* dan _italic underscore_.\n\n` ``backtick dalam kode`` `\n\n- [ ] Checklist belum centang\n- [x] Checklist sudah centang\n\n\\*Escape karakter asterisk\\*\n\n\\`Escape backtick\\`\n\nH~2~O (subscript) dan X^2^ (superscript).\n\n==highlight==\n\n:joy: emoji :smile:\n\n<!-- Ini komentar HTML -->\n\n[Link referensi][1]\n\n[1]: https://example.com\n\n```\nplain text code block tanpa bahasa\n```\n\nTerminal:\n\n```bash\n$ npm install\n$ npm start\n```\n\n**Daftar campur:**\n- Item 1\n  1. Sub ordered 1\n  2. Sub ordered 2\n- Item 2\n\n### Tabel kompleks:\n| Left align | Center align | Right align |\n| :--- | :---: | ---: |\n| left | center | right |\n| data | data | data |\n\n**Auto link:** <https://google.com>\n\n**Email:** <email@example.com>\n\n**Horizontal rule dengan asterisk:**\n\n***\n\n**Escape semua:** \\*\\*bold\\*\\* \\*italic\\* \\`code\\`\n\nIni adalah paragraf yang sangat panjang yang harusnya akan membentuk satu paragraf utuh meskipun ditulis dalam beberapa baris dalam kode karena markdown akan menganggapnya sebagai satu paragraf selama tidak ada baris kosong di antaranya. Ini akan terus berlanjut sampai akhir.\n\nDan ini paragraf baru.\n\n    Indented code block dengan spasi.\n\n```mermaid\ngraph TD;\n    A-->B;\n    A-->C;\n    B-->D;\n    C-->D;\n```\n\n$$ \\LaTeX $$ math: $x^2 + y^2 = z^2$\n\n$$\\nblock math\\n$$\n\nColon untuk definition list:\n\nTerm 1\n: Definition 1\n\nTerm 2\n: Definition 2\n\n**Task list lain:**\n- [ ] Task 1\n- [x] Task 2 selesai\n- [ ] Task 3\n\n~~Multiple\nlines\ncoret~~\n\n**Bold\nmultiline**\n\nEnd.",
-   };
-
-    const uiStrings = {
-        'id': {
-            offlineTitle: 'Koneksi Internet Terputus',
-            offlineText: 'Silakan periksa koneksi WiFi atau data seluler Anda, lalu coba kembali.',
-            retryButton: 'Coba Lagi',
-            inputPlaceholder: 'Ketik pertanyaan Anda di sini...',
-            copyFeedback: 'Teks berhasil disalin!',
-            langSwitchFeedback: 'Bahasa telah diubah ke',
-            errorAPI: 'Terjadi kesalahan. Silakan muat ulang atau coba beberapa saat lagi.\n\nHmm... sepertinya kunci API ini telah terkena batas penggunaan. Jika Anda masih menggunakan kunci API bawaan, mohon segera ganti dengan kunci API pribadi Anda. Silakan cek tutorialnya di [Halaman GitHub MirAI](https://github.com/Allwaysever/MirAI?tab=readme-ov-file#%EF%B8%8F-setup-using-your-own-api-key).',
-            errorFallback: 'Maaf, jawaban tidak ditemukan. Coba gunakan kata kunci yang berbeda.',
-            errorConnection: 'Koneksi internet tidak tersedia. Mohon periksa kembali.',
-            checkingConnection: 'Memeriksa koneksi internet...',
-            copySuffix: '\n\n-- Dihasilkan oleh MirAI',
-            infoText: 'Informasi yang dihasilkan AI mungkin tidak akurat. Verifikasi kembali fakta penting.',
-            settingsHeaderTitle: 'Pengaturan',
-            settingsAppearanceTitle: 'Tampilan',
-            settingsThemeText: 'Pilih preferensi tema Anda:',
-            themeLightOption: 'Terang',
-            themeDarkOption: 'Gelap',
-            settingsAITitle: 'Persona AI',
-            settingsPersonaText: 'Pilih gaya respons AI:',
-            personaFormalOption: 'Formal & Profesional',
-            personaDefaultOption: 'Santai & Bercanda',
-            personaCreativeOption: 'Kreatif & Ekspresif',
-            personaCustomOption: 'Custom Persona',
-            customPersonaHint: 'Prompt Anda akan digabungkan dengan: "Anda adalah MirAI, Asisten AI, "',
-            customPersonaPlaceholder: 'Masukkan prompt custom Anda di sini...',
-            settingsAboutTitle: 'Tentang Aplikasi',
-            settingsVersionText: `Versi: v${VERSION}`,
-            settingsAuthorText: 'Dikembangkan oleh Allwaysever',
-            githubLink: 'Tentang MirAI',
-            licenseLink: 'Lisensi',
-            helpLink: 'Pusat Bantuan',
-            termsText: 'Dengan menggunakan MirAI, Anda menyetujui <a href="T&C/index.html" target="_blank">Syarat & Ketentuan</a>.',
-            personaDefaultPrompt: 'Anda adalah MirAI, asisten AI yang santai dan suka bercanda. Jawab semua pertanyaan dengan gaya yang ramah, sedikit humor, namun tetap informatif.',
-            personaFormalPrompt: 'Anda adalah MirAI, asisten AI profesional. Berikan jawaban yang terstruktur, akurat, dan menggunakan bahasa formal.',
-            personaCreativePrompt: 'Anda adalah MirAI, asisten AI yang kreatif. Berikan jawaban yang unik, imajinatif, dan ekspresif untuk setiap pertanyaan.',
-            personaCustomPrompt: '',
-            placeholderMessages: ['Ajukan pertanyaan apa pun.', 'Butuh bantuan untuk ide?', 'Minta terjemahan atau ringkasan.', 'Bagaimana saya bisa membantu?'],
-            onlineStatus: 'Terhubung',
-            offlineStatus: 'Terputus',
-            settingsApiTitle: 'Kunci API Google',
-            settingsApiText: 'Masukkan Kunci API kustom Anda:',
-            apiKeySaved: 'Kunci API berhasil disimpan.',
-            apiKeyRemoved: 'Kunci API dihapus. Menggunakan kunci default.',
-            dateTimeContextPrompt: '[{dateTime}]:',
-            confirmClearMessage: 'Apakah Anda yakin ingin menghapus riwayat percakapan ini? Tindakan ini tidak dapat diurungkan.',
-            confirmClearYes: 'Ya, Hapus',
-            confirmClearNo: 'Batal',
-            pageTitle: 'MirAI | Asisten AI Anda',
-            saveApiKeyBtn: 'Simpan',
-            apiKeyPlaceholder: 'Kosongkan untuk menggunakan kunci default',
-            settingsBackupTitle: 'Backup & Pulihkan',
-            backupDescText: 'Simpan atau pindahkan riwayat chat kamu lewat file JSON.',
-            exportBtnText: 'Export',
-            importBtnText: 'Import',
-            importSuccessText: 'Backup berhasil dipulihkan! Aplikasi akan dimuat ulang.',
-            importErrorText: 'Waduh, filenya rusak atau bukan format backup MirAI! 🗿',
-            installBtnText: 'Install App',
-            invalidImageText: 'Silakan unggah file gambar (jpeg, png, webp).',
-            betaModelActive: '#3FlashPreviewMode',
-            slashCmdSearchTitle: 'Cari',
-            slashCmdSearchDesc: '/search [kata kunci pencarian]',
-            slashCmdTranslateTitle: 'Terjemahkan',
-            slashCmdTranslateDesc: '/translate [teks] to [bahasa]',
-            slashCmdSummarizeTitle: 'Ringkas',
-            slashCmdSummarizeDesc: '/summarize [teks panjang]',
-            slashCmdRephraseTitle: 'Ubah Kalimat',
-            slashCmdRephraseDesc: '/rephrase [teks] as [gaya]',
-            slashCmdIdeateTitle: 'Buat Ide',
-            slashCmdIdeateDesc: '/ideate [jumlah] ideas for [topik]',
-            slashCmdFixTitle: 'Perbaiki',
-            slashCmdFixDesc: '/fix [teks yang perlu diperbaiki]',
-            slashCmdExplainTitle: 'Jelaskan',
-            slashCmdExplainDesc: '/explain [konsep] like I\'m [audiens]',
-            slashCmdCodeTitle: 'Buat Kode',
-            slashCmdCodeDesc: '/code a [bahasa pemrograman] function to [deskripsi]',
-            slashErrorInvalidFormat: 'Error: Format tidak valid.',
-            slashErrorInvalidFormatTranslate: 'Error: Format tidak valid. Gunakan /translate [teks] to [bahasa]',
-            slashErrorInvalidFormatRephrase: 'Error: Format tidak valid. Gunakan /rephrase [teks] as [gaya]',
-            slashErrorInvalidFormatIdeate: 'Error: Format tidak valid. Gunakan /ideate [jumlah] ideas for [topik]',
-            slashErrorInvalidFormatExplain: 'Error: Format tidak valid. Gunakan /explain [konsep] like I\'m [audiens]',
-            slashErrorInvalidFormatCode: 'Error: Format tidak valid. Gunakan /code a [bahasa] function to [deskripsi]',
-            slashErrorInvalidFormatSearch: 'Error: Format tidak valid. Gunakan /search [kata kunci]',
-            slashErrorUnknownCommand: 'Error: Perintah tidak dikenal.',
-            confirmBtnYes: 'Ya, Hapus',
-            confirmBtnNo: 'Batal',
-            copyFeedback: 'Teks berhasil disalin!',
-            pwaInstalledText: 'PWA was installed successfully!',
-            apiLimitError: 'Hmm... sepertinya kunci API ini telah terkena batas penggunaan. Jika Anda masih menggunakan kunci API bawaan, mohon segera ganti dengan kunci API pribadi Anda.',
-            settingsSearchTitle: 'Konfigurasi Pencarian',
-            searchConfigDesc: 'Konfigurasi mesin pencari eksternal untuk perintah /search',
-            testSearchBtn: 'Tes Pencarian',
-            clearSearchCacheBtn: 'Hapus Cache',
-            searchTestResult: 'Hasil tes pencarian untuk "test": ',
-            searchCacheCleared: 'Cache pencarian berhasil dihapus!',
-            searchEngineNotConfigured: 'Mesin pencari tidak dikonfigurasi',
-            searchExample1: '/search artificial intelligence',
-            searchExample2: '/search machine learning [engine:wikipedia]',
-            searchExample3: '/search OpenAI [type:news] [results:3]'
-        },
-        'en': {
-            offlineTitle: 'Internet Connection Lost',
-            offlineText: 'Please check your WiFi or cellular data connection, then try again.',
-            retryButton: 'Retry',
-            inputPlaceholder: 'Type your question here...',
-            copyFeedback: 'Text copied to clipboard!',
-            langSwitchFeedback: 'Language has been changed to',
-            errorAPI: 'An error occurred. Please reload the page or try again shortly.\n\nHmm... it seems that this API key has reached its usage limit. If you are still using the default API key, please replace it with your personal API key immediately. Please check the tutorial on the [MirAI GitHub page](https://github.com/Allwaysever/MirAI?tab=readme-ov-file#%EF%B8%8F-setup-using-your-own-api-key).',
-            errorFallback: 'Sorry, no answer was found. Please try different keywords.',
-            errorConnection: 'Internet connection is unavailable. Please check and try again.',
-            checkingConnection: 'Checking internet connection...',
-            copySuffix: '\n\n-- Generated by MirAI',
-            infoText: 'AI-generated information may be inaccurate. Please verify important facts.',
-            settingsHeaderTitle: 'Settings',
-            settingsAppearanceTitle: 'Appearance',
-            settingsThemeText: 'Select your theme preference:',
-            themeLightOption: 'Light',
-            themeDarkOption: 'Dark',
-            settingsAITitle: 'AI Persona',
-            settingsPersonaText: 'Choose the AI\'s response style:',
-            personaFormalOption: 'Formal & Professional',
-            personaDefaultOption: 'Chill & joking',
-            personaCreativeOption: 'Creative & Expressive',
-            personaCustomOption: 'Custom Persona',
-            customPersonaHint: 'Your prompt will be combined with: "You are MirAI, an AI Assistant, "',
-            customPersonaPlaceholder: 'Enter your custom prompt here...',
-            settingsAboutTitle: 'About',
-            settingsVersionText: `Version: v${VERSION}`,
-            settingsAuthorText: 'Developed by Allwaysever',
-            githubLink: 'About MirAI',
-            licenseLink: 'License',
-            helpLink: 'Help Center',
-            termsText: 'By using MirAI, you agree to the <a href="T&C/index.html" target="_blank">Terms & Conditions</a>.',
-            personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humor, while remaining informative.',
-            personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
-            personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
-            personaCustomPrompt: '',
-            placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
-            onlineStatus: 'Connected',
-            offlineStatus: 'Disconnected',
-            settingsApiTitle: 'Google API Key',
-            settingsApiText: 'Enter your custom API Key:',
-            apiKeySaved: 'API Key saved successfully.',
-            apiKeyRemoved: 'API Key removed. Using default key.',
-            dateTimeContextPrompt: '[{dateTime}]:',
-            confirmClearMessage: 'Are you sure you want to delete this chat history? This action cannot be undone.',
-            confirmClearYes: 'Yes, Delete',
-            confirmClearNo: 'Cancel',
-            pageTitle: 'MirAI | Your AI Assistant',
-            saveApiKeyBtn: 'Save',
-            apiKeyPlaceholder: 'Leave blank to use the default key',
-            settingsBackupTitle: 'Backup & Restore',
-            backupDescText: 'Save or transfer your chat history via JSON file.',
-            exportBtnText: 'Export',
-            importBtnText: 'Import',
-            importSuccessText: 'Backup restored successfully! App will reload.',
-            importErrorText: 'File corrupted or not a MirAI backup! 🗿',
-            installBtnText: 'Install App',
-            invalidImageText: 'Please upload an image file (jpeg, png, webp).',
-            betaModelActive: '#3FlashPreviewMode',
-            slashCmdSearchTitle: 'Search',
-            slashCmdSearchDesc: '/search [search query]',
-            slashCmdTranslateTitle: 'Translate',
-            slashCmdTranslateDesc: '/translate [text] to [language]',
-            slashCmdSummarizeTitle: 'Summarize',
-            slashCmdSummarizeDesc: '/summarize [long text]',
-            slashCmdRephraseTitle: 'Rephrase',
-            slashCmdRephraseDesc: '/rephrase [text] as [tone]',
-            slashCmdIdeateTitle: 'Ideate',
-            slashCmdIdeateDesc: '/ideate [amount] ideas for [topic]',
-            slashCmdFixTitle: 'Fix',
-            slashCmdFixDesc: '/fix [text that needs to be corrected]',
-            slashCmdExplainTitle: 'Explain',
-            slashCmdExplainDesc: '/explain [concept] like I\'m [audience]',
-            slashCmdCodeTitle: 'Code',
-            slashCmdCodeDesc: '/code a [programming language] function to [description]',
-            slashErrorInvalidFormat: 'Error: Invalid format.',
-            slashErrorInvalidFormatTranslate: 'Error: Invalid format. Use /translate [text] to [language]',
-            slashErrorInvalidFormatRephrase: 'Error: Invalid format. Use /rephrase [text] as [tone]',
-            slashErrorInvalidFormatIdeate: 'Error: Invalid format. Use /ideate [number] ideas for [topic]',
-            slashErrorInvalidFormatExplain: 'Error: Invalid format. Use /explain [concept] like I\'m [audience]',
-            slashErrorInvalidFormatCode: 'Error: Invalid format. Use /code a [language] function to [description]',
-            slashErrorInvalidFormatSearch: 'Error: Invalid format. Use /search [query]',
-            slashErrorUnknownCommand: 'Error: Unknown command.',
-            confirmBtnYes: 'Yes, Delete',
-            confirmBtnNo: 'Cancel',
-            copyFeedback: 'Text copied to clipboard!',
-            pwaInstalledText: 'PWA was installed successfully!',
-            apiLimitError: 'Hmm... it seems that this API key has reached its usage limit. If you are still using the default API key, please replace it with your personal API key immediately.',
-            settingsSearchTitle: 'Search Configuration',
-            searchConfigDesc: 'Configure external search engines for /search command',
-            testSearchBtn: 'Test Search',
-            clearSearchCacheBtn: 'Clear Cache',
-            searchTestResult: 'Search test result for "test": ',
-            searchCacheCleared: 'Search cache cleared successfully!',
-            searchEngineNotConfigured: 'Search engine not configured',
-            searchExample1: '/search artificial intelligence',
-            searchExample2: '/search machine learning [engine:wikipedia]',
-            searchExample3: '/search OpenAI [type:news] [results:3]'
-        },
-        'en-uk': {
-            offlineTitle: 'Internet Connection Lost',
-            offlineText: 'Please check your WiFi or cellular data connection, then try again.',
-            retryButton: 'Retry',
-            inputPlaceholder: 'Type your question here...',
-            copyFeedback: 'Text copied to clipboard!',
-            langSwitchFeedback: 'Language has been changed to',
-            errorAPI: 'An error occurred. Please reload the page or try again shortly.\n\nHmm... it appears that this API key has reached its usage limit. If you are still using the default API key, please replace it with your personal API key immediately. Please check the tutorial on the [MirAI GitHub page](https://github.com/Allwaysever/MirAI?tab=readme-ov-file#%EF%B8%8F-setup-using-your-own-api-key).',
-            errorFallback: 'Sorry, no answer was found. Please try different keywords.',
-            errorConnection: 'Internet connection is unavailable. Please check and try again.',
-            checkingConnection: 'Checking internet connection...',
-            copySuffix: '\n\n-- Generated by MirAI',
-            infoText: 'AI-generated information may be inaccurate. Please verify important facts.',
-            settingsHeaderTitle: 'Settings',
-            settingsAppearanceTitle: 'Appearance',
-            settingsThemeText: 'Select your theme preference:',
-            themeLightOption: 'Light',
-            themeDarkOption: 'Dark',
-            settingsAITitle: 'AI Persona',
-            settingsPersonaText: 'Choose the AI\'s response style:',
-            personaFormalOption: 'Formal & Professional',
-            personaDefaultOption: 'Laid-back & bantering',
-            personaCreativeOption: 'Creative & Expressive',
-            personaCustomOption: 'Custom Persona',
-            customPersonaHint: 'Your prompt will be combined with: "You are MirAI, an AI Assistant, "',
-            customPersonaPlaceholder: 'Enter your custom prompt here...',
-            settingsAboutTitle: 'About',
-            settingsVersionText: `Version: v${VERSION}`,
-            settingsAuthorText: 'Developed by Allwaysever',
-            githubLink: 'About MirAI',
-            licenseLink: 'License',
-            helpLink: 'Help Center',
-            termsText: 'By using MirAI, you agree to the <a href="T&C/index.html" target="_blank">Terms & Conditions</a>.',
-            personaDefaultPrompt: 'You are MirAI, a relaxed and humorous AI assistant. Answer all questions in a friendly style, with a bit of humour, while remaining informative.',
-            personaFormalPrompt: 'You are MirAI, a professional AI assistant. Provide well-structured, accurate, and formal responses.',
-            personaCreativePrompt: 'You are MirAI, a creative AI assistant. Provide unique, imaginative, and expressive answers to every query.',
-            personaCustomPrompt: '',
-            placeholderMessages: ['Ask any question.', 'Need help with an idea?', 'Request a translation or summary.', 'How can I assist you?'],
-            onlineStatus: 'Connected',
-            offlineStatus: 'Disconnected',
-            settingsApiTitle: 'Google API Key',
-            settingsApiText: 'Enter your custom API Key:',
-            apiKeySaved: 'API Key saved successfully.',
-            apiKeyRemoved: 'API Key removed. Using default key.',
-            dateTimeContextPrompt: '[{dateTime}]:',
-            confirmClearMessage: 'Are you sure you want to delete this chat history? This action cannot be undone.',
-            confirmClearYes: 'Yes, Delete',
-            confirmClearNo: 'Cancel',
-            pageTitle: 'MirAI | Your AI Assistant',
-            saveApiKeyBtn: 'Save',
-            apiKeyPlaceholder: 'Leave blank to use the default key',
-            settingsBackupTitle: 'Backup & Restore',
-            backupDescText: 'Save or transfer your chat history via JSON file.',
-            exportBtnText: 'Export',
-            importBtnText: 'Import',
-            importSuccessText: 'Backup restored successfully! App will reload.',
-            importErrorText: 'File corrupted or not a MirAI backup! 🗿',
-            installBtnText: 'Install App',
-            invalidImageText: 'Please upload an image file (jpeg, png, webp).',
-            betaModelActive: '#3FlashPreviewMode',
-            slashCmdSearchTitle: 'Search',
-            slashCmdSearchDesc: '/search [search query]',
-            slashCmdTranslateTitle: 'Translate',
-            slashCmdTranslateDesc: '/translate [text] to [language]',
-            slashCmdSummarizeTitle: 'Summarize',
-            slashCmdSummarizeDesc: '/summarize [long text]',
-            slashCmdRephraseTitle: 'Rephrase',
-            slashCmdRephraseDesc: '/rephrase [text] as [tone]',
-            slashCmdIdeateTitle: 'Ideate',
-            slashCmdIdeateDesc: '/ideate [amount] ideas for [topic]',
-            slashCmdFixTitle: 'Fix',
-            slashCmdFixDesc: '/fix [text that needs to be corrected]',
-            slashCmdExplainTitle: 'Explain',
-            slashCmdExplainDesc: '/explain [concept] like I\'m [audience]',
-            slashCmdCodeTitle: 'Code',
-            slashCmdCodeDesc: '/code a [programming language] function to [description]',
-            slashErrorInvalidFormat: 'Error: Invalid format.',
-            slashErrorInvalidFormatTranslate: 'Error: Invalid format. Use /translate [text] to [language]',
-            slashErrorInvalidFormatRephrase: 'Error: Invalid format. Use /rephrase [text] as [tone]',
-            slashErrorInvalidFormatIdeate: 'Error: Invalid format. Use /ideate [number] ideas for [topic]',
-            slashErrorInvalidFormatExplain: 'Error: Invalid format. Use /explain [concept] like I\'m [audience]',
-            slashErrorInvalidFormatCode: 'Error: Invalid format. Use /code a [language] function to [description]',
-            slashErrorInvalidFormatSearch: 'Error: Invalid format. Use /search [query]',
-            slashErrorUnknownCommand: 'Error: Unknown command.',
-            confirmBtnYes: 'Yes, Delete',
-            confirmBtnNo: 'Cancel',
-            copyFeedback: 'Text copied to clipboard!',
-            pwaInstalledText: 'PWA was installed successfully!',
-            apiLimitError: 'Hmm... it seems that this API key has reached its usage limit. If you are still using the default API key, please replace it with your personal API key immediately.',
-            settingsSearchTitle: 'Search Configuration',
-            searchConfigDesc: 'Configure external search engines for /search command',
-            testSearchBtn: 'Test Search',
-            clearSearchCacheBtn: 'Clear Cache',
-            searchTestResult: 'Search test result for "test": ',
-            searchCacheCleared: 'Search cache cleared successfully!',
-            searchEngineNotConfigured: 'Search engine not configured',
-            searchExample1: '/search artificial intelligence',
-            searchExample2: '/search machine learning [engine:wikipedia]',
-            searchExample3: '/search OpenAI [type:news] [results:3]'
-        },
-        'jp': {
-            offlineTitle: 'インターネット接続がありません',
-            offlineText: 'WiFiまたはデータ接続を確認し、再度お試しください。',
-            retryButton: '再試行',
-            inputPlaceholder: 'ここに質問を入力してください...',
-            copyFeedback: 'テキストをコピーしました。',
-            langSwitchFeedback: '言語が変更されました',
-            errorAPI: 'エラーが発生しました。ページを再読み込みするか、しばらくしてからもう一度お試しください。\n\nHmm... このAPIキーは使用制限に達したようです。デフォルトのAPIキーをまだ使用している場合は、すぐに個人用のAPIキーに変更してください。詳細な手順は[MirAIのGitHubページ](https://github.com/Allwaysever/MirAI?tab=readme-ov-file#%EF%B8%8F-setup-using-your-own-api-key)のチュートリアルをご確認ください。',
-            errorFallback: '申し訳ありません、回答が見つかりませんでした。別のキーワードでお試しください。',
-            errorConnection: 'インターネットに接続されていません。接続を確認してください。',
-            checkingConnection: 'インターネット接続を確認中...',
-            copySuffix: '\n\n-- MirAIによって生成',
-            infoText: 'AIが生成した情報は不正確な場合があります。重要な事実は再度ご確認ください。',
-            settingsHeaderTitle: '設定',
-            settingsAppearanceTitle: '外観',
-            settingsThemeText: 'テーマを選択してください:',
-            themeLightOption: 'ライト',
-            themeDarkOption: 'ダーク',
-            settingsAITitle: 'AIのペルソナ',
-            settingsPersonaText: 'AIの応答スタイルを選択:',
-            personaFormalOption: 'フォーマル・プロ',
-            personaDefaultOption: 'のんびりしてて冗談好き',
-            personaCreativeOption: 'クリエイティブ・表現豊か',
-            personaCustomOption: 'カスタムペルソナ',
-            customPersonaHint: 'プロンプトは「あなたはMirAI、AIアシスタントです、」と結合されます',
-            customPersonaPlaceholder: 'カスタムプロンプトをここに入力...',
-            settingsAboutTitle: 'アプリについて',
-            settingsVersionText: `バージョン: v${VERSION}`,
-            settingsAuthorText: '開発者: Allwaysever',
-            githubLink: 'MirAIについて',
-            licenseLink: 'ライセンス',
-            helpLink: 'ヘルプセンター',
-            termsText: 'MirAIを使用することにより、<a href="T&C/index.html" target="_blank">利用規約</a>に同意したことになります。',
-            personaDefaultPrompt: 'あなたはMirAI、リラックスして冗談好きなAIアシスタントです。フレンドリーなスタイルで、少しユーモアを交えながらも、情報を提供するようにすべての質問に答えてください。',
-            personaFormalPrompt: 'あなたはMirAI、プロフェッショナルなAIアシスタントです。構造化され、正確で、フォーマルな言葉遣いで回答を提供してください。',
-            personaCreativePrompt: 'あなたはMirAI、創造的なAIアシスタNTです。すべての質問に対して、ユニークで想像力に富んだ表現力豊かな回答をしてください。',
-            personaCustomPrompt: '',
-            placeholderMessages: ['質問を入力してください。', 'アイデアが必要ですか？', '翻訳または要約を依頼。', '何かお手伝いできることはありますか？'],
-            onlineStatus: '接続済み',
-            offlineStatus: '切断',
-            settingsApiTitle: 'Google APIキー',
-            settingsApiText: 'カスタムAPIキーを入力してください:',
-            apiKeySaved: 'APIキーが保存されました。',
-            apiKeyRemoved: 'APIキーが削除されました。デフォルトキーを使用します。',
-            dateTimeContextPrompt: '[{dateTime}]:',
-            confirmClearMessage: 'このチャット履歴を削除してもよろしいですか？この操作は元に戻せません。',
-            confirmClearYes: 'はい、削除します',
-            confirmClearNo: 'キャンセル',
-            pageTitle: 'MirAI | AIアシスタント',
-            saveApiKeyBtn: '保存',
-            apiKeyPlaceholder: 'デフォルトキーを使用する場合は空欄',
-            settingsBackupTitle: 'バックアップと復元',
-            backupDescText: 'JSONファイルでチャット履歴を保存または転送します。',
-            exportBtnText: 'エクスポート',
-            importBtnText: 'インポート',
-            importSuccessText: 'バックアップが正常に復元されました！アプリを再読み込みします。',
-            importErrorText: 'ファイルが壊れているか、MirAIのバックアップ形式ではありません！🗿',
-            installBtnText: 'アプリをインストール',
-            invalidImageText: '画像ファイル（JPEG、PNG、WebP）をアップロードしてください。',
-            betaModelActive: '#3Flashプレビューモード',
-            slashCmdSearchTitle: '検索',
-            slashCmdSearchDesc: '/search [検索クエリ]',
-            slashCmdTranslateTitle: '翻訳',
-            slashCmdTranslateDesc: '/translate [テキスト] to [言語]',
-            slashCmdSummarizeTitle: '要約',
-            slashCmdSummarizeDesc: '/summarize [長いテキスト]',
-            slashCmdRephraseTitle: '言い換え',
-            slashCmdRephraseDesc: '/rephrase [テキスト] as [口調]',
-            slashCmdIdeateTitle: 'アイデア生成',
-            slashCmdIdeateDesc: '/ideate [数] ideas for [トピック]',
-            slashCmdFixTitle: '修正',
-            slashCmdFixDesc: '/fix [修正が必要なテキスト]',
-            slashCmdExplainTitle: '説明',
-            slashCmdExplainDesc: '/explain [概念] like I\'m [対象]',
-            slashCmdCodeTitle: 'コード',
-            slashCmdCodeDesc: '/code a [プログラミング言語] function to [説明]',
-            slashErrorInvalidFormat: 'エラー: 形式が無効です。',
-            slashErrorInvalidFormatTranslate: 'エラー: 形式が無効です。 /translate [テキスト] to [言語] を使用してください',
-            slashErrorInvalidFormatRephrase: 'エラー: 形式が無効です。 /rephrase [テキスト] as [口調] を使用してください',
-            slashErrorInvalidFormatIdeate: 'エラー: 形式が無効です。 /ideate [数] ideas for [トピック] を使用してください',
-            slashErrorInvalidFormatExplain: 'エラー: 形式が無効です。 /explain [概念] like I\'m [対象] を使用してください',
-            slashErrorInvalidFormatCode: 'エラー: 形式が無効です。 /code a [言語] function to [説明] を使用してください',
-            slashErrorInvalidFormatSearch: 'エラー: 形式が無効です。 /search [クエリ] を使用してください',
-            slashErrorUnknownCommand: 'エラー: 不明なコマンドです。',
-            confirmBtnYes: 'はい、削除します',
-            confirmBtnNo: 'キャンセル',
-            copyFeedback: 'テキストをコピーしました。',
-            pwaInstalledText: 'PWAが正常にインストールされました！',
-            apiLimitError: 'このAPIキーは使用制限に達したようです。デフォルトのAPIキーをまだ使用している場合は、すぐに個人用のAPIキーに変更してください。',
-            settingsSearchTitle: '検索設定',
-            searchConfigDesc: '/searchコマンドの外部検索エンジンを設定',
-            testSearchBtn: '検索テスト',
-            clearSearchCacheBtn: 'キャッシュ削除',
-            searchTestResult: '"test"の検索テスト結果: ',
-            searchCacheCleared: '検索キャッシュが正常に削除されました！',
-            searchEngineNotConfigured: '検索エンジンが設定されていません',
-            searchExample1: '/search artificial intelligence',
-            searchExample2: '/search machine learning [engine:wikipedia]',
-            searchExample3: '/search OpenAI [type:news] [results:3]'
-        }
-    };
-
-    let slashCommands = [];
-    let chatHistory = [];
-    let abortController = null;
-    let currentLanguage = 'en';
-    let currentPersona = 'default';
-    let currentImageData = null;
-    let elements;
-
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}_${hours}-${minutes}`;
-    console.log(formattedDate);
-
-    // --- LOGIKA UTAMA MIRAI ENCRYPTED DATA FILE (.medf) ---
-    const MIRAI_CONFIG = {
-        saltLength: 16,
-        ivLength: 12,
-        iterations: 100000,
-        HEADER_TEXT: "{MirAI Encrypted Data Files v1.0 By Allwaysever}"
-    };
-
-    async function processExportMEDF(dataJSON, password) {
-        const signatureData = {
-            _signature: {
-                headerText: MIRAI_CONFIG.HEADER_TEXT,
-                headerCode: generateHeaderCode(MIRAI_CONFIG.HEADER_TEXT),
-                timestamp: new Date().toISOString(),
-                version: "1.0"
-            },
-            ...dataJSON
+    // Save search config ke localStorage
+    function saveSearchConfig() {
+        const config = {
+            google: {
+                apiKey: elements.googleApiKey.value.trim(),
+                cx: elements.googleCx.value.trim(),
+                enabled: elements.enableGoogleSearch.checked
+            }
         };
         
-        console.log('🔐 Adding authenticity signature for export');
+        GOOGLE_SEARCH_CONFIG.apiKey = config.google.apiKey;
+        GOOGLE_SEARCH_CONFIG.cx = config.google.cx;
+        GOOGLE_SEARCH_CONFIG.enabled = config.google.enabled;
         
-        const encoder = new TextEncoder();
-        const salt = window.crypto.getRandomValues(new Uint8Array(MIRAI_CONFIG.saltLength));
-        const iv = window.crypto.getRandomValues(new Uint8Array(MIRAI_CONFIG.ivLength));
-
-        const passwordKey = await window.crypto.subtle.importKey(
-            "raw", encoder.encode(password), "PBKDF2", false, ["deriveKey"]
-        );
-        const key = await window.crypto.subtle.deriveKey(
-            { name: "PBKDF2", salt: salt, iterations: MIRAI_CONFIG.iterations, hash: "SHA-256" },
-            passwordKey, { name: "AES-GCM", length: 256 }, false, ["encrypt"]
-        );
-
-        const encrypted = await window.crypto.subtle.encrypt(
-            { name: "AES-GCM", iv: iv }, key, encoder.encode(JSON.stringify(signatureData))
-        );
-
-        const finalBlob = new Blob([salt, iv, new Uint8Array(encrypted)], {type: "application/octet-stream"});
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(finalBlob);
-        a.download = `MirAIBackup_ENCRYPTED_${formattedDate}.medf`;
-        a.click();
+        localStorage.setItem('miraiSearchConfig', JSON.stringify(config));
+        
+        console.log('✅ Search config saved to localStorage');
+        showCopyFeedback(uiStrings[currentLanguage].searchConfigSaved);
     }
 
-    function generateHeaderCode(text) {
-        let code = '';
-        for (let i = 0; i < text.length; i++) {
-            const charCode = text.charCodeAt(i);
-            const transformedCode = (charCode + 2) * 3;
-            code += transformedCode.toString().padStart(4, '0');
-        }
-        return code;
-    }
-
-    async function processImportMEDF(file, password) {
-      try {
-        const buffer = await file.arrayBuffer();
-        const uint8View = new Uint8Array(buffer);
-        
-        const salt = uint8View.slice(0, 16);
-        const iv = uint8View.slice(16, 28);
-        const encryptedData = uint8View.slice(28);
-        
-        console.log('MEDF Import Debug:', {
-          totalSize: buffer.byteLength,
-          saltSize: salt.length,
-          ivSize: iv.length,
-          dataSize: encryptedData.length
-        });
-        
-        const encoder = new TextEncoder();
-        
-        const passwordKey = await window.crypto.subtle.importKey(
-          "raw", 
-          encoder.encode(password), 
-          "PBKDF2", 
-          false, 
-          ["deriveKey"]
-        );
-        
-        const key = await window.crypto.subtle.deriveKey(
-          { 
-            name: "PBKDF2", 
-            salt: salt, 
-            iterations: MIRAI_CONFIG.iterations, 
-            hash: "SHA-256" 
-          },
-          passwordKey, 
-          { name: "AES-GCM", length: 256 }, 
-          false, 
-          ["decrypt"]
-        );
-        
-        const decrypted = await window.crypto.subtle.decrypt(
-          { name: "AES-GCM", iv: iv }, 
-          key, 
-          encryptedData
-        );
-        
-        const decryptedText = new TextDecoder().decode(decrypted);
-        const data = JSON.parse(decryptedText);
-        
-        console.log('🔍 Validating backup authenticity...');
-        
-        if (!data._signature) {
-          console.warn('⚠️ Backup file does not have signature');
-          alert('⚠️ Warning: Backup file does not have authenticity signature.\nFile may not be from official MirAI.');
-        } else {
-          const HEADER_TEXT = MIRAI_CONFIG.HEADER_TEXT;
-          
-          if (data._signature.headerText !== HEADER_TEXT) {
-            throw new Error("❌ Backup file tidak otentik! Header text tidak sesuai.");
-          }
-          
-          let expectedCode = '';
-          for (let i = 0; i < HEADER_TEXT.length; i++) {
-            const charCode = HEADER_TEXT.charCodeAt(i);
-            const transformedCode = (charCode + 2) * 3;
-            expectedCode += transformedCode.toString().padStart(4, '0');
-          }
-          
-          if (data._signature.headerCode !== expectedCode) {
-            throw new Error("❌ Backup file is not authentic! Header code does not match.");
-          }
-          
-          console.log('✅ Backup file verified as authentic');
+    // === GOOGLE SEARCH FUNCTION ===
+    async function searchGoogle(query, count = 5) {
+        if (!GOOGLE_SEARCH_CONFIG.enabled) {
+            return "⚠️ Google Search is disabled. Please enable it in Settings.";
         }
         
-        return data;
-        
-      } catch (e) {
-        console.error('MEDF Import Error:', e);
-        
-        if (e.message.includes('tidak otentik')) {
-          throw new Error("❌ The backup file is not authentic or has been modified!\n\n" +
-                         "Files may be:\n" +
-                         "• Not an official backup of MirAI\n" +
-                         "• Has been modified by another party\n" +
-                         "• Experiencing data corruption\n\n" +
-                         "Use the original backup file from MirAI.");
-        } else {
-          throw new Error("Wrong password or corrupted .medf file!");
-        }
-      }
-    }
-
-    // === ADVANCED SEARCH FUNCTIONS ===
-    async function performExternalSearch(query, engine = 'google', count = 5, type = 'web') {
-        try {
-            const cacheKey = `${engine}:${query}:${count}:${type}`;
-            const cached = searchCache.get(cacheKey);
-            
-            if (cached && (Date.now() - cached.timestamp) < SEARCH_CONFIG.cacheDuration) {
-                console.log('Using cached search results');
-                return cached.result;
-            }
-            
-            console.log(`🔍 Searching ${engine} for: ${query}`);
-            
-            let searchResult;
-            
-            switch(engine.toLowerCase()) {
-                case 'google':
-                    searchResult = await searchGoogle(query, count, type);
-                    break;
-                case 'duckduckgo':
-                    searchResult = await searchDuckDuckGo(query, count);
-                    break;
-                case 'wikipedia':
-                    searchResult = await searchWikipedia(query, count);
-                    break;
-                case 'news':
-                case 'newsapi':
-                    searchResult = await searchNews(query, count);
-                    break;
-                default:
-                    searchResult = `Search engine "${engine}" not supported. Available: google, duckduckgo, wikipedia, news`;
-            }
-            
-            if (searchResult && !searchResult.startsWith('Error:')) {
-                searchCache.set(cacheKey, {
-                    result: searchResult,
-                    timestamp: Date.now()
-                });
-                
-                if (searchCache.size > 50) {
-                    const firstKey = searchCache.keys().next().value;
-                    searchCache.delete(firstKey);
-                }
-            }
-            
-            return searchResult;
-            
-        } catch (error) {
-            console.error('Search error:', error);
-            return `Error performing search: ${error.message}`;
-        }
-    }
-
-    async function searchGoogle(query, count = 5, type = 'web') {
-        const config = SEARCH_CONFIG.engines.google;
-        
-        if (!config.apiKey || !config.cx) {
-            return "⚠️ Google Search API not configured. Please add your API Key and Search Engine ID.\n\n" +
-                   "Get them from: https://console.cloud.google.com/apis/credentials\n" +
-                   "Create CSE at: https://programmablesearchengine.google.com/";
-        }
-        
-        if (!config.enabled) {
-            return "Google Search is disabled in settings.";
+        if (!GOOGLE_SEARCH_CONFIG.apiKey || !GOOGLE_SEARCH_CONFIG.cx) {
+            return "⚠️ Google Search API not configured.\n\n" +
+                   "Please add your Google Search API Key and Search Engine ID in Settings.\n\n" +
+                   "Get them from:\n" +
+                   "• API Key: https://console.cloud.google.com/apis/credentials\n" +
+                   "• Search Engine ID: https://programmablesearchengine.google.com/";
         }
         
         const params = new URLSearchParams({
-            key: config.apiKey,
-            cx: config.cx,
+            key: GOOGLE_SEARCH_CONFIG.apiKey,
+            cx: GOOGLE_SEARCH_CONFIG.cx,
             q: query,
             num: Math.min(count, 10),
             safe: 'active'
         });
         
-        if (type === 'news') {
-            params.append('dateRestrict', 'm1');
-            params.append('sort', 'date');
-        } else if (type === 'images') {
-            params.append('searchType', 'image');
-        }
-        
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), SEARCH_CONFIG.timeout);
+            const timeoutId = setTimeout(() => controller.abort(), GOOGLE_SEARCH_CONFIG.timeout);
             
-            const response = await fetch(`${config.endpoint}?${params}`, {
+            const response = await fetch(`${GOOGLE_SEARCH_CONFIG.endpoint}?${params}`, {
                 signal: controller.signal
             });
             
@@ -1687,8 +1221,7 @@ function loadSearchConfigFromLocalStorage() {
                 return `No results found for "${query}"`;
             }
             
-            let formattedResults = `🔍 **Search Results for: "${query}"**\n\n`;
-            formattedResults += `*Engine: Google (${type})*\n\n`;
+            let formattedResults = `🔍 **Google Search Results for: "${query}"**\n\n`;
             
             data.items.slice(0, count).forEach((item, index) => {
                 formattedResults += `${index + 1}. **[${item.title}](${item.link})**\n`;
@@ -1702,7 +1235,7 @@ function loadSearchConfigFromLocalStorage() {
             });
             
             formattedResults += `\n---\n`;
-            formattedResults += `*Try: /search "${query}" [engine:duckduckgo] [results:3]*`;
+            formattedResults += `*Found ${data.searchInformation?.formattedTotalResults || 'some'} results*`;
             
             return formattedResults;
             
@@ -1714,517 +1247,36 @@ function loadSearchConfigFromLocalStorage() {
         }
     }
 
-    async function searchDuckDuckGo(query, count = 5) {
-        const config = SEARCH_CONFIG.engines.duckduckgo;
-        
-        if (!config.enabled) {
-            return "DuckDuckGo Search is disabled in settings.";
+    // Test Google Search
+    function testGoogleSearch() {
+        if (!GOOGLE_SEARCH_CONFIG.enabled) {
+            alert(uiStrings[currentLanguage].googleSearchDisabled);
+            return;
         }
         
-        const params = new URLSearchParams({
-            q: query,
-            format: config.format,
-            no_html: '1',
-            skip_disambig: '1'
-        });
+        if (!GOOGLE_SEARCH_CONFIG.apiKey || !GOOGLE_SEARCH_CONFIG.cx) {
+            alert('Google Search API not configured.\n\nPlease add your API Key and Search Engine ID.');
+            return;
+        }
         
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), SEARCH_CONFIG.timeout);
-            
-            const response = await fetch(`${config.endpoint}?${params}`, {
-                signal: controller.signal
+        const testMsg = document.createElement('div');
+        testMsg.className = 'chat-bubble ai-bubble';
+        testMsg.textContent = '🔍 Testing Google Search for "artificial intelligence"...';
+        elements.chatMessages.appendChild(testMsg);
+        elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+        
+        searchGoogle('artificial intelligence', 3)
+            .then(result => {
+                testMsg.textContent = result;
+                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+            })
+            .catch(error => {
+                testMsg.textContent = `Test failed: ${error.message}`;
+                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
             });
-            
-            clearTimeout(timeoutId);
-            
-            const data = await response.json();
-            
-            if (!data.AbstractText && (!data.RelatedTopics || data.RelatedTopics.length === 0)) {
-                return `No results found for "${query}"`;
-            }
-            
-            let formattedResults = `🔍 **Search Results for: "${query}"**\n\n`;
-            formattedResults += `*Engine: DuckDuckGo*\n\n`;
-            
-            if (data.AbstractText) {
-                formattedResults += `**Instant Answer:**\n${data.AbstractText}\n\n`;
-                if (data.AbstractURL) {
-                    formattedResults += `Source: [${data.AbstractSource}](${data.AbstractURL})\n\n`;
-                }
-            }
-            
-            if (data.RelatedTopics && data.RelatedTopics.length > 0) {
-                formattedResults += `**Related Results:**\n`;
-                
-                const results = data.RelatedTopics.slice(0, count).filter(item => item.Text);
-                
-                results.forEach((item, index) => {
-                    formattedResults += `${index + 1}. ${item.Text}\n`;
-                    if (item.FirstURL) {
-                        formattedResults += `   [Link](${item.FirstURL})\n`;
-                    }
-                    formattedResults += '\n';
-                });
-            }
-            
-            return formattedResults;
-            
-        } catch (error) {
-            if (error.name === 'AbortError') {
-                return `Search timeout. Please try again.`;
-            }
-            return `Error searching DuckDuckGo: ${error.message}`;
-        }
     }
 
-    async function searchWikipedia(query, count = 5) {
-        const config = SEARCH_CONFIG.engines.wikipedia;
-        
-        if (!config.enabled) {
-            return "Wikipedia Search is disabled in settings.";
-        }
-        
-        const params = new URLSearchParams({
-            action: 'query',
-            list: 'search',
-            srsearch: query,
-            format: 'json',
-            origin: '*',
-            srlimit: count
-        });
-        
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), SEARCH_CONFIG.timeout);
-            
-            const response = await fetch(`${config.endpoint}?${params}`, {
-                signal: controller.signal
-            });
-            
-            clearTimeout(timeoutId);
-            
-            const data = await response.json();
-            
-            if (!data.query?.search || data.query.search.length === 0) {
-                return `No Wikipedia articles found for "${query}"`;
-            }
-            
-            let formattedResults = `📚 **Wikipedia Results for: "${query}"**\n\n`;
-            
-            data.query.search.forEach((item, index) => {
-                const pageId = item.pageid;
-                const url = `https://en.wikipedia.org/?curid=${pageId}`;
-                
-                formattedResults += `${index + 1}. **[${item.title}](${url})**\n`;
-                formattedResults += `   ${item.snippet.replace(/<[^>]*>/g, '')}...\n\n`;
-            });
-            
-            formattedResults += `[🔗 View all results](https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(query)})`;
-            
-            return formattedResults;
-            
-        } catch (error) {
-            if (error.name === 'AbortError') {
-                return `Search timeout. Please try again.`;
-            }
-            return `Error searching Wikipedia: ${error.message}`;
-        }
-    }
-
-    async function searchNews(query, count = 5) {
-        const config = SEARCH_CONFIG.engines.newsapi;
-        
-        if (!config.apiKey) {
-            return "⚠️ News API not configured. Get API key from: https://newsapi.org";
-        }
-        
-        if (!config.enabled) {
-            return "News Search is disabled in settings.";
-        }
-        
-        const params = new URLSearchParams({
-            q: query,
-            apiKey: config.apiKey,
-            pageSize: Math.min(count, 10),
-            language: currentLanguage === 'id' ? 'id' : 'en',
-            sortBy: 'publishedAt'
-        });
-        
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), SEARCH_CONFIG.timeout);
-            
-            const response = await fetch(`${config.endpoint}?${params}`, {
-                signal: controller.signal
-            });
-            
-            clearTimeout(timeoutId);
-            
-            const data = await response.json();
-            
-            if (data.status !== 'ok' || !data.articles || data.articles.length === 0) {
-                return `No news found for "${query}"`;
-            }
-            
-            let formattedResults = `📰 **Latest News for: "${query}"**\n\n`;
-            
-            data.articles.slice(0, count).forEach((article, index) => {
-                formattedResults += `${index + 1}. **${article.title}**\n`;
-                formattedResults += `   *${article.source?.name || 'Unknown source'}* - ${formatDate(article.publishedAt)}\n`;
-                
-                if (article.description) {
-                    formattedResults += `   ${article.description}\n`;
-                }
-                
-                formattedResults += `   [Read more](${article.url})\n\n`;
-            });
-            
-            return formattedResults;
-            
-        } catch (error) {
-            if (error.name === 'AbortError') {
-                return `Search timeout. Please try again.`;
-            }
-            return `Error searching news: ${error.message}`;
-        }
-    }
-
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const now = new Date();
-        const diffHours = Math.floor((now - date) / (1000 * 60 * 60));
-        
-        if (diffHours < 1) return 'Just now';
-        if (diffHours < 24) return `${diffHours} hours ago`;
-        return date.toLocaleDateString();
-    }
-
-    // === BACKUP FUNCTIONS ===
-    function normalizeBackupData(data) {
-      if (typeof data === 'string') {
-        try {
-          data = JSON.parse(data);
-        } catch (e) {
-          return null;
-        }
-      }
-      
-      if (Array.isArray(data)) {
-        return {
-          miraiChatHistory: JSON.stringify(data),
-          _metadata: {
-            version: 'legacy',
-            persona: 'default',
-            exportDate: new Date().toISOString()
-          }
-        };
-      }
-      
-      if (data && typeof data === 'object' && !data._metadata) {
-        if (Array.isArray(data.chatHistory) || Array.isArray(data.history)) {
-          const chatArray = data.chatHistory || data.history || [];
-          return {
-            miraiChatHistory: JSON.stringify(chatArray),
-            miraiPersona: data.persona || 'default',
-            miraiLanguage: data.language || 'en',
-            _metadata: {
-              version: data.version || 'legacy-v2',
-              persona: data.persona || 'default',
-              exportDate: new Date().toISOString()
-            }
-          };
-        }
-        
-        return {
-          ...data,
-          _metadata: {
-            version: 'localStorage-format',
-            exportDate: new Date().toISOString()
-          }
-        };
-      }
-      
-      return data;
-    }
-
-    function restoreDataWithPersonaSync(originalData) {
-      const data = normalizeBackupData(originalData);
-      
-      if (!data) {
-        alert('❌ The backup file is invalid or corrupted!');
-        return;
-      }
-      
-      const metadata = data._metadata || {};
-      const backupPersona = metadata.persona || data.miraiPersona || 'default';
-      const backupLanguage = metadata.language || currentLanguage;
-      
-      const hasSignature = data._signature && 
-                          data._signature.headerText && 
-                          data._signature.headerCode;
-      
-      let verificationStatus = '';
-      if (hasSignature) {
-        const HEADER_TEXT = MIRAI_CONFIG.HEADER_TEXT;
-        
-        if (data._signature.headerText === HEADER_TEXT) {
-          verificationStatus = '✅ VERIFIED - Authentic files from MirAI';
-        } else {
-          verificationStatus = '⚠️ WARNING - Invalid signature';
-        }
-      } else {
-        verificationStatus = '⚠️ WARNING - File does not have authenticity signature';
-      }
-      
-      console.log('Restoring backup:', {
-        persona: backupPersona,
-        language: backupLanguage,
-        metadata: metadata,
-        hasSignature: hasSignature,
-        verificationStatus: verificationStatus
-      });
-      
-      const dataToStore = { ...data };
-      delete dataToStore._metadata;
-      delete dataToStore._signature;
-      
-      localStorage.clear();
-      
-      Object.keys(dataToStore).forEach(key => {
-        if (key && dataToStore[key] !== null && dataToStore[key] !== undefined) {
-          localStorage.setItem(key, dataToStore[key]);
-        }
-      });
-      
-      const restoredHistory = localStorage.getItem('miraiChatHistory');
-      
-      if (restoredHistory) {
-        try {
-          let chatHistory = JSON.parse(restoredHistory);
-          
-          chatHistory = chatHistory.filter(item => {
-            if (item.parts && item.parts[0] && item.parts[0].text) {
-              const text = item.parts[0].text.toLowerCase();
-              const isPersonaPrompt = 
-                text.includes('you are mirai') ||
-                text.includes('system instruction') ||
-                text.includes('[persona:') ||
-                text.includes('personality');
-              return !isPersonaPrompt;
-            }
-            return true;
-          });
-          
-          const lang = backupLanguage || localStorage.getItem('miraiLanguage') || 'en';
-          const personaPromptText = getPersonaPrompt(backupPersona);
-          
-          if (personaPromptText) {
-            chatHistory.unshift({ 
-              role: "user", 
-              parts: [{ 
-                text: `[PERSONA: ${backupPersona.toUpperCase()}]\n${personaPromptText}` 
-              }] 
-            });
-            
-            console.log('✅ Added persona prompt:', backupPersona);
-          }
-          
-          localStorage.setItem('miraiChatHistory', JSON.stringify(chatHistory));
-          
-        } catch (e) {
-          console.error('Error during persona sync:', e);
-        }
-      }
-      
-      if (backupPersona) localStorage.setItem('miraiPersona', backupPersona);
-      if (backupLanguage && uiStrings[backupLanguage]) {
-        localStorage.setItem('miraiLanguage', backupLanguage);
-      }
-      
-      const restoredChats = restoredHistory ? JSON.parse(restoredHistory).length : 0;
-      const successMsg = `✅ BACKUP RESTORED SUCCESSFUL!\n\n` +
-                        `• Persona: ${backupPersona}\n` +
-                        `• Language: ${backupLanguage}\n` +
-                        `• Chat: ${restoredChats} messages\n` +
-                        `• Verification: ${verificationStatus}\n\n` +
-                        `App will be reloading...`;
-      
-      alert(successMsg);
-      
-      setTimeout(() => {
-        console.log('Reloading application after restore...');
-        location.reload();
-      }, 800);
-    }
-
-    // === FUNGSI LIMIT API PUBLIK ===
-    function isPublicApiKey(apiKey) {
-        return apiKey === DEFAULT_API_KEY;
-    }
-
-    function showApiLimitPopup(level, bubbleCount) {
-        const lang = uiStrings[currentLanguage];
-        
-        let message, showSettingsBtn = false;
-        
-        if (level === 'warning') {
-            message = `⚠️ PUBLIC FIRE LIMIT WARNING\n\n` +
-                     `You have used ${bubbleCount} bubbles with public API Key.\n` +
-                     `The maximum limit is ${MEDF_PROCESSOR.PUBLIC_API_LIMITS.MAX_BUBBLES_WARNING} bubbles.\n\n` +
-                     `To continue unlimited chat, please use your personal API Key.`;
-        } else if (level === 'block') {
-            message = `🚫 PUBLIC API BLOCKED\n\n` +
-                     `You have reached the limit ${bubbleCount} bubbles with public API Key.\n` +
-                     `Access to the public API is now disabled.\n\n` +
-                     `To continue using MirAI, please enter your personal API Key.`;
-            showSettingsBtn = true;
-        }
-        
-        const popupOverlay = document.createElement('div');
-        popupOverlay.id = 'apiLimitPopup';
-        popupOverlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            animation: fadeIn 0.3s ease;
-        `;
-        
-        const popupContent = document.createElement('div');
-        popupContent.style.cssText = `
-            background: var(--srui-bg-primary, #1a1a1a);
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 2px solid ${level === 'warning' ? '#ff9800' : '#f44336'};
-        `;
-        
-        const messageEl = document.createElement('p');
-        messageEl.style.cssText = `
-            color: var(--srui-text-primary, #fff);
-            margin-bottom: 20px;
-            line-height: 1.5;
-            white-space: pre-line;
-        `;
-        messageEl.textContent = message;
-        
-        const buttonContainer = document.createElement('div');
-        buttonContainer.style.cssText = `
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        `;
-        
-        const closeBtn = document.createElement('button');
-        closeBtn.textContent = 'Close';
-        closeBtn.style.cssText = `
-            background: #666;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        `;
-        closeBtn.onclick = () => {
-            document.body.removeChild(popupOverlay);
-        };
-        
-        popupContent.appendChild(messageEl);
-        
-        if (showSettingsBtn) {
-            const settingsBtn = document.createElement('button');
-            settingsBtn.textContent = 'Install My API Key';
-            settingsBtn.style.cssText = `
-                background: #4285f4;
-                color: white;
-                border: none;
-                padding: 12px 24px;
-                border-radius: 8px;
-                cursor: pointer;
-                font-weight: bold;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                margin: 10px auto;
-            `;
-            settingsBtn.onclick = () => {
-                document.body.removeChild(popupOverlay);
-                if (window.location.hash !== '#settings') {
-                    history.pushState({ settings: true }, '', '#settings');
-                    setTimeout(handleHashNavigation, 50);
-                }
-            };
-            popupContent.appendChild(settingsBtn);
-        }
-        
-        popupContent.appendChild(buttonContainer);
-        buttonContainer.appendChild(closeBtn);
-        popupOverlay.appendChild(popupContent);
-        
-        document.body.appendChild(popupOverlay);
-    }
-
-    function checkAndUpdatePublicApiLimit() {
-        if (!isUsingPublicApi) return true;
-        
-        const bubbleCount = MEDF_PROCESSOR.countPublicApiBubbles();
-        
-        if (bubbleCount === MEDF_PROCESSOR.PUBLIC_API_LIMITS.MAX_BUBBLES_WARNING) {
-            console.log('⚠️ Public API warning limit reached');
-            setTimeout(() => {
-                showApiLimitPopup('warning', bubbleCount);
-            }, 1000);
-        }
-        
-        if (bubbleCount >= MEDF_PROCESSOR.PUBLIC_API_LIMITS.MAX_BUBBLES_BLOCK) {
-            console.log('🚫 Public API blocked - maximum limit reached');
-            setTimeout(() => {
-                showApiLimitPopup('block', bubbleCount);
-            }, 1000);
-            return false;
-        }
-        
-        return true;
-    }
-
-    function trackPublicApiUsage() {
-        if (isUsingPublicApi) {
-            const newCount = MEDF_PROCESSOR.incrementPublicApiBubbles();
-            console.log(`📈 Public API bubble count: ${newCount}`);
-        }
-    }
-
-// ⭐⭐ BARU: Load search config ke UI elements
-function loadSearchConfigToUI() {
-    console.log('🔄 Loading search config to UI...');
-    
-    if (!elements.googleApiKey) return;
-    
-    // Update UI fields dari SEARCH_CONFIG
-    elements.googleApiKey.value = SEARCH_CONFIG.engines.google.apiKey || '';
-    elements.googleCx.value = SEARCH_CONFIG.engines.google.cx || '';
-    elements.newsApiKey.value = SEARCH_CONFIG.engines.newsapi.apiKey || '';
-    elements.enableGoogleSearch.checked = SEARCH_CONFIG.engines.google.enabled;
-    elements.enableNewsSearch.checked = SEARCH_CONFIG.engines.newsapi.enabled;
-    elements.enableDuckDuckGo.checked = SEARCH_CONFIG.engines.duckduckgo.enabled;
-    elements.enableWikipedia.checked = SEARCH_CONFIG.engines.wikipedia.enabled;
-    
-    console.log('✅ UI elements updated with search config');
-}
-
-    // --- FUNGSI UTAMA MIRAI ---
+    // === FUNGSI UTAMA MIRAI ===
     function initializeSlashCommands(lang) {
         const s = uiStrings[lang];
         slashCommands = [
@@ -2304,225 +1356,67 @@ function loadSearchConfigToUI() {
         return uiStrings[currentLanguage][promptKey] || uiStrings['en'][promptKey];
     }
 
-async function initializeApp() {
-    console.log('🔧 Initializing app...');
-    
-    try {
-        // Load API Key dari config.medf
-        currentApiKey = await MEDF_PROCESSOR.loadEncryptedApiKey();
-        console.log('🔑 API Key loaded from config.medf:', currentApiKey.substring(0, 10) + '...');
+    async function initializeApp() {
+        console.log('🔧 Initializing app...');
         
-        // ⭐⭐ BARU: Load search config dari encrypted file
-        await loadSearchConfigFromEncrypted();
-        
-    } catch (error) {
-        console.error('Failed to load API key from config.medf:', error);
-        currentApiKey = DEFAULT_API_KEY;
-    }
-    
-    isUsingPublicApi = isPublicApiKey(currentApiKey);
-    console.log(`🌐 Using ${isUsingPublicApi ? 'PUBLIC' : 'PRIVATE'} API Key`);
-
-    // ⭐⭐ BARU: Load UI config untuk settings panel
-    loadSearchConfigToUI();
-    
-    if (isUsingPublicApi) {
-        const bubbleCount = MEDF_PROCESSOR.countPublicApiBubbles();
-        console.log(`📊 Public API usage: ${bubbleCount} bubbles used`);
-        
-        if (bubbleCount >= MEDF_PROCESSOR.PUBLIC_API_LIMITS.MAX_BUBBLES_WARNING) {
-            setTimeout(() => {
-                showApiLimitPopup('warning', bubbleCount);
-            }, 2000);
+        try {
+            // Load API Key dari config.medf
+            currentApiKey = await MEDF_PROCESSOR.loadEncryptedApiKey();
+            console.log('🔑 API Key loaded from config.medf:', currentApiKey.substring(0, 10) + '...');
+            
+            // Load Google Search config dari encrypted file
+            await loadGoogleSearchConfig();
+            
+        } catch (error) {
+            console.error('Failed to load API key from config.medf:', error);
+            currentApiKey = DEFAULT_API_KEY;
         }
-    }
-    
-    const savedLang = localStorage.getItem('miraiLanguage');
-    if (savedLang && uiStrings.hasOwnProperty(savedLang)) {
-        currentLanguage = savedLang;
-    } else {
-        currentLanguage = 'en';
-    }
-
-    currentPersona = localStorage.getItem('miraiPersona') || 'default';
-    const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
-    const savedApiKey = localStorage.getItem('miraiApiKey');
-    
-    elements.langDropdown.value = currentLanguage;
-    elements.personaSelect.value = currentPersona;
-    
-    if (savedApiKey) {
-        currentApiKey = savedApiKey;
-        elements.apiKeyInput.value = savedApiKey;
-        console.log('🔑 Using API Key from localStorage');
-        isUsingPublicApi = isPublicApiKey(currentApiKey);
-    }
-
-    const savedCustomPersona = localStorage.getItem('miraiCustomPersona');
-    if (savedCustomPersona) {
-        currentPersona = 'custom';
-        elements.personaSelect.value = 'custom';
-        elements.customPersonaContainer.style.display = 'block';
-        elements.customPersonaInput.value = savedCustomPersona;
-    }
-
-    initializeSlashCommands(currentLanguage);
-    setTheme(savedTheme);
-    updateUI();
-    
-    const historyLoaded = loadChatHistory();
-    if (!historyLoaded) {
-        initializeNewChatSession();
-    }
-    
-    // ⭐⭐ BARU: Load UI config untuk settings panel (setelah load dari encrypted file)
-    loadSearchConfigToUI();
-    
-    if (isBeta) {
-        const versionText = document.getElementById('settingsVersionText');
-        if (versionText) {
-            versionText.innerText += '\n3FlashPreviewMode';
-            versionText.style.color = '#00ff00';
+        
+        const savedLang = localStorage.getItem('miraiLanguage');
+        if (savedLang && uiStrings.hasOwnProperty(savedLang)) {
+            currentLanguage = savedLang;
+        } else {
+            currentLanguage = 'en';
         }
-    }
-}
 
-    function loadSearchConfig() {
-        const savedSearchConfig = localStorage.getItem('miraiSearchConfig');
-        if (savedSearchConfig) {
-            try {
-                const config = JSON.parse(savedSearchConfig);
-                Object.keys(config).forEach(key => {
-                    if (SEARCH_CONFIG.engines[key]) {
-                        SEARCH_CONFIG.engines[key] = { ...SEARCH_CONFIG.engines[key], ...config[key] };
-                    }
-                });
-                console.log('✅ Search config loaded');
-                
-                elements.googleApiKey.value = SEARCH_CONFIG.engines.google.apiKey || '';
-                elements.googleCx.value = SEARCH_CONFIG.engines.google.cx || '';
-                elements.newsApiKey.value = SEARCH_CONFIG.engines.newsapi.apiKey || '';
-                elements.enableGoogleSearch.checked = SEARCH_CONFIG.engines.google.enabled;
-                elements.enableNewsSearch.checked = SEARCH_CONFIG.engines.newsapi.enabled;
-                elements.enableDuckDuckGo.checked = SEARCH_CONFIG.engines.duckduckgo.enabled;
-                elements.enableWikipedia.checked = SEARCH_CONFIG.engines.wikipedia.enabled;
-                
-            } catch (e) {
-                console.error('Error loading search config:', e);
+        currentPersona = localStorage.getItem('miraiPersona') || 'default';
+        const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
+        const savedApiKey = localStorage.getItem('miraiApiKey');
+        
+        elements.langDropdown.value = currentLanguage;
+        elements.personaSelect.value = currentPersona;
+        
+        if (savedApiKey) {
+            currentApiKey = savedApiKey;
+            elements.apiKeyInput.value = savedApiKey;
+            console.log('🔑 Using API Key from localStorage');
+        }
+
+        const savedCustomPersona = localStorage.getItem('miraiCustomPersona');
+        if (savedCustomPersona) {
+            currentPersona = 'custom';
+            elements.personaSelect.value = 'custom';
+            elements.customPersonaContainer.style.display = 'block';
+            elements.customPersonaInput.value = savedCustomPersona;
+        }
+
+        initializeSlashCommands(currentLanguage);
+        setTheme(savedTheme);
+        updateUI();
+        
+        const historyLoaded = loadChatHistory();
+        if (!historyLoaded) {
+            initializeNewChatSession();
+        }
+        
+        if (isBeta) {
+            const versionText = document.getElementById('settingsVersionText');
+            if (versionText) {
+                versionText.innerText += '\n3FlashPreviewMode';
+                versionText.style.color = '#00ff00';
             }
         }
     }
-
-function saveSearchConfig() {
-    const config = {
-        google: {
-            apiKey: elements.googleApiKey.value.trim(),
-            cx: elements.googleCx.value.trim(),
-            enabled: elements.enableGoogleSearch.checked
-        },
-        newsapi: {
-            apiKey: elements.newsApiKey.value.trim(),
-            enabled: elements.enableNewsSearch.checked
-        },
-        duckduckgo: {
-            enabled: elements.enableDuckDuckGo.checked
-        },
-        wikipedia: {
-            enabled: elements.enableWikipedia.checked
-        }
-    };
-    
-    console.log('💾 Saving search config:', config);
-    
-    // ⭐⭐ BARU: Simpan ke SEARCH_CONFIG (memory)
-    Object.keys(config).forEach(key => {
-        if (SEARCH_CONFIG.engines[key]) {
-            SEARCH_CONFIG.engines[key] = { ...SEARCH_CONFIG.engines[key], ...config[key] };
-        }
-    });
-    
-    // Simpan ke localStorage
-    localStorage.setItem('miraiSearchConfig', JSON.stringify(config));
-    
-    console.log('✅ Search config saved to localStorage and SEARCH_CONFIG');
-    console.log('🔍 Current SEARCH_CONFIG.engines.google:', {
-        hasApiKey: !!SEARCH_CONFIG.engines.google.apiKey,
-        apiKeyPreview: SEARCH_CONFIG.engines.google.apiKey?.substring(0, 10) + '...',
-        hasCx: !!SEARCH_CONFIG.engines.google.cx
-    });
-    
-    showCopyFeedback('Search configuration saved!');
-}
-
-function testSearch() {
-    const query = 'artificial intelligence';
-    
-    // ⭐⭐ BARU: Check jika search engine configured
-    const googleReady = SEARCH_CONFIG.engines.google.enabled && 
-                       SEARCH_CONFIG.engines.google.apiKey && 
-                       SEARCH_CONFIG.engines.google.apiKey.trim() !== '' &&
-                       !SEARCH_CONFIG.engines.google.apiKey.includes('YOUR_') &&
-                       SEARCH_CONFIG.engines.google.cx && 
-                       SEARCH_CONFIG.engines.google.cx.trim() !== '' &&
-                       !SEARCH_CONFIG.engines.google.cx.includes('YOUR_');
-    
-    const duckduckgoReady = SEARCH_CONFIG.engines.duckduckgo.enabled;
-    const wikipediaReady = SEARCH_CONFIG.engines.wikipedia.enabled;
-    const newsapiReady = SEARCH_CONFIG.engines.newsapi.enabled && 
-                        SEARCH_CONFIG.engines.newsapi.apiKey && 
-                        SEARCH_CONFIG.engines.newsapi.apiKey.trim() !== '' &&
-                        !SEARCH_CONFIG.engines.newsapi.apiKey.includes('YOUR_');
-    
-    // Pilih engine yang available
-    let engine = 'none';
-    if (googleReady) {
-        engine = 'google';
-    } else if (duckduckgoReady) {
-        engine = 'duckduckgo';
-    } else if (wikipediaReady) {
-        engine = 'wikipedia';
-    } else if (newsapiReady) {
-        engine = 'newsapi';
-    }
-    
-    if (engine === 'none') {
-        const lang = uiStrings[currentLanguage];
-        let message = `🔍 ${lang.searchEngineNotConfigured}\n\n`;
-        message += `Available engines:\n`;
-        message += `• Google Search: ${googleReady ? '✅ Ready' : '❌ Not configured'}\n`;
-        message += `• DuckDuckGo: ${duckduckgoReady ? '✅ Enabled' : '❌ Disabled'}\n`;
-        message += `• Wikipedia: ${wikipediaReady ? '✅ Enabled' : '❌ Disabled'}\n`;
-        message += `• NewsAPI: ${newsapiReady ? '✅ Ready' : '❌ Not configured'}\n\n`;
-        
-        if (!googleReady) {
-            message += `To configure Google Search:\n`;
-            message += `1. Get API Key from: https://console.cloud.google.com\n`;
-            message += `2. Get Search Engine ID from: https://programmablesearchengine.google.com\n`;
-            message += `3. Enter in Settings → Search Configuration\n`;
-        }
-        
-        alert(message);
-        return;
-    }
-    
-    const testMsg = document.createElement('div');
-    testMsg.className = 'chat-bubble ai-bubble';
-    testMsg.textContent = `${uiStrings[currentLanguage].searchTestResult}${engine}...`;
-    elements.chatMessages.appendChild(testMsg);
-    elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-    
-    console.log(`🧪 Testing search with engine: ${engine}`);
-    
-    performExternalSearch(query, engine, 2)
-        .then(result => {
-            testMsg.textContent = result;
-            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-        })
-        .catch(error => {
-            testMsg.textContent = `Test failed: ${error.message}`;
-            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-        });
-}
 
     function initializeNewChatSession() {
         const personaPromptText = getPersonaPrompt(currentPersona);
@@ -2610,14 +1504,6 @@ function testSearch() {
         const userQuestion = elements.questionInput.value;
 
         if (userQuestion.trim() === '' && !currentImageData) return;
-
-        if (isUsingPublicApi && !checkAndUpdatePublicApiLimit()) {
-            toggleChatUI(false);
-            elements.sendBtn.style.display = 'block';
-            elements.stopBtn.style.display = 'none';
-            elements.clearBtnContainer.style.display = 'block';
-            return;
-        }
 
         const clientDateTime = getCurrentDateTimeString();
         const promptTemplate = uiStrings[currentLanguage].dateTimeContextPrompt;
@@ -2727,10 +1613,6 @@ function testSearch() {
                 answer = data.candidates[0].content.parts[0].text;
                 chatHistory.push({ role: "model", parts: [{ text: answer }] });
                 saveChatHistory();
-                
-                if (isUsingPublicApi) {
-                    trackPublicApiUsage();
-                }
             }
             
             loadingBubble.remove();
@@ -2766,48 +1648,29 @@ function testSearch() {
     }
 
     async function handleSlashCommand(question) { 
-        if (!question.startsWith('/')) { return null; } 
+        if (!question.startsWith('/')) { 
+            return null; 
+        } 
+        
         const parts = question.split(' '); 
         const command = parts[0].toLowerCase(); 
         
+        if (command === '/search') { 
+            const query = parts.slice(1).join(' ');
+            if (!query) {
+                return "Error: Please provide a search query. Use /search [query]";
+            }
+            
+            const searchResult = await searchGoogle(query, 5);
+            
+            if (searchResult.startsWith('Error:') || searchResult.startsWith('⚠️')) {
+                return searchResult;
+            }
+            
+            return `Search results for "${query}":\n\n${searchResult}\n\nI've performed a Google Search for you.`;
+        } 
+        
         switch (command) { 
-            case '/search': { 
-                const query = parts.slice(1).join(' ');
-                if (!query) {
-                    return "Error: Please provide a search query. Use /search [query]";
-                }
-                
-                let searchEngine = SEARCH_CONFIG.defaultEngine;
-                let resultCount = SEARCH_CONFIG.resultsPerPage;
-                let searchType = 'web';
-                
-                const params = query.match(/\[(.*?)\]/g);
-                let cleanQuery = query;
-                
-                if (params) {
-                    params.forEach(param => {
-                        const cleanParam = param.replace(/[\[\]]/g, '');
-                        if (cleanParam.startsWith('engine:')) {
-                            searchEngine = cleanParam.split(':')[1];
-                        } else if (cleanParam.startsWith('results:')) {
-                            resultCount = parseInt(cleanParam.split(':')[1]);
-                        } else if (cleanParam.startsWith('type:')) {
-                            searchType = cleanParam.split(':')[1];
-                        }
-                    });
-                    cleanQuery = query.replace(/\[.*?\]/g, '').trim();
-                }
-                
-                resultCount = Math.min(Math.max(1, resultCount), 10);
-                
-                const searchResult = await performExternalSearch(cleanQuery, searchEngine, resultCount, searchType);
-                
-                if (searchResult.startsWith('Error:')) {
-                    return searchResult;
-                }
-                
-                return `Search results for "${cleanQuery}":\n\n${searchResult}\n\nI've performed an external search. The results above are from ${searchEngine}.`;
-            } 
             case '/translate': { 
                 const toIndex = parts.indexOf('to'); 
                 if (toIndex === -1 || toIndex < 2) { return "Error: Invalid format. Use /translate [text] to [language]"; } 
@@ -2855,7 +1718,7 @@ function testSearch() {
                 const description = parts.slice(toIndex + 1).join(' '); 
                 return `Write a code snippet in ${language} for the following task: "${description}". Provide only the code, enclosed in a markdown code block.`; 
             } 
-            default: return `Error: Unknown command "${command}". Try /translate or /summarize.`; 
+            default: return `Error: Unknown command "${command}". Try /search, /translate, or /summarize.`; 
         } 
     }
 
@@ -2902,12 +1765,10 @@ function testSearch() {
         if (newKey) { 
             localStorage.setItem('miraiApiKey', newKey); 
             currentApiKey = newKey; 
-            isUsingPublicApi = isPublicApiKey(currentApiKey);
             showCopyFeedback(uiStrings[currentLanguage].apiKeySaved); 
         } else { 
             localStorage.removeItem('miraiApiKey'); 
             currentApiKey = DEFAULT_API_KEY; 
-            isUsingPublicApi = true;
             showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); 
         }
         
@@ -2920,6 +1781,7 @@ function testSearch() {
             }
         }
         
+        // Save Google Search config
         saveSearchConfig();
         
         const personaPromptText = getPersonaPrompt(currentPersona);
@@ -3016,7 +1878,7 @@ function testSearch() {
         elements.settingsSearchTitle.innerText = lang.settingsSearchTitle; 
         elements.searchConfigDesc.innerText = lang.searchConfigDesc; 
         elements.testSearchBtn.innerHTML = `<i class="fas fa-search"></i> ${lang.testSearchBtn}`; 
-        elements.clearSearchCacheBtn.innerHTML = `<i class="fas fa-trash"></i> ${lang.clearSearchCacheBtn}`; 
+        document.querySelector('#saveSearchBtn').innerHTML = `<i class="fas fa-save"></i> ${lang.saveApiKeyBtn}`;
     }
 
     function setTheme(theme) { 
@@ -3423,53 +2285,6 @@ function testSearch() {
         connectionStatus.classList.toggle('hidden-by-scroll', isOverlapping); 
     }
 
-    window.debugMirAI = {
-        resetApiLimit: () => {
-            MEDF_PROCESSOR.resetPublicApiBubbles();
-            alert('Public API limit counter has been reset');
-            location.reload();
-        },
-        getApiUsage: () => {
-            const count = MEDF_PROCESSOR.countPublicApiBubbles();
-            alert(`Public API usage: ${count} bubbles`);
-            return count;
-        },
-        forcePublicApi: () => {
-            currentApiKey = DEFAULT_API_KEY;
-            isUsingPublicApi = true;
-            localStorage.removeItem('miraiApiKey');
-            alert('Switched to PUBLIC API for testing');
-            location.reload();
-        },
-        checkApiStatus: () => {
-            return {
-                isPublic: isUsingPublicApi,
-                apiKey: currentApiKey.substring(0, 10) + '...',
-                bubbleCount: MEDF_PROCESSOR.countPublicApiBubbles(),
-                limits: MEDF_PROCESSOR.PUBLIC_API_LIMITS
-            };
-        },
-        validateMedfFile: async () => {
-            try {
-                const response = await fetch('config.medf');
-                if (!response.ok) throw new Error('config.medf not found');
-                
-                const buffer = await response.arrayBuffer();
-                const code = parseInt(prompt('Enter calculation code:', MEDF_PROCESSOR.DEFAULT_CODE));
-                
-                const apiKey = await MEDF_PROCESSOR.extractApiKeyFromConfig(buffer, code);
-                alert(`✅ File valid!\nAPI Key: ${apiKey.substring(0, 15)}...`);
-            } catch (error) {
-                alert(`❌ Error: ${error.message}`);
-            }
-        },
-        checkSignature: () => {
-            const headerText = MEDF_PROCESSOR.HEADER_TEXT;
-            const headerCode = MEDF_PROCESSOR.generateHeaderCode(headerText);
-            alert(`Header Text: ${headerText}\n\nHeader Code (first 40 chars):\n${headerCode.substring(0, 40)}...\n\nTotal length: ${headerCode.length} digits`);
-        }
-    };
-
     document.addEventListener('DOMContentLoaded', () => {
         console.log('🚀 MirAI Initializing...');
         
@@ -3540,12 +2355,8 @@ function testSearch() {
             enableGoogleSearch: document.getElementById('enableGoogleSearch'),
             googleApiKey: document.getElementById('googleApiKey'),
             googleCx: document.getElementById('googleCx'),
-            enableNewsSearch: document.getElementById('enableNewsSearch'),
-            newsApiKey: document.getElementById('newsApiKey'),
-            enableDuckDuckGo: document.getElementById('enableDuckDuckGo'),
-            enableWikipedia: document.getElementById('enableWikipedia'),
             testSearchBtn: document.getElementById('testSearchBtn'),
-            clearSearchCacheBtn: document.getElementById('clearSearchCacheBtn')
+            saveSearchBtn: document.getElementById('saveSearchBtn')
         };
 
         console.log('✅ Elements initialized:', Object.keys(elements).length, 'elements');
@@ -3618,31 +2429,12 @@ function testSearch() {
                 format: 'mirai-backup-v2'
             };
             
-            const exportType = confirm(
-                "Select backup format:\n\n" +
-                "[OK] - .medf file (ENCRYPTED with password & authenticity signature)\n" +
-                "[CANCEL] - .mdf file (plain JSON)"
-            ) ? 'encrypted' : 'plain';
-            
-            if (exportType === 'encrypted') {
-                const password = prompt("Create a password for the encrypted backup:");
-                if (!password || password.length < 4) {
-                    alert("Password must be at least 4 characters!");
-                    return;
-                }
-                
-                processExportMEDF(allData, password)
-                    .then(() => alert("✅ .medf backup successfully created with authenticity signature!\nSave your password!"))
-                    .catch(err => alert("❌ Failed: " + err.message));
-                    
-            } else {
-                const blob = new Blob([JSON.stringify(allData, null, 2)], {type: "application/json"});
-                const a = document.createElement("a");
-                a.href = URL.createObjectURL(blob);
-                a.download = `MirAIBackup_${formattedDate}.mdf`;
-                a.click();
-                alert("✅ .mdf backup successfully created!");
-            }
+            const blob = new Blob([JSON.stringify(allData, null, 2)], {type: "application/json"});
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `MirAIBackup_${formattedDate}.mdf`;
+            a.click();
+            alert("✅ Backup successfully created!");
         });
 
         elements.importBtn.addEventListener('click', () => {
@@ -3676,44 +2468,12 @@ function testSearch() {
                 type: file.type
             });
             
-            if (file.name.endsWith('.medf')) {
-                if (file.size < 50) {
-                    alert('❌ The file is too small! It may be corrupted.');
-                    return;
-                }
-                
-                const password = prompt("🔒 Enter the password to open the .medf file:");
-                if (!password) {
-                    alert('Import canceled.');
-                    return;
-                }
-                
-                try {
-                    console.time('MEDF Decryption');
-                    const data = await processImportMEDF(file, password);
-                    console.timeEnd('MEDF Decryption');
-                    
-                    console.log('✅ MEDF Decrypted:', {
-                        keys: Object.keys(data),
-                        hasChatHistory: !!data.miraiChatHistory
-                    });
-                    
-                    restoreDataWithPersonaSync(data);
-                    
-                } catch (err) {
-                    console.error('❌ MEDF Import Error:', err);
-                    alert(`Failed to import .medf file:\n\n${err.message}\n\nMake sure:\n• Password is correct\n• File is not corrupted`);
-                }
-                return;
-            }
-            
             if (file.name.endsWith('.json') || file.name.endsWith('.mdf')) {
                 try {
-                    console.time('JSON Parse');
                     const text = await file.text();
                     
                     if (!text || text.trim().length === 0) {
-                        alert('❌ File kosong!');
+                        alert('❌ Empty file!');
                         return;
                     }
                     
@@ -3725,26 +2485,35 @@ function testSearch() {
                         return;
                     }
                     
-                    console.timeEnd('JSON Parse');
                     console.log('✅ JSON Parsed:', Object.keys(data));
                     
-                    restoreDataWithPersonaSync(data);
+                    localStorage.clear();
+                    
+                    Object.keys(data).forEach(key => {
+                        if (key && data[key] !== null && data[key] !== undefined) {
+                            localStorage.setItem(key, data[key]);
+                        }
+                    });
+                    
+                    alert('✅ Backup restored successfully! App will reload.');
+                    
+                    setTimeout(() => {
+                        console.log('Reloading application after restore...');
+                        location.reload();
+                    }, 800);
                     
                 } catch (e) { 
                     console.error('❌ JSON Import Error:', e);
-                    alert(`Gagal import file:\n${e.message}\n\nFile mungkin rusak.`); 
+                    alert(`Failed to import file:\n${e.message}\n\nFile may be corrupted.`); 
                 }
                 return;
             }
             
-            alert("❌ File format not supported!\n\nUse file with extension:\n• .medf (encrypted backup with authenticity signature)\n• .mdf (JSON backup)\n• .json (JSON backup)");
+            alert("❌ File format not supported!\n\nUse file with extension:\n• .mdf (JSON backup)\n• .json (JSON backup)");
         });
 
-        elements.testSearchBtn.addEventListener('click', testSearch);
-        elements.clearSearchCacheBtn.addEventListener('click', () => {
-            searchCache.clear();
-            showCopyFeedback(uiStrings[currentLanguage].searchCacheCleared);
-        });
+        elements.testSearchBtn.addEventListener('click', testGoogleSearch);
+        elements.saveSearchBtn.addEventListener('click', saveSearchConfig);
 
         document.querySelectorAll('.toggle-api-eye').forEach(icon => {
             icon.addEventListener('click', (event) => {
