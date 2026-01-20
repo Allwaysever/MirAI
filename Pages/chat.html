@@ -156,7 +156,7 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '2.12.0-Beta5Fix'; // generateVersion(2, 12, 0);
+const VERSION = '3.0-Beta'; // generateVersion(2, 12, 0);
 </script>
 </head>
 
@@ -359,8 +359,8 @@ const VERSION = '2.12.0-Beta5Fix'; // generateVersion(2, 12, 0);
             </div>
 
             <!-- Search Configuration -->
-            <h3 id="settingsSearchTitle" style="display: none">Search Configuration</h3>
-            <div class="settings-option" style="display: none">
+            <h3 id="settingsSearchTitle">Search Configuration</h3>
+            <div class="settings-option">
                 <p style="font-size: 0.8em; color: var(--srui-text-tertiary);" id="searchConfigDesc">Configure external search engines for /search command</p>
                 <div class="search-engine-config">
                     <div class="engine-option">
@@ -373,7 +373,7 @@ const VERSION = '2.12.0-Beta5Fix'; // generateVersion(2, 12, 0);
                         <i class="fas fa-eye toggle-api-eye" data-target="googleApiKey"></i>
                     </div>
                     
-                    <div class="engine-option">
+                    <div class="engine-option" style="display: none;">
                         <label>
                             <input type="checkbox" id="enableNewsSearch">
                             News Search
@@ -382,14 +382,14 @@ const VERSION = '2.12.0-Beta5Fix'; // generateVersion(2, 12, 0);
                         <i class="fas fa-eye toggle-api-eye" data-target="newsApiKey"></i>
                     </div>
                     
-                    <div class="engine-option">
+                    <div class="engine-option" style="display: none;">
                         <label>
                             <input type="checkbox" id="enableDuckDuckGo" checked>
                             DuckDuckGo (No API needed)
                         </label>
                     </div>
                     
-                    <div class="engine-option">
+                    <div class="engine-option" style="display: none;">
                         <label>
                             <input type="checkbox" id="enableWikipedia" checked>
                             Wikipedia (No API needed)
@@ -397,7 +397,7 @@ const VERSION = '2.12.0-Beta5Fix'; // generateVersion(2, 12, 0);
                     </div>
                     
                     <p class="hint-text">
-                        Get API keys from respective services. Leave blank to disable.
+                        Get API keys from respective services. Leave blank to disable. <b>INFO</b> You can use this feature for free from the developer team, please <a  href="https://allwaysevermirai.netlify.app/About/API/SlashCommandSearch" style="color: #ffce00;">click this link</a> to get the API key and Search Engine ID
                     </p>
                     
                     <div style="display: flex; gap: 10px; margin-top: 10px;">
