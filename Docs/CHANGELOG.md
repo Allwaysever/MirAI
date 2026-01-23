@@ -1,13 +1,33 @@
 ## What's new?
 
+### ``2026.01.23`` - v3.0-Beta2
+
+We've made significant upgrades to the search system and improved overall stability.
+
+**Search System Overhaul:**
+- **``NEW``:** Integrated **SearchAPI.io** as the primary search engine for the `/search` command, offering reliable and fast search results.
+- **``NEW``:** Added support for **Google Custom Search Engine (CSE)** as a secondary search option.
+- **``NEW``:** Enabled **DuckDuckGo** and **Wikipedia** search capabilities (no API keys required).
+- **``NEW``:** **Search Configuration Panel** in Settings, allowing you to enable/disable engines and input API keys.
+- **``NEW``:** **Search Caching** system to speed up repeated queries.
+- **``NEW``:** **Test Search** button to verify your search engine setup.
+- **``FIX``:** Resolved issues with the previous Google CSE integration and erratic API behavior.
+
+---
+
+## Previous version:
+
+### ``2026.01.16`` - v3.0-Beta
+
+We changed the version to a Major Beta because upon review, all the beta update series deserved to be a Major update.
+- **``NEW FEATURE``:** We added an API Search system using Google CSE.
+- **``FIX``:** Fixed several recent bugs.
+
 ### ``2026.01.12`` - v2.12.0-Beta5Fix
 
 We've added new features for you who love listening to MirAI's answers using TTS!
 - **``FIX``:** Fixed TTS bug that read responses along with markdown characters, like Asterisk (*).
 
----
-
-## Previous version:
 ### `2026.01.06` - v2.12.0-Beta5
 
 We've added another new feature that makes it even easier for you (the User) to access MirAI. This might be the best beta update yet, don't you think?
@@ -51,7 +71,7 @@ Main Features:
   3. Your MirAI Persona Selected
   4. Language used
   5. The UI theme you choose
- 
+
 ### v2.12.0-Beta3
 - **``New system``:** We added another URL parameter system for ``?pwa`` which will skip the splash screen, useful for our [TWA MirAI](https://bit.ly/AwsMirAIDown).
 - **``Fixed some bugs``:** we have been doing this for days until we apologize for the bugs we made, in the next update we added new features.
@@ -107,7 +127,7 @@ Main Features:
 - Hi Text Changes
 - Animation Upgrade.
 - Fix bugs.
-  
+
 ### v2.3.1
 - Animation improvements and additions.
 - UI improvements.
@@ -118,19 +138,19 @@ Main Features:
 
 ### v2.2.2
 - UI Fixes.
-- UX defaut fixes.
+- UX default fixes.
 
 ### v2.2.1
 - The addition of commands in the "slash command" feature is:
    - /rephrase
 Usage: /rephrase [text] as [tone]
-example: /rephrase I can't come to the meeting tomorrow as professional 
+example: /rephrase I can't come to the meeting tomorrow as professional
    - /ideate
 Usage: /ideate [number] ideas for [topic]
 example: /ideate 5 ideas for YouTube video about programming
    - /fix
 Usage: /fix [text with errors]
-example: /fix saya pergi ke market kemarin beli apple
+example: /fix I went to the market yesterday to buy apples
    - /explain
 Usage: /explain [concept] like I'm [audience]
 example: /explain black holes like I'm a 10 year old
@@ -159,10 +179,11 @@ example: /code a python function to check if a number is prime
 ### v2.0.5
 - Retyping and restyle For the credits section
 - Added background for connection indicator
+
 ### v2.0.4
-- Added status circle to indicate "Online" or "Offline" 
+- Added status circle to indicate "Online" or "Offline"
 - Added small detail: Dynamic input box placeholder.
-  
+
 ### v2.0.3
 - Adding blur effect in Input box
 - Changing the loading bar movement so that it shows the page loading percentage more
@@ -197,17 +218,17 @@ example: /code a python function to check if a number is prime
 ### v1.4.6
 - Changing the shape and position of the language button
 - Bug Fixes.
-  
+
 ### v1.4
 - New features
 - Fix Bugs
 - AI optimization to remember things discussed in one session
-  
+
 ### v1.3
 - New feature: Clear button
 - UI Update
 - Fix Bugs
-  
+
 ### v1.2
 - Fix bugs
 - UI Update
