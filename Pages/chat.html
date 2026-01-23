@@ -1,58 +1,35 @@
 <!DOCTYPE html>
-
 <html lang="id">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>MirAI</title>
-
     <meta name="description" content="MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.">
-
     <meta name="keywords" content="Allwaysever, AI, Artificial Intelligence, Chatbot AI, AI Chatbot, Gemini 2.5 flash, Google Gemini, Gemini API, MirAI">
-
     <meta name="google-site-verification" content="Ww9spnmeAgguaCwvLVAw-0SV0_ZS-bA7bjNgyWKaeQU"/>
-
-<meta property="og:title" content="MirAI" />
-<meta property="og:description" content="MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly." />
-<meta property="og:url" content="https://allwaysevermirai.netlify.app/" />
-<meta property="og:image" content="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Banner.png" />
-
-<meta property="og:type" content="article" /> <meta property="og:site_name" content="MirAI by Allwaysever" />
-
+    <meta property="og:title" content="MirAI" />
+    <meta property="og:description" content="MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly." />
+    <meta property="og:url" content="https://allwaysevermirai.netlify.app/" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Banner.png" />
+    <meta property="og:type" content="article" /> <meta property="og:site_name" content="MirAI by Allwaysever" />
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <link rel="stylesheet" href="https://esm.sh/gh/Allwaysever/MirAI@main/Assets/CSS/MirAIStyle.css">
    <link rel="manifest" href="https://esm.sh/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAm.json">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<!-- Untuk fullscreen di iOS -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="MirAI">
-
-<!-- Untuk Android/Chrome -->
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#1a1a1a">
-
-<!-- Untuk Windows -->
-<meta name="msapplication-TileColor" content="#1a1a1a">
-<meta name="msapplication-TileImage" content="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-<meta name="msapplication-config" content="browserconfig.xml">
-
-<!-- Icons untuk berbagai platform -->
-<link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-<link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-<link rel="mask-icon" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png" color="#1a1a1a">
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-
-
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MirAI">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="msapplication-TileColor" content="#1a1a1a">
+    <meta name="msapplication-TileImage" content="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <link rel="mask-icon" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png" color="#1a1a1a">
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
         // notif sw onesignal
   window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -156,157 +133,84 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '3.0-Beta'; // generateVersion(2, 12, 0);
+const VERSION = '3.0-Beta2'; // generateVersion(3, 0, 0);
 </script>
 </head>
 
 <body>
     <div id="splash-screen">
-
   <div class="splash-content">
-
     <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Name%20Logo.png" alt="MirAI" class="splash-logo logo-img">
-
     <div class="loading-bar-container" id="splash-loader">
-
         <div class="loading-bar"></div>
-
     </div>
 <p style="font-size: 0.5em; color: #aaa; bottom: 5px;">&copy 2025-2026 Allwaysever Project: MirAI</p>
   </div>
 </div>
 
-
-
 <div id="settingsBtnContainer">
-
     <button id="settingsBtn">
-
         <i class="fas fa-bars"></i>
-
     </button>
-
 </div>
 
 <div id="clearBtnContainer">
-
     <button id="clearBtn">
-
         <i class="fas fa-trash-alt"></i>
-
     </button>
-
 </div>
-
-
 
 <div id="connectionStatus">
-
     <span id="statusDot" class="status-dot"></span>
-
     <span id="statusLabel" class="status-label"></span>
-
 </div>
-
-
 
 <div class="logo-container">
-
     <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/HI%20new.png" alt="what are we talking about?" class="hi-img">
-
 </div>
-
-
 
 <div id="languageSwitcher">
-
     <select id="langDropdown" class="lang-dropdown">
-
         <option value="id">🇮🇩 Bahasa Indonesia</option>
-
         <option value="en">🇺🇸 English (US)</option>
-
         <option value="en-uk">🇬🇧 English (UK)</option>
-
         <option value="jp">🇯🇵 日本語</option>
-
     </select>
-
 </div>
-
-
 
 <div class="chat-container">
-
     <div id="chatMessages"></div>
-
 </div>
-
-
-
-
 
 <div id="toolsMenu" class="suggestion-box"></div>
 
-
-
 <div id="inputContainer" class="input-container centered">
-
-
-
     <div id="imagePreviewContainer" class="imagePreviewContainer">
-
        <div class="imagePreviewWrapper">
-
         <img id="imagePreview" src="" alt="Image Preview" class="imagePreview"">
-
         <button id="removeImageBtn" class="imgRemoveBtn"><i class="fas fa-times"></i></button>
-
     </div>
-
 </div>
-
     
-
     <div id="suggestionBox" class="suggestion-box"></div>
-
     <div class="input-box">
-
         <button id="toolsBtn">
-
             <i class="fas fa-plus"></i>
-
         </button>
-
 <button id="uploadImageBtn">
-
     <i class="fas fa-paperclip"></i>
-
 </button>
-
 <input type="file" id="imageInput" accept="image/*" style="display: none;">
-
         <textarea id="questionInput" rows="1"></textarea>
-
         <button id="sendBtn">
-
             <i class="fas fa-paper-plane"></i>
-
         </button>
-
         <button id="stopBtn" style="display: none;">
-
             <i class="fas fa-stop"></i>
-
         </button>
-
     </div>
-
     <p id="infoText" class="info-text"></p>
-
 </div>
-
-
 
 <!-- Settings Panel -->
 <div id="settingsPanel">
@@ -365,31 +269,31 @@ const VERSION = '3.0-Beta'; // generateVersion(2, 12, 0);
                 <div class="search-engine-config">
                     <div class="engine-option">
                         <label>
+                            <input type="checkbox" id="enableSearchAPI" checked>
+                            SearchAPI.io (Default)
+                        </label>
+                        <input type="password" id="searchapiApiKey" placeholder="SearchAPI.io Key" style="width: 70%;" class="api-key-input">
+                        <i class="fas fa-eye toggle-api-eye" data-target="searchapiApiKey"></i>
+                    </div>
+                    
+                    <div class="engine-option">
+                        <label>
                             <input type="checkbox" id="enableGoogleSearch" checked>
-                            Google Search
+                            Google Search (Secondary)
                         </label>
                         <input type="password" id="googleApiKey" placeholder="Google API Key" style="width: 70%;" class="api-key-input">
                         <input type="text" id="googleCx" placeholder="Search Engine ID" style="width: 70%;">
                         <i class="fas fa-eye toggle-api-eye" data-target="googleApiKey"></i>
                     </div>
                     
-                    <div class="engine-option" style="display: none;">
-                        <label>
-                            <input type="checkbox" id="enableNewsSearch">
-                            News Search
-                        </label>
-                        <input type="password" id="newsApiKey" placeholder="News API Key" style="width: 70%;" class="api-key-input">
-                        <i class="fas fa-eye toggle-api-eye" data-target="newsApiKey"></i>
-                    </div>
-                    
-                    <div class="engine-option" style="display: none;">
+                    <div class="engine-option">
                         <label>
                             <input type="checkbox" id="enableDuckDuckGo" checked>
                             DuckDuckGo (No API needed)
                         </label>
                     </div>
                     
-                    <div class="engine-option" style="display: none;">
+                    <div class="engine-option">
                         <label>
                             <input type="checkbox" id="enableWikipedia" checked>
                             Wikipedia (No API needed)
@@ -397,7 +301,8 @@ const VERSION = '3.0-Beta'; // generateVersion(2, 12, 0);
                     </div>
                     
                     <p class="hint-text">
-                        Get API keys from respective services. Leave blank to disable. <b>INFO</b> You can use this feature for free from the developer team, please <a  href="https://allwaysevermirai.netlify.app/About/API/SlashCommandSearch" style="color: #ffce00;">click this link</a> to get the API key and Search Engine ID
+                        Get SearchAPI.io key from: <a href="https://www.searchapi.io" target="_blank" style="color: #ffce00;">searchapi.io</a><br>
+                        Free tier available with 100 searches/month
                     </p>
                     
                     <div style="display: flex; gap: 10px; margin-top: 10px;">
@@ -455,21 +360,13 @@ const VERSION = '3.0-Beta'; // generateVersion(2, 12, 0);
 </div>
 
 <div id="customConfirmOverlay">
-
     <div id="customConfirmBox">
-
         <p id="customConfirmMessage"></p>
-
         <div class="custom-confirm-buttons">
-
             <button id="confirmBtnYes"></button>
-
             <button id="confirmBtnNo"></button>
-
         </div>
-
     </div>
-
 </div>
 
 <script>
@@ -478,6 +375,12 @@ const VERSION = '3.0-Beta'; // generateVersion(2, 12, 0);
     // === SEARCH CONFIGURATION ===
     const SEARCH_CONFIG = {
         engines: {
+            searchapi: {
+                apiKey: '',  // Will be loaded from localStorage
+                endpoint: 'https://www.searchapi.io/api/v1/search',
+                enabled: true,
+                engine: 'google' // You can change to 'bing', 'yahoo', etc.
+            },
             google: {
                 apiKey: '',  // Will be loaded from localStorage
                 cx: '',      // Custom Search Engine ID
@@ -492,15 +395,10 @@ const VERSION = '3.0-Beta'; // generateVersion(2, 12, 0);
             wikipedia: {
                 endpoint: 'https://en.wikipedia.org/w/api.php',
                 enabled: true
-            },
-            newsapi: {
-                apiKey: '',
-                endpoint: 'https://newsapi.org/v2/everything',
-                enabled: false
             }
         },
         
-        defaultEngine: 'google',
+        defaultEngine: 'searchapi',
         resultsPerPage: 5,
         timeout: 10000,
         cacheDuration: 3600000
@@ -800,14 +698,19 @@ function loadSearchConfigFromEncrypted() {
                         };
                         
                         console.log(`✅ Updated ${key} config:`, {
-                            hasApiKey: !!searchKeys[key].apiKey,
-                            hasCx: !!searchKeys[key].cx
+                            hasApiKey: !!searchKeys[key].apiKey
                         });
                     }
                 });
                 
                 // Log hasil
                 console.log('🔄 SEARCH_CONFIG setelah update:', {
+                    searchapi: {
+                        hasApiKey: !!SEARCH_CONFIG.engines.searchapi.apiKey,
+                        apiKeyPreview: SEARCH_CONFIG.engines.searchapi.apiKey ? 
+                            SEARCH_CONFIG.engines.searchapi.apiKey.substring(0, 10) + '...' : 'empty',
+                        enabled: SEARCH_CONFIG.engines.searchapi.enabled
+                    },
                     google: {
                         hasApiKey: !!SEARCH_CONFIG.engines.google.apiKey,
                         apiKeyPreview: SEARCH_CONFIG.engines.google.apiKey ? 
@@ -816,12 +719,6 @@ function loadSearchConfigFromEncrypted() {
                         cxPreview: SEARCH_CONFIG.engines.google.cx ? 
                             SEARCH_CONFIG.engines.google.cx.substring(0, 10) + '...' : 'empty',
                         enabled: SEARCH_CONFIG.engines.google.enabled
-                    },
-                    newsapi: {
-                        hasApiKey: !!SEARCH_CONFIG.engines.newsapi.apiKey,
-                        apiKeyPreview: SEARCH_CONFIG.engines.newsapi.apiKey ? 
-                            SEARCH_CONFIG.engines.newsapi.apiKey.substring(0, 10) + '...' : 'empty',
-                        enabled: SEARCH_CONFIG.engines.newsapi.enabled
                     }
                 });
                 
@@ -1440,7 +1337,7 @@ function loadSearchConfigFromLocalStorage() {
     }
 
     // === ADVANCED SEARCH FUNCTIONS ===
-    async function performExternalSearch(query, engine = 'google', count = 5, type = 'web') {
+    async function performExternalSearch(query, engine = 'searchapi', count = 5, type = 'web') {
         try {
             const cacheKey = `${engine}:${query}:${count}:${type}`;
             const cached = searchCache.get(cacheKey);
@@ -1455,6 +1352,9 @@ function loadSearchConfigFromLocalStorage() {
             let searchResult;
             
             switch(engine.toLowerCase()) {
+                case 'searchapi':
+                    searchResult = await searchWithSearchAPI(query, count, type);
+                    break;
                 case 'google':
                     searchResult = await searchGoogle(query, count, type);
                     break;
@@ -1464,12 +1364,8 @@ function loadSearchConfigFromLocalStorage() {
                 case 'wikipedia':
                     searchResult = await searchWikipedia(query, count);
                     break;
-                case 'news':
-                case 'newsapi':
-                    searchResult = await searchNews(query, count);
-                    break;
                 default:
-                    searchResult = `Search engine "${engine}" not supported. Available: google, duckduckgo, wikipedia, news`;
+                    searchResult = `Search engine "${engine}" not supported. Available: searchapi, google, duckduckgo, wikipedia`;
             }
             
             if (searchResult && !searchResult.startsWith('Error:')) {
@@ -1489,6 +1385,86 @@ function loadSearchConfigFromLocalStorage() {
         } catch (error) {
             console.error('Search error:', error);
             return `Error performing search: ${error.message}`;
+        }
+    }
+
+    async function searchWithSearchAPI(query, count = 5, type = 'web') {
+        const config = SEARCH_CONFIG.engines.searchapi;
+        
+        if (!config.apiKey) {
+            return "⚠️ SearchAPI.io not configured. Please add your API Key.\n\n" +
+                   "Get it from: https://www.searchapi.io\n" +
+                   "Free tier available with 100 searches/month";
+        }
+        
+        if (!config.enabled) {
+            return "SearchAPI.io is disabled in settings.";
+        }
+        
+        const params = new URLSearchParams({
+            api_key: config.apiKey,
+            q: query,
+            engine: config.engine || 'google',
+            num: Math.min(count, 10)
+        });
+        
+        if (type === 'news') {
+            params.set('engine', 'google_news');
+        } else if (type === 'images') {
+            params.set('engine', 'google_images');
+        }
+        
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), SEARCH_CONFIG.timeout);
+            
+            const response = await fetch(`${config.endpoint}?${params}`, {
+                signal: controller.signal,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`SearchAPI.io error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (!data.organic_results || data.organic_results.length === 0) {
+                return `No results found for "${query}"`;
+            }
+            
+            let formattedResults = `🔍 **Search Results for: "${query}"**\n\n`;
+            formattedResults += `*Engine: SearchAPI.io (${type})*\n\n`;
+            
+            data.organic_results.slice(0, count).forEach((item, index) => {
+                formattedResults += `${index + 1}. **[${item.title}](${item.link})**\n`;
+                formattedResults += `   ${item.snippet || item.description || 'No description available'}\n`;
+                
+                if (item.thumbnail) {
+                    formattedResults += `   ![Preview](${item.thumbnail})\n`;
+                }
+                
+                formattedResults += '\n';
+            });
+            
+            if (data.answer_box && data.answer_box.answer) {
+                formattedResults = `💡 **Quick Answer:** ${data.answer_box.answer}\n\n` + formattedResults;
+            }
+            
+            formattedResults += `\n---\n`;
+            formattedResults += `*Try: /search "${query}" [engine:google] [results:3]*`;
+            
+            return formattedResults;
+            
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                return `Search timeout. Please try again with a simpler query.`;
+            }
+            return `Error searching with SearchAPI.io: ${error.message}`;
         }
     }
 
@@ -1682,64 +1658,6 @@ function loadSearchConfigFromLocalStorage() {
                 return `Search timeout. Please try again.`;
             }
             return `Error searching Wikipedia: ${error.message}`;
-        }
-    }
-
-    async function searchNews(query, count = 5) {
-        const config = SEARCH_CONFIG.engines.newsapi;
-        
-        if (!config.apiKey) {
-            return "⚠️ News API not configured. Get API key from: https://newsapi.org";
-        }
-        
-        if (!config.enabled) {
-            return "News Search is disabled in settings.";
-        }
-        
-        const params = new URLSearchParams({
-            q: query,
-            apiKey: config.apiKey,
-            pageSize: Math.min(count, 10),
-            language: currentLanguage === 'id' ? 'id' : 'en',
-            sortBy: 'publishedAt'
-        });
-        
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), SEARCH_CONFIG.timeout);
-            
-            const response = await fetch(`${config.endpoint}?${params}`, {
-                signal: controller.signal
-            });
-            
-            clearTimeout(timeoutId);
-            
-            const data = await response.json();
-            
-            if (data.status !== 'ok' || !data.articles || data.articles.length === 0) {
-                return `No news found for "${query}"`;
-            }
-            
-            let formattedResults = `📰 **Latest News for: "${query}"**\n\n`;
-            
-            data.articles.slice(0, count).forEach((article, index) => {
-                formattedResults += `${index + 1}. **${article.title}**\n`;
-                formattedResults += `   *${article.source?.name || 'Unknown source'}* - ${formatDate(article.publishedAt)}\n`;
-                
-                if (article.description) {
-                    formattedResults += `   ${article.description}\n`;
-                }
-                
-                formattedResults += `   [Read more](${article.url})\n\n`;
-            });
-            
-            return formattedResults;
-            
-        } catch (error) {
-            if (error.name === 'AbortError') {
-                return `Search timeout. Please try again.`;
-            }
-            return `Error searching news: ${error.message}`;
         }
     }
 
@@ -2063,14 +1981,14 @@ function loadSearchConfigFromLocalStorage() {
 function loadSearchConfigToUI() {
     console.log('🔄 Loading search config to UI...');
     
-    if (!elements.googleApiKey) return;
+    if (!elements.searchapiApiKey) return;
     
     // Update UI fields dari SEARCH_CONFIG
+    elements.searchapiApiKey.value = SEARCH_CONFIG.engines.searchapi.apiKey || '';
     elements.googleApiKey.value = SEARCH_CONFIG.engines.google.apiKey || '';
     elements.googleCx.value = SEARCH_CONFIG.engines.google.cx || '';
-    elements.newsApiKey.value = SEARCH_CONFIG.engines.newsapi.apiKey || '';
+    elements.enableSearchAPI.checked = SEARCH_CONFIG.engines.searchapi.enabled;
     elements.enableGoogleSearch.checked = SEARCH_CONFIG.engines.google.enabled;
-    elements.enableNewsSearch.checked = SEARCH_CONFIG.engines.newsapi.enabled;
     elements.enableDuckDuckGo.checked = SEARCH_CONFIG.engines.duckduckgo.enabled;
     elements.enableWikipedia.checked = SEARCH_CONFIG.engines.wikipedia.enabled;
     
@@ -2249,11 +2167,11 @@ function loadSearchConfigToUI() {
                 });
                 console.log('✅ Search config loaded');
                 
+                elements.searchapiApiKey.value = SEARCH_CONFIG.engines.searchapi.apiKey || '';
                 elements.googleApiKey.value = SEARCH_CONFIG.engines.google.apiKey || '';
                 elements.googleCx.value = SEARCH_CONFIG.engines.google.cx || '';
-                elements.newsApiKey.value = SEARCH_CONFIG.engines.newsapi.apiKey || '';
+                elements.enableSearchAPI.checked = SEARCH_CONFIG.engines.searchapi.enabled;
                 elements.enableGoogleSearch.checked = SEARCH_CONFIG.engines.google.enabled;
-                elements.enableNewsSearch.checked = SEARCH_CONFIG.engines.newsapi.enabled;
                 elements.enableDuckDuckGo.checked = SEARCH_CONFIG.engines.duckduckgo.enabled;
                 elements.enableWikipedia.checked = SEARCH_CONFIG.engines.wikipedia.enabled;
                 
@@ -2265,14 +2183,15 @@ function loadSearchConfigToUI() {
 
 function saveSearchConfig() {
     const config = {
+        searchapi: {
+            apiKey: elements.searchapiApiKey.value.trim(),
+            enabled: elements.enableSearchAPI.checked,
+            engine: 'google'
+        },
         google: {
             apiKey: elements.googleApiKey.value.trim(),
             cx: elements.googleCx.value.trim(),
             enabled: elements.enableGoogleSearch.checked
-        },
-        newsapi: {
-            apiKey: elements.newsApiKey.value.trim(),
-            enabled: elements.enableNewsSearch.checked
         },
         duckduckgo: {
             enabled: elements.enableDuckDuckGo.checked
@@ -2295,10 +2214,9 @@ function saveSearchConfig() {
     localStorage.setItem('miraiSearchConfig', JSON.stringify(config));
     
     console.log('✅ Search config saved to localStorage and SEARCH_CONFIG');
-    console.log('🔍 Current SEARCH_CONFIG.engines.google:', {
-        hasApiKey: !!SEARCH_CONFIG.engines.google.apiKey,
-        apiKeyPreview: SEARCH_CONFIG.engines.google.apiKey?.substring(0, 10) + '...',
-        hasCx: !!SEARCH_CONFIG.engines.google.cx
+    console.log('🔍 Current SEARCH_CONFIG.engines.searchapi:', {
+        hasApiKey: !!SEARCH_CONFIG.engines.searchapi.apiKey,
+        apiKeyPreview: SEARCH_CONFIG.engines.searchapi.apiKey?.substring(0, 10) + '...'
     });
     
     showCopyFeedback('Search configuration saved!');
@@ -2308,6 +2226,11 @@ function testSearch() {
     const query = 'artificial intelligence';
     
     // ⭐⭐ BARU: Check jika search engine configured
+    const searchapiReady = SEARCH_CONFIG.engines.searchapi.enabled && 
+                          SEARCH_CONFIG.engines.searchapi.apiKey && 
+                          SEARCH_CONFIG.engines.searchapi.apiKey.trim() !== '' &&
+                          !SEARCH_CONFIG.engines.searchapi.apiKey.includes('YOUR_');
+    
     const googleReady = SEARCH_CONFIG.engines.google.enabled && 
                        SEARCH_CONFIG.engines.google.apiKey && 
                        SEARCH_CONFIG.engines.google.apiKey.trim() !== '' &&
@@ -2318,36 +2241,34 @@ function testSearch() {
     
     const duckduckgoReady = SEARCH_CONFIG.engines.duckduckgo.enabled;
     const wikipediaReady = SEARCH_CONFIG.engines.wikipedia.enabled;
-    const newsapiReady = SEARCH_CONFIG.engines.newsapi.enabled && 
-                        SEARCH_CONFIG.engines.newsapi.apiKey && 
-                        SEARCH_CONFIG.engines.newsapi.apiKey.trim() !== '' &&
-                        !SEARCH_CONFIG.engines.newsapi.apiKey.includes('YOUR_');
     
-    // Pilih engine yang available
-    let engine = 'none';
-    if (googleReady) {
+    // Pilih engine yang available (SearchAPI.io sebagai default)
+    let engine = 'searchapi';
+    if (searchapiReady) {
+        engine = 'searchapi';
+    } else if (googleReady) {
         engine = 'google';
     } else if (duckduckgoReady) {
         engine = 'duckduckgo';
     } else if (wikipediaReady) {
         engine = 'wikipedia';
-    } else if (newsapiReady) {
-        engine = 'newsapi';
+    } else {
+        engine = 'none';
     }
     
     if (engine === 'none') {
         const lang = uiStrings[currentLanguage];
         let message = `🔍 ${lang.searchEngineNotConfigured}\n\n`;
         message += `Available engines:\n`;
-        message += `• Google Search: ${googleReady ? '✅ Ready' : '❌ Not configured'}\n`;
+        message += `• SearchAPI.io (Default): ${searchapiReady ? '✅ Ready' : '❌ Not configured'}\n`;
+        message += `• Google Search (Secondary): ${googleReady ? '✅ Ready' : '❌ Not configured'}\n`;
         message += `• DuckDuckGo: ${duckduckgoReady ? '✅ Enabled' : '❌ Disabled'}\n`;
-        message += `• Wikipedia: ${wikipediaReady ? '✅ Enabled' : '❌ Disabled'}\n`;
-        message += `• NewsAPI: ${newsapiReady ? '✅ Ready' : '❌ Not configured'}\n\n`;
+        message += `• Wikipedia: ${wikipediaReady ? '✅ Enabled' : '❌ Disabled'}\n\n`;
         
-        if (!googleReady) {
-            message += `To configure Google Search:\n`;
-            message += `1. Get API Key from: https://console.cloud.google.com\n`;
-            message += `2. Get Search Engine ID from: https://programmablesearchengine.google.com\n`;
+        if (!searchapiReady) {
+            message += `To configure SearchAPI.io (Recommended):\n`;
+            message += `1. Get API Key from: https://www.searchapi.io\n`;
+            message += `2. Free tier: 100 searches/month\n`;
             message += `3. Enter in Settings → Search Configuration\n`;
         }
         
@@ -3387,11 +3308,11 @@ function testSearch() {
             removeImageBtn: document.getElementById('removeImageBtn'),
             settingsSearchTitle: document.getElementById('settingsSearchTitle'),
             searchConfigDesc: document.getElementById('searchConfigDesc'),
+            enableSearchAPI: document.getElementById('enableSearchAPI'),
+            searchapiApiKey: document.getElementById('searchapiApiKey'),
             enableGoogleSearch: document.getElementById('enableGoogleSearch'),
             googleApiKey: document.getElementById('googleApiKey'),
             googleCx: document.getElementById('googleCx'),
-            enableNewsSearch: document.getElementById('enableNewsSearch'),
-            newsApiKey: document.getElementById('newsApiKey'),
             enableDuckDuckGo: document.getElementById('enableDuckDuckGo'),
             enableWikipedia: document.getElementById('enableWikipedia'),
             testSearchBtn: document.getElementById('testSearchBtn'),
