@@ -43,6 +43,9 @@ MirAI is designed to be an accessible and feature-rich AI chat companion, right 
 * **🌐 Connection Status Indicator:** Visual indicator showing online/offline status.
 * **🔄 Model Switching:** Support for both Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models via URL parameters.
 * **🔐 Authenticity Verification:** Built-in signature verification for backup files to ensure they're genuine MirAI backups.
+* **🔍 Advanced Search Integration:** Powerful `/search` command with multiple search engines (SearchAPI.io, Google, DuckDuckGo, Wikipedia) or AI Knowledge Base fallback.
+* **⚙️ Configurable Search Engines:** Enable/disable individual search engines with API key configuration in settings.
+* **🧠 Smart Search Mode:** Automatically switches between external search and AI knowledge base based on configuration.
 
 ---
 
@@ -122,6 +125,18 @@ MirAI features a comprehensive backup system:
 - **Plain Format (.mdf/.json)**: Simple JSON backup for easy inspection
 - **Cross-device Sync**: Move your MirAI data between devices
 
+### 🔍 Advanced Search System
+MirAI offers powerful search capabilities through the `/search` command:
+- **Multiple Search Engines**: Support for SearchAPI.io (default), Google Search, DuckDuckGo, and Wikipedia
+- **Configurable Settings**: Enable/disable individual search engines in the settings panel
+- **API Key Management**: Securely store search engine API keys
+- **Two Search Modes**:
+  - **External Search Mode**: Uses configured search engines for real-time web results
+  - **AI Knowledge Base Mode**: Uses AI's training data when no external engines are enabled
+- **Search Parameters**: Use `[engine:name]`, `[results:N]`, `[type:web/news/images]` to customize searches
+- **Search Cache**: Intelligent caching system for faster repeated queries
+- **First-time Optimization**: Search engines disabled by default for new users (can be enabled in settings)
+
 ### 📲 Progressive Web App (PWA)
 - **Installable**: Add MirAI to your home screen like a native app
 - **Offline Support**: Service workers enable basic offline functionality
@@ -133,18 +148,22 @@ MirAI features a comprehensive backup system:
 - **Authenticity Signatures**: Ensures backup files are genuine and untampered
 - **API Key Visibility Toggle**: Show/hide your API key in settings
 - **Public API Limiter**: Prevents abuse of the default public API key
+- **Search API Protection**: Secure storage of search engine API keys
 
 ### ⚡ Performance Optimizations
 - **Splash Screen**: Professional loading screen with progress bar
 - **Chat History Limiting**: Automatically trims old messages to maintain performance (50-message limit)
 - **Abort Controller**: Cancel ongoing AI responses instantly
 - **Debounced Input Handling**: Efficient suggestion system without performance lag
+- **Search Cache**: Reduces redundant API calls for repeated queries
 
 ### 🎛️ Enhanced Settings Panel
 - **Hash-based Navigation**: Smooth settings panel with URL hash routing
 - **Theme Persistence**: Remembers your light/dark mode preference
 - **Persona Synchronization**: Backup/restore preserves your chosen AI personality
 - **Language Consistency**: All UI elements adapt to your selected language
+- **Search Configuration**: Centralized control for all search engine settings
+- **API Key Management**: Secure input fields with visibility toggle
 
 ---
 
@@ -163,6 +182,7 @@ This project was built purely with basic web technologies, without any framework
 * **Service Workers** - For PWA offline capabilities
 * **OneSignal** - For push notifications
 * **Web Speech API** - For text-to-speech functionality
+* **Multiple Search APIs** - SearchAPI.io, Google Custom Search, DuckDuckGo, Wikipedia API
 
 ---
 
@@ -175,6 +195,7 @@ For more detailed information about the project, please refer to the following d
 * **[🔄 Changelog](Docs/CHANGELOG.md)**: See the detailed history of changes and new features for each version.
 * **[🤝 Contributing Guide](Docs/CONTRIBUTING.md)**: Learn how you can contribute to make MirAI even better.
 * **[🔒 .medf File Format Specification](Docs/MEDF_SPEC.md)**: Technical documentation for the MirAI Encrypted Data File format.
+* **[🔍 Search Engine Configuration Guide](Docs/SEARCH_CONFIG.md)**: Guide to setting up and using external search engines.
 
 ---
 
@@ -187,3 +208,7 @@ This project is licensed under the **Apache License 2.0**.
 
 > [!IMPORTANT]
 > The default public API key has usage limits. For uninterrupted access, please use your personal API key as described in the setup guide.
+
+> [!TIP]
+> Search engines are disabled by default for first-time users. Enable them in Settings → Search Configuration to use the `/search` command with external sources.
+[file content end]
