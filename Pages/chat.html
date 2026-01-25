@@ -265,6 +265,17 @@ const VERSION = '3.0-Beta2'; // generateVersion(3, 0, 0);
             <!-- Search Configuration -->
             <h3 id="settingsSearchTitle">Search Configuration</h3>
             <div class="settings-option">
+                <div class="engine-info" style="margin-bottom: 15px; padding: 10px; background: var(--srui-bg-tertiary); border-radius: 8px;">
+                    <p style="font-size: 0.85em; margin: 0;">
+                        <strong>ℹ️ Search Mode:</strong>
+                        <span id="searchModeInfo">Checking...</span>
+                    </p>
+                    <p style="font-size: 0.75em; margin: 5px 0 0 0; color: var(--srui-text-secondary);">
+                        • <strong>External Search:</strong> Uses API engines (requires API keys)
+                        <br>• <strong>AI Knowledge Base:</strong> Uses AI's training data only (no API needed)
+                    </p>
+                </div>
+                
                 <p style="font-size: 0.8em; color: var(--srui-text-tertiary);" id="searchConfigDesc">Configure external search engines for /search command</p>
                 <div class="search-engine-config">
                     <div class="engine-option">
@@ -378,23 +389,23 @@ const VERSION = '3.0-Beta2'; // generateVersion(3, 0, 0);
             searchapi: {
                 apiKey: '',  // Will be loaded from localStorage
                 endpoint: 'https://www.searchapi.io/api/v1/search',
-                enabled: true,
+                enabled: false, // ⭐⭐ DEFAULTS TO FALSE FOR NEW USERS
                 engine: 'google' // You can change to 'bing', 'yahoo', etc.
             },
             google: {
                 apiKey: '',  // Will be loaded from localStorage
                 cx: '',      // Custom Search Engine ID
                 endpoint: 'https://www.googleapis.com/customsearch/v1',
-                enabled: true
+                enabled: false // ⭐⭐ DEFAULTS TO FALSE FOR NEW USERS
             },
             duckduckgo: {
                 endpoint: 'https://api.duckduckgo.com/',
                 format: 'json',
-                enabled: true
+                enabled: false // ⭐⭐ DEFAULTS TO FALSE FOR NEW USERS
             },
             wikipedia: {
                 endpoint: 'https://en.wikipedia.org/w/api.php',
-                enabled: true
+                enabled: false // ⭐⭐ DEFAULTS TO FALSE FOR NEW USERS
             }
         },
         
@@ -869,7 +880,12 @@ function loadSearchConfigFromLocalStorage() {
             searchEngineNotConfigured: 'Mesin pencari tidak dikonfigurasi',
             searchExample1: '/search artificial intelligence',
             searchExample2: '/search machine learning [engine:wikipedia]',
-            searchExample3: '/search OpenAI [type:news] [results:3]'
+            searchExample3: '/search OpenAI [type:news] [results:3]',
+            searchModeExternal: 'Mode Pencarian Eksternal',
+            searchModeAI: 'Mode Basis Pengetahuan AI',
+            searchModeDescExternal: '/search menggunakan mesin pencari eksternal',
+            searchModeDescAI: '/search menggunakan data pelatihan AI',
+            firstVisitSearchInfo: 'Kunjungan pertama: Semua mesin pencari dinonaktifkan secara default. Aktifkan di Pengaturan jika diperlukan.'
         },
         'en': {
             offlineTitle: 'Internet Connection Lost',
@@ -969,7 +985,12 @@ function loadSearchConfigFromLocalStorage() {
             searchEngineNotConfigured: 'Search engine not configured',
             searchExample1: '/search artificial intelligence',
             searchExample2: '/search machine learning [engine:wikipedia]',
-            searchExample3: '/search OpenAI [type:news] [results:3]'
+            searchExample3: '/search OpenAI [type:news] [results:3]',
+            searchModeExternal: 'External Search Mode',
+            searchModeAI: 'AI Knowledge Base Mode',
+            searchModeDescExternal: '/search uses external search engines',
+            searchModeDescAI: '/search uses AI training data',
+            firstVisitSearchInfo: 'First-time visit: All search engines disabled by default. Enable in Settings if needed.'
         },
         'en-uk': {
             offlineTitle: 'Internet Connection Lost',
@@ -1069,7 +1090,12 @@ function loadSearchConfigFromLocalStorage() {
             searchEngineNotConfigured: 'Search engine not configured',
             searchExample1: '/search artificial intelligence',
             searchExample2: '/search machine learning [engine:wikipedia]',
-            searchExample3: '/search OpenAI [type:news] [results:3]'
+            searchExample3: '/search OpenAI [type:news] [results:3]',
+            searchModeExternal: 'External Search Mode',
+            searchModeAI: 'AI Knowledge Base Mode',
+            searchModeDescExternal: '/search uses external search engines',
+            searchModeDescAI: '/search uses AI training data',
+            firstVisitSearchInfo: 'First-time visit: All search engines disabled by default. Enable in Settings if needed.'
         },
         'jp': {
             offlineTitle: 'インターネット接続がありません',
@@ -1169,7 +1195,12 @@ function loadSearchConfigFromLocalStorage() {
             searchEngineNotConfigured: '検索エンジンが設定されていません',
             searchExample1: '/search artificial intelligence',
             searchExample2: '/search machine learning [engine:wikipedia]',
-            searchExample3: '/search OpenAI [type:news] [results:3]'
+            searchExample3: '/search OpenAI [type:news] [results:3]',
+            searchModeExternal: '外部検索モード',
+            searchModeAI: 'AI知識ベースモード',
+            searchModeDescExternal: '/searchは外部検索エンジンを使用',
+            searchModeDescAI: '/searchはAIトレーニングデータを使用',
+            firstVisitSearchInfo: '初回訪問：すべての検索エンジンはデフォルトで無効です。必要に応じて設定で有効にしてください。'
         }
     };
 
@@ -1995,6 +2026,48 @@ function loadSearchConfigToUI() {
     console.log('✅ UI elements updated with search config');
 }
 
+// === FUNGSI BARU UNTUK SEARCH ENGINE FLOW ===
+
+// Fungsi untuk cek apakah ada search engine yang aktif
+function checkAnySearchEngineEnabled() {
+    return Object.values(SEARCH_CONFIG.engines).some(engine => engine.enabled);
+}
+
+// Fungsi untuk get enabled engines count
+function getEnabledEnginesCount() {
+    return Object.values(SEARCH_CONFIG.engines).filter(engine => engine.enabled).length;
+}
+
+// Fungsi untuk save search config ke localStorage
+function saveSearchConfigToLocalStorage() {
+    const config = {};
+    Object.keys(SEARCH_CONFIG.engines).forEach(key => {
+        config[key] = {
+            enabled: SEARCH_CONFIG.engines[key].enabled,
+            apiKey: SEARCH_CONFIG.engines[key].apiKey || '',
+            cx: SEARCH_CONFIG.engines[key].cx || ''
+        };
+    });
+    localStorage.setItem('miraiSearchConfig', JSON.stringify(config));
+}
+
+// Fungsi update info di settings
+function updateSearchModeInfo() {
+    const infoElement = document.getElementById('searchModeInfo');
+    if (!infoElement) return;
+    
+    const enabledCount = getEnabledEnginesCount();
+    const lang = uiStrings[currentLanguage];
+    
+    if (enabledCount === 0) {
+        infoElement.innerHTML = `<span style="color: #4CAF50;">${lang.searchModeAI}</span><br>` +
+                              `<small style="color: var(--srui-text-secondary);">${lang.searchModeDescAI}</small>`;
+    } else {
+        infoElement.innerHTML = `<span style="color: #4285f4;">${lang.searchModeExternal}</span><br>` +
+                              `<small style="color: var(--srui-text-secondary);">${enabledCount} engine(s) active</small>`;
+    }
+}
+
     // --- FUNGSI UTAMA MIRAI ---
     function initializeSlashCommands(lang) {
         const s = uiStrings[lang];
@@ -2134,6 +2207,22 @@ function loadSearchConfigToUI() {
         elements.customPersonaInput.value = savedCustomPersona;
     }
 
+    // ⭐⭐ BARU: Jika ini kunjungan pertama, disable semua search engine
+    const isFirstVisit = !localStorage.getItem('miraiSearchConfig');
+    if (isFirstVisit) {
+        console.log('👋 First-time user: Disabling all search engines by default');
+        
+        // Nonaktifkan semua search engine
+        Object.keys(SEARCH_CONFIG.engines).forEach(engine => {
+            SEARCH_CONFIG.engines[engine].enabled = false;
+        });
+        
+        // Simpan ke localStorage
+        saveSearchConfigToLocalStorage();
+        
+        console.log('✅ All search engines disabled for first-time user');
+    }
+
     initializeSlashCommands(currentLanguage);
     setTheme(savedTheme);
     updateUI();
@@ -2145,6 +2234,9 @@ function loadSearchConfigToUI() {
     
     // ⭐⭐ BARU: Load UI config untuk settings panel (setelah load dari encrypted file)
     loadSearchConfigToUI();
+    
+    // ⭐⭐ BARU: Update search mode info
+    updateSearchModeInfo();
     
     if (isBeta) {
         const versionText = document.getElementById('settingsVersionText');
@@ -2213,16 +2305,48 @@ function saveSearchConfig() {
     // Simpan ke localStorage
     localStorage.setItem('miraiSearchConfig', JSON.stringify(config));
     
+    // ⭐⭐ BARU: Update search mode info
+    updateSearchModeInfo();
+    
+    // ⭐⭐ BARU: Berikan feedback berdasarkan status
+    const enabledCount = getEnabledEnginesCount();
+    let message = 'Search configuration saved! ';
+    
+    if (enabledCount === 0) {
+        message += 'All search engines disabled. /search will use AI knowledge base.';
+    } else {
+        message += `${enabledCount} search engine(s) enabled.`;
+    }
+    
     console.log('✅ Search config saved to localStorage and SEARCH_CONFIG');
     console.log('🔍 Current SEARCH_CONFIG.engines.searchapi:', {
         hasApiKey: !!SEARCH_CONFIG.engines.searchapi.apiKey,
         apiKeyPreview: SEARCH_CONFIG.engines.searchapi.apiKey?.substring(0, 10) + '...'
     });
     
-    showCopyFeedback('Search configuration saved!');
+    showCopyFeedback(message);
 }
 
 function testSearch() {
+    const enabledCount = getEnabledEnginesCount();
+    
+    if (enabledCount === 0) {
+        // Test dengan AI Knowledge Base
+        const query = 'artificial intelligence';
+        const testMsg = document.createElement('div');
+        testMsg.className = 'chat-bubble ai-bubble';
+        testMsg.textContent = `🧪 Testing AI Knowledge Base search for: "${query}"...`;
+        elements.chatMessages.appendChild(testMsg);
+        elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+        
+        // Simulasikan query langsung ke AI
+        setTimeout(() => {
+            testMsg.textContent = `✅ AI Knowledge Base mode active.\n\nYour search query "${query}" would be answered using AI's training data.\n\nEnable external search engines in Settings for internet-based results.`;
+            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+        }, 1000);
+        return;
+    }
+    
     const query = 'artificial intelligence';
     
     // ⭐⭐ BARU: Check jika search engine configured
@@ -2375,6 +2499,8 @@ function testSearch() {
         initializeSlashCommands(currentLanguage);
         populateToolsMenu();
         updateUI();
+        // ⭐⭐ BARU: Update search mode info saat ganti bahasa
+        updateSearchModeInfo();
     }
 
     async function askAI() {
@@ -2546,6 +2672,17 @@ function testSearch() {
                 const query = parts.slice(1).join(' ');
                 if (!query) {
                     return "Error: Please provide a search query. Use /search [query]";
+                }
+                
+                // ⭐⭐ BARU: Cek apakah ada search engine yang aktif
+                const isAnyEngineEnabled = checkAnySearchEngineEnabled();
+                
+                if (!isAnyEngineEnabled) {
+                    // Mode AI Knowledge Base
+                    console.log('🔍 Search using AI Knowledge Base');
+                    return `Based on my knowledge, answer this search query: "${query}". 
+                    If you don't have sufficient information, acknowledge that and provide what you know. 
+                    IMPORTANT: This answer comes from my training data only, not from external sources.`;
                 }
                 
                 let searchEngine = SEARCH_CONFIG.defaultEngine;
@@ -2748,6 +2885,8 @@ function testSearch() {
         updateSettingsUI(); 
         updateDynamicPlaceholder(); 
         updateConnectionStatus(); 
+        // ⭐⭐ BARU: Update search mode info
+        updateSearchModeInfo();
     }
 
     function updateDynamicPlaceholder() { 
@@ -2812,6 +2951,8 @@ function testSearch() {
                 settingsPanel.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
                 console.log('✅ Settings panel opened');
+                // ⭐⭐ BARU: Update search mode info saat settings dibuka
+                updateSearchModeInfo();
             }
         } else {
             if (settingsPanel) {
@@ -3238,6 +3379,33 @@ function testSearch() {
             const headerText = MEDF_PROCESSOR.HEADER_TEXT;
             const headerCode = MEDF_PROCESSOR.generateHeaderCode(headerText);
             alert(`Header Text: ${headerText}\n\nHeader Code (first 40 chars):\n${headerCode.substring(0, 40)}...\n\nTotal length: ${headerCode.length} digits`);
+        },
+        // ⭐⭐ BARU: Debug untuk search engine
+        checkSearchEngineStatus: () => {
+            return {
+                enabledEngines: getEnabledEnginesCount(),
+                searchapi: {
+                    enabled: SEARCH_CONFIG.engines.searchapi.enabled,
+                    hasApiKey: !!SEARCH_CONFIG.engines.searchapi.apiKey
+                },
+                google: {
+                    enabled: SEARCH_CONFIG.engines.google.enabled,
+                    hasApiKey: !!SEARCH_CONFIG.engines.google.apiKey,
+                    hasCx: !!SEARCH_CONFIG.engines.google.cx
+                },
+                duckduckgo: SEARCH_CONFIG.engines.duckduckgo.enabled,
+                wikipedia: SEARCH_CONFIG.engines.wikipedia.enabled
+            };
+        },
+        toggleSearchMode: () => {
+            const enable = confirm('Enable all search engines? (Cancel to disable all)');
+            Object.keys(SEARCH_CONFIG.engines).forEach(engine => {
+                SEARCH_CONFIG.engines[engine].enabled = enable;
+            });
+            saveSearchConfigToLocalStorage();
+            loadSearchConfigToUI();
+            updateSearchModeInfo();
+            alert(`All search engines ${enable ? 'enabled' : 'disabled'}`);
         }
     };
 
@@ -3513,6 +3681,11 @@ function testSearch() {
 
         elements.testSearchBtn.addEventListener('click', testSearch);
         elements.clearSearchCacheBtn.addEventListener('click', () => {
+            const enabledCount = getEnabledEnginesCount();
+            if (enabledCount === 0) {
+                alert('ℹ️ No external search engines enabled. Cache clearing is not needed in AI Knowledge Base mode.');
+                return;
+            }
             searchCache.clear();
             showCopyFeedback(uiStrings[currentLanguage].searchCacheCleared);
         });
@@ -3528,6 +3701,15 @@ function testSearch() {
 
         initializeApp().then(() => {
             console.log('✅ App initialized successfully');
+            
+            // ⭐⭐ BARU: Tampilkan info untuk first-time user
+            const isFirstVisit = !localStorage.getItem('miraiSearchConfig');
+            if (isFirstVisit && getEnabledEnginesCount() === 0) {
+                console.log('👋 Showing first-time search info');
+                setTimeout(() => {
+                    showCopyFeedback(uiStrings[currentLanguage].firstVisitSearchInfo);
+                }, 1000);
+            }
             
             if (!isPWA) {
                 if (elements.splashScreen) {
