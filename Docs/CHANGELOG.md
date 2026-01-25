@@ -1,5 +1,43 @@
 ## What's new?
 
+### ``2026.01.25`` - v3.0-Beta3 - **Search Revolution & First-Time User Experience**
+
+Okay buckle up because this is a MASSIVE update that's gonna change how you search forever! We've completely reimagined the whole search system from the ground up and made it smarter than ever 🧠✨
+
+**🔍 Search System: The Big Revamp**
+- **``NEW DEFAULT BEHAVIOR``:** First-time users now get **ALL search engines DISABLED by default** (yeah, we're being responsible!). This means `/search` will use AI's own knowledge base unless YOU explicitly enable external engines.
+- **``NEW UI FEEDBACK``:** Real-time search mode indicator in Settings showing whether you're in **"External Search Mode"** or **"AI Knowledge Base Mode"** - no more guessing games!
+- **``NEW CONFIGURATION FLOW``:** Search engines now properly sync between memory and localStorage - no more "why isn't my API key working?!" moments.
+- **``NEW FIRST-TIME MESSAGE``:** Fresh install? You'll get a friendly tip explaining the new search system. We're helpful like that 😉
+
+**⚙️ Technical Wizardry Behind the Scenes**
+- **``ENCRYPTED CONFIG SYNC``:** Search API keys from encrypted `.medf` files now properly load into the search system (fancy encryption magic at work!).
+- **``MEMORY-LOCALSTORAGE SYNC``:** The `SEARCH_CONFIG` object in memory and localStorage now hold hands and sing Kumbaya together 🎵 No more mismatched settings!
+- **``AUTOMATIC ENGINE DETECTION``:** The system now smartly checks which search engines are actually configured and ready to roll before attempting searches.
+
+**🔧 Settings Panel Upgrades**
+- **``DYNAMIC STATUS DISPLAY``:** Watch the search mode change in real-time as you toggle engines on/off. It's like magic, but with more code!
+- **``BETTER ERROR HANDLING``:** Search tests now give way more helpful feedback when things go wrong (or right!).
+- **``CLEANER CODE ARCHITECTURE``:** We untangled the spaghetti code behind search configuration. It's now more organized than my grandma's kitchen!
+
+**🐛 Bug Squashing Party**
+- Fixed that annoying bug where search engines would sometimes forget they were enabled
+- Patched up some edge cases with first-time user detection
+- Made the search cache system play nicer with the new dual-mode setup
+- General stability improvements because nobody likes crashes!
+
+**🎯 Why This Matters**
+Look, we could've just added more search engines and called it a day. But NO! We wanted to make it SMART. Now MirAI intelligently decides:
+1. **No external engines enabled?** → Uses AI's built-in knowledge (fast, private, always available)
+2. **Engines enabled and configured?** → Hits the web for fresh, up-to-date info
+3. **Mixed setup?** → Uses whatever you've configured like a good little assistant should
+
+It's all about giving YOU control while making sure things Just Work™ out of the box. No more confusing setup processes for new users, but all the power for power users!
+
+---
+
+## Previous version:
+
 ### ``2026.01.23`` - v3.0-Beta2
 
 We've made significant upgrades to the search system and improved overall stability.
@@ -12,10 +50,6 @@ We've made significant upgrades to the search system and improved overall stabil
 - **``NEW``:** **Search Caching** system to speed up repeated queries.
 - **``NEW``:** **Test Search** button to verify your search engine setup.
 - **``FIX``:** Resolved issues with the previous Google CSE integration and erratic API behavior.
-
----
-
-## Previous version:
 
 ### ``2026.01.16`` - v3.0-Beta
 
