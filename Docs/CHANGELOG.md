@@ -1,42 +1,67 @@
 ## What's new?
 
+### ``2026.01.28`` - v3.0-Beta4 - **Enhanced Loading Experience with Processing Time Display**
+
+We've significantly improved the loading experience by adding real-time processing time feedback directly in the chat interface!
+
+**⚡ Enhanced Loading Animation:**
+- **``NEW FEATURE``:** **Advanced loading bubbles** now show real-time processing time with a stopwatch-style counter that updates every millisecond!
+- **``NEW FEATURE``:** **Progress bar animation** that fills up as the AI processes your request, giving visual feedback of the generation progress.
+- **``NEW FEATURE``:** **Final processing time display** shows exactly how long it took to generate the response after completion.
+- **``NEW FEATURE``:** **Success/failure status colors** - the stopwatch changes color (green for success, red for errors) based on the outcome.
+
+**🎨 UX Improvements:**
+- **``VISUAL FEEDBACK``:** The loading animation now includes a "Generating response..." text that disappears when the response is ready.
+- **``SMOOTH TRANSITIONS``:** All elements fade in/out smoothly with proper CSS animations.
+- **``ORGANIZED STRUCTURE``:** The loading container has separate sections for timer, progress bar, and status messages.
+- **``BETTER CLEANUP``:** Proper interval cleanup to prevent memory leaks when responses are completed or interrupted.
+
+**🔧 Technical Enhancements:**
+- **``NEW FUNCTIONS``:** Added `showLoading()` function that creates a sophisticated loading container with multiple visual elements.
+- **``NEW FUNCTIONS``:** Added `completeLoading()` function that handles the graceful completion of the loading animation.
+- **``PRECISE TIMING``:** Uses `Date.now()` for millisecond-precise timing calculations.
+- **``EFFICIENT UPDATES``:** Stopwatch updates every 10ms for smooth visual feedback without performance impact.
+
+**💡 Why This Matters:**
+Waiting for AI responses can feel like a black box - you send a question and hope something comes back. Now you get **real-time feedback** on how long the processing is taking! The stopwatch lets you see exactly how many seconds have elapsed, while the progress bar gives you a visual sense of completion. When it's done, you get a nice summary of the total processing time. It's transparent, informative, and just plain cool to watch! 😎
+
+---
+
+## Previous version:
+
 ### ``2026.01.25`` - v3.0-Beta3 - **Search Revolution & First-Time User Experience**
 
-Okay buckle up because this is a MASSIVE update that's gonna change how you search forever! We've completely reimagined the whole search system from the ground up and made it smarter than ever 🧠✨
+Okay buckle up because this is a MASSIVE update that's gonna change how you search forever! We've completely reimagined the whole search system from the ground up and made it smarter than ever 🚀
 
-**🔍 Search System: The Big Revamp**
+**🎯 Search System: The Big Revamp**
 - **``NEW DEFAULT BEHAVIOR``:** First-time users now get **ALL search engines DISABLED by default** (yeah, we're being responsible!). This means `/search` will use AI's own knowledge base unless YOU explicitly enable external engines.
 - **``NEW UI FEEDBACK``:** Real-time search mode indicator in Settings showing whether you're in **"External Search Mode"** or **"AI Knowledge Base Mode"** - no more guessing games!
 - **``NEW CONFIGURATION FLOW``:** Search engines now properly sync between memory and localStorage - no more "why isn't my API key working?!" moments.
 - **``NEW FIRST-TIME MESSAGE``:** Fresh install? You'll get a friendly tip explaining the new search system. We're helpful like that 😉
 
-**⚙️ Technical Wizardry Behind the Scenes**
+**🔧 Technical Wizardry Behind the Scenes**
 - **``ENCRYPTED CONFIG SYNC``:** Search API keys from encrypted `.medf` files now properly load into the search system (fancy encryption magic at work!).
 - **``MEMORY-LOCALSTORAGE SYNC``:** The `SEARCH_CONFIG` object in memory and localStorage now hold hands and sing Kumbaya together 🎵 No more mismatched settings!
 - **``AUTOMATIC ENGINE DETECTION``:** The system now smartly checks which search engines are actually configured and ready to roll before attempting searches.
 
-**🔧 Settings Panel Upgrades**
+**🎛️ Settings Panel Upgrades**
 - **``DYNAMIC STATUS DISPLAY``:** Watch the search mode change in real-time as you toggle engines on/off. It's like magic, but with more code!
 - **``BETTER ERROR HANDLING``:** Search tests now give way more helpful feedback when things go wrong (or right!).
 - **``CLEANER CODE ARCHITECTURE``:** We untangled the spaghetti code behind search configuration. It's now more organized than my grandma's kitchen!
 
-**🐛 Bug Squashing Party**
+**🐞 Bug Squashing Party**
 - Fixed that annoying bug where search engines would sometimes forget they were enabled
 - Patched up some edge cases with first-time user detection
 - Made the search cache system play nicer with the new dual-mode setup
 - General stability improvements because nobody likes crashes!
 
-**🎯 Why This Matters**
+**💡 Why This Matters**
 Look, we could've just added more search engines and called it a day. But NO! We wanted to make it SMART. Now MirAI intelligently decides:
 1. **No external engines enabled?** → Uses AI's built-in knowledge (fast, private, always available)
 2. **Engines enabled and configured?** → Hits the web for fresh, up-to-date info
 3. **Mixed setup?** → Uses whatever you've configured like a good little assistant should
 
 It's all about giving YOU control while making sure things Just Work™ out of the box. No more confusing setup processes for new users, but all the power for power users!
-
----
-
-## Previous version:
 
 ### ``2026.01.23`` - v3.0-Beta2
 
