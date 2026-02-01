@@ -133,7 +133,7 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '3.0-Beta4'; // generateVersion(3, 0, 0);
+const VERSION = '3.0-Beta5'; // generateVersion(3, 0, 0);
 </script>
 </head>
 
@@ -250,6 +250,41 @@ const VERSION = '3.0-Beta4'; // generateVersion(3, 0, 0);
                     <p class="hint-text" id="customPersonaHint">
                         Prompt Anda akan digabungkan dengan: "Anda adalah MirAI, Asisten AI, "
                     </p>
+                </div>
+            </div>
+
+            <!-- Chat Memory Settings -->
+            <h3 id="settingsMemoryTitle">Memori Percakapan</h3>
+            <div class="settings-option">
+                <p id="settingsMemoryText">Batas maksimal gelembung chat yang disimpan:</p>
+                <div class="memory-slider-container">
+                    <div class="slider-header">
+                        <span id="currentBubbleCount">Gelembung saat ini: 0</span>
+                        <span id="maxBubbleLimit">Max: <span id="maxBubbleValue">50</span></span>
+                    </div>
+                    
+                    <input type="range" id="memorySlider" min="25" max="85" step="5" value="50" list="sliderMarkers">
+                    <datalist id="sliderMarkers">
+                        <option value="25"></option>
+                        <option value="40"></option>
+                        <option value="55"></option>
+                        <option value="70"></option>
+                        <option value="85"></option>
+                    </datalist>
+                    
+                    <div class="slider-labels">
+                        <span>25</span>
+                        <span>40</span>
+                        <span>55</span>
+                        <span>70</span>
+                        <span>85</span>
+                    </div>
+                    
+                    <div class="slider-status">
+                        <div id="memoryStatusMessage" class="status-message">
+                            Pengaturan akan diterapkan setelah disimpan.
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -815,6 +850,13 @@ function loadSearchConfigFromLocalStorage() {
             personaCustomOption: 'Custom Persona',
             customPersonaHint: 'Prompt Anda akan digabungkan dengan: "Anda adalah MirAI, Asisten AI, "',
             customPersonaPlaceholder: 'Masukkan prompt custom Anda di sini...',
+            settingsMemoryTitle: 'Memori Percakapan',
+            settingsMemoryText: 'Batas maksimal gelembung chat yang disimpan:',
+            settingsMemoryCurrent: 'Gelembung saat ini: ',
+            settingsMemoryMax: 'Maks: ',
+            settingsMemoryHint: 'Pengaturan akan diterapkan setelah disimpan.',
+            settingsMemoryWarning: 'Catatan: Akan menghapus {count} gelembung lama saat disimpan.',
+            settingsMemorySuccess: 'Memori diperbarui! Menyimpan {current}/{max} gelembung.',
             settingsAboutTitle: 'Tentang Aplikasi',
             settingsVersionText: `Versi: v${VERSION}`,
             settingsAuthorText: 'Dikembangkan oleh Allwaysever',
@@ -920,6 +962,13 @@ function loadSearchConfigFromLocalStorage() {
             personaCustomOption: 'Custom Persona',
             customPersonaHint: 'Your prompt will be combined with: "You are MirAI, an AI Assistant, "',
             customPersonaPlaceholder: 'Enter your custom prompt here...',
+            settingsMemoryTitle: 'Chat Memory',
+            settingsMemoryText: 'Maximum chat bubbles to store:',
+            settingsMemoryCurrent: 'Current bubbles: ',
+            settingsMemoryMax: 'Max: ',
+            settingsMemoryHint: 'Settings will be applied after saving.',
+            settingsMemoryWarning: 'Note: Will delete {count} old bubbles when saved.',
+            settingsMemorySuccess: 'Memory updated! Keeping {current}/{max} bubbles.',
             settingsAboutTitle: 'About',
             settingsVersionText: `Version: v${VERSION}`,
             settingsAuthorText: 'Developed by Allwaysever',
@@ -1025,6 +1074,13 @@ function loadSearchConfigFromLocalStorage() {
             personaCustomOption: 'Custom Persona',
             customPersonaHint: 'Your prompt will be combined with: "You are MirAI, an AI Assistant, "',
             customPersonaPlaceholder: 'Enter your custom prompt here...',
+            settingsMemoryTitle: 'Chat Memory',
+            settingsMemoryText: 'Maximum chat bubbles to store:',
+            settingsMemoryCurrent: 'Current bubbles: ',
+            settingsMemoryMax: 'Max: ',
+            settingsMemoryHint: 'Settings will be applied after saving.',
+            settingsMemoryWarning: 'Note: Will delete {count} old bubbles when saved.',
+            settingsMemorySuccess: 'Memory updated! Keeping {current}/{max} bubbles.',
             settingsAboutTitle: 'About',
             settingsVersionText: `Version: v${VERSION}`,
             settingsAuthorText: 'Developed by Allwaysever',
@@ -1130,6 +1186,13 @@ function loadSearchConfigFromLocalStorage() {
             personaCustomOption: 'カスタムペルソナ',
             customPersonaHint: 'プロンプトは「あなたはMirAI、AIアシスタントです、」と結合されます',
             customPersonaPlaceholder: 'カスタムプロンプトをここに入力...',
+            settingsMemoryTitle: 'チャットメモリ',
+            settingsMemoryText: '保存する最大チャットバブル数:',
+            settingsMemoryCurrent: '現在のバブル: ',
+            settingsMemoryMax: '最大: ',
+            settingsMemoryHint: '設定は保存後に適用されます。',
+            settingsMemoryWarning: '注意: 保存時に{count}個の古いバブルを削除します。',
+            settingsMemorySuccess: 'メモリを更新しました！{current}/{max}個のバブルを保存します。',
             settingsAboutTitle: 'アプリについて',
             settingsVersionText: `バージョン: v${VERSION}`,
             settingsAuthorText: '開発者: Allwaysever',
@@ -1318,6 +1381,7 @@ function loadSearchConfigFromLocalStorage() {
     let currentPersona = 'default';
     let currentImageData = null;
     let elements;
+    let tempMaxBubbles = 50; // Temporary state for memory slider
 
     const now = new Date();
     const year = now.getFullYear();
@@ -1327,6 +1391,135 @@ function loadSearchConfigFromLocalStorage() {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}_${hours}-${minutes}`;
     console.log(formattedDate);
+
+    // === CHAT MEMORY MANAGEMENT FUNCTIONS ===
+    function updateMemorySliderUI(value) {
+        const sliderValue = document.getElementById('maxBubbleValue');
+        const currentBubbleCount = document.getElementById('currentBubbleCount');
+        const memoryStatusMessage = document.getElementById('memoryStatusMessage');
+        
+        if (sliderValue) sliderValue.textContent = value;
+        
+        // ⭐⭐ FIXED: Calculate total chat bubbles (excluding persona prompt at index 0)
+        const totalBubbles = chatHistory.length > 0 ? chatHistory.length - 1 : 0;
+        
+        if (currentBubbleCount) {
+            const lang = uiStrings[currentLanguage];
+            // Show both the actual count and the limit
+            currentBubbleCount.textContent = lang.settingsMemoryCurrent + totalBubbles;
+        }
+        
+        // Show warning if current count exceeds new limit
+        if (memoryStatusMessage && totalBubbles > parseInt(value)) {
+            const lang = uiStrings[currentLanguage];
+            const excess = totalBubbles - parseInt(value);
+            memoryStatusMessage.textContent = lang.settingsMemoryWarning.replace('{count}', excess);
+            memoryStatusMessage.className = 'status-message warning';
+        } else if (memoryStatusMessage) {
+            const lang = uiStrings[currentLanguage];
+            memoryStatusMessage.textContent = lang.settingsMemoryHint;
+            memoryStatusMessage.className = 'status-message';
+        }
+        
+        // Store temporary value
+        tempMaxBubbles = parseInt(value);
+    }
+
+    function applyMemoryLimit(newLimit) {
+        console.log(`🎯 Manually applying new memory limit: ${newLimit}`);
+        
+        const maxHistoryLength = parseInt(newLimit);
+        const lang = uiStrings[currentLanguage];
+        
+        if (chatHistory.length > maxHistoryLength + 1) { // +1 for persona prompt
+            // Keep persona prompt at index 0
+            const personaPrompt = chatHistory[0];
+            
+            // Calculate how many messages to keep (excluding persona prompt)
+            const messagesToKeep = maxHistoryLength;
+            
+            // Get the most recent messages (excluding persona prompt)
+            const recentMessages = chatHistory.slice(-messagesToKeep);
+            
+            // Reconstruct history with persona prompt + recent messages
+            chatHistory = [personaPrompt, ...recentMessages];
+            
+            // Save to localStorage
+            localStorage.setItem('miraiChatHistory', JSON.stringify(chatHistory));
+            
+            // Update UI
+            renderChatMessages();
+            
+            // Show success message
+            showCopyFeedback(lang.settingsMemorySuccess
+                .replace('{current}', recentMessages.length)
+                .replace('{max}', maxHistoryLength));
+        } else {
+            // No trimming needed, just update the limit
+            console.log(`ℹ️ No trimming needed (${chatHistory.length - 1}/${maxHistoryLength} bubbles)`);
+        }
+        
+        // Save limit to localStorage
+        localStorage.setItem('miraiMaxBubbles', newLimit.toString());
+        
+        // Update slider display
+        updateMemorySliderUI(newLimit);
+    }
+
+    function renderChatMessages() {
+        elements.chatMessages.innerHTML = '';
+        
+        // Skip persona prompt (index 0)
+        for (let i = 1; i < chatHistory.length; i++) {
+            const message = chatHistory[i];
+            
+            if (message.role === "user") {
+                const userBubble = document.createElement('div');
+                userBubble.classList.add('chat-bubble', 'user-bubble', 'fade-in');
+                
+                let displayText = '';
+                let hasImage = false;
+                
+                message.parts.forEach(part => {
+                    if (part.text) {
+                        // Extract just the user message (remove context prompt)
+                        const text = part.text;
+                        const contextMatch = text.match(/\[{dateTime}\]:\n\n"([\s\S]*)"$/);
+                        if (contextMatch) {
+                            displayText = contextMatch[1];
+                        } else {
+                            displayText = text;
+                        }
+                    } else if (part.inlineData) {
+                        hasImage = true;
+                    }
+                });
+                
+                if (hasImage) {
+                    userBubble.innerHTML = `<div style="margin-bottom: 8px;"><i class="fas fa-image"></i> Gambar terlampir</div>`;
+                    const textNode = document.createTextNode(displayText);
+                    userBubble.appendChild(textNode);
+                } else {
+                    userBubble.textContent = displayText;
+                }
+                
+                elements.chatMessages.appendChild(userBubble);
+                
+            } else if (message.role === "model") {
+                const aiBubble = createAiBubble(message.parts[0].text, true);
+                elements.chatMessages.appendChild(aiBubble);
+            }
+        }
+        
+        // Update toggleChatUI based on whether we have messages
+        if (chatHistory.length > 1) {
+            toggleChatUI(true);
+        } else {
+            toggleChatUI(false);
+        }
+        
+        elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+    }
 
     // --- LOGIKA UTAMA MIRAI ENCRYPTED DATA FILE (.medf) ---
     const MIRAI_CONFIG = {
@@ -1964,6 +2157,13 @@ function loadSearchConfigFromLocalStorage() {
       setTimeout(() => {
         console.log('Reloading application after restore...');
         location.reload();
+        // ⭐⭐ FIX: Force update UI after reload
+        setTimeout(() => {
+            const savedMaxBubbles = localStorage.getItem('miraiMaxBubbles') || '50';
+            if (elements && elements.memorySlider) {
+                updateMemorySliderUI(savedMaxBubbles);
+            }
+        }, 100);
       }, 800);
     }
 
@@ -2369,6 +2569,13 @@ function updateSearchModeInfo() {
         elements.customPersonaInput.value = savedCustomPersona;
     }
 
+    // Initialize memory slider - FIXED: Show actual counts
+    const savedMaxBubbles = localStorage.getItem('miraiMaxBubbles') || '50';
+    elements.memorySlider.value = savedMaxBubbles;
+    tempMaxBubbles = parseInt(savedMaxBubbles);
+    
+    console.log(`📊 Memory limit set to ${tempMaxBubbles} (not applied yet)`);
+    
     // ⭐⭐ BARU: Jika ini kunjungan pertama, disable semua search engine
     const isFirstVisit = !localStorage.getItem('miraiSearchConfig');
     if (isFirstVisit) {
@@ -2399,6 +2606,9 @@ function updateSearchModeInfo() {
     
     // ⭐⭐ BARU: Update search mode info
     updateSearchModeInfo();
+    
+    // ⭐⭐ CRITICAL FIX: Update memory slider UI AFTER loading chat history
+    updateMemorySliderUI(savedMaxBubbles);
     
     if (isBeta) {
         const versionText = document.getElementById('settingsVersionText');
@@ -2621,24 +2831,32 @@ function testSearch() {
         console.log('Sesi chat baru dimulai dengan persona:', currentPersona);
     }
 
+    // FIXED: loadChatHistory without auto-slicing
     function loadChatHistory() {
         const savedHistory = localStorage.getItem('miraiChatHistory');
         if (savedHistory) {
-            chatHistory = JSON.parse(savedHistory);
-            console.log('Riwayat percakapan berhasil dimuat.', chatHistory);
-            return true;
+            try {
+                const maxBubbles = parseInt(localStorage.getItem('miraiMaxBubbles') || '50');
+                
+                let parsedHistory = JSON.parse(savedHistory);
+                
+                // ⭐⭐ FIX: Just load the history, don't adjust slider
+                chatHistory = parsedHistory;
+                
+                console.log('Chat history loaded successfully.', chatHistory.length, 'messages');
+                return true;
+                
+            } catch (e) {
+                console.error('Error parsing chat history:', e);
+                return false;
+            }
         }
-        console.log('Tidak ada riwayat untuk dimuat.');
+        console.log('No chat history to load.');
         return false;
     }
 
     function saveChatHistory() {
-        const maxHistoryLength = 50;
-        if (chatHistory.length > maxHistoryLength) {
-            const personaPrompt = chatHistory[0];
-            const conversation = chatHistory.slice(chatHistory.length - maxHistoryLength + 1);
-            chatHistory = [personaPrompt, ...conversation];
-        }
+        // FIXED: Only save current history, don't auto-slice
         localStorage.setItem('miraiChatHistory', JSON.stringify(chatHistory));
     }
 
@@ -2648,6 +2866,7 @@ function testSearch() {
         initializeNewChatSession();
         toggleChatUI(false);
         updateDynamicPlaceholder();
+        updateMemorySliderUI(elements.memorySlider.value);
         
         if (window.speechSynthesis.speaking) {
             window.speechSynthesis.cancel();
@@ -3008,7 +3227,33 @@ function testSearch() {
         } 
     }
 
+    // FIXED: saveApiKey with manual memory limit application
     function saveApiKey() { 
+        // Ask for confirmation before applying memory limit
+        const savedLimit = localStorage.getItem('miraiMaxBubbles') || '50';
+        
+        if (tempMaxBubbles.toString() !== savedLimit) {
+            const excessMessages = Math.max(0, (chatHistory.length - 1) - tempMaxBubbles);
+            
+            if (excessMessages > 0) {
+                const lang = uiStrings[currentLanguage];
+                const confirmMsg = `${lang.settingsMemoryWarning.replace('{count}', excessMessages)}\n\n` +
+                                  `Apply new limit of ${tempMaxBubbles} bubbles?`;
+                
+                if (!confirm(confirmMsg)) {
+                    // User cancelled - revert slider to original value
+                    elements.memorySlider.value = savedLimit;
+                    updateMemorySliderUI(savedLimit);
+                    return;
+                }
+            }
+            
+            // Apply memory limit if changed and confirmed
+            console.log(`🔧 Applying new memory limit: ${savedLimit} → ${tempMaxBubbles}`);
+            applyMemoryLimit(tempMaxBubbles);
+        }
+        
+        // Save other settings (API key, persona, etc.)
         const newKey = elements.apiKeyInput.value.trim(); 
         if (newKey) { 
             localStorage.setItem('miraiApiKey', newKey); 
@@ -3114,6 +3359,8 @@ function testSearch() {
         elements.personaCustomOption.innerText = lang.personaCustomOption; 
         elements.customPersonaHint.innerText = lang.customPersonaHint; 
         elements.customPersonaInput.placeholder = lang.customPersonaPlaceholder; 
+        elements.settingsMemoryTitle.innerText = lang.settingsMemoryTitle; 
+        elements.settingsMemoryText.innerText = lang.settingsMemoryText; 
         elements.settingsAboutTitle.innerText = lang.settingsAboutTitle; 
         elements.settingsVersionText.innerText = lang.settingsVersionText; 
         elements.settingsAuthorText.innerText = lang.settingsAuthorText; 
@@ -3154,6 +3401,10 @@ function testSearch() {
                 settingsPanel.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
                 console.log('✅ Settings panel opened');
+                // Update memory slider display when settings opened
+                setTimeout(() => {
+                    updateMemorySliderUI(elements.memorySlider.value);
+                }, 100);
                 // ⭐⭐ BARU: Update search mode info saat settings dibuka
                 updateSearchModeInfo();
             }
@@ -3637,6 +3888,21 @@ function testSearch() {
             loadSearchConfigToUI();
             updateSearchModeInfo();
             alert(`All search engines ${enable ? 'enabled' : 'disabled'}`);
+        },
+        // Debug untuk memory slider
+        checkMemoryStatus: () => {
+            return {
+                tempMaxBubbles: tempMaxBubbles,
+                savedLimit: localStorage.getItem('miraiMaxBubbles'),
+                chatHistoryLength: chatHistory.length,
+                chatMessages: document.querySelectorAll('.chat-bubble').length
+            };
+        },
+        resetMemoryLimit: () => {
+            localStorage.removeItem('miraiMaxBubbles');
+            elements.memorySlider.value = '50';
+            updateMemorySliderUI('50');
+            alert('Memory limit reset to 50');
         }
     };
 
@@ -3715,7 +3981,10 @@ function testSearch() {
             enableDuckDuckGo: document.getElementById('enableDuckDuckGo'),
             enableWikipedia: document.getElementById('enableWikipedia'),
             testSearchBtn: document.getElementById('testSearchBtn'),
-            clearSearchCacheBtn: document.getElementById('clearSearchCacheBtn')
+            clearSearchCacheBtn: document.getElementById('clearSearchCacheBtn'),
+            memorySlider: document.getElementById('memorySlider'),
+            settingsMemoryTitle: document.getElementById('settingsMemoryTitle'),
+            settingsMemoryText: document.getElementById('settingsMemoryText')
         };
 
         console.log('✅ Elements initialized:', Object.keys(elements).length, 'elements');
@@ -3771,6 +4040,11 @@ function testSearch() {
             } 
         });
         window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
+
+        // Memory slider event listener
+        elements.memorySlider.addEventListener('input', function() {
+            updateMemorySliderUI(this.value);
+        });
 
         elements.exportBtn.addEventListener('click', () => {
             const allData = {};
@@ -3932,6 +4206,11 @@ function testSearch() {
 
         initializeApp().then(() => {
             console.log('✅ App initialized successfully');
+            
+            // Initialize memory display
+            setTimeout(() => {
+                updateMemorySliderUI(elements.memorySlider.value);
+            }, 500);
             
             // ⭐⭐ BARU: Tampilkan info untuk first-time user
             const isFirstVisit = !localStorage.getItem('miraiSearchConfig');
