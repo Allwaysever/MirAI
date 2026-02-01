@@ -1450,6 +1450,103 @@ body.chat-active .info-text {
     box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
 }
 
+/* Memory Slider Styles */
+.memory-slider-container {
+    background: var(--srui-bg-secondary);
+    border-radius: var(--srui-radius-lg);
+    padding: 15px;
+    margin-top: 10px;
+    border: 1px solid var(--srui-border);
+}
+
+.slider-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+
+#currentBubbleCount {
+    color: var(--srui-text-secondary);
+}
+
+#maxBubbleLimit {
+    color: var(--srui-primary);
+    font-weight: 500;
+}
+
+#maxBubbleValue {
+    font-weight: bold;
+    color: var(--srui-accent);
+}
+
+#memorySlider {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(to right, 
+        var(--srui-primary) 0%, 
+        var(--srui-primary) 50%, 
+        var(--srui-bg-tertiary) 50%, 
+        var(--srui-bg-tertiary) 100%);
+    border-radius: 3px;
+    outline: none;
+    margin: 15px 0;
+}
+
+#memorySlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--srui-accent);
+    cursor: pointer;
+    border: 3px solid var(--srui-bg-primary);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#memorySlider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--srui-accent);
+    cursor: pointer;
+    border: 3px solid var(--srui-bg-primary);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 0.8em;
+    color: var(--srui-text-tertiary);
+}
+
+.slider-status {
+    margin-top: 15px;
+    padding: 10px;
+    background: var(--srui-bg-tertiary);
+    border-radius: var(--srui-radius-md);
+    border-left: 3px solid var(--srui-info);
+}
+
+.status-message {
+    font-size: 0.85em;
+    color: var(--srui-text-secondary);
+}
+
+.status-message.warning {
+    color: var(--srui-warning);
+    border-left-color: var(--srui-warning);
+}
+
+.status-message.success {
+    color: var(--srui-success);
+    border-left-color: var(--srui-success);
+}
+
 /* ===== SEARCH CONFIGURATION STYLES ===== */
 .search-engine-config {
     background: rgba(255, 206, 0, 0.05);
