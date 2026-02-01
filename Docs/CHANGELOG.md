@@ -1,5 +1,22 @@
 ## What's new?
 
+### ``2026.02.02`` - v3.0-Beta5 - **Dynamic Memory Control & Smart Storage**
+We've handed the keys to your AI's memory back to you! No more hard limits—you decide how much MirAI remembers.
+**🧠 Flexible Chat Memory System:**
+- **``NEW FEATURE``**: Memory Limit Slider added to Settings! You can now adjust the conversation history limit from 25 up to 85 bubbles. Whether you want to save RAM or keep a long conversation going, the choice is yours.
+- **``VISUAL FEEDBACK``**: Real-time Bubble Counter shows exactly how many messages are currently stored versus your selected limit (e.g., "Current bubbles: 42 / Max: 50").
+- **``SMART TRIMMING``**: When the memory limit is reached, the system now intelligently trims old messages while always preserving the AI Persona (system instruction) at the very top. Your AI won't forget who it is, even in long chats.
+🛡️ Enhanced Data Safety:
+- **``SAFER LOADING``**: Fixed a logic issue where chat history could be automatically trimmed just by loading the page. Now, trimming only happens when you actively save settings or hit the limit during a chat.
+- **``CONFIRMATION DIALOGS``**: If you lower the memory limit below the current message count, MirAI will warn you exactly how many messages will be deleted before applying the changes.
+
+**💡 Why This Matters:**
+Previously, MirAI had a strict limit of 50 messages. If you crossed it, poof! Old messages vanished. Now, you have control. Running on a powerful device? Crank it up to 85! On an older phone? Dial it down to 25 to keep things snappy. Plus, the new smart trimming ensures the AI never suffers from an "identity crisis" by accidentally deleting its own persona instructions.
+
+---
+
+## Previous version:
+
 ### ``2026.01.28`` - v3.0-Beta4 - **Enhanced Loading Experience with Processing Time Display**
 
 We've significantly improved the loading experience by adding real-time processing time feedback directly in the chat interface!
@@ -24,10 +41,6 @@ We've significantly improved the loading experience by adding real-time processi
 
 **💡 Why This Matters:**
 Waiting for AI responses can feel like a black box - you send a question and hope something comes back. Now you get **real-time feedback** on how long the processing is taking! The stopwatch lets you see exactly how many seconds have elapsed, while the progress bar gives you a visual sense of completion. When it's done, you get a nice summary of the total processing time. It's transparent, informative, and just plain cool to watch! 😎
-
----
-
-## Previous version:
 
 ### ``2026.01.25`` - v3.0-Beta3 - **Search Revolution & First-Time User Experience**
 
