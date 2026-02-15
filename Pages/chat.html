@@ -60,7 +60,20 @@ function showInstallButton() {
   const installBtn = document.createElement('button');
   installBtn.id = 'installBtn';
   installBtn.innerHTML = '<a href="https://allwaysevermirai.netlify.app/download"><i class="fas fa-download"></i> Install App</a>';
-  installBtn.className = 'srui-custom-install-btn';
+  installBtn.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #4285f4;
+    color: white;
+    text-decoration: none;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  `;
   
   installBtn.addEventListener('click', async () => {
     if (deferredPrompt) {
@@ -120,18 +133,18 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '3.0-Beta5'; // generateVersion(3, 0, 0);
+const VERSION = '3.0-Beta4'; // generateVersion(3, 0, 0);
 </script>
 </head>
 
 <body>
-    <div id="splash-screen" class="srui-custom-splash-screen">
+    <div id="splash-screen">
   <div class="splash-content">
     <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Name%20Logo.png" alt="MirAI" class="splash-logo logo-img">
     <div class="loading-bar-container" id="splash-loader">
         <div class="loading-bar"></div>
     </div>
-<p class="srui-custom-splash-footer">&copy 2025-2026 Allwaysever Project: MirAI</p>
+<p style="font-size: 0.5em; color: #aaa; bottom: 5px;">&copy 2026 Allwaysever Project: MirAI</p>
   </div>
 </div>
 
@@ -174,7 +187,7 @@ const VERSION = '3.0-Beta5'; // generateVersion(3, 0, 0);
 <div id="inputContainer" class="input-container centered">
     <div id="imagePreviewContainer" class="imagePreviewContainer">
        <div class="imagePreviewWrapper">
-        <img id="imagePreview" src="" alt="Image Preview" class="imagePreview">
+        <img id="imagePreview" src="" alt="Image Preview" class="imagePreview"">
         <button id="removeImageBtn" class="imgRemoveBtn"><i class="fas fa-times"></i></button>
     </div>
 </div>
@@ -210,14 +223,6 @@ const VERSION = '3.0-Beta5'; // generateVersion(3, 0, 0);
     <!-- Body (Scrollable) -->
     <div class="settings-body">
         <div class="settings-content">
-            <h3 id="settingsAppearanceTitle">Tampilan</h3>
-            <div class="settings-option">
-                <p id="settingsThemeText">Pilih preferensi tema Anda:</p>
-                <select id="themeSelect">
-                    <option value="light" id="themeLightOption">Terang</option>
-                    <option value="dark" id="themeDarkOption">Gelap</option>
-                </select>
-            </div>
             
             <h3 id="settingsAITitle">Persona AI</h3>
             <div class="settings-option">
@@ -287,32 +292,32 @@ const VERSION = '3.0-Beta5'; // generateVersion(3, 0, 0);
             <!-- Search Configuration -->
             <h3 id="settingsSearchTitle">Search Configuration</h3>
             <div class="settings-option">
-                <div class="engine-info srui-custom-engine-info">
-                    <div class="srui-custom-engine-header">
-                        <p class="srui-custom-engine-header-text">
+                <div class="engine-info" style="margin-bottom: 15px; padding: 12px 15px; background: linear-gradient(135deg, rgba(66, 133, 244, 0.05), rgba(15, 15, 15, 0.8)); border-radius: var(--srui-radius-md); border: 1px solid rgba(66, 133, 244, 0.15);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <p style="font-size: 0.85em; margin: 0;">
                             <strong><i class="fas fa-magnifying-glass"></i> Search Mode:</strong>
                         </p>
-                        <div id="searchModeIndicator" class="srui-custom-search-mode-indicator">
+                        <div id="searchModeIndicator" style="font-size: 0.75em; padding: 4px 10px; border-radius: 20px; background: rgba(66, 133, 244, 0.15); color: #4285f4; border: 1px solid rgba(66, 133, 244, 0.3);">
                             Checking...
                         </div>
                     </div>
-                    <div id="searchModeInfo" class="srui-custom-search-mode-info">
+                    <div id="searchModeInfo" style="font-size: 0.75em; margin: 0; color: var(--srui-text-secondary); line-height: 1.5;">
                         Loading search configuration...
                     </div>
-                    <p class="srui-custom-engine-info-paragraph">
+                    <p style="font-size: 0.75em; margin: 10px 0 0 0; color: var(--srui-text-secondary);">
                         • <strong>External Search:</strong> Uses API engines (requires API keys)
                         <br>• <strong>AI Knowledge Base:</strong> Uses AI's training data only (no API needed)
                     </p>
                 </div>
                 
-                <p class="srui-custom-search-config-desc" id="searchConfigDesc">Configure external search engines for /search command</p>
+                <p style="font-size: 0.8em; color: var(--srui-text-tertiary);" id="searchConfigDesc">Configure external search engines for /search command</p>
                 <div class="search-engine-config">
                     <div class="engine-option">
                         <label>
                             <input type="checkbox" id="enableSearchAPI" checked>
                             SearchAPI.io (Default)
                         </label>
-                        <input type="password" id="searchapiApiKey" placeholder="SearchAPI.io Key" class="api-key-input srui-custom-api-key-input">
+                        <input type="password" id="searchapiApiKey" placeholder="SearchAPI.io Key" style="width: 70%;" class="api-key-input">
                         <i class="fas fa-eye toggle-api-eye" data-target="searchapiApiKey"></i>
                     </div>
                     
@@ -321,8 +326,8 @@ const VERSION = '3.0-Beta5'; // generateVersion(3, 0, 0);
                             <input type="checkbox" id="enableGoogleSearch" checked>
                             Google Search (Secondary)
                         </label>
-                        <input type="password" id="googleApiKey" placeholder="Google API Key" class="api-key-input srui-custom-api-key-input">
-                        <input type="text" id="googleCx" placeholder="Search Engine ID" class="srui-custom-cx-input">
+                        <input type="password" id="googleApiKey" placeholder="Google API Key" style="width: 70%;" class="api-key-input">
+                        <input type="text" id="googleCx" placeholder="Search Engine ID" style="width: 70%;">
                         <i class="fas fa-eye toggle-api-eye" data-target="googleApiKey"></i>
                     </div>
                     
@@ -341,15 +346,15 @@ const VERSION = '3.0-Beta5'; // generateVersion(3, 0, 0);
                     </div>
                     
                     <p class="hint-text">
-                        Get SearchAPI.io key from: <a href="https://www.searchapi.io" target="_blank" class="srui-custom-hint-link">searchapi.io</a><br>
+                        Get SearchAPI.io key from: <a href="https://www.searchapi.io" target="_blank" style="color: #ffce00;">searchapi.io</a><br>
                         Free tier available with 100 searches/month
                     </p>
                     
-                    <div class="srui-custom-search-buttons">
-                        <button id="testSearchBtn" class="settings-credits-btn srui-custom-test-search-btn">
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button id="testSearchBtn" class="settings-credits-btn" style="background: var(--srui-info);">
                             <i class="fas fa-search"></i> Test Search
                         </button>
-                        <button id="clearSearchCacheBtn" class="settings-credits-btn srui-custom-clear-cache-btn">
+                        <button id="clearSearchCacheBtn" class="settings-credits-btn" style="background: var(--srui-error);">
                             <i class="fas fa-trash"></i> Clear Cache
                         </button>
                     </div>
@@ -358,12 +363,12 @@ const VERSION = '3.0-Beta5'; // generateVersion(3, 0, 0);
 
             <h3 id="settingsBackupTitle">Backup & Restore</h3>
             <div class="settings-option">
-                <p class="srui-custom-backup-desc" id="backupDescText">Save or move your chat history via JSON file.</p>
-                <div class="srui-custom-backup-buttons">
-                    <button id="exportBtn" class="settings-credits-btn srui-custom-btn-success">
+                <p style="font-size: 0.8em; color: var(--srui-text-tertiary);" id="backupDescText">Save or move your chat history via JSON file.</p>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button id="exportBtn" class="settings-credits-btn" style="background: var(--srui-success);">
                         <i class="fas fa-download"></i> Export
                     </button>
-                    <button id="importBtn" class="settings-credits-btn srui-custom-btn-warning">
+                    <button id="importBtn" class="settings-credits-btn" style="background: var(--srui-warning); color: var(--srui-accent-text);">
                         <i class="fas fa-upload"></i> Import
                     </button>
                 </div>
@@ -377,14 +382,14 @@ const VERSION = '3.0-Beta5'; // generateVersion(3, 0, 0);
                 <p><a href="https://allwaysevermirai.netlify.app/about" target="_blank" id="githubLink"><i class="fas fa-info-circle"></i> Tentang MirAI</a></p>
                 <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"><i class="fas fa-file-contract"></i> Lisensi</a></p>
                 <p><a href="help/index.html" id="helpLink" target="_self"><i class="fas fa-question-circle"></i> Pusat Bantuan</a></p>
-                <p class="srui-custom-inline-link"><a href="https://allwaysevermirai.netlify.app/releasenote" target="_blank">Release notes</a></p>
-                <p class="srui-custom-inline-link"><a href="https://allwaysevermirai.netlify.app/donate" target="_blank">Donate us</a></p>
+                <p style="display: inline-block; padding: 10px 20px; background-color: transparent; text-align: center; border-radius: 999px; cursor: pointer; transition: background-color 0.3s; border: 1px solid #ffce00;"><a href="https://allwaysevermirai.netlify.app/releasenote" target="_blank">Release notes</a></p>
+                <p style="display: inline-block; padding: 10px 20px; background-color: transparent; text-align: center; border-radius: 999px; cursor: pointer; transition: background-color 0.3s; border: 1px solid #ffce00;"><a href="https://allwaysevermirai.netlify.app/donate" target="_blank">Donate us</a></p>
                 <div class="gemini-container">
                     <a href="https://deepmind.google/models/gemini/flash/" target="_blank">
                         <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Gemini%202.5%20Flash%20Logo.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
                     </a>
                 </div>
-                <p id="termsText" class="srui-custom-terms-text">
+                <p id="termsText" style="margin-top: 20px; font-size: 0.8em; color: var(--srui-text-secondary);">
                     Dengan menggunakan MirAI, Anda menyetujui <a href="T&C/index.html" target="_blank">Syarat & Ketentuan</a>.
                 </p>
             </div>
@@ -409,7 +414,6 @@ const VERSION = '3.0-Beta5'; // generateVersion(3, 0, 0);
     </div>
 </div>
 
-<!-- Script tetap sama seperti sebelumnya, hanya beberapa function yang dimodifikasi untuk menggunakan class -->
 <script>
     const DEFAULT_API_KEY = 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
 
@@ -826,10 +830,6 @@ function loadSearchConfigFromLocalStorage() {
             copySuffix: '\n\n-- Dihasilkan oleh MirAI',
             infoText: 'Informasi yang dihasilkan AI mungkin tidak akurat. Verifikasi kembali fakta penting.',
             settingsHeaderTitle: 'Pengaturan',
-            settingsAppearanceTitle: 'Tampilan',
-            settingsThemeText: 'Pilih preferensi tema Anda:',
-            themeLightOption: 'Terang',
-            themeDarkOption: 'Gelap',
             settingsAITitle: 'Persona AI',
             settingsPersonaText: 'Pilih gaya respons AI:',
             personaFormalOption: 'Formal & Profesional',
@@ -938,10 +938,6 @@ function loadSearchConfigFromLocalStorage() {
             copySuffix: '\n\n-- Generated by MirAI',
             infoText: 'AI-generated information may be inaccurate. Please verify important facts.',
             settingsHeaderTitle: 'Settings',
-            settingsAppearanceTitle: 'Appearance',
-            settingsThemeText: 'Select your theme preference:',
-            themeLightOption: 'Light',
-            themeDarkOption: 'Dark',
             settingsAITitle: 'AI Persona',
             settingsPersonaText: 'Choose the AI\'s response style:',
             personaFormalOption: 'Formal & Professional',
@@ -1050,10 +1046,6 @@ function loadSearchConfigFromLocalStorage() {
             copySuffix: '\n\n-- Generated by MirAI',
             infoText: 'AI-generated information may be inaccurate. Please verify important facts.',
             settingsHeaderTitle: 'Settings',
-            settingsAppearanceTitle: 'Appearance',
-            settingsThemeText: 'Select your theme preference:',
-            themeLightOption: 'Light',
-            themeDarkOption: 'Dark',
             settingsAITitle: 'AI Persona',
             settingsPersonaText: 'Choose the AI\'s response style:',
             personaFormalOption: 'Formal & Professional',
@@ -1162,10 +1154,6 @@ function loadSearchConfigFromLocalStorage() {
             copySuffix: '\n\n-- MirAIによって生成',
             infoText: 'AIが生成した情報は不正確な場合があります。重要な事実は再度ご確認ください。',
             settingsHeaderTitle: '設定',
-            settingsAppearanceTitle: '外観',
-            settingsThemeText: 'テーマを選択してください:',
-            themeLightOption: 'ライト',
-            themeDarkOption: 'ダーク',
             settingsAITitle: 'AIのペルソナ',
             settingsPersonaText: 'AIの応答スタイルを選択:',
             personaFormalOption: 'フォーマル・プロ',
@@ -1187,7 +1175,7 @@ function loadSearchConfigFromLocalStorage() {
             githubLink: 'MirAIについて',
             licenseLink: 'ライセンス',
             helpLink: 'ヘルプセンター',
-            termsText: 'By using MirAI, you agree to the <a href="T&C/index.html" target="_blank">利用規約</a>.',
+            termsText: 'MirAIを使用することにより、<a href="T&C/index.html" target="_blank">利用規約</a>に同意したことになります。',
             personaDefaultPrompt: 'あなたはMirAI、リラックスして冗談好きなAIアシスタントです。フレンドリーなスタイルで、少しユーモアを交えながらも、情報を提供するようにすべての質問に答えてください。',
             personaFormalPrompt: 'あなたはMirAI、プロフェッショナルなAIアシスタントです。構造化され、正確で、フォーマルな言葉遣いで回答を提供してください。',
             personaCreativePrompt: 'あなたはMirAI、創造的なAIアシスタNTです。すべての質問に対して、ユニークで想像力に富んだ表現力豊かな回答をしてください。',
@@ -2180,22 +2168,60 @@ function loadSearchConfigFromLocalStorage() {
         
         const popupOverlay = document.createElement('div');
         popupOverlay.id = 'apiLimitPopup';
-        popupOverlay.className = 'srui-custom-api-limit-overlay';
+        popupOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        `;
         
         const popupContent = document.createElement('div');
-        popupContent.className = 'srui-custom-api-limit-content';
-        popupContent.style.border = `2px solid ${level === 'warning' ? '#ff9800' : '#f44336'}`;
+        popupContent.style.cssText = `
+            background: var(--srui-bg-primary, #1a1a1a);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 2px solid ${level === 'warning' ? '#ff9800' : '#f44336'};
+        `;
         
         const messageEl = document.createElement('p');
-        messageEl.className = 'srui-custom-api-limit-message';
+        messageEl.style.cssText = `
+            color: var(--srui-text-primary, #fff);
+            margin-bottom: 20px;
+            line-height: 1.5;
+            white-space: pre-line;
+        `;
         messageEl.textContent = message;
         
         const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'srui-custom-api-limit-button-container';
+        buttonContainer.style.cssText = `
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        `;
         
         const closeBtn = document.createElement('button');
-        closeBtn.className = 'srui-custom-api-limit-close-btn';
         closeBtn.textContent = 'Close';
+        closeBtn.style.cssText = `
+            background: #666;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        `;
         closeBtn.onclick = () => {
             document.body.removeChild(popupOverlay);
         };
@@ -2204,8 +2230,20 @@ function loadSearchConfigFromLocalStorage() {
         
         if (showSettingsBtn) {
             const settingsBtn = document.createElement('button');
-            settingsBtn.className = 'srui-custom-api-limit-settings-btn';
             settingsBtn.textContent = 'Install My API Key';
+            settingsBtn.style.cssText = `
+                background: #4285f4;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin: 10px auto;
+            `;
             settingsBtn.onclick = () => {
                 document.body.removeChild(popupOverlay);
                 if (window.location.hash !== '#settings') {
@@ -2319,10 +2357,10 @@ function updateSearchModeInfo() {
                 <span class="engine-status-dot active"></span>
                 ${lang.searchModeAI}
             </div>
-            <div class="srui-custom-search-mode-info-text">
-                <small>${lang.searchModeDescAI}</small>
+            <div style="margin-top: 8px; font-size: 0.8em;">
+                <small style="color: var(--srui-text-secondary);">${lang.searchModeDescAI}</small>
                 <br>
-                <small class="srui-custom-warning-text">
+                <small style="color: var(--srui-warning); margin-top: 5px; display: block;">
                     <i class="fas fa-triangle-exclamation"></i> External search engines disabled
                 </small>
             </div>
@@ -2353,14 +2391,14 @@ function updateSearchModeInfo() {
                 <span class="engine-status-dot active"></span>
                 ${lang.searchModeExternal}
             </div>
-            <div class="srui-custom-search-mode-info-text">
-                <div class="srui-custom-engine-count">
+            <div style="margin-top: 10px; font-size: 0.8em;">
+                <div style="color: var(--srui-text-secondary); margin-bottom: 5px;">
                     ${activeEngines}/${enabledCount} engines ready
                 </div>
-                <div class="srui-custom-engine-list">
+                <div style="background: rgba(255, 206, 0, 0.05); padding: 8px; border-radius: 6px; font-size: 0.75em;">
                     ${enginesHtml}
                 </div>
-                <small class="srui-custom-search-mode-desc">
+                <small style="color: var(--srui-text-tertiary); margin-top: 8px; display: block;">
                     ${lang.searchModeDescExternal}
                 </small>
             </div>
@@ -2451,6 +2489,9 @@ function updateSearchModeInfo() {
     async function initializeApp() {
     console.log('🔧 Initializing app...');
     
+    // Always apply dark theme
+    document.body.classList.add('dark-theme');
+    
     try {
         // Load API Key dari config.medf
         currentApiKey = await MEDF_PROCESSOR.loadEncryptedApiKey();
@@ -2486,7 +2527,6 @@ function updateSearchModeInfo() {
     }
 
     currentPersona = localStorage.getItem('miraiPersona') || 'default';
-    const savedTheme = localStorage.getItem('miraiTheme') || 'dark';
     const savedApiKey = localStorage.getItem('miraiApiKey');
     
     elements.langDropdown.value = currentLanguage;
@@ -2531,7 +2571,6 @@ function updateSearchModeInfo() {
     }
 
     initializeSlashCommands(currentLanguage);
-    setTheme(savedTheme);
     updateUI();
     
     const historyLoaded = loadChatHistory();
@@ -2644,14 +2683,14 @@ function testSearch() {
     if (enabledCount === 0) {
         // AI Knowledge Base mode
         const testMsg = document.createElement('div');
-        testMsg.className = 'chat-bubble ai-bubble srui-custom-test-search-msg';
+        testMsg.className = 'chat-bubble ai-bubble';
         testMsg.innerHTML = `
-            <div class="srui-custom-test-search-header">
-                <span class="srui-custom-test-search-badge">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <span style="background: rgba(76, 175, 80, 0.2); color: #4CAF50; padding: 4px 12px; border-radius: 20px; font-size: 0.9em;">
                     🔍 AI Knowledge Base Mode
                 </span>
             </div>
-            <div class="srui-custom-test-search-info">
+            <div style="color: var(--srui-text-secondary); font-size: 0.9em; margin-bottom: 10px;">
                 Testing search using AI's training data only...
             </div>
         `;
@@ -2660,11 +2699,11 @@ function testSearch() {
         
         setTimeout(() => {
             testMsg.innerHTML += `
-                <div class="srui-custom-test-search-result">
+                <div style="margin-top: 15px; padding: 10px; background: rgba(76, 175, 80, 0.1); border-radius: 8px; border-left: 3px solid #4CAF50;">
                     <strong><i class="fas fa-list-check"></i> AI Knowledge Base mode active</strong>
-                    <div class="srui-custom-test-search-result-desc">
+                    <div style="margin-top: 5px; font-size: 0.9em;">
                         Your search would be answered using AI's training data.<br>
-                        <span class="srui-custom-warning-text">
+                        <span style="color: var(--srui-warning);">
                             Enable external search engines in Settings for real-time internet results.
                         </span>
                     </div>
@@ -2728,14 +2767,14 @@ function testSearch() {
     }
     
     const testMsg = document.createElement('div');
-    testMsg.className = 'chat-bubble ai-bubble srui-custom-test-search-msg';
+    testMsg.className = 'chat-bubble ai-bubble';
     testMsg.innerHTML = `
-        <div class="srui-custom-test-search-header">
-            <span class="srui-custom-test-search-badge">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <span style="background: rgba(66, 133, 244, 0.2); color: #4285f4; padding: 4px 12px; border-radius: 20px; font-size: 0.9em;">
                 🔍 ${engine.toUpperCase()} Search Mode
             </span>
         </div>
-        <div class="srui-custom-test-search-info">
+        <div style="color: var(--srui-text-secondary); font-size: 0.9em; margin-bottom: 10px;">
             ${lang.searchTestResult}${engine}...
         </div>
     `;
@@ -2747,15 +2786,15 @@ function testSearch() {
     performExternalSearch(query, engine, 2)
         .then(result => {
             testMsg.innerHTML += `
-                <div class="srui-custom-test-search-result">
-                    <div class="srui-custom-search-test-result">${result}</div>
+                <div style="margin-top: 15px; padding: 10px; background: rgba(66, 133, 244, 0.1); border-radius: 8px; border-left: 3px solid #4285f4;">
+                    <div style="font-size: 0.9em; white-space: pre-line;">${result}</div>
                 </div>
             `;
             elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
         })
         .catch(error => {
             testMsg.innerHTML += `
-                <div class="srui-custom-test-search-error">
+                <div style="margin-top: 15px; padding: 10px; background: rgba(244, 67, 54, 0.1); border-radius: 8px; border-left: 3px solid #F44336;">
                     <strong>❌ Test failed:</strong> ${error.message}
                 </div>
             `;
@@ -2903,7 +2942,7 @@ function testSearch() {
         
         let userBubbleHTML = '';
         if (currentImageData) {
-            userBubbleHTML += `<img src="${elements.imagePreview.src}" class="srui-custom-uploaded-image"><br>`;
+            userBubbleHTML += `<img src="${elements.imagePreview.src}" style="width: 100%; max-width: 200px; border-radius: 10px; margin-bottom: 5px;"><br>`;
         }
         
         const textNode = document.createTextNode(userQuestion);
@@ -3285,10 +3324,7 @@ function testSearch() {
         const lang = uiStrings[currentLanguage]; 
         if (!lang) return; 
         elements.settingsHeaderTitle.innerText = lang.settingsHeaderTitle; 
-        elements.settingsAppearanceTitle.innerText = lang.settingsAppearanceTitle; 
-        elements.settingsThemeText.innerText = lang.settingsThemeText; 
-        elements.themeLightOption.innerText = lang.themeLightOption; 
-        elements.themeDarkOption.innerText = lang.themeDarkOption; 
+        // Appearance section removed
         elements.settingsAITitle.innerText = lang.settingsAITitle; 
         elements.settingsPersonaText.innerText = lang.settingsPersonaText; 
         elements.personaFormalOption.innerText = lang.personaFormalOption; 
@@ -3315,17 +3351,6 @@ function testSearch() {
         elements.searchConfigDesc.innerText = lang.searchConfigDesc; 
         elements.testSearchBtn.innerHTML = `<i class="fas fa-search"></i> ${lang.testSearchBtn}`; 
         elements.clearSearchCacheBtn.innerHTML = `<i class="fas fa-trash"></i> ${lang.clearSearchCacheBtn}`; 
-    }
-
-    function setTheme(theme) { 
-        elements.body.classList.remove('light-theme', 'dark-theme'); 
-        if (theme === 'light') { 
-            elements.body.classList.add('light-theme'); 
-        } else { 
-            elements.body.classList.add('dark-theme'); 
-        } 
-        localStorage.setItem('miraiTheme', theme); 
-        elements.themeSelect.value = theme; 
     }
 
     function handleHashNavigation() {
@@ -3714,12 +3739,25 @@ function testSearch() {
 
     function showCopyFeedback(message) { 
         const feedbackDiv = document.createElement('div'); 
-        feedbackDiv.className = 'srui-custom-copy-feedback';
         feedbackDiv.innerText = message; 
+        feedbackDiv.style.cssText = ` 
+            position: fixed; 
+            bottom: 150px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background-color: #444; 
+            color: #fff; 
+            padding: 10px 20px; 
+            border-radius: 20px; 
+            font-size: 14px; 
+            z-index: 200; 
+            opacity: 0; 
+            transition: opacity 0.5s ease-in-out; 
+        `; 
         document.body.appendChild(feedbackDiv); 
-        setTimeout(() => { feedbackDiv.classList.add('visible'); }, 10); 
+        setTimeout(() => { feedbackDiv.style.opacity = 1; }, 10); 
         setTimeout(() => { 
-            feedbackDiv.classList.remove('visible'); 
+            feedbackDiv.style.opacity = 0; 
             setTimeout(() => feedbackDiv.remove(), 500); 
         }, 2000); 
     }
@@ -3852,16 +3890,11 @@ function testSearch() {
             infoText: document.getElementById('infoText'), 
             settingsPanel: document.getElementById('settingsPanel'),
             backBtn: document.getElementById('backBtn'), 
-            themeSelect: document.getElementById('themeSelect'), 
             personaSelect: document.getElementById('personaSelect'), 
             customPersonaContainer: document.getElementById('customPersonaContainer'),
             customPersonaInput: document.getElementById('customPersonaInput'),
             customPersonaHint: document.getElementById('customPersonaHint'),
             settingsHeaderTitle: document.getElementById('settingsHeaderTitle'), 
-            settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'), 
-            settingsThemeText: document.getElementById('settingsThemeText'), 
-            themeLightOption: document.getElementById('themeLightOption'), 
-            themeDarkOption: document.getElementById('themeDarkOption'), 
             settingsAITitle: document.getElementById('settingsAITitle'), 
             settingsPersonaText: document.getElementById('settingsPersonaText'), 
             personaFormalOption: document.getElementById('personaFormalOption'), 
@@ -3919,7 +3952,6 @@ function testSearch() {
         elements.clearBtn.addEventListener('click', showClearConfirmation);
         elements.settingsBtn.addEventListener('click', openSettings);
         elements.backBtn.addEventListener('click', closeSettings);
-        elements.themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
         elements.personaSelect.addEventListener('change', (e) => setPersona(e.target.value, true));
         elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value, true));
         elements.questionInput.addEventListener('keydown', (event) => { 
