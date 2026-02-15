@@ -1,6 +1,6 @@
 Allwaysever Custom License v6.1
 
-**Copyright © 2026 Allwaysever – https://allwaysevermirai.netlify.app/Docs/Licenses/ACLv7**
+**Copyright © 2026 Allwaysever – https://allwaysevermirai.netlify.app/Docs/Licenses/ACLv6_1**
 
 This document is a **Community Covenant and Administrative Addendum**. It is designed to supplement the primary open-source license under which this software is distributed. Its purpose is to foster a healthy, respectful, and sustainable ecosystem around the project by establishing clear guidelines for community interaction and acceptable use of associated services.
 
@@ -64,9 +64,9 @@ By accessing or using this project, you acknowledge that you have read and under
 ---
 ---
 
-# Lisensi Komunitas Allwaysever v7 (Edisi Internasional)
+Lisensi Kustom Allwaysever v6.1
 
-**Hak Cipta © 2026 Allwaysever – https://allwaysevermirai.netlify.app/Docs/Licenses/ACLv7**
+**Hak Cipta © 2026 Allwaysever – https://allwaysevermirai.netlify.app/Docs/Licenses/ACLv6_1**
 
 Dokumen ini adalah sebuah **Perjanjian Komunitas dan Addendum Administratif**. Dokumen ini dibuat untuk melengkapi lisensi open-source utama yang digunakan oleh perangkat lunak ini. Tujuannya adalah untuk membina ekosistem yang sehat, saling menghormati, dan berkelanjutan di sekitar proyek dengan menetapkan panduan yang jelas untuk interaksi komunitas dan penggunaan layanan yang dapat diterima.
 
