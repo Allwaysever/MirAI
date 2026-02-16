@@ -133,7 +133,7 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '3.0-Beta4'; // generateVersion(3, 0, 0);
+const VERSION = '3.0-Beta6'; // generateVersion(3, 0, 0);
 </script>
 </head>
 
@@ -359,6 +359,25 @@ const VERSION = '3.0-Beta4'; // generateVersion(3, 0, 0);
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <!-- NEW ACCENT COLOR SECTION -->
+            <h3 id="settingsAccentTitle">Custom Accent Color</h3>
+            <div class="settings-option">
+                <p id="settingsAccentText">Enter a hex color code (e.g. #ffce00):</p>
+                <div class="accent-color-container">
+                    <input type="text" id="accentColorInput" 
+                           placeholder="#ffce00" 
+                           maxlength="7"
+                           class="accent-color-input">
+                    <div class="color-preview" id="colorPreview"></div>
+                    <button id="resetAccentBtn" class="reset-accent-btn" title="Reset to default">
+                        <i class="fas fa-undo-alt"></i>
+                    </button>
+                </div>
+                <p class="hint-text" id="accentColorHint">
+                    Use 3 or 6 digit hex. If the color is too dark, it will be rejected.
+                </p>
             </div>
 
             <h3 id="settingsBackupTitle">Backup & Restore</h3>
@@ -922,7 +941,11 @@ function loadSearchConfigFromLocalStorage() {
             searchModeAI: 'Mode Basis Pengetahuan AI',
             searchModeDescExternal: '/search menggunakan mesin pencari eksternal',
             searchModeDescAI: '/search menggunakan data pelatihan AI',
-            firstVisitSearchInfo: 'Kunjungan pertama: Semua mesin pencari dinonaktifkan secara default. Aktifkan di Pengaturan jika diperlukan.'
+            firstVisitSearchInfo: 'Kunjungan pertama: Semua mesin pencari dinonaktifkan secara default. Aktifkan di Pengaturan jika diperlukan.',
+            // NEW ACCENT COLOR STRINGS
+            settingsAccentTitle: 'Warna Aksen Kustom',
+            settingsAccentText: 'Masukkan kode hex warna (contoh #ffce00):',
+            accentColorHint: 'Gunakan hex 3 atau 6 digit. Jika warna terlalu gelap, akan ditolak.'
         },
         'en': {
             offlineTitle: 'Internet Connection Lost',
@@ -1030,7 +1053,11 @@ function loadSearchConfigFromLocalStorage() {
             searchModeAI: 'AI Knowledge Base Mode',
             searchModeDescExternal: '/search uses external search engines',
             searchModeDescAI: '/search uses AI training data',
-            firstVisitSearchInfo: 'First-time visit: All search engines disabled by default. Enable in Settings if needed.'
+            firstVisitSearchInfo: 'First-time visit: All search engines disabled by default. Enable in Settings if needed.',
+            // NEW ACCENT COLOR STRINGS
+            settingsAccentTitle: 'Custom Accent Color',
+            settingsAccentText: 'Enter a hex color code (e.g. #ffce00):',
+            accentColorHint: 'Use 3 or 6 digit hex. If the color is too dark, it will be rejected.'
         },
         'en-uk': {
             offlineTitle: 'Internet Connection Lost',
@@ -1138,7 +1165,11 @@ function loadSearchConfigFromLocalStorage() {
             searchModeAI: 'AI Knowledge Base Mode',
             searchModeDescExternal: '/search uses external search engines',
             searchModeDescAI: '/search uses AI training data',
-            firstVisitSearchInfo: 'First-time visit: All search engines disabled by default. Enable in Settings if needed.'
+            firstVisitSearchInfo: 'First-time visit: All search engines disabled by default. Enable in Settings if needed.',
+            // NEW ACCENT COLOR STRINGS
+            settingsAccentTitle: 'Custom Accent Color',
+            settingsAccentText: 'Enter a hex color code (e.g. #ffce00):',
+            accentColorHint: 'Use 3 or 6 digit hex. If the colour is too dark, it will be rejected.'
         },
         'jp': {
             offlineTitle: 'インターネット接続がありません',
@@ -1246,7 +1277,11 @@ function loadSearchConfigFromLocalStorage() {
             searchModeAI: 'AI知識ベースモード',
             searchModeDescExternal: '/searchは外部検索エンジンを使用',
             searchModeDescAI: '/searchはAIトレーニングデータを使用',
-            firstVisitSearchInfo: '初回訪問：すべての検索エンジンはデフォルトで無効です。必要に応じて設定で有効にしてください。'
+            firstVisitSearchInfo: '初回訪問：すべての検索エンジンはデフォルトで無効です。必要に応じて設定で有効にしてください。',
+            // NEW ACCENT COLOR STRINGS
+            settingsAccentTitle: 'カスタムアクセントカラー',
+            settingsAccentText: '16進数のカラーコードを入力（例 #ffce00）:',
+            accentColorHint: '3桁または6桁の16進数を使用。暗すぎる色は拒否されます。'
         }
     };
 
@@ -3351,6 +3386,13 @@ function testSearch() {
         elements.searchConfigDesc.innerText = lang.searchConfigDesc; 
         elements.testSearchBtn.innerHTML = `<i class="fas fa-search"></i> ${lang.testSearchBtn}`; 
         elements.clearSearchCacheBtn.innerHTML = `<i class="fas fa-trash"></i> ${lang.clearSearchCacheBtn}`; 
+
+        // NEW ACCENT COLOR UI update
+        if (elements.settingsAccentTitle) {
+            elements.settingsAccentTitle.innerText = lang.settingsAccentTitle;
+            elements.settingsAccentText.innerText = lang.settingsAccentText;
+            elements.accentColorHint.innerText = lang.accentColorHint;
+        }
     }
 
     function handleHashNavigation() {
@@ -3780,6 +3822,73 @@ function testSearch() {
         connectionStatus.classList.toggle('hidden-by-scroll', isOverlapping); 
     }
 
+    // NEW ACCENT COLOR FUNCTIONS
+    function hexToRgb(hex) {
+        hex = hex.replace(/^#/, '');
+        if (hex.length === 3) {
+            hex = hex.split('').map(c => c + c).join('');
+        }
+        const intVal = parseInt(hex, 16);
+        return {
+            r: (intVal >> 16) & 255,
+            g: (intVal >> 8) & 255,
+            b: intVal & 255
+        };
+    }
+
+    function calculateLuminance(r, g, b) {
+        const rs = r / 255;
+        const gs = g / 255;
+        const bs = b / 255;
+        const gamma = c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+        return 0.2126 * gamma(rs) + 0.7152 * gamma(gs) + 0.0722 * gamma(bs);
+    }
+
+    function validateHex(hex) {
+        if (!hex) return null;
+        hex = hex.trim();
+        const regex = /^#?([0-9A-F]{3}|[0-9A-F]{6})$/i;
+        const match = hex.match(regex);
+        if (!match) return null;
+        let cleaned = match[1];
+        if (cleaned.length === 3) {
+            cleaned = cleaned.split('').map(c => c + c).join('');
+        }
+        return '#' + cleaned.toUpperCase();
+    }
+
+    function applyAccentColor(hex) {
+        const validHex = validateHex(hex);
+        if (!validHex) {
+            showCopyFeedback('Invalid hex code');
+            return false;
+        }
+        const rgb = hexToRgb(validHex);
+        const lum = calculateLuminance(rgb.r, rgb.g, rgb.b);
+        if (lum < 0.3) {
+            showCopyFeedback('Color too dark – using default');
+            const currentColor = localStorage.getItem('miraiAccentColor') || '#ffce00';
+            elements.accentColorInput.value = currentColor;
+            elements.colorPreview.style.backgroundColor = currentColor;
+            return false;
+        }
+        document.documentElement.style.setProperty('--accent-color', validHex);
+        elements.colorPreview.style.backgroundColor = validHex;
+        localStorage.setItem('miraiAccentColor', validHex);
+        return true;
+    }
+
+    function loadAccentColor() {
+        const savedColor = localStorage.getItem('miraiAccentColor');
+        if (savedColor && validateHex(savedColor)) {
+            applyAccentColor(savedColor);
+            elements.accentColorInput.value = savedColor;
+        } else {
+            elements.accentColorInput.value = '#ffce00';
+            elements.colorPreview.style.backgroundColor = '#ffce00';
+        }
+    }
+
     window.debugMirAI = {
         resetApiLimit: () => {
             MEDF_PROCESSOR.resetPublicApiBubbles();
@@ -3866,6 +3975,14 @@ function testSearch() {
             elements.memorySlider.value = '50';
             updateMemorySliderUI('50');
             alert('Memory limit reset to 50');
+        },
+        // NEW ACCENT COLOR debug helpers
+        getAccentColor: () => {
+            return getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+        },
+        resetAccentColor: () => {
+            elements.accentColorInput.value = '#ffce00';
+            applyAccentColor('#ffce00');
         }
     };
 
@@ -3942,7 +4059,14 @@ function testSearch() {
             clearSearchCacheBtn: document.getElementById('clearSearchCacheBtn'),
             memorySlider: document.getElementById('memorySlider'),
             settingsMemoryTitle: document.getElementById('settingsMemoryTitle'),
-            settingsMemoryText: document.getElementById('settingsMemoryText')
+            settingsMemoryText: document.getElementById('settingsMemoryText'),
+            // NEW ACCENT COLOR ELEMENTS
+            accentColorInput: document.getElementById('accentColorInput'),
+            colorPreview: document.getElementById('colorPreview'),
+            resetAccentBtn: document.getElementById('resetAccentBtn'),
+            settingsAccentTitle: document.getElementById('settingsAccentTitle'),
+            settingsAccentText: document.getElementById('settingsAccentText'),
+            accentColorHint: document.getElementById('accentColorHint')
         };
 
         console.log('✅ Elements initialized:', Object.keys(elements).length, 'elements');
@@ -4152,6 +4276,19 @@ function testSearch() {
             showCopyFeedback(uiStrings[currentLanguage].searchCacheCleared);
         });
 
+        // NEW ACCENT COLOR EVENT LISTENERS
+        elements.accentColorInput.addEventListener('input', function() {
+            const hex = this.value;
+            if (validateHex(hex)) {
+                applyAccentColor(hex);
+            }
+        });
+
+        elements.resetAccentBtn.addEventListener('click', function() {
+            elements.accentColorInput.value = '#ffce00';
+            applyAccentColor('#ffce00');
+        });
+
         document.querySelectorAll('.toggle-api-eye').forEach(icon => {
             icon.addEventListener('click', (event) => {
                 const targetId = event.target.getAttribute('data-target');
@@ -4177,6 +4314,9 @@ function testSearch() {
                     showCopyFeedback(uiStrings[currentLanguage].firstVisitSearchInfo);
                 }, 1000);
             }
+
+            // NEW ACCENT COLOR: load saved color
+            loadAccentColor();
             
             if (!isPWA) {
                 if (elements.splashScreen) {
