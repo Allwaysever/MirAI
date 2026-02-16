@@ -31,8 +31,8 @@
   --srui-error: #F44336;
   --srui-info: #2196F3;
   
-  /* SRUI Border Radius System */
-  --srui-radius-sm: 10px;
+  /* SRUI Border Radius System - sesuai guideline minimal 15px */
+  --srui-radius-sm: 15px;        /* ditingkatkan dari 10px */
   --srui-radius-md: 15px;
   --srui-radius-lg: 25px;
   --srui-radius-xl: 9999px;
@@ -1950,7 +1950,7 @@ body.chat-active .info-text {
     margin-bottom: 15px;
     padding: 12px 15px;
     background: rgba(15, 15, 15, 0.8);
-    border-radius: 10px;
+    border-radius: var(--srui-radius-sm);  /* diperbarui dari 10px */
     border: 1px solid rgba(66, 133, 244, 0.15);
     backdrop-filter: blur(10px);
 }
@@ -1996,7 +1996,7 @@ body.chat-active .info-text {
 .srui-custom-engine-list {
     background: rgba(255, 206, 0, 0.05);
     padding: 8px;
-    border-radius: 6px;
+    border-radius: var(--srui-radius-sm);  /* diperbarui dari 6px */
     font-size: clamp(0.7rem, 2vw, 0.75rem);
 }
 
@@ -2144,7 +2144,7 @@ body.chat-active .info-text {
 .srui-custom-api-limit-content {
     background: var(--srui-bg-primary, #1a1a1a);
     padding: 30px;
-    border-radius: 15px;
+    border-radius: var(--srui-radius-lg);  /* diperbarui dari 15px */
     max-width: 400px;
     width: 90%;
     text-align: center;
@@ -2171,7 +2171,7 @@ body.chat-active .info-text {
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: var(--srui-radius-md);  /* diperbarui dari 8px */
     cursor: pointer;
     font-weight: bold;
     font-size: clamp(0.8rem, 2.5vw, 0.9rem);
@@ -2182,7 +2182,7 @@ body.chat-active .info-text {
     color: white;
     border: none;
     padding: 12px 24px;
-    border-radius: 8px;
+    border-radius: var(--srui-radius-md);  /* diperbarui dari 8px */
     cursor: pointer;
     font-weight: bold;
     display: flex;
@@ -2222,7 +2222,7 @@ body.chat-active .info-text {
     margin-top: 15px;
     padding: 10px;
     background: rgba(66, 133, 244, 0.1);
-    border-radius: 8px;
+    border-radius: var(--srui-radius-sm);  /* diperbarui dari 8px */
     border-left: 3px solid #4285f4;
 }
 
@@ -2240,7 +2240,7 @@ body.chat-active .info-text {
     margin-top: 15px;
     padding: 10px;
     background: rgba(244, 67, 54, 0.1);
-    border-radius: 8px;
+    border-radius: var(--srui-radius-sm);  /* diperbarui dari 8px */
     border-left: 3px solid #F44336;
 }
 
