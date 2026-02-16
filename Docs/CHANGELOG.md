@@ -1,5 +1,25 @@
 ## What's new?
 
+### ``2026.02.16`` - v3.0-Beta6 - **Light Theme Farewell & Custom Accent Colors**
+
+We've made some changes to the visual experience of MirAI. With a heavy heart, we say goodbye to the Light Theme. But don't worry, we're introducing a new way to personalize your app!
+
+**🎨 Light Theme Removal:**
+- **``FAREWELL``:** We've decided to remove the Light Theme option. This wasn't an easy decision, but it allows us to focus on a more consistent dark experience and streamline future development. We sincerely apologize to our light mode enthusiasts! 😔
+
+**✨ New Custom Accent Color Feature (Beta):**
+- **``NEW FEATURE``:** You can now customize the accent color of MirAI! Head over to Settings and choose your own hex color (e.g., #ffce00).
+- **``LIVE PREVIEW``:** See the color preview as you type, and the app instantly updates the accent.
+- **``SAFETY CHECK``:** If the color is too dark, MirAI will gently reject it to maintain readability.
+- **``KNOWN BUGS``:** This feature is still in beta – you might encounter some glitches. We're working on ironing them out in future updates. Your feedback is welcome!
+
+**💡 Why the change?**
+We believe that giving you control over the accent color is a more flexible and fun way to personalize MirAI than a full light/dark switch. This paves the way for even more customization options down the road. Thank you for your understanding and support!
+
+---
+
+## Previous version:
+
 ### ``2026.02.02`` - v3.0-Beta5 - **Dynamic Memory Control & Smart Storage**
 We've handed the keys to your AI's memory back to you! No more hard limits—you decide how much MirAI remembers.
 **🧠 Flexible Chat Memory System:**
@@ -14,8 +34,6 @@ We've handed the keys to your AI's memory back to you! No more hard limits—you
 Previously, MirAI had a strict limit of 50 messages. If you crossed it, poof! Old messages vanished. Now, you have control. Running on a powerful device? Crank it up to 85! On an older phone? Dial it down to 25 to keep things snappy. Plus, the new smart trimming ensures the AI never suffers from an "identity crisis" by accidentally deleting its own persona instructions.
 
 ---
-
-## Previous version:
 
 ### ``2026.01.28`` - v3.0-Beta4 - **Enhanced Loading Experience with Processing Time Display**
 
