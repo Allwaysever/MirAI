@@ -1,5 +1,24 @@
 ## What's new?
 
+### `2026.02.19` - v3.0-Beta7 - **Stable Accent & Clear Button Fix**
+
+This update brings major update to stable accent color feature, and fixes a critical bug with the clear chat button.
+
+**🎨 Custom Accent Color – Now Stable!**
+- **``STABLE RELEASE``:** The custom accent color feature has been upgraded from beta to **stable**. All known bugs from the beta version have been fixed.
+- **``NEW FEATURE``:** Choose any hex color (e.g., #ffce00) in Settings to personalize MirAI's look. Live preview and automatic brightness validation ensure readability.
+- **``BUG FIX``:** We have developed this feature so that all elements can have the color you want.
+
+**🛠️ Clear Chat Button Fix**
+- **``BUG FIX``:** Resolved an issue where the clear chat button was unclickable in certain scenarios. The custom confirmation overlay was removed and replaced with the browser's native `confirm()` dialog for reliability.
+- **``IMPROVED UX``:** Clearing chat history now uses a standard browser confirmation, ensuring the action always works as intended.
+
+*Your feedback drives our improvements. Enjoy the new MirAI!*
+
+---
+
+## Previous version:
+
 ### ``2026.02.16`` - v3.0-Beta6 - **Light Theme Farewell & Custom Accent Colors**
 
 We've made some changes to the visual experience of MirAI. With a heavy heart, we say goodbye to the Light Theme. But don't worry, we're introducing a new way to personalize your app!
@@ -18,8 +37,6 @@ We believe that giving you control over the accent color is a more flexible and 
 
 ---
 
-## Previous version:
-
 ### ``2026.02.02`` - v3.0-Beta5 - **Dynamic Memory Control & Smart Storage**
 We've handed the keys to your AI's memory back to you! No more hard limits—you decide how much MirAI remembers.
 **🧠 Flexible Chat Memory System:**
@@ -32,8 +49,6 @@ We've handed the keys to your AI's memory back to you! No more hard limits—you
 
 **💡 Why This Matters:**
 Previously, MirAI had a strict limit of 50 messages. If you crossed it, poof! Old messages vanished. Now, you have control. Running on a powerful device? Crank it up to 85! On an older phone? Dial it down to 25 to keep things snappy. Plus, the new smart trimming ensures the AI never suffers from an "identity crisis" by accidentally deleting its own persona instructions.
-
----
 
 ### ``2026.01.28`` - v3.0-Beta4 - **Enhanced Loading Experience with Processing Time Display**
 
