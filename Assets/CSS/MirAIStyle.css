@@ -4,6 +4,7 @@
   /* SRUI Accent Colors */
   --accent-color: #ffce00;               /* NEW: single source of truth */
   --srui-accent: var(--accent-color);     /* semua referensi accent pakai ini */
+  --srui-accent-rgb: 255, 206, 0;         /* RGB values for opacity */
   --srui-accent-text: #000000;
   --srui-accent-alt: #444444;
   --srui-accent-text-alt: #ffffff;
@@ -208,7 +209,7 @@ body {
   background: rgba(15, 15, 15, 0.92);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 206, 0, 0.15);
+  border: 1px solid rgba(var(--srui-accent-rgb), 0.15);
   border-radius: var(--srui-radius-lg);
   box-shadow: var(--srui-shadow-modal);
 }
@@ -368,7 +369,7 @@ body.chat-active .chat-container {
   margin: 1em 0 0.6em 0;
   line-height: 1.3;
   padding-bottom: 5px;
-  border-bottom: 1px solid rgba(255, 206, 0, 0.2);
+  border-bottom: 1px solid rgba(var(--srui-accent-rgb), 0.2);
 }
 
 .ai-bubble h2 {
@@ -378,7 +379,7 @@ body.chat-active .chat-container {
   margin: 0.9em 0 0.5em 0;
   line-height: 1.3;
   padding-bottom: 4px;
-  border-bottom: 1px solid rgba(255, 206, 0, 0.2);
+  border-bottom: 1px solid rgba(var(--srui-accent-rgb), 0.2);
 }
 
 .ai-bubble h3 {
@@ -421,14 +422,14 @@ body.chat-active .chat-container {
 .ai-bubble strong {
   color: var(--srui-accent);
   font-weight: 700;
-  background-color: rgba(255, 206, 0, 0.15);
+  background-color: rgba(var(--srui-accent-rgb), 0.15);
   padding: 2px 4px;
 }
 
 /* Italic & Emphasis */
 .ai-bubble i,
 .ai-bubble em {
-  color: #ffdb4d;
+  color: var(--srui-accent);
   font-style: italic;
   padding: 0 1px;
 }
@@ -438,16 +439,16 @@ body.chat-active .chat-container {
   color: var(--srui-accent);
   text-decoration: none;
   font-weight: 500;
-  border-bottom: 1px dashed rgba(255, 206, 0, 0.4);
+  border-bottom: 1px dashed rgba(var(--srui-accent-rgb), 0.4);
   padding: 0 1px 2px;
   transition: all var(--srui-transition-fast);
 }
 
 .ai-bubble a:hover {
-  color: #ffdb4d;
+  color: var(--srui-accent);
   text-decoration: none;
   border-bottom: 2px solid var(--srui-accent);
-  background: rgba(255, 206, 0, 0.1);
+  background: rgba(var(--srui-accent-rgb), 0.1);
   padding: 0 3px 1px;
   border-radius: 2px;
 }
@@ -460,14 +461,14 @@ body.chat-active .chat-container {
   border-radius: var(--srui-radius-sm);
   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', 'Consolas', monospace;
   font-size: 0.85em;
-  border: 1px solid rgba(255, 206, 0, 0.2);
+  border: 1px solid rgba(var(--srui-accent-rgb), 0.2);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Inline code within paragraphs */
 .ai-bubble p code {
-  background-color: rgba(255, 206, 0, 0.1);
-  color: #ffdb4d;
+  background-color: rgba(var(--srui-accent-rgb), 0.1);
+  color: var(--srui-accent);
   padding: 2px 6px;
   font-size: 0.9em;
 }
@@ -483,7 +484,7 @@ body.chat-active .chat-container {
   font-size: 0.85em;
   line-height: 1.5;
   margin: 15px 0;
-  border: 1px solid rgba(255, 206, 0, 0.15);
+  border: 1px solid rgba(var(--srui-accent-rgb), 0.15);
   box-shadow: 
     0 4px 12px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -517,10 +518,10 @@ body.chat-active .chat-container {
   margin: 20px 0;
   font-style: italic;
   color: var(--srui-text-secondary);
-  background-color: rgba(255, 206, 0, 0.08);
+  background-color: rgba(var(--srui-accent-rgb), 0.08);
   border-radius: 0 var(--srui-radius-md) var(--srui-radius-md) 0;
   position: relative;
-  box-shadow: inset 0 0 30px rgba(255, 206, 0, 0.05);
+  box-shadow: inset 0 0 30px rgba(var(--srui-accent-rgb), 0.05);
 }
 
 .ai-bubble blockquote::before {
@@ -529,7 +530,7 @@ body.chat-active .chat-container {
   left: 8px;
   top: 5px;
   font-size: 3em;
-  color: rgba(255, 206, 0, 0.2);
+  color: rgba(var(--srui-accent-rgb), 0.2);
   font-family: Georgia, serif;
   line-height: 1;
 }
@@ -614,11 +615,11 @@ body.chat-active .chat-container {
   background: rgba(15, 15, 15, 0.8);
   border-radius: var(--srui-radius-sm);
   overflow: hidden;
-  border: 1px solid rgba(255, 206, 0, 0.2);
+  border: 1px solid rgba(var(--srui-accent-rgb), 0.2);
 }
 
 .ai-bubble th {
-  background-color: rgba(255, 206, 0, 0.2);
+  background-color: rgba(var(--srui-accent-rgb), 0.2);
   color: var(--srui-accent);
   padding: 12px 15px;
   text-align: left;
@@ -628,7 +629,7 @@ body.chat-active .chat-container {
 
 .ai-bubble td {
   padding: 10px 15px;
-  border-bottom: 1px solid rgba(255, 206, 0, 0.1);
+  border-bottom: 1px solid rgba(var(--srui-accent-rgb), 0.1);
   color: var(--srui-text-secondary);
 }
 
@@ -637,7 +638,7 @@ body.chat-active .chat-container {
 }
 
 .ai-bubble tr:hover td {
-  background-color: rgba(255, 206, 0, 0.05);
+  background-color: rgba(var(--srui-accent-rgb), 0.05);
 }
 
 /* Footnotes */
@@ -656,9 +657,9 @@ body.chat-active .chat-container {
   border-radius: var(--srui-radius-sm);
   font-family: 'SF Mono', monospace;
   font-size: 0.85em;
-  border: 1px solid rgba(255, 206, 0, 0.3);
+  border: 1px solid rgba(var(--srui-accent-rgb), 0.3);
   box-shadow: 
-    0 2px 0 rgba(255, 206, 0, 0.1),
+    0 2px 0 rgba(var(--srui-accent-rgb), 0.1),
     inset 0 -1px 2px rgba(0, 0, 0, 0.5);
   display: inline-block;
   margin: 0 2px;
@@ -857,7 +858,8 @@ body.chat-active #clearBtnContainer {
 
 #sendBtn:not(.disabled):hover,
 #sendBtn:not(.disabled):active {
-    background-color: #eab308;
+    background-color: var(--srui-accent);
+    filter: brightness(1.1);
 }
 
 #stopBtn {
@@ -986,7 +988,7 @@ body.chat-active #toolsMenu {
 }
 
 .suggestion-item:hover {
-    background-color: rgba(255, 206, 0, 0.2);
+    background-color: rgba(var(--srui-accent-rgb), 0.2);
     color: var(--srui-accent);
 }
 
@@ -1003,7 +1005,7 @@ body.chat-active #toolsMenu {
 }
 
 .suggestion-item-slash:hover {
-    background-color: rgba(255, 206, 0, 0.2);
+    background-color: rgba(var(--srui-accent-rgb), 0.2);
 }
 
 .suggestion-item-slash strong {
@@ -1362,7 +1364,7 @@ body.chat-active .info-text {
 }
 
 .settings-header #backBtn:hover {
-    background-color: rgba(255, 206, 0, 0.1);
+    background-color: rgba(var(--srui-accent-rgb), 0.1);
 }
 
 .settings-body {
@@ -1421,7 +1423,7 @@ body.chat-active .info-text {
 .settings-option select:focus {
     outline: none;
     border-color: var(--srui-accent);
-    box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+    box-shadow: 0 0 0 2px rgba(var(--srui-accent-rgb), 0.2);
 }
 
 /* Memory Slider Styles */
@@ -1516,17 +1518,17 @@ body.chat-active .info-text {
 
 /* ===== SEARCH CONFIGURATION STYLES ===== */
 .search-engine-config {
-    background-color: rgba(255, 206, 0, 0.05);
+    background-color: rgba(var(--srui-accent-rgb), 0.05);
     border-radius: var(--srui-radius-md);
     padding: 15px;
     margin-top: 10px;
-    border: 1px solid rgba(255, 206, 0, 0.1);
+    border: 1px solid rgba(var(--srui-accent-rgb), 0.1);
 }
 
 .engine-option {
     margin-bottom: 15px;
     padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 206, 0, 0.1);
+    border-bottom: 1px solid rgba(var(--srui-accent-rgb), 0.1);
 }
 
 .engine-option:last-child {
@@ -1570,7 +1572,7 @@ body.chat-active .info-text {
 .engine-option input[type="password"]:focus {
     outline: none;
     border-color: var(--srui-accent);
-    box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+    box-shadow: 0 0 0 2px rgba(var(--srui-accent-rgb), 0.2);
 }
 
 .toggle-api-eye {
@@ -1614,7 +1616,7 @@ body.chat-active .info-text {
 #apiKeyInput:focus {
     outline: none;
     border-color: var(--srui-accent);
-    box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+    box-shadow: 0 0 0 2px rgba(var(--srui-accent-rgb), 0.2);
 }
 
 #toggleApiKey {
@@ -1655,7 +1657,7 @@ body.chat-active .info-text {
 .custom-persona-input:focus {
     outline: none;
     border-color: var(--srui-accent);
-    box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+    box-shadow: 0 0 0 2px rgba(var(--srui-accent-rgb), 0.2);
 }
 
 .hint-text {
@@ -1686,7 +1688,7 @@ body.chat-active .info-text {
 
 .settings-about a:hover {
     text-decoration: underline;
-    color: #ffd700;
+    color: var(--srui-accent);
 }
 
 .gemini-container {
@@ -1748,7 +1750,7 @@ body.chat-active .info-text {
 .accent-color-input:focus {
     outline: none;
     border-color: var(--srui-accent);
-    box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+    box-shadow: 0 0 0 2px rgba(var(--srui-accent-rgb), 0.2);
 }
 
 .color-preview {
@@ -1951,7 +1953,7 @@ body.chat-active .info-text {
     padding: 12px 15px;
     background: rgba(15, 15, 15, 0.8);
     border-radius: var(--srui-radius-sm);  /* diperbarui dari 10px */
-    border: 1px solid rgba(66, 133, 244, 0.15);
+    border: 1px solid rgba(var(--srui-accent-rgb), 0.15);
     backdrop-filter: blur(10px);
 }
 
@@ -1971,9 +1973,9 @@ body.chat-active .info-text {
     font-size: clamp(0.7rem, 2vw, 0.75rem);
     padding: 4px 10px;
     border-radius: 20px;
-    background: rgba(66, 133, 244, 0.15);
-    color: #4285f4;
-    border: 1px solid rgba(66, 133, 244, 0.3);
+    background: rgba(var(--srui-accent-rgb), 0.15);
+    color: var(--srui-accent);
+    border: 1px solid rgba(var(--srui-accent-rgb), 0.3);
 }
 
 .srui-custom-search-mode-info {
@@ -1994,7 +1996,7 @@ body.chat-active .info-text {
 }
 
 .srui-custom-engine-list {
-    background: rgba(255, 206, 0, 0.05);
+    background: rgba(var(--srui-accent-rgb), 0.05);
     padding: 8px;
     border-radius: var(--srui-radius-sm);  /* diperbarui dari 6px */
     font-size: clamp(0.7rem, 2vw, 0.75rem);
@@ -2088,7 +2090,7 @@ body.chat-active .info-text {
 }
 
 .srui-custom-inline-link:hover {
-    background-color: rgba(255, 206, 0, 0.1);
+    background-color: rgba(var(--srui-accent-rgb), 0.1);
 }
 
 /* Terms Text */
@@ -2205,8 +2207,8 @@ body.chat-active .info-text {
 }
 
 .srui-custom-test-search-badge {
-    background: rgba(66, 133, 244, 0.2);
-    color: #4285f4;
+    background: rgba(var(--srui-accent-rgb), 0.2);
+    color: var(--srui-accent);
     padding: 4px 12px;
     border-radius: 20px;
     font-size: clamp(0.75rem, 2.2vw, 0.85rem);
@@ -2221,9 +2223,9 @@ body.chat-active .info-text {
 .srui-custom-test-search-result {
     margin-top: 15px;
     padding: 10px;
-    background: rgba(66, 133, 244, 0.1);
+    background: rgba(var(--srui-accent-rgb), 0.1);
     border-radius: var(--srui-radius-sm);  /* diperbarui dari 8px */
-    border-left: 3px solid #4285f4;
+    border-left: 3px solid var(--srui-accent);
 }
 
 .srui-custom-search-test-result {
@@ -2279,7 +2281,7 @@ body.chat-active .info-text {
   font-style: italic;
   margin-top: 5px;
   padding: 5px 10px;
-  background-color: rgba(255, 206, 0, 0.05);
+  background-color: rgba(var(--srui-accent-rgb), 0.05);
   border-radius: var(--srui-radius-sm);
   border-left: 3px solid var(--srui-accent);
 }
