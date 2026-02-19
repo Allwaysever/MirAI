@@ -133,7 +133,7 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '3.0-Beta6'; // generateVersion(3, 0, 0);
+const VERSION = '3.0-Beta7'; // generateVersion(3, 0, 0);
 </script>
 </head>
 
@@ -141,10 +141,10 @@ const VERSION = '3.0-Beta6'; // generateVersion(3, 0, 0);
     <div id="splash-screen">
   <div class="splash-content">
     <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Name%20Logo.png" alt="MirAI" class="splash-logo logo-img">
-    <div class="loading-bar-container" id="splash-loader">
+    <div class="loading-bar-container" style="display: none !IMPORTANT;" id="splash-loader">
         <div class="loading-bar"></div>
     </div>
-<p style="font-size: 0.5em; color: #aaa; bottom: 5px;">&copy 2026 Allwaysever Project: MirAI</p>
+<p style="display: none; font-size: 0.5em; color: #aaa; bottom: 5px;">&copy 2026 Allwaysever Project: MirAI</p>
   </div>
 </div>
 
@@ -401,8 +401,8 @@ const VERSION = '3.0-Beta6'; // generateVersion(3, 0, 0);
                 <p><a href="https://allwaysevermirai.netlify.app/about" target="_blank" id="githubLink"><i class="fas fa-info-circle"></i> Tentang MirAI</a></p>
                 <p><a href="https://github.com/Allwaysever/MirAI/blob/main/LICENSE" id="licenseLink" target="_blank"><i class="fas fa-file-contract"></i> Lisensi</a></p>
                 <p><a href="help/index.html" id="helpLink" target="_self"><i class="fas fa-question-circle"></i> Pusat Bantuan</a></p>
-                <p style="display: inline-block; padding: 10px 20px; background-color: transparent; text-align: center; border-radius: 999px; cursor: pointer; transition: background-color 0.3s; border: 1px solid #ffce00;"><a href="https://allwaysevermirai.netlify.app/releasenote" target="_blank">Release notes</a></p>
-                <p style="display: inline-block; padding: 10px 20px; background-color: transparent; text-align: center; border-radius: 999px; cursor: pointer; transition: background-color 0.3s; border: 1px solid #ffce00;"><a href="https://allwaysevermirai.netlify.app/donate" target="_blank">Donate us</a></p>
+                <p style="display: inline-block; padding: 10px 20px; background-color: transparent; text-align: center; border-radius: 999px; cursor: pointer; transition: background-color 0.3s; border: 1px solid #555555;"><a href="https://allwaysevermirai.netlify.app/releasenote" target="_blank">Release notes</a></p>
+                <p style="display: inline-block; padding: 10px 20px; background-color: transparent; text-align: center; border-radius: 999px; cursor: pointer; transition: background-color 0.3s; border: 1px solid #555555;"><a href="https://allwaysevermirai.netlify.app/donate" target="_blank">Donate us</a></p>
                 <div class="gemini-container">
                     <a href="https://deepmind.google/models/gemini/flash/" target="_blank">
                         <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Gemini%202.5%20Flash%20Logo.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
@@ -423,7 +423,8 @@ const VERSION = '3.0-Beta6'; // generateVersion(3, 0, 0);
     </div>
 </div>
 
-<div id="customConfirmOverlay">
+<!-- HAPUS BLOK CUSTOM CONFIRM OVERLAY -->
+<!-- <div id="customConfirmOverlay">
     <div id="customConfirmBox">
         <p id="customConfirmMessage"></p>
         <div class="custom-confirm-buttons">
@@ -431,7 +432,7 @@ const VERSION = '3.0-Beta6'; // generateVersion(3, 0, 0);
             <button id="confirmBtnNo"></button>
         </div>
     </div>
-</div>
+</div> -->
 
 <script>
     const DEFAULT_API_KEY = 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
@@ -2885,18 +2886,6 @@ function testSearch() {
         }
     }
 
-    function showClearConfirmation() {
-        const lang = uiStrings[currentLanguage];
-        elements.customConfirmMessage.innerText = lang.confirmClearMessage;
-        elements.confirmBtnYes.innerText = lang.confirmClearYes;
-        elements.confirmBtnNo.innerText = lang.confirmClearNo;
-        elements.customConfirmOverlay.classList.add('visible');
-    }
-
-    function hideClearConfirmation() {
-        elements.customConfirmOverlay.classList.remove('visible');
-    }
-
     function setPersona(persona, fromUserInteraction = false) {
         currentPersona = persona;
         elements.personaSelect.value = persona;
@@ -3857,38 +3846,40 @@ function testSearch() {
         return '#' + cleaned.toUpperCase();
     }
 
-    function applyAccentColor(hex) {
-        const validHex = validateHex(hex);
-        if (!validHex) {
-            showCopyFeedback('Invalid hex code');
-            return false;
-        }
-        const rgb = hexToRgb(validHex);
-        const lum = calculateLuminance(rgb.r, rgb.g, rgb.b);
-        if (lum < 0.3) {
-            showCopyFeedback('Color too dark – using default');
-            const currentColor = localStorage.getItem('miraiAccentColor') || '#ffce00';
-            elements.accentColorInput.value = currentColor;
-            elements.colorPreview.style.backgroundColor = currentColor;
-            return false;
-        }
-        document.documentElement.style.setProperty('--accent-color', validHex);
-        elements.colorPreview.style.backgroundColor = validHex;
-        localStorage.setItem('miraiAccentColor', validHex);
-        return true;
+function applyAccentColor(hex) {
+    const validHex = validateHex(hex);
+    if (!validHex) {
+        showCopyFeedback('Invalid hex code');
+        return false;
     }
+    const rgb = hexToRgb(validHex);
+    const lum = calculateLuminance(rgb.r, rgb.g, rgb.b);
+    if (lum < 0.3) {
+        showCopyFeedback('Color too dark – using default');
+        const currentColor = localStorage.getItem('miraiAccentColor') || '#ffce00';
+        elements.accentColorInput.value = currentColor;
+        elements.colorPreview.style.backgroundColor = currentColor;
+        return false;
+    }
+    document.documentElement.style.setProperty('--accent-color', validHex);
+    document.documentElement.style.setProperty('--srui-accent-rgb', `${rgb.r}, ${rgb.g}, ${rgb.b}`);
+    elements.colorPreview.style.backgroundColor = validHex;
+    localStorage.setItem('miraiAccentColor', validHex);
+    return true;
+}
 
     function loadAccentColor() {
-        const savedColor = localStorage.getItem('miraiAccentColor');
-        if (savedColor && validateHex(savedColor)) {
-            applyAccentColor(savedColor);
-            elements.accentColorInput.value = savedColor;
-        } else {
-            elements.accentColorInput.value = '#ffce00';
-            elements.colorPreview.style.backgroundColor = '#ffce00';
-        }
+    const savedColor = localStorage.getItem('miraiAccentColor');
+    if (savedColor && validateHex(savedColor)) {
+        applyAccentColor(savedColor);
+        elements.accentColorInput.value = savedColor;
+    } else {
+        elements.accentColorInput.value = '#ffce00';
+        elements.colorPreview.style.backgroundColor = '#ffce00';
+        // set default RGB
+        document.documentElement.style.setProperty('--srui-accent-rgb', '255, 206, 0');
     }
-
+}
     window.debugMirAI = {
         resetApiLimit: () => {
             MEDF_PROCESSOR.resetPublicApiBubbles();
@@ -4032,10 +4023,6 @@ function testSearch() {
             settingsApiText: document.getElementById('settingsApiText'), 
             toolsBtn: document.getElementById('toolsBtn'), 
             toolsMenu: document.getElementById('toolsMenu'), 
-            customConfirmOverlay: document.getElementById('customConfirmOverlay'), 
-            customConfirmMessage: document.getElementById('customConfirmMessage'), 
-            confirmBtnYes: document.getElementById('confirmBtnYes'), 
-            confirmBtnNo: document.getElementById('confirmBtnNo'), 
             helpLink: document.getElementById('helpLink'), 
             termsText: document.getElementById('termsText'),
             exportBtn: document.getElementById('exportBtn'),
@@ -4073,7 +4060,12 @@ function testSearch() {
 
         elements.sendBtn.addEventListener('click', askAI);
         elements.stopBtn.addEventListener('click', stopAI);
-        elements.clearBtn.addEventListener('click', showClearConfirmation);
+        elements.clearBtn.addEventListener('click', () => {
+            const lang = uiStrings[currentLanguage];
+            if (confirm(lang.confirmClearMessage)) {
+                clearChat();
+            }
+        });
         elements.settingsBtn.addEventListener('click', openSettings);
         elements.backBtn.addEventListener('click', closeSettings);
         elements.personaSelect.addEventListener('change', (e) => setPersona(e.target.value, true));
@@ -4097,11 +4089,6 @@ function testSearch() {
         elements.imageInput.addEventListener('change', handleImageUpload);
         elements.removeImageBtn.addEventListener('click', removeImage);
         elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
-        elements.confirmBtnYes.addEventListener('click', () => { 
-            clearChat(); 
-            hideClearConfirmation();
-        });
-        elements.confirmBtnNo.addEventListener('click', hideClearConfirmation);
         elements.toolsBtn.addEventListener('click', (event) => { 
             event.stopPropagation(); 
             const isActive = elements.toolsBtn.classList.contains('active'); 
@@ -4321,7 +4308,7 @@ function testSearch() {
             if (!isPWA) {
                 if (elements.splashScreen) {
                     elements.splashScreen.style.display = 'flex';
-                    simulateLoading(3000);
+                    simulateLoading(350);
                 }
             } else {
                 console.log("📱 PWA Mode: Skip splash screen!");
