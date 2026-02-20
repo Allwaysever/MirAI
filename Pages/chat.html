@@ -98,7 +98,7 @@ window.addEventListener('appinstalled', (evt) => {
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-      navigator.serviceWorker.register('../../Assets/HTML/MirAIPWAsw.js')
+      navigator.serviceWorker.register('../Assets/HTML/MirAIPWAsw.js')
         .then(function(registration) {
           console.log('ServiceWorker registered successfully');
         })
