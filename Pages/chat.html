@@ -98,7 +98,7 @@ window.addEventListener('appinstalled', (evt) => {
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-      navigator.serviceWorker.register('https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAsw.js')
+      navigator.serviceWorker.register('../../Assets/HTML/MirAIPWAsw.js')
         .then(function(registration) {
           console.log('ServiceWorker registered successfully');
         })
@@ -4122,7 +4122,7 @@ function applyAccentColor(hex) {
             }
             
             allData._metadata = {
-                version: '2.12.0-Beta5',
+                version: '',
                 persona: currentPersona,
                 language: currentLanguage,
                 exportDate: new Date().toISOString(),
