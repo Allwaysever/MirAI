@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MirAI | Your AI Assistant by Allwaysever</title>
+    <title>MirAI 3 | Your AI Assistant by Allwaysever</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-    <meta name="description" content="MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.">
+    <meta name="description" content="MirAI 3 is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly.">
     <meta name="keywords" content="Allwaysever, AI, Artificial Intelligence, Chatbot AI, AI Chatbot, Gemini 2.5 flash, Google Gemini, Gemini API, MirAI, PWA, Progressive Web App, .medf, Encrypted Backup">
     <meta name="google-site-verification" content="4YwRixqgQ01sDI_HeOrXQhurN7gBqo7Cpymfri3afUE" />
-    <meta property="og:title" content="MirAI" />
-    <meta property="og:description" content="MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly." />
+    <meta property="og:title" content="MirAI 3" />
+    <meta property="og:description" content="MirAI 3 is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly." />
     <meta property="og:url" content="https://allwaysevermirai.netlify.app/" />
     <meta property="og:image" content="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Banner.png" />
     <meta property="og:type" content="article" /> 
@@ -21,119 +21,101 @@
     <meta name="google-adsense-account" content="ca-pub-2796497511012948">
     
     <style>
-        /* SRUI Custom Styling & Variables (Aligned with MirAI Dark Theme) */
+        /* SRUI Custom Styling v1.3.4 */
         :root {
-            --color-accent: #ffce00; /* SRUI Accent Color (Bright Yellow) */
-            --color-primary: #ffffff; /* White Text */
-            --color-dark-bg: #0f0f0f; /* Main MirAI Background (Dark) */
-            --color-card-bg: rgba(33, 33, 33, 0.7); /* Card/Input Background MirAI (Blurry Dark) */
-            --color-border: #4B4F50; /* MirAI Border Color */
-            --color-light-text: #9ca3af; /* gray-400 */
+            --srui-accent: #ffce00;
+            --srui-bg-dark: #1B1C1E;
+            --srui-card-bg-solid: #0f0f0f;
+            --srui-glass-bg: rgba(27, 28, 30, 0.9);
+            --srui-border: #4B4F50;
+            --srui-text-primary: #ffffff;
+            --srui-text-secondary: #999999;
+            --srui-text-tertiary: #666666;
+            --srui-success: #4CAF50;
+            --srui-warning: #ffce00;
+            --srui-error: #F44336;
+            --srui-info: #2196F3;
+            --srui-radius-card: 25px;
+            --srui-radius-btn: 9999px;
+            --srui-radius-chip: 9999px;
+            --srui-transition: all 0.2s ease-in-out;
         }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: var(--color-dark-bg); 
-            color: var(--color-primary);
+            font-family: 'Arial', sans-serif;
+            background-color: var(--srui-bg-dark);
+            color: var(--srui-text-primary);
             min-height: 100vh;
+            overflow-x: hidden;
         }
-        .card-srui {
-            border-radius: 25px; 
-            background-color: var(--color-card-bg);
-            border: 1px solid var(--color-border);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+
+        /* GlassLayer Effect */
+        .glass-card {
+            background-color: var(--srui-glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--srui-border);
+            border-radius: var(--srui-radius-card);
+            transition: var(--srui-transition);
             box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .card-srui:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px -8px rgba(0, 0, 0, 0.3);
+
+        .glass-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px -8px rgba(255, 206, 0, 0.2);
+            border-color: var(--srui-accent);
         }
-        .accent-button {
-            background-color: var(--color-accent);
-            color: var(--color-dark-bg);
+
+        /* Buttons */
+        .btn-accent {
+            background-color: var(--srui-accent);
+            color: var(--srui-bg-dark);
             font-weight: 700;
-            border-radius: 9999px;
-            transition: all 0.2s ease-in-out;
-            border: 2px solid var(--color-accent); 
+            border-radius: var(--srui-radius-btn);
+            border: 2px solid var(--srui-accent);
+            transition: var(--srui-transition);
         }
-        .accent-button:hover {
-            background-color: #e6b800; 
-            transform: translateY(-1px);
+
+        .btn-accent:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 20px -5px rgba(255, 206, 0, 0.4);
         }
-        .secondary-button {
+
+        .btn-accent:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
             background-color: transparent;
-            color: var(--color-primary);
+            color: var(--srui-text-primary);
             font-weight: 600;
-            border-radius: 9999px;
-            transition: all 0.2s ease-in-out;
-            border: 2px solid var(--color-border); 
+            border-radius: var(--srui-radius-btn);
+            border: 2px solid var(--srui-border);
+            transition: var(--srui-transition);
         }
-        .secondary-button:hover {
+
+        .btn-secondary:hover {
             background-color: rgba(255, 255, 255, 0.1);
-            border-color: var(--color-accent);
+            border-color: var(--srui-accent);
+            transform: translateY(-2px) scale(1.02);
         }
-        .container-padding {
-            padding-left: 1rem;
-            padding-right: 1rem;
+
+        .btn-secondary:active {
+            transform: scale(0.98);
         }
-        @media (min-width: 768px) {
-            .container-padding {
-                padding-left: 3rem;
-                padding-right: 3rem;
-            }
-        }
-        .sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-            background-color: rgba(15, 15, 15, 0.9);
-        }
-        .language-selector select {
-            background-color: var(--color-card-bg);
-            border: 1px solid var(--color-border);
-            border-radius: 25px;
-            color: var(--color-primary);
-            padding: 8px 12px;
-            cursor: pointer;
-        }
-        .language-selector select:focus {
-            outline: none;
-            border-color: var(--color-accent);
-            box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
-        }
-        .language-badge {
-            display: none;
-        }
-        .language-flag {
-            display: none;
-        }
-        .countdown-timer {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--color-accent);
-            margin-top: 8px;
-        }
-        .skip-button {
-            margin-left: 12px;
-            padding: 4px 12px;
-            font-size: 0.9rem;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background: var(--color-border);
-            border-radius: 2px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: var(--color-accent);
-            border-radius: 2px;
-            transition: width 1s linear;
-        }
+
+        /* Text colors */
+        .text-primary { color: var(--srui-text-primary); }
+        .text-secondary { color: var(--srui-text-secondary); }
+        .text-tertiary { color: var(--srui-text-tertiary); }
+        .text-accent { color: var(--srui-accent); }
+
+        /* Badges */
         .feature-badge {
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -145,12 +127,26 @@
             margin-left: 6px;
             vertical-align: middle;
         }
+
         .badge-new {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
+
         .badge-secure {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
+
+        .badge-version {
+            background: linear-gradient(135deg, #ffce00, #ffaa00);
+            color: #0f0f0f;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            box-shadow: 0 0 10px rgba(255, 206, 0, 0.5);
+        }
+
         .tech-badge {
             display: inline-block;
             background: rgba(255, 206, 0, 0.1);
@@ -160,27 +156,125 @@
             font-size: 0.8rem;
             margin: 3px;
             border: 1px solid rgba(255, 206, 0, 0.3);
+            transition: var(--srui-transition);
         }
+
+        .tech-badge:hover {
+            background: rgba(255, 206, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Sticky header */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            background-color: rgba(27, 28, 30, 0.9);
+            border-bottom: 1px solid var(--srui-border);
+        }
+
+        /* Language selector */
+        .language-selector select {
+            background-color: var(--srui-glass-bg);
+            border: 1px solid var(--srui-border);
+            border-radius: 25px;
+            color: var(--srui-text-primary);
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: var(--srui-transition);
+        }
+
+        .language-selector select:focus {
+            outline: none;
+            border-color: var(--srui-accent);
+            box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+        }
+
+        /* Countdown */
+        .countdown-timer {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--srui-accent);
+            margin-top: 8px;
+        }
+
+        .skip-button {
+            margin-left: 12px;
+            padding: 4px 12px;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--srui-border);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--srui-accent);
+            border-radius: 2px;
+            transition: width 1s linear;
+        }
+
+        /* Animation fade-up */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+        .delay-5 { transition-delay: 0.5s; }
+
+        /* Container padding */
+        .container-padding {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 768px) {
+            .container-padding {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
+        }
+
+        /* Override Tailwind grays with SRUI colors */
+        .text-gray-400 { color: var(--srui-text-secondary) !important; }
+        .text-gray-300 { color: #cccccc !important; }
+        .text-gray-500 { color: var(--srui-text-tertiary) !important; }
+        .border-gray-800 { border-color: var(--srui-border) !important; }
+        .bg-gray-900 { background-color: var(--srui-card-bg-solid) !important; }
+        .hover\:text-white:hover { color: var(--srui-text-primary) !important; }
+        .hover\:text-yellow-400:hover { color: var(--srui-accent) !important; }
     </style>
 </head>
 <body>
 
-    <header class="w-full py-6 container-padding border-b border-gray-800 sticky-header">
+    <header class="w-full py-6 container-padding sticky-header">
         <div class="flex justify-between items-center max-w-6xl mx-auto">
             <div class="flex items-center space-x-3">
                 <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="MirAI Logo">
                 <span><span class="text-lg font-bold">MirAI</span> by <span class="text-lg font-bold">Allwaysever</span></span>
-                <span id="current-language-badge" class="language-badge hidden">
-                    <span id="language-flag" class="language-flag"></span>
-                    <span id="language-name"></span>
-                </span>
             </div>
             <nav class="space-x-4 hidden sm:flex">
-                <a href="#features" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Key Features</a>
-                <a href="#advanced" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Advanced Features</a>
-                <a href="#tech-stack" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Tech Stack</a>
-                <a href="#testimonials" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">Testimonials</a>
-                <a href="#faq" class="text-sm font-medium text-gray-400 hover:text-white transition duration-150">FAQ</a>
+                <a href="#features" class="text-sm font-medium text-secondary hover:text-white transition duration-150">Key Features</a>
+                <a href="#advanced" class="text-sm font-medium text-secondary hover:text-white transition duration-150">Advanced Features</a>
+                <a href="#tech-stack" class="text-sm font-medium text-secondary hover:text-white transition duration-150">Tech Stack</a>
+                <a href="#testimonials" class="text-sm font-medium text-secondary hover:text-white transition duration-150">Testimonials</a>
+                <a href="#faq" class="text-sm font-medium text-secondary hover:text-white transition duration-150">FAQ</a>
             </nav>
             <div class="flex items-center space-x-4">
                 <div class="language-selector">
@@ -192,7 +286,7 @@
                         <option value="ja-JP">日本語</option>
                     </select>
                 </div>
-                <a href="#try-mirai-btn" class="accent-button text-sm px-4 py-2 hidden sm:inline-block">
+                <a href="#try-mirai-btn" class="btn-accent text-sm px-4 py-2 hidden sm:inline-block">
                     Try Now
                 </a>
             </div>
@@ -201,37 +295,38 @@
 
     <main class="w-full mx-auto pb-20">
         
-        <section class="text-center py-16 md:py-24 container-padding max-w-6xl mx-auto">
+        <!-- Hero Section -->
+        <section class="text-center py-16 md:py-24 container-padding max-w-6xl mx-auto fade-up">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
                 <span data-i18n="main_prefix">Your Smart Personal Assistant,</span>
-                <span id="powered-gemini" class="text-yellow-400 block md:inline-block" data-i18n="main_suffix">Powered by Google Gemini</span>
+                <span id="powered-gemini" class="text-accent block md:inline-block" data-i18n="main_suffix">Powered by Google Gemini</span>
             </h1>
-            <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-3xl mx-auto" data-i18n="main_description">
-                MirAI is a lightweight, fast, and feature-rich web interface for the Gemini API. Featuring <b>SuperRoundedUI</b> design, PWA support, and advanced features like encrypted backups. Get instant answers without the bloat.
+            <p class="text-lg md:text-xl text-secondary mb-10 max-w-3xl mx-auto" data-i18n="main_description">
+                MirAI 3 is a lightweight, fast, and feature-rich web interface for the Gemini API. Now with <b>advanced search</b>, <b>custom accent color</b>, <b>memory management</b>, and <b>encrypted backups</b>. Get instant answers without the bloat.
             </p>
 
-            <button id="try-mirai-btn" class="accent-button text-xl px-10 py-4 shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 min-w-[280px] hover:shadow-2xl transition duration-300" data-i18n="try_button">
+            <button id="try-mirai-btn" class="btn-accent text-xl px-10 py-4 shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 min-w-[280px] hover:shadow-2xl" data-i18n="try_button">
                 Start Talking with MirAI
             </button>
             
             <div class="mt-8 flex flex-wrap justify-center gap-4">
-                <a href="https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/Allwaysever/MirAI/blob/main/index.html" target="_blank" class="secondary-button text-sm px-5 py-2">
+                <a href="https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/Allwaysever/MirAI/blob/main/index.html" target="_blank" class="btn-secondary text-sm px-5 py-2">
                     <span data-i18n="download_offline">📥 Download Offline Version</span>
                 </a>
-                <a href="https://allwaysevermirai.netlify.app/download" target="_blank" class="secondary-button text-sm px-5 py-2">
+                <a href="https://allwaysevermirai.netlify.app/download" target="_blank" class="btn-secondary text-sm px-5 py-2">
                     <span data-i18n="install_pwa">📱 Install as PWA</span>
                 </a>
-                <a href="https://allwaysevermirai.netlify.app/chat?betamodel" target="_blank" class="secondary-button text-sm px-5 py-2">
+                <a href="chat.html?betamodel" target="_blank" class="btn-secondary text-sm px-5 py-2">
                     <span data-i18n="try_beta">🧪 Try Beta Model</span>
                 </a>
             </div>
             
-            <div id="status-area" class="mt-8 text-sm text-gray-500">
+            <div id="status-area" class="mt-8 text-sm text-tertiary">
                 <span id="welcome-message" class="font-medium"></span>
                 <div id="countdown-container" class="hidden">
                     <div class="countdown-timer flex items-center justify-center">
                         <span id="countdown-text">Redirecting in 120s...</span>
-                        <button id="skip-button" class="secondary-button skip-button" data-i18n="skip_button">Skip</button>
+                        <button id="skip-button" class="btn-secondary skip-button" data-i18n="skip_button">Skip</button>
                     </div>
                     <div class="progress-bar">
                         <div id="progress-fill" class="progress-fill" style="width: 100%"></div>
@@ -240,182 +335,222 @@
             </div>
         </section>
 
+        <!-- Key Features -->
         <section id="features" class="py-16 container-padding max-w-6xl mx-auto mt-10">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="features_title">✨ Key Features</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 text-white fade-up" data-i18n="features_title">✨ Key Features</h2>
 
             <div class="grid md:grid-cols-3 gap-8 px-4 md:px-10">
                 
-                <div class="p-6 card-srui text-left">
+                <!-- Feature 1 -->
+                <div class="p-6 glass-card text-left fade-up delay-1">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="text-yellow-400">
+                        <div class="text-accent">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         </div>
                         <span class="feature-badge">Lightweight</span>
                     </div>
                     <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="feature1_title">Vanilla Stack</h3>
-                    <p class="text-gray-400" data-i18n="feature1_description">Built purely with HTML, CSS, and JavaScript. No heavy <b>frameworks</b>, ensuring super lightweight <b>loading</b> and a <b>snappy</b> experience.</p>
+                    <p class="text-secondary" data-i18n="feature1_description">Built purely with HTML, CSS, and JavaScript. No heavy <b>frameworks</b>, ensuring super lightweight <b>loading</b> and a <b>snappy</b> experience.</p>
                 </div>
 
-                <div class="p-6 card-srui text-left">
+                <!-- Feature 2 -->
+                <div class="p-6 glass-card text-left fade-up delay-2">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="text-yellow-400">
+                        <div class="text-accent">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                         </div>
                         <span class="feature-badge badge-new">PWA</span>
                     </div>
                     <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="feature2_title">Progressive Web App</h3>
-                    <p class="text-gray-400" data-i18n="feature2_description">Install MirAI as a native-like app on your device with offline capabilities. Works seamlessly on Android and desktop.</p>
+                    <p class="text-secondary" data-i18n="feature2_description">Install MirAI as a native-like app on your device with offline capabilities. Works seamlessly on Android and desktop.</p>
                 </div>
 
-                <div class="p-6 card-srui text-left">
+                <!-- Feature 3 -->
+                <div class="p-6 glass-card text-left fade-up delay-3">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="text-yellow-400">
+                        <div class="text-accent">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M3.636 5.636l.707.707M12 20.999v-1m6.364-1.636l-.707-.707M3.636 18.364l.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                         </div>
                         <span class="feature-badge badge-secure">Secure</span>
                     </div>
                     <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="feature3_title">Encrypted Backups (.medf)</h3>
-                    <p class="text-gray-400" data-i18n="feature3_description">Original encrypted data format by Allwaysever for secure backup of chat history, settings, and API keys with authenticity verification.</p>
+                    <p class="text-secondary" data-i18n="feature3_description">Original encrypted data format by Allwaysever for secure backup of chat history, settings, and API keys with authenticity verification.</p>
                 </div>
 
-                <div class="p-6 card-srui text-left">
-                    <div class="text-yellow-400 mb-4">
+                <!-- Feature 4 -->
+                <div class="p-6 glass-card text-left fade-up delay-1">
+                    <div class="text-accent mb-4">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="feature4_title">Session Persistence</h3>
-                    <p class="text-gray-400" data-i18n="feature4_description">Your conversations are automatically saved in your browser. Pick up where you left off, anytime! Supports cross-device sync via encrypted backups.</p>
+                    <p class="text-secondary" data-i18n="feature4_description">Your conversations are automatically saved in your browser. Pick up where you left off, anytime! Supports cross-device sync via encrypted backups.</p>
                 </div>
 
-                <div class="p-6 card-srui text-left">
-                    <div class="text-yellow-400 mb-4">
+                <!-- Feature 5 -->
+                <div class="p-6 glass-card text-left fade-up delay-2">
+                    <div class="text-accent mb-4">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4 4 0 003 15z"></path></svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="feature5_title">Multi-language Support</h3>
-                    <p class="text-gray-400" data-i18n="feature5_description">Available in Indonesian, English (US & UK), and Japanese. AI responses adapt to your chosen language for natural conversation.</p>
+                    <p class="text-secondary" data-i18n="feature5_description">Available in Indonesian, English (US & UK), and Japanese. AI responses adapt to your chosen language for natural conversation.</p>
                 </div>
 
-                <div class="p-6 card-srui text-left">
-                    <div class="text-yellow-400 mb-4">
+                <!-- Feature 6 -->
+                <div class="p-6 glass-card text-left fade-up delay-3">
+                    <div class="text-accent mb-4">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="feature6_title">Slash Commands & Tools</h3>
-                    <p class="text-gray-400" data-i18n="feature6_description">Use the '+' menu or type commands like `/translate`, `/summarize`, `/code`, and `/fix` for specific tasks. Dynamic suggestions as you type.</p>
+                    <p class="text-secondary" data-i18n="feature6_description">Use the '+' menu or type commands like `/translate`, `/summarize`, `/code`, and `/fix` for specific tasks. Dynamic suggestions as you type.</p>
+                </div>
+
+                <!-- Feature 7 -->
+                <div class="p-6 glass-card text-left fade-up delay-1">
+                    <div class="text-accent mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="feature7_title">Custom Accent Color</h3>
+                    <p class="text-secondary" data-i18n="feature7_description">Personalize the interface with your own hex color. Dark colors are automatically filtered to maintain readability.</p>
+                </div>
+
+                <!-- Feature 8 -->
+                <div class="p-6 glass-card text-left fade-up delay-2">
+                    <div class="text-accent mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="feature8_title">Advanced Search System</h3>
+                    <p class="text-secondary" data-i18n="feature8_description">Use /search command with multiple engines (SearchAPI, Google, DuckDuckGo, Wikipedia) or AI knowledge base fallback. Configurable in settings.</p>
+                </div>
+
+                <!-- Feature 9 -->
+                <div class="p-6 glass-card text-left fade-up delay-3">
+                    <div class="text-accent mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="feature9_title">Memory Management</h3>
+                    <p class="text-secondary" data-i18n="feature9_description">Control how many chat bubbles are stored with a handy slider. Trim old conversations manually or let MirAI handle it.</p>
                 </div>
             </div>
         </section>
 
+        <!-- Advanced Features -->
         <section id="advanced" class="py-16 container-padding max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="advanced_title">🔧 Advanced Features</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 text-white fade-up" data-i18n="advanced_title">🔧 Advanced Features</h2>
 
             <div class="grid md:grid-cols-2 gap-10 items-center">
-                <div class="text-left">
+                <div class="text-left fade-up">
                     <h3 class="text-2xl font-semibold mb-4 text-white" data-i18n="advanced_subtitle">Professional-Grade Capabilities</h3>
-                    <p class="text-gray-400 mb-4" data-i18n="advanced_description">MirAI goes beyond basic chatbots with enterprise-level features designed for power users and developers.</p>
-                    <ul class="space-y-3 text-gray-300">
+                    <p class="text-secondary mb-4" data-i18n="advanced_description">MirAI goes beyond basic chatbots with enterprise-level features designed for power users and developers.</p>
+                    <ul class="space-y-3 text-secondary">
                         <li class="flex items-start">
-                            <span class="text-yellow-400 mr-3 mt-1">✓</span>
-                            <div data-i18n="advanced_feature1">
-                                <b>Multimodal Input:</b> Upload images (JPEG, PNG, WebP) and analyze them with text prompts using Gemini's vision capabilities.
-                            </div>
+                            <span class="text-accent mr-3 mt-1">✓</span>
+                            <div data-i18n="advanced_feature1"><b>Multimodal Input:</b> Upload images (JPEG, PNG, WebP) and analyze them with text prompts using Gemini's vision capabilities.</div>
                         </li>
                         <li class="flex items-start">
-                            <span class="text-yellow-400 mr-3 mt-1">✓</span>
-                            <div data-i18n="advanced_feature2">
-                                <b>Text-to-Speech (TTS):</b> Click the speaker icon to have responses read aloud in your chosen language.
-                            </div>
+                            <span class="text-accent mr-3 mt-1">✓</span>
+                            <div data-i18n="advanced_feature2"><b>Text-to-Speech (TTS):</b> Click the speaker icon to have responses read aloud in your chosen language.</div>
                         </li>
                         <li class="flex items-start">
-                            <span class="text-yellow-400 mr-3 mt-1">✓</span>
-                            <div data-i18n="advanced_feature3">
-                                <b>Model Switching:</b> Choose between Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models.
-                            </div>
+                            <span class="text-accent mr-3 mt-1">✓</span>
+                            <div data-i18n="advanced_feature3"><b>Model Switching:</b> Choose between Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models.</div>
                         </li>
                         <li class="flex items-start">
-                            <span class="text-yellow-400 mr-3 mt-1">✓</span>
-                            <div data-i18n="advanced_feature4">
-                                <b>Markdown Parsing:</b> Code blocks, lists, and formatting display correctly with syntax highlighting.
-                            </div>
+                            <span class="text-accent mr-3 mt-1">✓</span>
+                            <div data-i18n="advanced_feature4"><b>Markdown Parsing:</b> Code blocks, lists, and formatting display correctly with syntax highlighting.</div>
                         </li>
                         <li class="flex items-start">
-                            <span class="text-yellow-400 mr-3 mt-1">✓</span>
-                            <div data-i18n="advanced_feature5">
-                                <b>Public API Limiter:</b> Intelligent tracking and warnings for fair usage of the default API key.
-                            </div>
+                            <span class="text-accent mr-3 mt-1">✓</span>
+                            <div data-i18n="advanced_feature5"><b>Public API Limiter:</b> Intelligent tracking and warnings for fair usage of the default API key.</div>
                         </li>
                         <li class="flex items-start">
-                            <span class="text-yellow-400 mr-3 mt-1">✓</span>
-                            <div data-i18n="advanced_feature6">
-                                <b>Stop Generation:</b> Immediately halt AI responses when needed with abort controllers.
-                            </div>
+                            <span class="text-accent mr-3 mt-1">✓</span>
+                            <div data-i18n="advanced_feature6"><b>Stop Generation:</b> Immediately halt AI responses when needed with abort controllers.</div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent mr-3 mt-1">✓</span>
+                            <div data-i18n="advanced_feature7"><b>Search Cache:</b> Frequently run searches are cached to reduce API calls and speed up responses.</div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent mr-3 mt-1">✓</span>
+                            <div data-i18n="advanced_feature8"><b>Debug Console:</b> For power users, window.debugMirAI provides tools to inspect API usage, search engine status, and memory.</div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent mr-3 mt-1">✓</span>
+                            <div data-i18n="advanced_feature9"><b>Authenticity Verification:</b> Built-in signature verification for backup files to ensure they're genuine MirAI backups.</div>
                         </li>
                     </ul>
                 </div>
-                <div class="p-6 card-srui border-none flex flex-col justify-center items-center min-h-[300px]">
+                <div class="p-6 glass-card border-none flex flex-col justify-center items-center min-h-[300px] fade-up delay-2">
                     <div class="text-4xl mb-4">🔒</div>
-                    <p class="text-lg text-yellow-400 font-bold text-center" data-i18n="advanced_visual">.medf Encrypted Backup System</p>
-                    <p class="text-gray-400 text-center mt-2" data-i18n="advanced_visual_desc">Secure, portable, and authentic data format</p>
+                    <p class="text-lg text-accent font-bold text-center" data-i18n="advanced_visual">.medf Encrypted Backup System</p>
+                    <p class="text-secondary text-center mt-2" data-i18n="advanced_visual_desc">Secure, portable, and authentic data format with signature verification</p>
                 </div>
             </div>
         </section>
         
+        <!-- Tech Stack -->
         <section id="tech-stack" class="py-16 container-padding max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="tech_title">🛠️ Complete Tech Stack</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 text-white fade-up" data-i18n="tech_title">🛠️ Complete Tech Stack</h2>
 
             <div class="grid md:grid-cols-4 gap-6 px-4 md:px-10 text-center">
                 
-                <div class="p-6 card-srui">
-                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">Core</p>
+                <div class="p-6 glass-card fade-up delay-1">
+                    <p class="text-3xl font-extrabold text-accent mb-2">Core</p>
                     <div class="mb-3">
                         <span class="tech-badge">HTML5</span>
                         <span class="tech-badge">CSS3</span>
                         <span class="tech-badge">Vanilla JS</span>
                     </div>
                     <h3 class="text-lg font-semibold mb-1 text-white" data-i18n="tech_core_title">Foundation</h3>
-                    <p class="text-sm text-gray-400" data-i18n="tech_core_description">Clean, semantic structure without framework bloat.</p>
+                    <p class="text-sm text-secondary" data-i18n="tech_core_description">Clean, semantic structure without framework bloat.</p>
                 </div>
                 
-                <div class="p-6 card-srui">
-                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">AI & APIs</p>
+                <div class="p-6 glass-card fade-up delay-2">
+                    <p class="text-3xl font-extrabold text-accent mb-2">AI & APIs</p>
                     <div class="mb-3">
                         <span class="tech-badge">Gemini API</span>
                         <span class="tech-badge">gemini-2.5-flash</span>
                         <span class="tech-badge">gemini-3-flash</span>
+                        <span class="tech-badge">SearchAPI.io</span>
+                        <span class="tech-badge">Google CSE</span>
                     </div>
                     <h3 class="text-lg font-semibold mb-1 text-white" data-i18n="tech_api_title">Intelligence</h3>
-                    <p class="text-sm text-gray-400" data-i18n="tech_api_description">Latest Gemini models for speed and accuracy.</p>
+                    <p class="text-sm text-secondary" data-i18n="tech_api_description">Latest Gemini models and multiple search engines.</p>
                 </div>
                 
-                <div class="p-6 card-srui">
-                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">Security</p>
+                <div class="p-6 glass-card fade-up delay-3">
+                    <p class="text-3xl font-extrabold text-accent mb-2">Security</p>
                     <div class="mb-3">
                         <span class="tech-badge">.medf Format</span>
                         <span class="tech-badge">Web Crypto API</span>
                         <span class="tech-badge">Authenticity Sig</span>
+                        <span class="tech-badge">AES-GCM</span>
                     </div>
                     <h3 class="text-lg font-semibold mb-1 text-white" data-i18n="tech_security_title">Data Protection</h3>
-                    <p class="text-sm text-gray-400" data-i18n="tech_security_description">Proprietary encrypted format with verification.</p>
+                    <p class="text-sm text-secondary" data-i18n="tech_security_description">Proprietary encrypted format with verification.</p>
                 </div>
                 
-                <div class="p-6 card-srui">
-                    <p class="text-3xl font-extrabold text-yellow-400 mb-2">UX/UI</p>
+                <div class="p-6 glass-card fade-up delay-4">
+                    <p class="text-3xl font-extrabold text-accent mb-2">UX/UI</p>
                     <div class="mb-3">
                         <span class="tech-badge">SuperRoundedUI</span>
                         <span class="tech-badge">Marked.js</span>
                         <span class="tech-badge">Service Workers</span>
+                        <span class="tech-badge">Web Speech API</span>
                     </div>
                     <h3 class="text-lg font-semibold mb-1 text-white" data-i18n="tech_ui_title">Experience</h3>
-                    <p class="text-sm text-gray-400" data-i18n="tech_ui_description">Premium design system with PWA capabilities.</p>
+                    <p class="text-sm text-secondary" data-i18n="tech_ui_description">Premium design system with PWA and TTS.</p>
                 </div>
             </div>
             
-            <div class="text-center mt-12">
-                <p class="text-xl font-semibold text-gray-300 mb-4" data-i18n="opensource_text">MirAI is a simple and elegant Open-Source project under Apache License 2.0.</p>
+            <div class="text-center mt-12 fade-up">
+                <p class="text-xl font-semibold text-secondary mb-4" data-i18n="opensource_text">MirAI is a simple and elegant Open-Source project under Apache License 2.0.</p>
                 <div class="flex flex-wrap justify-center gap-4">
-                    <a href="https://github.com/Allwaysever/MirAI" class="accent-button px-6 py-3 text-lg inline-flex items-center space-x-2">
+                    <a href="https://github.com/Allwaysever/MirAI" class="btn-accent px-6 py-3 text-lg inline-flex items-center space-x-2">
                         <span data-i18n="github_button">View Source Code on GitHub</span>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.417 2.865 8.16 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.705-2.782.603-3.37-1.34-3.37-1.34-.454-1.15-.11-1.458-.11-1.458.93-.635 1.408.081 1.408.081.823 1.406 2.152.997 2.67.761.083-.59.324-.997.593-1.226-2.046-.231-4.197-1.025-4.197-4.555 0-1.006.357-1.83.948-2.474-.095-.231-.41-.1.1-.986 1.428.005 2.825.706 2.825.706.77-.213 1.597-.32 2.42-.325.823.005 1.65.112 2.42.325 0 0 1.397-.7 2.825-.706.51 1.094.195.755.1.986.591.644.948 1.468.948 2.474 0 3.53-2.154 4.32-4.204 4.549.33.284.625.845.625 1.705 0 1.226-.01 2.219-.01 2.525 0 .267.18.579.688.482 3.967-1.345 6.83-5.088 6.83-9.504C22 6.484 17.523 2 12 2z" clip-rule="evenodd"></path></svg>
                     </a>
-                    <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/FAQ.md" class="secondary-button px-6 py-3 text-lg inline-flex items-center space-x-2">
+                    <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/FAQ.md" class="btn-secondary px-6 py-3 text-lg inline-flex items-center space-x-2">
                         <span data-i18n="docs_button">Read Documentation</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     </a>
@@ -423,40 +558,41 @@
             </div>
         </section>
         
+        <!-- Testimonials -->
         <section id="testimonials" class="py-16 container-padding max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="testimonials_title">What Do They Say?</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 text-white fade-up" data-i18n="testimonials_title">What Do They Say?</h2>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-10">
                 
-                <div class="p-6 card-srui text-left">
-                    <p class="text-gray-300 italic mb-4" data-i18n="testimonial1_text">"The .medf backup system is genius! I can securely move my chat history between devices. The encryption gives me peace of mind."</p>
+                <div class="p-6 glass-card text-left fade-up delay-1">
+                    <p class="text-secondary italic mb-4" data-i18n="testimonial1_text">"The .medf backup system is genius! I can securely move my chat history between devices. The encryption gives me peace of mind."</p>
                     <div class="flex items-center">
                         <img src="https://i.pravatar.cc/50?img=1" class="w-10 h-10 rounded-full mr-3" alt="User 1 Photo">
                         <div>
                             <p class="font-semibold text-white">Alex S.</p>
-                            <p class="text-sm text-gray-400" data-i18n="testimonial1_role">Security Analyst</p>
+                            <p class="text-sm text-secondary" data-i18n="testimonial1_role">Security Analyst</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="p-6 card-srui text-left">
-                    <p class="text-gray-300 italic mb-4" data-i18n="testimonial2_text">"Installing as a PWA on my Android feels like a native app. The offline capabilities and push notifications are game-changers."</p>
+                <div class="p-6 glass-card text-left fade-up delay-2">
+                    <p class="text-secondary italic mb-4" data-i18n="testimonial2_text">"Installing as a PWA on my Android feels like a native app. The offline capabilities and push notifications are game-changers."</p>
                     <div class="flex items-center">
                         <img src="https://i.pravatar.cc/50?img=2" class="w-10 h-10 rounded-full mr-3" alt="User 2 Photo">
                         <div>
                             <p class="font-semibold text-white">Budi H.</p>
-                            <p class="text-sm text-gray-400" data-i18n="testimonial2_role">Mobile Developer</p>
+                            <p class="text-sm text-secondary" data-i18n="testimonial2_role">Mobile Developer</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="p-6 card-srui text-left md:col-span-2 lg:col-span-1">
-                    <p class="text-gray-300 italic mb-4" data-i18n="testimonial3_text">"The model switching feature lets me test Gemini 3 preview easily. Performance is incredible even on my old laptop."</p>
+                <div class="p-6 glass-card text-left md:col-span-2 lg:col-span-1 fade-up delay-3">
+                    <p class="text-secondary italic mb-4" data-i18n="testimonial3_text">"The model switching feature lets me test Gemini 3 preview easily. Performance is incredible even on my old laptop."</p>
                     <div class="flex items-center">
                         <img src="https://i.pravatar.cc/50?img=3" class="w-10 h-10 rounded-full mr-3" alt="User 3 Photo">
                         <div>
                             <p class="font-semibold text-white">Cinta P.</p>
-                            <p class="text-sm text-gray-400" data-i18n="testimonial3_role">AI Researcher</p>
+                            <p class="text-sm text-secondary" data-i18n="testimonial3_role">AI Researcher</p>
                         </div>
                     </div>
                 </div>
@@ -464,499 +600,661 @@
             </div>
         </section>
 
+        <!-- FAQ -->
         <section id="faq" class="py-16 container-padding max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="faq_title">Frequently Asked Questions (FAQ)</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 text-white fade-up" data-i18n="faq_title">Frequently Asked Questions (FAQ)</h2>
 
-            <div class="max-w-3xl mx-auto p-6 card-srui border-none">
+            <div class="max-w-3xl mx-auto p-6 glass-card border-none">
                 
                 <details class="faq-item py-4 cursor-pointer">
-                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150" data-i18n="faq1_question">What is the .medf file format?</summary>
-                    <p class="text-gray-400 mt-3 pl-4" data-i18n="faq1_answer">.medf (MirAI Encrypted Data Files) is an original encrypted data format by Allwaysever for secure backup of chat history, settings, and API keys. It features password protection, authenticity signatures, and cross-device compatibility.</p>
-                </details>
-
-                <details class="faq-item py-4 cursor-pointer">
-                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150" data-i18n="faq2_question">Can I install MirAI as a native app?</summary>
-                    <p class="text-gray-400 mt-3 pl-4" data-i18n="faq2_answer">Yes! MirAI is a Progressive Web App (PWA). You can install it on Android devices through Chrome's "Add to Home Screen" feature. It works offline and supports push notifications via OneSignal integration.</p>
-                </details>
-                
-                <details class="faq-item py-4 cursor-pointer">
-                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150" data-i18n="faq3_question">Do I need my own API Key?</summary>
-                    <p class="text-gray-400 mt-3 pl-4" data-i18n="faq3_answer">For the best performance and security, we highly recommend using your personal Google Gemini API Key. The default public key has usage limits. You can get a free API key from Google AI Studio and enter it in MirAI's settings.</p>
+                    <summary class="font-semibold text-white hover:text-accent transition duration-150" data-i18n="faq1_question">What is the .medf file format?</summary>
+                    <p class="text-secondary mt-3 pl-4" data-i18n="faq1_answer">.medf (MirAI Encrypted Data Files) is an original encrypted data format by Allwaysever for secure backup of chat history, settings, and API keys. It features password protection, authenticity signatures, and cross-device compatibility.</p>
                 </details>
 
                 <details class="faq-item py-4 cursor-pointer">
-                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150" data-i18n="faq4_question">What AI models does MirAI support?</summary>
-                    <p class="text-gray-400 mt-3 pl-4" data-i18n="faq4_answer">MirAI supports both Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models. You can switch between them via URL parameters or settings. Each model offers different strengths in speed, accuracy, and capabilities.</p>
+                    <summary class="font-semibold text-white hover:text-accent transition duration-150" data-i18n="faq2_question">Can I install MirAI as a native app?</summary>
+                    <p class="text-secondary mt-3 pl-4" data-i18n="faq2_answer">Yes! MirAI is a Progressive Web App (PWA). You can install it on Android devices through Chrome's "Add to Home Screen" feature. It works offline and supports push notifications via OneSignal integration.</p>
                 </details>
                 
                 <details class="faq-item py-4 cursor-pointer">
-                    <summary class="font-semibold text-white hover:text-yellow-400 transition duration-150" data-i18n="faq5_question">Is my data secure with MirAI?</summary>
-                    <p class="text-gray-400 mt-3 pl-4" data-i18n="faq5_answer">Absolutely. When using your own API key, all conversations happen between you and Google's servers. The .medf backup system uses military-grade encryption (Web Crypto API). Your API key is never transmitted to Allwaysever servers - it stays in your browser.</p>
+                    <summary class="font-semibold text-white hover:text-accent transition duration-150" data-i18n="faq3_question">Do I need my own API Key?</summary>
+                    <p class="text-secondary mt-3 pl-4" data-i18n="faq3_answer">For the best performance and security, we highly recommend using your personal Google Gemini API Key. The default public key has usage limits. You can get a free API key from Google AI Studio and enter it in MirAI's settings.</p>
+                </details>
+
+                <details class="faq-item py-4 cursor-pointer">
+                    <summary class="font-semibold text-white hover:text-accent transition duration-150" data-i18n="faq4_question">What AI models does MirAI support?</summary>
+                    <p class="text-secondary mt-3 pl-4" data-i18n="faq4_answer">MirAI supports both Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models. You can switch between them via URL parameters or settings. Each model offers different strengths in speed, accuracy, and capabilities.</p>
+                </details>
+                
+                <details class="faq-item py-4 cursor-pointer">
+                    <summary class="font-semibold text-white hover:text-accent transition duration-150" data-i18n="faq5_question">Is my data secure with MirAI?</summary>
+                    <p class="text-secondary mt-3 pl-4" data-i18n="faq5_answer">Absolutely. When using your own API key, all conversations happen between you and Google's servers. The .medf backup system uses military-grade encryption (Web Crypto API). Your API key is never transmitted to Allwaysever servers - it stays in your browser.</p>
+                </details>
+
+                <details class="faq-item py-4 cursor-pointer">
+                    <summary class="font-semibold text-white hover:text-accent transition duration-150" data-i18n="faq6_question">How does the search system work?</summary>
+                    <p class="text-secondary mt-3 pl-4" data-i18n="faq6_answer">The /search command can use external search engines (SearchAPI.io, Google, DuckDuckGo, Wikipedia) if configured, or fallback to AI knowledge base. You can enable/disable engines in Settings → Search Configuration. Search results are cached for speed.</p>
+                </details>
+
+                <details class="faq-item py-4 cursor-pointer">
+                    <summary class="font-semibold text-white hover:text-accent transition duration-150" data-i18n="faq7_question">Can I control how much chat history is saved?</summary>
+                    <p class="text-secondary mt-3 pl-4" data-i18n="faq7_answer">Yes! Use the memory slider in Settings to set the maximum number of messages to keep. Older messages are automatically trimmed to maintain performance.</p>
                 </details>
                 
             </div>
         </section>
 
-        <section class="py-16 container-padding max-w-6xl mx-auto text-center">
-            <div class="bg-yellow-400 card-srui p-8 md:p-12 text-gray-900 border-none">
-                <h2 class="text-3xl font-extrabold mb-4" data-i18n="cta_title">Ready to experience next-gen AI assistance?</h2>
-                <p class="text-lg mb-8" data-i18n="cta_description">Try MirAI now with PWA installation, encrypted backups, and the latest Gemini models. Everything from coding to creative writing.</p>
-                <button id="try-mirai-btn-footer" class="accent-button text-xl px-10 py-4 shadow-md focus:outline-none focus:ring-4 focus:ring-gray-900 focus:ring-opacity-20 min-w-[280px] bg-gray-900 text-yellow-400 hover:bg-gray-800">
+        <!-- CTA -->
+        <section class="py-16 container-padding max-w-6xl mx-auto text-center fade-up">
+            <div class="bg-accent glass-card p-8 md:p-12 text-gray-900 border-none">
+                <h2 class="text-3xl text-white font-extrabold mb-4" data-i18n="cta_title">Ready to experience next-gen AI assistance?</h2>
+                <p class="text-lg mb-8 text-white" data-i18n="cta_description">Try MirAI now with PWA installation, encrypted backups, and the latest Gemini models. Everything from coding to creative writing.</p>
+                <button id="try-mirai-btn-footer" class="btn-accent text-xl px-10 py-4 shadow-md focus:outline-none focus:ring-4 focus:ring-gray-900 focus:ring-opacity-20 min-w-[280px] bg-gray-900 text-accent hover:bg-gray-800">
                     <span data-i18n="cta_button">Launch MirAI Now →</span>
                 </button>
-                <p class="text-sm text-gray-700 mt-4" data-i18n="cta_note">No sign-up required. Works offline with PWA installation.</p>
+                <p class="text-sm text-white mt-4" data-i18n="cta_note">No sign-up required. Works offline with PWA installation.</p>
             </div>
         </section>
 
     </main>
     
+    <!-- Community -->
     <section id="community" class="py-10 container-padding max-w-6xl mx-auto text-center">
         <h3 class="text-xl font-bold mb-6 text-white" data-i18n="community_title">Join the MirAI Community!</h3>
-        <div class="flex justify-center space-x-6 text-gray-400">
-            <a href="https://github.com/Allwaysever/MirAI/issues" class="hover:text-yellow-400 transition duration-150">
+        <div class="flex justify-center space-x-6 text-secondary">
+            <a href="https://github.com/Allwaysever/MirAI/issues" class="hover:text-accent transition duration-150">
                 <span class="text-xl">GitHub</span> 
             </a>
             <span class="text-xl">|</span>
-             <a href="https://whatsapp.com/channel/0029Vb6hyuk6mYPGjI2E5g31" class="hover:text-yellow-400 transition duration-150">
+             <a href="https://whatsapp.com/channel/0029Vb6hyuk6mYPGjI2E5g31" class="hover:text-accent transition duration-150">
                 <span class="text-xl">WA Channel</span> 
             </a>
             <span class="text-xl">|</span>
-            <a href="https://Instagram.com/allwaysevermirai" class="hover:text-yellow-400 transition duration-150">
+            <a href="https://Instagram.com/allwaysevermirai" class="hover:text-accent transition duration-150">
                 <span class="text-xl">Instagram</span> 
             </a>
             <span class="text-xl">|</span>
-            <a href="https://youtube.com/@AllwayseverMirAI" class="hover:text-yellow-400 transition duration-150">
+            <a href="https://youtube.com/@AllwayseverMirAI" class="hover:text-accent transition duration-150">
                 <span class="text-xl">YouTube</span> 
             </a>
         </div>
-        <p class="text-sm text-gray-600 mt-4" data-i18n="community_description">Development is open-source under Apache License 2.0. Found a bug or want to contribute? Check out our <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-gray-400 hover:text-yellow-400 underline">Contributing Guide</a> and comprehensive <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-gray-400 hover:text-yellow-400 underline">Documentation</a>.</p>
+        <p class="text-sm text-tertiary mt-4" data-i18n="community_description">Development is open-source under Apache License 2.0. Found a bug or want to contribute? Check out our <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-secondary hover:text-accent underline">Contributing Guide</a> and comprehensive <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-secondary hover:text-accent underline">Documentation</a>.</p>
     </section>
 
-    <footer class="text-center py-6 text-sm text-gray-600 border-t border-gray-900">
-        <p>&copy; 2025 Allwaysever Project: MirAI. Powered by Google Gemini API.</p>
+    <footer class="text-center py-6 text-sm text-tertiary border-t border-gray-800">
+        <p>&copy; 2026 Allwaysever Project: MirAI. Powered by Google Gemini API.</p>
         <p class="mt-2">Apache License 2.0 • .medf format specification by Allwaysever</p>
         <div class="mt-4 flex justify-center space-x-4">
-            <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/FAQ.md" class="text-gray-500 hover:text-yellow-400">FAQ</a>
+            <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/FAQ.md" class="text-tertiary hover:text-accent">FAQ</a>
             <span>•</span>
-            <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/TROUBLESHOOTING.md" class="text-gray-500 hover:text-yellow-400">Troubleshooting</a>
+            <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/TROUBLESHOOTING.md" class="text-tertiary hover:text-accent">Troubleshooting</a>
             <span>•</span>
-            <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CHANGELOG.md" class="text-gray-500 hover:text-yellow-400">Changelog</a>
+            <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CHANGELOG.md" class="text-tertiary hover:text-accent">Changelog</a>
             <span>•</span>
-            <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/MEDF_SPEC.md" class="text-gray-500 hover:text-yellow-400">.medf Specification</a>
+            <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/MEDF_SPEC.md" class="text-tertiary hover:text-accent">.medf Specification</a>
         </div>
     </footer>
 
-<script>
-    // Language Management System
-    class LanguageManager {
-        constructor() {
-            this.currentLang = localStorage.getItem('mirai-language') || 'auto';
-            this.supportedLangs = {
-                'id-ID': { name: 'Bahasa Indonesia', flag: '🇮🇩' },
-                'en-US': { name: 'English (US)', flag: '🇺🇸' },
-                'en-GB': { name: 'English (UK)', flag: '🇬🇧' },
-                'ja-JP': { name: '日本語', flag: '🇯🇵' }
-            };
-            this.translations = this.loadTranslations();
-        }
-        
-        loadTranslations() {
-            return {
-                'id-ID': {
-                    // Main section
-                    'main_prefix': 'Asisten Pribadi Cerdas Anda,',
-                    'main_suffix': 'Didukung Google Gemini',
-                    'main_description': 'MirAI adalah antarmuka web yang ringan, cepat, dan kaya fitur untuk API Gemini. Mengusung desain <b>SuperRoundedUI</b>, dukungan PWA, dan fitur canggih seperti backup terenkripsi. Dapatkan jawaban instan tanpa bloat.',
-                    'try_button': 'Mulai Berbicara dengan MirAI',
-                    'download_offline': '📥 Unduh Versi Offline',
-                    'install_pwa': '📱 Install sebagai PWA',
-                    'try_beta': '🧪 Coba Model Beta',
-                    'skip_button': 'Lewati',
-                    'redirecting': 'Mengarahkan',
-                    
-                    // Features
-                    'features_title': '✨ Fitur Utama',
-                    'feature1_title': 'Vanilla Stack',
-                    'feature1_description': 'Dibangun murni dengan HTML, CSS, dan JavaScript. Tanpa <b>framework</b> berat, memastikan <b>loading</b> yang sangat ringan dan pengalaman yang <b>cepat</b>.',
-                    'feature2_title': 'Progressive Web App',
-                    'feature2_description': 'Instal MirAI sebagai aplikasi mirip native di perangkat Anda dengan kemampuan offline. Bekerja mulus di Android dan desktop.',
-                    'feature3_title': 'Backup Terenkripsi (.medf)',
-                    'feature3_description': 'Format data terenkripsi orisinal oleh Allwaysever untuk backup aman riwayat chat, pengaturan, dan kunci API dengan verifikasi keaslian.',
-                    'feature4_title': 'Pertahanan Sesi',
-                    'feature4_description': 'Percakapan Anda secara otomatis disimpan di browser. Lanjutkan kapan saja! Mendukung sinkronisasi lintas perangkat melalui backup terenkripsi.',
-                    'feature5_title': 'Dukungan Multi-bahasa',
-                    'feature5_description': 'Tersedia dalam Bahasa Indonesia, Inggris (US & UK), dan Jepang. Respons AI menyesuaikan bahasa pilihan Anda untuk percakapan yang natural.',
-                    'feature6_title': 'Perintah Slash & Tools',
-                    'feature6_description': 'Gunakan menu \'+\' atau ketik perintah seperti `/translate`, `/summarize`, `/code`, dan `/fix` untuk tugas spesifik. Saran dinamis saat Anda mengetik.',
-                    
-                    // Advanced features
-                    'advanced_title': '🔧 Fitur Lanjutan',
-                    'advanced_subtitle': 'Kemampuan Tingkat Profesional',
-                    'advanced_description': 'MirAI melampaui chatbot dasar dengan fitur tingkat perusahaan yang dirancang untuk pengguna ahli dan developer.',
-                    'advanced_feature1': '<b>Input Multimodal:</b> Unggah gambar (JPEG, PNG, WebP) dan analisis dengan prompt teks menggunakan kemampuan vision Gemini.',
-                    'advanced_feature2': '<b>Text-to-Speech (TTS):</b> Klik ikon speaker untuk mendengar respons dibacakan dalam bahasa pilihan Anda.',
-                    'advanced_feature3': '<b>Penukaran Model:</b> Pilih antara Gemini 2.5 Flash (stabil) dan Gemini 3 Flash Preview (beta).',
-                    'advanced_feature4': '<b>Parsing Markdown:</b> Blok kode, daftar, dan pemformatan ditampilkan dengan benar dengan syntax highlighting.',
-                    'advanced_feature5': '<b>Pembatas API Publik:</b> Pelacakan cerdas dan peringatan untuk penggunaan adil kunci API default.',
-                    'advanced_feature6': '<b>Hentikan Generasi:</b> Hentikan respons AI segera ketika diperlukan dengan abort controllers.',
-                    'advanced_visual': 'Sistem Backup Terenkripsi .medf',
-                    'advanced_visual_desc': 'Format data yang aman, portabel, dan otentik',
-                    
-                    // Tech stack
-                    'tech_title': '🛠️ Tech Stack Lengkap',
-                    'tech_core_title': 'Fondasi',
-                    'tech_core_description': 'Struktur bersih dan semantik tanpa bloat framework.',
-                    'tech_api_title': 'Kecerdasan',
-                    'tech_api_description': 'Model Gemini terbaru untuk kecepatan dan akurasi.',
-                    'tech_security_title': 'Perlindungan Data',
-                    'tech_security_description': 'Format terenkripsi proprietary dengan verifikasi.',
-                    'tech_ui_title': 'Pengalaman',
-                    'tech_ui_description': 'Sistem desain premium dengan kemampuan PWA.',
-                    'opensource_text': 'MirAI adalah proyek Open-Source sederhana dan elegan di bawah Apache License 2.0.',
-                    'github_button': 'Lihat Kode Sumber di GitHub',
-                    'docs_button': 'Baca Dokumentasi',
-                    
-                    // Testimonials
-                    'testimonials_title': 'Apa Kata Mereka?',
-                    'testimonial1_text': '"Sistem backup .medf jenius! Saya bisa memindahkan riwayat chat antar perangkat dengan aman. Enkripsinya memberi ketenangan pikiran."',
-                    'testimonial1_role': 'Analis Keamanan',
-                    'testimonial2_text': '"Menginstal sebagai PWA di Android terasa seperti aplikasi native. Kemampuan offline dan notifikasi push mengubah permainan."',
-                    'testimonial2_role': 'Mobile Developer',
-                    'testimonial3_text': '"Fitur penukaran model memungkinkan saya menguji Gemini 3 preview dengan mudah. Performanya luar biasa bahkan di laptop lama saya."',
-                    'testimonial3_role': 'Peneliti AI',
-                    
-                    // FAQ
-                    'faq_title': 'Pertanyaan yang Sering Diajukan (FAQ)',
-                    'faq1_question': 'Apa itu format file .medf?',
-                    'faq1_answer': '.medf (MirAI Encrypted Data Files) adalah format data terenkripsi orisinal oleh Allwaysever untuk backup aman riwayat chat, pengaturan, dan kunci API. Fitur perlindungan kata sandi, tanda tangan keaslian, dan kompatibilitas lintas perangkat.',
-                    'faq2_question': 'Bisakah saya menginstal MirAI sebagai aplikasi native?',
-                    'faq2_answer': 'Ya! MirAI adalah Progressive Web App (PWA). Anda dapat menginstalnya di perangkat Android melalui fitur "Tambahkan ke Layar Utama" Chrome. Bekerja offline dan mendukung notifikasi push melalui integrasi OneSignal.',
-                    'faq3_question': 'Apakah saya perlu Kunci API sendiri?',
-                    'faq3_answer': 'Untuk performa dan keamanan terbaik, kami sangat merekomendasikan menggunakan Kunci API Google Gemini pribadi Anda. Kunci publik default memiliki batas penggunaan. Anda bisa mendapatkan kunci API gratis dari Google AI Studio dan memasukkannya di pengaturan MirAI.',
-                    'faq4_question': 'Model AI apa yang didukung MirAI?',
-                    'faq4_answer': 'MirAI mendukung kedua model Gemini 2.5 Flash (stabil) dan Gemini 3 Flash Preview (beta). Anda dapat beralih di antara mereka melalui parameter URL atau pengaturan. Setiap model menawarkan keunggulan berbeda dalam kecepatan, akurasi, dan kemampuan.',
-                    'faq5_question': 'Apakah data saya aman dengan MirAI?',
-                    'faq5_answer': 'Sangat aman. Saat menggunakan kunci API Anda sendiri, semua percakapan terjadi antara Anda dan server Google. Sistem backup .medf menggunakan enkripsi tingkat militer (Web Crypto API). Kunci API Anda tidak pernah dikirim ke server Allwaysever - tetap di browser Anda.',
-                    
-                    // CTA
-                    'cta_title': 'Siap merasakan asisten AI generasi berikutnya?',
-                    'cta_description': 'Coba MirAI sekarang dengan instalasi PWA, backup terenkripsi, dan model Gemini terbaru. Semuanya dari coding hingga penulisan kreatif.',
-                    'cta_button': 'Jalankan MirAI Sekarang →',
-                    'cta_note': 'Tidak perlu pendaftaran. Bekerja offline dengan instalasi PWA.',
-                    
-                    // Community
-                    'community_title': 'Bergabunglah dengan Komunitas MirAI!',
-                    'community_description': 'Pengembangan open-source di bawah Apache License 2.0. Menemukan bug atau ingin berkontribusi? Lihat <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-gray-400 hover:text-yellow-400 underline">Panduan Kontribusi</a> dan <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-gray-400 hover:text-yellow-400 underline">Dokumentasi</a> lengkap kami.'
-                },
-                'en-US': {
-                    // Main section - keep existing translations and add new ones
-                    'main_prefix': 'Your Smart Personal Assistant,',
-                    'main_suffix': 'Powered by Google Gemini',
-                    'main_description': 'MirAI is a lightweight, fast, and feature-rich web interface for the Gemini API. Featuring <b>SuperRoundedUI</b> design, PWA support, and advanced features like encrypted backups. Get instant answers without the bloat.',
-                    'try_button': 'Start Talking with MirAI',
-                    'download_offline': '📥 Download Offline Version',
-                    'install_pwa': '📱 Install as PWA',
-                    'try_beta': '🧪 Try Beta Model',
-                    'skip_button': 'Skip',
-                    'redirecting': 'Redirecting',
-                    'first_visit': 'This is your first visit. Click the button to start!',
-                    
-                    // Features - update with new content
-                    'features_title': '✨ Key Features',
-                    'feature1_title': 'Vanilla Stack',
-                    'feature1_description': 'Built purely with HTML, CSS, and JavaScript. No heavy <b>frameworks</b>, ensuring super lightweight <b>loading</b> and a <b>snappy</b> experience.',
-                    'feature2_title': 'Progressive Web App',
-                    'feature2_description': 'Install MirAI as a native-like app on your device with offline capabilities. Works seamlessly on Android and desktop.',
-                    'feature3_title': 'Encrypted Backups (.medf)',
-                    'feature3_description': 'Original encrypted data format by Allwaysever for secure backup of chat history, settings, and API keys with authenticity verification.',
-                    'feature4_title': 'Session Persistence',
-                    'feature4_description': 'Your conversations are automatically saved in your browser. Pick up where you left off, anytime! Supports cross-device sync via encrypted backups.',
-                    'feature5_title': 'Multi-language Support',
-                    'feature5_description': 'Available in Indonesian, English (US & UK), and Japanese. AI responses adapt to your chosen language for natural conversation.',
-                    'feature6_title': 'Slash Commands & Tools',
-                    'feature6_description': 'Use the \'+\' menu or type commands like `/translate`, `/summarize`, `/code`, and `/fix` for specific tasks. Dynamic suggestions as you type.',
-                    
-                    // Advanced features - new section
-                    'advanced_title': '🔧 Advanced Features',
-                    'advanced_subtitle': 'Professional-Grade Capabilities',
-                    'advanced_description': 'MirAI goes beyond basic chatbots with enterprise-level features designed for power users and developers.',
-                    'advanced_feature1': '<b>Multimodal Input:</b> Upload images (JPEG, PNG, WebP) and analyze them with text prompts using Gemini\'s vision capabilities.',
-                    'advanced_feature2': '<b>Text-to-Speech (TTS):</b> Click the speaker icon to have responses read aloud in your chosen language.',
-                    'advanced_feature3': '<b>Model Switching:</b> Choose between Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models.',
-                    'advanced_feature4': '<b>Markdown Parsing:</b> Code blocks, lists, and formatting display correctly with syntax highlighting.',
-                    'advanced_feature5': '<b>Public API Limiter:</b> Intelligent tracking and warnings for fair usage of the default API key.',
-                    'advanced_feature6': '<b>Stop Generation:</b> Immediately halt AI responses when needed with abort controllers.',
-                    'advanced_visual': '.medf Encrypted Backup System',
-                    'advanced_visual_desc': 'Secure, portable, and authentic data format',
-                    
-                    // Tech stack - updated
-                    'tech_title': '🛠️ Complete Tech Stack',
-                    'tech_core_title': 'Foundation',
-                    'tech_core_description': 'Clean, semantic structure without framework bloat.',
-                    'tech_api_title': 'Intelligence',
-                    'tech_api_description': 'Latest Gemini models for speed and accuracy.',
-                    'tech_security_title': 'Data Protection',
-                    'tech_security_description': 'Proprietary encrypted format with verification.',
-                    'tech_ui_title': 'Experience',
-                    'tech_ui_description': 'Premium design system with PWA capabilities.',
-                    'opensource_text': 'MirAI is a simple and elegant Open-Source project under Apache License 2.0.',
-                    'github_button': 'View Source Code on GitHub',
-                    'docs_button': 'Read Documentation',
-                    
-                    // Testimonials - updated
-                    'testimonials_title': 'What Do They Say?',
-                    'testimonial1_text': '"The .medf backup system is genius! I can securely move my chat history between devices. The encryption gives me peace of mind."',
-                    'testimonial1_role': 'Security Analyst',
-                    'testimonial2_text': '"Installing as a PWA on my Android feels like a native app. The offline capabilities and push notifications are game-changers."',
-                    'testimonial2_role': 'Mobile Developer',
-                    'testimonial3_text': '"The model switching feature lets me test Gemini 3 preview easily. Performance is incredible even on my old laptop."',
-                    'testimonial3_role': 'AI Researcher',
-                    
-                    // FAQ - updated
-                    'faq_title': 'Frequently Asked Questions (FAQ)',
-                    'faq1_question': 'What is the .medf file format?',
-                    'faq1_answer': '.medf (MirAI Encrypted Data Files) is an original encrypted data format by Allwaysever for secure backup of chat history, settings, and API keys. It features password protection, authenticity signatures, and cross-device compatibility.',
-                    'faq2_question': 'Can I install MirAI as a native app?',
-                    'faq2_answer': 'Yes! MirAI is a Progressive Web App (PWA). You can install it on Android devices through Chrome\'s "Add to Home Screen" feature. It works offline and supports push notifications via OneSignal integration.',
-                    'faq3_question': 'Do I need my own API Key?',
-                    'faq3_answer': 'For the best performance and security, we highly recommend using your personal Google Gemini API Key. The default public key has usage limits. You can get a free API key from Google AI Studio and enter it in MirAI\'s settings.',
-                    'faq4_question': 'What AI models does MirAI support?',
-                    'faq4_answer': 'MirAI supports both Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models. You can switch between them via URL parameters or settings. Each model offers different strengths in speed, accuracy, and capabilities.',
-                    'faq5_question': 'Is my data secure with MirAI?',
-                    'faq5_answer': 'Absolutely. When using your own API key, all conversations happen between you and Google\'s servers. The .medf backup system uses military-grade encryption (Web Crypto API). Your API key is never transmitted to Allwaysever servers - it stays in your browser.',
-                    
-                    // CTA - updated
-                    'cta_title': 'Ready to experience next-gen AI assistance?',
-                    'cta_description': 'Try MirAI now with PWA installation, encrypted backups, and the latest Gemini models. Everything from coding to creative writing.',
-                    'cta_button': 'Launch MirAI Now →',
-                    'cta_note': 'No sign-up required. Works offline with PWA installation.',
-                    
-                    // Community - updated
-                    'community_title': 'Join the MirAI Community!',
-                    'community_description': 'Development is open-source under Apache License 2.0. Found a bug or want to contribute? Check out our <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-gray-400 hover:text-yellow-400 underline">Contributing Guide</a> and comprehensive <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-gray-400 hover:text-yellow-400 underline">Documentation</a>.'
-                },
-                // ... (keep existing en-GB and ja-JP translations with similar updates)
-                // Note: For brevity, I'm showing the pattern. In practice, you would update all language sections similarly.
-            };
-            
-            // Copy en-US translations to en-GB for now (they can be customized later)
-            this.translations['en-GB'] = JSON.parse(JSON.stringify(this.translations['en-US']));
-            
-            // Copy en-US translations to ja-JP template (to be translated properly)
-            this.translations['ja-JP'] = JSON.parse(JSON.stringify(this.translations['en-US']));
-            
-            return this.translations;
-        }
-        
-        // Function untuk detect region dan set bahasa otomatis
-        detectRegionAndSetLanguage() {
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            const browserLang = navigator.language || navigator.userLanguage;
-            
-            let detectedLang = 'en-US';
-            
-            if (timezone.includes('Asia/Jakarta') || 
-                timezone.includes('Asia/Makassar') || 
-                timezone.includes('Asia/Jayapura') ||
-                browserLang.startsWith('id')) {
-                detectedLang = 'id-ID';
-            } else if (timezone.includes('Asia/Tokyo') || 
-                       timezone.includes('Asia/Osaka') ||
-                       browserLang.startsWith('ja')) {
-                detectedLang = 'ja-JP';
-            } else if (timezone.includes('Europe/London') ||
-                       browserLang.startsWith('en-GB')) {
-                detectedLang = 'en-GB';
-            } else if (browserLang.startsWith('en')) {
-                detectedLang = 'en-US';
+    <script>
+        // Language Management System (tetap sama seperti aslinya)
+        class LanguageManager {
+            constructor() {
+                this.currentLang = localStorage.getItem('mirai-language') || 'auto';
+                this.supportedLangs = {
+                    'id-ID': { name: 'Bahasa Indonesia', flag: '🇮🇩' },
+                    'en-US': { name: 'English (US)', flag: '🇺🇸' },
+                    'en-GB': { name: 'English (UK)', flag: '🇬🇧' },
+                    'ja-JP': { name: '日本語', flag: '🇯🇵' }
+                };
+                this.translations = this.loadTranslations();
             }
             
-            return detectedLang;
+loadTranslations() {
+    return {
+        'id-ID': {
+            main_prefix: 'Asisten Pribadi Cerdas Anda,',
+            main_suffix: 'Didukung oleh Google Gemini',
+            main_description: 'MirAI 3 adalah antarmuka web ringan, cepat, dan kaya fitur untuk API Gemini. Kini dengan <b>penelusuran lanjutan</b>, <b>warna aksen kustom</b>, <b>manajemen memori</b>, dan <b>cadangan terenkripsi</b>. Dapatkan jawaban instan tanpa embel-embel.',
+            try_button: 'Mulai Berbicara dengan MirAI',
+            download_offline: '📥 Unduh Versi Offline',
+            install_pwa: '📱 Pasang sebagai PWA',
+            try_beta: '🧪 Coba Model Beta',
+            skip_button: 'Lewati',
+            features_title: '✨ Fitur Utama',
+            feature1_title: 'Tumpukan Vanila',
+            feature1_description: 'Dibangun murni dengan HTML, CSS, dan JavaScript. Tanpa <b>framework</b> berat, memastikan <b>pemuatan</b> sangat ringan dan pengalaman <b>responsif</b>.',
+            feature2_title: 'Progressive Web App',
+            feature2_description: 'Pasang MirAI sebagai aplikasi mirip native di perangkat Anda dengan kemampuan offline. Berfungsi mulus di Android dan desktop.',
+            feature3_title: 'Cadangan Terenkripsi (.medf)',
+            feature3_description: 'Format data terenkripsi asli oleh Allwaysever untuk cadangan riwayat obrolan, pengaturan, dan kunci API yang aman dengan verifikasi keaslian.',
+            feature4_title: 'Ketahanan Sesi',
+            feature4_description: 'Percakapan Anda secara otomatis tersimpan di peramban. Lanjutkan kapan saja! Mendukung sinkronisasi lintas perangkat melalui cadangan terenkripsi.',
+            feature5_title: 'Dukungan Multi-bahasa',
+            feature5_description: 'Tersedia dalam bahasa Indonesia, Inggris (AS & UK), dan Jepang. Respon AI menyesuaikan dengan bahasa pilihan Anda untuk percakapan alami.',
+            feature6_title: 'Perintah Garis Miring & Alat',
+            feature6_description: 'Gunakan menu "+" atau ketik perintah seperti `/translate`, `/summarize`, `/code`, dan `/fix` untuk tugas spesifik. Saran dinamis saat mengetik.',
+            feature7_title: 'Warna Aksen Kustom',
+            feature7_description: 'Personalisasi antarmuka dengan warna hex Anda sendiri. Warna gelap otomatis difilter agar tetap terbaca.',
+            feature8_title: 'Sistem Pencarian Lanjutan',
+            feature8_description: 'Gunakan perintah /search dengan berbagai mesin pencari (SearchAPI, Google, DuckDuckGo, Wikipedia) atau cadangan basis pengetahuan AI. Dapat dikonfigurasi di pengaturan.',
+            feature9_title: 'Manajemen Memori',
+            feature9_description: 'Kontrol jumlah gelembung obrolan yang disimpan dengan penggeser praktis. Hapus percakapan lama secara manual atau biarkan MirAI yang mengatur.',
+            advanced_title: '🔧 Fitur Lanjutan',
+            advanced_subtitle: 'Kemampuan Kelas Profesional',
+            advanced_description: 'MirAI melampaui chatbot dasar dengan fitur tingkat perusahaan yang dirancang untuk pengguna power dan pengembang.',
+            advanced_feature1: '<b>Input Multimodal:</b> Unggah gambar (JPEG, PNG, WebP) dan analisis dengan perintah teks menggunakan kemampuan visi Gemini.',
+            advanced_feature2: '<b>Teks-ke-Suara (TTS):</b> Klik ikon speaker untuk mendengarkan respons dibacakan dalam bahasa pilihan Anda.',
+            advanced_feature3: '<b>Pergantian Model:</b> Pilih antara model Gemini 2.5 Flash (stabil) dan Gemini 3 Flash Preview (beta).',
+            advanced_feature4: '<b>Penguraian Markdown:</b> Blok kode, daftar, dan format ditampilkan dengan benar dengan penyorotan sintaks.',
+            advanced_feature5: '<b>Pembatas API Publik:</b> Pelacakan dan peringatan cerdas untuk penggunaan wajar kunci API default.',
+            advanced_feature6: '<b>Hentikan Generasi:</b> Segera hentikan respons AI saat diperlukan dengan pengontrol pembatalan.',
+            advanced_feature7: '<b>Cache Pencarian:</b> Pencarian yang sering dijalankan disimpan dalam cache untuk mengurangi panggilan API dan mempercepat respons.',
+            advanced_feature8: '<b>Konsol Debug:</b> Untuk pengguna power, window.debugMirAI menyediakan alat untuk memeriksa penggunaan API, status mesin pencari, dan memori.',
+            advanced_feature9: '<b>Verifikasi Keaslian:</b> Verifikasi tanda tangan bawaan untuk file cadangan memastikan bahwa itu adalah cadangan MirAI asli.',
+            advanced_visual: 'Sistem Cadangan Terenkripsi .medf',
+            advanced_visual_desc: 'Format data aman, portabel, dan otentik dengan verifikasi tanda tangan',
+            tech_title: '🛠️ Tumpukan Teknologi Lengkap',
+            tech_core_title: 'Fondasi',
+            tech_core_description: 'Struktur bersih dan semantik tanpa kerangka kerja berlebih.',
+            tech_api_title: 'Kecerdasan',
+            tech_api_description: 'Model Gemini terbaru dan berbagai mesin pencari.',
+            tech_security_title: 'Perlindungan Data',
+            tech_security_description: 'Format terenkripsi proprietary dengan verifikasi.',
+            tech_ui_title: 'Pengalaman',
+            tech_ui_description: 'Sistem desain premium dengan PWA dan TTS.',
+            opensource_text: 'MirAI adalah proyek Sumber Terbuka sederhana dan elegan di bawah Lisensi Apache 2.0.',
+            github_button: 'Lihat Kode Sumber di GitHub',
+            docs_button: 'Baca Dokumentasi',
+            testimonials_title: 'Apa Kata Mereka?',
+            testimonial1_text: 'Sistem cadangan .medf itu brilian! Saya dapat memindahkan riwayat obrolan dengan aman antar perangkat. Enkripsi memberikan ketenangan pikiran.',
+            testimonial1_role: 'Analis Keamanan',
+            testimonial2_text: 'Memasang sebagai PWA di Android saya terasa seperti aplikasi native. Kemampuan offline dan notifikasi dorong adalah pengubah permainan.',
+            testimonial2_role: 'Pengembang Mobile',
+            testimonial3_text: 'Fitur peralihan model memudahkan saya mencoba pratinjau Gemini 3. Kinerjanya luar biasa bahkan di laptop lama saya.',
+            testimonial3_role: 'Peneliti AI',
+            faq_title: 'Pertanyaan yang Sering Diajukan (FAQ)',
+            faq1_question: 'Apa itu format file .medf?',
+            faq1_answer: '.medf (MirAI Encrypted Data Files) adalah format data terenkripsi asli oleh Allwaysever untuk cadangan aman riwayat obrolan, pengaturan, dan kunci API. Ini memiliki perlindungan kata sandi, tanda tangan keaslian, dan kompatibilitas lintas perangkat.',
+            faq2_question: 'Bisakah saya memasang MirAI sebagai aplikasi native?',
+            faq2_answer: 'Ya! MirAI adalah Progressive Web App (PWA). Anda dapat memasangnya di perangkat Android melalui fitur "Tambahkan ke Layar Beranda" Chrome. Ini berfungsi offline dan mendukung notifikasi dorong melalui integrasi OneSignal.',
+            faq3_question: 'Apakah saya perlu Kunci API sendiri?',
+            faq3_answer: 'Untuk kinerja dan keamanan terbaik, kami sangat merekomendasikan menggunakan Kunci API Google Gemini pribadi Anda. Kunci publik default memiliki batasan penggunaan. Anda bisa mendapatkan kunci API gratis dari Google AI Studio dan memasukkannya di pengaturan MirAI.',
+            faq4_question: 'Model AI apa yang didukung MirAI?',
+            faq4_answer: 'MirAI mendukung model Gemini 2.5 Flash (stabil) dan Gemini 3 Flash Preview (beta). Anda dapat beralih di antara mereka melalui parameter URL atau pengaturan. Setiap model menawarkan kekuatan berbeda dalam kecepatan, akurasi, dan kemampuan.',
+            faq5_question: 'Apakah data saya aman dengan MirAI?',
+            faq5_answer: 'Tentu. Saat menggunakan kunci API Anda sendiri, semua percakapan terjadi antara Anda dan server Google. Sistem cadangan .medf menggunakan enkripsi tingkat militer (Web Crypto API). Kunci API Anda tidak pernah dikirim ke server Allwaysever - tetap di peramban Anda.',
+            faq6_question: 'Bagaimana cara kerja sistem pencarian?',
+            faq6_answer: 'Perintah /search dapat menggunakan mesin pencari eksternal (SearchAPI.io, Google, DuckDuckGo, Wikipedia) jika dikonfigurasi, atau cadangan basis pengetahuan AI. Anda dapat mengaktifkan/menonaktifkan mesin di Pengaturan → Konfigurasi Pencarian. Hasil pencarian disimpan dalam cache untuk kecepatan.',
+            faq7_question: 'Bisakah saya mengontrol berapa banyak riwayat obrolan yang disimpan?',
+            faq7_answer: 'Ya! Gunakan penggeser memori di Pengaturan untuk mengatur jumlah maksimum pesan yang disimpan. Pesan lama secara otomatis dipangkas untuk menjaga kinerja.',
+            cta_title: 'Siap merasakan bantuan AI generasi berikutnya?',
+            cta_description: 'Coba MirAI sekarang dengan instalasi PWA, cadangan terenkripsi, dan model Gemini terbaru. Segala hal dari coding hingga menulis kreatif.',
+            cta_button: 'Jalankan MirAI Sekarang →',
+            cta_note: 'Tidak perlu mendaftar. Bekerja offline dengan instalasi PWA.',
+            community_title: 'Bergabunglah dengan Komunitas MirAI!',
+            community_description: 'Pengembangan bersumber terbuka di bawah Lisensi Apache 2.0. Menemukan bug atau ingin berkontribusi? Lihat <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-secondary hover:text-accent underline">Panduan Kontribusi</a> dan <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-secondary hover:text-accent underline">Dokumentasi</a> lengkap.',
+            first_visit: 'Selamat datang! Ini adalah kunjungan pertama Anda.',
+            redirecting: 'Mengalihkan'
+        },
+        'en-US': {
+            main_prefix: 'Your Smart Personal Assistant,',
+            main_suffix: 'Powered by Google Gemini',
+            main_description: 'MirAI 3 is a lightweight, fast, and feature-rich web interface for the Gemini API. Now with <b>advanced search</b>, <b>custom accent color</b>, <b>memory management</b>, and <b>encrypted backups</b>. Get instant answers without the bloat.',
+            try_button: 'Start Talking with MirAI',
+            download_offline: '📥 Download Offline Version',
+            install_pwa: '📱 Install as PWA',
+            try_beta: '🧪 Try Beta Model',
+            skip_button: 'Skip',
+            features_title: '✨ Key Features',
+            feature1_title: 'Vanilla Stack',
+            feature1_description: 'Built purely with HTML, CSS, and JavaScript. No heavy <b>frameworks</b>, ensuring super lightweight <b>loading</b> and a <b>snappy</b> experience.',
+            feature2_title: 'Progressive Web App',
+            feature2_description: 'Install MirAI as a native-like app on your device with offline capabilities. Works seamlessly on Android and desktop.',
+            feature3_title: 'Encrypted Backups (.medf)',
+            feature3_description: 'Original encrypted data format by Allwaysever for secure backup of chat history, settings, and API keys with authenticity verification.',
+            feature4_title: 'Session Persistence',
+            feature4_description: 'Your conversations are automatically saved in your browser. Pick up where you left off, anytime! Supports cross-device sync via encrypted backups.',
+            feature5_title: 'Multi-language Support',
+            feature5_description: 'Available in Indonesian, English (US & UK), and Japanese. AI responses adapt to your chosen language for natural conversation.',
+            feature6_title: 'Slash Commands & Tools',
+            feature6_description: 'Use the \'+\' menu or type commands like `/translate`, `/summarize`, `/code`, and `/fix` for specific tasks. Dynamic suggestions as you type.',
+            feature7_title: 'Custom Accent Color',
+            feature7_description: 'Personalize the interface with your own hex color. Dark colors are automatically filtered to maintain readability.',
+            feature8_title: 'Advanced Search System',
+            feature8_description: 'Use /search command with multiple engines (SearchAPI, Google, DuckDuckGo, Wikipedia) or AI knowledge base fallback. Configurable in settings.',
+            feature9_title: 'Memory Management',
+            feature9_description: 'Control how many chat bubbles are stored with a handy slider. Trim old conversations manually or let MirAI handle it.',
+            advanced_title: '🔧 Advanced Features',
+            advanced_subtitle: 'Professional-Grade Capabilities',
+            advanced_description: 'MirAI goes beyond basic chatbots with enterprise-level features designed for power users and developers.',
+            advanced_feature1: '<b>Multimodal Input:</b> Upload images (JPEG, PNG, WebP) and analyze them with text prompts using Gemini\'s vision capabilities.',
+            advanced_feature2: '<b>Text-to-Speech (TTS):</b> Click the speaker icon to have responses read aloud in your chosen language.',
+            advanced_feature3: '<b>Model Switching:</b> Choose between Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models.',
+            advanced_feature4: '<b>Markdown Parsing:</b> Code blocks, lists, and formatting display correctly with syntax highlighting.',
+            advanced_feature5: '<b>Public API Limiter:</b> Intelligent tracking and warnings for fair usage of the default API key.',
+            advanced_feature6: '<b>Stop Generation:</b> Immediately halt AI responses when needed with abort controllers.',
+            advanced_feature7: '<b>Search Cache:</b> Frequently run searches are cached to reduce API calls and speed up responses.',
+            advanced_feature8: '<b>Debug Console:</b> For power users, window.debugMirAI provides tools to inspect API usage, search engine status, and memory.',
+            advanced_feature9: '<b>Authenticity Verification:</b> Built-in signature verification for backup files to ensure they\'re genuine MirAI backups.',
+            advanced_visual: '.medf Encrypted Backup System',
+            advanced_visual_desc: 'Secure, portable, and authentic data format with signature verification',
+            tech_title: '🛠️ Complete Tech Stack',
+            tech_core_title: 'Foundation',
+            tech_core_description: 'Clean, semantic structure without framework bloat.',
+            tech_api_title: 'Intelligence',
+            tech_api_description: 'Latest Gemini models and multiple search engines.',
+            tech_security_title: 'Data Protection',
+            tech_security_description: 'Proprietary encrypted format with verification.',
+            tech_ui_title: 'Experience',
+            tech_ui_description: 'Premium design system with PWA and TTS.',
+            opensource_text: 'MirAI is a simple and elegant Open-Source project under Apache License 2.0.',
+            github_button: 'View Source Code on GitHub',
+            docs_button: 'Read Documentation',
+            testimonials_title: 'What Do They Say?',
+            testimonial1_text: 'The .medf backup system is genius! I can securely move my chat history between devices. The encryption gives me peace of mind.',
+            testimonial1_role: 'Security Analyst',
+            testimonial2_text: 'Installing as a PWA on my Android feels like a native app. The offline capabilities and push notifications are game-changers.',
+            testimonial2_role: 'Mobile Developer',
+            testimonial3_text: 'The model switching feature lets me test Gemini 3 preview easily. Performance is incredible even on my old laptop.',
+            testimonial3_role: 'AI Researcher',
+            faq_title: 'Frequently Asked Questions (FAQ)',
+            faq1_question: 'What is the .medf file format?',
+            faq1_answer: '.medf (MirAI Encrypted Data Files) is an original encrypted data format by Allwaysever for secure backup of chat history, settings, and API keys. It features password protection, authenticity signatures, and cross-device compatibility.',
+            faq2_question: 'Can I install MirAI as a native app?',
+            faq2_answer: 'Yes! MirAI is a Progressive Web App (PWA). You can install it on Android devices through Chrome\'s "Add to Home Screen" feature. It works offline and supports push notifications via OneSignal integration.',
+            faq3_question: 'Do I need my own API Key?',
+            faq3_answer: 'For the best performance and security, we highly recommend using your personal Google Gemini API Key. The default public key has usage limits. You can get a free API key from Google AI Studio and enter it in MirAI\'s settings.',
+            faq4_question: 'What AI models does MirAI support?',
+            faq4_answer: 'MirAI supports both Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models. You can switch between them via URL parameters or settings. Each model offers different strengths in speed, accuracy, and capabilities.',
+            faq5_question: 'Is my data secure with MirAI?',
+            faq5_answer: 'Absolutely. When using your own API key, all conversations happen between you and Google\'s servers. The .medf backup system uses military-grade encryption (Web Crypto API). Your API key is never transmitted to Allwaysever servers - it stays in your browser.',
+            faq6_question: 'How does the search system work?',
+            faq6_answer: 'The /search command can use external search engines (SearchAPI.io, Google, DuckDuckGo, Wikipedia) if configured, or fallback to AI knowledge base. You can enable/disable engines in Settings → Search Configuration. Search results are cached for speed.',
+            faq7_question: 'Can I control how much chat history is saved?',
+            faq7_answer: 'Yes! Use the memory slider in Settings to set the maximum number of messages to keep. Older messages are automatically trimmed to maintain performance.',
+            cta_title: 'Ready to experience next-gen AI assistance?',
+            cta_description: 'Try MirAI now with PWA installation, encrypted backups, and the latest Gemini models. Everything from coding to creative writing.',
+            cta_button: 'Launch MirAI Now →',
+            cta_note: 'No sign-up required. Works offline with PWA installation.',
+            community_title: 'Join the MirAI Community!',
+            community_description: 'Development is open-source under Apache License 2.0. Found a bug or want to contribute? Check out our <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-secondary hover:text-accent underline">Contributing Guide</a> and comprehensive <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-secondary hover:text-accent underline">Documentation</a>.',
+            first_visit: 'Welcome! This is your first visit.',
+            redirecting: 'Redirecting'
+        },
+        'en-GB': {
+            // Sama dengan en-US, hanya ubah ejaan jika perlu (contoh: color -> colour, tapi tidak semua)
+            main_prefix: 'Your Smart Personal Assistant,',
+            main_suffix: 'Powered by Google Gemini',
+            main_description: 'MirAI 3 is a lightweight, fast, and feature-rich web interface for the Gemini API. Now with <b>advanced search</b>, <b>custom accent colour</b>, <b>memory management</b>, and <b>encrypted backups</b>. Get instant answers without the bloat.',
+            try_button: 'Start Talking with MirAI',
+            download_offline: '📥 Download Offline Version',
+            install_pwa: '📱 Install as PWA',
+            try_beta: '🧪 Try Beta Model',
+            skip_button: 'Skip',
+            features_title: '✨ Key Features',
+            feature1_title: 'Vanilla Stack',
+            feature1_description: 'Built purely with HTML, CSS, and JavaScript. No heavy <b>frameworks</b>, ensuring super lightweight <b>loading</b> and a <b>snappy</b> experience.',
+            feature2_title: 'Progressive Web App',
+            feature2_description: 'Install MirAI as a native-like app on your device with offline capabilities. Works seamlessly on Android and desktop.',
+            feature3_title: 'Encrypted Backups (.medf)',
+            feature3_description: 'Original encrypted data format by Allwaysever for secure backup of chat history, settings, and API keys with authenticity verification.',
+            feature4_title: 'Session Persistence',
+            feature4_description: 'Your conversations are automatically saved in your browser. Pick up where you left off, anytime! Supports cross-device sync via encrypted backups.',
+            feature5_title: 'Multi-language Support',
+            feature5_description: 'Available in Indonesian, English (US & UK), and Japanese. AI responses adapt to your chosen language for natural conversation.',
+            feature6_title: 'Slash Commands & Tools',
+            feature6_description: 'Use the \'+\' menu or type commands like `/translate`, `/summarize`, `/code`, and `/fix` for specific tasks. Dynamic suggestions as you type.',
+            feature7_title: 'Custom Accent Colour',
+            feature7_description: 'Personalise the interface with your own hex colour. Dark colours are automatically filtered to maintain readability.',
+            feature8_title: 'Advanced Search System',
+            feature8_description: 'Use /search command with multiple engines (SearchAPI, Google, DuckDuckGo, Wikipedia) or AI knowledge base fallback. Configurable in settings.',
+            feature9_title: 'Memory Management',
+            feature9_description: 'Control how many chat bubbles are stored with a handy slider. Trim old conversations manually or let MirAI handle it.',
+            advanced_title: '🔧 Advanced Features',
+            advanced_subtitle: 'Professional-Grade Capabilities',
+            advanced_description: 'MirAI goes beyond basic chatbots with enterprise-level features designed for power users and developers.',
+            advanced_feature1: '<b>Multimodal Input:</b> Upload images (JPEG, PNG, WebP) and analyse them with text prompts using Gemini\'s vision capabilities.',
+            advanced_feature2: '<b>Text-to-Speech (TTS):</b> Click the speaker icon to have responses read aloud in your chosen language.',
+            advanced_feature3: '<b>Model Switching:</b> Choose between Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models.',
+            advanced_feature4: '<b>Markdown Parsing:</b> Code blocks, lists, and formatting display correctly with syntax highlighting.',
+            advanced_feature5: '<b>Public API Limiter:</b> Intelligent tracking and warnings for fair usage of the default API key.',
+            advanced_feature6: '<b>Stop Generation:</b> Immediately halt AI responses when needed with abort controllers.',
+            advanced_feature7: '<b>Search Cache:</b> Frequently run searches are cached to reduce API calls and speed up responses.',
+            advanced_feature8: '<b>Debug Console:</b> For power users, window.debugMirAI provides tools to inspect API usage, search engine status, and memory.',
+            advanced_feature9: '<b>Authenticity Verification:</b> Built-in signature verification for backup files to ensure they\'re genuine MirAI backups.',
+            advanced_visual: '.medf Encrypted Backup System',
+            advanced_visual_desc: 'Secure, portable, and authentic data format with signature verification',
+            tech_title: '🛠️ Complete Tech Stack',
+            tech_core_title: 'Foundation',
+            tech_core_description: 'Clean, semantic structure without framework bloat.',
+            tech_api_title: 'Intelligence',
+            tech_api_description: 'Latest Gemini models and multiple search engines.',
+            tech_security_title: 'Data Protection',
+            tech_security_description: 'Proprietary encrypted format with verification.',
+            tech_ui_title: 'Experience',
+            tech_ui_description: 'Premium design system with PWA and TTS.',
+            opensource_text: 'MirAI is a simple and elegant Open-Source project under Apache License 2.0.',
+            github_button: 'View Source Code on GitHub',
+            docs_button: 'Read Documentation',
+            testimonials_title: 'What Do They Say?',
+            testimonial1_text: 'The .medf backup system is genius! I can securely move my chat history between devices. The encryption gives me peace of mind.',
+            testimonial1_role: 'Security Analyst',
+            testimonial2_text: 'Installing as a PWA on my Android feels like a native app. The offline capabilities and push notifications are game-changers.',
+            testimonial2_role: 'Mobile Developer',
+            testimonial3_text: 'The model switching feature lets me test Gemini 3 preview easily. Performance is incredible even on my old laptop.',
+            testimonial3_role: 'AI Researcher',
+            faq_title: 'Frequently Asked Questions (FAQ)',
+            faq1_question: 'What is the .medf file format?',
+            faq1_answer: '.medf (MirAI Encrypted Data Files) is an original encrypted data format by Allwaysever for secure backup of chat history, settings, and API keys. It features password protection, authenticity signatures, and cross-device compatibility.',
+            faq2_question: 'Can I install MirAI as a native app?',
+            faq2_answer: 'Yes! MirAI is a Progressive Web App (PWA). You can install it on Android devices through Chrome\'s "Add to Home Screen" feature. It works offline and supports push notifications via OneSignal integration.',
+            faq3_question: 'Do I need my own API Key?',
+            faq3_answer: 'For the best performance and security, we highly recommend using your personal Google Gemini API Key. The default public key has usage limits. You can get a free API key from Google AI Studio and enter it in MirAI\'s settings.',
+            faq4_question: 'What AI models does MirAI support?',
+            faq4_answer: 'MirAI supports both Gemini 2.5 Flash (stable) and Gemini 3 Flash Preview (beta) models. You can switch between them via URL parameters or settings. Each model offers different strengths in speed, accuracy, and capabilities.',
+            faq5_question: 'Is my data secure with MirAI?',
+            faq5_answer: 'Absolutely. When using your own API key, all conversations happen between you and Google\'s servers. The .medf backup system uses military-grade encryption (Web Crypto API). Your API key is never transmitted to Allwaysever servers - it stays in your browser.',
+            faq6_question: 'How does the search system work?',
+            faq6_answer: 'The /search command can use external search engines (SearchAPI.io, Google, DuckDuckGo, Wikipedia) if configured, or fallback to AI knowledge base. You can enable/disable engines in Settings → Search Configuration. Search results are cached for speed.',
+            faq7_question: 'Can I control how much chat history is saved?',
+            faq7_answer: 'Yes! Use the memory slider in Settings to set the maximum number of messages to keep. Older messages are automatically trimmed to maintain performance.',
+            cta_title: 'Ready to experience next-gen AI assistance?',
+            cta_description: 'Try MirAI now with PWA installation, encrypted backups, and the latest Gemini models. Everything from coding to creative writing.',
+            cta_button: 'Launch MirAI Now →',
+            cta_note: 'No sign-up required. Works offline with PWA installation.',
+            community_title: 'Join the MirAI Community!',
+            community_description: 'Development is open-source under Apache License 2.0. Found a bug or want to contribute? Check out our <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-secondary hover:text-accent underline">Contributing Guide</a> and comprehensive <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-secondary hover:text-accent underline">Documentation</a>.',
+            first_visit: 'Welcome! This is your first visit.',
+            redirecting: 'Redirecting'
+        },
+        'ja-JP': {
+            // Untuk sementara menggunakan teks Inggris, sebaiknya diganti dengan terjemahan Jepang yang sebenarnya
+            main_prefix: 'あなたのスマートパーソナルアシスタント、',
+            main_suffix: 'Google Gemini搭載',
+            main_description: 'MirAI 3は、Gemini APIのための軽量で高速、かつ機能豊富なウェブインターフェースです。今なら<b>高度な検索</b>、<b>カスタムアクセントカラー</b>、<b>メモリ管理</b>、<b>暗号化バックアップ</b>に対応。無駄のない即時回答を提供します。',
+            try_button: 'MirAIと話し始める',
+            download_offline: '📥 オフラインバージョンをダウンロード',
+            install_pwa: '📱 PWAとしてインストール',
+            try_beta: '🧪 ベータモデルを試す',
+            skip_button: 'スキップ',
+            features_title: '✨ 主な機能',
+            feature1_title: 'バニラスタック',
+            feature1_description: 'HTML、CSS、JavaScriptで純粋に構築。重い<b>フレームワーク</b>は使わず、超軽量な<b>読み込み</b>と<b>キビキビした</b>体験を保証します。',
+            feature2_title: 'プログレッシブウェブアプリ',
+            feature2_description: 'オフライン機能を備えた、ネイティブのようなアプリとしてMirAIをデバイスにインストールできます。Androidとデスクトップでシームレスに動作します。',
+            feature3_title: '暗号化バックアップ (.medf)',
+            feature3_description: 'Allwayseverによる独自の暗号化データ形式で、チャット履歴、設定、APIキーを安全にバックアップし、真正性を検証します。',
+            feature4_title: 'セッション永続化',
+            feature4_description: '会話は自動的にブラウザに保存されます。中断したところからいつでも再開できます！暗号化バックアップによるデバイス間同期をサポートします。',
+            feature5_title: '多言語サポート',
+            feature5_description: 'インドネシア語、英語（米国・英国）、日本語に対応。AIの応答は選択した言語に適応し、自然な会話を実現します。',
+            feature6_title: 'スラッシュコマンド＆ツール',
+            feature6_description: '「+」メニューを使用するか、`/translate`、`/summarize`、`/code`、`/fix`などのコマンドを入力して特定のタスクを実行します。入力に応じて動的な提案が表示されます。',
+            feature7_title: 'カスタムアクセントカラー',
+            feature7_description: '独自の16進数カラーでインターフェースをパーソナライズ。暗い色は自動的にフィルタリングされ、読みやすさを維持します。',
+            feature8_title: '高度な検索システム',
+            feature8_description: '/searchコマンドで複数のエンジン（SearchAPI、Google、DuckDuckGo、Wikipedia）またはAI知識ベースのフォールバックを使用できます。設定で構成可能です。',
+            feature9_title: 'メモリ管理',
+            feature9_description: '便利なスライダーで保存するチャットバブルの数を制御できます。古い会話を手動で切り詰めるか、MirAIに任せることができます。',
+            advanced_title: '🔧 高度な機能',
+            advanced_subtitle: 'プロフェッショナルグレードの機能',
+            advanced_description: 'MirAIは、パワーユーザーや開発者向けに設計されたエンタープライズレベルの機能を備え、基本的なチャットボットを超えます。',
+            advanced_feature1: '<b>マルチモーダル入力：</b>画像（JPEG、PNG、WebP）をアップロードし、Geminiのビジョン機能を使用してテキストプロンプトで分析します。',
+            advanced_feature2: '<b>テキスト読み上げ（TTS）：</b>スピーカーアイコンをクリックすると、選択した言語で応答が読み上げられます。',
+            advanced_feature3: '<b>モデル切り替え：</b>Gemini 2.5 Flash（安定版）とGemini 3 Flash Preview（ベータ版）モデルを選択できます。',
+            advanced_feature4: '<b>Markdown解析：</b>コードブロック、リスト、書式がシンタックスハイライト付きで正しく表示されます。',
+            advanced_feature5: '<b>公開APIリミッター：</b>デフォルトのAPIキーの公平な使用のためのインテリジェントな追跡と警告。',
+            advanced_feature6: '<b>生成停止：</b>必要なときにアボートコントローラーでAI応答を即座に停止します。',
+            advanced_feature7: '<b>検索キャッシュ：</b>頻繁に実行される検索はキャッシュされ、APIコールを削減し応答を高速化します。',
+            advanced_feature8: '<b>デバッグコンソール：</b>パワーユーザー向けに、window.debugMirAIはAPI使用状況、検索エンジンのステータス、メモリを検査するツールを提供します。',
+            advanced_feature9: '<b>真正性検証：</b>バックアップファイルが本物のMirAIバックアップであることを確認するための組み込み署名検証。',
+            advanced_visual: '.medf暗号化バックアップシステム',
+            advanced_visual_desc: '署名検証による安全でポータブル、かつ本物のデータ形式',
+            tech_title: '🛠️ 完全なテクノロジースタック',
+            tech_core_title: '基盤',
+            tech_core_description: 'フレームワークの肥大化のない、クリーンでセマンティックな構造。',
+            tech_api_title: 'インテリジェンス',
+            tech_api_description: '最新のGeminiモデルと複数の検索エンジン。',
+            tech_security_title: 'データ保護',
+            tech_security_description: '検証付きの独自暗号化形式。',
+            tech_ui_title: 'エクスペリエンス',
+            tech_ui_description: 'PWAとTTSを備えたプレミアムデザインシステム。',
+            opensource_text: 'MirAIはApache License 2.0の下でのシンプルでエレガントなオープンソースプロジェクトです。',
+            github_button: 'GitHubでソースコードを見る',
+            docs_button: 'ドキュメントを読む',
+            testimonials_title: '彼らの声',
+            testimonial1_text: '.medfバックアップシステムは天才的です！チャット履歴をデバイス間で安全に移動できます。暗号化で安心感があります。',
+            testimonial1_role: 'セキュリティアナリスト',
+            testimonial2_text: 'AndroidにPWAとしてインストールすると、ネイティブアプリのように感じます。オフライン機能とプッシュ通知は画期的です。',
+            testimonial2_role: 'モバイル開発者',
+            testimonial3_text: 'モデル切り替え機能でGemini 3プレビューを簡単にテストできます。古いラップトップでも信じられないほどのパフォーマンスです。',
+            testimonial3_role: 'AI研究者',
+            faq_title: 'よくある質問（FAQ）',
+            faq1_question: '.medfファイル形式とは何ですか？',
+            faq1_answer: '.medf（MirAI Encrypted Data Files）は、Allwayseverによる独自の暗号化データ形式で、チャット履歴、設定、APIキーを安全にバックアップします。パスワード保護、真正性署名、クロスデバイス互換性を備えています。',
+            faq2_question: 'MirAIをネイティブアプリとしてインストールできますか？',
+            faq2_answer: 'はい！MirAIはプログレッシブウェブアプリ（PWA）です。Chromeの「ホーム画面に追加」機能を使用してAndroidデバイスにインストールできます。オフラインで動作し、OneSignal統合によるプッシュ通知をサポートします。',
+            faq3_question: '独自のAPIキーが必要ですか？',
+            faq3_answer: '最良のパフォーマンスとセキュリティのために、個人のGoogle Gemini APIキーを使用することを強くお勧めします。デフォルトの公開キーには使用制限があります。Google AI Studioから無料のAPIキーを取得し、MirAIの設定に入力できます。',
+            faq4_question: 'MirAIはどのAIモデルをサポートしていますか？',
+            faq4_answer: 'MirAIはGemini 2.5 Flash（安定版）とGemini 3 Flash Preview（ベータ版）の両方のモデルをサポートしています。URLパラメータまたは設定でそれらを切り替えることができます。各モデルは速度、精度、機能において異なる強みを提供します。',
+            faq5_question: 'MirAIでデータは安全ですか？',
+            faq5_answer: '絶対に安全です。独自のAPIキーを使用する場合、すべての会話はあなたとGoogleのサーバー間で行われます。.medfバックアップシステムは軍用レベルの暗号化（Web Crypto API）を使用します。あなたのAPIキーがAllwayseverサーバーに送信されることはありません - ブラウザに残ります。',
+            faq6_question: '検索システムはどのように機能しますか？',
+            faq6_answer: '/searchコマンドは、設定されていれば外部検索エンジン（SearchAPI.io、Google、DuckDuckGo、Wikipedia）を使用するか、AI知識ベースにフォールバックします。設定 → 検索設定でエンジンを有効/無効にできます。検索結果は速度のためにキャッシュされます。',
+            faq7_question: '保存されるチャット履歴の量を制御できますか？',
+            faq7_answer: 'はい！設定のメモリスライダーを使用して、保持するメッセージの最大数を設定できます。古いメッセージはパフォーマンスを維持するために自動的にトリミングされます。',
+            cta_title: '次世代AIアシスタンスを体験する準備はできましたか？',
+            cta_description: 'PWAインストール、暗号化バックアップ、最新のGeminiモデルを備えたMirAIを今すぐお試しください。コーディングからクリエイティブライティングまで。',
+            cta_button: '今すぐMirAIを起動 →',
+            cta_note: 'サインアップ不要。PWAインストールでオフラインでも動作します。',
+            community_title: 'MirAIコミュニティに参加しよう！',
+            community_description: '開発はApache License 2.0の下でオープンソースです。バグを見つけたり、貢献したいですか？<a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-secondary hover:text-accent underline">貢献ガイド</a>と包括的な<a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-secondary hover:text-accent underline">ドキュメント</a>をチェックしてください。',
+            first_visit: 'ようこそ！これは初めての訪問です。',
+            redirecting: 'リダイレクト中'
         }
-        
-        getCurrentLanguage() {
-            if (this.currentLang === 'auto') {
-                return this.detectRegionAndSetLanguage();
-            }
-            return this.currentLang;
-        }
-        
-        setLanguage(langCode) {
-            this.currentLang = langCode;
-            localStorage.setItem('mirai-language', langCode);
-            this.applyTranslations();
-            this.updateLanguageBadge();
-        }
-        
-        applyTranslations() {
-            const lang = this.getCurrentLanguage();
-            const texts = this.translations[lang];
+    };
+}
             
-            if (!texts) return;
-            
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (texts[key]) {
-                    element.innerHTML = texts[key];
+            detectRegionAndSetLanguage() {
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const browserLang = navigator.language || navigator.userLanguage;
+                
+                let detectedLang = 'en-US';
+                
+                if (timezone.includes('Asia/Jakarta') || 
+                    timezone.includes('Asia/Makassar') || 
+                    timezone.includes('Asia/Jayapura') ||
+                    browserLang.startsWith('id')) {
+                    detectedLang = 'id-ID';
+                } else if (timezone.includes('Asia/Tokyo') || 
+                           timezone.includes('Asia/Osaka') ||
+                           browserLang.startsWith('ja')) {
+                    detectedLang = 'ja-JP';
+                } else if (timezone.includes('Europe/London') ||
+                           browserLang.startsWith('en-GB')) {
+                    detectedLang = 'en-GB';
+                } else if (browserLang.startsWith('en')) {
+                    detectedLang = 'en-US';
                 }
-            });
+                
+                return detectedLang;
+            }
             
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
-                const key = element.getAttribute('data-i18n-placeholder');
-                if (texts[key]) {
-                    element.placeholder = texts[key];
+            getCurrentLanguage() {
+                if (this.currentLang === 'auto') {
+                    return this.detectRegionAndSetLanguage();
                 }
-            });
-            
-            document.documentElement.lang = lang.split('-')[0];
-        }
-        
-        updateLanguageBadge() {
-            const badge = document.getElementById('current-language-badge');
-            const flag = document.getElementById('language-flag');
-            const name = document.getElementById('language-name');
-            const selector = document.getElementById('language-select');
-            
-            const currentLang = this.getCurrentLanguage();
-            const langInfo = this.supportedLangs[currentLang];
-            
-            if (langInfo) {
-                flag.textContent = langInfo.flag;
-                name.textContent = langInfo.name;
-                badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
+                return this.currentLang;
             }
             
-            if (selector) {
-                selector.value = this.currentLang;
+            setLanguage(langCode) {
+                this.currentLang = langCode;
+                localStorage.setItem('mirai-language', langCode);
+                this.applyTranslations();
+                this.updateLanguageBadge();
             }
-        }
-        
-        t(key) {
-            const lang = this.getCurrentLanguage();
-            return this.translations[lang]?.[key] || key;
-        }
-        
-        initialize() {
-            this.applyTranslations();
-            this.updateLanguageBadge();
             
-            const selector = document.getElementById('language-select');
-            if (selector) {
-                selector.value = this.currentLang;
-                selector.addEventListener('change', (e) => {
-                    this.setLanguage(e.target.value);
+            applyTranslations() {
+                const lang = this.getCurrentLanguage();
+                const texts = this.translations[lang];
+                
+                if (!texts) return;
+                
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (texts[key]) {
+                        element.innerHTML = texts[key];
+                    }
                 });
+                
+                document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                    const key = element.getAttribute('data-i18n-placeholder');
+                    if (texts[key]) {
+                        element.placeholder = texts[key];
+                    }
+                });
+                
+                document.documentElement.lang = lang.split('-')[0];
+            }
+            
+            updateLanguageBadge() {
+                // tidak digunakan, tapi bisa diisi jika perlu
+            }
+            
+            t(key) {
+                const lang = this.getCurrentLanguage();
+                return this.translations[lang]?.[key] || key;
+            }
+            
+            initialize() {
+                this.applyTranslations();
+                
+                const selector = document.getElementById('language-select');
+                if (selector) {
+                    selector.value = this.currentLang;
+                    selector.addEventListener('change', (e) => {
+                        this.setLanguage(e.target.value);
+                    });
+                }
             }
         }
-    }
 
-    // Initialize language manager
-    const languageManager = new LanguageManager();
+        // Initialize language manager
+        const languageManager = new LanguageManager();
 
-    // Redirect functionality dengan countdown 1 menit
-    const APP_LINK = 'https://allwaysevermirai.netlify.app/chat'; 
-    const COUNT_KEY = 'miraiVisitCount';
-    const REDIRECT_DELAY_MS = 120000;
+        // Redirect functionality
+        const APP_LINK = 'chat.html'; 
+        const COUNT_KEY = 'miraiVisitCount';
+        const REDIRECT_DELAY_MS = 120000;
 
-    const tryBtns = document.querySelectorAll('#try-mirai-btn, #try-mirai-btn-footer');
-    const welcomeMessage = document.getElementById('welcome-message');
-    const countdownContainer = document.getElementById('countdown-container');
-    const countdownText = document.getElementById('countdown-text');
-    const skipButton = document.getElementById('skip-button');
-    const progressFill = document.getElementById('progress-fill');
-    
-    let countdownTimer;
-    let timeLeft = REDIRECT_DELAY_MS / 1000;
-
-    function getVisitCount() {
-        return parseInt(localStorage.getItem(COUNT_KEY) || '0');
-    }
-
-    function setVisitCount(count) {
-        localStorage.setItem(COUNT_KEY, count.toString());
-    }
-
-    function incrementVisitCount() {
-        let count = getVisitCount();
-        count++;
-        setVisitCount(count);
-        return count;
-    }
-
-    function startCountdown() {
-        countdownContainer.classList.remove('hidden');
+        const tryBtns = document.querySelectorAll('#try-mirai-btn, #try-mirai-btn-footer');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const countdownContainer = document.getElementById('countdown-container');
+        const countdownText = document.getElementById('countdown-text');
+        const skipButton = document.getElementById('skip-button');
+        const progressFill = document.getElementById('progress-fill');
         
-        const totalTime = REDIRECT_DELAY_MS;
-        let elapsed = 0;
-        
-        countdownTimer = setInterval(() => {
-            timeLeft--;
-            elapsed += 1000;
+        let countdownTimer;
+        let timeLeft = REDIRECT_DELAY_MS / 1000;
+
+        function getVisitCount() {
+            return parseInt(localStorage.getItem(COUNT_KEY) || '0');
+        }
+
+        function setVisitCount(count) {
+            localStorage.setItem(COUNT_KEY, count.toString());
+        }
+
+        function incrementVisitCount() {
+            let count = getVisitCount();
+            count++;
+            setVisitCount(count);
+            return count;
+        }
+
+        function startCountdown() {
+            countdownContainer.classList.remove('hidden');
             
-            const progressPercent = (elapsed / totalTime) * 100;
-            progressFill.style.width = `${100 - progressPercent}%`;
+            const totalTime = REDIRECT_DELAY_MS;
+            let elapsed = 0;
             
-            countdownText.textContent = `${languageManager.t('redirecting')} in ${timeLeft}s...`;
+            countdownTimer = setInterval(() => {
+                timeLeft--;
+                elapsed += 1000;
+                
+                const progressPercent = (elapsed / totalTime) * 100;
+                progressFill.style.width = `${100 - progressPercent}%`;
+                
+                countdownText.textContent = `${languageManager.t('redirecting')} in ${timeLeft}s...`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdownTimer);
+                    redirectToApp();
+                }
+            }, 1000);
+        }
+
+        function redirectToApp() {
+            window.location.replace(APP_LINK);
+        }
+
+        function setupPage() {
+            const count = getVisitCount();
             
-            if (timeLeft <= 0) {
+            languageManager.initialize();
+            
+            const isLinkConfigured = APP_LINK && APP_LINK !== '#' && APP_LINK !== 'APP_LINK';
+
+            if (count > 0 && isLinkConfigured) {
+                const visitText = `Welcome back! You have visited this page ${count} times.`;
+                welcomeMessage.textContent = visitText;
+                
+                startCountdown();
+                
+            } else if (!isLinkConfigured) {
+                welcomeMessage.textContent = '⚠️ Please replace "APP_LINK" in the JavaScript code to enable button and auto-redirect functions.';
+                tryBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        alert('Please replace the APP_LINK value in the JavaScript code with your actual application link!');
+                    });
+                });
+            } else {
+                welcomeMessage.textContent = languageManager.t('first_visit');
+                incrementVisitCount();
+            }
+
+            skipButton.addEventListener('click', (e) => {
+                e.preventDefault();
                 clearInterval(countdownTimer);
                 redirectToApp();
+            });
+
+            if (isLinkConfigured) {
+                tryBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        clearInterval(countdownTimer);
+                        incrementVisitCount();
+                        window.location.href = APP_LINK;
+                    });
+                });
             }
-        }, 1000);
-    }
 
-    function redirectToApp() {
-        window.location.replace(APP_LINK);
-    }
-
-    function setupPage() {
-        const count = getVisitCount();
-        
-        languageManager.initialize();
-        
-        const isLinkConfigured = APP_LINK && APP_LINK !== '#' && APP_LINK !== 'APP_LINK';
-
-        if (count > 0 && isLinkConfigured) {
-            const visitText = `Welcome back! You have visited this page ${count} times.`;
-            welcomeMessage.textContent = visitText;
-            
-            startCountdown();
-            
-        } else if (!isLinkConfigured) {
-            welcomeMessage.textContent = '⚠️ Please replace "APP_LINK" in the JavaScript code to enable button and auto-redirect functions.';
-            tryBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    alert('Please replace the APP_LINK value in the JavaScript code with your actual application link!');
+            // Intersection Observer for fade-up animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
                 });
-            });
-        } else {
-            welcomeMessage.textContent = languageManager.t('first_visit');
-            incrementVisitCount();
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
         }
 
-        skipButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            clearInterval(countdownTimer);
-            redirectToApp();
-        });
-
-        if (isLinkConfigured) {
-            tryBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    clearInterval(countdownTimer);
-                    incrementVisitCount();
-                    window.location.href = APP_LINK;
-                });
-            });
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', setupPage);
-</script>
-
+        document.addEventListener('DOMContentLoaded', setupPage);
+    </script>
 </body>
 </html>
