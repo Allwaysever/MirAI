@@ -59,7 +59,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 function showInstallButton() {
   const installBtn = document.createElement('button');
   installBtn.id = 'installBtn';
-  installBtn.innerHTML = '<a href="https://allwaysevermirai.netlify.app/download"><i class="fas fa-download"></i> Install App</a>';
+  installBtn.innerHTML = '<a href="https://allwaysevermirai.netlify.app/download" style="color: white; text-decoration-line: none; font-weight: bold;"><i class="fas fa-download"></i> Install App</a>';
   installBtn.style.cssText = `
     position: fixed;
     bottom: 20px;
@@ -98,7 +98,7 @@ window.addEventListener('appinstalled', (evt) => {
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-      navigator.serviceWorker.register('../Assets/HTML/MirAIPWAsw.js')
+      navigator.serviceWorker.register('https://esm.sh/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAsw.js')
         .then(function(registration) {
           console.log('ServiceWorker registered successfully');
         })
@@ -133,7 +133,7 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = '3.0-Beta7'; // generateVersion(3, 0, 0);
+const VERSION = generateVersion(3, 0, 0);
 </script>
 </head>
 
@@ -187,7 +187,7 @@ const VERSION = '3.0-Beta7'; // generateVersion(3, 0, 0);
 <div id="inputContainer" class="input-container centered">
     <div id="imagePreviewContainer" class="imagePreviewContainer">
        <div class="imagePreviewWrapper">
-        <img id="imagePreview" src="" alt="Image Preview" class="imagePreview"">
+        <img id="imagePreview" src="" alt="Image Preview" class="imagePreview">
         <button id="removeImageBtn" class="imgRemoveBtn"><i class="fas fa-times"></i></button>
     </div>
 </div>
