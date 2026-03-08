@@ -1,5 +1,94 @@
 ## What's new?
 
+# 🚀🎉 `2026.03.08` — v3.0.0 — **THE OFFICIAL LAUNCH: MirAI IS BORN!** 🎉🚀
+
+> *"From beta chaos to polished perfection — this is not just an update. This is the beginning."*
+
+After months of relentless iteration through 7 betas, sleepless nights, and more bug fixes than we can count, **MirAI v3.0.0 is finally HERE.** This is the culmination of everything — every feature, every fix, every wild idea we threw at the wall — now polished and packaged into one definitive release. Buckle up. 🎢
+
+## 🌟 What's New in v3.0.0 (The Full Picture)
+
+### 🤖 Powered by Gemini 2.5 Flash
+- **``ENGINE UPGRADE``:** MirAI now runs on **Google Gemini 2.5 Flash** as the default model — faster, smarter, and more reliable than ever. The AI brain behind MirAI has officially leveled up.
+- **``STABLE CORE``:** The underlying API integration has been hardened, refined, and battle-tested across all 7 betas. What you get now is rock solid.
+
+### 🎨 Custom Accent Color — **Stable & Gorgeous**
+- **``STABLE RELEASE``:** After debuting in Beta 6 and being refined through Beta 7, the **Custom Accent Color** feature has officially graduated from beta. It's smooth, reliable, and looking *amazing*.
+- **``HOW IT WORKS``:** Head to Settings → Custom Accent Color, type in any hex code (e.g., `#ffce00`, `#FF6B6B`, `#00C9FF`), and watch MirAI transform in real time.
+- **``LIVE PREVIEW``:** Color preview updates as you type — no guessing games.
+- **``SMART SAFETY``:** Colors that are too dark get rejected automatically to keep text readable. MirAI always looks good. Always.
+- **``PERSISTENCE``:** Your chosen color is saved across sessions. MirAI remembers your vibe.
+
+### 🧠 Flexible Chat Memory System
+- **``MEMORY SLIDER``:** You now have full control over how much MirAI remembers. Slide the **Chat Memory** control in Settings anywhere from **25 to 85 bubbles**. Your device, your rules.
+- **``REAL-TIME COUNTER``:** A live bubble counter shows exactly how many messages are stored vs. your limit (e.g., "Current bubbles: 42 / Max: 50").
+- **``SMART TRIMMING``:** When the limit is hit, old messages are trimmed intelligently — but the **AI Persona is always preserved** at the top. MirAI will never forget who it is.
+- **``NO AUTO-TRIM ON LOAD``:** Fixed a previous behavior where the app would trim messages just from loading the page. Now, trimming only happens when you actively save settings or the limit is reached mid-chat.
+- **``CONFIRMATION DIALOGS``:** Lower the limit below current count? MirAI will warn you exactly how many messages will be removed before doing anything. No surprises.
+
+### 🔍 Multi-Engine Search System — **Smarter Than Ever**
+- **``FOUR ENGINES``:** MirAI now supports **SearchAPI.io** (primary), **Google Custom Search** (secondary), **DuckDuckGo**, and **Wikipedia** — all configurable from Settings.
+- **``AI KNOWLEDGE BASE MODE``:** No API keys? No problem. When all engines are disabled, `/search` taps directly into Gemini's vast training data. Smart, private, and always available.
+- **``EXTERNAL SEARCH MODE``:** Enable any engine with an API key for fresh, real-time internet results. Indicator in Settings tells you which mode you're in — no more guessing.
+- **``SEARCH CACHING``:** Repeated queries? MirAI caches results to save API calls and speed things up.
+- **``TEST SEARCH BUTTON``:** Hit "Test Search" in Settings to verify your engine setup without leaving the app.
+- **``CLEAR CACHE BUTTON``:** Wipe the search cache manually anytime you want fresh results.
+- **``FIRST-TIME FRIENDLY``:** New users start with all engines **disabled by default**. A friendly tip appears on the first visit explaining how search works. No overwhelming setup for newcomers.
+- **``REAL-TIME MODE INDICATOR``:** The Settings panel now shows a live badge — **"External Search Mode"** or **"AI Knowledge Base Mode"** — that updates as you toggle engines on/off.
+
+### ⚡ Enhanced Loading Experience
+- **``REAL-TIME STOPWATCH``:** Every AI response now shows a live stopwatch (updates every 10ms!) so you know exactly how long the AI is thinking.
+- **``PROGRESS BAR``:** A visual progress bar fills up as the request processes, giving you a tangible sense of movement.
+- **``COLOR-CODED RESULT``:** Stopwatch turns **green** on success, **red** on error. Instant visual feedback.
+- **``PROCESSING TIME DISPLAY``:** After each response, the final processing time is shown (e.g., "Processed in 1.847 seconds"). Because transparency is cool. 😎
+- **``CLEAN ANIMATIONS``:** All loading elements fade in and out smoothly. No jarring jumps.
+
+### 🔒 MirAI Encrypted Data Files (.medf) — Full System
+- **``SECURE BACKUP``:** Export your entire MirAI state (chat history, API key, persona, language, accent color) to an **AES-GCM encrypted `.medf` file**, protected by a password of your choice.
+- **``AUTHENTICITY SIGNATURE``:** Every `.medf` file is stamped with a cryptographic authenticity header. Import will fail if the file has been tampered with or isn't from an official MirAI source.
+- **``DUAL FORMAT SUPPORT``:** Export as `.medf` (encrypted, with signature) or `.mdf`/`.json` (plain JSON). Import supports all three.
+- **``PERSONA SYNC ON IMPORT``:** Restoring a backup also restores your AI persona. Everything comes back exactly as you left it.
+
+### 👤 Custom Persona System
+- **``FOUR PERSONAS``:** Choose from **Formal & Professional**, **Casual & Humorous** (default), **Creative & Expressive**, or the new **Custom Persona** option.
+- **``CUSTOM PERSONA INPUT``:** Write your own persona prompt and MirAI will become whoever you need it to be. Your prompt is automatically combined with the MirAI identity prefix.
+- **``PERSISTENT``:** Your persona choice (including custom prompts) is saved to localStorage and restored on every session.
+
+### 📱 PWA & Installation
+- **``INSTALL PROMPT``:** A stylish install button appears at the right time, letting you add MirAI to your home screen like a native app.
+- **``SERVICE WORKER``:** Full PWA support with a registered Service Worker for offline capability and fast loading.
+- **``ONESIGNAL NOTIFICATIONS``:** Push notification support via OneSignal is baked in and ready to go.
+- **``SPLASH SCREEN``:** Beautiful animated splash screen on launch (skipped in PWA mode for faster startup).
+
+### 🛠️ UI & UX Improvements
+- **``CLEAR BUTTON FIX``:** The clear chat button now uses the browser's native `confirm()` dialog — no more unclickable moments or broken overlays.
+- **``TYPEWRITER EFFECT``:** AI responses type themselves out character by character, then render full Markdown at the end. It's satisfying every single time.
+- **``SMOOTH COPY & TTS``:** Each AI bubble has copy and text-to-speech buttons. TTS is language-aware (supports Indonesian, English US, English UK, and Japanese). Markdown characters are stripped before speaking — no more hearing asterisks.
+- **``HASH-BASED SETTINGS NAVIGATION``:** Settings panel opens/closes via URL hash (`#settings`), enabling proper back button behavior on mobile. Press back to close settings — just like a native app.
+- **``CONNECTION STATUS INDICATOR``:** A live online/offline status indicator keeps you informed. It even hides itself when it overlaps your chat bubbles.
+- **``DYNAMIC PLACEHOLDERS``:** The input box shows rotating placeholder messages that adapt to the selected language.
+- **``SLASH COMMANDS MENU``:** Tap the `+` button to browse all available slash commands with descriptions. Auto-complete kicks in as you type `/`.
+- **``LANGUAGE SWITCHER``:** Four language options — 🇮🇩 Bahasa Indonesia, 🇺🇸 English (US), 🇬🇧 English (UK), 🇯🇵 日本語 — fully localized throughout the entire UI.
+- **``DARK THEME ONLY``:** MirAI has committed to the dark side. The light theme has been retired permanently, allowing us to focus on a consistent, polished dark experience.
+- **``ACCENT COLOR RESET``:** One-click reset button returns the accent color back to MirAI's signature yellow `#ffce00`.
+
+### 🔑 API Key Management
+- **``CUSTOM API KEY``:** Enter your own Google Gemini API key in Settings to bypass the shared default key and get your own usage limits.
+- **``ENCRYPTED CONFIG``:** The default API key is loaded from `config.medf`, a securely encrypted config file. No plaintext secrets in the source.
+- **``API LIMIT WARNINGS``:** If you're using the public API key and approaching usage limits, MirAI will warn you with a popup and suggest switching to a personal key.
+
+## 💬 A Note From the Developer
+
+v3.0.0 isn't just a version number bump. It's the moment MirAI stops being "a beta project" and becomes **a real product**. Every feature here was built, broken, rebuilt, and polished through 7 beta releases and countless hours of feedback.
+
+Thank you for being here from the beginning — or for joining just now. Either way, **welcome to MirAI v3.0.0.** It's been worth the wait. 🙌
+
+*Built with ❤️ by Allwaysever*
+
+---
+
+## Previous versions:
+
 ### `2026.02.19` - v3.0-Beta7 - **Stable Accent & Clear Button Fix**
 
 This update brings major update to stable accent color feature, and fixes a critical bug with the clear chat button.
@@ -16,8 +105,6 @@ This update brings major update to stable accent color feature, and fixes a crit
 *Your feedback drives our improvements. Enjoy the new MirAI!*
 
 ---
-
-## Previous version:
 
 ### ``2026.02.16`` - v3.0-Beta6 - **Light Theme Farewell & Custom Accent Colors**
 
