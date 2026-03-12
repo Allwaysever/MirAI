@@ -1,5 +1,14 @@
 ## What's new?
 
+### 🛠️ `2026.03.12` — v3.0.1 — **Typewriter Effect Markdown Fix**
+
+- **``FIX``**: **Typewriter effect** now directly responds to text as markdown without needing plaintext. Previously, the typing effect would sometimes display raw text before conversion; now all AI responses are immediately rendered with the correct markdown formatting as they are typed.
+- **``IMPROVEMENT``**: Enhanced typing animation stability and compatibility with HTML elements resulting from markdown parsing.
+
+---
+
+## Previous versions:
+
 ### 🚀🎉 `2026.03.08` — v3.0 — **THE OFFICIAL LAUNCH: MirAI IS BORN!** 🎉🚀
 
 > *"From beta chaos to polished perfection — this is not just an update. This is the beginning."*
@@ -84,10 +93,6 @@ v3.0 isn't just a version number bump. It's the moment MirAI stops being "a beta
 Thank you for being here from the beginning — or for joining just now. Either way, **welcome to MirAI v3.0.** It's been worth the wait. 🙌
 
 *Built with ❤️ by Allwaysever*
-
----
-
-## Previous versions:
 
 ### `2026.02.19` - v3.0-Beta7 - **Stable Accent & Clear Button Fix**
 
