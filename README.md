@@ -6,7 +6,7 @@ A simple, lightweight, and responsive web interface to interact directly with th
 
 ![Project](https://img.shields.io/badge/Type-Web%20App-blue)
 ![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
-![Version](https://img.shields.io/badge/Version-3.0.0-brightgreen?logo=googlegemini&logoColor=ffce00&labelColor=%23000)
+![Version](https://img.shields.io/badge/Version-3.0.1-brightgreen?logo=googlegemini&logoColor=ffce00&labelColor=%23000)
 
 ![Follow IG](https://img.shields.io/badge/Follow-Instagram_MirAI-405DE6?style=flat&logo=instagram&logoColor=C13584&labelColor=833AB4&link=https%3A%2F%2Finstagram.com%2Fallwaysevermirai)
 ![Follow WA CH](https://img.shields.io/badge/Follow-WhatsApp_Channel_MirAI-%23FFFFFF?style=flat&logo=Whatsapp&logoColor=075E54&labelColor=25D366&link=https%3A%2F%2Fwhatsapp.com%2Fchannel%2F0029Vb6hyuk6mYPGjI2E5g31)
