@@ -59,7 +59,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 function showInstallButton() {
   const installBtn = document.createElement('button');
   installBtn.id = 'installBtn';
-  installBtn.innerHTML = '<a href="https://allwaysevermirai.netlify.app/download" style="color: white; text-decoration-line: none; font-weight: bold;"><i class="fas fa-download"></i> Install App</a>';
+  installBtn.innerHTML = '<a href="https://allwaysevermirai.netlify.app/pwa" style="color: white; text-decoration-line: none; font-weight: bold;"><i class="fas fa-download"></i> Install App</a>';
   installBtn.style.cssText = `
     position: fixed;
     bottom: 20px;
@@ -133,7 +133,7 @@ function generateVersion(major, minor, patch) {
 } 
 
 // Usage
-const VERSION = generateVersion(3, 0, 1);
+const VERSION = generateVersion(3, 0, 0);
 </script>
 </head>
 
@@ -3577,49 +3577,36 @@ function testSearch() {
     }
 
     // PERBAIKAN: Typewriter effect yang tidak menghapus tombol
-    async function typeWriterEffect(element, markdownText, speed = 30) {
-    const container = element.querySelector('.message-content');
-    if (!container) return;
-
-    // Parse markdown ke HTML
-    const html = marked.parse(markdownText);
-
-    // Buat elemen sementara untuk memanipulasi DOM
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
-
-    // Ambil semua node anak tingkat pertama (termasuk teks dan elemen)
-    const childNodes = Array.from(tempDiv.childNodes);
-
-    // Kosongkan container
-    container.innerHTML = '';
-
-    // Fungsi untuk menambahkan node dengan delay
-    async function appendNodeWithDelay(node) {
-        return new Promise(resolve => {
-            if (node.nodeType === Node.TEXT_NODE) {
-                // Untuk teks biasa, kita bisa mengetik per karakter (opsional)
-                // Atau langsung tambahkan sekaligus (lebih cepat)
-                container.appendChild(document.createTextNode(node.textContent));
-                resolve();
-            } else {
-                // Untuk elemen, clone dan tambahkan sekaligus
-                const cloned = node.cloneNode(true); // clone dalam-dalam
-                container.appendChild(cloned);
-                resolve();
-            }
-        });
+    function typeWriterEffect(element, text, speed = 0.5) { 
+        const parsedHtml = marked.parse(text); 
+        const messageContent = element.querySelector('.message-content');
+        
+        if (!messageContent) {
+            console.error('Message content container not found!');
+            return Promise.resolve();
+        }
+        
+        let i = 0; 
+        messageContent.innerHTML = ''; 
+        const tempElement = document.createElement('div'); 
+        tempElement.innerHTML = parsedHtml; 
+        const textToType = tempElement.innerText; 
+        
+        return new Promise(resolve => { 
+            function type() { 
+                if (i < textToType.length) { 
+                    messageContent.innerHTML += textToType.charAt(i); 
+                    i++; 
+                    setTimeout(type, speed); 
+                } else { 
+                    // When done typing, render the proper Markdown
+                    messageContent.innerHTML = parsedHtml; 
+                    resolve(); 
+                } 
+            } 
+            type(); 
+        }); 
     }
-
-    // Proses setiap node secara berurutan
-    for (const node of childNodes) {
-        await appendNodeWithDelay(node);
-        // Jeda antar node (semakin besar speed, semakin lambat)
-        await new Promise(resolve => setTimeout(resolve, speed * 10));
-        // Scroll ke bawah agar terlihat progres
-        container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-}
 
     function stopAI() {
         if (abortController) {
