@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirAI PWA</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <meta name="description" content="Complete guide to MirAI as a Progressive Web App: features, installation, technical details, and benefits.">
+    <meta name="keywords" content="Allwaysever, MirAI, PWA, Progressive Web App, guide, install, service worker, manifest, TWA, APKPure">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6.0.0-beta3 (Ikon Resmi SRUI) -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700;800&display=swap" rel="stylesheet">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSJYJCXGC4"></script>
+    <meta name="google-adsense-account" content="ca-pub-2796497511012948">
+    
+    <style>
+        /* SRUI Custom Styling v1.3.4 – sama persis dengan index.html */
+        :root {
+            --srui-accent: #ffce00;
+            --srui-bg-dark: #1B1C1E;
+            --srui-card-bg-solid: #0f0f0f;
+            --srui-glass-bg: rgba(27, 28, 30, 0.9);
+            --srui-border: #4B4F50;
+            --srui-text-primary: #ffffff;
+            --srui-text-secondary: #999999;
+            --srui-text-tertiary: #666666;
+            --srui-success: #4CAF50;
+            --srui-warning: #ffce00;
+            --srui-error: #F44336;
+            --srui-info: #2196F3;
+            --srui-radius-card: 25px;
+            --srui-radius-btn: 9999px;
+            --srui-radius-chip: 9999px;
+            --srui-transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--srui-bg-dark);
+            color: var(--srui-text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background-color: var(--srui-glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--srui-border);
+            border-radius: var(--srui-radius-card);
+            transition: var(--srui-transition);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px -8px rgba(255, 206, 0, 0.2);
+            border-color: var(--srui-accent);
+        }
+
+        .btn-accent {
+            background-color: var(--srui-accent);
+            color: var(--srui-bg-dark);
+            font-weight: 700;
+            border-radius: var(--srui-radius-btn);
+            border: 2px solid var(--srui-accent);
+            transition: var(--srui-transition);
+        }
+
+        .btn-accent:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 20px -5px rgba(255, 206, 0, 0.4);
+        }
+
+        .btn-accent:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--srui-text-primary);
+            font-weight: 600;
+            border-radius: var(--srui-radius-btn);
+            border: 2px solid var(--srui-border);
+            transition: var(--srui-transition);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--srui-accent);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.98);
+        }
+
+        .text-primary { color: var(--srui-text-primary); }
+        .text-secondary { color: var(--srui-text-secondary); }
+        .text-tertiary { color: var(--srui-text-tertiary); }
+        .text-accent { color: var(--srui-accent); }
+
+        .feature-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .tech-badge {
+            display: inline-block;
+            background: rgba(255, 206, 0, 0.1);
+            color: #ffce00;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 3px;
+            border: 1px solid rgba(255, 206, 0, 0.3);
+            transition: var(--srui-transition);
+        }
+
+        .tech-badge:hover {
+            background: rgba(255, 206, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            background-color: rgba(27, 28, 30, 0.9);
+            border-bottom: 1px solid var(--srui-border);
+        }
+
+        .language-selector select {
+            background-color: var(--srui-glass-bg);
+            border: 1px solid var(--srui-border);
+            border-radius: 25px;
+            color: var(--srui-text-primary);
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: var(--srui-transition);
+        }
+
+        .language-selector select:focus {
+            outline: none;
+            border-color: var(--srui-accent);
+            box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+        .delay-5 { transition-delay: 0.5s; }
+
+        .container-padding {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 768px) {
+            .container-padding {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
+        }
+
+        /* Override Tailwind grays dengan SRUI colors */
+        .text-gray-400 { color: var(--srui-text-secondary) !important; }
+        .text-gray-300 { color: #cccccc !important; }
+        .text-gray-500 { color: var(--srui-text-tertiary) !important; }
+        .border-gray-800 { border-color: var(--srui-border) !important; }
+        .bg-gray-900 { background-color: var(--srui-card-bg-solid) !important; }
+        .hover\:text-white:hover { color: var(--srui-text-primary) !important; }
+        .hover\:text-yellow-400:hover { color: var(--srui-accent) !important; }
+
+        /* Styling untuk tabel */
+        .feature-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 0.5rem;
+        }
+        .feature-table th {
+            text-align: left;
+            color: var(--srui-accent);
+            font-weight: 600;
+            padding-bottom: 0.5rem;
+        }
+        .feature-table td {
+            background: rgba(255,255,255,0.02);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+        }
+        .feature-table tr td:first-child {
+            font-weight: 600;
+            color: white;
+            width: 25%;
+        }
+        .feature-table tr td:last-child {
+            color: var(--srui-text-secondary);
+        }
+
+        /* Kode blok */
+        .code-block {
+            background: #0a0a0a;
+            border-left: 4px solid var(--srui-accent);
+            border-radius: 0 12px 12px 0;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: monospace;
+            color: #e0e0e0;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER – sama persis dengan index.html (dengan ikon Font Awesome) -->
+    <header class="w-full py-6 container-padding sticky-header">
+        <div class="flex justify-between items-center max-w-6xl mx-auto">
+            <div class="flex items-center space-x-3">
+                <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" onerror="this.onerror=null; this.src='https://placehold.co/40x40/ffce00/0f0f0f?text=MirAI';" class="w-10 h-10 rounded-lg object-contain" alt="MirAI Logo">
+                <span><span class="text-lg font-bold">MirAI</span> by <span class="text-lg font-bold">Allwaysever</span></span>
+            </div>
+            <nav class="space-x-4 hidden sm:flex">
+                <a href="#what-is-pwa" class="text-sm font-medium text-secondary hover:text-white transition duration-150" data-i18n="nav_what">What is PWA?</a>
+                <a href="#features" class="text-sm font-medium text-secondary hover:text-white transition duration-150" data-i18n="nav_features">Features</a>
+                <a href="#install" class="text-sm font-medium text-secondary hover:text-white transition duration-150" data-i18n="nav_install">Install</a>
+                <a href="#technical" class="text-sm font-medium text-secondary hover:text-white transition duration-150" data-i18n="nav_tech">Technical</a>
+                <a href="#faq" class="text-sm font-medium text-secondary hover:text-white transition duration-150" data-i18n="nav_faq">FAQ</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="auto">Auto Detect</option>
+                        <option value="en-US">English (US)</option>
+                        <option value="en-GB">English (UK)</option>
+                        <option value="id-ID">Bahasa Indonesia</option>
+                        <option value="ja-JP">日本語</option>
+                    </select>
+                </div>
+                <a href="#install" class="btn-accent text-sm px-4 py-2 hidden sm:inline-block" data-i18n="install_btn">
+                    <i class="fa-solid fa-download mr-1"></i> Install PWA
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full mx-auto pb-20">
+        
+        <!-- HERO SECTION -->
+        <section class="text-center py-16 md:py-24 container-padding max-w-6xl mx-auto fade-up">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                <span data-i18n="hero_title1">MirAI is a Progressive Web App (PWA)</span>
+                <span class="text-accent block md:inline-block" data-i18n="hero_title2">The Complete Guide</span>
+            </h1>
+            <p class="text-lg md:text-xl text-secondary mb-10 max-w-3xl mx-auto" data-i18n="hero_subtitle">
+                MirAI is not just an ordinary web-based AI assistant – it’s also a fully-featured <b>Progressive Web App (PWA)</b>. 
+                Install it on your device like a native app, use it offline, receive push notifications, and enjoy a seamless, app-like experience.
+            </p>
+            <a href="#install" class="btn-accent text-xl px-10 py-4 shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 min-w-[280px] hover:shadow-2xl inline-block" data-i18n="hero_button">
+                <i class="fa-solid fa-mobile-screen-button mr-2"></i> Install MirAI Now
+            </a>
+        </section>
+
+        <!-- WHAT IS PWA -->
+        <section id="what-is-pwa" class="py-16 container-padding max-w-6xl mx-auto fade-up">
+            <div class="glass-card p-8 md:p-12">
+                <h2 class="text-3xl font-bold mb-6 text-white" data-i18n="what_title">📱 What is a Progressive Web App (PWA)?</h2>
+                <p class="text-secondary mb-4" data-i18n="what_desc1">
+                    A Progressive Web App is a web application that uses modern web capabilities to deliver an app-like experience to users. PWAs are:
+                </p>
+                <ul class="list-disc list-inside text-secondary space-y-2 mb-4">
+                    <li data-i18n="what_reliable"><span class="text-accent font-semibold">Reliable</span> – Load instantly, even in uncertain network conditions.</li>
+                    <li data-i18n="what_fast"><span class="text-accent font-semibold">Fast</span> – Respond quickly to user interactions with smooth animations.</li>
+                    <li data-i18n="what_engaging"><span class="text-accent font-semibold">Engaging</span> – Feel like a natural app on the device, with immersive full-screen mode and push notifications.</li>
+                </ul>
+                <p class="text-secondary" data-i18n="what_desc2">
+                    MirAI leverages the PWA technology to bring you the best of both worlds: the accessibility of a website and the power of a native application.
+                </p>
+            </div>
+        </section>
+
+        <!-- MIRAI'S PWA FEATURES (TABEL) -->
+        <section id="features" class="py-16 container-padding max-w-6xl mx-auto fade-up">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="features_title">✨ MirAI’s PWA Features</h2>
+            <div class="glass-card p-8 overflow-x-auto">
+                <table class="feature-table">
+                    <thead>
+                        <tr><th data-i18n="table_feature">Feature</th><th data-i18n="table_description">Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-i18n="feat_installable">Installable</td><td data-i18n="feat_installable_desc">Add MirAI to your home screen (Android, Windows, macOS, etc.) just like a native app.</td></tr>
+                        <tr><td data-i18n="feat_offline">Offline Support</td><td data-i18n="feat_offline_desc">Service workers cache essential assets, so you can still access the interface and previous conversations even without an internet connection.</td></tr>
+                        <tr><td data-i18n="feat_push">Push Notifications</td><td data-i18n="feat_push_desc">Get notified about updates, new features, and important announcements via OneSignal integration.</td></tr>
+                        <tr><td data-i18n="feat_fullscreen">Fullscreen Mode</td><td data-i18n="feat_fullscreen_desc">Enjoy an immersive, distraction-free interface without browser UI elements.</td></tr>
+                        <tr><td data-i18n="feat_splash">Splash Screen</td><td data-i18n="feat_splash_desc">A professional loading screen with a progress bar appears when you launch the app.</td></tr>
+                        <tr><td data-i18n="feat_updates">Automatic Updates</td><td data-i18n="feat_updates_desc">The app updates in the background whenever new content is available.</td></tr>
+                        <tr><td data-i18n="feat_secure">Secure Context</td><td data-i18n="feat_secure_desc">Served over HTTPS, ensuring your conversations and data remain encrypted in transit.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- HOW TO INSTALL -->
+        <section id="install" class="py-16 container-padding max-w-6xl mx-auto fade-up">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="install_title">🚀 How to Install MirAI as a PWA</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Android -->
+                <div class="glass-card p-6">
+                    <div class="text-accent text-4xl mb-4">📱</div>
+                    <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="install_android_title">On Android</h3>
+                    <p class="text-secondary mb-4" data-i18n="install_android_desc">Open MirAI in Chrome / Samsung Internet, tap menu → <b>“Add to Home screen”</b> → Install.</p>
+                    <p class="text-secondary" data-i18n="install_android_alt">Or visit <a href="https://allwaysevermirai.netlify.app/download" class="text-accent underline">download page</a> and tap the Install button.</p>
+                </div>
+                <!-- iOS -->
+                <div class="glass-card p-6">
+                    <div class="text-accent text-4xl mb-4">🍏</div>
+                    <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="install_ios_title">On iOS (Safari)</h3>
+                    <p class="text-secondary mb-4" data-i18n="install_ios_desc">Tap <b>Share</b> → <b>“Add to Home Screen”</b> → name it → <b>Add</b>.</p>
+                    <p class="text-secondary" data-i18n="install_ios_note">Opens in full‑screen mode, just like a native app.</p>
+                </div>
+                <!-- Desktop -->
+                <div class="glass-card p-6">
+                    <div class="text-accent text-4xl mb-4">💻</div>
+                    <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="install_desktop_title">On Desktop</h3>
+                    <p class="text-secondary mb-4" data-i18n="install_desktop_desc">Click the install icon in the address bar (Chrome/Edge/Brave) or go to menu → <b>“Install MirAI…”</b>.</p>
+                    <p class="text-secondary" data-i18n="install_desktop_alt">Or use the <a href="https://allwaysevermirai.netlify.app/download" class="text-accent underline">download page</a>.</p>
+                </div>
+            </div>
+
+            <!-- APKPure TWA Option (Android only) -->
+            <div class="mt-8 glass-card p-6 text-center">
+                <h3 class="text-xl font-semibold mb-2 text-white" data-i18n="apkpure_title">📦 Android TWA (APKPure)</h3>
+                <p class="text-secondary mb-4" data-i18n="apkpure_desc">
+                    For Android users who prefer a traditional APK installation, MirAI is also available as a Trusted Web Activity (TWA) package on APKPure.
+                </p>
+                <a href="https://apkpure.com/id/mirai/app.netlify.allwaysevermirai.twa" class="btn-accent px-6 py-2 inline-block" data-i18n="apkpure_button">
+                    <i class="fa-solid fa-download mr-1"></i> Get it on APKPure
+                </a>
+                <p class="text-sm text-tertiary mt-3" data-i18n="apkpure_disclaimer">⚠️ Only supports Android devices. Not available for iOS or desktop.</p>
+            </div>
+
+            <div class="mt-12 glass-card p-8">
+                <h3 class="text-xl font-semibold mb-4 text-white" data-i18n="after_install_title">📲 What Happens After Installation?</h3>
+                <ul class="list-disc list-inside text-secondary space-y-2">
+                    <li data-i18n="after_install1">It opens in its own window, without browser tabs or address bar.</li>
+                    <li data-i18n="after_install2">You’ll see a custom splash screen while the app loads.</li>
+                    <li data-i18n="after_install3">Push notifications can be enabled (you’ll be prompted on first visit).</li>
+                    <li data-i18n="after_install4">The app updates automatically in the background.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- TECHNICAL UNDERPINNINGS -->
+        <section id="technical" class="py-16 container-padding max-w-6xl mx-auto fade-up">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="tech_title">🔧 Technical Underpinnings</h2>
+            
+            <div class="glass-card p-8 mb-8">
+                <h3 class="text-2xl font-semibold mb-4 text-white" data-i18n="tech_manifest_title">Web App Manifest (<code>MirAIPWAm.json</code>)</h3>
+                <p class="text-secondary mb-4" data-i18n="tech_manifest_desc">The manifest file defines how MirAI appears when installed:</p>
+                <div class="code-block">
+                    <pre>{
+  "name": "MirAI",
+  "short_name": "MirAI",
+  "start_url": "/chat.html",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#1a1a1a",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}</pre>
+                </div>
+                <p class="text-secondary mt-2" data-i18n="tech_manifest_note"><code>display: "standalone"</code> removes browser UI; <code>theme_color</code> and <code>background_color</code> define splash screen colors.</p>
+            </div>
+
+            <div class="glass-card p-8 mb-8">
+                <h3 class="text-2xl font-semibold mb-4 text-white" data-i18n="tech_sw_title">Service Worker (<code>MirAIPWAsw.js</code>)</h3>
+                <p class="text-secondary mb-4" data-i18n="tech_sw_desc">The service worker caches key assets for offline use and handles background updates:</p>
+                <div class="code-block">
+                    <pre>// Simplified registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('MirAIPWAsw.js')
+      .then(reg => console.log('Service Worker registered'))
+      .catch(err => console.log('SW registration failed', err));
+  });
+}</pre>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 mb-8">
+                <h3 class="text-2xl font-semibold mb-4 text-white" data-i18n="tech_installprompt_title">Install Prompt Handling</h3>
+                <p class="text-secondary mb-4" data-i18n="tech_installprompt_desc">MirAI listens for the <code>beforeinstallprompt</code> event to show a custom install button:</p>
+                <div class="code-block">
+                    <pre>let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  showInstallButton();
+});</pre>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 mb-8">
+                <h3 class="text-2xl font-semibold mb-4 text-white" data-i18n="tech_notif_title">Push Notifications via OneSignal</h3>
+                <p class="text-secondary mb-4" data-i18n="tech_notif_desc">OneSignal integration sends updates and announcements:</p>
+                <div class="code-block">
+                    <pre>&lt;script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "9b77aea2-462f-498d-be06-bc4f75ab7ab7",
+      safari_web_id: "web.onesignal.auto.31f2bfbe-48d0-4a72-b7e0-d44022a2d3bb",
+      notifyButton: { enable: false },
+    });
+  });
+&lt;/script&gt;</pre>
+                </div>
+            </div>
+
+            <div class="glass-card p-8">
+                <h3 class="text-2xl font-semibold mb-4 text-white" data-i18n="tech_splash_title">Splash Screen and Loading Animation</h3>
+                <p class="text-secondary mb-4" data-i18n="tech_splash_desc">Custom splash screen with logo and loading bar:</p>
+                <div class="code-block">
+                    <pre>&lt;div id="splash-screen"&gt;
+  &lt;div class="splash-content"&gt;
+    &lt;img src="Assets/Name Logo.png" alt="MirAI" class="splash-logo"&gt;
+    &lt;div class="loading-bar-container"&gt;
+        &lt;div class="loading-bar"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- BENEFITS -->
+        <section class="py-16 container-padding max-w-6xl mx-auto fade-up">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="benefits_title">🎯 Benefits of Using MirAI as a PWA</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="flex items-start space-x-3">
+                    <span class="text-accent text-2xl">✅</span>
+                    <p class="text-secondary" data-i18n="benefit1">One‑click access – No need to open a browser and type the URL every time.</p>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <span class="text-accent text-2xl">✅</span>
+                    <p class="text-secondary" data-i18n="benefit2">Faster loading – Cached resources make the app launch instantly.</p>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <span class="text-accent text-2xl">✅</span>
+                    <p class="text-secondary" data-i18n="benefit3">Offline reading – You can scroll through previous conversations even without internet.</p>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <span class="text-accent text-2xl">✅</span>
+                    <p class="text-secondary" data-i18n="benefit4">Immersive experience – Full‑screen mode removes distractions.</p>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <span class="text-accent text-2xl">✅</span>
+                    <p class="text-secondary" data-i18n="benefit5">Always up‑to‑date – The service worker updates the app in the background.</p>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <span class="text-accent text-2xl">✅</span>
+                    <p class="text-secondary" data-i18n="benefit6">Native‑like feel – Gestures, transitions, and splash screen mimic a real app.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="py-16 container-padding max-w-6xl mx-auto fade-up">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="faq_title">❓ Frequently Asked Questions</h2>
+            <div class="glass-card p-8">
+                <div class="space-y-6">
+                    <div>
+                        <p class="font-semibold text-white" data-i18n="faq1_q">Is MirAI available on the Google Play Store or Apple App Store?</p>
+                        <p class="text-secondary" data-i18n="faq1_a">Not yet. MirAI is distributed as a PWA, which means you install it directly from the website. This gives you the freedom to use the latest version immediately without waiting for app store approvals. For Android users, we also offer a TWA version on APKPure (see above).</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white" data-i18n="faq2_q">Do I need an internet connection to use MirAI after installing it?</p>
+                        <p class="text-secondary" data-i18n="faq2_a">You need an internet connection to send messages and receive AI responses. However, the interface and your chat history (cached locally) are available offline for viewing.</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white" data-i18n="faq3_q">Can I receive push notifications on all platforms?</p>
+                        <p class="text-secondary" data-i18n="faq3_a">Push notifications are supported on Android (via Chrome, Samsung Internet) and on desktop browsers that support the Web Push API. iOS support is limited – you may not receive push notifications from PWAs on iOS.</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white" data-i18n="faq4_q">How much storage does the installed MirAI app use?</p>
+                        <p class="text-secondary" data-i18n="faq4_a">Very little – typically under 5 MB for the cached assets. Your chat history is stored in the browser’s local storage, which can grow over time but is manageable via the memory settings in MirAI.</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white" data-i18n="faq5_q">Can I uninstall MirAI like a normal app?</p>
+                        <p class="text-secondary" data-i18n="faq5_a">Yes. On Android, long‑press the icon and select “Uninstall” or drag it to the “Uninstall” area. On desktop, go to your browser’s installed apps list and remove it.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FUTURE OF MIRAI PWA -->
+        <section class="py-16 container-padding max-w-6xl mx-auto fade-up">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="future_title">📈 Future of MirAI PWA</h2>
+            <div class="glass-card p-8">
+                <p class="text-secondary mb-4" data-i18n="future_desc">The development team behind MirAI (Allwaysever) is committed to enhancing the PWA experience. Upcoming improvements may include:</p>
+                <ul class="list-disc list-inside text-secondary space-y-2">
+                    <li data-i18n="future1">Better offline support (e.g., caching AI responses for offline replay).</li>
+                    <li data-i18n="future2">Background sync to queue messages when offline and send them when connectivity returns.</li>
+                    <li data-i18n="future3">More native‑like gestures and transitions.</li>
+                    <li data-i18n="future4">Support for more platforms (e.g., Windows Store, Chrome OS).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- USEFUL LINKS -->
+        <section class="py-16 container-padding max-w-6xl mx-auto fade-up">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white" data-i18n="links_title">🔗 Useful Links</h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://allwaysevermirai.netlify.app" class="btn-secondary px-6 py-3">🌐 Web Version</a>
+                <a href="https://allwaysevermirai.netlify.app/download" class="btn-secondary px-6 py-3">📲 Install PWA</a>
+                <a href="https://allwaysevermirai.netlify.app/chat?betamodel" class="btn-secondary px-6 py-3">🧪 Beta Model</a>
+                <a href="https://github.com/Allwaysever/MirAI" class="btn-secondary px-6 py-3">🐙 GitHub</a>
+            </div>
+        </section>
+
+        <!-- FINAL WORDS -->
+        <section class="py-16 container-padding max-w-6xl mx-auto text-center fade-up">
+            <div class="bg-accent glass-card p-8 md:p-12 text-gray-900 border-none">
+                <h2 class="text-3xl text-white font-extrabold mb-4" data-i18n="final_title">📝 Final Words</h2>
+                <p class="text-lg mb-8 text-white" data-i18n="final_desc">
+                    MirAI is more than just an AI chat interface – it’s a modern Progressive Web App that brings you the convenience of a native app with the reach of the web. 
+                    Whether you’re on your phone, tablet, or desktop, installing MirAI as a PWA gives you a fast, reliable, and engaging way to interact with the Gemini AI.
+                </p>
+                <p class="text-white text-xl font-semibold mb-6" data-i18n="final_cta">Go ahead and <span class="text-gray-900">install MirAI today</span> – your intelligent, always‑ready companion is just a tap away!</p>
+                <a href="https://allwaysevermirai.netlify.app/download" class="btn-accent text-xl px-10 py-4 shadow-md focus:outline-none focus:ring-4 focus:ring-gray-900 focus:ring-opacity-20 min-w-[280px] bg-gray-900 text-accent hover:bg-gray-800 inline-block" data-i18n="final_button">
+                    <i class="fa-solid fa-mobile-screen-button mr-2"></i> Install MirAI Now
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- COMMUNITY (sama seperti index.html) -->
+    <section class="py-10 container-padding max-w-6xl mx-auto text-center">
+        <h3 class="text-xl font-bold mb-6 text-white" data-i18n="community_title">Join the MirAI Community!</h3>
+        <div class="flex justify-center space-x-6 text-secondary">
+            <a href="https://github.com/Allwaysever/MirAI/issues" class="hover:text-accent transition duration-150">GitHub</a>
+            <span>|</span>
+            <a href="https://whatsapp.com/channel/0029Vb6hyuk6mYPGjI2E5g31" class="hover:text-accent transition duration-150">WA Channel</a>
+            <span>|</span>
+            <a href="https://Instagram.com/allwaysevermirai" class="hover:text-accent transition duration-150">Instagram</a>
+            <span>|</span>
+            <a href="https://youtube.com/@AllwayseverMirAI" class="hover:text-accent transition duration-150">YouTube</a>
+        </div>
+        <p class="text-sm text-tertiary mt-4" data-i18n="community_desc">
+            Development is open-source under Apache License 2.0. Found a bug or want to contribute? Check out our 
+            <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-secondary hover:text-accent underline">Contributing Guide</a> 
+            and comprehensive 
+            <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-secondary hover:text-accent underline">Documentation</a>.
+        </p>
+    </section>
+
+    <footer class="text-center py-6 text-sm text-tertiary border-t border-gray-800">
+        <p>&copy; 2026 Allwaysever Project: MirAI. Powered by Google Gemini API.</p>
+        <p class="mt-2">Apache License 2.0 • .medf format specification by Allwaysever</p>
+    </footer>
+
+    <!-- SCRIPT LANGUAGE MANAGER (diadaptasi dengan kunci terjemahan baru) -->
+    <script>
+        class LanguageManager {
+            constructor() {
+                this.currentLang = localStorage.getItem('mirai-language') || 'auto';
+                this.supportedLangs = {
+                    'en-US': { name: 'English (US)', flag: '🇺🇸' },
+                    'en-GB': { name: 'English (UK)', flag: '🇬🇧' },
+                    'id-ID': { name: 'Bahasa Indonesia', flag: '🇮🇩' },
+                    'ja-JP': { name: '日本語', flag: '🇯🇵' }
+                };
+                this.translations = this.loadTranslations();
+            }
+
+            loadTranslations() {
+                return {
+                    'en-US': {
+                        // ... (kunci yang sudah ada, disingkat untuk kejelasan) ...
+                        nav_what: 'What is PWA?',
+                        nav_features: 'Features',
+                        nav_install: 'Install',
+                        nav_tech: 'Technical',
+                        nav_faq: 'FAQ',
+                        install_btn: '<i class="fa-solid fa-download mr-1"></i> Install PWA',
+                        hero_title1: 'MirAI is a Progressive Web App (PWA)',
+                        hero_title2: 'The Complete Guide',
+                        hero_subtitle: 'MirAI is not just an ordinary web-based AI assistant – it’s also a fully-featured <b>Progressive Web App (PWA)</b>. Install it on your device like a native app, use it offline, receive push notifications, and enjoy a seamless, app-like experience.',
+                        hero_button: '<i class="fa-solid fa-mobile-screen-button mr-2"></i> Install MirAI Now',
+                        what_title: '📱 What is a Progressive Web App (PWA)?',
+                        what_desc1: 'A Progressive Web App is a web application that uses modern web capabilities to deliver an app-like experience to users. PWAs are:',
+                        what_reliable: '<span class="text-accent font-semibold">Reliable</span> – Load instantly, even in uncertain network conditions.',
+                        what_fast: '<span class="text-accent font-semibold">Fast</span> – Respond quickly to user interactions with smooth animations.',
+                        what_engaging: '<span class="text-accent font-semibold">Engaging</span> – Feel like a natural app on the device, with immersive full-screen mode and push notifications.',
+                        what_desc2: 'MirAI leverages the PWA technology to bring you the best of both worlds: the accessibility of a website and the power of a native application.',
+                        features_title: '✨ MirAI’s PWA Features',
+                        table_feature: 'Feature',
+                        table_description: 'Description',
+                        feat_installable: 'Installable',
+                        feat_installable_desc: 'Add MirAI to your home screen (Android, Windows, macOS, etc.) just like a native app.',
+                        feat_offline: 'Offline Support',
+                        feat_offline_desc: 'Service workers cache essential assets, so you can still access the interface and previous conversations even without an internet connection.',
+                        feat_push: 'Push Notifications',
+                        feat_push_desc: 'Get notified about updates, new features, and important announcements via OneSignal integration.',
+                        feat_fullscreen: 'Fullscreen Mode',
+                        feat_fullscreen_desc: 'Enjoy an immersive, distraction-free interface without browser UI elements.',
+                        feat_splash: 'Splash Screen',
+                        feat_splash_desc: 'A professional loading screen with a progress bar appears when you launch the app.',
+                        feat_updates: 'Automatic Updates',
+                        feat_updates_desc: 'The app updates in the background whenever new content is available.',
+                        feat_secure: 'Secure Context',
+                        feat_secure_desc: 'Served over HTTPS, ensuring your conversations and data remain encrypted in transit.',
+                        install_title: '🚀 How to Install MirAI as a PWA',
+                        install_android_title: 'On Android',
+                        install_android_desc: 'Open MirAI in Chrome / Samsung Internet, tap menu → <b>“Add to Home screen”</b> → Install.',
+                        install_android_alt: 'Or visit <a href="https://allwaysevermirai.netlify.app/download" class="text-accent underline">download page</a> and tap the Install button.',
+                        install_ios_title: 'On iOS (Safari)',
+                        install_ios_desc: 'Tap <b>Share</b> → <b>“Add to Home Screen”</b> → name it → <b>Add</b>.',
+                        install_ios_note: 'Opens in full‑screen mode, just like a native app.',
+                        install_desktop_title: 'On Desktop',
+                        install_desktop_desc: 'Click the install icon in the address bar (Chrome/Edge/Brave) or go to menu → <b>“Install MirAI…”</b>.',
+                        install_desktop_alt: 'Or use the <a href="https://allwaysevermirai.netlify.app/download" class="text-accent underline">download page</a>.',
+                        // Kunci baru untuk APKPure
+                        apkpure_title: '📦 Android TWA (APKPure)',
+                        apkpure_desc: 'For Android users who prefer a traditional APK installation, MirAI is also available as a Trusted Web Activity (TWA) package on APKPure.',
+                        apkpure_button: '<i class="fa-solid fa-download mr-1"></i> Get it on APKPure',
+                        apkpure_disclaimer: '⚠️ Only supports Android devices. Not available for iOS or desktop.',
+                        after_install_title: '📲 What Happens After Installation?',
+                        after_install1: 'It opens in its own window, without browser tabs or address bar.',
+                        after_install2: 'You’ll see a custom splash screen while the app loads.',
+                        after_install3: 'Push notifications can be enabled (you’ll be prompted on first visit).',
+                        after_install4: 'The app updates automatically in the background.',
+                        tech_title: '🔧 Technical Underpinnings',
+                        tech_manifest_title: 'Web App Manifest (<code>MirAIPWAm.json</code>)',
+                        tech_manifest_desc: 'The manifest file defines how MirAI appears when installed:',
+                        tech_manifest_note: '<code>display: "standalone"</code> removes browser UI; <code>theme_color</code> and <code>background_color</code> define splash screen colors.',
+                        tech_sw_title: 'Service Worker (<code>MirAIPWAsw.js</code>)',
+                        tech_sw_desc: 'The service worker caches key assets for offline use and handles background updates:',
+                        tech_installprompt_title: 'Install Prompt Handling',
+                        tech_installprompt_desc: 'MirAI listens for the <code>beforeinstallprompt</code> event to show a custom install button:',
+                        tech_notif_title: 'Push Notifications via OneSignal',
+                        tech_notif_desc: 'OneSignal integration sends updates and announcements:',
+                        tech_splash_title: 'Splash Screen and Loading Animation',
+                        tech_splash_desc: 'Custom splash screen with logo and loading bar:',
+                        benefits_title: '🎯 Benefits of Using MirAI as a PWA',
+                        benefit1: 'One‑click access – No need to open a browser and type the URL every time.',
+                        benefit2: 'Faster loading – Cached resources make the app launch instantly.',
+                        benefit3: 'Offline reading – You can scroll through previous conversations even without internet.',
+                        benefit4: 'Immersive experience – Full‑screen mode removes distractions.',
+                        benefit5: 'Always up‑to‑date – The service worker updates the app in the background.',
+                        benefit6: 'Native‑like feel – Gestures, transitions, and splash screen mimic a real app.',
+                        faq_title: '❓ Frequently Asked Questions',
+                        faq1_q: 'Is MirAI available on the Google Play Store or Apple App Store?',
+                        faq1_a: 'Not yet. MirAI is distributed as a PWA, which means you install it directly from the website. This gives you the freedom to use the latest version immediately without waiting for app store approvals. For Android users, we also offer a TWA version on APKPure (see above).',
+                        faq2_q: 'Do I need an internet connection to use MirAI after installing it?',
+                        faq2_a: 'You need an internet connection to send messages and receive AI responses. However, the interface and your chat history (cached locally) are available offline for viewing.',
+                        faq3_q: 'Can I receive push notifications on all platforms?',
+                        faq3_a: 'Push notifications are supported on Android (via Chrome, Samsung Internet) and on desktop browsers that support the Web Push API. iOS support is limited – you may not receive push notifications from PWAs on iOS.',
+                        faq4_q: 'How much storage does the installed MirAI app use?',
+                        faq4_a: 'Very little – typically under 5 MB for the cached assets. Your chat history is stored in the browser’s local storage, which can grow over time but is manageable via the memory settings in MirAI.',
+                        faq5_q: 'Can I uninstall MirAI like a normal app?',
+                        faq5_a: 'Yes. On Android, long‑press the icon and select “Uninstall” or drag it to the “Uninstall” area. On desktop, go to your browser’s installed apps list and remove it.',
+                        future_title: '📈 Future of MirAI PWA',
+                        future_desc: 'The development team behind MirAI (Allwaysever) is committed to enhancing the PWA experience. Upcoming improvements may include:',
+                        future1: 'Better offline support (e.g., caching AI responses for offline replay).',
+                        future2: 'Background sync to queue messages when offline and send them when connectivity returns.',
+                        future3: 'More native‑like gestures and transitions.',
+                        future4: 'Support for more platforms (e.g., Windows Store, Chrome OS).',
+                        links_title: '🔗 Useful Links',
+                        final_title: '📝 Final Words',
+                        final_desc: 'MirAI is more than just an AI chat interface – it’s a modern Progressive Web App that brings you the convenience of a native app with the reach of the web. Whether you’re on your phone, tablet, or desktop, installing MirAI as a PWA gives you a fast, reliable, and engaging way to interact with the Gemini AI.',
+                        final_cta: 'Go ahead and <span class="text-gray-900">install MirAI today</span> – your intelligent, always‑ready companion is just a tap away!',
+                        final_button: '<i class="fa-solid fa-mobile-screen-button mr-2"></i> Install MirAI Now',
+                        community_title: 'Join the MirAI Community!',
+                        community_desc: 'Development is open-source under Apache License 2.0. Found a bug or want to contribute? Check out our <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-secondary hover:text-accent underline">Contributing Guide</a> and comprehensive <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-secondary hover:text-accent underline">Documentation</a>.'
+                    },
+                    'en-GB': {
+                        // Salin dari en-US, sesuaikan ejaan jika perlu
+                        nav_what: 'What is PWA?',
+                        nav_features: 'Features',
+                        nav_install: 'Install',
+                        nav_tech: 'Technical',
+                        nav_faq: 'FAQ',
+                        install_btn: '<i class="fa-solid fa-download mr-1"></i> Install PWA',
+                        hero_title1: 'MirAI is a Progressive Web App (PWA)',
+                        hero_title2: 'The Complete Guide',
+                        hero_subtitle: 'MirAI is not just an ordinary web-based AI assistant – it’s also a fully-featured <b>Progressive Web App (PWA)</b>. Install it on your device like a native app, use it offline, receive push notifications, and enjoy a seamless, app-like experience.',
+                        hero_button: '<i class="fa-solid fa-mobile-screen-button mr-2"></i> Install MirAI Now',
+                        what_title: '📱 What is a Progressive Web App (PWA)?',
+                        what_desc1: 'A Progressive Web App is a web application that uses modern web capabilities to deliver an app-like experience to users. PWAs are:',
+                        what_reliable: '<span class="text-accent font-semibold">Reliable</span> – Load instantly, even in uncertain network conditions.',
+                        what_fast: '<span class="text-accent font-semibold">Fast</span> – Respond quickly to user interactions with smooth animations.',
+                        what_engaging: '<span class="text-accent font-semibold">Engaging</span> – Feel like a natural app on the device, with immersive full-screen mode and push notifications.',
+                        what_desc2: 'MirAI leverages the PWA technology to bring you the best of both worlds: the accessibility of a website and the power of a native application.',
+                        features_title: '✨ MirAI’s PWA Features',
+                        table_feature: 'Feature',
+                        table_description: 'Description',
+                        feat_installable: 'Installable',
+                        feat_installable_desc: 'Add MirAI to your home screen (Android, Windows, macOS, etc.) just like a native app.',
+                        feat_offline: 'Offline Support',
+                        feat_offline_desc: 'Service workers cache essential assets, so you can still access the interface and previous conversations even without an internet connection.',
+                        feat_push: 'Push Notifications',
+                        feat_push_desc: 'Get notified about updates, new features, and important announcements via OneSignal integration.',
+                        feat_fullscreen: 'Fullscreen Mode',
+                        feat_fullscreen_desc: 'Enjoy an immersive, distraction-free interface without browser UI elements.',
+                        feat_splash: 'Splash Screen',
+                        feat_splash_desc: 'A professional loading screen with a progress bar appears when you launch the app.',
+                        feat_updates: 'Automatic Updates',
+                        feat_updates_desc: 'The app updates in the background whenever new content is available.',
+                        feat_secure: 'Secure Context',
+                        feat_secure_desc: 'Served over HTTPS, ensuring your conversations and data remain encrypted in transit.',
+                        install_title: '🚀 How to Install MirAI as a PWA',
+                        install_android_title: 'On Android',
+                        install_android_desc: 'Open MirAI in Chrome / Samsung Internet, tap menu → <b>“Add to Home screen”</b> → Install.',
+                        install_android_alt: 'Or visit <a href="https://allwaysevermirai.netlify.app/download" class="text-accent underline">download page</a> and tap the Install button.',
+                        install_ios_title: 'On iOS (Safari)',
+                        install_ios_desc: 'Tap <b>Share</b> → <b>“Add to Home Screen”</b> → name it → <b>Add</b>.',
+                        install_ios_note: 'Opens in full‑screen mode, just like a native app.',
+                        install_desktop_title: 'On Desktop',
+                        install_desktop_desc: 'Click the install icon in the address bar (Chrome/Edge/Brave) or go to menu → <b>“Install MirAI…”</b>.',
+                        install_desktop_alt: 'Or use the <a href="https://allwaysevermirai.netlify.app/download" class="text-accent underline">download page</a>.',
+                        apkpure_title: '📦 Android TWA (APKPure)',
+                        apkpure_desc: 'For Android users who prefer a traditional APK installation, MirAI is also available as a Trusted Web Activity (TWA) package on APKPure.',
+                        apkpure_button: '<i class="fa-solid fa-download mr-1"></i> Get it on APKPure',
+                        apkpure_disclaimer: '⚠️ Only supports Android devices. Not available for iOS or desktop.',
+                        after_install_title: '📲 What Happens After Installation?',
+                        after_install1: 'It opens in its own window, without browser tabs or address bar.',
+                        after_install2: 'You’ll see a custom splash screen while the app loads.',
+                        after_install3: 'Push notifications can be enabled (you’ll be prompted on first visit).',
+                        after_install4: 'The app updates automatically in the background.',
+                        tech_title: '🔧 Technical Underpinnings',
+                        tech_manifest_title: 'Web App Manifest (<code>MirAIPWAm.json</code>)',
+                        tech_manifest_desc: 'The manifest file defines how MirAI appears when installed:',
+                        tech_manifest_note: '<code>display: "standalone"</code> removes browser UI; <code>theme_color</code> and <code>background_color</code> define splash screen colors.',
+                        tech_sw_title: 'Service Worker (<code>MirAIPWAsw.js</code>)',
+                        tech_sw_desc: 'The service worker caches key assets for offline use and handles background updates:',
+                        tech_installprompt_title: 'Install Prompt Handling',
+                        tech_installprompt_desc: 'MirAI listens for the <code>beforeinstallprompt</code> event to show a custom install button:',
+                        tech_notif_title: 'Push Notifications via OneSignal',
+                        tech_notif_desc: 'OneSignal integration sends updates and announcements:',
+                        tech_splash_title: 'Splash Screen and Loading Animation',
+                        tech_splash_desc: 'Custom splash screen with logo and loading bar:',
+                        benefits_title: '🎯 Benefits of Using MirAI as a PWA',
+                        benefit1: 'One‑click access – No need to open a browser and type the URL every time.',
+                        benefit2: 'Faster loading – Cached resources make the app launch instantly.',
+                        benefit3: 'Offline reading – You can scroll through previous conversations even without internet.',
+                        benefit4: 'Immersive experience – Full‑screen mode removes distractions.',
+                        benefit5: 'Always up‑to‑date – The service worker updates the app in the background.',
+                        benefit6: 'Native‑like feel – Gestures, transitions, and splash screen mimic a real app.',
+                        faq_title: '❓ Frequently Asked Questions',
+                        faq1_q: 'Is MirAI available on the Google Play Store or Apple App Store?',
+                        faq1_a: 'Not yet. MirAI is distributed as a PWA, which means you install it directly from the website. This gives you the freedom to use the latest version immediately without waiting for app store approvals. For Android users, we also offer a TWA version on APKPure (see above).',
+                        faq2_q: 'Do I need an internet connection to use MirAI after installing it?',
+                        faq2_a: 'You need an internet connection to send messages and receive AI responses. However, the interface and your chat history (cached locally) are available offline for viewing.',
+                        faq3_q: 'Can I receive push notifications on all platforms?',
+                        faq3_a: 'Push notifications are supported on Android (via Chrome, Samsung Internet) and on desktop browsers that support the Web Push API. iOS support is limited – you may not receive push notifications from PWAs on iOS.',
+                        faq4_q: 'How much storage does the installed MirAI app use?',
+                        faq4_a: 'Very little – typically under 5 MB for the cached assets. Your chat history is stored in the browser’s local storage, which can grow over time but is manageable via the memory settings in MirAI.',
+                        faq5_q: 'Can I uninstall MirAI like a normal app?',
+                        faq5_a: 'Yes. On Android, long‑press the icon and select “Uninstall” or drag it to the “Uninstall” area. On desktop, go to your browser’s installed apps list and remove it.',
+                        future_title: '📈 Future of MirAI PWA',
+                        future_desc: 'The development team behind MirAI (Allwaysever) is committed to enhancing the PWA experience. Upcoming improvements may include:',
+                        future1: 'Better offline support (e.g., caching AI responses for offline replay).',
+                        future2: 'Background sync to queue messages when offline and send them when connectivity returns.',
+                        future3: 'More native‑like gestures and transitions.',
+                        future4: 'Support for more platforms (e.g., Windows Store, Chrome OS).',
+                        links_title: '🔗 Useful Links',
+                        final_title: '📝 Final Words',
+                        final_desc: 'MirAI is more than just an AI chat interface – it’s a modern Progressive Web App that brings you the convenience of a native app with the reach of the web. Whether you’re on your phone, tablet, or desktop, installing MirAI as a PWA gives you a fast, reliable, and engaging way to interact with the Gemini AI.',
+                        final_cta: 'Go ahead and <span class="text-gray-900">install MirAI today</span> – your intelligent, always‑ready companion is just a tap away!',
+                        final_button: '<i class="fa-solid fa-mobile-screen-button mr-2"></i> Install MirAI Now',
+                        community_title: 'Join the MirAI Community!',
+                        community_desc: 'Development is open-source under Apache License 2.0. Found a bug or want to contribute? Check out our <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-secondary hover:text-accent underline">Contributing Guide</a> and comprehensive <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-secondary hover:text-accent underline">Documentation</a>.'
+                    },
+                    'id-ID': {
+                        // ... (kunci untuk Bahasa Indonesia) ...
+                        nav_what: 'Apa itu PWA?',
+                        nav_features: 'Fitur',
+                        nav_install: 'Instalasi',
+                        nav_tech: 'Teknis',
+                        nav_faq: 'FAQ',
+                        install_btn: '<i class="fa-solid fa-download mr-1"></i> Pasang PWA',
+                        hero_title1: 'MirAI adalah Progressive Web App (PWA)',
+                        hero_title2: 'Panduan Lengkap',
+                        hero_subtitle: 'MirAI bukan sekadar asisten AI berbasis web biasa – ia juga merupakan <b>Progressive Web App (PWA)</b> dengan fitur lengkap. Pasang di perangkat Anda seperti aplikasi native, gunakan secara offline, terima notifikasi push, dan nikmati pengalaman seperti aplikasi sesungguhnya.',
+                        hero_button: '<i class="fa-solid fa-mobile-screen-button mr-2"></i> Pasang MirAI Sekarang',
+                        what_title: '📱 Apa itu Progressive Web App (PWA)?',
+                        what_desc1: 'Progressive Web App adalah aplikasi web yang menggunakan kemampuan web modern untuk memberikan pengalaman seperti aplikasi kepada pengguna. PWA bersifat:',
+                        what_reliable: '<span class="text-accent font-semibold">Handal</span> – Muat secara instan, bahkan dalam kondisi jaringan yang tidak menentu.',
+                        what_fast: '<span class="text-accent font-semibold">Cepat</span> – Merespons interaksi pengguna dengan cepat dan animasi halus.',
+                        what_engaging: '<span class="text-accent font-semibold">Menarik</span> – Terasa seperti aplikasi alami di perangkat, dengan mode layar penuh yang imersif dan notifikasi push.',
+                        what_desc2: 'MirAI memanfaatkan teknologi PWA untuk menghadirkan yang terbaik dari kedua dunia: aksesibilitas situs web dan kekuatan aplikasi native.',
+                        features_title: '✨ Fitur PWA MirAI',
+                        table_feature: 'Fitur',
+                        table_description: 'Deskripsi',
+                        feat_installable: 'Dapat Dipasang',
+                        feat_installable_desc: 'Tambahkan MirAI ke layar utama (Android, Windows, macOS, dll.) seperti aplikasi native.',
+                        feat_offline: 'Dukungan Offline',
+                        feat_offline_desc: 'Service worker menyimpan aset penting, sehingga Anda tetap dapat mengakses antarmuka dan percakapan sebelumnya meski tanpa koneksi internet.',
+                        feat_push: 'Notifikasi Push',
+                        feat_push_desc: 'Dapatkan pemberitahuan tentang pembaruan, fitur baru, dan pengumuman penting melalui integrasi OneSignal.',
+                        feat_fullscreen: 'Mode Layar Penuh',
+                        feat_fullscreen_desc: 'Nikmati antarmuka imersif bebas gangguan tanpa elemen UI browser.',
+                        feat_splash: 'Layar Splash',
+                        feat_splash_desc: 'Layar pemuatan profesional dengan bilah kemajuan muncul saat Anda membuka aplikasi.',
+                        feat_updates: 'Pembaruan Otomatis',
+                        feat_updates_desc: 'Aplikasi diperbarui di latar belakang setiap kali ada konten baru.',
+                        feat_secure: 'Konteks Aman',
+                        feat_secure_desc: 'Disajikan melalui HTTPS, memastikan percakapan dan data Anda tetap terenkripsi selama transmisi.',
+                        install_title: '🚀 Cara Memasang MirAI sebagai PWA',
+                        install_android_title: 'Di Android',
+                        install_android_desc: 'Buka MirAI di Chrome / Samsung Internet, ketuk menu → <b>“Tambahkan ke layar utama”</b> → Pasang.',
+                        install_android_alt: 'Atau kunjungi <a href="https://allwaysevermirai.netlify.app/download" class="text-accent underline">halaman unduhan</a> dan ketuk tombol Pasang.',
+                        install_ios_title: 'Di iOS (Safari)',
+                        install_ios_desc: 'Ketuk <b>Bagikan</b> → <b>“Tambahkan ke Layar Utama”</b> → beri nama → <b>Tambah</b>.',
+                        install_ios_note: 'Terbuka dalam mode layar penuh, seperti aplikasi native.',
+                        install_desktop_title: 'Di Desktop',
+                        install_desktop_desc: 'Klik ikon pasang di bilah alamat (Chrome/Edge/Brave) atau buka menu → <b>“Pasang MirAI…”</b>.',
+                        install_desktop_alt: 'Atau gunakan <a href="https://allwaysevermirai.netlify.app/download" class="text-accent underline">halaman unduhan</a>.',
+                        apkpure_title: '📦 Android TWA (APKPure)',
+                        apkpure_desc: 'Untuk pengguna Android yang lebih suka instalasi APK tradisional, MirAI juga tersedia sebagai paket Trusted Web Activity (TWA) di APKPure.',
+                        apkpure_button: '<i class="fa-solid fa-download mr-1"></i> Dapatkan di APKPure',
+                        apkpure_disclaimer: '⚠️ Hanya mendukung perangkat Android. Tidak tersedia untuk iOS atau desktop.',
+                        after_install_title: '📲 Apa yang Terjadi Setelah Pemasangan?',
+                        after_install1: 'Aplikasi terbuka di jendelanya sendiri, tanpa tab browser atau bilah alamat.',
+                        after_install2: 'Anda akan melihat layar splash khusus saat aplikasi dimuat.',
+                        after_install3: 'Notifikasi push dapat diaktifkan (Anda akan diminta pada kunjungan pertama).',
+                        after_install4: 'Aplikasi diperbarui secara otomatis di latar belakang.',
+                        tech_title: '🔧 Landasan Teknis',
+                        tech_manifest_title: 'Manifes Aplikasi Web (<code>MirAIPWAm.json</code>)',
+                        tech_manifest_desc: 'File manifes mendefinisikan tampilan MirAI saat dipasang:',
+                        tech_manifest_note: '<code>display: "standalone"</code> menghapus UI browser; <code>theme_color</code> dan <code>background_color</code> menentukan warna layar splash.',
+                        tech_sw_title: 'Service Worker (<code>MirAIPWAsw.js</code>)',
+                        tech_sw_desc: 'Service worker menyimpan aset kunci untuk penggunaan offline dan menangani pembaruan latar belakang:',
+                        tech_installprompt_title: 'Penanganan Prompt Pemasangan',
+                        tech_installprompt_desc: 'MirAI mendengarkan acara <code>beforeinstallprompt</code> untuk menampilkan tombol pasang kustom:',
+                        tech_notif_title: 'Notifikasi Push melalui OneSignal',
+                        tech_notif_desc: 'Integrasi OneSignal mengirimkan pembaruan dan pengumuman:',
+                        tech_splash_title: 'Layar Splash dan Animasi Pemuatan',
+                        tech_splash_desc: 'Layar splash khusus dengan logo dan bilah kemajuan:',
+                        benefits_title: '🎯 Manfaat Menggunakan MirAI sebagai PWA',
+                        benefit1: 'Akses satu klik – Tidak perlu membuka browser dan mengetik URL setiap saat.',
+                        benefit2: 'Pemuatan lebih cepat – Sumber daya yang di‑cache membuat aplikasi langsung terbuka.',
+                        benefit3: 'Membaca offline – Anda dapat melihat percakapan sebelumnya meski tanpa internet.',
+                        benefit4: 'Pengalaman imersif – Mode layar penuh menghilangkan gangguan.',
+                        benefit5: 'Selalu terbaru – Service worker memperbarui aplikasi di latar belakang.',
+                        benefit6: 'Nuansa seperti native – Gestur, transisi, dan layar splash meniru aplikasi sungguhan.',
+                        faq_title: '❓ Pertanyaan yang Sering Diajukan',
+                        faq1_q: 'Apakah MirAI tersedia di Google Play Store atau Apple App Store?',
+                        faq1_a: 'Belum. MirAI didistribusikan sebagai PWA, yang berarti Anda memasangnya langsung dari situs web. Ini memberi Anda kebebasan untuk menggunakan versi terbaru segera tanpa menunggu persetujuan toko aplikasi. Untuk pengguna Android, kami juga menawarkan versi TWA di APKPure (lihat di atas).',
+                        faq2_q: 'Apakah saya perlu koneksi internet untuk menggunakan MirAI setelah dipasang?',
+                        faq2_a: 'Anda perlu koneksi internet untuk mengirim pesan dan menerima respons AI. Namun, antarmuka dan riwayat obrolan Anda (disimpan secara lokal) tersedia secara offline untuk dilihat.',
+                        faq3_q: 'Bisakah saya menerima notifikasi push di semua platform?',
+                        faq3_a: 'Notifikasi push didukung di Android (melalui Chrome, Samsung Internet) dan di browser desktop yang mendukung Web Push API. Dukungan iOS terbatas – Anda mungkin tidak menerima notifikasi push dari PWA di iOS.',
+                        faq4_q: 'Berapa banyak penyimpanan yang digunakan aplikasi MirAI yang terpasang?',
+                        faq4_a: 'Sangat kecil – biasanya di bawah 5 MB untuk aset yang di‑cache. Riwayat obrolan Anda disimpan di penyimpanan lokal browser, yang dapat bertambah seiring waktu tetapi dapat dikelola melalui pengaturan memori di MirAI.',
+                        faq5_q: 'Bisakah saya mencopot pemasangan MirAI seperti aplikasi biasa?',
+                        faq5_a: 'Ya. Di Android, tekan lama ikon dan pilih “Copot pemasangan” atau seret ke area “Copot pemasangan”. Di desktop, buka daftar aplikasi terpasang browser Anda dan hapus.',
+                        future_title: '📈 Masa Depan MirAI PWA',
+                        future_desc: 'Tim pengembang di balik MirAI (Allwaysever) berkomitmen untuk meningkatkan pengalaman PWA. Peningkatan yang akan datang dapat mencakup:',
+                        future1: 'Dukungan offline yang lebih baik (misalnya, menyimpan respons AI untuk pemutaran ulang offline).',
+                        future2: 'Sinkronisasi latar belakang untuk mengantrekan pesan saat offline dan mengirimkannya saat koneksi kembali.',
+                        future3: 'Gestur dan transisi yang lebih mirip native.',
+                        future4: 'Dukungan untuk lebih banyak platform (mis., Windows Store, Chrome OS).',
+                        links_title: '🔗 Tautan Berguna',
+                        final_title: '📝 Kata Penutup',
+                        final_desc: 'MirAI lebih dari sekadar antarmuka obrolan AI – ini adalah Progressive Web App modern yang memberi Anda kenyamanan aplikasi native dengan jangkauan web. Baik Anda di ponsel, tablet, atau desktop, memasang MirAI sebagai PWA memberi Anda cara cepat, andal, dan menarik untuk berinteraksi dengan AI Gemini.',
+                        final_cta: 'Silakan <span class="text-gray-900">pasang MirAI hari ini</span> – pendamping cerdas Anda yang selalu siap hanya dengan satu ketukan!',
+                        final_button: '<i class="fa-solid fa-mobile-screen-button mr-2"></i> Pasang MirAI Sekarang',
+                        community_title: 'Bergabunglah dengan Komunitas MirAI!',
+                        community_desc: 'Pengembangan bersumber terbuka di bawah Lisensi Apache 2.0. Menemukan bug atau ingin berkontribusi? Lihat <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-secondary hover:text-accent underline">Panduan Kontribusi</a> dan <a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-secondary hover:text-accent underline">Dokumentasi</a> lengkap.'
+                    },
+                    'ja-JP': {
+                        // (terjemahan Jepang sederhana) ...
+                        nav_what: 'PWAとは？',
+                        nav_features: '機能',
+                        nav_install: 'インストール',
+                        nav_tech: '技術',
+                        nav_faq: 'FAQ',
+                        install_btn: '<i class="fa-solid fa-download mr-1"></i> PWAをインストール',
+                        hero_title1: 'MirAIはプログレッシブウェブアプリ（PWA）です',
+                        hero_title2: '完全ガイド',
+                        hero_subtitle: 'MirAIは単なるウェブベースのAIアシスタントではありません – 完全な機能を備えた<b>プログレッシブウェブアプリ（PWA）</b>でもあります。ネイティブアプリのようにデバイスにインストールし、オフラインで使用し、プッシュ通知を受け取り、シームレスなアプリのような体験をお楽しみいただけます。',
+                        hero_button: '<i class="fa-solid fa-mobile-screen-button mr-2"></i> MirAIを今すぐインストール',
+                        what_title: '📱 プログレッシブウェブアプリ（PWA）とは？',
+                        what_desc1: 'プログレッシブウェブアプリは、最新のウェブ機能を使用してユーザーにアプリのような体験を提供するウェブアプリケーションです。PWAは：',
+                        what_reliable: '<span class="text-accent font-semibold">信頼性</span> – 不安定なネットワーク状況でも即座に読み込まれます。',
+                        what_fast: '<span class="text-accent font-semibold">高速</span> – スムーズなアニメーションでユーザーの操作にすばやく応答します。',
+                        what_engaging: '<span class="text-accent font-semibold">魅力的</span> – 没入感のあるフルスクリーンモードとプッシュ通知で、デバイス上のネイティブアプリのように感じられます。',
+                        what_desc2: 'MirAIはPWAテクノロジーを活用して、ウェブサイトのアクセシビリティとネイティブアプリケーションのパワーの両方の利点を提供します。',
+                        features_title: '✨ MirAIのPWA機能',
+                        table_feature: '機能',
+                        table_description: '説明',
+                        feat_installable: 'インストール可能',
+                        feat_installable_desc: 'ネイティブアプリのように、MirAIをホーム画面に追加できます（Android、Windows、macOSなど）。',
+                        feat_offline: 'オフラインサポート',
+                        feat_offline_desc: 'Service workerが重要なアセットをキャッシュするため、インターネット接続がなくてもインターフェースと以前の会話にアクセスできます。',
+                        feat_push: 'プッシュ通知',
+                        feat_push_desc: 'OneSignal統合により、アップデート、新機能、重要な発表について通知を受け取ります。',
+                        feat_fullscreen: 'フルスクリーンモード',
+                        feat_fullscreen_desc: 'ブラウザUI要素のない、没入感のある邪魔のないインターフェースをお楽しみください。',
+                        feat_splash: 'スプラッシュスクリーン',
+                        feat_splash_desc: 'アプリ起動時に、プログレスバー付きのプロフェッショナルなローディング画面が表示されます。',
+                        feat_updates: '自動アップデート',
+                        feat_updates_desc: '新しいコンテンツが利用可能になるたびに、アプリはバックグラウンドで更新されます。',
+                        feat_secure: 'セキュアなコンテキスト',
+                        feat_secure_desc: 'HTTPSで提供され、会話とデータが転送中も暗号化されたままであることを保証します。',
+                        install_title: '🚀 MirAIをPWAとしてインストールする方法',
+                        install_android_title: 'Androidの場合',
+                        install_android_desc: 'Chrome / Samsung InternetでMirAIを開き、メニュー → <b>「ホーム画面に追加」</b> → インストールをタップします。',
+                        install_android_alt: 'または<a href="https://allwaysevermirai.netlify.app/download" class="text-accent underline">ダウンロードページ</a>にアクセスし、インストールボタンをタップします。',
+                        install_ios_title: 'iOS（Safari）の場合',
+                        install_ios_desc: '<b>共有</b>ボタン → <b>「ホーム画面に追加」</b> → 名前を付ける → <b>追加</b>をタップします。',
+                        install_ios_note: 'ネイティブアプリのようにフルスクリーンモードで開きます。',
+                        install_desktop_title: 'デスクトップの場合',
+                        install_desktop_desc: 'アドレスバーのインストールアイコンをクリックするか（Chrome/Edge/Brave）、メニュー → <b>「MirAIをインストール…」</b>に進みます。',
+                        install_desktop_alt: 'または<a href="https://allwaysevermirai.netlify.app/download" class="text-accent underline">ダウンロードページ</a>を使用します。',
+                        apkpure_title: '📦 Android TWA（APKPure）',
+                        apkpure_desc: '従来のAPKインストールを希望するAndroidユーザー向けに、MirAIはTrusted Web Activity（TWA）パッケージとしてAPKPureでも利用できます。',
+                        apkpure_button: '<i class="fa-solid fa-download mr-1"></i> APKPureで入手',
+                        apkpure_disclaimer: '⚠️ Androidデバイスのみサポート。iOSやデスクトップでは利用できません。',
+                        after_install_title: '📲 インストール後はどうなりますか？',
+                        after_install1: 'ブラウザのタブやアドレスバーのない、独自のウィンドウで開きます。',
+                        after_install2: 'アプリの読み込み中にカスタムスプラッシュスクリーンが表示されます。',
+                        after_install3: 'プッシュ通知を有効にできます（初回訪問時にプロンプトが表示されます）。',
+                        after_install4: 'アプリはバックグラウンドで自動的に更新されます。',
+                        tech_title: '🔧 技術的基盤',
+                        tech_manifest_title: 'ウェブアプリマニフェスト（<code>MirAIPWAm.json</code>）',
+                        tech_manifest_desc: 'マニフェストファイルは、インストール時のMirAIの外観を定義します：',
+                        tech_manifest_note: '<code>display: "standalone"</code>はブラウザUIを削除し、<code>theme_color</code>と<code>background_color</code>はスプラッシュスクリーンの色を定義します。',
+                        tech_sw_title: 'Service Worker（<code>MirAIPWAsw.js</code>）',
+                        tech_sw_desc: 'Service workerは、オフライン使用のために主要なアセットをキャッシュし、バックグラウンドアップデートを処理します：',
+                        tech_installprompt_title: 'インストールプロンプトの処理',
+                        tech_installprompt_desc: 'MirAIは<code>beforeinstallprompt</code>イベントをリッスンして、カスタムインストールボタンを表示します：',
+                        tech_notif_title: 'OneSignalによるプッシュ通知',
+                        tech_notif_desc: 'OneSignal統合により、アップデートやお知らせが送信されます：',
+                        tech_splash_title: 'スプラッシュスクリーンとローディングアニメーション',
+                        tech_splash_desc: 'ロゴとプログレスバー付きのカスタムスプラッシュスクリーン：',
+                        benefits_title: '🎯 MirAIをPWAとして使用するメリット',
+                        benefit1: 'ワンクリックアクセス – 毎回ブラウザを開いてURLを入力する必要はありません。',
+                        benefit2: '高速読み込み – キャッシュされたリソースによりアプリが即座に起動します。',
+                        benefit3: 'オフライン閲覧 – インターネットがなくても以前の会話をスクロールして見ることができます。',
+                        benefit4: '没入感のある体験 – フルスクリーンモードが邪魔を排除します。',
+                        benefit5: '常に最新 – Service workerがバックグラウンドでアプリを更新します。',
+                        benefit6: 'ネイティブのような感覚 – ジェスチャー、トランジション、スプラッシュスクリーンが実際のアプリを模倣します。',
+                        faq_title: '❓ よくある質問',
+                        faq1_q: 'MirAIはGoogle PlayストアやApple Appストアで利用できますか？',
+                        faq1_a: 'まだありません。MirAIはPWAとして配布されており、ウェブサイトから直接インストールします。これにより、アプリストアの承認を待たずに最新バージョンをすぐに使用できる自由が得られます。Androidユーザーには、APKPureでTWAバージョンも提供しています（上記参照）。',
+                        faq2_q: 'インストール後にMirAIを使用するにはインターネット接続が必要ですか？',
+                        faq2_a: 'メッセージを送信してAI応答を受け取るにはインターネット接続が必要です。ただし、インターフェースとチャット履歴（ローカルにキャッシュ）はオフラインで表示できます。',
+                        faq3_q: 'すべてのプラットフォームでプッシュ通知を受け取れますか？',
+                        faq3_a: 'プッシュ通知はAndroid（Chrome、Samsung Internet経由）およびWeb Push APIをサポートするデスクトップブラウザでサポートされています。iOSのサポートは制限されています – iOSのPWAからプッシュ通知を受け取れない場合があります。',
+                        faq4_q: 'インストールされたMirAIアプリはどのくらいのストレージを使用しますか？',
+                        faq4_a: '非常に少ない – キャッシュされたアセットで通常5 MB未満です。チャット履歴はブラウザのローカルストレージに保存され、時間の経過とともに増える可能性がありますが、MirAIのメモリ設定で管理可能です。',
+                        faq5_q: 'MirAIを通常のアプリのようにアンインストールできますか？',
+                        faq5_a: 'はい。Androidでは、アイコンを長押しして「アンインストール」を選択するか、「アンインストール」エリアにドラッグします。デスクトップでは、ブラウザのインストール済みアプリ一覧に移動して削除します。',
+                        future_title: '📈 MirAI PWAの未来',
+                        future_desc: 'MirAI（Allwaysever）の開発チームは、PWAエクスペリエンスの向上に取り組んでいます。今後の改善には以下が含まれる可能性があります：',
+                        future1: 'より良いオフラインサポート（例：オフライン再生のためのAI応答のキャッシュ）。',
+                        future2: 'オフライン時にメッセージをキューに入れ、接続が戻ったときに送信するバックグラウンド同期。',
+                        future3: 'よりネイティブのようなジェスチャーとトランジション。',
+                        future4: 'より多くのプラットフォームのサポート（例：Windowsストア、Chrome OS）。',
+                        links_title: '🔗 便利なリンク',
+                        final_title: '📝 最後に',
+                        final_desc: 'MirAIは単なるAIチャットインターフェースではありません – ネイティブアプリの利便性とウェブのリーチをもたらす最新のプログレッシブウェブアプリです。スマートフォン、タブレット、デスクトップのいずれでも、MirAIをPWAとしてインストールすることで、Gemini AIと対話するための高速で信頼性が高く魅力的な方法が得られます。',
+                        final_cta: 'さあ、<span class="text-gray-900">今すぐMirAIをインストール</span>してください – あなたのインテリジェントでいつでも準備ができているコンパニオンは、タップするだけです！',
+                        final_button: '<i class="fa-solid fa-mobile-screen-button mr-2"></i> MirAIを今すぐインストール',
+                        community_title: 'MirAIコミュニティに参加しよう！',
+                        community_desc: '開発はApache License 2.0の下でオープンソースです。バグを見つけたり、貢献したいですか？<a href="https://github.com/Allwaysever/MirAI/blob/main/Docs/CONTRIBUTING.md" target="_blank" class="text-secondary hover:text-accent underline">貢献ガイド</a>と包括的な<a href="https://github.com/Allwaysever/MirAI/blob/main/Docs" target="_blank" class="text-secondary hover:text-accent underline">ドキュメント</a>をご覧ください。'
+                    }
+                };
+            }
+
+            detectRegionAndSetLanguage() {
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const browserLang = navigator.language || navigator.userLanguage;
+                
+                if (timezone.includes('Asia/Jakarta') || timezone.includes('Asia/Makassar') || timezone.includes('Asia/Jayapura') || browserLang.startsWith('id')) {
+                    return 'id-ID';
+                } else if (timezone.includes('Asia/Tokyo') || timezone.includes('Asia/Osaka') || browserLang.startsWith('ja')) {
+                    return 'ja-JP';
+                } else if (timezone.includes('Europe/London') || browserLang.startsWith('en-GB')) {
+                    return 'en-GB';
+                } else if (browserLang.startsWith('en')) {
+                    return 'en-US';
+                }
+                return 'en-US';
+            }
+
+            getCurrentLanguage() {
+                if (this.currentLang === 'auto') {
+                    return this.detectRegionAndSetLanguage();
+                }
+                return this.currentLang;
+            }
+
+            setLanguage(langCode) {
+                this.currentLang = langCode;
+                localStorage.setItem('mirai-language', langCode);
+                this.applyTranslations();
+            }
+
+            applyTranslations() {
+                const lang = this.getCurrentLanguage();
+                const texts = this.translations[lang];
+                
+                if (!texts) return;
+                
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (texts[key]) {
+                        element.innerHTML = texts[key];
+                    }
+                });
+                
+                document.documentElement.lang = lang.split('-')[0];
+            }
+
+            t(key) {
+                const lang = this.getCurrentLanguage();
+                return this.translations[lang]?.[key] || key;
+            }
+
+            initialize() {
+                this.applyTranslations();
+                
+                const selector = document.getElementById('language-select');
+                if (selector) {
+                    selector.value = this.currentLang;
+                    selector.addEventListener('change', (e) => {
+                        this.setLanguage(e.target.value);
+                    });
+                }
+            }
+        }
+
+        // Inisialisasi language manager
+        const languageManager = new LanguageManager();
+        languageManager.initialize();
+
+        // Intersection Observer untuk animasi fade-up
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
