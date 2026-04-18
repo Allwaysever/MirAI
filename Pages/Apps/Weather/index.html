@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Weather</title>
+    <!-- Font Awesome 6.0.0-BETA3 (sesuai SRUI) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* === SRUI GLOBAL RESET & VARIABLES === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;  /* wajib SRUI */
+        }
+
+        :root {
+            /* SRUI core colors */
+            --srui-accent: #ffce00;
+            --srui-bg: #1B1C1E;
+            --srui-card: #0f0f0f;
+            --srui-text: #ffffff;
+            --srui-accent-text: #000000;
+            --srui-border: #4B4F50;
+            --srui-mid: #999999;
+            --srui-dark: #666666;
+            /* semantic */
+            --success: #4CAF50;
+            --warning: #FFce00;
+            --error: #F44336;
+            --info: #2196F3;
+            /* SRUI radius */
+            --radius-lg: 25px;
+            --radius-md: 18px;
+            --radius-sm: 15px;
+            --radius-pill: 9999px;
+            /* glass */
+            --glass-bg: rgba(27, 28, 30, 0.9);
+            --glass-blur: blur(8px);
+            --shadow-soft: 0 12px 28px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--srui-bg);
+            color: var(--srui-text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+            margin: 0;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === SRUI LAYOUT: CARD WITH SUPER ROUNDED === */
+        .weather-app {
+            max-width: 520px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-radius: var(--radius-lg);
+            padding: 1.8rem 1.5rem;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* === SRUI CHIP / STATUS === */
+        .location-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .location-chip {
+            background: rgba(255, 206, 0, 0.12);
+            border-radius: var(--radius-pill);
+            padding: 0.4rem 1.2rem 0.4rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 1px solid rgba(255, 206, 0, 0.25);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .location-chip i {
+            color: var(--srui-accent);
+            font-size: 1rem;
+        }
+
+        .location-chip span {
+            font-weight: 600;
+            color: var(--srui-text);
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .refresh-chip {
+            margin-left: auto;
+            background: var(--srui-card);
+            border-radius: var(--radius-pill);
+            padding: 0.45rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            color: var(--srui-mid);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.1s ease-out, background 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2c2e;
+        }
+
+        .refresh-chip i {
+            font-size: 0.9rem;
+        }
+
+        .refresh-chip:hover {
+            transform: scale(1.02);
+            background: #1e1f21;
+            color: var(--srui-text);
+            border-color: var(--srui-border);
+        }
+
+        .refresh-chip:active {
+            transform: scale(0.98);
+        }
+
+        /* === WEATHER MAIN CARD (BUBBLE) === */
+        .weather-main {
+            background: var(--srui-card);
+            border-radius: var(--radius-md);
+            padding: 1.8rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 8px 18px rgba(0, 0, 0, 0.6);
+        }
+
+        .temp-now {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .temp-main {
+            display: flex;
+            align-items: baseline;
+            gap: 0.3rem;
+        }
+
+        .temp-value {
+            font-size: 4.2rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--srui-text);
+        }
+
+        .temp-unit {
+            font-size: 1.8rem;
+            color: var(--srui-mid);
+            font-weight: 400;
+        }
+
+        .weather-icon {
+            font-size: 3.8rem;
+            color: var(--srui-accent);
+            text-shadow: 0 0 15px rgba(255, 206, 0, 0.3);
+            background: rgba(255, 206, 0, 0.05);
+            width: 85px;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 206, 0, 0.2);
+        }
+
+        .weather-desc {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            color: var(--srui-text);
+            text-transform: capitalize;
+        }
+
+        .feels-like {
+            color: var(--srui-mid);
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
+        /* === DETAIL GRID (INFO CHIPS) === */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.9rem;
+            margin-top: 1.2rem;
+        }
+
+        .detail-item {
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: var(--radius-sm);
+            padding: 1rem 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border: 1px solid #26282a;
+            transition: all 0.2s;
+        }
+
+        .detail-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 206, 0, 0.08);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--srui-accent);
+            font-size: 1.2rem;
+        }
+
+        .detail-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--srui-dark);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--srui-text);
+        }
+
+        .detail-unit {
+            font-size: 0.8rem;
+            color: var(--srui-mid);
+            margin-left: 3px;
+        }
+
+        /* === SRUI MICRO-BOUNCE & INTERACTIONS === */
+        .btn-icon {
+            transition: transform 0.1s ease-out;
+        }
+        .btn-icon:active {
+            transform: scale(0.98);
+        }
+
+        /* status pesan */
+        .status-message {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--srui-mid);
+        }
+
+        .error-message {
+            color: var(--error);
+            background: rgba(244, 67, 54, 0.1);
+            border-radius: var(--radius-sm);
+            padding: 0.8rem 1.2rem;
+            border-left: 4px solid var(--error);
+            margin: 1rem 0;
+        }
+
+        .info-note {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--srui-dark);
+            text-align: center;
+            border-top: 1px dashed #2e3033;
+            padding-top: 1.2rem;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 206, 0, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--srui-accent);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* footer */
+        .app-footer {
+            margin-top: 0.9rem;
+            display: flex;
+            justify-content: flex-end;
+            font-size: 0.8rem;
+            color: var(--srui-dark);
+        }
+    </style>
+</head>
+<body>
+<div class="weather-app">
+    <div class="glass-card">
+        <!-- Header lokasi & refresh -->
+        <div class="location-row">
+            <div class="location-chip">
+                <i class="fas fa-map-pin"></i>
+                <span id="locationDisplay">Mendeteksi...</span>
+            </div>
+            <button class="refresh-chip" id="refreshBtn" title="Perbarui cuaca" aria-label="Refresh weather">
+                <i class="fas fa-arrows-rotate"></i>
+                <span>Refresh</span>
+            </button>
+        </div>
+
+        <!-- Main weather content (dinamis) -->
+        <div id="weatherContent">
+            <!-- loading state -->
+            <div class="status-message">
+                <div class="loading-spinner"></div>
+                <p style="margin-top: 1rem;">Mengambil data cuaca...</p>
+            </div>
+        </div>
+
+        <!-- Footer info -->
+        <div class="app-footer">
+            <span><i class="fa-regular fa-circle"></i> SRUI Weather</span>
+        </div>
+        <div class="info-note">
+            <i class="fa-regular fa-compass"></i> Flat never felt this round · Data OpenWeather
+        </div>
+    </div>
+</div>
+
+<script>
+    (function(){
+        "use strict";
+
+        // ---------- KONFIGURASI SRUI & API ----------
+        // Ganti dengan API key OpenWeather kamu (wajib). 
+        // Dapatkan gratis di: https://home.openweathermap.org/api_keys
+        const API_KEY = '8f54cc23203d523478d748ca70dc212c';  // ⚠️ ganti dengan key-mu jika diperlukan
+        
+        // Endpoint: pakai 2.5/weather (paling stabil & free)
+        const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather';
+        
+        // Units: metric (Celsius, m/s)
+        const UNITS = 'metric';
+        
+        // Bahasa: Indonesia (bisa diganti 'en')
+        const LANG = 'id';
+
+        // DOM Elements
+        const locationDisplay = document.getElementById('locationDisplay');
+        const weatherContent = document.getElementById('weatherContent');
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        // State
+        let currentLat = null;
+        let currentLon = null;
+        let lastWeatherData = null;
+        let isLoading = false;
+
+        // ---------- PEMETAAN IKON FONT AWESOME ke kode cuaca OpenWeather ----------
+        function getWeatherIcon(iconCode) {
+            // mapping berdasarkan kondisi utama (weather[0].icon / id)
+            const code = iconCode.slice(0,2); // misal '01d' -> '01'
+            const isNight = iconCode.includes('n');
+            
+            const iconMap = {
+                '01': isNight ? 'fa-moon' : 'fa-sun',               // clear
+                '02': isNight ? 'fa-cloud-moon' : 'fa-cloud-sun',   // few clouds
+                '03': 'fa-cloud',                                    // scattered
+                '04': 'fa-cloud',                                    // broken
+                '09': 'fa-cloud-showers-heavy',                      // shower rain
+                '10': isNight ? 'fa-cloud-moon-rain' : 'fa-cloud-sun-rain', // rain
+                '11': 'fa-cloud-bolt',                               // thunderstorm
+                '13': 'fa-snowflake',                                // snow
+                '50': 'fa-smog'                                      // mist
+            };
+            return iconMap[code] || 'fa-cloud';
+        }
+
+        // Deskripsi lebih manusiawi (opsional)
+        function formatDescription(desc) {
+            if (!desc) return '';
+            return desc.charAt(0).toUpperCase() + desc.slice(1);
+        }
+
+        // ---------- RENDER UI SESUAI SRUI ----------
+        function renderWeather(data) {
+            if (!data || !data.main || !data.weather) {
+                throw new Error('Data cuaca tidak lengkap');
+            }
+
+            const temp = Math.round(data.main.temp);
+            const feelsLike = Math.round(data.main.feels_like);
+            const humidity = data.main.humidity;
+            const pressure = data.main.pressure;
+            const windSpeed = data.wind?.speed ?? 0;
+            // Konversi m/s ke km/h (approx)
+            const windKmh = Math.round(windSpeed * 3.6);
+            
+            const weather = data.weather[0];
+            const iconCode = weather.icon; 
+            const description = formatDescription(weather.description);
+            
+            const cityName = data.name || 'Lokasi Anda';
+            const country = data.sys?.country || '';
+            const locationText = country ? `${cityName}, ${country}` : cityName;
+
+            // Update lokasi di chip
+            locationDisplay.textContent = locationText;
+
+            // Icon utama (Font Awesome)
+            const iconClass = getWeatherIcon(iconCode);
+
+            // Bangun HTML sesuai SRUI (super rounded, glass, card gelap)
+            const html = `
+                <div class="weather-main">
+                    <div class="temp-now">
+                        <div class="temp-main">
+                            <span class="temp-value">${temp}°</span>
+                            <span class="temp-unit">C</span>
+                        </div>
+                        <div class="weather-icon">
+                            <i class="fas ${iconClass}"></i>
+                        </div>
+                    </div>
+                    <div class="weather-desc">${description}</div>
+                    <div class="feels-like">
+                        <i class="fa-regular fa-thermometer-half" style="margin-right: 6px;"></i>Terasa seperti ${feelsLike}°C
+                    </div>
+
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-wind"></i></div>
+                            <div class="detail-content">
+                                <span class="detail-label">Angin</span>
+                                <span class="detail-value">${windKmh}<span class="detail-unit">km/jam</span></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-droplet"></i></div>
+                            <div class="detail-content">
+                                <span class="detail-label">Kelembapan</span>
+                                <span class="detail-value">${humidity}<span class="detail-unit">%</span></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-gauge-high"></i></div>
+                            <div class="detail-content">
+                                <span class="detail-label">Tekanan</span>
+                                <span class="detail-value">${pressure}<span class="detail-unit">hPa</span></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-eye"></i></div>
+                            <div class="detail-content">
+                                <span class="detail-label">Visibilitas</span>
+                                <span class="detail-value">${data.visibility ? (data.visibility/1000).toFixed(1) : '--'}<span class="detail-unit">km</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            weatherContent.innerHTML = html;
+            lastWeatherData = data;
+        }
+
+        // Tampilkan error dengan gaya SRUI
+        function renderError(message, isGeolocationError = false) {
+            let errorMsg = message || 'Terjadi kesalahan.';
+            if (isGeolocationError) {
+                if (message.includes('denied') || message.includes('permission')) {
+                    errorMsg = 'Akses lokasi ditolak. Izinkan lokasi untuk melihat cuaca.';
+                } else if (message.includes('unavailable') || message.includes('timeout')) {
+                    errorMsg = 'Lokasi tidak dapat ditemukan. Periksa koneksi atau GPS.';
+                }
+            }
+            const errorHtml = `
+                <div class="error-message">
+                    <i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px;"></i>
+                    ${errorMsg}
+                </div>
+                <div style="display: flex; justify-content: center; margin: 20px 0 10px;">
+                    <button class="refresh-chip" id="retryFromError" style="margin-left:0;">
+                        <i class="fas fa-location-dot"></i> Coba Lagi
+                    </button>
+                </div>
+            `;
+            weatherContent.innerHTML = errorHtml;
+            document.getElementById('retryFromError')?.addEventListener('click', () => {
+                initWeather();
+            });
+        }
+
+        function renderLoading() {
+            weatherContent.innerHTML = `
+                <div class="status-message">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 1rem;">Memuat data cuaca...</p>
+                </div>
+            `;
+        }
+
+        // ---------- FETCH CUACA DENGAN KOORDINAT ----------
+        async function fetchWeatherByCoords(lat, lon) {
+            const url = `${WEATHER_API_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${UNITS}&lang=${LANG}`;
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error('API key tidak valid (401). Periksa key OpenWeather.');
+                } else if (response.status === 404) {
+                    throw new Error('Lokasi tidak ditemukan.');
+                } else if (response.status === 429) {
+                    throw new Error('Terlalu banyak permintaan. Coba lagi nanti.');
+                } else {
+                    throw new Error(`Gagal mengambil cuaca (${response.status})`);
+                }
+            }
+            const data = await response.json();
+            return data;
+        }
+
+        // ---------- PROSES UTAMA: GEOLOKASI + FETCH ----------
+        async function getLocationAndWeather() {
+            if (isLoading) return;
+            isLoading = true;
+            renderLoading();
+
+            // Cek geolocation support
+            if (!navigator.geolocation) {
+                renderError('Browser tidak mendukung geolokasi.');
+                isLoading = false;
+                return;
+            }
+
+            try {
+                // Dapatkan posisi dengan timeout
+                const position = await new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject, {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 60000
+                    });
+                });
+
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                currentLat = lat;
+                currentLon = lon;
+
+                // Fetch cuaca
+                const weatherData = await fetchWeatherByCoords(lat, lon);
+                renderWeather(weatherData);
+                
+            } catch (error) {
+                console.warn('Geolocation / fetch error:', error);
+                let errorMessage = error.message;
+                
+                // Klasifikasi error geolokasi
+                if (error.code === 1) { // PERMISSION_DENIED
+                    errorMessage = 'Izin lokasi ditolak.';
+                } else if (error.code === 2) { // POSITION_UNAVAILABLE
+                    errorMessage = 'Posisi tidak tersedia.';
+                } else if (error.code === 3) { // TIMEOUT
+                    errorMessage = 'Waktu permintaan lokasi habis.';
+                }
+                
+                renderError(errorMessage, true);
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        // Manual refresh (dari tombol)
+        async function refreshWeather() {
+            if (isLoading) return;
+            
+            if (currentLat && currentLon) {
+                // Jika sudah punya koordinat, langsung fetch ulang
+                isLoading = true;
+                renderLoading();
+                try {
+                    const data = await fetchWeatherByCoords(currentLat, currentLon);
+                    renderWeather(data);
+                } catch (e) {
+                    renderError(e.message);
+                } finally {
+                    isLoading = false;
+                }
+            } else {
+                // fallback: ulangi geolokasi
+                await getLocationAndWeather();
+            }
+        }
+
+        // Inisialisasi pertama
+        function initWeather() {
+            getLocationAndWeather();
+        }
+
+        // Event listeners
+        refreshBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            refreshWeather();
+        });
+
+        // Jalankan
+        initWeather();
+
+        // (Opsional) Handle jika API key kosong / placeholder
+        if (API_KEY === '8f54cc23203d523478d748ca70dc212c') {
+            renderError('API Key OpenWeather belum diatur. Silakan ganti di kode.', false);
+        }
+    })();
+</script>
+</body>
+</html>
+</html>
