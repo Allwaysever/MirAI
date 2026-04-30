@@ -2,173 +2,440 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MirAI Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MirAI Search — SuperRoundedUI Edition</title>
+    <!-- Font Awesome 6.0.0-beta3 (SRUI Wajib) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Search%20Icon.png">
-   <link rel="manifest" href="https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAISearchm.json">
+    <link rel="manifest" href="https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAISearchm.json">
     <style>
+        /* ================================================
+           SRUI Design System v1.3.4 (Dark Exclusive)
+           Implementasi penuh berdasarkan guidelines resmi
+           ================================================ */
         :root {
-            /* Variabel Warna SRUI Tema Gelap  */
+            /* Palet Warna Utama (The Dark Core) */
             --srui-accent: #ffce00;
             --srui-bg: #1B1C1E;
             --srui-card: #0f0f0f;
             --srui-text: #ffffff;
             --srui-accent-text: #000000;
-            --srui-border: #4B4F50;
+            --srui-border: #4B4F50;        /* Neutral Input Border */
+            --srui-neutral-mid: #999999;    /* Teks sekunder, placeholder */
+            --srui-neutral-dark: #666666;   /* Teks tertiary, ikon pasif */
+            
+            /* Warna Semantik */
+            --srui-success: #4CAF50;
+            --srui-warning: #ffce00;
+            --srui-error: #F44336;
             --srui-info: #2196F3;
-            /* Radius SRUI (10px - 25px) [cite: 15] */
-            --srui-radius: 20px;
+            
+            /* Radius & Shadow (SRUI konsisten) */
+            --srui-radius-base: 20px;       /* border-radius minimal 15px -> 20px lebih modern */
+            --srui-radius-pill: 9999px;     /* pill shape untuk chip, tombol aksi */
+            --srui-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+            --srui-shadow-focus: 0 0 0 3px rgba(255, 206, 0, 0.25);
+            
+            /* Transisi standar SRUI: smooth & lembut */
+            --srui-transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-
+        
+        /* [WAJIB] Hilangkan tap highlight biru di mobile - SRUI Guidelines 5.3 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
         body {
-            background-color: var(--srui-bg); /*  */
-            color: var(--srui-text); /*  */
-            font-family: Arial, sans-serif; /* [cite: 19] */
+            background-color: var(--srui-bg);
+            color: var(--srui-text);
+            /* Font utama : Arial (primer) sesuai pedoman, fallback modern */
+            font-family: 'Arial', 'Segoe UI', system-ui, -apple-system, sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            padding: 1.25rem;
         }
-
+        
+        /* Container utama (responsif, mobile first) */
         .container {
-            width: 90%;
-            max-width: 550px;
-            text-align: center;
-        }
-
-        /* SRUI Input Box  */
-        .input-container {
-            margin-bottom: 25px;
-        }
-
-        input[type="text"] {
             width: 100%;
-            padding: 15px 25px;
+            max-width: 680px;
+            text-align: center;
+            animation: fadeInUp 0.4s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Logo area : sentuhan hangat */
+        .logo-wrapper {
+            display: grid;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .miraisearchlogo {
+            max-width: 260px;
+            width: 100%;
+            height: auto;
+            transition: transform 0.2s ease;
+        }
+        
+        /* ---------- SEARCH BOX dengan tombol aksi di dalam (inline) ---------- */
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Input SRUI: border membulat penuh (pill shape) + bayangan minimalis */
+        .search-input {
+            width: 100%;
+            padding: 16px 70px 16px 24px;
             background-color: var(--srui-bg);
             border: 2px solid var(--srui-border);
-            border-radius: 9999px; /* Pill-shaped sesuai SRUI Chip  */
+            border-radius: var(--srui-radius-pill);
             color: var(--srui-text);
-            font-size: 1rem;
+            font-size: 1.05rem;
+            font-weight: 500;
+            font-family: inherit;
             outline: none;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease-in-out; /* Transisi halus [cite: 47] */
+            transition: var(--srui-transition);
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(2px);   /* sentuhan halus (opsional) */
         }
-
-        input[type="text"]:focus {
+        
+        /* placeholder sesuai Neutral Mid (#999999) - pedoman SRUI */
+        .search-input::placeholder {
+            color: var(--srui-neutral-mid);
+            font-weight: 400;
+            opacity: 1;
+        }
+        
+        /* fokus: aksen kuning + shadow lembut (kedalaman minimalis) */
+        .search-input:focus {
             border-color: var(--srui-accent);
+            box-shadow: var(--srui-shadow-focus);
         }
-
-        /* Tombol dengan Micro-Bounce [cite: 81] */
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .btn {
-            padding: 12px 28px;
+        
+        /* Tombol aksi di dalam input - gaya super rounded */
+        .search-action-btn {
+            position: absolute;
+            right: 1%;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--srui-accent);
             border: none;
-            border-radius: 9999px; /* Pill-shaped  */
-            font-weight: bold;
-            cursor: pointer;
+            border-radius: var(--srui-radius-pill);
+            width: 40px;
+            height: 40px; 
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
-            transition: transform 0.1s ease-out; /* Micro-Bounce mechanism [cite: 87] */
-        }
-
-        /* Micro-Bounce States [cite: 85, 86] */
-        .btn:hover { transform: scale(1.02); }
-        .btn:active { transform: scale(0.98); }
-
-        .btn-google {
-            background-color: var(--srui-accent); /*  */
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.12s ease-out, background-color 0.2s ease;
+            box-shadow: var(--srui-shadow-sm);
             color: var(--srui-accent-text);
         }
-
-        .btn-ai {
-            background-color: var(--srui-info); /* Warna Semantik Info [cite: 36] */
-            color: white;
+        
+        /* Micro-Bounce sesuai pedoman SRUI 7.2 : hover scale(1.02) , active scale(0.98) */
+        .search-action-btn:hover {
+            transform: translateY(-50%) scale(1.02);
+            background-color: #ffd633;   /* aksen lebih terang */
         }
-
-.miraisearchlogo {
-max-width: 255px;
-height: auto;
-}
+        
+        .search-action-btn:active {
+            transform: translateY(-50%) scale(0.98);
+        }
+        
+        .search-action-btn i {
+            font-size: 1rem;
+            filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1));
+        }
+        
+        /* ---------- Area hints & SRUI Chip (komponen baru) ---------- */
+        .search-hint {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--srui-neutral-mid);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .hint-badge {
+            background: rgba(75, 79, 80, 0.25);
+            padding: 5px 14px;
+            border-radius: var(--srui-radius-pill);
+            font-size: 0.75rem;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(4px);
+        }
+        
+        .hint-badge i {
+            margin-right: 6px;
+            font-size: 0.7rem;
+        }
+        
+        /* SRUI Chip Container — Komponen modern, compact & friendly */
+        .chip-container {
+            margin-top: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        /* Gaya Chip sesuai pedoman (Super Rounded, warna netral dengan aksen interaksi) */
+        .srui-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--srui-neutral-dark);
+            color: var(--srui-text);
+            border: none;
+            padding: 8px 20px;
+            border-radius: var(--srui-radius-pill);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(2px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        /* interaksi chip: micro-bounce dan perubahan warna menarik (responsif) */
+        .srui-chip:hover {
+            background-color: var(--srui-accent);
+            color: var(--srui-accent-text);
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .srui-chip:active {
+            transform: scale(0.98);
+        }
+        
+        .srui-chip i {
+            font-size: 0.85rem;
+            transition: transform 0.1s;
+        }
+        
+        /* efek glasslayer halus untuk background chip container (soft translucency) - sesuai inovasi GlassLayer */
+        .chip-container {
+            background: rgba(27, 28, 30, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            padding: 12px 16px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 206, 0, 0.15);
+        }
+        
+        /* Responsif mobile: ukuran komponen tetap ramah */
+        @media (max-width: 550px) {
+            .search-input {
+                padding: 14px 65px 14px 20px;
+                font-size: 1rem;
+            }
+            .search-action-btn {
+                width: 44px;
+                height: 44px;
+            }
+            .search-action-btn i {
+                font-size: 1.2rem;
+            }
+            .miraisearchlogo {
+                max-width: 210px;
+            }
+            .srui-chip {
+                padding: 6px 16px;
+                font-size: 0.8rem;
+            }
+            .chip-container {
+                border-radius: 48px;
+                padding: 10px 12px;
+                gap: 10px;
+            }
+        }
+        
+        /* Offline styling (konsisten dengan palet error) */
+        body.offline .search-input {
+            border-color: var(--srui-error);
+        }
+        
+        /* sentuhan aksesibilitas: fokus ring untuk chip */
+        .srui-chip:focus-visible {
+            outline: 2px solid var(--srui-accent);
+            outline-offset: 2px;
+        }
+        
+        .search-action-btn:focus-visible {
+            outline: 2px solid var(--srui-accent);
+            outline-offset: 2px;
+        }
     </style>
-
-    <script>
-        // Register Service Worker langsung dari HTML
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('https://cdn.jsdelivr.net/gh/Allwaysever/MirAI/Assets/HTML/MirAIPWAsw.js')
-                .then(reg => {
-                    console.log('Service Worker registered!', reg);
-                    
-                    // Periodic sync check (setiap jam)
-                    setInterval(() => {
-                        reg.update();
-                    }, 60 * 60 * 1000);
-                })
-                .catch(err => {
-                    console.log('Service Worker registration failed:', err);
-                });
-        }
-        
-        // Cek jika offline
-        window.addEventListener('online', () => {
-            console.log('You are online!');
-            document.body.classList.remove('offline');
-        });
-        
-        window.addEventListener('offline', () => {
-            console.log('You are offline!');
-            document.body.classList.add('offline');
-        });
-    </script>
 </head>
 <body>
 
-    <div class="container">
-<div style="display: grid; place-items: center; margin-bottom: 25px;">
-           <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Search%20Logo.png" class="miraisearchlogo">
-</div>
-         <div>
-            <div class="input-container">
-                <input type="text" id="query" placeholder="Type search..." autocomplete="off">
-            </div>
-
-            <div class="btn-group">
-                <button class="btn btn-google" onclick="handleSearch('google')">
-                    <i class="fas fa-search"></i> Google
-                </button>
-                <button class="btn btn-ai" onclick="handleSearch('ai')">
-                    <i class="fas fa-robot"></i> AI Mode
-                </button>
-            </div>
-        </div>
+<div class="container">
+    <div class="logo-wrapper">
+        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Search%20Logo.png" 
+             class="miraisearchlogo" 
+             alt="MirAI Search Logo - AI Assistant"
+             loading="eager">
     </div>
 
-    <script>
-        function handleSearch(type) {
-            const val = document.getElementById('query').value;
-            if (!val) return;
+    <!-- Input + Tombol aksi inline (pill shape, SRUI Core) -->
+    <div class="search-wrapper">
+        <input type="text" id="searchQuery" class="search-input" 
+               placeholder="Search Anything..." 
+               autocomplete="off" 
+               autofocus>
+        <button class="search-action-btn" id="inlineSearchBtn" aria-label="Kirim ke AI Mode">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+    
+</div>
 
-            if (type === 'google') {
-                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(val)}`;
-            } else {
-                // Redirect ke chatbot yang sudah ada
-                window.location.href = `../chat.html?search=${encodeURIComponent(val)}`;
+<script>
+    (function() {
+        // ========== Elemen DOM ==========
+        const searchInput = document.getElementById('searchQuery');
+        const searchButton = document.getElementById('inlineSearchBtn');
+        const chips = document.querySelectorAll('.srui-chip');
+        
+        /**
+         * Fungsi utama: Melakukan pencarian AI Mode (MirAI).
+         * Redirect ke halaman chat dengan parameter search.
+         * Sesuai dengan fungsionalitas asli dan konsisten dengan arsitektur SRUI.
+         */
+        function performAISearch(queryFromChip = null) {
+            let query = queryFromChip !== null ? queryFromChip : searchInput.value.trim();
+            if (!query) {
+                // feedback halus ketika kosong: efek getaran kecil (micro feedback)
+                if (searchInput) {
+                    searchInput.style.transform = 'scale(0.99)';
+                    setTimeout(() => {
+                        searchInput.style.transform = '';
+                    }, 150);
+                }
+                return;
             }
+            
+            // Redirect ke chatbot internal (path relatif ke chat.html dengan parameter search)
+            // Struktur folder dipertahankan: index.html sejajar dengan chat.html -> "../chat.html"
+            // karena proyek menempatkan di folder yang sama jika di root, atau pastikan konsisten.
+            window.location.href = `../chat.html?search=${encodeURIComponent(query)}`;
         }
-
-        // Support Enter key
-        document.getElementById('query').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') handleSearch('ai');
+        
+        // ========== Event Listener untuk tombol aksi ==========
+        if (searchButton) {
+            searchButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                performAISearch();
+            });
+        }
+        
+        // Event Enter pada input field
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performAISearch();
+                }
+            });
+            // fokus tambahan untuk kenyamanan
+            searchInput.focus();
+        }
+        
+        // ========== Interaksi SRUI Chip ==========
+        // Setiap chip memiliki data-query. Saat diklik: isi input + langsung lakukan pencarian.
+        // Pengalaman yang mulus, ramah, dan sesuai prinsip feedback cepat.
+        if (chips.length > 0) {
+            chips.forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const queryText = chip.getAttribute('data-query');
+                    if (queryText && searchInput) {
+                        // update nilai input (feedback visual langsung)
+                        searchInput.value = queryText;
+                        // optional: efek micro success (merubah placeholder sebentar)
+                        const originalPlaceholder = searchInput.placeholder;
+                        searchInput.placeholder = "✨ Memproses ke AI...";
+                        setTimeout(() => {
+                            searchInput.placeholder = originalPlaceholder;
+                        }, 800);
+                        // langsung eksekusi pencarian
+                        performAISearch(queryText);
+                    }
+                });
+            });
+        }
+        
+        // ========== SERVICE WORKER (PWA) ==========
+        // Dipertahankan penuh dari kode asli, sesuai dengan ekosistem MirAI
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('https://cdn.jsdelivr.net/gh/Allwaysever/MirAI/Assets/HTML/MirAIPWAsw.js')
+                .then(reg => {
+                    console.log('[MirAI] Service Worker SRUI terdaftar:', reg);
+                    // Update berkala tiap jam (sesuai best practice)
+                    setInterval(() => {
+                        reg.update().catch(e => console.warn('[MirAI] SW update minor', e));
+                    }, 60 * 60 * 1000);
+                })
+                .catch(err => {
+                    console.log('[MirAI] Service Worker gagal:', err);
+                });
+        }
+        
+        // Deteksi koneksi online/offline (tampilan border merah sesuai pedoman error)
+        window.addEventListener('online', () => {
+            console.log('[MirAI] Koneksi online kembali');
+            document.body.classList.remove('offline');
         });
-    </script>
+        
+        window.addEventListener('offline', () => {
+            console.log('[MirAI] Mode offline — beberapa fitur mungkin terbatas');
+            document.body.classList.add('offline');
+        });
+        
+        // ========== Micro Interaksi tambahan untuk memperkuat super rounded feeling ==========
+        // Efek hover pada search wrapper (sentuhan GlassLayer ringan)
+        const searchWrapper = document.querySelector('.search-wrapper');
+        if (searchWrapper) {
+            searchWrapper.addEventListener('mouseenter', () => {
+                // optional, hanya nuance halus.
+                searchInput.style.backdropFilter = 'blur(3px)';
+            });
+            searchWrapper.addEventListener('mouseleave', () => {
+                searchInput.style.backdropFilter = 'blur(2px)';
+            });
+        }
+        
+        // Small console greet untuk menghormati desain system
+        console.log('[SRUI] SuperRoundedUI aktif — Flat never felt this round. | Dark Mode Exclusive');
+        
+        // Tambahan validasi: memastikan parameter yang di-redirect aman dari XSS (encode sudah diterapkan)
+        // dan mempertahankan integritas pencarian.
+    })();
+</script>
 </body>
 </html>
