@@ -423,17 +423,6 @@ const VERSION = generateVersion(3, 0, 1);
     </div>
 </div>
 
-<!-- HAPUS BLOK CUSTOM CONFIRM OVERLAY -->
-<!-- <div id="customConfirmOverlay">
-    <div id="customConfirmBox">
-        <p id="customConfirmMessage"></p>
-        <div class="custom-confirm-buttons">
-            <button id="confirmBtnYes"></button>
-            <button id="confirmBtnNo"></button>
-        </div>
-    </div>
-</div> -->
-
 <script>
     const DEFAULT_API_KEY = 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
 
@@ -4342,6 +4331,38 @@ function applyAccentColor(hex) {
             });
             
             console.log('🎉 MirAI initialization complete!');
+
+// ===== FITUR AUTO-SEARCH DARI URL PARAMETER (dengan forced /search) =====
+const urlSearchParams = new URLSearchParams(window.location.search);
+let autoSearchQuery = urlSearchParams.get('search');
+if (autoSearchQuery && autoSearchQuery.trim()) {
+    let decodedQuery = decodeURIComponent(autoSearchQuery.trim());
+    
+    // Pastikan query diawali dengan /search (kecuali sudah diawali /)
+    if (!decodedQuery.startsWith('/')) {
+        decodedQuery = '/search ' + decodedQuery;
+        console.log('🔍 Auto-search: forced /search prefix added');
+    }
+    
+    // Hapus parameter search dari URL agar tidak terulang saat refresh
+    if (window.history && window.history.replaceState) {
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+    }
+    
+    // Beri sedikit jeda agar splash screen dan UI chat siap
+    setTimeout(() => {
+        if (elements.questionInput) {
+            elements.questionInput.value = decodedQuery;
+            elements.questionInput.dispatchEvent(new Event('input'));
+            askAI();
+            console.log(`🚀 Auto-search executed: "${decodedQuery}"`);
+        } else {
+            console.warn('❌ Auto-search gagal: questionInput tidak ditemukan');
+        }
+    }, 800);
+}
+// ===== END AUTO-SEARCH =====
         }).catch(error => {
             console.error('❌ Failed to initialize app:', error);
         });

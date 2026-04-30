@@ -161,13 +161,13 @@ height: auto;
                 window.location.href = `https://www.google.com/search?q=${encodeURIComponent(val)}`;
             } else {
                 // Redirect ke chatbot yang sudah ada
-                window.location.href = `https://allwaysevermirai.netlify.app/chat?search=${encodeURIComponent(val)}`;
+                window.location.href = `../chat.html?search=${encodeURIComponent(val)}`;
             }
         }
 
         // Support Enter key
         document.getElementById('query').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') handleSearch('google');
+            if (e.key === 'Enter') handleSearch('ai');
         });
     </script>
 </body>
