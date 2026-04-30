@@ -1,13 +1,19 @@
 ## What's new?
 
-### 🛠️ `2026.03.12` — v3.0.1 — **Typewriter Effect Markdown Fix**
+### 🚀 `2026.04.30` — v3.1.0 — **Auto‑Search URL & Enhanced Typing**
 
-- **``FIX``**: **Typewriter effect** now directly responds to text as markdown without needing plaintext. Previously, the typing effect would sometimes display raw text before conversion; now all AI responses are immediately rendered with the correct markdown formatting as they are typed.
-- **``IMPROVEMENT``**: Enhanced typing animation stability and compatibility with HTML elements resulting from markdown parsing.
+- **`NEW FEATURE`**: **Auto‑search via URL parameter** – you can now open MirAI with `?search=your+query` and the app will automatically execute the `/search` command. Perfect for shortcuts, widgets, or external integrations.
+- **`IMPROVEMENT`**: **Markdown typewriter effect** now renders formatted elements (headings, bold, code, tables, etc.) smoothly as they appear, eliminating the previous visual jump after typing finished.
+- **`IMPROVEMENT`**: Added real‑time accent color preview and RGB variable sync for better theme consistency across all UI components.
 
 ---
 
 ## Previous versions:
+
+### 🛠️ `2026.03.12` — v3.0.1 — **Typewriter Effect Markdown Fix**
+
+- **`FIX`**: **Typewriter effect** now directly responds to text as markdown without needing plaintext. Previously, the typing effect would sometimes display raw text before conversion; now all AI responses are immediately rendered with the correct markdown formatting as they are typed.
+- **`IMPROVEMENT`**: Enhanced typing animation stability and compatibility with HTML elements resulting from markdown parsing.
 
 ### 🚀🎉 `2026.03.08` — v3.0 — **THE OFFICIAL LAUNCH: MirAI IS BORN!** 🎉🚀
 
