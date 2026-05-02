@@ -43,7 +43,14 @@
   --srui-transition-fast: 0.1s ease-out;
   --srui-transition-normal: 0.3s ease-in-out;
   --srui-transition-slow: 0.5s ease-in-out;
-  --srui-transition-micro: 0.08s ease-out;
+  --srui-transition-micro: 0.1s ease-out;     /* sesuai guideline: 0.1s */
+  
+  /* SRUI Motion Scales (Micro-Bounce v2: pressed hover 2D) */
+  --srui-hover-scale: 0.96;
+  --srui-active-scale: 0.92;
+  /* Legacy compatibility */
+  --srui-bounce-scale-hover: 0.96;
+  --srui-bounce-scale-active: 0.92;
   
   /* SRUI Shadows */
   --srui-shadow-minimal: 0 1px 5px rgba(0, 0, 0, 0.15);
@@ -56,14 +63,33 @@
   --srui-glass-blur: blur(8px);
   --srui-glass-border: 1px solid rgba(75, 79, 80, 0.25);
   
-  /* SRUI Micro-Bounce Effects */
-  --srui-bounce-scale-hover: 1.02;
-  --srui-bounce-scale-active: 0.98;
-  
   /* SRUI Chip Variables */
   --srui-chip-padding: 6px 12px;
   --srui-chip-font-size: 0.85em;
   --srui-chip-icon-size: 0.9em;
+
+  /* SRUI Font Family */
+  --srui-font-primary: 'Outfit', 'Arial', sans-serif;
+}
+
+/* ===== SRUI FONTS: OUTFIT (CDN via Allwaysever) ===== */
+@font-face {
+  font-family: 'Outfit';
+  src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Outfit';
+  src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Outfit';
+  src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
 }
 
 /* ===== BASE STYLES ===== */
@@ -74,7 +100,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-family: var(--srui-font-primary);
     position: relative;
     transition: all var(--srui-transition-normal);
     background-color: var(--srui-bg-primary);
@@ -99,18 +125,52 @@ body {
     }
 }
 
-/* ===== MICRO-BOUNCE EFFECTS (7.2) ===== */
-.micro-bounce {
-  transition: transform var(--srui-transition-micro), 
-              background-color var(--srui-transition-fast);
+/* ===== MICRO-BOUNCE EFFECTS (SRUI v2: Pressed Hover 2D) ===== */
+.micro-bounce,
+#clearBtn,
+#settingsBtn,
+#sendBtn:not(.disabled),
+#uploadImageBtn,
+.srui-button-interactive {
+  transition: transform var(--srui-transition-micro), background-color var(--srui-transition-fast);
+  will-change: transform;
 }
 
-.micro-bounce:hover:not(:disabled) {
-  transform: scale(var(--srui-bounce-scale-hover));
+.micro-bounce:hover:not(:disabled),
+#clearBtn:hover:not(:disabled),
+#settingsBtn:hover:not(:disabled),
+#sendBtn:not(.disabled):hover,
+#uploadImageBtn:hover:not(:disabled),
+.srui-button-interactive:hover {
+  transform: scale(var(--srui-hover-scale));
 }
 
-.micro-bounce:active:not(:disabled) {
-  transform: scale(var(--srui-bounce-scale-active));
+.micro-bounce:active:not(:disabled),
+#clearBtn:active:not(:disabled),
+#settingsBtn:active:not(:disabled),
+#sendBtn:not(.disabled):active,
+#uploadImageBtn:active:not(:disabled),
+.srui-button-interactive:active {
+  transform: scale(var(--srui-active-scale));
+}
+
+/* Special handling for Tools button (avoids conflict with rotate) */
+#toolsBtn {
+  transition: transform var(--srui-transition-micro), background-color var(--srui-transition-fast);
+}
+#toolsBtn:not(.active):hover {
+  transform: scale(var(--srui-hover-scale));
+  background-color: var(--srui-accent);
+  color: var(--srui-accent-text);
+}
+#toolsBtn:not(.active):active {
+  transform: scale(var(--srui-active-scale));
+}
+#toolsBtn.active {
+  transform: rotate(135deg);
+}
+#toolsBtn.active:hover {
+  transform: rotate(135deg);
 }
 
 /* ===== SRUI CHIP COMPONENT (7.3) ===== */
@@ -130,15 +190,16 @@ body {
 
 .srui-chip.interactive {
   cursor: pointer;
+  transition: transform var(--srui-transition-micro), background-color var(--srui-transition-fast);
 }
 
 .srui-chip.interactive:hover {
+  transform: scale(var(--srui-hover-scale));
   opacity: 0.9;
-  transform: translateY(-1px);
 }
 
 .srui-chip.interactive:active {
-  transform: translateY(0);
+  transform: scale(var(--srui-active-scale));
 }
 
 /* Semantic Chip Variants */
@@ -782,27 +843,6 @@ body.chat-active #clearBtnContainer {
     transition: all var(--srui-transition-normal);
 }
 
-/* Enhanced Micro-Bounce for buttons */
-#clearBtn, #settingsBtn, #sendBtn, #toolsBtn, #uploadImageBtn {
-    composes: micro-bounce;
-}
-
-#clearBtn:hover:not(:disabled),
-#settingsBtn:hover:not(:disabled),
-#sendBtn:hover:not(.disabled),
-#toolsBtn:hover:not(:disabled),
-#uploadImageBtn:hover:not(:disabled) {
-    transform: scale(var(--srui-bounce-scale-hover));
-}
-
-#clearBtn:active:not(:disabled),
-#settingsBtn:active:not(:disabled),
-#sendBtn:active:not(.disabled),
-#toolsBtn:active:not(:disabled),
-#uploadImageBtn:active:not(:disabled) {
-    transform: scale(var(--srui-bounce-scale-active));
-}
-
 /* ===== INPUT AREA ===== */
 .input-box {
     display: flex;
@@ -816,7 +856,6 @@ body.chat-active #clearBtnContainer {
     border: 1px solid var(--srui-border-input);
     -webkit-backdrop-filter: var(--srui-glass-blur);
     backdrop-filter: var(--srui-glass-blur);
-    composes: glass-layer;
 }
 
 .input-box textarea {
@@ -830,7 +869,7 @@ body.chat-active #clearBtnContainer {
     resize: none;
     overflow: hidden;
     max-height: 250px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-family: var(--srui-font-primary);
     border-radius: 0;
     color: var(--srui-text-primary);
 }
@@ -847,7 +886,7 @@ body.chat-active #clearBtnContainer {
     align-items: center;
     cursor: pointer;
     flex-shrink: 0;
-    transition: all var(--srui-transition-normal);
+    transition: background-color var(--srui-transition-fast), transform var(--srui-transition-micro);
 }
 
 #sendBtn.disabled {
@@ -856,10 +895,8 @@ body.chat-active #clearBtnContainer {
     cursor: not-allowed;
 }
 
-#sendBtn:not(.disabled):hover,
-#sendBtn:not(.disabled):active {
+#sendBtn:not(.disabled):hover {
     background-color: var(--srui-accent);
-    filter: brightness(1.1);
 }
 
 #stopBtn {
@@ -890,16 +927,10 @@ body.chat-active #clearBtnContainer {
     align-items: center;
     cursor: pointer;
     flex-shrink: 0;
-    transition: all var(--srui-transition-normal);
 }
 
 #toolsBtn.active {
     transform: rotate(135deg);
-    background-color: var(--srui-accent);
-    color: var(--srui-accent-text);
-}
-
-#toolsBtn:not(.active):hover {
     background-color: var(--srui-accent);
     color: var(--srui-accent-text);
 }
@@ -1037,7 +1068,6 @@ body.chat-active #toolsMenu {
     font-weight: bold;
     color: var(--srui-text-primary);
     transition: all var(--srui-transition-normal);
-    composes: glass-layer;
 }
 
 #connectionStatus .status-dot {
@@ -1647,7 +1677,7 @@ body.chat-active .info-text {
     line-height: 1.5;
     resize: vertical;
     min-height: 100px;
-    font-family: inherit;
+    font-family: var(--srui-font-primary);
     margin-top: 10px;
     transition: all var(--srui-transition-normal);
     justify-content: center;
@@ -1779,7 +1809,7 @@ body.chat-active .info-text {
 .reset-accent-btn:hover {
     background-color: var(--srui-accent);
     color: var(--srui-accent-text);
-    transform: scale(var(--srui-bounce-scale-hover));
+    transform: scale(var(--srui-hover-scale));
 }
 
 /* NEW ACCENT COLOR UTILITY CLASSES */
@@ -1882,43 +1912,6 @@ body.chat-active .info-text {
     box-shadow: var(--srui-shadow-strong);
 }
 
-/* ===== NEW SRUI UTILITY CLASSES ===== */
-.srui-micro-bounce {
-    composes: micro-bounce;
-}
-
-.srui-glass-layer {
-    composes: glass-layer;
-}
-
-.srui-glass-layer-modal {
-    composes: glass-layer-modal;
-}
-
-.srui-glass-layer-tooltip {
-    composes: glass-layer-tooltip;
-}
-
-.srui-rounded-sm {
-    border-radius: var(--srui-radius-sm);
-}
-
-.srui-rounded-md {
-    border-radius: var(--srui-radius-md);
-}
-
-.srui-rounded-lg {
-    border-radius: var(--srui-radius-lg);
-}
-
-.srui-rounded-xl {
-    border-radius: var(--srui-radius-xl);
-}
-
-.srui-rounded-chip {
-    border-radius: var(--srui-radius-chip);
-}
-
 /* ===== ENHANCED SHADOWS FOR GLASSLAYER ===== */
 .srui-glass-shadow-minimal {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.05);
@@ -1952,7 +1945,7 @@ body.chat-active .info-text {
     margin-bottom: 15px;
     padding: 12px 15px;
     background: rgba(15, 15, 15, 0.8);
-    border-radius: var(--srui-radius-sm);  /* diperbarui dari 10px */
+    border-radius: var(--srui-radius-sm);
     border: 1px solid rgba(var(--srui-accent-rgb), 0.15);
     backdrop-filter: blur(10px);
 }
@@ -1998,7 +1991,7 @@ body.chat-active .info-text {
 .srui-custom-engine-list {
     background: rgba(var(--srui-accent-rgb), 0.05);
     padding: 8px;
-    border-radius: var(--srui-radius-sm);  /* diperbarui dari 6px */
+    border-radius: var(--srui-radius-sm);
     font-size: clamp(0.7rem, 2vw, 0.75rem);
 }
 
@@ -2146,7 +2139,7 @@ body.chat-active .info-text {
 .srui-custom-api-limit-content {
     background: var(--srui-bg-primary, #1a1a1a);
     padding: 30px;
-    border-radius: var(--srui-radius-lg);  /* diperbarui dari 15px */
+    border-radius: var(--srui-radius-lg);
     max-width: 400px;
     width: 90%;
     text-align: center;
@@ -2173,7 +2166,7 @@ body.chat-active .info-text {
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: var(--srui-radius-md);  /* diperbarui dari 8px */
+    border-radius: var(--srui-radius-md);
     cursor: pointer;
     font-weight: bold;
     font-size: clamp(0.8rem, 2.5vw, 0.9rem);
@@ -2184,7 +2177,7 @@ body.chat-active .info-text {
     color: white;
     border: none;
     padding: 12px 24px;
-    border-radius: var(--srui-radius-md);  /* diperbarui dari 8px */
+    border-radius: var(--srui-radius-md);
     cursor: pointer;
     font-weight: bold;
     display: flex;
@@ -2224,7 +2217,7 @@ body.chat-active .info-text {
     margin-top: 15px;
     padding: 10px;
     background: rgba(var(--srui-accent-rgb), 0.1);
-    border-radius: var(--srui-radius-sm);  /* diperbarui dari 8px */
+    border-radius: var(--srui-radius-sm);
     border-left: 3px solid var(--srui-accent);
 }
 
@@ -2242,7 +2235,7 @@ body.chat-active .info-text {
     margin-top: 15px;
     padding: 10px;
     background: rgba(244, 67, 54, 0.1);
-    border-radius: var(--srui-radius-sm);  /* diperbarui dari 8px */
+    border-radius: var(--srui-radius-sm);
     border-left: 3px solid #F44336;
 }
 
