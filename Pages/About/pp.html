@@ -10,8 +10,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* SRUI VARIABLES */
+       /* ================================================
+           SuperRoundedUI (SRUI) v2.0 - Dark Core Edition
+           © 2025-2026 Allwaysever
+           "Flat never felt this round."
+           ================================================ */
+
+        /* ---- Font Face Outfit (Hosting via jsDelivr) ---- */
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-display: swap;
+        }
+
         :root {
+            /* Palet warna SRUI v2.0 */
             --srui-accent: #ffce00;
             --srui-accent-text: #000000;
             --srui-bg-primary: #1B1C1E;
@@ -22,85 +48,42 @@
             --srui-text-tertiary: #666666;
             --srui-border-input: #4B4F50;
             --srui-border-neutral: #4B4F50;
-            --srui-neutral-mid: #999999;
-            --srui-neutral-dark: #666666;
             --srui-success: #4CAF50;
             --srui-warning: #ffce00;
             --srui-error: #F44336;
             --srui-info: #2196F3;
             --srui-radius-sm: 10px;
             --srui-radius-md: 15px;
-            --srui-radius-lg: 20px;
-            --srui-radius-xl: 25px;
+            --srui-radius-lg: 25px;
             --srui-radius-chip: 9999px;
             --srui-transition-fast: 0.2s ease;
             --srui-transition-normal: 0.3s ease-in-out;
-            --srui-transition-slow: 0.5s ease-in-out;
             --srui-shadow-minimal: 0 2px 8px rgba(0, 0, 0, 0.1);
             --srui-shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
-            --srui-shadow-strong: 0 8px 24px rgba(0, 0, 0, 0.2);
             --srui-glass-bg: rgba(27, 28, 30, 0.95);
             --srui-glass-blur: blur(10px);
             --srui-glass-border: 1px solid rgba(255, 206, 0, 0.1);
-        }
-        
-        * {
-            -webkit-tap-highlight-color: transparent;
+            --srui-font-primary: 'Outfit', 'Arial', sans-serif;
         }
 
-        /* RESET & BASE */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Roboto', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
+
         body {
+            font-family: var(--srui-font-primary);
             background-color: var(--srui-bg-primary);
             color: var(--srui-text-primary);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 0;
-            margin: 0;
-            transition: background-color var(--srui-transition-normal);
         }
-        
-        /* UTILITY CLASSES */
-        .glass-layer {
-            background: var(--srui-glass-bg);
-            backdrop-filter: var(--srui-glass-blur);
-            -webkit-backdrop-filter: var(--srui-glass-blur);
-            border: var(--srui-glass-border);
-            border-radius: var(--srui-radius-lg);
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-        
-        .section-spacing {
-            margin-bottom: 48px;
-        }
-        
-        .text-center {
-            text-align: center;
-        }
-        
-        .text-accent {
-            color: var(--srui-accent);
-        }
-        
-        /* HEADER - ½ LAYAR */
+
+        /* Header dengan gradient dan glass effect */
         .privacy-header {
             min-height: 50vh;
-            height: 50vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -111,7 +94,6 @@
             position: relative;
             overflow: hidden;
         }
-        
         .privacy-header::before {
             content: '';
             position: absolute;
@@ -123,7 +105,6 @@
                         radial-gradient(circle at 70% 80%, rgba(66, 133, 244, 0.03) 0%, transparent 50%);
             pointer-events: none;
         }
-        
         .privacy-header-content {
             position: relative;
             z-index: 2;
@@ -131,37 +112,28 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 0 24px;
+            text-align: center;
         }
-        
         .privacy-logo {
             max-width: 200px;
             height: auto;
             margin-bottom: 32px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
-        
         .privacy-header h1 {
             font-size: 3rem;
             font-weight: 800;
             margin-bottom: 16px;
             color: var(--srui-accent);
-            text-align: center;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
-        
         .last-updated {
             font-size: 1rem;
             color: var(--srui-text-secondary);
-            text-align: center;
             margin-top: 12px;
-            opacity: 0.9;
-            letter-spacing: 0.5px;
         }
-        
-        /* Language Tabs */
+
+        /* Language Tabs dengan micro-bounce */
         .language-tabs {
             display: flex;
             gap: 10px;
@@ -170,43 +142,50 @@
             justify-content: center;
             max-width: 600px;
         }
-        
         .language-tab {
             padding: 12px 24px;
-            border-radius: 25px;
+            border-radius: var(--srui-radius-chip);
             background-color: var(--srui-bg-neutral);
             border: 1px solid var(--srui-border-neutral);
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
+            transition: background-color 0.2s, var(--srui-transition-fast);
             display: flex;
             align-items: center;
             gap: 8px;
             color: var(--srui-text-secondary);
             font-weight: 500;
+            font-family: var(--srui-font-primary);
         }
-        
         .language-tab.active {
             background-color: var(--srui-accent);
             color: var(--srui-accent-text);
             border-color: var(--srui-accent);
         }
-        
         .language-tab:hover:not(.active) {
             background-color: rgba(255, 206, 0, 0.1);
-            transform: translateY(-2px);
+            transform: scale(0.96);
         }
-        
+        .language-tab:active:not(.active) {
+            transform: scale(0.92);
+        }
+
         /* Language Content */
         .language-content {
             display: none;
         }
-        
         .language-content.active {
             display: block;
             animation: fadeInUp 0.6s ease-out;
         }
-        
-        /* MAIN CONTENT */
+
+        /* Container utama */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Glass Card */
         .content-card {
             background-color: var(--srui-bg-card);
             border-radius: var(--srui-radius-lg);
@@ -215,7 +194,8 @@
             box-shadow: var(--srui-shadow-medium);
             border: 1px solid var(--srui-border-input);
         }
-        
+
+        /* Typography */
         h2 {
             color: var(--srui-accent);
             font-size: 1.8rem;
@@ -224,70 +204,52 @@
             padding-bottom: 12px;
             border-bottom: 2px solid rgba(255, 206, 0, 0.3);
         }
-        
         h3 {
             color: var(--srui-text-primary);
             font-size: 1.3rem;
             font-weight: 600;
             margin: 32px 0 16px 0;
         }
-        
         p {
             margin-bottom: 20px;
             font-size: 1.05rem;
             line-height: 1.7;
             color: var(--srui-text-secondary);
         }
-        
         ul, ol {
             margin-left: 24px;
             margin-bottom: 24px;
             color: var(--srui-text-secondary);
         }
-        
         li {
             margin-bottom: 12px;
             line-height: 1.6;
         }
-        
         li strong {
             color: var(--srui-text-primary);
-            font-weight: 600;
         }
-        
-        /* HIGHLIGHT BOXES */
-        .highlight {
+
+        /* Highlight Box */
+        .highlight, .info-box {
             background: linear-gradient(135deg, rgba(255, 206, 0, 0.08), rgba(15, 15, 15, 0.9));
             border-left: 4px solid var(--srui-accent);
             border-radius: 0 var(--srui-radius-md) var(--srui-radius-md) 0;
             padding: 20px;
             margin: 24px 0;
         }
-        
-        .highlight p {
-            margin: 0;
-            color: var(--srui-text-primary);
-            font-size: 1rem;
-        }
-        
         .info-box {
+            border-left-color: var(--srui-info);
             background: linear-gradient(135deg, rgba(66, 133, 244, 0.08), rgba(15, 15, 15, 0.9));
-            border: 1px solid rgba(66, 133, 244, 0.2);
-            border-radius: var(--srui-radius-md);
-            padding: 20px;
-            margin: 24px 0;
         }
-        
-        /* LINKS */
+
+        /* Links */
         a {
             color: var(--srui-accent);
             text-decoration: none;
             font-weight: 500;
             border-bottom: 1px dashed rgba(255, 206, 0, 0.4);
-            padding: 0 2px 2px;
             transition: all var(--srui-transition-fast);
         }
-        
         a:hover {
             color: #ffdb4d;
             border-bottom: 2px solid var(--srui-accent);
@@ -295,8 +257,8 @@
             padding: 0 4px 1px;
             border-radius: 2px;
         }
-        
-        /* BUTTONS */
+
+        /* Buttons dengan micro-bounce */
         .button-container {
             display: flex;
             justify-content: center;
@@ -304,50 +266,50 @@
             margin-top: 48px;
             flex-wrap: wrap;
         }
-        
         .srui-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             padding: 16px 32px;
-            border-radius: var(--srui-radius-lg);
+            border-radius: var(--srui-radius-chip);
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all var(--srui-transition-normal);
+            transition: background-color 0.2s, var(--srui-transition-fast);
             text-decoration: none;
             border: 2px solid transparent;
             min-width: 200px;
             text-align: center;
+            font-family: var(--srui-font-primary);
         }
-        
         .srui-button-primary {
             background-color: var(--srui-accent);
             color: var(--srui-accent-text);
             border-color: var(--srui-accent);
         }
-        
         .srui-button-primary:hover {
             background-color: #e6b800;
-            transform: translateY(-3px);
-            box-shadow: var(--srui-shadow-medium);
+            transform: scale(0.96);
         }
-        
+        .srui-button-primary:active {
+            transform: scale(0.92);
+        }
         .srui-button-secondary {
             background-color: transparent;
             color: var(--srui-accent);
             border-color: var(--srui-accent);
         }
-        
         .srui-button-secondary:hover {
             background-color: var(--srui-accent);
             color: var(--srui-accent-text);
-            transform: translateY(-3px);
-            box-shadow: var(--srui-shadow-medium);
+            transform: scale(0.96);
         }
-        
-        /* FOOTER */
+        .srui-button-secondary:active {
+            transform: scale(0.92);
+        }
+
+        /* Footer */
         .privacy-footer {
             text-align: center;
             padding: 40px 0;
@@ -355,13 +317,6 @@
             border-top: 1px solid var(--srui-border-input);
             color: var(--srui-text-tertiary);
         }
-        
-        .privacy-footer p {
-            margin: 8px 0;
-            color: inherit;
-            text-align: center;
-        }
-        
         .footer-links {
             display: flex;
             justify-content: center;
@@ -369,121 +324,18 @@
             margin-top: 20px;
             flex-wrap: wrap;
         }
-        
         .footer-link {
             color: var(--srui-text-tertiary);
             text-decoration: none;
             font-size: 0.95rem;
             transition: color var(--srui-transition-normal);
         }
-        
         .footer-link:hover {
             color: var(--srui-accent);
             text-decoration: underline;
         }
-        
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 20px;
-            }
-            
-            .content-card {
-                padding: 32px;
-            }
-            
-            .privacy-header {
-                min-height: 40vh;
-                height: 40vh;
-                padding: 40px 0;
-            }
-            
-            .privacy-header h1 {
-                font-size: 2.2rem;
-            }
-            
-            .privacy-logo {
-                max-width: 160px;
-                margin-bottom: 24px;
-            }
-            
-            h2 {
-                font-size: 1.5rem;
-            }
-            
-            h3 {
-                font-size: 1.2rem;
-            }
-            
-            .language-tabs {
-                gap: 8px;
-                margin-top: 20px;
-            }
-            
-            .language-tab {
-                padding: 10px 16px;
-                font-size: 0.9rem;
-            }
-            
-            .srui-button {
-                padding: 14px 24px;
-                min-width: 180px;
-                font-size: 1rem;
-            }
-            
-            .button-container {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 16px;
-            }
-            
-            .content-card {
-                padding: 24px;
-            }
-            
-            .privacy-header {
-                min-height: 50vh;
-                height: 50vh;
-                padding: 30px 0;
-            }
-            
-            .privacy-header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .privacy-logo {
-                max-width: 140px;
-            }
-            
-            .language-tabs {
-                flex-direction: column;
-                align-items: center;
-                margin-top: 16px;
-            }
-            
-            .language-tab {
-                width: 100%;
-                max-width: 200px;
-                justify-content: center;
-            }
-            
-            .srui-button {
-                width: 100%;
-                max-width: 280px;
-            }
-            
-            .footer-links {
-                flex-direction: column;
-                gap: 12px;
-            }
-        }
-        
-        /* ANIMATIONS */
+
+        /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -494,28 +346,77 @@
                 transform: translateY(0);
             }
         }
-        
-        .content-card {
-            animation: fadeInUp 0.6s ease-out;
-        }
-        
-        /* SCROLLBAR */
+
+        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
         }
-        
         ::-webkit-scrollbar-track {
             background: var(--srui-bg-card);
             border-radius: var(--srui-radius-sm);
         }
-        
         ::-webkit-scrollbar-thumb {
             background: var(--srui-accent);
             border-radius: var(--srui-radius-sm);
         }
-        
         ::-webkit-scrollbar-thumb:hover {
             background: #ffdb4d;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            .content-card {
+                padding: 32px;
+            }
+            .privacy-header {
+                min-height: 40vh;
+                padding: 40px 0;
+            }
+            .privacy-header h1 {
+                font-size: 2.2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .language-tabs {
+                gap: 8px;
+            }
+            .language-tab {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .srui-button {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+        @media (max-width: 480px) {
+            .privacy-header h1 {
+                font-size: 1.8rem;
+            }
+            .privacy-logo {
+                max-width: 140px;
+            }
+            .language-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .language-tab {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: 12px;
+            }
         }
     </style>
 </head>

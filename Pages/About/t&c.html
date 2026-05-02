@@ -13,160 +13,110 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* SRUI Custom Styling & Variables (Aligned with MirAI Dark Theme) */
-        :root {
-            --color-accent: #ffce00; /* SRUI Accent Color (Bright Yellow) */
-            --color-primary: #ffffff; /* White Text */
-            --color-dark-bg: #0f0f0f; /* Main MirAI Background (Dark) */
-            --color-card-bg: rgba(33, 33, 33, 0.7); /* Card/Input Background MirAI (Blurry Dark) */
-            --color-border: #4B4F50; /* MirAI Border Color */
-            --color-light-text: #9ca3af; /* gray-400 */
+       /* ========== SRUI v2.0 (sama persis dengan di atas) ========== */
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-display: swap;
         }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-display: swap;
+        }
+        :root {
+            --srui-accent: #ffce00;
+            --srui-accent-text: #000000;
+            --srui-bg-primary: #1B1C1E;
+            --srui-bg-card: #0f0f0f;
+            --srui-bg-neutral: rgba(15, 15, 15, 0.7);
+            --srui-text-primary: #ffffff;
+            --srui-text-secondary: #999999;
+            --srui-text-tertiary: #666666;
+            --srui-border-input: #4B4F50;
+            --srui-border-neutral: #4B4F50;
+            --srui-radius-sm: 10px;
+            --srui-radius-md: 15px;
+            --srui-radius-lg: 25px;
+            --srui-radius-chip: 9999px;
+            --srui-transition-fast: 0.2s ease;
+            --srui-transition-normal: 0.3s ease-in-out;
+            --srui-shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
+            --srui-glass-bg: rgba(27, 28, 30, 0.95);
+            --srui-glass-blur: blur(10px);
+            --srui-font-primary: 'Outfit', 'Arial', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            font-family: Arial, sans-serif;
-            background-color: var(--color-dark-bg); 
-            color: var(--color-primary);
+            font-family: var(--srui-font-primary);
+            background-color: var(--srui-bg-primary);
+            color: var(--srui-text-primary);
             min-height: 100vh;
         }
-        .card-srui {
-            border-radius: 25px; 
-            background-color: var(--color-card-bg);
-            border: 1px solid var(--color-border);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card-srui:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px -8px rgba(0, 0, 0, 0.3);
-        }
-        /* Style for buttons that are usually accent, but here only for navigation/links */
-        .link-button {
-            background-color: var(--color-accent);
-            color: var(--color-dark-bg);
-            font-weight: 700;
-            border-radius: 9999px; /* rounded-full */
-            transition: all 0.2s ease-in-out;
-            border: 2px solid var(--color-accent); 
-        }
-        .link-button:hover {
-            background-color: #e6b800; 
-            transform: translateY(-1px);
-        }
-        /* Utility */
-        .container-padding {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-        @media (min-width: 768px) {
-            .container-padding {
-                padding-left: 3rem;
-                padding-right: 3rem;
-            }
-        }
-        /* Sticky header */
+        /* Header Sticky */
         .sticky-header {
             position: sticky;
             top: 0;
             z-index: 10;
             backdrop-filter: blur(5px);
-            background-color: rgba(15, 15, 15, 0.9); /* Slightly transparent */
+            background-color: rgba(15, 15, 15, 0.9);
+            border-bottom: 1px solid var(--srui-border-input);
+            padding: 1rem 0;
         }
-        /* Language Tabs */
-        .language-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+        .container-padding { padding-left: 1rem; padding-right: 1rem; }
+        @media (min-width: 768px) { .container-padding { padding-left: 3rem; padding-right: 3rem; } }
+        .link-button {
+            background-color: var(--srui-accent);
+            color: var(--srui-accent-text);
+            font-weight: 700;
+            border-radius: var(--srui-radius-chip);
+            border: 2px solid var(--srui-accent);
+            transition: background-color 0.2s, transform 0.1s ease-out;
+            display: inline-block;
+            text-decoration: none;
         }
+        .link-button:hover { background-color: #e6b800; transform: scale(0.96); }
+        .link-button:active { transform: scale(0.92); }
+        .card-srui {
+            border-radius: var(--srui-radius-lg);
+            background-color: var(--srui-bg-card);
+            border: 1px solid var(--srui-border-input);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--srui-shadow-medium);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-srui:hover { transform: translateY(-3px); border-color: var(--srui-accent); }
+        .language-tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
         .language-tab {
             padding: 10px 20px;
-            border-radius: 25px;
-            background-color: var(--color-card-bg);
-            border: 1px solid var(--color-border);
+            border-radius: var(--srui-radius-chip);
+            background-color: var(--srui-bg-neutral);
+            border: 1px solid var(--srui-border-neutral);
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
+            transition: background-color 0.2s, transform 0.1s ease-out;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .language-tab.active {
-            background-color: var(--color-accent);
-            color: var(--color-dark-bg);
-            border-color: var(--color-accent);
-        }
-        .language-tab:hover:not(.active) {
-            background-color: rgba(255, 206, 0, 0.1);
-        }
-        /* Content sections */
-        .language-content {
-            display: none;
-        }
-        .language-content.active {
-            display: block;
-        }
-        /* Back Button - Super Rounded (SRUI) */
-        .back-button {
-            background-color: var(--color-accent);
-            color: var(--color-dark-bg);
-            border: none;
-            border-radius: 50%; 
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 1.2em;
-            transition: all 0.3s ease-in-out; 
-        }
-        .back-button:hover {
-            transform: scale(1.05);
-            background-color: #eab308;
-        }
-        /* Style for code/pre elements (SRUI Component Background) */
-        pre, code {
-            background-color: #2a2a2e;
-            padding: 2px 4px;
-            border-radius: 6px;
-        }
-        pre {
-            padding: 10px;
-            overflow-x: auto;
-            border-radius: 12px;
-        }
-        /* Content styling */
-        .terms-content h2 {
-            font-size: 1.5em;
-            margin-top: 1.5em;
-            margin-bottom: 0.5em;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--color-accent);
-        }
-        .terms-content h3 {
-            font-size: 1.25em;
-            margin-top: 1.25em;
-            margin-bottom: 0.5em;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--color-border);
-        }
-        .terms-content p, .terms-content li {
-            line-height: 1.6;
-            margin-bottom: 1em;
-        }
-        .terms-content ul {
-            padding-left: 1.5em;
-            margin-bottom: 1em;
-        }
-        .terms-content a {
-            color: var(--color-accent);
-            text-decoration: none;
-        }
-        .terms-content a:hover {
-            text-decoration: underline;
-        }
+        .language-tab.active { background-color: var(--srui-accent); color: var(--srui-accent-text); border-color: var(--srui-accent); }
+        .language-tab:hover:not(.active) { background-color: rgba(255, 206, 0, 0.1); transform: scale(0.96); }
+        .language-tab:active:not(.active) { transform: scale(0.92); }
+        .language-content { display: none; }
+        .language-content.active { display: block; animation: fadeInUp 0.6s ease-out; }
+        .terms-content h2 { font-size: 1.5em; margin-top: 1.5em; margin-bottom: 0.5em; padding-bottom: 10px; border-bottom: 1px solid var(--srui-accent); }
+        .terms-content p, .terms-content li { line-height: 1.6; margin-bottom: 1em; color: var(--srui-text-secondary); }
+        .terms-content a { color: var(--srui-accent); text-decoration: none; }
+        .terms-content a:hover { text-decoration: underline; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) { .language-tab { padding: 8px 16px; font-size: 0.9rem; } .card-srui { padding: 24px !important; } }
     </style>
 </head>
 <body>
