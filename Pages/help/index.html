@@ -12,72 +12,116 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* SRUI Custom Styling & Variables (Aligned with MirAI Dark Theme) */
-        :root {
-            --color-accent: #ffce00; /* SRUI Accent Color (Bright Yellow) */
-            --color-primary: #ffffff; /* White Text */
-            --color-dark-bg: #0f0f0f; /* Main MirAI Background (Dark) */
-            --color-card-bg: rgba(33, 33, 33, 0.7); /* Card/Input Background MirAI (Blurry Dark) */
-            --color-border: #4B4F50; /* MirAI Border Color */
-            --color-light-text: #9ca3af; /* gray-400 */
+        /* ================================================
+           SuperRoundedUI (SRUI) v2.0 - Dark Core Edition
+           © 2025-2026 Allwaysever
+           "Flat never felt this round."
+           ================================================ */
+
+        /* ---- Font Face Outfit (Hosting via jsDelivr) ---- */
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-display: swap;
         }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-display: swap;
+        }
+
+        :root {
+            /* Palet warna SRUI v2.0 (Dark Core) */
+            --srui-accent: #ffce00;
+            --srui-bg-dark: #1B1C1E;
+            --srui-card-bg-solid: #0f0f0f;
+            --srui-glass-bg: rgba(27, 28, 30, 0.9);
+            --srui-border: #4B4F50;
+            --srui-text-primary: #ffffff;
+            --srui-text-secondary: #999999;
+            --srui-text-tertiary: #666666;
+            --srui-success: #4CAF50;
+            --srui-warning: #ffce00;
+            --srui-error: #F44336;
+            --srui-info: #2196F3;
+
+            /* Radius (minimal 15px) */
+            --srui-radius-card: 25px;
+            --srui-radius-btn: 9999px;
+            --srui-radius-element: 15px;
+
+            /* Transisi & efek micro-bounce (scale-down) */
+            --srui-transition: all 0.2s ease-in-out;
+            --srui-motion-transition: transform 0.1s ease-out;
+            
+            /* Font utama */
+            --srui-font-primary: 'Outfit', 'Arial', sans-serif;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: var(--color-dark-bg); 
-            color: var(--color-primary);
+            font-family: var(--srui-font-primary);
+            background-color: var(--srui-bg-dark);
+            color: var(--srui-text-primary);
             min-height: 100vh;
         }
+
+        /* Kartu SRUI (GlassCard) – tanpa scale-up, hanya border dan shadow saat hover */
         .card-srui {
-            border-radius: 25px; 
-            background-color: var(--color-card-bg);
-            border: 1px solid var(--color-border);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--srui-radius-card);
+            background-color: var(--srui-glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--srui-border);
             box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: var(--srui-transition);
         }
         .card-srui:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px -8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            border-color: var(--srui-accent);
+            box-shadow: 0 20px 40px -8px rgba(255, 206, 0, 0.15);
         }
-        /* Style for buttons that are usually accent, but here only for navigation/links */
+
+        /* Tombol aksen (link-button) – micro-bounce scale-down */
         .link-button {
-            background-color: var(--color-accent);
-            color: var(--color-dark-bg);
+            background-color: var(--srui-accent);
+            color: var(--srui-bg-dark);
             font-weight: 700;
-            border-radius: 9999px; /* rounded-full */
-            transition: all 0.2s ease-in-out;
-            border: 2px solid var(--color-accent); 
+            border-radius: var(--srui-radius-btn);
+            border: 2px solid var(--srui-accent);
+            transition: background-color 0.2s, var(--srui-motion-transition);
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
         }
         .link-button:hover {
-            background-color: #e6b800; 
-            transform: translateY(-1px);
+            background-color: #e6b800;
+            transform: scale(0.96);
         }
-        /* Utility */
-        .container-padding {
-            padding-left: 1rem;
-            padding-right: 1rem;
+        .link-button:active {
+            transform: scale(0.92);
         }
-        @media (min-width: 768px) {
-            .container-padding {
-                padding-left: 3rem;
-                padding-right: 3rem;
-            }
-        }
-        /* Sticky header */
-        .sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-            background-color: rgba(15, 15, 15, 0.9); /* Slightly transparent */
-        }
-        /* Back Button - Super Rounded (SRUI) */
+
+        /* Tombol back (bulat) – micro-bounce */
         .back-button {
-            background-color: var(--color-accent);
-            color: var(--color-dark-bg);
+            background-color: var(--srui-accent);
+            color: var(--srui-bg-dark);
             border: none;
-            border-radius: 50%; 
+            border-radius: 50%;
             width: 40px;
             height: 40px;
             display: flex;
@@ -85,14 +129,45 @@
             align-items: center;
             cursor: pointer;
             text-decoration: none;
-            font-size: 1.2em;
-            transition: all 0.3s ease-in-out; 
+            font-size: 1.2rem;
+            transition: background-color 0.2s, var(--srui-motion-transition);
         }
         .back-button:hover {
-            transform: scale(1.05);
-            background-color: #eab308;
+            background-color: #e6b800;
+            transform: scale(0.96);
         }
-        /* Search input styling */
+        .back-button:active {
+            transform: scale(0.92);
+        }
+
+        /* Header sticky */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            background-color: rgba(15, 15, 15, 0.9);
+            border-bottom: 1px solid var(--srui-border);
+        }
+
+        /* Language selector */
+        .language-selector select {
+            background-color: var(--srui-glass-bg);
+            border: 1px solid var(--srui-border);
+            border-radius: 25px;
+            color: var(--srui-text-primary);
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: var(--srui-transition);
+            font-family: var(--srui-font-primary);
+        }
+        .language-selector select:focus {
+            outline: none;
+            border-color: var(--srui-accent);
+            box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+        }
+
+        /* Search input (SRUI) */
         .search-container {
             position: relative;
             margin-bottom: 20px;
@@ -100,27 +175,28 @@
         .search-input {
             width: 100%;
             padding: 15px 20px 15px 50px;
-            font-size: 1em;
-            border-radius: 25px;
-            border: 1px solid var(--color-border);
-            background-color: var(--color-card-bg);
-            color: var(--color-primary);
-            box-sizing: border-box;
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            border-radius: var(--srui-radius-element);
+            border: 2px solid var(--srui-border);
+            background-color: var(--srui-glass-bg);
+            color: var(--srui-text-primary);
+            font-family: var(--srui-font-primary);
+            transition: var(--srui-transition);
         }
         .search-input:focus {
             outline: none;
-            border-color: var(--color-accent);
-            box-shadow: 0 0 10px rgba(255, 206, 0, 0.2);
+            border-color: var(--srui-accent);
+            box-shadow: 0 0 0 3px rgba(255, 206, 0, 0.25);
         }
         .search-icon {
             position: absolute;
             left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--color-light-text);
+            color: var(--srui-text-secondary);
         }
-        /* Accordion styling */
+
+        /* Accordion styling – dengan header interaktif (micro-bounce) */
         .accordion-item {
             margin-bottom: 15px;
             overflow: hidden;
@@ -131,27 +207,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background-color 0.3s ease;
-            border-radius: 25px;
-            background-color: var(--color-card-bg);
-            border: 1px solid var(--color-border);
+            border-radius: var(--srui-radius-element);
+            background-color: var(--srui-glass-bg);
+            border: 1px solid var(--srui-border);
+            transition: background-color 0.2s, var(--srui-motion-transition);
         }
         .accordion-header:hover {
             background-color: rgba(255, 255, 255, 0.05);
+            transform: scale(0.98);
+        }
+        .accordion-header:active {
+            transform: scale(0.96);
         }
         .accordion-header h2 {
             margin: 0;
-            font-size: 1.2em;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
+            gap: 12px;
+            font-weight: 500;
         }
         .accordion-header h2 i {
-            margin-right: 12px;
             width: 20px;
             text-align: center;
         }
         .accordion-header .icon {
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s ease;
             flex-shrink: 0;
         }
         .accordion-item.active .accordion-header .icon {
@@ -164,29 +245,23 @@
             padding: 0 20px;
         }
         .accordion-content .content-inner {
-            padding-bottom: 20px;
-            line-height: 1.7;
-            border-top: 1px solid var(--color-border);
-            padding-top: 20px;
+            padding: 20px 0;
+            line-height: 1.6;
+            color: var(--srui-text-secondary);
         }
         .accordion-content h3 {
-            color: var(--color-accent);
+            color: var(--srui-accent);
             margin-top: 0;
         }
-        .accordion-content p, .accordion-content ul {
-            margin-bottom: 15px;
-        }
-        .accordion-content ul {
-            padding-left: 20px;
-        }
         .accordion-content code {
-            background-color: rgba(0,0,0,0.2);
+            background-color: rgba(0,0,0,0.3);
             padding: 2px 6px;
-            border-radius: 5px;
-            font-family: 'Courier New', Courier, monospace;
+            border-radius: 6px;
+            font-family: monospace;
+            color: var(--srui-accent);
         }
         .accordion-content a {
-            color: var(--color-accent);
+            color: var(--srui-accent);
             text-decoration: none;
             font-weight: bold;
         }
@@ -194,29 +269,26 @@
             text-decoration: underline;
         }
         .highlight {
-            background-color: var(--color-accent);
-            color: var(--color-dark-bg);
+            background-color: var(--srui-accent);
+            color: var(--srui-bg-dark);
             padding: 0 2px;
             border-radius: 3px;
         }
-        /* Language Selector Styles */
-        .language-selector select {
-            background-color: var(--color-card-bg);
-            border: 1px solid var(--color-border);
-            border-radius: 25px;
-            color: var(--color-primary);
-            padding: 8px 12px;
-            cursor: pointer;
-            margin-right: 10px;
+
+        /* Utility classes */
+        .container-padding {
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
-        .language-selector select:focus {
-            outline: none;
-            border-color: var(--color-accent);
-            box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
+        @media (min-width: 768px) {
+            .container-padding {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
         }
-        .language-badge {
-            display: none;
-        }
+        .text-accent { color: var(--srui-accent); }
+        .text-secondary { color: var(--srui-text-secondary); }
+        .border-gray-800 { border-color: var(--srui-border) !important; }
     </style>
 </head>
 <body>

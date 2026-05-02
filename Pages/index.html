@@ -21,7 +21,30 @@
     <meta name="google-adsense-account" content="ca-pub-2796497511012948">
     
     <style>
-        /* SRUI Custom Styling v1.3.4 */
+       /* ===== SuperRoundedUI (SRUI) v2.0 – Allwaysever ===== */
+        /* Flat never felt this round. – Dark Core + Outfit Font + Micro-bounce */
+        
+        /* 1. Font Outfit dengan @font-face & fallback Arial */
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-display: swap;
+        }
+
+        /* 2. Root variables (diperkaya sesuai SRUI v2.0) */
         :root {
             --srui-accent: #ffce00;
             --srui-bg-dark: #1B1C1E;
@@ -39,6 +62,13 @@
             --srui-radius-btn: 9999px;
             --srui-radius-chip: 9999px;
             --srui-transition: all 0.2s ease-in-out;
+            
+            /* Micro-bounce 2D (pressed hover) – scale DOWN */
+            --srui-hover-scale: 0.96;
+            --srui-active-scale: 0.92;
+            
+            /* Font utama SRUI */
+            --srui-font-primary: 'Outfit', 'Arial', sans-serif;
         }
 
         * {
@@ -46,14 +76,14 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: var(--srui-font-primary);
             background-color: var(--srui-bg-dark);
             color: var(--srui-text-primary);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* GlassLayer Effect */
+        /* GlassLayer – translucency dengan blur */
         .glass-card {
             background-color: var(--srui-glass-bg);
             backdrop-filter: blur(8px);
@@ -63,31 +93,30 @@
             transition: var(--srui-transition);
             box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
         }
-
+        /* Hanya efek highlight, TANPA scale-up (karena bukan tombol) – sesuai SRUI v2 */
         .glass-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 40px -8px rgba(255, 206, 0, 0.2);
             border-color: var(--srui-accent);
+            box-shadow: 0 20px 40px -8px rgba(255, 206, 0, 0.2);
+            transform: none; /* Hapus scale-up, hanya border & shadow */
         }
 
-        /* Buttons */
+        /* Buttons – Micro-bounce PRESSED HOVER (scale down) */
         .btn-accent {
             background-color: var(--srui-accent);
             color: var(--srui-bg-dark);
             font-weight: 700;
             border-radius: var(--srui-radius-btn);
             border: 2px solid var(--srui-accent);
-            transition: var(--srui-transition);
+            transition: transform 0.1s ease-out, box-shadow 0.2s, background-color 0.2s;
+            cursor: pointer;
         }
-
         .btn-accent:hover {
             background-color: #e6b800;
-            transform: translateY(-2px) scale(1.02);
+            transform: scale(var(--srui-hover-scale));
             box-shadow: 0 10px 20px -5px rgba(255, 206, 0, 0.4);
         }
-
         .btn-accent:active {
-            transform: scale(0.98);
+            transform: scale(var(--srui-active-scale));
         }
 
         .btn-secondary {
@@ -96,26 +125,49 @@
             font-weight: 600;
             border-radius: var(--srui-radius-btn);
             border: 2px solid var(--srui-border);
-            transition: var(--srui-transition);
+            transition: transform 0.1s ease-out, background-color 0.2s, border-color 0.2s;
+            cursor: pointer;
         }
-
         .btn-secondary:hover {
             background-color: rgba(255, 255, 255, 0.1);
             border-color: var(--srui-accent);
-            transform: translateY(-2px) scale(1.02);
+            transform: scale(var(--srui-hover-scale));
         }
-
         .btn-secondary:active {
-            transform: scale(0.98);
+            transform: scale(var(--srui-active-scale));
         }
 
-        /* Text colors */
+        /* Tech badges – interaktif tapi bukan tombol utama, ikut micro-bounce */
+        .tech-badge {
+            display: inline-block;
+            background: rgba(255, 206, 0, 0.1);
+            color: #ffce00;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 3px;
+            border: 1px solid rgba(255, 206, 0, 0.3);
+            transition: transform 0.1s ease-out, background-color 0.2s;
+            cursor: default;
+        }
+        .tech-badge:hover {
+            background: rgba(255, 206, 0, 0.2);
+            transform: scale(var(--srui-hover-scale));
+        }
+        .tech-badge:active {
+            transform: scale(var(--srui-active-scale));
+        }
+        /* pastikan link di dalam badge ikut pointer jika diperlukan, biarkan default */
+
+        /* Skip button (menggunakan .btn-secondary) sudah diatur */
+
+        /* Text colors (sesuai palet SRUI) */
         .text-primary { color: var(--srui-text-primary); }
         .text-secondary { color: var(--srui-text-secondary); }
         .text-tertiary { color: var(--srui-text-tertiary); }
         .text-accent { color: var(--srui-accent); }
 
-        /* Badges */
+        /* Feature badges (non-interaktif, tidak perlu micro-bounce) */
         .feature-badge {
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -127,15 +179,12 @@
             margin-left: 6px;
             vertical-align: middle;
         }
-
         .badge-new {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
-
         .badge-secure {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
-
         .badge-version {
             background: linear-gradient(135deg, #ffce00, #ffaa00);
             color: #0f0f0f;
@@ -145,23 +194,6 @@
             font-size: 0.8rem;
             margin-left: 10px;
             box-shadow: 0 0 10px rgba(255, 206, 0, 0.5);
-        }
-
-        .tech-badge {
-            display: inline-block;
-            background: rgba(255, 206, 0, 0.1);
-            color: #ffce00;
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            margin: 3px;
-            border: 1px solid rgba(255, 206, 0, 0.3);
-            transition: var(--srui-transition);
-        }
-
-        .tech-badge:hover {
-            background: rgba(255, 206, 0, 0.2);
-            transform: scale(1.05);
         }
 
         /* Sticky header */
@@ -183,28 +215,26 @@
             padding: 8px 12px;
             cursor: pointer;
             transition: var(--srui-transition);
+            font-family: var(--srui-font-primary);
         }
-
         .language-selector select:focus {
             outline: none;
             border-color: var(--srui-accent);
             box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
         }
 
-        /* Countdown */
+        /* Countdown & progress */
         .countdown-timer {
             font-size: 1.1rem;
             font-weight: 600;
             color: var(--srui-accent);
             margin-top: 8px;
         }
-
         .skip-button {
             margin-left: 12px;
             padding: 4px 12px;
             font-size: 0.9rem;
         }
-
         .progress-bar {
             width: 100%;
             height: 4px;
@@ -213,7 +243,6 @@
             margin-top: 8px;
             overflow: hidden;
         }
-
         .progress-fill {
             height: 100%;
             background: var(--srui-accent);
@@ -221,18 +250,16 @@
             transition: width 1s linear;
         }
 
-        /* Animation fade-up */
+        /* fade-up animations (tetap) */
         .fade-up {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
-
         .fade-up.visible {
             opacity: 1;
             transform: translateY(0);
         }
-
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.2s; }
         .delay-3 { transition-delay: 0.3s; }
@@ -251,7 +278,7 @@
             }
         }
 
-        /* Override Tailwind grays with SRUI colors */
+        /* Override Tailwind agar menggunakan warna SRUI */
         .text-gray-400 { color: var(--srui-text-secondary) !important; }
         .text-gray-300 { color: #cccccc !important; }
         .text-gray-500 { color: var(--srui-text-tertiary) !important; }
@@ -259,6 +286,13 @@
         .bg-gray-900 { background-color: var(--srui-card-bg-solid) !important; }
         .hover\:text-white:hover { color: var(--srui-text-primary) !important; }
         .hover\:text-yellow-400:hover { color: var(--srui-accent) !important; }
+
+        /* Fokus ring untuk aksesibilitas (warna accent) */
+        button:focus-visible, a:focus-visible, select:focus-visible {
+            outline: 2px solid var(--srui-accent);
+            outline-offset: 2px;
+            border-radius: 6px;
+        }
     </style>
 </head>
 <body>

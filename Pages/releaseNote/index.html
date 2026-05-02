@@ -6,145 +6,345 @@
     <title>MirAI | Release Notes</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS (opsional, hanya untuk grid utility jika perlu) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
+    <!-- Font Awesome 6.0.0-beta3 (SRUI Wajib) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
+        /* ================================================
+           SuperRoundedUI (SRUI) v2.0 - Dark Core Edition
+           © 2025-2026 Allwaysever
+           "Flat never felt this round."
+           ================================================ */
+
+        /* ---- Font Face Outfit (Hosting via jsDelivr) ---- */
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-display: swap;
+        }
+
         :root {
-            --color-accent: #ffce00;
-            --color-primary: #ffffff;
-            --color-dark-bg: #0f0f0f;
-            --color-card-bg: rgba(33, 33, 33, 0.7);
-            --color-border: #4B4F50;
+            /* Palet warna SRUI v2.0 (Dark Core) */
+            --srui-accent: #ffce00;
+            --srui-bg-dark: #1B1C1E;
+            --srui-card-bg-solid: #0f0f0f;
+            --srui-glass-bg: rgba(27, 28, 30, 0.9);
+            --srui-border: #4B4F50;
+            --srui-text-primary: #ffffff;
+            --srui-text-secondary: #999999;
+            --srui-text-tertiary: #666666;
+            --srui-success: #4CAF50;
+            --srui-warning: #ffce00;
+            --srui-error: #F44336;
+            --srui-info: #2196F3;
+
+            /* Radius (minimal 15px) */
+            --srui-radius-card: 25px;
+            --srui-radius-btn: 9999px;     /* pill shape untuk tombol */
+            --srui-radius-element: 15px;
+
+            /* Transisi & efek micro-bounce (scale-down) */
+            --srui-transition: all 0.2s ease-in-out;
+            --srui-motion-transition: transform 0.1s ease-out;
         }
-        
-        body {
-            font-family: Arial, sans-serif;
-            background: var(--color-dark-bg);
-            color: var(--color-primary);
+
+        * {
+            -webkit-tap-highlight-color: transparent;
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', 'Arial', sans-serif;
+            background-color: var(--srui-bg-dark);
+            color: var(--srui-text-primary);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        
+
+        /* Komponen Kartu SRUI (GlassCard) */
         .card-srui {
-            border-radius: 25px;
-            background: var(--color-card-bg);
-            border: 1px solid var(--color-border);
-            backdrop-filter: blur(10px);
+            border-radius: var(--srui-radius-card);
+            background: var(--srui-glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--srui-border);
             box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
+            transition: var(--srui-transition);
         }
-        
+
+        .card-srui:hover {
+            border-color: var(--srui-accent);
+            box-shadow: 0 20px 40px -8px rgba(255, 206, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        /* Tombol SRUI (micro-bounce) */
         .link-button {
-            background: var(--color-accent);
-            color: var(--color-dark-bg);
-            font-weight: bold;
-            border-radius: 9999px;
-            padding: 7.5px 18px;
+            background-color: var(--srui-accent);
+            color: var(--srui-bg-dark);
+            font-weight: 700;
+            border-radius: var(--srui-radius-btn);
+            border: 2px solid var(--srui-accent);
+            padding: 8px 20px;
+            font-size: 0.9rem;
             text-decoration: none;
-            font-size: 0.8rem;
             display: inline-block;
-            transition: all 0.2s;
-            border: 2px solid var(--color-accent);
+            transition: background-color 0.2s, var(--srui-motion-transition);
+            cursor: pointer;
         }
-        
+
         .link-button:hover {
-            background: #e6b800;
-            transform: translateY(-1px);
+            background-color: #e6b800;
+            transform: scale(0.96);
         }
-        
+
+        .link-button:active {
+            transform: scale(0.92);
+        }
+
+        /* Loader SRUI */
         .loader {
             width: 50px;
             height: 50px;
             border: 3px solid rgba(255, 206, 0, 0.3);
             border-radius: 50%;
-            border-top-color: #ffce00;
+            border-top-color: var(--srui-accent);
             animation: spin 1s ease-in-out infinite;
             margin: 40px auto;
         }
-        
+
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        /* Header Sticky SRUI */
+        .srui-header {
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid var(--srui-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 16px 20px;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        /* Footer */
+        .srui-footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--srui-border);
+            color: var(--srui-text-tertiary);
+            margin-top: auto;
+        }
+
+        /* Styling untuk konten Markdown (changelog) */
+        .changelog-content {
+            color: var(--srui-text-secondary);
+            line-height: 1.6;
+        }
+
+        .changelog-content h1,
+        .changelog-content h2,
+        .changelog-content h3,
+        .changelog-content h4 {
+            color: var(--srui-accent);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .changelog-content h1 {
+            font-size: 2rem;
+            border-bottom: 1px solid var(--srui-border);
+            padding-bottom: 8px;
+        }
+
+        .changelog-content h2 {
+            font-size: 1.5rem;
+        }
+
+        .changelog-content code {
+            background: rgba(255, 206, 0, 0.1);
+            color: var(--srui-accent);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .changelog-content pre {
+            background: rgba(33, 33, 33, 0.9);
+            border: 1px solid var(--srui-border);
+            border-radius: var(--srui-radius-element);
+            padding: 15px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .changelog-content pre code {
+            background: transparent;
+            color: #ddd;
+            padding: 0;
+        }
+
+        .changelog-content a {
+            color: var(--srui-accent);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--srui-accent);
+        }
+
+        .changelog-content ul,
+        .changelog-content ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .changelog-content li {
+            margin: 8px 0;
+            color: var(--srui-text-secondary);
+        }
+
+        .changelog-content p {
+            margin: 15px 0;
+            color: var(--srui-text-secondary);
+        }
+
+        .changelog-content blockquote {
+            border-left: 4px solid var(--srui-accent);
+            padding-left: 15px;
+            margin: 20px 0;
+            color: var(--srui-text-tertiary);
+            font-style: italic;
+        }
+
+        /* Footer metadata */
+        .changelog-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--srui-border);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            color: var(--srui-text-tertiary);
+            font-size: 0.85rem;
+        }
+
+        /* Responsif */
+        @media (max-width: 640px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .changelog-footer {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .card-srui {
+                padding: 20px !important;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Simple Header -->
-    <header style="
-        background: rgba(15, 15, 15, 0.95); 
-        backdrop-filter: blur(5px); 
-        padding: 20px; 
-        border-bottom: 1px solid #333; 
-        position: sticky; 
-        top: 0; 
-        z-index: 100;
-    ">
-        <div style="
-            max-width: 1200px; 
-            margin: 0 auto; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            padding: 0 20px;
-        ">
-            <div style="display: flex; align-items: center; gap: 15px;">
+    <!-- Header SRUI -->
+    <header class="srui-header">
+        <div class="header-container">
+            <div class="logo-area">
                 <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Logo%20Icon.png" 
-                     style="width: 40px; height: 40px; border-radius: 10px;"
+                     class="logo-img"
                      alt="MirAI Logo">
                 <div>
-                    <div style="font-size: 1.5rem; font-weight: bold; color: white;">MirAI</div>
-                    <div style="font-size: 1rem; color: #aaa;">Release Notes</div>
+                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--srui-text-primary);">MirAI</div>
+                    <div style="font-size: 1rem; color: var(--srui-text-secondary);">Release Notes</div>
                 </div>
             </div>
             <a href="https://allwaysevermirai.netlify.app" class="link-button">
-                Open MirAI
+                <i class="fas fa-robot" style="margin-right: 6px;"></i> Open MirAI
             </a>
         </div>
     </header>
 
-    <main style="max-width: 1200px; margin: 0 auto; padding: 20px 10px; min-height: 70vh;">
+    <main style="max-width: 1200px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%;">
         <!-- Loading Indicator -->
         <div id="loading" style="text-align: center; padding: 60px 20px;">
             <div class="loader"></div>
-            <p style="color: #aaa; margin-top: 20px; font-size: 1.1rem;">
-                Loading changelog from GitHub...
+            <p style="color: var(--srui-text-secondary); margin-top: 20px; font-size: 1.1rem;">
+                <i class="fas fa-spinner fa-pulse"></i> Loading changelog from GitHub...
             </p>
         </div>
 
         <!-- Error Message -->
         <div id="error" style="display: none; text-align: center; padding: 60px 20px;">
             <div class="card-srui" style="max-width: 600px; margin: 0 auto; padding: 40px;">
-                <h3 style="font-size: 1.5rem; color: #ffce00; margin-bottom: 15px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--srui-accent); margin-bottom: 15px;"></i>
+                <h3 style="font-size: 1.5rem; color: var(--srui-accent); margin-bottom: 15px;">
                     ⚠️ Failed to Load Changelog
                 </h3>
-                <p id="error-message" style="color: #aaa; margin-bottom: 25px;">
+                <p id="error-message" style="color: var(--srui-text-secondary); margin-bottom: 25px;">
                     Could not fetch the changelog from GitHub.
                 </p>
                 <button onclick="loadChangelog()" class="link-button">
-                    Try Again
+                    <i class="fas fa-sync-alt"></i> Try Again
                 </button>
             </div>
         </div>
 
         <!-- Changelog Content -->
-        <div id="changelog" style="display: none;">
-            <!-- Content will be loaded here -->
-        </div>
+        <div id="changelog" style="display: none;"></div>
     </main>
 
-    <footer style="
-        text-align: center; 
-        padding: 30px; 
-        border-top: 1px solid #333; 
-        color: #666; 
-        margin-top: 60px;
-    ">
-        <p>&copy; 2025-2026 Allwaysever Project: MirAI</p>
-        <p style="font-size: 0.9rem; color: #888; margin-top: 5px;">
-            Changelog loaded from GitHub
+    <footer class="srui-footer">
+        <p>&copy; 2025-2026 Allwaysever Project: MirAI — SuperRoundedUI Edition</p>
+        <p style="font-size: 0.85rem; margin-top: 5px;">
+            <i class="fas fa-code-branch"></i> Changelog loaded from GitHub
         </p>
     </footer>
 
@@ -158,220 +358,123 @@
         const errorMessageEl = document.getElementById('error-message');
         const changelogEl = document.getElementById('changelog');
         
-        // Configure marked.js
-        marked.setOptions({
-            breaks: true,
-            gfm: true,
-            headerIds: true
-        });
+        // Configure marked.js (dengan opsi aman)
+        if (typeof marked !== 'undefined') {
+            marked.setOptions({
+                breaks: true,
+                gfm: true,
+                headerIds: true,
+                mangle: false,
+                highlight: function(code, lang) {
+                    return code; // bisa ditambahkan highlight.js nanti
+                }
+            });
+        }
         
-        // Simple fetch with error handling
+        // Fetch dengan fallback CORS proxies
         async function fetchChangelog() {
             console.log('🔍 Fetching changelog from:', CHANGELOG_URL);
             
-            try {
-                // Try multiple methods
-                const methods = [
-                    // Method 1: Direct fetch (might work with CORS headers)
-                    async () => {
-                        const res = await fetch(CHANGELOG_URL, {
-                            headers: {
-                                'Accept': 'text/plain',
-                                'Cache-Control': 'no-cache'
-                            }
-                        });
-                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                        return await res.text();
-                    },
-                    
-                    // Method 2: Using CORS proxy
-                    async () => {
-                        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(CHANGELOG_URL)}`;
-                        const res = await fetch(proxyUrl);
-                        if (!res.ok) throw new Error(`Proxy HTTP ${res.status}`);
-                        return await res.text();
-                    },
-                    
-                    // Method 3: Another CORS proxy
-                    async () => {
-                        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(CHANGELOG_URL)}`;
-                        const res = await fetch(proxyUrl);
-                        if (!res.ok) throw new Error(`Proxy 2 HTTP ${res.status}`);
-                        return await res.text();
-                    },
-                    
-                    // Method 4: RawGit CDN (alternative)
-                    async () => {
-                        const rawgitUrl = CHANGELOG_URL.replace(
-                            'https://raw.githubusercontent.com/',
-                            'https://cdn.jsdelivr.net/gh/'
-                        ).replace('/main/', '@main/');
-                        const res = await fetch(rawgitUrl);
-                        if (!res.ok) throw new Error(`CDN HTTP ${res.status}`);
-                        return await res.text();
-                    }
-                ];
-                
-                // Try each method until one works
-                for (let i = 0; i < methods.length; i++) {
-                    try {
-                        console.log(`Trying method ${i + 1}...`);
-                        const content = await methods[i]();
-                        console.log(`✅ Method ${i + 1} successful!`);
-                        return content;
-                    } catch (methodError) {
-                        console.log(`Method ${i + 1} failed:`, methodError.message);
-                        if (i === methods.length - 1) throw methodError;
-                    }
+            const methods = [
+                async () => {
+                    const res = await fetch(CHANGELOG_URL, {
+                        headers: { 'Accept': 'text/plain', 'Cache-Control': 'no-cache' }
+                    });
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    return await res.text();
+                },
+                async () => {
+                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(CHANGELOG_URL)}`;
+                    const res = await fetch(proxyUrl);
+                    if (!res.ok) throw new Error(`Proxy HTTP ${res.status}`);
+                    return await res.text();
+                },
+                async () => {
+                    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(CHANGELOG_URL)}`;
+                    const res = await fetch(proxyUrl);
+                    if (!res.ok) throw new Error(`Proxy 2 HTTP ${res.status}`);
+                    return await res.text();
+                },
+                async () => {
+                    const rawgitUrl = CHANGELOG_URL.replace(
+                        'https://raw.githubusercontent.com/',
+                        'https://cdn.jsdelivr.net/gh/'
+                    ).replace('/main/', '@main/');
+                    const res = await fetch(rawgitUrl);
+                    if (!res.ok) throw new Error(`CDN HTTP ${res.status}`);
+                    return await res.text();
                 }
-                
-            } catch (error) {
-                console.error('❌ All fetch methods failed:', error);
-                throw error;
+            ];
+            
+            for (let i = 0; i < methods.length; i++) {
+                try {
+                    console.log(`Trying method ${i + 1}...`);
+                    const content = await methods[i]();
+                    console.log(`✅ Method ${i + 1} successful!`);
+                    return content;
+                } catch (methodError) {
+                    console.log(`Method ${i + 1} failed:`, methodError.message);
+                    if (i === methods.length - 1) throw methodError;
+                }
             }
         }
         
-        // Load and display changelog
+        // Load dan tampilkan changelog dengan styling SRUI
         async function loadChangelog() {
-            console.log('🚀 Starting changelog load...');
-            
-            // Show loading, hide others
             loadingEl.style.display = 'block';
             errorEl.style.display = 'none';
             changelogEl.style.display = 'none';
             
             try {
-                // Fetch markdown
                 const markdown = await fetchChangelog();
                 console.log('✅ Changelog fetched, length:', markdown.length);
                 
-                // Parse to HTML
-                const html = marked.parse(markdown);
+                // Parse Markdown ke HTML
+                let html = markdown;
+                if (typeof marked !== 'undefined' && marked.parse) {
+                    html = marked.parse(markdown);
+                } else {
+                    // fallback sederhana jika marked.js gagal
+                    html = `<pre>${escapeHtml(markdown)}</pre>`;
+                }
                 
-                // Create container
+                // Buat container kartu SRUI
                 const container = document.createElement('div');
                 container.className = 'card-srui';
                 container.style.padding = '40px';
                 container.style.marginBottom = '30px';
                 
-                
-                // Add content
                 const contentDiv = document.createElement('div');
+                contentDiv.className = 'changelog-content';
                 contentDiv.innerHTML = html;
                 
-                // Style the content
-                contentDiv.querySelectorAll('h1, h2, h3, h4').forEach(h => {
-                    h.style.color = '#ffce00';
-                    h.style.marginTop = '30px';
-                    h.style.marginBottom = '15px';
-                });
-                
-                contentDiv.querySelectorAll('h1').forEach(h => {
-                    h.style.fontSize = '2rem';
-                    h.style.borderBottom = '1px solid #4B4F50';
-                    h.style.paddingBottom = '8px';
-                });
-                
-                contentDiv.querySelectorAll('h2').forEach(h => {
-                    h.style.fontSize = '1.5rem';
-                });
-                
-                contentDiv.querySelectorAll('code').forEach(code => {
-                    code.style.background = 'rgba(255, 206, 0, 0.1)';
-                    code.style.color = '#ffce00';
-                    code.style.padding = '2px 6px';
-                    code.style.borderRadius = '4px';
-                    code.style.fontFamily = 'monospace';
-                });
-                
-                contentDiv.querySelectorAll('pre').forEach(pre => {
-                    pre.style.background = 'rgba(33, 33, 33, 0.9)';
-                    pre.style.border = '1px solid #4B4F50';
-                    pre.style.borderRadius = '10px';
-                    pre.style.padding = '15px';
-                    pre.style.overflowX = 'auto';
-                    pre.style.margin = '20px 0';
-                });
-                
-                contentDiv.querySelectorAll('a').forEach(a => {
-                    a.style.color = '#ffce00';
-                    a.style.textDecoration = 'none';
-                    a.style.borderBottom = '1px dotted #ffce00';
-                });
-                
-                contentDiv.querySelectorAll('a').forEach(a => {
-                    if (a.href && !a.href.includes(window.location.hostname)) {
-                        a.target = '_blank';
-                        a.rel = 'noopener noreferrer';
-                    }
-                });
-                
-                contentDiv.querySelectorAll('ul, ol').forEach(list => {
-                    list.style.margin = '15px 0';
-                    list.style.paddingLeft = '20px';
-                });
-                
-                contentDiv.querySelectorAll('li').forEach(li => {
-                    li.style.margin = '8px 0';
-                    li.style.color = '#aaa';
-                });
-                
-                contentDiv.querySelectorAll('p').forEach(p => {
-                    p.style.margin = '15px 0';
-                    p.style.color = '#aaa';
-                    p.style.lineHeight = '1.6';
-                });
-                
-                contentDiv.querySelectorAll('blockquote').forEach(blockquote => {
-                    blockquote.style.borderLeft = '4px solid #ffce00';
-                    blockquote.style.paddingLeft = '15px';
-                    blockquote.style.margin = '20px 0';
-                    blockquote.style.color = '#aaa';
-                    blockquote.style.fontStyle = 'italic';
-                });
-                
-                container.appendChild(contentDiv);
-                
-                // Add metadata footer
-                const footer = document.createElement('div');
-                footer.style.marginTop = '40px';
-                footer.style.paddingTop = '20px';
-                footer.style.borderTop = '1px solid #4B4F50';
-                footer.style.display = 'flex';
-                footer.style.justifyContent = 'space-between';
-                footer.style.flexWrap = 'wrap';
-                footer.style.gap = '15px';
-                footer.style.color = '#666';
-                footer.style.fontSize = '0.9rem';
+                // Footer metadata
+                const footerDiv = document.createElement('div');
+                footerDiv.className = 'changelog-footer';
                 
                 const sourceLink = document.createElement('a');
                 sourceLink.href = 'https://github.com/Allwaysever/MirAI/blob/main/Docs/CHANGELOG.md';
                 sourceLink.target = '_blank';
-                sourceLink.textContent = 'View on GitHub ↗';
-                sourceLink.style.color = '#ffce00';
+                sourceLink.innerHTML = '<i class="fab fa-github"></i> View on GitHub ↗';
+                sourceLink.style.color = 'var(--srui-accent)';
                 sourceLink.style.textDecoration = 'none';
                 
                 const timestamp = document.createElement('div');
-                timestamp.textContent = `Loaded: ${new Date().toLocaleTimeString([], { 
-                    hour: '2-digit', 
-                    minute: '2-digit',
-                    second: '2-digit'
-                })}`;
+                timestamp.innerHTML = `<i class="far fa-clock"></i> Loaded: ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
                 
                 const sizeInfo = document.createElement('div');
-                sizeInfo.textContent = `Size: ${(markdown.length / 1024).toFixed(1)} KB`;
+                sizeInfo.innerHTML = `<i class="fas fa-database"></i> Size: ${(markdown.length / 1024).toFixed(1)} KB`;
                 
-                footer.appendChild(sourceLink);
-                footer.appendChild(timestamp);
-                footer.appendChild(sizeInfo);
+                footerDiv.appendChild(sourceLink);
+                footerDiv.appendChild(timestamp);
+                footerDiv.appendChild(sizeInfo);
                 
-                container.appendChild(footer);
+                container.appendChild(contentDiv);
+                container.appendChild(footerDiv);
                 
-                // Clear and add to page
                 changelogEl.innerHTML = '';
                 changelogEl.appendChild(container);
                 
-                // Show content, hide loading
                 loadingEl.style.display = 'none';
                 changelogEl.style.display = 'block';
                 
@@ -379,27 +482,32 @@
                 
             } catch (error) {
                 console.error('❌ Error:', error);
-                
-                // Show error
                 loadingEl.style.display = 'none';
                 errorEl.style.display = 'block';
                 errorMessageEl.textContent = `Error: ${error.message}`;
             }
         }
         
-        // Auto-load on page load
+        // Utility escape HTML (untuk fallback)
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Auto-load saat halaman siap
         document.addEventListener('DOMContentLoaded', function() {
             console.log('📄 Page loaded, auto-loading changelog...');
             loadChangelog();
             
-            // Auto-refresh every 10 minutes
+            // Auto-refresh setiap 10 menit
             setInterval(() => {
                 console.log('🔄 Auto-refreshing...');
                 loadChangelog();
             }, 10 * 60 * 1000);
         });
         
-        // Make function available globally
+        // Global access
         window.loadChangelog = loadChangelog;
     </script>
 </body>
