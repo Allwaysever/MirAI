@@ -922,7 +922,7 @@ body.chat-active #clearBtnContainer {
     border-radius: var(--srui-radius-xl);
     width: 40px;
     height: 40px;
-    display: flex;
+    display: flex:
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -1187,7 +1187,7 @@ body.chat-active #connectionStatus {
     cursor: pointer;
     flex-shrink: 0;
     transition: all var(--srui-transition-normal);
-    margin-left: 5px;
+	margin-right: 5px;
 }
 
 #uploadImageBtn:hover {
