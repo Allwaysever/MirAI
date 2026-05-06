@@ -922,7 +922,7 @@ body.chat-active #clearBtnContainer {
     border-radius: var(--srui-radius-xl);
     width: 40px;
     height: 40px;
-    display: flex:
+    display: flex;          /* sebelumnya salah ketik "flex:" */
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -930,9 +930,9 @@ body.chat-active #clearBtnContainer {
 }
 
 #toolsBtn.active {
-    transform: rotate(135deg);
     background-color: var(--srui-accent);
     color: var(--srui-accent-text);
+    /* tidak ada rotasi */
 }
 
 #toolsMenu {

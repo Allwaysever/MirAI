@@ -3200,7 +3200,8 @@ function testSearch() {
             menuItem.addEventListener('click', () => { 
                 elements.questionInput.value = cmd.command + ' '; 
                 elements.toolsMenu.classList.remove('visible'); 
-                elements.toolsBtn.classList.remove('active'); 
+                elements.toolsBtn.classList.remove('active');
+elements.toolsBtn.innerHTML = '<i class="fas fa-slash"></i>';
                 elements.questionInput.focus(); 
             }); 
             elements.toolsMenu.appendChild(menuItem); 
@@ -4092,23 +4093,24 @@ function applyAccentColor(hex) {
         elements.removeImageBtn.addEventListener('click', removeImage);
         elements.toggleApiKey.addEventListener('click', toggleApiVisibility);
         elements.toolsBtn.addEventListener('click', (event) => { 
-            event.stopPropagation(); 
-            const isActive = elements.toolsBtn.classList.contains('active'); 
-            elements.suggestionBox.classList.remove('visible'); 
-            if (!isActive) { 
-                elements.toolsMenu.classList.add('visible'); 
-                elements.toolsBtn.classList.add('active'); 
-            } else { 
-                elements.toolsMenu.classList.remove('visible'); 
-                elements.toolsBtn.classList.remove('active'); 
-            } 
-        });
+    event.stopPropagation(); 
+    const isActive = elements.toolsBtn.classList.toggle('active');
+    elements.suggestionBox.classList.remove('visible'); 
+    if (isActive) { 
+        elements.toolsMenu.classList.add('visible'); 
+        elements.toolsBtn.innerHTML = '<i class="fas fa-times"></i>';
+    } else { 
+        elements.toolsMenu.classList.remove('visible'); 
+        elements.toolsBtn.innerHTML = '<i class="fas fa-slash"></i>';
+    } 
+});
         document.addEventListener('click', (event) => { 
-            if (elements.toolsMenu && !elements.toolsMenu.contains(event.target) && !elements.toolsBtn.contains(event.target)) { 
-                elements.toolsMenu.classList.remove('visible'); 
-                elements.toolsBtn.classList.remove('active'); 
-            } 
-        });
+    if (elements.toolsMenu && !elements.toolsMenu.contains(event.target) && !elements.toolsBtn.contains(event.target)) { 
+        elements.toolsMenu.classList.remove('visible'); 
+        elements.toolsBtn.classList.remove('active');
+        elements.toolsBtn.innerHTML = '<i class="fas fa-slash"></i>';
+    } 
+});
         window.addEventListener('scroll', checkIndicatorPosition, { passive: true });
 
         // Memory slider event listener
