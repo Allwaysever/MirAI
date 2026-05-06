@@ -1167,6 +1167,83 @@ body.chat-active #connectionStatus {
     }
 }
 
+/* ===== FILE OPTIONS MENU (Popup untuk tombol +) ===== */
+#fileOptionsMenu {
+    position: fixed;
+    bottom: 85px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+    max-width: 300px;
+    background: var(--srui-glass-bg);
+    backdrop-filter: var(--srui-glass-blur);
+    border: var(--srui-glass-border);
+    border-radius: var(--srui-radius-lg);
+    padding: 12px 0;
+    z-index: 102;
+    box-shadow: var(--srui-shadow-strong);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all var(--srui-transition-normal);
+}
+#fileOptionsMenu.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+.file-option {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: var(--srui-text-primary);
+}
+.file-option i {
+    width: 24px;
+    font-size: 1.2em;
+    color: var(--srui-accent);
+}
+.file-option:hover {
+    background: rgba(var(--srui-accent-rgb), 0.15);
+}
+/* Preview untuk attachment non-gambar */
+.attachment-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--srui-bg-secondary);
+    padding: 8px 12px;
+    border-radius: var(--srui-radius-lg);
+    margin-bottom: 8px;
+    max-width: 280px;
+}
+.attachment-preview i {
+    font-size: 1.4em;
+    color: var(--srui-accent);
+}
+.attachment-preview .file-info {
+    flex: 1;
+    font-size: 0.85em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.attachment-preview .remove-attachment {
+    background: var(--srui-error);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-size: 12px;
+}
+
 /* ===== IMAGE UPLOAD ===== */
 #uploadImageBtn {
     background-color: var(--srui-bg-secondary);
