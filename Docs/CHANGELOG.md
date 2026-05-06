@@ -1,5 +1,17 @@
 ## What's new?
 
+### 🚀 `2026.05.06` — v3.2.0 — **Multi‑Format Attachments & TTS Controls**
+
+- **`NEW FEATURE`**: **Multi‑format file uploads** – the `+` button now opens a menu offering **image**, **audio**, and **document** uploads. Supported files: JPEG, PNG, WebP, MP3, WAV, OGG, PDF, DOCX, TXT, MD, and JSON. Each attachment shows a preview (thumbnail for images, file icon for others) with a remove button.
+- **`NEW FEATURE`**: **Text‑to‑Speech stop control** – while the AI is speaking, clicking the speaker icon again immediately stops playback. The icon toggles back to `fa-volume-up`, allowing you to restart speech from the beginning.
+- **`IMPROVEMENT`**: **Unified attachment UI** – the new `imagePreviewContainer` works for all file types. Previews are dynamically updated, and the send button enables/disables correctly when attachments are present.
+- **`IMPROVEMENT`**: **Better attachment handling** – only one attachment is kept at a time (simpler and less error‑prone). Audio and document files are clearly labeled with their names.
+- **`FIX`**: **Chat memory reliability** – trimming no longer occurs on page load. The memory slider now applies the limit only when you save settings or cross the limit during a conversation, and it warns you exactly how many old bubbles will be removed.
+- **`FIX`**: **Public API limit warnings** – reduced false positives; the warning/block popups now appear at the correct bubble thresholds and no longer interrupt normal usage unnecessarily.
+- **`FIX`**: **TTS language detection** – improved fallback to the selected UI language (Indonesian, English US/UK, Japanese) while stripping markdown characters more thoroughly.
+
+---
+
 ### 🚀 `2026.04.30` — v3.1.0 — **Auto‑Search URL & Enhanced Typing**
 
 - **`NEW FEATURE`**: **Auto‑search via URL parameter** – you can now open MirAI with `?search=your+query` and the app will automatically execute the `/search` command. Perfect for shortcuts, widgets, or external integrations.
@@ -17,86 +29,86 @@
 
 ### 🚀🎉 `2026.03.08` — v3.0 — **THE OFFICIAL LAUNCH: MirAI IS BORN!** 🎉🚀
 
-> *"From beta chaos to polished perfection — this is not just an update. This is the beginning."*
+> *"From beta chaos to polished perfection – this is not just an update. This is the beginning."*
 
-After months of relentless iteration through 7 betas, sleepless nights, and more bug fixes than we can count, **MirAI v3.0 is finally HERE.** This is the culmination of everything — every feature, every fix, every wild idea we threw at the wall — now polished and packaged into one definitive release. Buckle up. 🎢
+After months of relentless iteration through 7 betas, sleepless nights, and more bug fixes than we can count, **MirAI v3.0 is finally HERE.** This is the culmination of everything – every feature, every fix, every wild idea we threw at the wall – now polished and packaged into one definitive release. Buckle up. 🎢
 
 ### 🌟 What's New in v3.0 (The Full Picture)
 
-#### 🤖 Powered by Gemini 2.5 Flash
-- **``ENGINE UPGRADE``:** MirAI now runs on **Google Gemini 2.5 Flash** as the default model — faster, smarter, and more reliable than ever. The AI brain behind MirAI has officially leveled up.
-- **``STABLE CORE``:** The underlying API integration has been hardened, refined, and battle-tested across all 7 betas. What you get now is rock solid.
+#### 🧠 Powered by Gemini 2.5 Flash
+- **`ENGINE UPGRADE`:** MirAI now runs on **Google Gemini 2.5 Flash** as the default model – faster, smarter, and more reliable than ever. The AI brain behind MirAI has officially leveled up.
+- **`STABLE CORE`:** The underlying API integration has been hardened, refined, and battle-tested across all 7 betas. What you get now is rock solid.
 
 #### 🎨 Custom Accent Color — **Stable & Gorgeous**
-- **``STABLE RELEASE``:** After debuting in Beta 6 and being refined through Beta 7, the **Custom Accent Color** feature has officially graduated from beta. It's smooth, reliable, and looking *amazing*.
-- **``HOW IT WORKS``:** Head to Settings → Custom Accent Color, type in any hex code (e.g., `#ffce00`, `#FF6B6B`, `#00C9FF`), and watch MirAI transform in real time.
-- **``LIVE PREVIEW``:** Color preview updates as you type — no guessing games.
-- **``SMART SAFETY``:** Colors that are too dark get rejected automatically to keep text readable. MirAI always looks good. Always.
-- **``PERSISTENCE``:** Your chosen color is saved across sessions. MirAI remembers your vibe.
+- **`STABLE RELEASE`:** After debuting in Beta 6 and being refined through Beta 7, the **Custom Accent Color** feature has officially graduated from beta. It's smooth, reliable, and looking *amazing*.
+- **`HOW IT WORKS`:** Head to Settings → Custom Accent Color, type in any hex code (e.g., `#ffce00`, `#FF6B6B`, `#00C9FF`), and watch MirAI transform in real time.
+- **`LIVE PREVIEW`:** Color preview updates as you type – no guessing games.
+- **`SMART SAFETY`:** Colors that are too dark get rejected automatically to keep text readable. MirAI always looks good. Always.
+- **`PERSISTENCE`:** Your chosen color is saved across sessions. MirAI remembers your vibe.
 
 #### 🧠 Flexible Chat Memory System
-- **``MEMORY SLIDER``:** You now have full control over how much MirAI remembers. Slide the **Chat Memory** control in Settings anywhere from **25 to 85 bubbles**. Your device, your rules.
-- **``REAL-TIME COUNTER``:** A live bubble counter shows exactly how many messages are stored vs. your limit (e.g., "Current bubbles: 42 / Max: 50").
-- **``SMART TRIMMING``:** When the limit is hit, old messages are trimmed intelligently — but the **AI Persona is always preserved** at the top. MirAI will never forget who it is.
-- **``NO AUTO-TRIM ON LOAD``:** Fixed a previous behavior where the app would trim messages just from loading the page. Now, trimming only happens when you actively save settings or the limit is reached mid-chat.
-- **``CONFIRMATION DIALOGS``:** Lower the limit below current count? MirAI will warn you exactly how many messages will be removed before doing anything. No surprises.
+- **`MEMORY SLIDER`:** You now have full control over how much MirAI remembers. Slide the **Chat Memory** control in Settings anywhere from **25 to 85 bubbles**. Your device, your rules.
+- **`REAL-TIME COUNTER`:** A live bubble counter shows exactly how many messages are stored vs. your limit (e.g., "Current bubbles: 42 / Max: 50").
+- **`SMART TRIMMING`:** When the limit is hit, old messages are trimmed intelligently – but the **AI Persona is always preserved** at the top. MirAI will never forget who it is.
+- **`NO AUTO-TRIM ON LOAD`:** Fixed a previous behavior where the app would trim messages just from loading the page. Now, trimming only happens when you actively save settings or the limit is reached mid-chat.
+- **`CONFIRMATION DIALOGS`:** Lower the limit below current count? MirAI will warn you exactly how many messages will be removed before doing anything. No surprises.
 
 #### 🔍 Multi-Engine Search System — **Smarter Than Ever**
-- **``FOUR ENGINES``:** MirAI now supports **SearchAPI.io** (primary), **Google Custom Search** (secondary), **DuckDuckGo**, and **Wikipedia** — all configurable from Settings.
-- **``AI KNOWLEDGE BASE MODE``:** No API keys? No problem. When all engines are disabled, `/search` taps directly into Gemini's vast training data. Smart, private, and always available.
-- **``EXTERNAL SEARCH MODE``:** Enable any engine with an API key for fresh, real-time internet results. Indicator in Settings tells you which mode you're in — no more guessing.
-- **``SEARCH CACHING``:** Repeated queries? MirAI caches results to save API calls and speed things up.
-- **``TEST SEARCH BUTTON``:** Hit "Test Search" in Settings to verify your engine setup without leaving the app.
-- **``CLEAR CACHE BUTTON``:** Wipe the search cache manually anytime you want fresh results.
-- **``FIRST-TIME FRIENDLY``:** New users start with all engines **disabled by default**. A friendly tip appears on the first visit explaining how search works. No overwhelming setup for newcomers.
-- **``REAL-TIME MODE INDICATOR``:** The Settings panel now shows a live badge — **"External Search Mode"** or **"AI Knowledge Base Mode"** — that updates as you toggle engines on/off.
+- **`FOUR ENGINES`:** MirAI now supports **SearchAPI.io** (primary), **Google Custom Search** (secondary), **DuckDuckGo**, and **Wikipedia** – all configurable from Settings.
+- **`AI KNOWLEDGE BASE MODE`:** No API keys? No problem. When all engines are disabled, `/search` taps directly into Gemini's vast training data. Smart, private, and always available.
+- **`EXTERNAL SEARCH MODE`:** Enable any engine with an API key for fresh, real-time internet results. Indicator in Settings tells you which mode you're in – no more guessing.
+- **`SEARCH CACHING`:** Repeated queries? MirAI caches results to save API calls and speed things up.
+- **`TEST SEARCH BUTTON`:** Hit "Test Search" in Settings to verify your engine setup without leaving the app.
+- **`CLEAR CACHE BUTTON`:** Wipe the search cache manually anytime you want fresh results.
+- **`FIRST-TIME FRIENDLY`:** New users start with all engines **disabled by default**. A friendly tip appears on the first visit explaining how search works. No overwhelming setup for newcomers.
+- **`REAL-TIME MODE INDICATOR`:** The Settings panel now shows a live badge – **"External Search Mode"** or **"AI Knowledge Base Mode"** – that updates as you toggle engines on/off.
 
 #### ⚡ Enhanced Loading Experience
-- **``REAL-TIME STOPWATCH``:** Every AI response now shows a live stopwatch (updates every 10ms!) so you know exactly how long the AI is thinking.
-- **``PROGRESS BAR``:** A visual progress bar fills up as the request processes, giving you a tangible sense of movement.
-- **``COLOR-CODED RESULT``:** Stopwatch turns **green** on success, **red** on error. Instant visual feedback.
-- **``PROCESSING TIME DISPLAY``:** After each response, the final processing time is shown (e.g., "Processed in 1.847 seconds"). Because transparency is cool. 😎
-- **``CLEAN ANIMATIONS``:** All loading elements fade in and out smoothly. No jarring jumps.
+- **`REAL-TIME STOPWATCH`:** Every AI response now shows a live stopwatch (updates every 10ms!) so you know exactly how long the AI is thinking.
+- **`PROGRESS BAR`:** A visual progress bar fills up as the request processes, giving you a tangible sense of movement.
+- **`COLOR-CODED RESULT`:** Stopwatch turns **green** on success, **red** on error. Instant visual feedback.
+- **`PROCESSING TIME DISPLAY`:** After each response, the final processing time is shown (e.g., "Processed in 1.847 seconds"). Because transparency is cool. 😎
+- **`CLEAN ANIMATIONS`:** All loading elements fade in and out smoothly. No jarring jumps.
 
 #### 🔒 MirAI Encrypted Data Files (.medf) — Full System
-- **``SECURE BACKUP``:** Export your entire MirAI state (chat history, API key, persona, language, accent color) to an **AES-GCM encrypted `.medf` file**, protected by a password of your choice.
-- **``AUTHENTICITY SIGNATURE``:** Every `.medf` file is stamped with a cryptographic authenticity header. Import will fail if the file has been tampered with or isn't from an official MirAI source.
-- **``DUAL FORMAT SUPPORT``:** Export as `.medf` (encrypted, with signature) or `.mdf`/`.json` (plain JSON). Import supports all three.
-- **``PERSONA SYNC ON IMPORT``:** Restoring a backup also restores your AI persona. Everything comes back exactly as you left it.
+- **`SECURE BACKUP`:** Export your entire MirAI state (chat history, API key, persona, language, accent color) to an **AES-GCM encrypted `.medf` file**, protected by a password of your choice.
+- **`AUTHENTICITY SIGNATURE`:** Every `.medf` file is stamped with a cryptographic authenticity header. Import will fail if the file has been tampered with or isn't from an official MirAI source.
+- **`DUAL FORMAT SUPPORT`:** Export as `.medf` (encrypted, with signature) or `.mdf`/`.json` (plain JSON). Import supports all three.
+- **`PERSONA SYNC ON IMPORT`:** Restoring a backup also restores your AI persona. Everything comes back exactly as you left it.
 
 #### 👤 Custom Persona System
-- **``FOUR PERSONAS``:** Choose from **Formal & Professional**, **Casual & Humorous** (default), **Creative & Expressive**, or the new **Custom Persona** option.
-- **``CUSTOM PERSONA INPUT``:** Write your own persona prompt and MirAI will become whoever you need it to be. Your prompt is automatically combined with the MirAI identity prefix.
-- **``PERSISTENT``:** Your persona choice (including custom prompts) is saved to localStorage and restored on every session.
+- **`FOUR PERSONAS`:** Choose from **Formal & Professional**, **Casual & Humorous** (default), **Creative & Expressive**, or the new **Custom Persona** option.
+- **`CUSTOM PERSONA INPUT`:** Write your own persona prompt and MirAI will become whoever you need it to be. Your prompt is automatically combined with the MirAI identity prefix.
+- **`PERSISTENT`:** Your persona choice (including custom prompts) is saved to localStorage and restored on every session.
 
 #### 📱 PWA & Installation
-- **``INSTALL PROMPT``:** A stylish install button appears at the right time, letting you add MirAI to your home screen like a native app.
-- **``SERVICE WORKER``:** Full PWA support with a registered Service Worker for offline capability and fast loading.
-- **``ONESIGNAL NOTIFICATIONS``:** Push notification support via OneSignal is baked in and ready to go.
-- **``SPLASH SCREEN``:** Beautiful animated splash screen on launch (skipped in PWA mode for faster startup).
+- **`INSTALL PROMPT`:** A stylish install button appears at the right time, letting you add MirAI to your home screen like a native app.
+- **`SERVICE WORKER`:** Full PWA support with a registered Service Worker for offline capability and fast loading.
+- **`ONESIGNAL NOTIFICATIONS`:** Push notification support via OneSignal is baked in and ready to go.
+- **`SPLASH SCREEN`:** Beautiful animated splash screen on launch (skipped in PWA mode for faster startup).
 
 #### 🛠️ UI & UX Improvements
-- **``CLEAR BUTTON FIX``:** The clear chat button now uses the browser's native `confirm()` dialog — no more unclickable moments or broken overlays.
-- **``TYPEWRITER EFFECT``:** AI responses type themselves out character by character, then render full Markdown at the end. It's satisfying every single time.
-- **``SMOOTH COPY & TTS``:** Each AI bubble has copy and text-to-speech buttons. TTS is language-aware (supports Indonesian, English US, English UK, and Japanese). Markdown characters are stripped before speaking — no more hearing asterisks.
-- **``HASH-BASED SETTINGS NAVIGATION``:** Settings panel opens/closes via URL hash (`#settings`), enabling proper back button behavior on mobile. Press back to close settings — just like a native app.
-- **``CONNECTION STATUS INDICATOR``:** A live online/offline status indicator keeps you informed. It even hides itself when it overlaps your chat bubbles.
-- **``DYNAMIC PLACEHOLDERS``:** The input box shows rotating placeholder messages that adapt to the selected language.
-- **``SLASH COMMANDS MENU``:** Tap the `+` button to browse all available slash commands with descriptions. Auto-complete kicks in as you type `/`.
-- **``LANGUAGE SWITCHER``:** Four language options — 🇮🇩 Bahasa Indonesia, 🇺🇸 English (US), 🇬🇧 English (UK), 🇯🇵 日本語 — fully localized throughout the entire UI.
-- **``DARK THEME ONLY``:** MirAI has committed to the dark side. The light theme has been retired permanently, allowing us to focus on a consistent, polished dark experience.
-- **``ACCENT COLOR RESET``:** One-click reset button returns the accent color back to MirAI's signature yellow `#ffce00`.
+- **`CLEAR BUTTON FIX`:** The clear chat button now uses the browser's native `confirm()` dialog – no more unclickable moments or broken overlays.
+- **`TYPEWRITER EFFECT`:** AI responses type themselves out character by character, then render full Markdown at the end. It's satisfying every single time.
+- **`SMOOTH COPY & TTS`:** Each AI bubble has copy and text-to-speech buttons. TTS is language-aware (supports Indonesian, English US, English UK, and Japanese). Markdown characters are stripped before speaking – no more hearing asterisks.
+- **`HASH-BASED SETTINGS NAVIGATION`:** Settings panel opens/closes via URL hash (`#settings`), enabling proper back button behavior on mobile. Press back to close settings – just like a native app.
+- **`CONNECTION STATUS INDICATOR`:** A live online/offline status indicator keeps you informed. It even hides itself when it overlaps your chat bubbles.
+- **`DYNAMIC PLACEHOLDERS`:** The input box shows rotating placeholder messages that adapt to the selected language.
+- **`SLASH COMMANDS MENU`:** Tap the `+` button to browse all available slash commands with descriptions. Auto-complete kicks in as you type `/`.
+- **`LANGUAGE SWITCHER`:** Four language options – 🇮🇩 Bahasa Indonesia, 🇺🇸 English (US), 🇬🇧 English (UK), 🇯🇵 日本語 – fully localized throughout the entire UI.
+- **`DARK THEME ONLY`:** MirAI has committed to the dark side. The light theme has been retired permanently, allowing us to focus on a consistent, polished dark experience.
+- **`ACCENT COLOR RESET`:** One-click reset button returns the accent color back to MirAI's signature yellow `#ffce00`.
 
 #### 🔑 API Key Management
-- **``CUSTOM API KEY``:** Enter your own Google Gemini API key in Settings to bypass the shared default key and get your own usage limits.
-- **``ENCRYPTED CONFIG``:** The default API key is loaded from `config.medf`, a securely encrypted config file. No plaintext secrets in the source.
-- **``API LIMIT WARNINGS``:** If you're using the public API key and approaching usage limits, MirAI will warn you with a popup and suggest switching to a personal key.
+- **`CUSTOM API KEY`:** Enter your own Google Gemini API key in Settings to bypass the shared default key and get your own usage limits.
+- **`ENCRYPTED CONFIG`:** The default API key is loaded from `config.medf`, a securely encrypted config file. No plaintext secrets in the source.
+- **`API LIMIT WARNINGS`:** If you're using the public API key and approaching usage limits, MirAI will warn you with a popup and suggest switching to a personal key.
 
 #### 💬 A Note From the Developer
 
 v3.0 isn't just a version number bump. It's the moment MirAI stops being "a beta project" and becomes **a real product**. Every feature here was built, broken, rebuilt, and polished through 7 beta releases and countless hours of feedback.
 
-Thank you for being here from the beginning — or for joining just now. Either way, **welcome to MirAI v3.0.** It's been worth the wait. 🙌
+Thank you for being here from the beginning – or for joining just now. Either way, **welcome to MirAI v3.0.** It's been worth the wait. 🙌
 
 *Built with ❤️ by Allwaysever*
 
@@ -105,93 +117,93 @@ Thank you for being here from the beginning — or for joining just now. Either 
 This update brings major update to stable accent color feature, and fixes a critical bug with the clear chat button.
 
 **🎨 Custom Accent Color – Now Stable!**
-- **``STABLE RELEASE``:** The custom accent color feature has been upgraded from beta to **stable**. All known bugs from the beta version have been fixed.
-- **``NEW FEATURE``:** Choose any hex color (e.g., #ffce00) in Settings to personalize MirAI's look. Live preview and automatic brightness validation ensure readability.
-- **``BUG FIX``:** We have developed this feature so that all elements can have the color you want.
+- **`STABLE RELEASE`:** The custom accent color feature has been upgraded from beta to **stable**. All known bugs from the beta version have been fixed.
+- **`NEW FEATURE`:** Choose any hex color (e.g., #ffce00) in Settings to personalize MirAI's look. Live preview and automatic brightness validation ensure readability.
+- **`BUG FIX`:** We have developed this feature so that all elements can have the color you want.
 
 **🛠️ Clear Chat Button Fix**
-- **``BUG FIX``:** Resolved an issue where the clear chat button was unclickable in certain scenarios. The custom confirmation overlay was removed and replaced with the browser's native `confirm()` dialog for reliability.
-- **``IMPROVED UX``:** Clearing chat history now uses a standard browser confirmation, ensuring the action always works as intended.
+- **`BUG FIX`:** Resolved an issue where the clear chat button was unclickable in certain scenarios. The custom confirmation overlay was removed and replaced with the browser's native `confirm()` dialog for reliability.
+- **`IMPROVED UX`:** Clearing chat history now uses a standard browser confirmation, ensuring the action always works as intended.
 
 *Your feedback drives our improvements. Enjoy the new MirAI!*
 
 ---
 
-### ``2026.02.16`` - v3.0-Beta6 - **Light Theme Farewell & Custom Accent Colors**
+### `2026.02.16` - v3.0-Beta6 - **Light Theme Farewell & Custom Accent Colors**
 
 We've made some changes to the visual experience of MirAI. With a heavy heart, we say goodbye to the Light Theme. But don't worry, we're introducing a new way to personalize your app!
 
 **🎨 Light Theme Removal:**
-- **``FAREWELL``:** We've decided to remove the Light Theme option. This wasn't an easy decision, but it allows us to focus on a more consistent dark experience and streamline future development. We sincerely apologize to our light mode enthusiasts! 😔
+- **`FAREWELL`:** We've decided to remove the Light Theme option. This wasn't an easy decision, but it allows us to focus on a more consistent dark experience and streamline future development. We sincerely apologize to our light mode enthusiasts! 😔
 
 **✨ New Custom Accent Color Feature (Beta):**
-- **``NEW FEATURE``:** You can now customize the accent color of MirAI! Head over to Settings and choose your own hex color (e.g., #ffce00).
-- **``LIVE PREVIEW``:** See the color preview as you type, and the app instantly updates the accent.
-- **``SAFETY CHECK``:** If the color is too dark, MirAI will gently reject it to maintain readability.
-- **``KNOWN BUGS``:** This feature is still in beta – you might encounter some glitches. We're working on ironing them out in future updates. Your feedback is welcome!
+- **`NEW FEATURE`:** You can now customize the accent color of MirAI! Head over to Settings and choose your own hex color (e.g., #ffce00).
+- **`LIVE PREVIEW`:** See the color preview as you type, and the app instantly updates the accent.
+- **`SAFETY CHECK`:** If the color is too dark, MirAI will gently reject it to maintain readability.
+- **`KNOWN BUGS`:** This feature is still in beta – you might encounter some glitches. We're working on ironing them out in future updates. Your feedback is welcome!
 
 **💡 Why the change?**
 We believe that giving you control over the accent color is a more flexible and fun way to personalize MirAI than a full light/dark switch. This paves the way for even more customization options down the road. Thank you for your understanding and support!
 
 ---
 
-### ``2026.02.02`` - v3.0-Beta5 - **Dynamic Memory Control & Smart Storage**
+### `2026.02.02` - v3.0-Beta5 - **Dynamic Memory Control & Smart Storage**
 We've handed the keys to your AI's memory back to you! No more hard limits—you decide how much MirAI remembers.
 **🧠 Flexible Chat Memory System:**
-- **``NEW FEATURE``**: Memory Limit Slider added to Settings! You can now adjust the conversation history limit from 25 up to 85 bubbles. Whether you want to save RAM or keep a long conversation going, the choice is yours.
-- **``VISUAL FEEDBACK``**: Real-time Bubble Counter shows exactly how many messages are currently stored versus your selected limit (e.g., "Current bubbles: 42 / Max: 50").
-- **``SMART TRIMMING``**: When the memory limit is reached, the system now intelligently trims old messages while always preserving the AI Persona (system instruction) at the very top. Your AI won't forget who it is, even in long chats.
-🛡️ Enhanced Data Safety:
-- **``SAFER LOADING``**: Fixed a logic issue where chat history could be automatically trimmed just by loading the page. Now, trimming only happens when you actively save settings or hit the limit during a chat.
-- **``CONFIRMATION DIALOGS``**: If you lower the memory limit below the current message count, MirAI will warn you exactly how many messages will be deleted before applying the changes.
+- **`NEW FEATURE`**: Memory Limit Slider added to Settings! You can now adjust the conversation history limit from 25 up to 85 bubbles. Whether you want to save RAM or keep a long conversation going, the choice is yours.
+- **`VISUAL FEEDBACK`**: Real-time Bubble Counter shows exactly how many messages are currently stored versus your selected limit (e.g., "Current bubbles: 42 / Max: 50").
+- **`SMART TRIMMING`**: When the memory limit is reached, the system now intelligently trims old messages while always preserving the AI Persona (system instruction) at the very top. Your AI won't forget who it is, even in long chats.
+🛠️ Enhanced Data Safety:
+- **`SAFER LOADING`**: Fixed a logic issue where chat history could be automatically trimmed just by loading the page. Now, trimming only happens when you actively save settings or hit the limit during a chat.
+- **`CONFIRMATION DIALOGS`**: If you lower the memory limit below the current message count, MirAI will warn you exactly how many messages will be deleted before applying the changes.
 
 **💡 Why This Matters:**
 Previously, MirAI had a strict limit of 50 messages. If you crossed it, poof! Old messages vanished. Now, you have control. Running on a powerful device? Crank it up to 85! On an older phone? Dial it down to 25 to keep things snappy. Plus, the new smart trimming ensures the AI never suffers from an "identity crisis" by accidentally deleting its own persona instructions.
 
-### ``2026.01.28`` - v3.0-Beta4 - **Enhanced Loading Experience with Processing Time Display**
+### `2026.01.28` - v3.0-Beta4 - **Enhanced Loading Experience with Processing Time Display**
 
 We've significantly improved the loading experience by adding real-time processing time feedback directly in the chat interface!
 
 **⚡ Enhanced Loading Animation:**
-- **``NEW FEATURE``:** **Advanced loading bubbles** now show real-time processing time with a stopwatch-style counter that updates every millisecond!
-- **``NEW FEATURE``:** **Progress bar animation** that fills up as the AI processes your request, giving visual feedback of the generation progress.
-- **``NEW FEATURE``:** **Final processing time display** shows exactly how long it took to generate the response after completion.
-- **``NEW FEATURE``:** **Success/failure status colors** - the stopwatch changes color (green for success, red for errors) based on the outcome.
+- **`NEW FEATURE`:** **Advanced loading bubbles** now show real-time processing time with a stopwatch-style counter that updates every millisecond!
+- **`NEW FEATURE`:** **Progress bar animation** that fills up as the AI processes your request, giving visual feedback of the generation progress.
+- **`NEW FEATURE`:** **Final processing time display** shows exactly how long it took to generate the response after completion.
+- **`NEW FEATURE`:** **Success/failure status colors** - the stopwatch changes color (green for success, red for errors) based on the outcome.
 
 **🎨 UX Improvements:**
-- **``VISUAL FEEDBACK``:** The loading animation now includes a "Generating response..." text that disappears when the response is ready.
-- **``SMOOTH TRANSITIONS``:** All elements fade in/out smoothly with proper CSS animations.
-- **``ORGANIZED STRUCTURE``:** The loading container has separate sections for timer, progress bar, and status messages.
-- **``BETTER CLEANUP``:** Proper interval cleanup to prevent memory leaks when responses are completed or interrupted.
+- **`VISUAL FEEDBACK`:** The loading animation now includes a "Generating response..." text that disappears when the response is ready.
+- **`SMOOTH TRANSITIONS`:** All elements fade in/out smoothly with proper CSS animations.
+- **`ORGANIZED STRUCTURE`:** The loading container has separate sections for timer, progress bar, and status messages.
+- **`BETTER CLEANUP`:** Proper interval cleanup to prevent memory leaks when responses are completed or interrupted.
 
 **🔧 Technical Enhancements:**
-- **``NEW FUNCTIONS``:** Added `showLoading()` function that creates a sophisticated loading container with multiple visual elements.
-- **``NEW FUNCTIONS``:** Added `completeLoading()` function that handles the graceful completion of the loading animation.
-- **``PRECISE TIMING``:** Uses `Date.now()` for millisecond-precise timing calculations.
-- **``EFFICIENT UPDATES``:** Stopwatch updates every 10ms for smooth visual feedback without performance impact.
+- **`NEW FUNCTIONS`:** Added `showLoading()` function that creates a sophisticated loading container with multiple visual elements.
+- **`NEW FUNCTIONS`:** Added `completeLoading()` function that handles the graceful completion of the loading animation.
+- **`PRECISE TIMING`:** Uses `Date.now()` for millisecond-precise timing calculations.
+- **`EFFICIENT UPDATES`:** Stopwatch updates every 10ms for smooth visual feedback without performance impact.
 
 **💡 Why This Matters:**
 Waiting for AI responses can feel like a black box - you send a question and hope something comes back. Now you get **real-time feedback** on how long the processing is taking! The stopwatch lets you see exactly how many seconds have elapsed, while the progress bar gives you a visual sense of completion. When it's done, you get a nice summary of the total processing time. It's transparent, informative, and just plain cool to watch! 😎
 
-### ``2026.01.25`` - v3.0-Beta3 - **Search Revolution & First-Time User Experience**
+### `2026.01.25` - v3.0-Beta3 - **Search Revolution & First-Time User Experience**
 
 Okay buckle up because this is a MASSIVE update that's gonna change how you search forever! We've completely reimagined the whole search system from the ground up and made it smarter than ever 🚀
 
 **🎯 Search System: The Big Revamp**
-- **``NEW DEFAULT BEHAVIOR``:** First-time users now get **ALL search engines DISABLED by default** (yeah, we're being responsible!). This means `/search` will use AI's own knowledge base unless YOU explicitly enable external engines.
-- **``NEW UI FEEDBACK``:** Real-time search mode indicator in Settings showing whether you're in **"External Search Mode"** or **"AI Knowledge Base Mode"** - no more guessing games!
-- **``NEW CONFIGURATION FLOW``:** Search engines now properly sync between memory and localStorage - no more "why isn't my API key working?!" moments.
-- **``NEW FIRST-TIME MESSAGE``:** Fresh install? You'll get a friendly tip explaining the new search system. We're helpful like that 😉
+- **`NEW DEFAULT BEHAVIOR`:** First-time users now get **ALL search engines DISABLED by default** (yeah, we're being responsible!). This means `/search` will use AI's own knowledge base unless YOU explicitly enable external engines.
+- **`NEW UI FEEDBACK`:** Real-time search mode indicator in Settings showing whether you're in **"External Search Mode"** or **"AI Knowledge Base Mode"** - no more guessing games!
+- **`NEW CONFIGURATION FLOW`:** Search engines now properly sync between memory and localStorage - no more "why isn't my API key working?!" moments.
+- **`NEW FIRST-TIME MESSAGE`:** Fresh install? You'll get a friendly tip explaining the new search system. We're helpful like that 😊
 
 **🔧 Technical Wizardry Behind the Scenes**
-- **``ENCRYPTED CONFIG SYNC``:** Search API keys from encrypted `.medf` files now properly load into the search system (fancy encryption magic at work!).
-- **``MEMORY-LOCALSTORAGE SYNC``:** The `SEARCH_CONFIG` object in memory and localStorage now hold hands and sing Kumbaya together 🎵 No more mismatched settings!
-- **``AUTOMATIC ENGINE DETECTION``:** The system now smartly checks which search engines are actually configured and ready to roll before attempting searches.
+- **`ENCRYPTED CONFIG SYNC`:** Search API keys from encrypted `.medf` files now properly load into the search system (fancy encryption magic at work!).
+- **`MEMORY-LOCALSTORAGE SYNC`:** The `SEARCH_CONFIG` object in memory and localStorage now hold hands and sing Kumbaya together 🎵 No more mismatched settings!
+- **`AUTOMATIC ENGINE DETECTION`:** The system now smartly checks which search engines are actually configured and ready to roll before attempting searches.
 
 **🎛️ Settings Panel Upgrades**
-- **``DYNAMIC STATUS DISPLAY``:** Watch the search mode change in real-time as you toggle engines on/off. It's like magic, but with more code!
-- **``BETTER ERROR HANDLING``:** Search tests now give way more helpful feedback when things go wrong (or right!).
-- **``CLEANER CODE ARCHITECTURE``:** We untangled the spaghetti code behind search configuration. It's now more organized than my grandma's kitchen!
+- **`DYNAMIC STATUS DISPLAY`:** Watch the search mode change in real-time as you toggle engines on/off. It's like magic, but with more code!
+- **`BETTER ERROR HANDLING`:** Search tests now give way more helpful feedback when things go wrong (or right!).
+- **`CLEANER CODE ARCHITECTURE`:** We untangled the spaghetti code behind search configuration. It's now more organized than my grandma's kitchen!
 
 **🐞 Bug Squashing Party**
 - Fixed that annoying bug where search engines would sometimes forget they were enabled
@@ -207,29 +219,29 @@ Look, we could've just added more search engines and called it a day. But NO! We
 
 It's all about giving YOU control while making sure things Just Work™ out of the box. No more confusing setup processes for new users, but all the power for power users!
 
-### ``2026.01.23`` - v3.0-Beta2
+### `2026.01.23` - v3.0-Beta2
 
 We've made significant upgrades to the search system and improved overall stability.
 
 **Search System Overhaul:**
-- **``NEW``:** Integrated **SearchAPI.io** as the primary search engine for the `/search` command, offering reliable and fast search results.
-- **``NEW``:** Added support for **Google Custom Search Engine (CSE)** as a secondary search option.
-- **``NEW``:** Enabled **DuckDuckGo** and **Wikipedia** search capabilities (no API keys required).
-- **``NEW``:** **Search Configuration Panel** in Settings, allowing you to enable/disable engines and input API keys.
-- **``NEW``:** **Search Caching** system to speed up repeated queries.
-- **``NEW``:** **Test Search** button to verify your search engine setup.
-- **``FIX``:** Resolved issues with the previous Google CSE integration and erratic API behavior.
+- **`NEW`:** Integrated **SearchAPI.io** as the primary search engine for the `/search` command, offering reliable and fast search results.
+- **`NEW`:** Added support for **Google Custom Search Engine (CSE)** as a secondary search option.
+- **`NEW`:** Enabled **DuckDuckGo** and **Wikipedia** search capabilities (no API keys required).
+- **`NEW`:** **Search Configuration Panel** in Settings, allowing you to enable/disable engines and input API keys.
+- **`NEW`:** **Search Caching** system to speed up repeated queries.
+- **`NEW`:** **Test Search** button to verify your search engine setup.
+- **`FIX`:** Resolved issues with the previous Google CSE integration and erratic API behavior.
 
-### ``2026.01.16`` - v3.0-Beta
+### `2026.01.16` - v3.0-Beta
 
 We changed the version to a Major Beta because upon review, all the beta update series deserved to be a Major update.
-- **``NEW FEATURE``:** We added an API Search system using Google CSE.
-- **``FIX``:** Fixed several recent bugs.
+- **`NEW FEATURE`:** We added an API Search system using Google CSE.
+- **`FIX`:** Fixed several recent bugs.
 
-### ``2026.01.12`` - v2.12.0-Beta5Fix
+### `2026.01.12` - v2.12.0-Beta5Fix
 
 We've added new features for you who love listening to MirAI's answers using TTS!
-- **``FIX``:** Fixed TTS bug that read responses along with markdown characters, like Asterisk (*).
+- **`FIX`:** Fixed TTS bug that read responses along with markdown characters, like Asterisk (*).
 
 ### `2026.01.06` - v2.12.0-Beta5
 
