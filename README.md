@@ -6,7 +6,7 @@ A simple, lightweight, and responsive web interface to interact directly with th
 
 ![Project](https://img.shields.io/badge/Type-Web%20App-blue)
 ![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
-![Version](https://img.shields.io/badge/Version-3.0.1-brightgreen?logo=googlegemini&logoColor=ffce00&labelColor=%23000)
+![Version](https://img.shields.io/badge/Version-3.2.0-brightgreen?logo=googlegemini&logoColor=ffce00&labelColor=%23000)
 
 ![Follow IG](https://img.shields.io/badge/Follow-Instagram_MirAI-405DE6?style=flat&logo=instagram&logoColor=C13584&labelColor=833AB4&link=https%3A%2F%2Finstagram.com%2Fallwaysevermirai)
 ![Follow WA CH](https://img.shields.io/badge/Follow-WhatsApp_Channel_MirAI-%23FFFFFF?style=flat&logo=Whatsapp&logoColor=075E54&labelColor=25D366&link=https%3A%2F%2Fwhatsapp.com%2Fchannel%2F0029Vb6hyuk6mYPGjI2E5g31)
@@ -18,24 +18,15 @@ A simple, lightweight, and responsive web interface to interact directly with th
 
 ---
 
-## ✨ What's New in MirAI 3
+## ✨ What's New in MirAI 3.2
 
-This major update brings a host of new features, deeper customization, and smarter search capabilities.
+- 📎 **Multi‑Format Attachments** – The `+` button now lets you upload **images, audio files, and documents** (PDF, DOCX, TXT, MD, JSON). Each file shows a preview with one‑tap removal.
+- 🔇 **TTS Stop Control** – While the AI is speaking, click the speaker icon again to **stop playback immediately**. Resuming reads from the beginning.
+- 🧠 **Improved Memory Management** – Chat trimming now only happens when you save settings or exceed the limit, with a clear warning about how many old messages will be deleted.
+- ⚡ **Public API Limit Refinements** – Warnings and blocks are more accurate and less intrusive.
+- 🌍 **Better TTS Language Support** – Cleaner text stripping before speaking; respects Indonesian, English (US/UK), and Japanese.
 
-- 🎨 **Custom Accent Color** – Personalize the interface with your own hex color. Choose any shade that suits your style (dark colors are automatically rejected to maintain readability).
-- 🔍 **Advanced Search System** – The `/search` command now supports multiple external engines (SearchAPI.io, Google, DuckDuckGo, Wikipedia) with a smart fallback to AI knowledge base when no engines are enabled. Configure everything in the new Search Configuration panel.
-- 🧠 **AI Knowledge Base Mode** – If no external search engines are enabled, `/search` automatically uses the AI's training data – no API keys required.
-- ⚙️ **Memory Management** – Control how many chat bubbles are stored with a handy slider. Trim old conversations manually or let MirAI handle it.
-- 🔒 **Enhanced .medf Encryption** – Backup files now include an authenticity signature to verify they are genuine MirAI backups. Tampered files are detected and rejected.
-- 📊 **Public API Usage Limits** – Fair usage protection for the default public API key: users receive warnings and eventually a friendly block with a prompt to add their own key.
-- 🧪 **Beta Model Support** – Append `?betamodel` to the URL to test the latest Gemini 3 Flash Preview.
-- 🛡️ **First‑Visit Optimizations** – New users start with all search engines disabled (can be enabled later), ensuring a clean, private experience.
-- 🔄 **Improved Backup & Restore** – Full synchronization of persona, language, and memory settings. Choose between encrypted `.medf` or plain `.mdf`/`.json` formats.
-- 🌐 **Search Mode Indicator** – A clear visual indicator in settings shows whether external search or AI knowledge base mode is active.
-- 🧹 **Search Cache** – Frequently run searches are cached to reduce API calls and speed up responses.
-- 🧪 **Debug Console** – For power users, `window.debugMirAI` provides tools to inspect API usage, search engine status, and memory.
-
-…and many more under‑the‑hood improvements.
+*(For the complete update history, see the [Changelog](Docs/CHANGELOG.md).)*
 
 ---
 
@@ -43,13 +34,12 @@ This major update brings a host of new features, deeper customization, and smart
 
 * **💾 Session Persistence:** Your conversation is automatically saved in your browser. Pick up where you left off, anytime!
 * **✅ Responsive Chat Interface:** A comfortable layout for both mobile and desktop use.
-* **🌗 Light & Dark Mode:** Switch themes according to your visual preference.
 * **🎭 Customizable AI Persona:** Choose between Default (Relaxed & Casual), Formal, Creative, or even write your own custom persona.
 * **🌐 Multi-language Support:** Available in Indonesian, English (US & UK), and Japanese.
 * **🔑 API Key Configuration:** Enter your own Gemini API key directly from the settings menu.
-* **🚀 Enhanced Slash Commands & Tools Menu:** Use the '+' menu or type commands like `/translate`, `/summarize`, `/code`, and `/fix` for specific tasks. Now with real‑time suggestions as you type.
-* **🖼️ Multimodal Input:** Support for image uploads (JPEG, PNG, WebP) along with your text prompts, powered by Gemini's multimodal capabilities. 
-* **🔊 Text-to-Speech (TTS):** Click the speaker icon to have the AI's response read aloud in the selected language.
+* **🚀 Enhanced Slash Commands & Tools Menu:** Use the `+` menu or type commands like `/translate`, `/summarize`, `/code`, and `/fix` for specific tasks. Now with real‑time suggestions as you type.
+* **🖼️ Multimodal Input:** Upload images, **audio**, and **documents** (PDF, TXT, MD, JSON, DOCX) alongside your text prompts, powered by Gemini's multimodal capabilities.
+* **🔊 Text-to-Speech (TTS):** Click the speaker icon to have the AI's response read aloud in your selected language. Click again to **stop**.
 * **🛑 Stop Generation:** Immediately halt the AI's response when needed.
 * **📝 Markdown Parsing:** Responses from the AI containing formatting (like code blocks and lists) will be displayed correctly.
 * **⏰ Time-aware Context:** The AI knows the current date and time for more relevant answers.
@@ -142,6 +132,17 @@ Or you can **watch this video** 👇
 - Dark colors are automatically rejected to keep the interface readable.
 - The accent color is used for highlights, buttons, and active indicators.
 
+### 📎 Multi‑Format Attachments
+- **Images:** JPEG, PNG, WebP – previewed inline.
+- **Audio:** MP3, WAV, OGG – labeled with file name.
+- **Documents:** PDF, TXT, MD, JSON, DOCX – shown with file icon and name.
+- All attachments are processed with Gemini’s multimodal API.
+
+### 🔇 TTS with Stop Control
+- Click the speaker icon to read the AI’s response aloud.
+- Click again while speaking to **stop**.
+- Strips markdown characters before speaking for a clean voice output.
+
 ### 📤 Backup & Restore System
 - **Export**: Save your entire chat history, settings, and preferences to a file.
 - **Encrypted Format (.medf)**: Secure backup with password protection and authenticity signatures.
@@ -154,7 +155,7 @@ Or you can **watch this video** 👇
 - **API Key Management**: Securely store search engine API keys.
 - **Two Search Modes**:
   - **External Search Mode**: Uses configured search engines for real-time web results.
-  - **AI Knowledge Base Mode**: Uses AI's training data when no external engines are enabled.
+  - **AI Knowledge Base Mode**: Uses AI’s training data when no external engines are enabled.
 - **Search Parameters**: Use `[engine:name]`, `[results:N]`, `[type:web/news/images]` to customize searches.
 - **Search Cache**: Intelligent caching system for faster repeated queries.
 - **First-time Optimization**: Search engines disabled by default for new users (can be enabled in settings).
@@ -181,7 +182,6 @@ Or you can **watch this video** 👇
 
 ### 🎛️ Enhanced Settings Panel
 - **Hash-based Navigation**: Smooth settings panel with URL hash routing.
-- **Theme Persistence**: Remembers your light/dark mode preference.
 - **Persona Synchronization**: Backup/restore preserves your chosen AI personality.
 - **Language Consistency**: All UI elements adapt to your selected language.
 - **Search Configuration**: Centralized control for all search engine settings.
