@@ -166,12 +166,6 @@ body {
 #toolsBtn:not(.active):active {
   transform: scale(var(--srui-active-scale));
 }
-#toolsBtn.active {
-  transform: rotate(135deg);
-}
-#toolsBtn.active:hover {
-  transform: rotate(135deg);
-}
 
 /* ===== SRUI CHIP COMPONENT (7.3) ===== */
 .srui-chip {
