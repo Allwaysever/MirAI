@@ -2390,3 +2390,202 @@ ol {
         opacity: 1;
     }
 }
+/* ==============================================
+   MOVED FROM chat.html (inline & JS styles)
+   ============================================== */
+
+/* Popup limit API (overlay, konten, tombol) */
+.srui-api-limit-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease;
+}
+
+.srui-api-limit-content {
+    background: var(--srui-bg-primary, #1a1a1a);
+    padding: 30px;
+    border-radius: var(--srui-radius-lg, 15px);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.srui-api-limit-content-warning {
+    border: 2px solid var(--srui-warning, #ff9800);
+}
+
+.srui-api-limit-content-block {
+    border: 2px solid var(--srui-error, #f44336);
+}
+
+.srui-api-limit-message {
+    color: var(--srui-text-primary, #fff);
+    margin-bottom: 20px;
+    line-height: 1.5;
+    white-space: pre-line;
+}
+
+.srui-api-limit-button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.srui-api-limit-close-btn {
+    background: #666;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.srui-api-limit-settings-btn {
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px auto;
+}
+
+/* Toast copy feedback */
+.srui-copy-feedback {
+    position: fixed;
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #444;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Tombol Install PWA */
+.srui-install-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #4285f4;
+    color: white;
+    text-decoration: none;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Engine info di settings panel (static) */
+.srui-engine-info {
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    background: linear-gradient(135deg, rgba(66, 133, 244, 0.05), rgba(15, 15, 15, 0.8));
+    border-radius: var(--srui-radius-md);
+    border: 1px solid rgba(66, 133, 244, 0.15);
+}
+
+.srui-engine-info-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.srui-engine-info-text {
+    font-size: 0.75em;
+    margin: 0;
+    color: var(--srui-text-secondary);
+    line-height: 1.5;
+}
+
+.srui-engine-info-footer {
+    font-size: 0.75em;
+    margin: 10px 0 0 0;
+    color: var(--srui-text-secondary);
+}
+
+/* Tombol release notes / donate (static) */
+.srui-inline-link-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: transparent;
+    text-align: center;
+    border-radius: var(--srui-radius-xl, 999px);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid #555555;
+}
+.srui-inline-link-btn a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Terms text di settings */
+.srui-terms-text {
+    margin-top: 20px;
+    font-size: 0.8em;
+    color: var(--srui-text-secondary);
+}
+
+/* Flex row untuk tombol test search */
+.srui-search-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Hasil test search (dynamic dari JS) */
+.srui-test-search-msg {
+    margin-bottom: 15px;
+}
+.srui-test-search-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.srui-test-search-badge {
+    background: rgba(var(--srui-accent-rgb), 0.2);
+    color: var(--srui-accent);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+.srui-test-search-info {
+    color: var(--srui-text-secondary);
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+.srui-test-search-result {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(66, 133, 244, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #4285f4;
+}
+.srui-test-search-result pre {
+    white-space: pre-line;
+    font-size: 0.9em;
+}
