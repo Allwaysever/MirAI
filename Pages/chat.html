@@ -30,6 +30,31 @@
     <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
     <link rel="mask-icon" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png" color="#1a1a1a">
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    
+    <!-- Firebase SDKs (Module) -->
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+      import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+      import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCCcpjeBHxB_vr3Jfk4PG4Hckyn179uBIU",
+        authDomain: "allwaysevermirai-652d7.firebaseapp.com",
+        projectId: "allwaysevermirai-652d7",
+        storageBucket: "allwaysevermirai-652d7.firebasestorage.app",
+        messagingSenderId: "981268844844",
+        appId: "1:981268844844:web:91741b4e2df1d88d499c89",
+        measurementId: "G-VB7N79YCN8"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+      const db = getFirestore(app);
+
+      window.firebase = { auth, provider, db, signInWithPopup, signOut, onAuthStateChanged };
+    </script>
+
     <script>
         // notif sw onesignal
         window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -206,6 +231,17 @@
                             <div id="memoryStatusMessage" class="status-message">Pengaturan akan diterapkan setelah disimpan.</div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Firebase Auth Container dengan info akun -->
+                <div id="firebaseAuthContainer" style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; background: var(--srui-bg-secondary); padding: 12px; border-radius: var(--srui-radius-md);">
+                    <div id="userAvatar" style="width: 40px; height: 40px; border-radius: 50%; background: #ccc; background-size: cover; background-position: center;"></div>
+                    <div id="userInfo" style="flex: 1; font-size: 13px; line-height: 1.4;">
+                        <div id="userDisplayName" style="font-weight: bold; color: var(--srui-text);">Belum login</div>
+                        <div id="userEmail" style="font-size: 11px; color: var(--srui-text-secondary);"></div>
+                    </div>
+                    <button id="loginBtn" class="srui-install-btn" style="background: #4285f4; white-space: nowrap;">Login with Google</button>
+                    <button id="logoutBtn" style="display: none;" class="srui-install-btn">Logout</button>
                 </div>
 
                 <h3 id="settingsApiTitle">Kunci API Google</h3>
@@ -1382,6 +1418,139 @@
             return uiStrings[currentLanguage][promptKey] || uiStrings['en'][promptKey];
         }
 
+        // ========== FIREBASE AUTH FUNCTIONS ==========
+        async function handleGoogleLogin() {
+            if (!window.firebase) { alert('Firebase not ready. Please reload.'); return; }
+            try {
+                const result = await window.firebase.signInWithPopup(window.firebase.auth, window.firebase.provider);
+                const user = result.user;
+                console.log('Logged in as:', user.email);
+                await loadUserApiKey(user.uid);
+                updateAuthUI(user);
+                showCopyFeedback(`Logged in as ${user.displayName || user.email}`);
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed: ' + error.message);
+            }
+        }
+
+        async function handleLogout() {
+            await window.firebase.signOut(window.firebase.auth);
+            currentApiKey = DEFAULT_API_KEY;
+            isUsingPublicApi = true;
+            localStorage.removeItem('miraiApiKey');
+            updateAuthUI(null);
+            showCopyFeedback('Logged out, using public API key.');
+            if (elements.apiKeyInput) elements.apiKeyInput.value = '';
+        }
+
+        async function loadUserApiKey(uid) {
+            const docRef = doc(window.firebase.db, 'users', uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists() && docSnap.data().apiKey) {
+                const savedKey = docSnap.data().apiKey;
+                currentApiKey = savedKey;
+                isUsingPublicApi = (savedKey === DEFAULT_API_KEY);
+                localStorage.setItem('miraiApiKey', savedKey);
+                if (elements.apiKeyInput) elements.apiKeyInput.value = savedKey;
+                showCopyFeedback(`API Key loaded from Google account: ${savedKey.substring(0,8)}...`);
+            } else {
+                const newKey = prompt('No API Key found in your account.\nEnter your Google Gemini API Key to save it to the cloud:');
+                if (newKey && newKey.trim()) {
+                    await setDoc(docRef, { apiKey: newKey, email: window.firebase.auth.currentUser.email }, { merge: true });
+                    currentApiKey = newKey;
+                    isUsingPublicApi = (newKey === DEFAULT_API_KEY);
+                    localStorage.setItem('miraiApiKey', newKey);
+                    if (elements.apiKeyInput) elements.apiKeyInput.value = newKey;
+                    showCopyFeedback('API Key saved to your Google account!');
+                }
+            }
+        }
+
+        function updateAuthUI(user) {
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const avatarDiv = document.getElementById('userAvatar');
+            const displayNameDiv = document.getElementById('userDisplayName');
+            const emailDiv = document.getElementById('userEmail');
+            if (user) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'block';
+                if (user.photoURL) {
+                    avatarDiv.style.backgroundImage = `url(${user.photoURL})`;
+                    avatarDiv.style.backgroundSize = 'cover';
+                } else {
+                    avatarDiv.style.backgroundImage = '';
+                    avatarDiv.style.backgroundColor = '#4285f4';
+                }
+                displayNameDiv.textContent = user.displayName || 'Google User';
+                emailDiv.textContent = user.email || '';
+            } else {
+                loginBtn.style.display = 'block';
+                logoutBtn.style.display = 'none';
+                avatarDiv.style.backgroundImage = '';
+                avatarDiv.style.backgroundColor = '#ccc';
+                displayNameDiv.textContent = 'Belum login';
+                emailDiv.textContent = '';
+            }
+        }
+
+        // modify saveApiKey to also save to Firestore if logged in
+        const originalSaveApiKey = saveApiKey; // backup, but we will override
+        async function saveApiKeyWithFirebase() {
+            const savedLimit = localStorage.getItem('miraiMaxBubbles') || '50';
+            if (tempMaxBubbles.toString() !== savedLimit) { 
+                const excessMessages = Math.max(0, (chatHistory.length - 1) - tempMaxBubbles); 
+                if (excessMessages > 0) { 
+                    const lang = uiStrings[currentLanguage]; 
+                    const confirmMsg = `${lang.settingsMemoryWarning.replace('{count}', excessMessages)}\n\nApply new limit of ${tempMaxBubbles} bubbles?`; 
+                    if (!confirm(confirmMsg)) { 
+                        elements.memorySlider.value = savedLimit; 
+                        updateMemorySliderUI(savedLimit); 
+                        return; 
+                    } 
+                } 
+                applyMemoryLimit(tempMaxBubbles); 
+            }
+            const newKey = elements.apiKeyInput.value.trim(); 
+            if (newKey) { 
+                localStorage.setItem('miraiApiKey', newKey); 
+                currentApiKey = newKey; 
+                isUsingPublicApi = isPublicApiKey(currentApiKey); 
+                // Save to Firestore if user is logged in
+                if (window.firebase && window.firebase.auth.currentUser) {
+                    const uid = window.firebase.auth.currentUser.uid;
+                    const docRef = doc(window.firebase.db, 'users', uid);
+                    await setDoc(docRef, { apiKey: newKey, email: window.firebase.auth.currentUser.email }, { merge: true });
+                    showCopyFeedback('API Key saved to Google account!');
+                } else {
+                    showCopyFeedback(uiStrings[currentLanguage].apiKeySaved);
+                }
+            } else { 
+                localStorage.removeItem('miraiApiKey'); 
+                currentApiKey = DEFAULT_API_KEY; 
+                isUsingPublicApi = true; 
+                // Optionally remove from Firestore? We'll keep for next login.
+                showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); 
+            }
+            if (currentPersona === 'custom' && elements.customPersonaInput) { 
+                const customPrompt = elements.customPersonaInput.value.trim(); 
+                if (customPrompt) localStorage.setItem('miraiCustomPersona', customPrompt); 
+                else localStorage.removeItem('miraiCustomPersona'); 
+            }
+            saveSearchConfig();
+            const personaPromptText = getPersonaPrompt(currentPersona); 
+            if (chatHistory.length > 0 && chatHistory[0].role === "user") { 
+                chatHistory[0].parts[0].text = personaPromptText; 
+                saveChatHistory(); 
+            }
+            showCopyFeedback('Settings saved successfully!');
+        }
+
+        // replace the global saveApiKey function
+        window.saveApiKey = saveApiKeyWithFirebase;
+        // also assign elements.saveApiBtn later
+
         async function initializeApp() {
             console.log('🔧 Initializing app...');
             document.body.classList.add('dark-theme');
@@ -1411,6 +1580,34 @@
             updateSearchModeInfo();
             updateMemorySliderUI(savedMaxBubbles);
             if (isBeta) { const versionText = document.getElementById('settingsVersionText'); if (versionText) { versionText.innerText += '\n3FlashPreviewMode'; versionText.style.color = '#00ff00'; } }
+
+            // Set up Firebase auth observer
+            if (window.firebase) {
+                window.firebase.onAuthStateChanged(window.firebase.auth, async (user) => {
+                    if (user) {
+                        await loadUserApiKey(user.uid);
+                    } else {
+                        // not logged in, use localStorage or default
+                        const localKey = localStorage.getItem('miraiApiKey');
+                        if (localKey) {
+                            currentApiKey = localKey;
+                            isUsingPublicApi = (localKey === DEFAULT_API_KEY);
+                            if (elements.apiKeyInput) elements.apiKeyInput.value = localKey;
+                        } else {
+                            currentApiKey = DEFAULT_API_KEY;
+                            isUsingPublicApi = true;
+                            if (elements.apiKeyInput) elements.apiKeyInput.value = '';
+                        }
+                    }
+                    updateAuthUI(user);
+                });
+            }
+
+            // attach Firebase UI event listeners
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (loginBtn) loginBtn.addEventListener('click', handleGoogleLogin);
+            if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
         }
 
         function loadSearchConfig() {
@@ -1545,15 +1742,9 @@
 
         function updateSendButtonState() { if (elements.questionInput.value.trim() === '' && currentAttachments.length === 0) { elements.sendBtn.classList.add('disabled'); elements.sendBtn.disabled = true; } else { elements.sendBtn.classList.remove('disabled'); elements.sendBtn.disabled = false; } }
 
-        function saveApiKey() { 
-            const savedLimit = localStorage.getItem('miraiMaxBubbles') || '50';
-            if (tempMaxBubbles.toString() !== savedLimit) { const excessMessages = Math.max(0, (chatHistory.length - 1) - tempMaxBubbles); if (excessMessages > 0) { const lang = uiStrings[currentLanguage]; const confirmMsg = `${lang.settingsMemoryWarning.replace('{count}', excessMessages)}\n\nApply new limit of ${tempMaxBubbles} bubbles?`; if (!confirm(confirmMsg)) { elements.memorySlider.value = savedLimit; updateMemorySliderUI(savedLimit); return; } } applyMemoryLimit(tempMaxBubbles); }
-            const newKey = elements.apiKeyInput.value.trim(); if (newKey) { localStorage.setItem('miraiApiKey', newKey); currentApiKey = newKey; isUsingPublicApi = isPublicApiKey(currentApiKey); showCopyFeedback(uiStrings[currentLanguage].apiKeySaved); } else { localStorage.removeItem('miraiApiKey'); currentApiKey = DEFAULT_API_KEY; isUsingPublicApi = true; showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); }
-            if (currentPersona === 'custom' && elements.customPersonaInput) { const customPrompt = elements.customPersonaInput.value.trim(); if (customPrompt) localStorage.setItem('miraiCustomPersona', customPrompt); else localStorage.removeItem('miraiCustomPersona'); }
-            saveSearchConfig();
-            const personaPromptText = getPersonaPrompt(currentPersona); if (chatHistory.length > 0 && chatHistory[0].role === "user") { chatHistory[0].parts[0].text = personaPromptText; saveChatHistory(); }
-            showCopyFeedback('Settings saved successfully!');
-        }
+        // This will be overridden but we keep the original reference; we already defined saveApiKeyWithFirebase
+        function saveApiKey() { /* dummy, will be replaced */ }
+        // Override in DOMContentLoaded after elements assigned
 
         function toggleApiVisibility() { const input = elements.apiKeyInput; const icon = elements.toggleApiKey; if (input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } }
 
@@ -1633,7 +1824,9 @@
             elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value));
             elements.questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); if (!elements.sendBtn.disabled) askAI(); } });
             elements.questionInput.addEventListener('input', () => { showSuggestions(); updateSendButtonState(); elements.questionInput.style.height = 'auto'; elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px'; });
-            elements.saveApiBtn.addEventListener('click', saveApiKey);
+            // replace saveApiBtn listener
+            elements.saveApiBtn.removeEventListener('click', saveApiKey);
+            elements.saveApiBtn.addEventListener('click', saveApiKeyWithFirebase);
             elements.uploadImageBtn.addEventListener('click', () => { const lang = uiStrings[currentLanguage]; const fileMenu = document.getElementById('fileOptionsMenu'); if (fileMenu.classList.contains('visible')) { fileMenu.classList.remove('visible'); } else { fileMenu.innerHTML = ''; const imageOption = document.createElement('div'); imageOption.classList.add('suggestion-item'); imageOption.innerHTML = `<i class="fas fa-image"></i> ${lang.fileOptionImage}`; imageOption.onclick = () => { fileMenu.classList.remove('visible'); elements.imageInput.click(); }; fileMenu.appendChild(imageOption); const audioOption = document.createElement('div'); audioOption.classList.add('suggestion-item'); audioOption.innerHTML = `<i class="fas fa-music"></i> ${lang.fileOptionAudio}`; audioOption.onclick = () => { fileMenu.classList.remove('visible'); elements.audioInput.click(); }; fileMenu.appendChild(audioOption); const fileOption = document.createElement('div'); fileOption.classList.add('suggestion-item'); fileOption.innerHTML = `<i class="fas fa-file"></i> ${lang.fileOptionFile}`; fileOption.onclick = () => { fileMenu.classList.remove('visible'); elements.fileInput.click(); }; fileMenu.appendChild(fileOption); fileMenu.classList.add('visible'); setTimeout(() => { document.addEventListener('click', function closeFileMenu(e) { if (!fileMenu.contains(e.target) && e.target !== elements.uploadImageBtn) { fileMenu.classList.remove('visible'); document.removeEventListener('click', closeFileMenu); } }); }, 10); } });
             elements.imageInput.addEventListener('change', (e) => { if (e.target.files[0]) handleImageUpload(e.target.files[0]); e.target.value = ''; });
             elements.audioInput.addEventListener('change', (e) => { if (e.target.files[0]) handleAudioUpload(e.target.files[0]); e.target.value = ''; });
