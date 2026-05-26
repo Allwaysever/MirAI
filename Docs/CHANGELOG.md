@@ -1,5 +1,17 @@
 ## What's new?
 
+### 🚀 `2026.05.26` – v3.3.0 – **Cloud Sync & Firebase Authentication**
+
+- **`NEW FEATURE`**: **Google Sign‑In** – Log in with your Google account directly from the settings panel. Your avatar, display name, and email are shown when authenticated.
+- **`NEW FEATURE`**: **Cloud Settings Sync** – After login, your API key, AI persona, language, chat memory limit, accent color, custom persona prompt, and search engine configuration are automatically saved to **Firebase Firestore**. Log in on any device and your MirAI experience follows you.
+- **`NEW FEATURE`**: **One‑Click Save to Cloud** – The “Save Settings” button now also uploads your preferences to the cloud. A feedback message confirms when cloud sync succeeds.
+- **`IMPROVEMENT`**: **Seamless Fallback** – When logged out, MirAI falls back to local storage and the public API key. Logging back in reloads your cloud settings immediately.
+- **`IMPROVEMENT`**: **Enhanced Settings Panel UI** – New authentication section at the bottom of the settings footer, with login/logout buttons and user info.
+- **`FIX`**: **Persona & Search Config Persistence** – Cloud restore now correctly reapplies custom persona text and all search engine toggles / API keys.
+- **`FIX`**: **First‑time Cloud User** – If no user document exists, MirAI creates one with the current local settings, ensuring a seamless onboarding experience.
+
+---
+
 ### 🚀 `2026.05.06` — v3.2.0 — **Multi‑Format Attachments & TTS Controls**
 
 - **`NEW FEATURE`**: **Multi‑format file uploads** – the `+` button now opens a menu offering **image**, **audio**, and **document** uploads. Supported files: JPEG, PNG, WebP, MP3, WAV, OGG, PDF, DOCX, TXT, MD, and JSON. Each attachment shows a preview (thumbnail for images, file icon for others) with a remove button.
@@ -9,8 +21,6 @@
 - **`FIX`**: **Chat memory reliability** – trimming no longer occurs on page load. The memory slider now applies the limit only when you save settings or cross the limit during a conversation, and it warns you exactly how many old bubbles will be removed.
 - **`FIX`**: **Public API limit warnings** – reduced false positives; the warning/block popups now appear at the correct bubble thresholds and no longer interrupt normal usage unnecessarily.
 - **`FIX`**: **TTS language detection** – improved fallback to the selected UI language (Indonesian, English US/UK, Japanese) while stripping markdown characters more thoroughly.
-
----
 
 ### 🚀 `2026.04.30` — v3.1.0 — **Auto‑Search URL & Enhanced Typing**
 

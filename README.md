@@ -6,7 +6,7 @@ A simple, lightweight, and responsive web interface to interact directly with th
 
 ![Project](https://img.shields.io/badge/Type-Web%20App-blue)
 ![Languages](https://img.shields.io/badge/made%20with-HTML%2C%20CSS%2C%20JS-orange)
-![Version](https://img.shields.io/badge/Version-3.2.0-brightgreen?logo=googlegemini&logoColor=ffce00&labelColor=%23000)
+![Version](https://img.shields.io/badge/Version-3.3.0-brightgreen?logo=googlegemini&logoColor=ffce00&labelColor=%23000)
 
 ![Follow IG](https://img.shields.io/badge/Follow-Instagram_MirAI-405DE6?style=flat&logo=instagram&logoColor=C13584&labelColor=833AB4&link=https%3A%2F%2Finstagram.com%2Fallwaysevermirai)
 ![Follow WA CH](https://img.shields.io/badge/Follow-WhatsApp_Channel_MirAI-%23FFFFFF?style=flat&logo=Whatsapp&logoColor=075E54&labelColor=25D366&link=https%3A%2F%2Fwhatsapp.com%2Fchannel%2F0029Vb6hyuk6mYPGjI2E5g31)
@@ -18,12 +18,15 @@ A simple, lightweight, and responsive web interface to interact directly with th
 
 ---
 
-## ✨ What's New in MirAI 3.2
+## ✨ What's New in MirAI 3.3
 
 - 📎 **Multi‑Format Attachments** – The `+` button now lets you upload **images, audio files, and documents** (PDF, DOCX, TXT, MD, JSON). Each file shows a preview with one‑tap removal.
 - 🔇 **TTS Stop Control** – While the AI is speaking, click the speaker icon again to **stop playback immediately**. Resuming reads from the beginning.
 - 🧠 **Improved Memory Management** – Chat trimming now only happens when you save settings or exceed the limit, with a clear warning about how many old messages will be deleted.
-- ⚡ **Public API Limit Refinements** – Warnings and blocks are more accurate and less intrusive.
+- 🔍 **Smart Search Mode** – Automatically switches between external search engines (SearchAPI.io, Google, DuckDuckGo, Wikipedia) and AI knowledge base when no engines are enabled.
+- 🎨 **Custom Accent Color** – Choose any hex color to personalise MirAI. Dark colours are filtered to maintain readability.
+- 🔐 **Encrypted Backup (.medf)** – Export your entire chat history, settings and API keys with password protection and authenticity signature.
+- ⚡ **Gemini 2.5 Flash** – Default model is now `gemini-2.5-flash` for faster, more reliable responses.
 - 🌍 **Better TTS Language Support** – Cleaner text stripping before speaking; respects Indonesian, English (US/UK), and Japanese.
 
 *(For the complete update history, see the [Changelog](Docs/CHANGELOG.md).)*
