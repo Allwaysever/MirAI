@@ -1498,6 +1498,35 @@ body.chat-active .info-text {
     flex: 1;
 }
 
+/* Auth Buttons (Login/Logout) */
+.auth-btn {
+    background: var(--srui-accent);
+    color: var(--srui-accent-text);
+    border: none;
+    border-radius: var(--srui-radius-lg);
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform var(--srui-transition-micro), background-color var(--srui-transition-fast);
+    white-space: nowrap;
+}
+
+.auth-btn:hover {
+    transform: scale(var(--srui-hover-scale));
+    opacity: 0.9;
+}
+
+.auth-btn:active {
+    transform: scale(var(--srui-active-scale));
+}
+
+/* Tombol logout diberi warna sedikit berbeda */
+#logoutBtn {
+    background: var(--srui-error);
+    color: white;
+}
+
 .settings-content h3 {
     color: var(--srui-accent);
     margin-top: 30px;
