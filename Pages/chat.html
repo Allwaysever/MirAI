@@ -1424,14 +1424,92 @@
             return uiStrings[currentLanguage][promptKey] || uiStrings['en'][promptKey];
         }
 
-        // ========== FIREBASE AUTH FUNCTIONS ==========
+        // ========== FIREBASE AUTH & SYNC FUNCTIONS ==========
+        async function saveAllSettingsToFirebase(showFeedback = true) {
+            if (!window.firebase || !window.firebase.auth.currentUser) {
+                if (showFeedback) showCopyFeedback('Login first to save settings to cloud');
+                return false;
+            }
+            const uid = window.firebase.auth.currentUser.uid;
+            const settings = {
+                persona: currentPersona,
+                language: currentLanguage,
+                maxBubbles: parseInt(elements.memorySlider.value),
+                accentColor: localStorage.getItem('miraiAccentColor') || '#ffce00',
+                customPersona: localStorage.getItem('miraiCustomPersona') || '',
+                searchConfig: {}
+            };
+            // Copy search engine config
+            for (let engine in SEARCH_CONFIG.engines) {
+                settings.searchConfig[engine] = { enabled: SEARCH_CONFIG.engines[engine].enabled };
+                if (engine === 'searchapi') settings.searchConfig[engine].apiKey = SEARCH_CONFIG.engines[engine].apiKey;
+                if (engine === 'google') {
+                    settings.searchConfig[engine].apiKey = SEARCH_CONFIG.engines[engine].apiKey;
+                    settings.searchConfig[engine].cx = SEARCH_CONFIG.engines[engine].cx;
+                }
+            }
+            const docRef = window.firebase.doc(window.firebase.db, 'users', uid);
+            await window.firebase.setDoc(docRef, {
+                apiKey: currentApiKey,
+                settings: settings,
+                updatedAt: new Date().toISOString()
+            }, { merge: true });
+            if (showFeedback) showCopyFeedback('Settings saved to cloud');
+            return true;
+        }
+
+        async function loadUserSettings(uid) {
+            const docRef = window.firebase.doc(window.firebase.db, 'users', uid);
+            const docSnap = await window.firebase.getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                // Apply API Key
+                if (data.apiKey) {
+                    currentApiKey = data.apiKey;
+                    isUsingPublicApi = (data.apiKey === DEFAULT_API_KEY);
+                    localStorage.setItem('miraiApiKey', data.apiKey);
+                    if (elements.apiKeyInput) elements.apiKeyInput.value = data.apiKey;
+                }
+                // Apply settings
+                if (data.settings) {
+                    const s = data.settings;
+                    if (s.persona) setPersona(s.persona);
+                    if (s.language) setLanguage(s.language);
+                    if (s.maxBubbles) {
+                        elements.memorySlider.value = s.maxBubbles;
+                        updateMemorySliderUI(s.maxBubbles);
+                        applyMemoryLimit(s.maxBubbles);
+                    }
+                    if (s.accentColor) applyAccentColor(s.accentColor);
+                    if (s.customPersona) {
+                        localStorage.setItem('miraiCustomPersona', s.customPersona);
+                        if (elements.customPersonaInput) elements.customPersonaInput.value = s.customPersona;
+                    }
+                    if (s.searchConfig) {
+                        Object.keys(s.searchConfig).forEach(engine => {
+                            if (SEARCH_CONFIG.engines[engine]) {
+                                SEARCH_CONFIG.engines[engine] = { ...SEARCH_CONFIG.engines[engine], ...s.searchConfig[engine] };
+                            }
+                        });
+                        saveSearchConfigToLocalStorage();
+                        loadSearchConfigToUI();
+                        updateSearchModeInfo();
+                    }
+                }
+                showCopyFeedback('Settings loaded from cloud');
+            } else {
+                // No document exists, create one with current local settings
+                await saveAllSettingsToFirebase(true);
+            }
+        }
+
         async function handleGoogleLogin() {
             if (!window.firebase) { alert('Firebase not ready. Please reload.'); return; }
             try {
                 const result = await window.firebase.signInWithPopup(window.firebase.auth, window.firebase.provider);
                 const user = result.user;
                 console.log('Logged in as:', user.email);
-                await loadUserApiKey(user.uid);
+                await loadUserSettings(user.uid);
                 updateAuthUI(user);
                 showCopyFeedback(`Logged in as ${user.displayName || user.email}`);
             } catch (error) {
@@ -1442,35 +1520,13 @@
 
         async function handleLogout() {
             await window.firebase.signOut(window.firebase.auth);
+            // Reset to default API key but keep local settings (persona, language, etc.)
             currentApiKey = DEFAULT_API_KEY;
             isUsingPublicApi = true;
             localStorage.removeItem('miraiApiKey');
+            if (elements.apiKeyInput) elements.apiKeyInput.value = '';
             updateAuthUI(null);
             showCopyFeedback('Logged out, using public API key.');
-            if (elements.apiKeyInput) elements.apiKeyInput.value = '';
-        }
-
-        async function loadUserApiKey(uid) {
-            const docRef = window.firebase.doc(window.firebase.db, 'users', uid);
-            const docSnap = await window.firebase.getDoc(docRef);
-            if (docSnap.exists() && docSnap.data().apiKey) {
-                const savedKey = docSnap.data().apiKey;
-                currentApiKey = savedKey;
-                isUsingPublicApi = (savedKey === DEFAULT_API_KEY);
-                localStorage.setItem('miraiApiKey', savedKey);
-                if (elements.apiKeyInput) elements.apiKeyInput.value = savedKey;
-                showCopyFeedback(`API Key loaded from Google account: ${savedKey.substring(0,8)}...`);
-            } else {
-                const newKey = prompt('No API Key found in your account.\nEnter your Google Gemini API Key to save it to the cloud:');
-                if (newKey && newKey.trim()) {
-                    await window.firebase.setDoc(docRef, { apiKey: newKey, email: window.firebase.auth.currentUser.email }, { merge: true });
-                    currentApiKey = newKey;
-                    isUsingPublicApi = (newKey === DEFAULT_API_KEY);
-                    localStorage.setItem('miraiApiKey', newKey);
-                    if (elements.apiKeyInput) elements.apiKeyInput.value = newKey;
-                    showCopyFeedback('API Key saved to your Google account!');
-                }
-            }
         }
 
         function updateAuthUI(user) {
@@ -1501,53 +1557,51 @@
             }
         }
 
-        async function saveApiKeyWithFirebase() {
+        async function saveSettingsAndApiKey() {
+            // Handle memory limit validation and apply
             const savedLimit = localStorage.getItem('miraiMaxBubbles') || '50';
-            if (tempMaxBubbles.toString() !== savedLimit) { 
-                const excessMessages = Math.max(0, (chatHistory.length - 1) - tempMaxBubbles); 
-                if (excessMessages > 0) { 
-                    const lang = uiStrings[currentLanguage]; 
-                    const confirmMsg = `${lang.settingsMemoryWarning.replace('{count}', excessMessages)}\n\nApply new limit of ${tempMaxBubbles} bubbles?`; 
-                    if (!confirm(confirmMsg)) { 
-                        elements.memorySlider.value = savedLimit; 
-                        updateMemorySliderUI(savedLimit); 
-                        return; 
-                    } 
-                } 
-                applyMemoryLimit(tempMaxBubbles); 
-            }
-            const newKey = elements.apiKeyInput.value.trim(); 
-            if (newKey) { 
-                localStorage.setItem('miraiApiKey', newKey); 
-                currentApiKey = newKey; 
-                isUsingPublicApi = isPublicApiKey(currentApiKey); 
-                if (window.firebase && window.firebase.auth.currentUser) {
-                    const uid = window.firebase.auth.currentUser.uid;
-                    const docRef = window.firebase.doc(window.firebase.db, 'users', uid);
-                    await window.firebase.setDoc(docRef, { apiKey: newKey, email: window.firebase.auth.currentUser.email }, { merge: true });
-                    showCopyFeedback('API Key saved to Google account!');
-                } else {
-                    showCopyFeedback(uiStrings[currentLanguage].apiKeySaved);
+            if (tempMaxBubbles.toString() !== savedLimit) {
+                const excessMessages = Math.max(0, (chatHistory.length - 1) - tempMaxBubbles);
+                if (excessMessages > 0) {
+                    const lang = uiStrings[currentLanguage];
+                    const confirmMsg = `${lang.settingsMemoryWarning.replace('{count}', excessMessages)}\n\nApply new limit of ${tempMaxBubbles} bubbles?`;
+                    if (!confirm(confirmMsg)) {
+                        elements.memorySlider.value = savedLimit;
+                        updateMemorySliderUI(savedLimit);
+                        return;
+                    }
                 }
-            } else { 
-                localStorage.removeItem('miraiApiKey'); 
-                currentApiKey = DEFAULT_API_KEY; 
-                isUsingPublicApi = true; 
-                showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); 
+                applyMemoryLimit(tempMaxBubbles);
             }
-            if (currentPersona === 'custom' && elements.customPersonaInput) { 
-                const customPrompt = elements.customPersonaInput.value.trim(); 
-                if (customPrompt) localStorage.setItem('miraiCustomPersona', customPrompt); 
-                else localStorage.removeItem('miraiCustomPersona'); 
+            const newKey = elements.apiKeyInput.value.trim();
+            if (newKey) {
+                localStorage.setItem('miraiApiKey', newKey);
+                currentApiKey = newKey;
+                isUsingPublicApi = isPublicApiKey(currentApiKey);
+                showCopyFeedback(uiStrings[currentLanguage].apiKeySaved);
+            } else {
+                localStorage.removeItem('miraiApiKey');
+                currentApiKey = DEFAULT_API_KEY;
+                isUsingPublicApi = true;
+                showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved);
+            }
+            if (currentPersona === 'custom' && elements.customPersonaInput) {
+                const customPrompt = elements.customPersonaInput.value.trim();
+                if (customPrompt) localStorage.setItem('miraiCustomPersona', customPrompt);
+                else localStorage.removeItem('miraiCustomPersona');
             }
             saveSearchConfig();
-            const personaPromptText = getPersonaPrompt(currentPersona); 
-            if (chatHistory.length > 0 && chatHistory[0].role === "user") { 
-                chatHistory[0].parts[0].text = personaPromptText; 
-                saveChatHistory(); 
+            const personaPromptText = getPersonaPrompt(currentPersona);
+            if (chatHistory.length > 0 && chatHistory[0].role === "user") {
+                chatHistory[0].parts[0].text = personaPromptText;
+                saveChatHistory();
             }
+            // Save to Firebase if logged in
+            await saveAllSettingsToFirebase(true);
             showCopyFeedback('Settings saved successfully!');
         }
+
+        // ========== END FIREBASE AUTH & SYNC ==========
 
         async function initializeApp() {
             console.log('🔧 Initializing app...');
@@ -1582,7 +1636,7 @@
             if (window.firebase) {
                 window.firebase.onAuthStateChanged(window.firebase.auth, async (user) => {
                     if (user) {
-                        await loadUserApiKey(user.uid);
+                        await loadUserSettings(user.uid);
                     } else {
                         const localKey = localStorage.getItem('miraiApiKey');
                         if (localKey) {
@@ -1815,8 +1869,8 @@
             elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value));
             elements.questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); if (!elements.sendBtn.disabled) askAI(); } });
             elements.questionInput.addEventListener('input', () => { showSuggestions(); updateSendButtonState(); elements.questionInput.style.height = 'auto'; elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px'; });
-            elements.saveApiBtn.removeEventListener('click', saveApiKeyWithFirebase);
-            elements.saveApiBtn.addEventListener('click', saveApiKeyWithFirebase);
+            elements.saveApiBtn.removeEventListener('click', saveSettingsAndApiKey);
+            elements.saveApiBtn.addEventListener('click', saveSettingsAndApiKey);
             elements.uploadImageBtn.addEventListener('click', () => { const lang = uiStrings[currentLanguage]; const fileMenu = document.getElementById('fileOptionsMenu'); if (fileMenu.classList.contains('visible')) { fileMenu.classList.remove('visible'); } else { fileMenu.innerHTML = ''; const imageOption = document.createElement('div'); imageOption.classList.add('suggestion-item'); imageOption.innerHTML = `<i class="fas fa-image"></i> ${lang.fileOptionImage}`; imageOption.onclick = () => { fileMenu.classList.remove('visible'); elements.imageInput.click(); }; fileMenu.appendChild(imageOption); const audioOption = document.createElement('div'); audioOption.classList.add('suggestion-item'); audioOption.innerHTML = `<i class="fas fa-music"></i> ${lang.fileOptionAudio}`; audioOption.onclick = () => { fileMenu.classList.remove('visible'); elements.audioInput.click(); }; fileMenu.appendChild(audioOption); const fileOption = document.createElement('div'); fileOption.classList.add('suggestion-item'); fileOption.innerHTML = `<i class="fas fa-file"></i> ${lang.fileOptionFile}`; fileOption.onclick = () => { fileMenu.classList.remove('visible'); elements.fileInput.click(); }; fileMenu.appendChild(fileOption); fileMenu.classList.add('visible'); setTimeout(() => { document.addEventListener('click', function closeFileMenu(e) { if (!fileMenu.contains(e.target) && e.target !== elements.uploadImageBtn) { fileMenu.classList.remove('visible'); document.removeEventListener('click', closeFileMenu); } }); }, 10); } });
             elements.imageInput.addEventListener('change', (e) => { if (e.target.files[0]) handleImageUpload(e.target.files[0]); e.target.value = ''; });
             elements.audioInput.addEventListener('change', (e) => { if (e.target.files[0]) handleAudioUpload(e.target.files[0]); e.target.value = ''; });
