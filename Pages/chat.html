@@ -233,16 +233,6 @@
                     </div>
                 </div>
 
-                <!-- Firebase Auth Container dengan info akun -->
-                <div id="firebaseAuthContainer" style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; background: var(--srui-bg-secondary); padding: 12px; border-radius: var(--srui-radius-md);">
-                    <div id="userAvatar" style="width: 40px; height: 40px; border-radius: 50%; background: #ccc; background-size: cover; background-position: center;"></div>
-                    <div id="userInfo" style="flex: 1; font-size: 13px; line-height: 1.4;">
-                        <div id="userDisplayName" style="font-weight: bold; color: var(--srui-text);">Belum login</div>
-                        <div id="userEmail" style="font-size: 11px; color: var(--srui-text-secondary);"></div>
-                    </div>
-                    <button id="loginBtn" class="srui-install-btn" style="background: #4285f4; white-space: nowrap;">Login with Google</button>
-                    <button id="logoutBtn" style="display: none;" class="srui-install-btn">Logout</button>
-                </div>
 
                 <h3 id="settingsApiTitle">Kunci API Google</h3>
                 <div class="settings-option">
@@ -329,9 +319,21 @@
                 </div>
             </div>
         </div>
-        <div class="settings-footer">
-            <button id="saveApiBtn" class="settings-credits-btn"><i class="fas fa-save"></i> Simpan Pengaturan</button>
+      <!-- Di dalam settings-footer -->
+<div class="settings-footer">
+    <div class="settings-footer-auth">
+        <div id="firebaseAuthContainer" style="display: flex; align-items: center; gap: 8px;">
+            <div id="userAvatar" style="width: 32px; height: 32px; border-radius: 50%; background: #ccc; background-size: cover; background-position: center;"></div>
+            <div id="userInfo" style="flex: 1; font-size: 12px; line-height: 1.3;">
+                <div id="userDisplayName" style="font-weight: bold; color: var(--srui-text);">Belum login</div>
+                <div id="userEmail" style="font-size: 10px; color: var(--srui-text-secondary);"></div>
+            </div>
+            <button id="loginBtn" class="srui-install-btn" style="background: #4285f4; white-space: nowrap; padding: 6px 12px; font-size: 12px;">Login</button>
+            <button id="logoutBtn" style="display: none;" class="srui-install-btn" style="padding: 6px 12px; font-size: 12px;">Logout</button>
         </div>
+    </div>
+    <button id="saveApiBtn" class="settings-credits-btn"><i class="fas fa-save"></i> Simpan Pengaturan</button>
+</div>
     </div>
 
     <script>
