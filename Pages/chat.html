@@ -52,7 +52,11 @@
       const provider = new GoogleAuthProvider();
       const db = getFirestore(app);
 
-      window.firebase = { auth, provider, db, signInWithPopup, signOut, onAuthStateChanged };
+      window.firebase = { 
+        auth, provider, db, 
+        signInWithPopup, signOut, onAuthStateChanged,
+        doc, getDoc, setDoc
+      };
     </script>
 
     <script>
@@ -1447,8 +1451,8 @@
         }
 
         async function loadUserApiKey(uid) {
-            const docRef = doc(window.firebase.db, 'users', uid);
-            const docSnap = await getDoc(docRef);
+            const docRef = window.firebase.doc(window.firebase.db, 'users', uid);
+            const docSnap = await window.firebase.getDoc(docRef);
             if (docSnap.exists() && docSnap.data().apiKey) {
                 const savedKey = docSnap.data().apiKey;
                 currentApiKey = savedKey;
@@ -1459,7 +1463,7 @@
             } else {
                 const newKey = prompt('No API Key found in your account.\nEnter your Google Gemini API Key to save it to the cloud:');
                 if (newKey && newKey.trim()) {
-                    await setDoc(docRef, { apiKey: newKey, email: window.firebase.auth.currentUser.email }, { merge: true });
+                    await window.firebase.setDoc(docRef, { apiKey: newKey, email: window.firebase.auth.currentUser.email }, { merge: true });
                     currentApiKey = newKey;
                     isUsingPublicApi = (newKey === DEFAULT_API_KEY);
                     localStorage.setItem('miraiApiKey', newKey);
@@ -1497,8 +1501,6 @@
             }
         }
 
-        // modify saveApiKey to also save to Firestore if logged in
-        const originalSaveApiKey = saveApiKey; // backup, but we will override
         async function saveApiKeyWithFirebase() {
             const savedLimit = localStorage.getItem('miraiMaxBubbles') || '50';
             if (tempMaxBubbles.toString() !== savedLimit) { 
@@ -1519,11 +1521,10 @@
                 localStorage.setItem('miraiApiKey', newKey); 
                 currentApiKey = newKey; 
                 isUsingPublicApi = isPublicApiKey(currentApiKey); 
-                // Save to Firestore if user is logged in
                 if (window.firebase && window.firebase.auth.currentUser) {
                     const uid = window.firebase.auth.currentUser.uid;
-                    const docRef = doc(window.firebase.db, 'users', uid);
-                    await setDoc(docRef, { apiKey: newKey, email: window.firebase.auth.currentUser.email }, { merge: true });
+                    const docRef = window.firebase.doc(window.firebase.db, 'users', uid);
+                    await window.firebase.setDoc(docRef, { apiKey: newKey, email: window.firebase.auth.currentUser.email }, { merge: true });
                     showCopyFeedback('API Key saved to Google account!');
                 } else {
                     showCopyFeedback(uiStrings[currentLanguage].apiKeySaved);
@@ -1532,7 +1533,6 @@
                 localStorage.removeItem('miraiApiKey'); 
                 currentApiKey = DEFAULT_API_KEY; 
                 isUsingPublicApi = true; 
-                // Optionally remove from Firestore? We'll keep for next login.
                 showCopyFeedback(uiStrings[currentLanguage].apiKeyRemoved); 
             }
             if (currentPersona === 'custom' && elements.customPersonaInput) { 
@@ -1548,10 +1548,6 @@
             }
             showCopyFeedback('Settings saved successfully!');
         }
-
-        // replace the global saveApiKey function
-        window.saveApiKey = saveApiKeyWithFirebase;
-        // also assign elements.saveApiBtn later
 
         async function initializeApp() {
             console.log('🔧 Initializing app...');
@@ -1583,13 +1579,11 @@
             updateMemorySliderUI(savedMaxBubbles);
             if (isBeta) { const versionText = document.getElementById('settingsVersionText'); if (versionText) { versionText.innerText += '\n3FlashPreviewMode'; versionText.style.color = '#00ff00'; } }
 
-            // Set up Firebase auth observer
             if (window.firebase) {
                 window.firebase.onAuthStateChanged(window.firebase.auth, async (user) => {
                     if (user) {
                         await loadUserApiKey(user.uid);
                     } else {
-                        // not logged in, use localStorage or default
                         const localKey = localStorage.getItem('miraiApiKey');
                         if (localKey) {
                             currentApiKey = localKey;
@@ -1605,7 +1599,6 @@
                 });
             }
 
-            // attach Firebase UI event listeners
             const loginBtn = document.getElementById('loginBtn');
             const logoutBtn = document.getElementById('logoutBtn');
             if (loginBtn) loginBtn.addEventListener('click', handleGoogleLogin);
@@ -1744,10 +1737,6 @@
 
         function updateSendButtonState() { if (elements.questionInput.value.trim() === '' && currentAttachments.length === 0) { elements.sendBtn.classList.add('disabled'); elements.sendBtn.disabled = true; } else { elements.sendBtn.classList.remove('disabled'); elements.sendBtn.disabled = false; } }
 
-        // This will be overridden but we keep the original reference; we already defined saveApiKeyWithFirebase
-        function saveApiKey() { /* dummy, will be replaced */ }
-        // Override in DOMContentLoaded after elements assigned
-
         function toggleApiVisibility() { const input = elements.apiKeyInput; const icon = elements.toggleApiKey; if (input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } }
 
         function toggleSearchApiVisibility(targetId) { const input = document.getElementById(targetId); const icon = event.target; if (input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } }
@@ -1826,8 +1815,7 @@
             elements.langDropdown.addEventListener('change', (event) => setLanguage(event.target.value));
             elements.questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); if (!elements.sendBtn.disabled) askAI(); } });
             elements.questionInput.addEventListener('input', () => { showSuggestions(); updateSendButtonState(); elements.questionInput.style.height = 'auto'; elements.questionInput.style.height = elements.questionInput.scrollHeight + 'px'; });
-            // replace saveApiBtn listener
-            elements.saveApiBtn.removeEventListener('click', saveApiKey);
+            elements.saveApiBtn.removeEventListener('click', saveApiKeyWithFirebase);
             elements.saveApiBtn.addEventListener('click', saveApiKeyWithFirebase);
             elements.uploadImageBtn.addEventListener('click', () => { const lang = uiStrings[currentLanguage]; const fileMenu = document.getElementById('fileOptionsMenu'); if (fileMenu.classList.contains('visible')) { fileMenu.classList.remove('visible'); } else { fileMenu.innerHTML = ''; const imageOption = document.createElement('div'); imageOption.classList.add('suggestion-item'); imageOption.innerHTML = `<i class="fas fa-image"></i> ${lang.fileOptionImage}`; imageOption.onclick = () => { fileMenu.classList.remove('visible'); elements.imageInput.click(); }; fileMenu.appendChild(imageOption); const audioOption = document.createElement('div'); audioOption.classList.add('suggestion-item'); audioOption.innerHTML = `<i class="fas fa-music"></i> ${lang.fileOptionAudio}`; audioOption.onclick = () => { fileMenu.classList.remove('visible'); elements.audioInput.click(); }; fileMenu.appendChild(audioOption); const fileOption = document.createElement('div'); fileOption.classList.add('suggestion-item'); fileOption.innerHTML = `<i class="fas fa-file"></i> ${lang.fileOptionFile}`; fileOption.onclick = () => { fileMenu.classList.remove('visible'); elements.fileInput.click(); }; fileMenu.appendChild(fileOption); fileMenu.classList.add('visible'); setTimeout(() => { document.addEventListener('click', function closeFileMenu(e) { if (!fileMenu.contains(e.target) && e.target !== elements.uploadImageBtn) { fileMenu.classList.remove('visible'); document.removeEventListener('click', closeFileMenu); } }); }, 10); } });
             elements.imageInput.addEventListener('change', (e) => { if (e.target.files[0]) handleImageUpload(e.target.files[0]); e.target.value = ''; });
