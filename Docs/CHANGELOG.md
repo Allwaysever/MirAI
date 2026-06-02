@@ -1,5 +1,18 @@
 ## What's new?
 
+### 🚀 `2026.06.02` – v3.4.0 – **Google Drive Backup & Auto‑Sync**
+
+- **`NEW FEATURE`**: **Google Drive Integration** – Connect your Google Drive account directly from the Settings panel (new buttons: “Connect Drive”, “Backup to Drive”, “Restore from Drive”).
+- **`NEW FEATURE`**: **Manual Backup to Drive** – One‑click export of your entire MirAI state (chat history, API keys, personas, accent color, search config, etc.) to Drive’s hidden `appDataFolder`.
+- **`NEW FEATURE`**: **Restore from Drive** – List all your MirAI backups (named `MirAI_Manual_...` or `MirAI_AutoBackup_...`) and pick one to restore. Old backups are automatically kept to a maximum of 5 files.
+- **`NEW FEATURE`**: **Automatic Cloud Sync** – Every 10 minutes, MirAI silently backs up your data to Drive if you are connected. Changes are detected via SHA‑256 hash of your entire localStorage.
+- **`NEW FEATURE`**: **First‑Start Recovery** – When you reconnect your Drive account, MirAI checks for a newer backup and offers to restore it automatically.
+- **`IMPROVEMENT`**: **Enhanced Settings UI** – Added three new Google Drive buttons (Connect, Backup, Restore) right next to the existing Export/Import section.
+- **`FIX`**: **Firebase vs Drive coexistence** – Google Drive sync now works independently of Firebase login; you can use Drive even if you’re not signed in with Google Auth.
+- **`FIX`**: **Backup naming** – Timestamps use ISO strings with colons replaced by dashes to avoid filesystem issues on Windows.
+
+---
+
 ### 🚀 `2026.05.26` – v3.3.0 – **Cloud Sync & Firebase Authentication**
 
 - **`NEW FEATURE`**: **Google Sign‑In** – Log in with your Google account directly from the settings panel. Your avatar, display name, and email are shown when authenticated.
@@ -9,8 +22,6 @@
 - **`IMPROVEMENT`**: **Enhanced Settings Panel UI** – New authentication section at the bottom of the settings footer, with login/logout buttons and user info.
 - **`FIX`**: **Persona & Search Config Persistence** – Cloud restore now correctly reapplies custom persona text and all search engine toggles / API keys.
 - **`FIX`**: **First‑time Cloud User** – If no user document exists, MirAI creates one with the current local settings, ensuring a seamless onboarding experience.
-
----
 
 ### 🚀 `2026.05.06` — v3.2.0 — **Multi‑Format Attachments & TTS Controls**
 
