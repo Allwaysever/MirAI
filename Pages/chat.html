@@ -1954,50 +1954,47 @@
             }, 10 * 60 * 1000);
         }
 
- async function connectDrive() {
-    // Pastikan library gapi sudah dimuat
-    if (!window.gapi) {
+async function connectDrive() {
+    // Load Google Identity Services library jika belum ada
+    if (!window.google || !window.google.accounts || !window.google.accounts.oauth2) {
         await new Promise((resolve, reject) => {
             const script = document.createElement('script');
-            script.src = 'https://apis.google.com/js/api.js';
-            script.onload = () => {
-                // Load client:auth2 – ini akan menyediakan gapi.client
-                window.gapi.load('client:auth2', resolve);
-            };
+            script.src = 'https://accounts.google.com/gsi/client';
+            script.onload = resolve;
             script.onerror = reject;
             document.head.appendChild(script);
         });
-    } else if (!window.gapi.client) {
-        // Jika gapi sudah ada tapi client belum dimuat
-        await new Promise((resolve) => {
-            window.gapi.load('client:auth2', resolve);
-        });
-    }
-
-    // Pastikan gapi.client dan init tersedia
-    if (!window.gapi.client || typeof window.gapi.client.init !== 'function') {
-        throw new Error('Google API client tidak tersedia. Coba refresh halaman.');
     }
 
     const CLIENT_ID = '981268844844-pl9pq5q6v84ovd1crap2siefn8aiie3p.apps.googleusercontent.com';
-    
-    // Inisialisasi (hanya sekali, aman dipanggil ulang)
-    await window.gapi.client.init({
-        clientId: CLIENT_ID,
-        scope: 'https://www.googleapis.com/auth/drive.appdata',
-        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
-    });
 
-    // Dapatkan instance auth dan minta login
-    const authInstance = window.gapi.auth2.getAuthInstance();
-    const user = await authInstance.signIn();
-    const token = user.getAuthResponse().access_token;
-    
-    driveToken = token;
-    driveConnected = true;
-    localStorage.setItem('mirai_drive_token', token);
-    alert('Google Drive connected! Auto-sync will run every 10 minutes.');
-    autoSyncToDrive();
+    return new Promise((resolve, reject) => {
+        const tokenClient = window.google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: 'https://www.googleapis.com/auth/drive.appdata',
+            callback: (tokenResponse) => {
+                if (tokenResponse.error) {
+                    console.error('Token error:', tokenResponse);
+                    alert('Gagal mendapatkan token: ' + tokenResponse.error);
+                    reject(tokenResponse.error);
+                    return;
+                }
+                const accessToken = tokenResponse.access_token;
+                driveToken = accessToken;
+                driveConnected = true;
+                localStorage.setItem('mirai_drive_token', accessToken);
+                alert('Google Drive connected! Auto-sync will run every 10 minutes.');
+                autoSyncToDrive(); // backup pertama langsung
+                resolve(accessToken);
+            },
+            error_callback: (error) => {
+                console.error('Auth error:', error);
+                alert('Autentikasi gagal: ' + (error.message || error));
+                reject(error);
+            }
+        });
+        tokenClient.requestAccessToken(); // memunculkan popup login
+    });
 }
 
         async function manualBackupToDrive() {
