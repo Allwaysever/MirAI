@@ -1470,13 +1470,6 @@
     
     // ======================== INISIALISASI ========================
     let isBeta = new URLSearchParams(location.search).has('betamodel');
-    let VERSION = (function() {
-        const now = new Date();
-        const yymmdd = now.getFullYear().toString().slice(-2) + 
-                       String(now.getMonth() + 1).padStart(2, '0') + 
-                       String(now.getDate()).padStart(2, '0');
-        return `3.4.0.${yymmdd}`;
-    })();
     
     async function initializeApp() {
         console.log('🚀 Initializing MirAI...');
