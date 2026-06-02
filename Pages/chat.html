@@ -2044,22 +2044,32 @@
             backupDiv.parentNode.insertBefore(restoreDriveBtn, backupDiv.nextSibling);
         }
 
-        const originalOnAuthStateChanged = window.firebase.onAuthStateChanged;
-        window.firebase.onAuthStateChanged = (auth, callback) => {
-            originalOnAuthStateChanged(auth, async (user) => {
-                if (callback) callback(user);
-                if (user) {
-                    await initDriveConnection();
-                } else {
-                    driveConnected = false;
-                    driveToken = null;
-                    localStorage.removeItem('mirai_drive_token');
-                }
-            });
-        };
+        // FIXED: Wait for Firebase to be ready before overriding onAuthStateChanged
+        function setupDriveSync() {
+            if (window.firebase && window.firebase.onAuthStateChanged) {
+                const originalOnAuthStateChanged = window.firebase.onAuthStateChanged;
+                window.firebase.onAuthStateChanged = (auth, callback) => {
+                    originalOnAuthStateChanged(auth, async (user) => {
+                        if (callback) callback(user);
+                        if (user) {
+                            await initDriveConnection();
+                        } else {
+                            driveConnected = false;
+                            driveToken = null;
+                            localStorage.removeItem('mirai_drive_token');
+                        }
+                    });
+                };
+            } else {
+                // Retry after a short delay if Firebase not ready
+                setTimeout(setupDriveSync, 500);
+            }
+        }
 
+        // Add buttons when DOM ready
         document.addEventListener('DOMContentLoaded', () => {
             addDriveButtonsToSettings();
+            setupDriveSync(); // Init Drive sync (waits for Firebase)
         });
 
         window.debugMirAI = {
