@@ -30,37 +30,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
     <link rel="mask-icon" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png" color="#1a1a1a">
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="processingapi.js"></script>
     
-    <!-- Firebase SDKs (Module) -->
-    <script type="module">
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-      import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-      import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyCCcpjeBHxB_vr3Jfk4PG4Hckyn179uBIU",
-        authDomain: "allwaysevermirai-652d7.firebaseapp.com",
-        projectId: "allwaysevermirai-652d7",
-        storageBucket: "allwaysevermirai-652d7.firebasestorage.app",
-        messagingSenderId: "981268844844",
-        appId: "1:981268844844:web:91741b4e2df1d88d499c89",
-        measurementId: "G-VB7N79YCN8"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const provider = new GoogleAuthProvider();
-      const db = getFirestore(app);
-
-      window.firebase = { 
-        auth, provider, db, 
-        signInWithPopup, signOut, onAuthStateChanged,
-        doc, getDoc, setDoc
-      };
-    </script>
-
     <script>
-        // notif sw onesignal
+        // OneSignal init
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(async function(OneSignal) {
             await OneSignal.init({
@@ -70,6 +43,7 @@
             });
         });
 
+        // PWA Install
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -100,9 +74,10 @@
             if (installBtn) installBtn.remove();
         });
 
+        // Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('https://esm.sh/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAsw.js')
+                navigator.serviceWorker.register('/MirAIPWAsw.js')
                     .then(function(registration) { console.log('ServiceWorker registered successfully'); })
                     .catch(function(err) { console.log('ServiceWorker registration failed: ', err); });
             });
@@ -119,6 +94,7 @@
             });
         }
 
+        // Fungsi generate version
         function generateVersion(major, minor, patch) {
             const now = new Date();
             const yymmdd = now.getFullYear().toString().slice(-2) + 
@@ -128,6 +104,9 @@
         }
 
         const VERSION = generateVersion(3, 4, 0);
+        
+        // Catatan: Firebase TIDAK diinisialisasi di sini (akan diambil dari config.medf nanti)
+        // Jadi kita hanya mendeklarasikan window.firebase nanti di script utama
     </script>
 </head>
 <body>
@@ -542,6 +521,35 @@
         }
     };
     
+	
+	// ======================== FUNGSI YANG HILANG ========================
+function showCopyFeedback(message) {
+    const div = document.createElement('div');
+    div.innerText = message;
+    div.className = 'srui-copy-feedback';
+    document.body.appendChild(div);
+    setTimeout(() => div.style.opacity = '1', 10);
+    setTimeout(() => {
+        div.style.opacity = '0';
+        setTimeout(() => div.remove(), 500);
+    }, 2000);
+}
+
+function updateConnectionStatus() {
+    const dot = document.getElementById('statusDot');
+    const label = document.getElementById('statusLabel');
+    if (!dot || !label) return;
+    if (navigator.onLine) {
+        dot.classList.remove('offline');
+        dot.classList.add('online');
+        label.innerText = (uiStrings[currentLanguage] || {}).onlineStatus || 'Connected';
+    } else {
+        dot.classList.remove('online');
+        dot.classList.add('offline');
+        label.innerText = (uiStrings[currentLanguage] || {}).offlineStatus || 'Disconnected';
+    }
+}
+
     // ======================== FUNGSI PEMBANTU UMUM ========================
     function getCurrentDateTimeString() {
         const now = new Date();
