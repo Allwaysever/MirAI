@@ -340,7 +340,7 @@
 </div>
 </div>
 
-    <script>
+<script>
         const DEFAULT_API_KEY = 'AIzaSyBclOlr7UNm1Leoj83fB9uJR7Jt6qQRphA';
 
         const SEARCH_CONFIG = {
@@ -1439,7 +1439,6 @@
                 customPersona: localStorage.getItem('miraiCustomPersona') || '',
                 searchConfig: {}
             };
-            // Copy search engine config
             for (let engine in SEARCH_CONFIG.engines) {
                 settings.searchConfig[engine] = { enabled: SEARCH_CONFIG.engines[engine].enabled };
                 if (engine === 'searchapi') settings.searchConfig[engine].apiKey = SEARCH_CONFIG.engines[engine].apiKey;
@@ -1463,14 +1462,12 @@
             const docSnap = await window.firebase.getDoc(docRef);
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                // Apply API Key
                 if (data.apiKey) {
                     currentApiKey = data.apiKey;
                     isUsingPublicApi = (data.apiKey === DEFAULT_API_KEY);
                     localStorage.setItem('miraiApiKey', data.apiKey);
                     if (elements.apiKeyInput) elements.apiKeyInput.value = data.apiKey;
                 }
-                // Apply settings
                 if (data.settings) {
                     const s = data.settings;
                     if (s.persona) setPersona(s.persona);
@@ -1498,7 +1495,6 @@
                 }
                 showCopyFeedback('Settings loaded from cloud');
             } else {
-                // No document exists, create one with current local settings
                 await saveAllSettingsToFirebase(true);
             }
         }
@@ -1520,7 +1516,6 @@
 
         async function handleLogout() {
             await window.firebase.signOut(window.firebase.auth);
-            // Reset to default API key but keep local settings (persona, language, etc.)
             currentApiKey = DEFAULT_API_KEY;
             isUsingPublicApi = true;
             localStorage.removeItem('miraiApiKey');
@@ -1558,7 +1553,6 @@
         }
 
         async function saveSettingsAndApiKey() {
-            // Handle memory limit validation and apply
             const savedLimit = localStorage.getItem('miraiMaxBubbles') || '50';
             if (tempMaxBubbles.toString() !== savedLimit) {
                 const excessMessages = Math.max(0, (chatHistory.length - 1) - tempMaxBubbles);
@@ -1596,7 +1590,6 @@
                 chatHistory[0].parts[0].text = personaPromptText;
                 saveChatHistory();
             }
-            // Save to Firebase if logged in
             await saveAllSettingsToFirebase(true);
             showCopyFeedback('Settings saved successfully!');
         }
@@ -1841,6 +1834,233 @@
         function validateHex(hex) { if (!hex) return null; hex = hex.trim(); const regex = /^#?([0-9A-F]{3}|[0-9A-F]{6})$/i; const match = hex.match(regex); if (!match) return null; let cleaned = match[1]; if (cleaned.length === 3) cleaned = cleaned.split('').map(c => c + c).join(''); return '#' + cleaned.toUpperCase(); }
         function applyAccentColor(hex) { const validHex = validateHex(hex); if (!validHex) { showCopyFeedback('Invalid hex code'); return false; } const rgb = hexToRgb(validHex); const lum = calculateLuminance(rgb.r, rgb.g, rgb.b); if (lum < 0.3) { showCopyFeedback('Color too dark – using default'); const currentColor = localStorage.getItem('miraiAccentColor') || '#ffce00'; elements.accentColorInput.value = currentColor; elements.colorPreview.style.backgroundColor = currentColor; return false; } document.documentElement.style.setProperty('--accent-color', validHex); document.documentElement.style.setProperty('--srui-accent-rgb', `${rgb.r}, ${rgb.g}, ${rgb.b}`); elements.colorPreview.style.backgroundColor = validHex; localStorage.setItem('miraiAccentColor', validHex); return true; }
         function loadAccentColor() { const savedColor = localStorage.getItem('miraiAccentColor'); if (savedColor && validateHex(savedColor)) { applyAccentColor(savedColor); elements.accentColorInput.value = savedColor; } else { elements.accentColorInput.value = '#ffce00'; elements.colorPreview.style.backgroundColor = '#ffce00'; document.documentElement.style.setProperty('--srui-accent-rgb', '255, 206, 0'); } }
+
+        // ========== GOOGLE DRIVE SYNC (SEDERHANA) ==========
+        let driveToken = null;
+        let driveConnected = false;
+        let lastUploadHash = '';
+        let autoSyncInterval = null;
+
+        async function uploadToDrive(blob, filename = `MirAI_Backup_${new Date().toISOString()}.medf`) {
+            if (!driveToken) {
+                alert('Drive not connected. Click "Connect Google Drive" first.');
+                return false;
+            }
+            const metadata = {
+                name: filename,
+                parents: ['appDataFolder'],
+                mimeType: 'application/octet-stream'
+            };
+            const form = new FormData();
+            form.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
+            form.append('file', blob);
+            const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${driveToken}` },
+                body: form
+            });
+            if (!response.ok) throw new Error(await response.text());
+            const data = await response.json();
+            console.log('Uploaded to Drive, fileId:', data.id);
+            return data.id;
+        }
+
+        async function listDriveBackups() {
+            if (!driveToken) return [];
+            const response = await fetch(
+                'https://www.googleapis.com/drive/v3/files?q="appDataFolder" in parents and name contains "MirAI_Backup"&orderBy=modifiedTime desc&fields=files(id,name,modifiedTime)',
+                { headers: { 'Authorization': `Bearer ${driveToken}` } }
+            );
+            if (!response.ok) return [];
+            const data = await response.json();
+            return data.files || [];
+        }
+
+        async function downloadFromDrive(fileId) {
+            if (!driveToken) throw new Error('No Drive token');
+            const response = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+                headers: { 'Authorization': `Bearer ${driveToken}` }
+            });
+            if (!response.ok) throw new Error('Download failed');
+            return await response.arrayBuffer();
+        }
+
+        async function autoSyncToDrive() {
+            if (!driveConnected) return;
+            const allData = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                allData[key] = localStorage.getItem(key);
+            }
+            allData._metadata = { version: 'drive-sync', exportDate: new Date().toISOString() };
+            const jsonString = JSON.stringify(allData, null, 2);
+            const currentHash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(jsonString));
+            const hashStr = Array.from(new Uint8Array(currentHash)).map(b => b.toString(16).padStart(2,'0')).join('');
+            if (lastUploadHash === hashStr) return;
+            lastUploadHash = hashStr;
+            const blob = new Blob([jsonString], {type: 'application/json'});
+            const filename = `MirAI_AutoBackup_${new Date().toISOString().replace(/:/g, '-')}.json`;
+            try {
+                await uploadToDrive(blob, filename);
+                console.log('Auto-sync to Drive success');
+                const files = await listDriveBackups();
+                if (files.length > 5) {
+                    const oldest = files.slice(5);
+                    for (const file of oldest) {
+                        await fetch(`https://www.googleapis.com/drive/v3/files/${file.id}`, {
+                            method: 'DELETE',
+                            headers: { 'Authorization': `Bearer ${driveToken}` }
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error('Auto-sync failed:', err);
+            }
+        }
+
+        async function initDriveConnection() {
+            const savedToken = localStorage.getItem('mirai_drive_token');
+            if (savedToken) {
+                driveToken = savedToken;
+                try {
+                    const files = await listDriveBackups();
+                    driveConnected = true;
+                    console.log('Drive connected via saved token');
+                    if (files.length > 0) {
+                        const latest = files[0];
+                        const lastLocalBackupTime = localStorage.getItem('mirai_last_backup_time') || 0;
+                        const driveTime = new Date(latest.modifiedTime).getTime();
+                        if (driveTime > lastLocalBackupTime) {
+                            if (confirm('Found newer backup in Google Drive. Restore now?')) {
+                                const buffer = await downloadFromDrive(latest.id);
+                                const text = new TextDecoder().decode(buffer);
+                                const data = JSON.parse(text);
+                                restoreDataWithPersonaSync(data);
+                                localStorage.setItem('mirai_last_backup_time', Date.now());
+                                location.reload();
+                            }
+                        }
+                    }
+                } catch(e) {
+                    console.warn('Token invalid, need reconnect', e);
+                    localStorage.removeItem('mirai_drive_token');
+                    driveConnected = false;
+                    driveToken = null;
+                }
+            }
+            if (autoSyncInterval) clearInterval(autoSyncInterval);
+            autoSyncInterval = setInterval(() => {
+                if (driveConnected) autoSyncToDrive();
+            }, 10 * 60 * 1000);
+        }
+
+        async function connectDrive() {
+            if (!window.gapi) {
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = 'https://apis.google.com/js/api.js';
+                    script.onload = () => {
+                        window.gapi.load('client:auth2', resolve);
+                    };
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+            }
+            const CLIENT_ID = '981268844844-pl9pq5q6v84ovd1crap2siefn8aiie3p.apps.googleusercontent.com';
+            await window.gapi.client.init({
+                clientId: CLIENT_ID,
+                scope: 'https://www.googleapis.com/auth/drive.appdata',
+                discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+            });
+            const authInstance = window.gapi.auth2.getAuthInstance();
+            const user = await authInstance.signIn();
+            const token = user.getAuthResponse().access_token;
+            driveToken = token;
+            driveConnected = true;
+            localStorage.setItem('mirai_drive_token', token);
+            alert('Google Drive connected! Auto-sync will run every 10 minutes.');
+            autoSyncToDrive();
+        }
+
+        async function manualBackupToDrive() {
+            if (!driveConnected) {
+                alert('Please connect Google Drive first.');
+                return;
+            }
+            const allData = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                allData[key] = localStorage.getItem(key);
+            }
+            const jsonString = JSON.stringify(allData, null, 2);
+            const blob = new Blob([jsonString], {type: 'application/json'});
+            await uploadToDrive(blob, `MirAI_Manual_${new Date().toISOString().replace(/:/g, '-')}.json`);
+            alert('Backup saved to Google Drive (appDataFolder).');
+        }
+
+        async function restoreFromDrive() {
+            if (!driveConnected) {
+                alert('Connect Drive first.');
+                return;
+            }
+            const files = await listDriveBackups();
+            if (files.length === 0) {
+                alert('No backup files found.');
+                return;
+            }
+            const options = files.map((f, i) => `${i+1}. ${f.name} (${new Date(f.modifiedTime).toLocaleString()})`).join('\n');
+            const choice = prompt(`Select backup to restore:\n${options}\n\nEnter number (1-${files.length}):`);
+            const idx = parseInt(choice) - 1;
+            if (idx >= 0 && idx < files.length) {
+                const buffer = await downloadFromDrive(files[idx].id);
+                const text = new TextDecoder().decode(buffer);
+                const data = JSON.parse(text);
+                restoreDataWithPersonaSync(data);
+            } else {
+                alert('Invalid selection.');
+            }
+        }
+
+        function addDriveButtonsToSettings() {
+            const backupDiv = document.querySelector('.srui-backup-buttons');
+            if (!backupDiv) return;
+            const driveConnectBtn = document.createElement('button');
+            driveConnectBtn.innerHTML = '<i class="fab fa-google-drive"></i> Connect Drive';
+            driveConnectBtn.className = 'settings-credits-btn';
+            driveConnectBtn.style.background = '#4285f4';
+            driveConnectBtn.onclick = connectDrive;
+            backupDiv.parentNode.insertBefore(driveConnectBtn, backupDiv.nextSibling);
+            
+            const manualBackupBtn = document.createElement('button');
+            manualBackupBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Backup to Drive';
+            manualBackupBtn.className = 'settings-credits-btn';
+            manualBackupBtn.onclick = manualBackupToDrive;
+            backupDiv.parentNode.insertBefore(manualBackupBtn, backupDiv.nextSibling);
+            
+            const restoreDriveBtn = document.createElement('button');
+            restoreDriveBtn.innerHTML = '<i class="fas fa-cloud-download-alt"></i> Restore from Drive';
+            restoreDriveBtn.className = 'settings-credits-btn';
+            restoreDriveBtn.onclick = restoreFromDrive;
+            backupDiv.parentNode.insertBefore(restoreDriveBtn, backupDiv.nextSibling);
+        }
+
+        const originalOnAuthStateChanged = window.firebase.onAuthStateChanged;
+        window.firebase.onAuthStateChanged = (auth, callback) => {
+            originalOnAuthStateChanged(auth, async (user) => {
+                if (callback) callback(user);
+                if (user) {
+                    await initDriveConnection();
+                } else {
+                    driveConnected = false;
+                    driveToken = null;
+                    localStorage.removeItem('mirai_drive_token');
+                }
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            addDriveButtonsToSettings();
+        });
 
         window.debugMirAI = {
             resetApiLimit: () => { MEDF_PROCESSOR.resetPublicApiBubbles(); alert('Public API limit counter has been reset'); location.reload(); },
