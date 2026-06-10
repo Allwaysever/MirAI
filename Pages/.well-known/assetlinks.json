@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "app.netlify.allwaysevermirai.twa",
-        "sha256_cert_fingerprints": ["78:FB:D1:62:99:D6:8F:B2:C8:DF:1C:C2:4E:97:AE:33:E8:D4:06:A1:D4:66:85:B6:33:70:FB:73:91:B1:36:BE"]
+        "sha256_cert_fingerprints": ["C0:3B:83:F2:B9:71:D0:86:B0:03:40:B1:0A:52:C0:B0:38:65:20:B1:64:9C:1E:A6:29:13:67:20:BC:DE:54:AE"]
       }
     }]
