@@ -4,7 +4,7 @@
   "dir": "ltr",
   "display": "standalone",
   "name": "MirAI by Allwaysever",
-  "orientation": "portrait-primary",
+  "orientation": "natural",
   "scope": "/",
   "short_name": "MirAI",
   "start_url": "/chat?pwa",
@@ -37,7 +37,9 @@
   ],
   "id": "allwaysevermirai",
   "categories": [
+    "lifestyle",
     "personalization",
-    "productivity"
+    "productivity",
+    "reference"
   ]
 }
