@@ -10,12 +10,12 @@
     <meta property="og:title" content="MirAI" />
     <meta property="og:description" content="MirAI is a chatbot and personal AI assistant powered by Google Gemini. Get answers, creative ideas, translations, and other help instantly." />
     <meta property="og:url" content="https://allwaysevermirai.netlify.app/" />
-    <meta property="og:image" content="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Banner.png" />
+    <meta property="og:image" content="../Assets/MirAI%20Banner.png" />
     <meta property="og:type" content="article" /> <meta property="og:site_name" content="MirAI by Allwaysever" />
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <link rel="icon" type="image/png" href="../Assets/Favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://esm.sh/gh/Allwaysever/MirAI@main/Assets/CSS/MirAIStyle.css">
-    <link rel="manifest" href="https://esm.sh/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAm.json">
+    <link rel="stylesheet" href="../Assets/CSS/MirAIStyle.css">
+    <link rel="manifest" href="../Assets/HTML/MirAIPWAm.json">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -23,12 +23,12 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#1a1a1a">
     <meta name="msapplication-TileColor" content="#1a1a1a">
-    <meta name="msapplication-TileImage" content="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
+    <meta name="msapplication-TileImage" content="../Assets/Favicon.png">
     <meta name="msapplication-config" content="browserconfig.xml">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png">
-    <link rel="mask-icon" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Favicon.png" color="#1a1a1a">
+    <link rel="apple-touch-icon" sizes="180x180" href="../Assets/Favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../Assets/Favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Assets/Favicon.png">
+    <link rel="mask-icon" href="../Assets/Favicon.png" color="#1a1a1a">
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     
     <!-- Firebase SDKs (Module) -->
@@ -102,7 +102,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('https://esm.sh/gh/Allwaysever/MirAI@main/Assets/HTML/MirAIPWAsw.js')
+                navigator.serviceWorker.register('MirAIPWAsw.js')
                     .then(function(registration) { console.log('ServiceWorker registered successfully'); })
                     .catch(function(err) { console.log('ServiceWorker registration failed: ', err); });
             });
@@ -133,7 +133,7 @@
 <body>
     <div id="splash-screen">
         <div class="splash-content">
-            <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Name%20Logo.png" alt="MirAI" class="splash-logo logo-img">
+            <img src="../Assets/Name%20Logo.png" alt="MirAI" class="splash-logo logo-img">
             <div class="loading-bar-container" style="display: none !important;" id="splash-loader">
                 <div class="loading-bar"></div>
             </div>
@@ -153,7 +153,7 @@
     </div>
 
     <div class="logo-container">
-        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/HI%20new.png" alt="what are we talking about?" class="hi-img">
+        <img src="../Assets/HI%20new.png" alt="what are we talking about?" class="hi-img">
     </div>
 
     <div id="languageSwitcher">
@@ -316,7 +316,7 @@
                     <div class="srui-inline-link-btn"><a href="https://allwaysevermirai.netlify.app/donate" target="_blank">Donate us</a></div>
                     <div class="gemini-container">
                         <a href="https://deepmind.google/models/gemini/flash/" target="_blank">
-                            <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/Gemini%202.5%20Flash%20Logo.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
+                            <img src="../Assets/Gemini%202.5%20Flash%20Logo.png" alt="Google Gemini 2.5 Flash" class="gemini-logo">
                         </a>
                     </div>
                     <p id="termsText" class="srui-terms-text">Dengan menggunakan MirAI, Anda menyetujui <a href="T&C/index.html" target="_blank">Syarat & Ketentuan</a>.</p>
