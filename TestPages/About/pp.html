@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirAI | Privacy Policy</title>
+    <meta name="description" content="Privacy Policy for MirAI - AI Assistant powered by Google Gemini">
+    <meta name="keywords" content="MirAI, Privacy Policy, AI Assistant, Data Protection, Allwaysever">
+    <link rel="icon" type="image/png" href="/Assets/Favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+       /* ================================================
+           SuperRoundedUI (SRUI) v2.0 - Dark Core Edition
+           © 2025-2026 Allwaysever
+           "Flat never felt this round."
+           ================================================ */
+
+        /* ---- Font Face Outfit (Hosting via jsDelivr) ---- */
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-display: swap;
+        }
+
+        :root {
+            /* Palet warna SRUI v2.0 */
+            --srui-accent: #ffce00;
+            --srui-accent-text: #000000;
+            --srui-bg-primary: #1B1C1E;
+            --srui-bg-card: #0f0f0f;
+            --srui-bg-neutral: rgba(15, 15, 15, 0.7);
+            --srui-text-primary: #ffffff;
+            --srui-text-secondary: #999999;
+            --srui-text-tertiary: #666666;
+            --srui-border-input: #4B4F50;
+            --srui-border-neutral: #4B4F50;
+            --srui-success: #4CAF50;
+            --srui-warning: #ffce00;
+            --srui-error: #F44336;
+            --srui-info: #2196F3;
+            --srui-radius-sm: 10px;
+            --srui-radius-md: 15px;
+            --srui-radius-lg: 25px;
+            --srui-radius-chip: 9999px;
+            --srui-transition-fast: 0.2s ease;
+            --srui-transition-normal: 0.3s ease-in-out;
+            --srui-shadow-minimal: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --srui-shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
+            --srui-glass-bg: rgba(27, 28, 30, 0.95);
+            --srui-glass-blur: blur(10px);
+            --srui-glass-border: 1px solid rgba(255, 206, 0, 0.1);
+            --srui-font-primary: 'Outfit', 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--srui-font-primary);
+            background-color: var(--srui-bg-primary);
+            color: var(--srui-text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header dengan gradient dan glass effect */
+        .privacy-header {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, rgba(27, 28, 30, 0.95), rgba(15, 15, 15, 0.98));
+            border-bottom: 1px solid rgba(255, 206, 0, 0.15);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .privacy-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 206, 0, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(66, 133, 244, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .privacy-header-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+            text-align: center;
+        }
+        .privacy-logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 32px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+        .privacy-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--srui-accent);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .last-updated {
+            font-size: 1rem;
+            color: var(--srui-text-secondary);
+            margin-top: 12px;
+        }
+
+        /* Language Tabs dengan micro-bounce */
+        .language-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 30px auto 0;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 600px;
+        }
+        .language-tab {
+            padding: 12px 24px;
+            border-radius: var(--srui-radius-chip);
+            background-color: var(--srui-bg-neutral);
+            border: 1px solid var(--srui-border-neutral);
+            cursor: pointer;
+            transition: background-color 0.2s, var(--srui-transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--srui-text-secondary);
+            font-weight: 500;
+            font-family: var(--srui-font-primary);
+        }
+        .language-tab.active {
+            background-color: var(--srui-accent);
+            color: var(--srui-accent-text);
+            border-color: var(--srui-accent);
+        }
+        .language-tab:hover:not(.active) {
+            background-color: rgba(255, 206, 0, 0.1);
+            transform: scale(0.96);
+        }
+        .language-tab:active:not(.active) {
+            transform: scale(0.92);
+        }
+
+        /* Language Content */
+        .language-content {
+            display: none;
+        }
+        .language-content.active {
+            display: block;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Container utama */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Glass Card */
+        .content-card {
+            background-color: var(--srui-bg-card);
+            border-radius: var(--srui-radius-lg);
+            padding: 48px;
+            margin-bottom: 40px;
+            box-shadow: var(--srui-shadow-medium);
+            border: 1px solid var(--srui-border-input);
+        }
+
+        /* Typography */
+        h2 {
+            color: var(--srui-accent);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0 0 24px 0;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(255, 206, 0, 0.3);
+        }
+        h3 {
+            color: var(--srui-text-primary);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 32px 0 16px 0;
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--srui-text-secondary);
+        }
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 24px;
+            color: var(--srui-text-secondary);
+        }
+        li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        li strong {
+            color: var(--srui-text-primary);
+        }
+
+        /* Highlight Box */
+        .highlight, .info-box {
+            background: linear-gradient(135deg, rgba(255, 206, 0, 0.08), rgba(15, 15, 15, 0.9));
+            border-left: 4px solid var(--srui-accent);
+            border-radius: 0 var(--srui-radius-md) var(--srui-radius-md) 0;
+            padding: 20px;
+            margin: 24px 0;
+        }
+        .info-box {
+            border-left-color: var(--srui-info);
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.08), rgba(15, 15, 15, 0.9));
+        }
+
+        /* Links */
+        a {
+            color: var(--srui-accent);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dashed rgba(255, 206, 0, 0.4);
+            transition: all var(--srui-transition-fast);
+        }
+        a:hover {
+            color: #ffdb4d;
+            border-bottom: 2px solid var(--srui-accent);
+            background: rgba(255, 206, 0, 0.1);
+            padding: 0 4px 1px;
+            border-radius: 2px;
+        }
+
+        /* Buttons dengan micro-bounce */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 48px;
+            flex-wrap: wrap;
+        }
+        .srui-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: var(--srui-radius-chip);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, var(--srui-transition-fast);
+            text-decoration: none;
+            border: 2px solid transparent;
+            min-width: 200px;
+            text-align: center;
+            font-family: var(--srui-font-primary);
+        }
+        .srui-button-primary {
+            background-color: var(--srui-accent);
+            color: var(--srui-accent-text);
+            border-color: var(--srui-accent);
+        }
+        .srui-button-primary:hover {
+            background-color: #e6b800;
+            transform: scale(0.96);
+        }
+        .srui-button-primary:active {
+            transform: scale(0.92);
+        }
+        .srui-button-secondary {
+            background-color: transparent;
+            color: var(--srui-accent);
+            border-color: var(--srui-accent);
+        }
+        .srui-button-secondary:hover {
+            background-color: var(--srui-accent);
+            color: var(--srui-accent-text);
+            transform: scale(0.96);
+        }
+        .srui-button-secondary:active {
+            transform: scale(0.92);
+        }
+
+        /* Footer */
+        .privacy-footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid var(--srui-border-input);
+            color: var(--srui-text-tertiary);
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .footer-link {
+            color: var(--srui-text-tertiary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color var(--srui-transition-normal);
+        }
+        .footer-link:hover {
+            color: var(--srui-accent);
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--srui-bg-card);
+            border-radius: var(--srui-radius-sm);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--srui-accent);
+            border-radius: var(--srui-radius-sm);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ffdb4d;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            .content-card {
+                padding: 32px;
+            }
+            .privacy-header {
+                min-height: 40vh;
+                padding: 40px 0;
+            }
+            .privacy-header h1 {
+                font-size: 2.2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .language-tabs {
+                gap: 8px;
+            }
+            .language-tab {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .srui-button {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+        @media (max-width: 480px) {
+            .privacy-header h1 {
+                font-size: 1.8rem;
+            }
+            .privacy-logo {
+                max-width: 140px;
+            }
+            .language-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .language-tab {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header - ½ Layar -->
+    <header class="privacy-header">
+        <div class="privacy-header-content">
+            <img src="/Assets/Name%20Logo.png" 
+                 alt="MirAI Logo" class="privacy-logo">
+            <h1>Privacy Policy</h1>
+            <p class="last-updated">Last Updated: January 29, 2026</p>
+            
+            <!-- Language Tabs -->
+            <div class="language-tabs">
+                <div class="language-tab active" data-lang="en">
+                    <span class="flag">🇬🇧</span>
+                    <span>English</span>
+                </div>
+                <div class="language-tab" data-lang="id">
+                    <span class="flag">🇮🇩</span>
+                    <span>Bahasa Indonesia</span>
+                </div>
+                <div class="language-tab" data-lang="jp">
+                    <span class="flag">🇯🇵</span>
+                    <span>日本語</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- English Content -->
+        <div class="language-content active" id="content-en">
+            <div class="content-card glass-layer">
+                <!-- Introduction -->
+                <section class="section-spacing">
+                    <h2>Introduction</h2>
+                    <p>Welcome to the MirAI Privacy Policy. This privacy policy explains how MirAI ("we", "us", or "our app") collects, uses, stores, and protects your information when you use our AI chatbot service powered by the Google Gemini API.</p>
+                    
+                    <div class="info-box">
+                        <p><strong>Important Note:</strong> MirAI is a third-party application that uses the Google Gemini API. Your use of MirAI is also subject to Google's <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a>.</p>
+                    </div>
+                </section>
+
+                <!-- Information We Collect -->
+                <section class="section-spacing">
+                    <h2>1. Information We Collect</h2>
+                    
+                    <h3>1.1 Information You Provide</h3>
+                    <ul>
+                        <li><strong>Conversation Messages:</strong> The content of messages you send through the chatbot.</li>
+                        <li><strong>Custom API Keys:</strong> If you choose to use your personal Google Gemini API key.</li>
+                        <li><strong>App Preferences:</strong> Theme, language, and AI persona preferences.</li>
+                        <li><strong>Image Files:</strong> Images you upload for AI analysis (if such a feature is available).</li>
+                    </ul>
+                    
+                    <h3>1.2 Automatically Collected Information</h3>
+                    <ul>
+                        <li><strong>Usage Data:</strong> Interaction logs, frequency of use, and types of requests.</li>
+                        <li><strong>Technical Data:</strong> Browser version, operating system, and device information.</li>
+                        <li><strong>Connection Data:</strong> Internet connection status and response times.</li>
+                    </ul>
+                    
+                    <div class="highlight">
+                        <p><i class="fas fa-info-circle text-accent"></i> <strong>Important:</strong> We do <strong>NOT</strong> collect sensitive personal information such as full name, email address, phone number, or other personal identification data unless you voluntarily provide it in conversation with the AI.</p>
+                    </div>
+                </section>
+
+                <!-- How We Use Your Information -->
+                <section class="section-spacing">
+                    <h2>2. How We Use Your Information</h2>
+                    <p>The information we collect is used to:</p>
+                    <ul>
+                        <li>Provide, operate, and maintain the AI chatbot service.</li>
+                        <li>Process your requests through the Google Gemini API.</li>
+                        <li>Store conversation history locally on your device (optional).</li>
+                        <li>Improve user experience and app functionality.</li>
+                        <li>Manage user preferences (theme, language, AI persona).</li>
+                        <li>Detect and prevent service abuse.</li>
+                        <li>Display connection status and performance indicators.</li>
+                    </ul>
+                </section>
+
+                <!-- Data Storage -->
+                <section class="section-spacing">
+                    <h2>3. Data Storage</h2>
+                    
+                    <h3>3.1 Local Storage</h3>
+                    <p>MirAI stores the following data locally on your device using browser storage technology:</p>
+                    <ul>
+                        <li><strong>Conversation History:</strong> Stored in your browser's localStorage.</li>
+                        <li><strong>User Preferences:</strong> Theme, language, and other settings.</li>
+                        <li><strong>Custom API Keys:</strong> If you use them.</li>
+                    </ul>
+                    
+                    <h3>3.2 Third-Party Server Storage</h3>
+                    <p>Your messages are sent to the Google Gemini API for processing. Google may store this data according to their privacy policy. We have no control over data storage on Google servers.</p>
+                    
+                    <div class="info-box">
+                        <p><strong>Encryption:</strong> Backup files (.medf) are encrypted using AES-GCM standards with random salt and IV to protect your data.</p>
+                    </div>
+                </section>
+
+                <!-- Information Sharing -->
+                <section class="section-spacing">
+                    <h2>4. Information Sharing</h2>
+                    <p>We do <strong>NOT</strong> sell, trade, or transfer your information to third parties, except for the following:</p>
+                    <ul>
+                        <li><strong>Google Gemini API:</strong> Your messages are sent to this API for processing.</li>
+                        <li><strong>External Search Services:</strong> If you use the /search feature with external search engines (SearchAPI.io, Google Search, etc.), your search queries will be sent to those service providers.</li>
+                        <li><strong>Legal Compliance:</strong> If required by law or a valid government request.</li>
+                    </ul>
+                </section>
+
+                <!-- Cookies & Tracking -->
+                <section class="section-spacing">
+                    <h2>5. Cookies and Tracking Technologies</h2>
+                    <p>MirAI uses browser storage technologies (localStorage, sessionStorage) to store preferences and conversation history. We do not use third-party tracking cookies or cross-site tracking technologies.</p>
+                    
+                    <p>For push notification functionality (if enabled), we use OneSignal which may use their own tracking technologies.</p>
+                </section>
+
+                <!-- Data Security -->
+                <section class="section-spacing">
+                    <h2>6. Data Security</h2>
+                    <p>We implement reasonable security measures to protect your information:</p>
+                    <ul>
+                        <li>Encryption for backup files (.medf format).</li>
+                        <li>Local storage on the user's device.</li>
+                        <li>Recommended use of personal API keys (not shared public keys).</li>
+                        <li>Signature validation for backup files to ensure data authenticity.</li>
+                    </ul>
+                    
+                    <p>However, no method of transmission over the Internet or electronic storage is 100% secure. We cannot guarantee absolute security of your data.</p>
+                </section>
+
+                <!-- User Rights -->
+                <section class="section-spacing">
+                    <h2>7. User Rights</h2>
+                    <p>You have the following rights regarding your data:</p>
+                    <ul>
+                        <li><strong>Access:</strong> You can access your conversation history through the export/backup feature.</li>
+                        <li><strong>Deletion:</strong> Delete conversation history at any time via the clear chat button.</li>
+                        <li><strong>Preference Control:</strong> Change privacy settings through the settings panel.</li>
+                        <li><strong>Opt-out:</strong> Stop using the application at any time.</li>
+                        <li><strong>Data Portability:</strong> Export your data in .mdf or .medf format.</li>
+                    </ul>
+                </section>
+
+                <!-- Children's Privacy -->
+                <section class="section-spacing">
+                    <h2>8. Children's Privacy</h2>
+                    <p>MirAI is not specifically directed to children under 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and are aware that your child has provided us with personal information, please contact us.</p>
+                </section>
+
+                <!-- Policy Changes -->
+                <section class="section-spacing">
+                    <h2>9. Privacy Policy Changes</h2>
+                    <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date at the top.</p>
+                    
+                    <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this policy are effective when they are posted on this page.</p>
+                </section>
+
+                <!-- Contact Us -->
+                <section class="section-spacing">
+                    <h2>10. Contact Us</h2>
+                    <p>If you have any questions about this Privacy Policy, please contact us via:</p>
+                    <ul>
+                        <li><strong>GitHub Issues:</strong> <a href="https://github.com/Allwaysever/MirAI/issues" target="_blank">https://github.com/Allwaysever/MirAI/issues</a></li>
+                        <li><strong>Project Page:</strong> <a href="https://allwaysevermirai.netlify.app/about" target="_blank">https://allwaysevermirai.netlify.app/about</a></li>
+                    </ul>
+                    
+                    <p>For questions regarding the Google Gemini API, please refer to <a href="https://ai.google.dev/terms" target="_blank">Google AI Terms of Service</a>.</p>
+                </section>
+
+                <!-- Governing Law -->
+                <section class="section-spacing">
+                    <h2>11. Governing Law</h2>
+                    <p>This Privacy Policy shall be governed and construed in accordance with the laws of Indonesia, without regard to its conflict of law provisions.</p>
+                </section>
+
+                <!-- Last Updated -->
+                <div class="last-updated" style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--srui-border-input);">
+                    <p>This document was last updated on January 29, 2026</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-container">
+                    <a href="index.html" class="srui-button srui-button-primary">
+                        <i class="fas fa-arrow-left"></i> Back to MirAI
+                    </a>
+                    <a href="T&C/index.html" class="srui-button srui-button-secondary">
+                        <i class="fas fa-file-contract"></i> Terms & Conditions
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Indonesian Content -->
+        <div class="language-content" id="content-id">
+            <div class="content-card glass-layer">
+                <!-- Introduction -->
+                <section class="section-spacing">
+                    <h2>Pengantar</h2>
+                    <p>Selamat datang di Kebijakan Privasi MirAI. Kebijakan privasi ini menjelaskan bagaimana MirAI ("kami", "aplikasi kami") mengumpulkan, menggunakan, menyimpan, dan melindungi informasi Anda ketika Anda menggunakan layanan chatbot AI kami yang didukung oleh Google Gemini API.</p>
+                    
+                    <div class="info-box">
+                        <p><strong>Catatan Penting:</strong> MirAI adalah aplikasi pihak ketiga yang menggunakan Google Gemini API. Penggunaan MirAI Anda juga tunduk pada <a href="https://policies.google.com/privacy" target="_blank">Kebijakan Privasi</a> dan <a href="https://policies.google.com/terms" target="_blank">Ketentuan Layanan</a> Google.</p>
+                    </div>
+                </section>
+
+                <!-- Information We Collect -->
+                <section class="section-spacing">
+                    <h2>1. Informasi yang Kami Kumpulkan</h2>
+                    
+                    <h3>1.1 Informasi yang Anda Berikan</h3>
+                    <ul>
+                        <li><strong>Pesan Percakapan:</strong> Konten pesan yang Anda kirim melalui chatbot.</li>
+                        <li><strong>Kunci API Kustom:</strong> Jika Anda memilih untuk menggunakan kunci API Google Gemini pribadi Anda.</li>
+                        <li><strong>Preferensi Aplikasi:</strong> Tema, bahasa, dan preferensi persona AI.</li>
+                        <li><strong>File Gambar:</strong> Gambar yang Anda unggah untuk analisis AI (jika fitur tersebut tersedia).</li>
+                    </ul>
+                    
+                    <h3>1.2 Informasi yang Dikumpulkan Secara Otomatis</h3>
+                    <ul>
+                        <li><strong>Data Penggunaan:</strong> Log interaksi, frekuensi penggunaan, dan jenis permintaan.</li>
+                        <li><strong>Data Teknis:</strong> Versi browser, sistem operasi, dan informasi perangkat.</li>
+                        <li><strong>Data Koneksi:</strong> Status koneksi internet dan waktu respons.</li>
+                    </ul>
+                    
+                    <div class="highlight">
+                        <p><i class="fas fa-info-circle text-accent"></i> <strong>Penting:</strong> Kami <strong>TIDAK</strong> mengumpulkan informasi pribadi sensitif seperti nama lengkap, alamat email, nomor telepon, atau data identifikasi pribadi lainnya kecuali Anda secara sukarela memberikannya dalam percakapan dengan AI.</p>
+                    </div>
+                </section>
+
+                <!-- How We Use Your Information -->
+                <section class="section-spacing">
+                    <h2>2. Bagaimana Kami Menggunakan Informasi Anda</h2>
+                    <p>Informasi yang kami kumpulkan digunakan untuk:</p>
+                    <ul>
+                        <li>Menyediakan, mengoperasikan, dan memelihara layanan chatbot AI.</li>
+                        <li>Memproses permintaan Anda melalui Google Gemini API.</li>
+                        <li>Menyimpan riwayat percakapan secara lokal di perangkat Anda (opsional).</li>
+                        <li>Meningkatkan pengalaman pengguna dan fungsionalitas aplikasi.</li>
+                        <li>Mengelola preferensi pengguna (tema, bahasa, persona AI).</li>
+                        <li>Mendeteksi dan mencegah penyalahgunaan layanan.</li>
+                        <li>Menampilkan status koneksi dan indikator kinerja.</li>
+                    </ul>
+                </section>
+
+                <!-- Data Storage -->
+                <section class="section-spacing">
+                    <h2>3. Penyimpanan Data</h2>
+                    
+                    <h3>3.1 Penyimpanan Lokal</h3>
+                    <p>MirAI menyimpan data berikut secara lokal di perangkat Anda menggunakan teknologi penyimpanan browser:</p>
+                    <ul>
+                        <li><strong>Riwayat Percakapan:</strong> Disimpan di localStorage browser Anda.</li>
+                        <li><strong>Preferensi Pengguna:</strong> Tema, bahasa, dan pengaturan lainnya.</li>
+                        <li><strong>Kunci API Kustom:</strong> Jika Anda menggunakannya.</li>
+                    </ul>
+                    
+                    <h3>3.2 Penyimpanan Server Pihak Ketiga</h3>
+                    <p>Pesan Anda dikirim ke Google Gemini API untuk diproses. Google mungkin menyimpan data ini sesuai dengan kebijakan privasi mereka. Kami tidak memiliki kendali atas penyimpanan data di server Google.</p>
+                    
+                    <div class="info-box">
+                        <p><strong>Enkripsi:</strong> File cadangan (.medf) dienkripsi menggunakan standar AES-GCM dengan salt dan IV acak untuk melindungi data Anda.</p>
+                    </div>
+                </section>
+
+                <!-- Information Sharing -->
+                <section class="section-spacing">
+                    <h2>4. Berbagi Informasi</h2>
+                    <p>Kami <strong>TIDAK</strong> menjual, memperdagangkan, atau mentransfer informasi Anda kepada pihak ketiga, kecuali untuk hal-hal berikut:</p>
+                    <ul>
+                        <li><strong>Google Gemini API:</strong> Pesan Anda dikirim ke API ini untuk diproses.</li>
+                        <li><strong>Layanan Pencarian Eksternal:</strong> Jika Anda menggunakan fitur /search dengan mesin pencari eksternal (SearchAPI.io, Google Search, dll.), kueri pencarian Anda akan dikirim ke penyedia layanan tersebut.</li>
+                        <li><strong>Kepatuhan Hukum:</strong> Jika diwajibkan oleh hukum atau permintaan pemerintah yang sah.</li>
+                    </ul>
+                </section>
+
+                <!-- Cookies & Tracking -->
+                <section class="section-spacing">
+                    <h2>5. Kuki dan Teknologi Pelacakan</h2>
+                    <p>MirAI menggunakan teknologi penyimpanan browser (localStorage, sessionStorage) untuk menyimpan preferensi dan riwayat percakapan. Kami tidak menggunakan kuki pelacakan pihak ketiga atau teknologi pelacakan lintas situs.</p>
+                    
+                    <p>Untuk fungsionalitas notifikasi push (jika diaktifkan), kami menggunakan OneSignal yang mungkin menggunakan teknologi pelacakan mereka sendiri.</p>
+                </section>
+
+                <!-- Data Security -->
+                <section class="section-spacing">
+                    <h2>6. Keamanan Data</h2>
+                    <p>Kami menerapkan langkah-langkah keamanan yang wajar untuk melindungi informasi Anda:</p>
+                    <ul>
+                        <li>Enkripsi untuk file cadangan (format .medf).</li>
+                        <li>Penyimpanan lokal di perangkat pengguna.</li>
+                        <li>Penggunaan kunci API pribadi yang direkomendasikan (bukan kunci publik bersama).</li>
+                        <li>Validasi tanda tangan untuk file cadangan untuk memastikan keaslian data.</li>
+                    </ul>
+                    
+                    <p>Namun, tidak ada metode transmisi melalui Internet atau penyimpanan elektronik yang 100% aman. Kami tidak dapat menjamin keamanan mutlak data Anda.</p>
+                </section>
+
+                <!-- User Rights -->
+                <section class="section-spacing">
+                    <h2>7. Hak Pengguna</h2>
+                    <p>Anda memiliki hak berikut terkait data Anda:</p>
+                    <ul>
+                        <li><strong>Akses:</strong> Anda dapat mengakses riwayat percakapan Anda melalui fitur ekspor/cadangan.</li>
+                        <li><strong>Penghapusan:</strong> Hapus riwayat percakapan kapan saja melalui tombol hapus chat.</li>
+                        <li><strong>Kontrol Preferensi:</strong> Ubah pengaturan privasi melalui panel pengaturan.</li>
+                        <li><strong>Opt-out:</strong> Berhenti menggunakan aplikasi kapan saja.</li>
+                        <li><strong>Portabilitas Data:</strong> Ekspor data Anda dalam format .mdf atau .medf.</li>
+                    </ul>
+                </section>
+
+                <!-- Children's Privacy -->
+                <section class="section-spacing">
+                    <h2>8. Privasi Anak-anak</h2>
+                    <p>MirAI tidak secara khusus ditujukan untuk anak-anak di bawah 13 tahun. Kami tidak dengan sengaja mengumpulkan informasi pribadi dari anak-anak di bawah 13 tahun. Jika Anda adalah orang tua atau wali dan mengetahui bahwa anak Anda telah memberikan informasi pribadi kepada kami, silakan hubungi kami.</p>
+                </section>
+
+                <!-- Policy Changes -->
+                <section class="section-spacing">
+                    <h2>9. Perubahan Kebijakan Privasi</h2>
+                    <p>Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Kami akan memberi tahu Anda tentang perubahan apa pun dengan memposting Kebijakan Privasi baru di halaman ini dan memperbarui tanggal "Terakhir diperbarui" di bagian atas.</p>
+                    
+                    <p>Anda disarankan untuk meninjau Kebijakan Privasi ini secara berkala untuk perubahan apa pun. Perubahan pada kebijakan ini berlaku efektif ketika diposting di halaman ini.</p>
+                </section>
+
+                <!-- Contact Us -->
+                <section class="section-spacing">
+                    <h2>10. Hubungi Kami</h2>
+                    <p>Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan hubungi kami melalui:</p>
+                    <ul>
+                        <li><strong>GitHub Issues:</strong> <a href="https://github.com/Allwaysever/MirAI/issues" target="_blank">https://github.com/Allwaysever/MirAI/issues</a></li>
+                        <li><strong>Halaman Proyek:</strong> <a href="https://allwaysevermirai.netlify.app/about" target="_blank">https://allwaysevermirai.netlify.app/about</a></li>
+                    </ul>
+                    
+                    <p>Untuk pertanyaan mengenai Google Gemini API, silakan merujuk ke <a href="https://ai.google.dev/terms" target="_blank">Ketentuan Layanan Google AI</a>.</p>
+                </section>
+
+                <!-- Governing Law -->
+                <section class="section-spacing">
+                    <h2>11. Hukum yang Mengatur</h2>
+                    <p>Kebijakan Privasi ini akan diatur dan ditafsirkan sesuai dengan hukum Indonesia, tanpa memperhatikan ketentuan hukum yang bertentangan.</p>
+                </section>
+
+                <!-- Last Updated -->
+                <div class="last-updated" style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--srui-border-input);">
+                    <p>Dokumen ini terakhir diperbarui pada 29 Januari 2026</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-container">
+                    <a href="index.html" class="srui-button srui-button-primary">
+                        <i class="fas fa-arrow-left"></i> Kembali ke MirAI
+                    </a>
+                    <a href="T&C/index.html" class="srui-button srui-button-secondary">
+                        <i class="fas fa-file-contract"></i> Syarat & Ketentuan
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Japanese Content -->
+        <div class="language-content" id="content-jp">
+            <div class="content-card glass-layer">
+                <!-- Introduction -->
+                <section class="section-spacing">
+                    <h2>はじめに</h2>
+                    <p>MirAIプライバシーポリシーへようこそ。このプライバシーポリシーは、Google Gemini APIを搭載したAIチャットボットサービスを使用する際に、MirAI（「当社」、「当アプリ」）がどのようにお客様の情報を収集、使用、保存、保護するかを説明します。</p>
+                    
+                    <div class="info-box">
+                        <p><strong>重要なお知らせ：</strong> MirAIはGoogle Gemini APIを使用するサードパーティアプリケーションです。MirAIのご利用には、Googleの<a href="https://policies.google.com/privacy" target="_blank">プライバシーポリシー</a>および<a href="https://policies.google.com/terms" target="_blank">利用規約</a>も適用されます。</p>
+                    </div>
+                </section>
+
+                <!-- Information We Collect -->
+                <section class="section-spacing">
+                    <h2>1. 収集する情報</h2>
+                    
+                    <h3>1.1 お客様が提供する情報</h3>
+                    <ul>
+                        <li><strong>会話メッセージ：</strong> チャットボットを通じて送信するメッセージの内容。</li>
+                        <li><strong>カスタムAPIキー：</strong> 個人のGoogle Gemini APIキーを使用する場合。</li>
+                        <li><strong>アプリ設定：</strong> テーマ、言語、AIペルソナの設定。</li>
+                        <li><strong>画像ファイル：</strong> AI分析用にアップロードする画像（該当機能が利用可能な場合）。</li>
+                    </ul>
+                    
+                    <h3>1.2 自動的に収集される情報</h3>
+                    <ul>
+                        <li><strong>使用状況データ：</strong> インタラクションログ、使用頻度、リクエストの種類。</li>
+                        <li><strong>技術データ：</strong> ブラウザバージョン、オペレーティングシステム、デバイス情報。</li>
+                        <li><strong>接続データ：</strong> インターネット接続ステータスと応答時間。</li>
+                    </ul>
+                    
+                    <div class="highlight">
+                        <p><i class="fas fa-info-circle text-accent"></i> <strong>重要：</strong> 当社は、AIとの会話で自発的に提供しない限り、氏名、メールアドレス、電話番号、その他の個人識別データなどの機密性の高い個人情報は<strong>収集しません</strong>。</p>
+                    </div>
+                </section>
+
+                <!-- How We Use Your Information -->
+                <section class="section-spacing">
+                    <h2>2. 情報の使用方法</h2>
+                    <p>収集した情報は、以下の目的で使用されます：</p>
+                    <ul>
+                        <li>AIチャットボットサービスの提供、運用、保守。</li>
+                        <li>Google Gemini APIを通じたリクエストの処理。</li>
+                        <li>お客様のデバイスへの会話履歴のローカル保存（オプション）。</li>
+                        <li>ユーザー体験とアプリ機能の向上。</li>
+                        <li>ユーザー設定（テーマ、言語、AIペルソナ）の管理。</li>
+                        <li>サービス乱用の検出と防止。</li>
+                        <li>接続ステータスとパフォーマンス指標の表示。</li>
+                    </ul>
+                </section>
+
+                <!-- Data Storage -->
+                <section class="section-spacing">
+                    <h2>3. データの保存</h2>
+                    
+                    <h3>3.1 ローカルストレージ</h3>
+                    <p>MirAIは、ブラウザのストレージ技術を使用して、以下のデータをお客様のデバイスにローカルに保存します：</p>
+                    <ul>
+                        <li><strong>会話履歴：</strong> ブラウザのlocalStorageに保存。</li>
+                        <li><strong>ユーザー設定：</strong> テーマ、言語、その他の設定。</li>
+                        <li><strong>カスタムAPIキー：</strong> 使用する場合。</li>
+                    </ul>
+                    
+                    <h3>3.2 サードパーティサーバーストレージ</h3>
+                    <p>お客様のメッセージは処理のためにGoogle Gemini APIに送信されます。Googleはそのプライバシーポリシーに従ってこのデータを保存する場合があります。当社はGoogleサーバー上のデータ保存を制御できません。</p>
+                    
+                    <div class="info-box">
+                        <p><strong>暗号化：</strong> バックアップファイル（.medf）は、ランダムなsaltとIVを使用したAES-GCM標準で暗号化され、データを保護します。</p>
+                    </div>
+                </section>
+
+                <!-- Information Sharing -->
+                <section class="section-spacing">
+                    <h2>4. 情報の共有</h2>
+                    <p>当社は、以下の場合を除き、お客様の情報を第三者に<strong>販売、取引、または譲渡しません</strong>：</p>
+                    <ul>
+                        <li><strong>Google Gemini API：</strong> お客様のメッセージは処理のためにこのAPIに送信されます。</li>
+                        <li><strong>外部検索サービス：</strong> 外部検索エンジン（SearchAPI.io、Google Searchなど）で/search機能を使用する場合、検索クエリはそれらのサービスプロバイダーに送信されます。</li>
+                        <li><strong>法的遵守：</strong> 法律または有効な政府の要求による場合。</li>
+                    </ul>
+                </section>
+
+                <!-- Cookies & Tracking -->
+                <section class="section-spacing">
+                    <h2>5. クッキーと追跡技術</h2>
+                    <p>MirAIは、設定と会話履歴を保存するためにブラウザストレージ技術（localStorage、sessionStorage）を使用します。当社はサードパーティの追跡クッキーやクロスサイト追跡技術を使用しません。</p>
+                    
+                    <p>プッシュ通知機能（有効な場合）については、独自の追跡技術を使用する可能性があるOneSignalを使用します。</p>
+                </section>
+
+                <!-- Data Security -->
+                <section class="section-spacing">
+                    <h2>6. データのセキュリティ</h2>
+                    <p>当社は、お客様の情報を保護するために合理的なセキュリティ対策を実施します：</p>
+                    <ul>
+                        <li>バックアップファイル（.medf形式）の暗号化。</li>
+                        <li>ユーザーのデバイスへのローカルストレージ。</li>
+                        <li>個人APIキーの推奨使用（共有公開キーではない）。</li>
+                        <li>データの真正性を確保するためのバックアップファイルの署名検証。</li>
+                    </ul>
+                    
+                    <p>ただし、インターネット経由の送信や電子ストレージの方法は100％安全ではありません。お客様のデータの絶対的なセキュリティを保証することはできません。</p>
+                </section>
+
+                <!-- User Rights -->
+                <section class="section-spacing">
+                    <h2>7. ユーザーの権利</h2>
+                    <p>お客様には、データに関して以下の権利があります：</p>
+                    <ul>
+                        <li><strong>アクセス権：</strong> エクスポート/バックアップ機能を通じて会話履歴にアクセスできます。</li>
+                        <li><strong>削除権：</strong> クリアチャットボタンでいつでも会話履歴を削除できます。</li>
+                        <li><strong>設定制御権：</strong> 設定パネルでプライバシー設定を変更できます。</li>
+                        <li><strong>オプトアウト権：</strong> いつでもアプリケーションの使用を停止できます。</li>
+                        <li><strong>データ移植性：</strong> データを.mdfまたは.medf形式でエクスポートできます。</li>
+                    </ul>
+                </section>
+
+                <!-- Children's Privacy -->
+                <section class="section-spacing">
+                    <h2>8. 子供のプライバシー</h2>
+                    <p>MirAIは、13歳未満の子供を対象としたものではありません。当社は、13歳未満の子供から個人情報を故意に収集することはありません。保護者または後見人で、お子様が当社に個人情報を提供したことに気付かれた場合は、お問い合わせください。</p>
+                </section>
+
+                <!-- Policy Changes -->
+                <section class="section-spacing">
+                    <h2>9. プライバシーポリシーの変更</h2>
+                    <p>当社は、本プライバシーポリシーを随時更新する場合があります。変更がある場合は、新しいプライバシーポリシーをこのページに掲載し、上部の「最終更新日」を更新することでお知らせします。</p>
+                    
+                    <p>変更がないか、定期的に本プライバシーポリシーを確認することをお勧めします。本ポリシーの変更は、このページに掲載された時点で有効になります。</p>
+                </section>
+
+                <!-- Contact Us -->
+                <section class="section-spacing">
+                    <h2>10. お問い合わせ</h2>
+                    <p>本プライバシーポリシーに関するご質問がある場合は、以下までご連絡ください：</p>
+                    <ul>
+                        <li><strong>GitHub Issues：</strong> <a href="https://github.com/Allwaysever/MirAI/issues" target="_blank">https://github.com/Allwaysever/MirAI/issues</a></li>
+                        <li><strong>プロジェクトページ：</strong> <a href="https://allwaysevermirai.netlify.app/about" target="_blank">https://allwaysevermirai.netlify.app/about</a></li>
+                    </ul>
+                    
+                    <p>Google Gemini APIに関するご質問については、<a href="https://ai.google.dev/terms" target="_blank">Google AI利用規約</a>をご参照ください。</p>
+                </section>
+
+                <!-- Governing Law -->
+                <section class="section-spacing">
+                    <h2>11. 準拠法</h2>
+                    <p>本プライバシーポリシーは、法の抵触に関する規定にかかわらず、インドネシアの法律に従って管轄および解釈されるものとします。</p>
+                </section>
+
+                <!-- Last Updated -->
+                <div class="last-updated" style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--srui-border-input);">
+                    <p>この文書は2026年1月29日に最終更新されました</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-container">
+                    <a href="index.html" class="srui-button srui-button-primary">
+                        <i class="fas fa-arrow-left"></i> MirAIに戻る
+                    </a>
+                    <a href="T&C/index.html" class="srui-button srui-button-secondary">
+                        <i class="fas fa-file-contract"></i> 利用規約
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="privacy-footer">
+        <div class="container">
+            <p>&copy; 2025-2026 Allwaysever Project: MirAI. All rights reserved.</p>
+            <p>MirAI is an AI assistant powered by Google Gemini API</p>
+            <div class="footer-links">
+                <a href="https://github.com/Allwaysever/MirAI" target="_blank" class="footer-link">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="help/index.html" class="footer-link">
+                    <i class="fas fa-question-circle"></i> Help Center
+                </a>
+                <a href="releasenote/index.html" class="footer-link">
+                    <i class="fas fa-clipboard-list"></i> Release Notes
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Tab Management
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.language-tab');
+            const contents = document.querySelectorAll('.language-content');
+            
+            // Function to switch language
+            function switchLanguage(lang) {
+                // Update tabs
+                tabs.forEach(tab => {
+                    if (tab.getAttribute('data-lang') === lang) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                // Update content
+                contents.forEach(content => {
+                    if (content.id === `content-${lang}`) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+                
+                // Save preference
+                localStorage.setItem('privacy-lang', lang);
+            }
+            
+            // Add click event to tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    switchLanguage(lang);
+                });
+            });
+            
+            // Load saved language preference or default to English
+            const savedLang = localStorage.getItem('privacy-lang') || 'en';
+            switchLanguage(savedLang);
+            
+            // Update copyright year
+            const currentYear = new Date().getFullYear();
+            const copyrightElement = document.querySelector('.privacy-footer p:first-child');
+            if (copyrightElement && currentYear > 2025) {
+                copyrightElement.innerHTML = `&copy; 2025-${currentYear} Allwaysever Project: MirAI. All rights reserved.`;
+            }
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

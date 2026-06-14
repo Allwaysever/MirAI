@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MirAI Search</title>
+    <!-- Font Awesome 6.0.0-beta3 (SRUI Wajib) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Search%20Icon.png">
+    <link rel="manifest" href="https://cdn.jsdelivr.net/gh/Allwaysever/MirAI@main/Assets/HTML/MirAISearchm.json">
+    <style>
+        /* ================================================
+           SuperRoundedUI (SRUI) v2.0 - Dark Core Edition
+           © 2025-2026 Allwaysever
+           "Flat never felt this round."
+           ================================================ */
+
+        /* ---- Font Face Outfit (Hosting via jsDelivr) ---- */
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Outfit';
+            src: url('https://cdn.jsdelivr.net/gh/Allwaysever/SuperRoundedUI/fonts/Outfit-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-display: swap;
+        }
+
+        :root {
+            /* Palet warna SRUI v2.0 (Dark Core) */
+            --srui-accent: #ffce00;
+            --srui-bg-dark: #1B1C1E;
+            --srui-card-bg-solid: #0f0f0f;
+            --srui-glass-bg: rgba(27, 28, 30, 0.9);
+            --srui-border: #4B4F50;
+            --srui-text-primary: #ffffff;
+            --srui-text-secondary: #999999;
+            --srui-text-tertiary: #666666;
+            --srui-success: #4CAF50;
+            --srui-warning: #ffce00;
+            --srui-error: #F44336;
+            --srui-info: #2196F3;
+
+            /* Radius (minimal 15px) */
+            --srui-radius-card: 25px;
+            --srui-radius-btn: 9999px;     /* pill shape untuk tombol / chip */
+            --srui-radius-input: 25px;
+
+            /* Transisi & efek micro-bounce (scale-down) */
+            --srui-transition: all 0.2s ease-in-out;
+            --srui-motion-transition: transform 0.1s ease-out;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', 'Arial', sans-serif;
+            background-color: var(--srui-bg-dark);
+            color: var(--srui-text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        /* Container utama (responsif) */
+        .container {
+            width: 100%;
+            max-width: 680px;
+            text-align: center;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Logo */
+        .logo-wrapper {
+            display: grid;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .miraisearchlogo {
+            max-width: 260px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* ---------- Search Box (SRUI v2.0) ---------- */
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 70px 16px 24px;
+            background-color: var(--srui-bg-dark);
+            border: 2px solid var(--srui-border);
+            border-radius: var(--srui-radius-input);
+            color: var(--srui-text-primary);
+            font-size: 1.05rem;
+            font-weight: 500;
+            font-family: inherit;
+            outline: none;
+            transition: var(--srui-transition);
+        }
+
+        .search-input::placeholder {
+            color: var(--srui-text-tertiary);
+            font-weight: 400;
+        }
+
+        .search-input:focus {
+            border-color: var(--srui-accent);
+            box-shadow: 0 0 0 3px rgba(255, 206, 0, 0.25);
+        }
+
+        /* Tombol aksi di dalam input (micro-bounce) */
+        .search-action-btn {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--srui-accent);
+            border: none;
+            border-radius: var(--srui-radius-btn);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, var(--srui-motion-transition);
+            color: #000000;
+        }
+
+        .search-action-btn:hover {
+            background-color: #e6b800;
+            transform: translateY(-50%) scale(0.96);
+        }
+
+        .search-action-btn:active {
+            transform: translateY(-50%) scale(0.92);
+        }
+
+        .search-action-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* ---------- SRUI Chip (Compact & Friendly) ---------- */
+        .chip-container {
+            margin-top: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(27, 28, 30, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 206, 0, 0.2);
+        }
+
+        .srui-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--srui-text-tertiary);
+            color: var(--srui-text-primary);
+            border: none;
+            padding: 8px 20px;
+            border-radius: var(--srui-radius-btn);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s, var(--srui-motion-transition);
+        }
+
+        .srui-chip:hover {
+            background-color: var(--srui-accent);
+            color: #000000;
+            transform: scale(0.96);
+        }
+
+        .srui-chip:active {
+            transform: scale(0.92);
+        }
+
+        .srui-chip i {
+            font-size: 0.85rem;
+        }
+
+        /* Hint / badge tambahan (tidak interaktif) */
+        .search-hint {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: var(--srui-text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hint-badge {
+            background: rgba(75, 79, 80, 0.3);
+            padding: 5px 14px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+        }
+
+        /* Offline state (error border) */
+        body.offline .search-input {
+            border-color: var(--srui-error);
+        }
+
+        /* Responsif */
+        @media (max-width: 550px) {
+            .search-input {
+                padding: 14px 65px 14px 20px;
+                font-size: 1rem;
+            }
+            .search-action-btn {
+                width: 44px;
+                height: 44px;
+            }
+            .miraisearchlogo {
+                max-width: 210px;
+            }
+            .srui-chip {
+                padding: 6px 16px;
+                font-size: 0.8rem;
+            }
+            .chip-container {
+                border-radius: 48px;
+                padding: 10px 12px;
+            }
+        }
+
+        /* Fokus ring untuk aksesibilitas */
+        .srui-chip:focus-visible,
+        .search-action-btn:focus-visible,
+        .search-input:focus-visible {
+            outline: 2px solid var(--srui-accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-wrapper">
+        <img src="https://raw.githubusercontent.com/Allwaysever/MirAI/refs/heads/main/Assets/MirAI%20Search%20Logo.png"
+             class="miraisearchlogo"
+             alt="MirAI Search Logo - AI Assistant"
+             loading="eager">
+    </div>
+
+    <!-- Input + Tombol aksi inline (pill shape, SRUI Core) -->
+    <div class="search-wrapper">
+        <input type="text" id="searchQuery" class="search-input"
+               placeholder="Search Anything..."
+               autocomplete="off"
+               autofocus>
+        <button class="search-action-btn" id="inlineSearchBtn" aria-label="Kirim ke AI Mode">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+
+</div>
+
+<script>
+    (function() {
+        // ========== Elemen DOM ==========
+        const searchInput = document.getElementById('searchQuery');
+        const searchButton = document.getElementById('inlineSearchBtn');
+        const chips = document.querySelectorAll('.srui-chip');
+
+        /**
+         * Fungsi utama: Melakukan pencarian AI Mode (MirAI).
+         * Redirect ke halaman chat dengan parameter search.
+         */
+        function performAISearch(queryFromChip = null) {
+            let query = queryFromChip !== null ? queryFromChip : searchInput.value.trim();
+            if (!query) {
+                // feedback halus: efek getaran kecil
+                if (searchInput) {
+                    searchInput.style.transform = 'scale(0.99)';
+                    setTimeout(() => {
+                        searchInput.style.transform = '';
+                    }, 150);
+                }
+                return;
+            }
+
+            // Redirect ke chatbot internal (sesuai struktur asli)
+            window.location.href = `../chat.html?search=${encodeURIComponent(query)}`;
+        }
+
+        // Event listener tombol aksi
+        if (searchButton) {
+            searchButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                performAISearch();
+            });
+        }
+
+        // Event Enter pada input
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performAISearch();
+                }
+            });
+            searchInput.focus();
+        }
+
+        // Event untuk chip (SRUI)
+        if (chips.length > 0) {
+            chips.forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const queryText = chip.getAttribute('data-query');
+                    if (queryText && searchInput) {
+                        searchInput.value = queryText;
+                        // feedback micro: ubah placeholder sementara
+                        const originalPlaceholder = searchInput.placeholder;
+                        searchInput.placeholder = "✨ Mengirim ke MirAI...";
+                        setTimeout(() => {
+                            searchInput.placeholder = originalPlaceholder;
+                        }, 800);
+                        performAISearch(queryText);
+                    }
+                });
+            });
+        }
+
+        // ========== SERVICE WORKER (PWA) ==========
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('https://cdn.jsdelivr.net/gh/Allwaysever/MirAI/Assets/HTML/MirAIPWAsw.js')
+                .then(reg => {
+                    console.log('[MirAI] Service Worker SRUI terdaftar:', reg);
+                    setInterval(() => {
+                        reg.update().catch(e => console.warn('[MirAI] SW update minor', e));
+                    }, 60 * 60 * 1000);
+                })
+                .catch(err => {
+                    console.log('[MirAI] Service Worker gagal:', err);
+                });
+        }
+
+        // Deteksi koneksi online/offline
+        window.addEventListener('online', () => {
+            document.body.classList.remove('offline');
+        });
+        window.addEventListener('offline', () => {
+            document.body.classList.add('offline');
+        });
+
+    })();
+</script>
+</body>
+</html>
