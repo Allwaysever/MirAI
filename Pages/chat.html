@@ -127,7 +127,7 @@
             return `${major}.${minor}.${patch}.${yymmdd}`;
         }
 
-        const VERSION = generateVersion(3, 4, 0);
+        const VERSION = generateVersion(3, 5, 0);
     </script>
 </head>
 <body>
@@ -500,8 +500,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         const isBeta = urlParams.has('betamodel');
         const isPWA = urlParams.has('pwa');
-        const model = isBeta ? 'gemini-3-flash-preview' : 'gemini-2.5-flash';
-        console.log(`Mode yang aktif: ${isBeta ? 'Beta (3 Flash Preview)' : 'Stable (2.5 Flash)'}`);
+        const model = isBeta ? 'gemini-3.5-flash-preview' : 'gemini-3.5-flash';
+        console.log(`Mode yang aktif: ${isBeta ? 'Beta (3.5 Flash Preview)' : 'Stable (3.5 Flash)'}`);
 
         const faqDatabase = {
             "changelog": "# Changelog\n\n Check this project's [github repository](https://github.com/Allwaysever/MirAI/blob/main/CHANGELOG.md) for changelogs information.",
@@ -572,7 +572,7 @@
                 importErrorText: 'Waduh, filenya rusak atau bukan format backup MirAI! 🗿',
                 installBtnText: 'Install App',
                 invalidImageText: 'Silakan unggah file gambar (jpeg, png, webp).',
-                betaModelActive: '#3FlashPreviewMode',
+                betaModelActive: '#3.5FlashPreviewMode',
                 slashCmdSearchTitle: 'Cari',
                 slashCmdSearchDesc: '/search [kata kunci pencarian]',
                 slashCmdTranslateTitle: 'Terjemahkan',
@@ -686,7 +686,7 @@
                 importErrorText: 'File corrupted or not a MirAI backup! 🗿',
                 installBtnText: 'Install App',
                 invalidImageText: 'Please upload an image file (jpeg, png, webp).',
-                betaModelActive: '#3FlashPreviewMode',
+                betaModelActive: '#3.5FlashPreviewMode',
                 slashCmdSearchTitle: 'Search',
                 slashCmdSearchDesc: '/search [search query]',
                 slashCmdTranslateTitle: 'Translate',
@@ -800,7 +800,7 @@
                 importErrorText: 'File corrupted or not a MirAI backup! 🗿',
                 installBtnText: 'Install App',
                 invalidImageText: 'Please upload an image file (jpeg, png, webp).',
-                betaModelActive: '#3FlashPreviewMode',
+                betaModelActive: '#3.5FlashPreviewMode',
                 slashCmdSearchTitle: 'Search',
                 slashCmdSearchDesc: '/search [search query]',
                 slashCmdTranslateTitle: 'Translate',
@@ -914,7 +914,7 @@
                 importErrorText: 'ファイルが壊れているか、MirAIのバックアップ形式ではありません！🗿',
                 installBtnText: 'アプリをインストール',
                 invalidImageText: '画像ファイル（JPEG、PNG、WebP）をアップロードしてください。',
-                betaModelActive: '#3Flashプレビューモード',
+                betaModelActive: '#3.5Flashプレビューモード',
                 slashCmdSearchTitle: '検索',
                 slashCmdSearchDesc: '/search [検索クエリ]',
                 slashCmdTranslateTitle: '翻訳',

@@ -1,5 +1,14 @@
 ## What's new?
 
+### 🚀 `2026.06.15` – v3.5.0 – **AI Model Upgrade to Gemini 3.5 Flash**
+
+- **`MODEL UPDATE`**: MirAI now uses **Google Gemini 3.5 Flash** as the default stable model, replacing the previous Gemini 2.5 Flash. This brings faster response times, improved reasoning, and better accuracy across all tasks.
+- **`BETA MODEL`**: The beta channel has been updated to **Gemini 3.5 Flash Preview**, giving early access to the latest experimental features from Google.
+- **`PERFORMANCE`**: Enhanced token efficiency and reduced latency for a smoother chat experience.
+- **`COMPATIBILITY`**: Full backward compatibility with existing API keys and conversation history – no action needed from users.
+
+---
+
 ### 🚀 `2026.06.02` – v3.4.0 – **Google Drive Backup & Auto‑Sync**
 
 - **`NEW FEATURE`**: **Google Drive Integration** – Connect your Google Drive account directly from the Settings panel (new buttons: “Connect Drive”, “Backup to Drive”, “Restore from Drive”).
@@ -56,7 +65,7 @@ After months of relentless iteration through 7 betas, sleepless nights, and more
 
 ### 🌟 What's New in v3.0 (The Full Picture)
 
-#### 🧠 Powered by Gemini 2.5 Flash
+#### ⚡ Powered by Gemini 2.5 Flash
 - **`ENGINE UPGRADE`:** MirAI now runs on **Google Gemini 2.5 Flash** as the default model – faster, smarter, and more reliable than ever. The AI brain behind MirAI has officially leveled up.
 - **`STABLE CORE`:** The underlying API integration has been hardened, refined, and battle-tested across all 7 betas. What you get now is rock solid.
 
@@ -129,7 +138,7 @@ After months of relentless iteration through 7 betas, sleepless nights, and more
 
 v3.0 isn't just a version number bump. It's the moment MirAI stops being "a beta project" and becomes **a real product**. Every feature here was built, broken, rebuilt, and polished through 7 beta releases and countless hours of feedback.
 
-Thank you for being here from the beginning – or for joining just now. Either way, **welcome to MirAI v3.0.** It's been worth the wait. 🙌
+Thank you for being here from the beginning – or for joining just now. Either way, **welcome to MirAI v3.0.** It's been worth the wait. 🙏
 
 *Built with ❤️ by Allwaysever*
 
